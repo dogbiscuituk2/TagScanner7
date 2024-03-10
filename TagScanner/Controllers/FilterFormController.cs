@@ -68,15 +68,15 @@
         private void BtnAddRoot_Click(object sender, System.EventArgs e)
         {
             Constant
-                one = new Constant(1),
-                two = new Constant(2),
-                three = new Constant(3),
-                four = new Constant(4),
-                five = new Constant(5);
-            var term1 = new Operation(new Field("Album"), '=', "Greatest Hits");
-            var term2 = new Operation(new Field("JoinedPerformers"), "!=", "ABBA");
-            var term3 = new Operation("<", 1999, new Field("Year"), 2001);
-            var term4 = new Operation(new Field("Title"), "<=", "Money Money Money");
+                one = (Constant)1,
+                two = (Constant)2,
+                three = (Constant)3,
+                four = (Constant)4,
+                five = (Constant)5;
+            var term1 = new Operation(Tag.Album, '=', "Greatest Hits");
+            var term2 = new Operation(Tag.JoinedPerformers, "!=", "ABBA");
+            var term3 = new Operation("<", 1999, Tag.Year, 2001);
+            var term4 = new Operation(Tag.Title, "<=", "Money Money Money");
             var term5 = one + two + three + four + five;
             var term = (term1 | term2) & (term3 | term4) & term5;
             TermTreeViewController.AddRoot(term);
