@@ -3,6 +3,7 @@
     using System;
     using System.Collections.Generic;
     using System.Linq;
+    using System.Linq.Expressions;
     using System.Reflection;
     using System.Text.RegularExpressions;
 
@@ -75,6 +76,8 @@
 
         public static bool Associates(this Operator op) => op.Arity() == int.MaxValue;
 
+        public static ExpressionType ExpType(this Operator op) => Operators[op].ExpType;
+
         public static string Format(this Operator op, bool friendlyText = false)
         {
             var format = Operators[op].Format;
@@ -105,8 +108,6 @@
         /// <param name="method">The given MethodInfo.</param>
         /// <returns>The MethodInfo name, qualified or not as appropriate.</returns>
         public static string Label(this MethodInfo method) => method.IsStatic ? $"{method.Prefix()}.{method.Name}" : method.Name;
-
-        public static Precedence Precedence(this Operator op) => Operators[op].Precedence;
 
         /// <summary>
         /// A string containing the declaring type of the given MethodInfo, in the case of a nonstatic member,
@@ -141,8 +142,8 @@
             methods.AddRange(GetMethods(typeof(string), statics));
             methods.AddRange(GetMethods(typeof(Regex), statics));
             methods.AddRange(GetMethods(typeof(Math), statics));
-            //foreach (var method in methods)
-            //    Debug.WriteLine(method.Signature());
+            foreach (var method in methods)
+                System.Diagnostics.Debug.WriteLine(method.Signature());
             return methods;
         }
 
@@ -164,23 +165,23 @@
         {
             _operators = new Dictionary<Operator, OperatorInfo>
             {
-                { Operator.Conditional, new OperatorInfo(null, "{0} ? {1} : {2}", Terms.Precedence.Conditional) },
-                { Operator.And, new OperatorInfo(typeof(bool), "{0} && {1}", Terms.Precedence.ConditionalAND) },
-                { Operator.Or, new OperatorInfo(typeof(bool),"{0} || {1}", Terms.Precedence.ConditionalOR) },
-                { Operator.Xor, new OperatorInfo(typeof(bool), "{0} ^ {1}", Terms.Precedence.BitwiseXOR) },
-                { Operator.EqualTo, new OperatorInfo(typeof(bool), "{0} == {1}", Terms.Precedence.Equality) },
-                { Operator.NotEqualTo, new OperatorInfo(typeof(bool), "{0} != {1}", Terms.Precedence.Equality) },
-                { Operator.LessThan, new OperatorInfo(typeof(bool), "{0} < {1}", Terms.Precedence.Relational) },
-                { Operator.NotLessThan, new OperatorInfo(typeof(bool), "{0} >= {1}", Terms.Precedence.Relational) },
-                { Operator.GreaterThan, new OperatorInfo(typeof(bool), "{0} > {1}", Terms.Precedence.Relational) },
-                { Operator.NotGreaterThan, new OperatorInfo(typeof(bool), "{0} <= {1}", Terms.Precedence.Relational) },
-                { Operator.Add, new OperatorInfo(null, "{0} + {1}", Terms.Precedence.Additive) },
-                { Operator.Subtract, new OperatorInfo(null, "{0} - {1}", Terms.Precedence.Additive) },
-                { Operator.Multiply, new OperatorInfo(null, "{0} * {1}", Terms.Precedence.Multiplicative) },
-                { Operator.Divide, new OperatorInfo(null, "{0} / {1}", Terms.Precedence.Multiplicative) },
-                { Operator.Positive, new OperatorInfo(null, "{0}") },
-                { Operator.Negative, new OperatorInfo(null, "- {0}") },
-                { Operator.Not, new OperatorInfo(typeof(bool), "!{0}") },
+                { Operator.Conditional, new OperatorInfo(ExpressionType.Conditional, null, "{0} ? {1} : {2}") },
+                { Operator.And, new OperatorInfo(ExpressionType.AndAlso, typeof(bool), "{0} && {1}") },
+                { Operator.Or, new OperatorInfo(ExpressionType.OrElse, typeof(bool),"{0} || {1}") },
+                { Operator.Xor, new OperatorInfo(ExpressionType.ExclusiveOr, typeof(bool), "{0} ^ {1}") },
+                { Operator.EqualTo, new OperatorInfo(ExpressionType.Equal, typeof(bool), "{0} == {1}") },
+                { Operator.NotEqualTo, new OperatorInfo(ExpressionType.NotEqual, typeof(bool), "{0} != {1}") },
+                { Operator.LessThan, new OperatorInfo(ExpressionType.LessThan, typeof(bool), "{0} < {1}") },
+                { Operator.NotLessThan, new OperatorInfo(ExpressionType.GreaterThanOrEqual, typeof(bool), "{0} >= {1}") },
+                { Operator.GreaterThan, new OperatorInfo(ExpressionType.GreaterThan, typeof(bool), "{0} > {1}") },
+                { Operator.NotGreaterThan, new OperatorInfo(ExpressionType.LessThanOrEqual, typeof(bool), "{0} <= {1}") },
+                { Operator.Add, new OperatorInfo(ExpressionType.Add, typeof(double), "{0} + {1}") },
+                { Operator.Subtract, new OperatorInfo(ExpressionType.Subtract, typeof(double), "{0} - {1}") },
+                { Operator.Multiply, new OperatorInfo(ExpressionType.Multiply, typeof(double), "{0} * {1}") },
+                { Operator.Divide, new OperatorInfo(ExpressionType.Divide, typeof(double), "{0} / {1}") },
+                { Operator.Positive, new OperatorInfo(ExpressionType.UnaryPlus, typeof(double), "{0}") },
+                { Operator.Negative, new OperatorInfo(ExpressionType.Negate, typeof(double), "- {0}") },
+                { Operator.Not, new OperatorInfo(ExpressionType.Not, typeof(bool), "!{0}") },
             };
             return Operators;
         }

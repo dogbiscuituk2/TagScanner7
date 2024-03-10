@@ -21,7 +21,6 @@
             }
         }
 
-        public override Precedence Precedence => Precedence.Unary;
         public override Type ResultType => TagName.TagType();
 
         public override string ToFriendlyText() => TagName.DisplayName();

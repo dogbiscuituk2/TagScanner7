@@ -10,7 +10,6 @@
         public object Value { get; set; }
 
         public override Expression Expression => Expression.Constant(Value);
-        public override Precedence Precedence => Precedence.Unary;
         public override Type ResultType => Value?.GetType();
 
         public override string ToString()

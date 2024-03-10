@@ -27,7 +27,6 @@
 
         public override int Arity => Operator.Arity();
         public override Expression Expression => GetExpression();
-        public override Precedence Precedence => Operator.Precedence();
         public override Type ResultType => Operator.ResultType() ?? GetCommonResultType(Operands.ToArray());
 
         #endregion
@@ -122,19 +121,10 @@
                 return Concatenate(Operands.ToArray()).Expression;
             if (Operator.Associates())
                 return MakeAssociation(Operands);
-            switch (Operator)
+            switch (Operator.Arity())
             {
-                case Operator.Conditional: return MakeConditionalExpression();
-                case Operator.EqualTo: return MakeBinaryExpression(ExpressionType.Equal);
-                case Operator.NotEqualTo: return MakeBinaryExpression(ExpressionType.NotEqual);
-                case Operator.LessThan: return MakeBinaryExpression(ExpressionType.LessThan);
-                case Operator.NotLessThan: return MakeBinaryExpression(ExpressionType.GreaterThanOrEqual);
-                case Operator.GreaterThan: return MakeBinaryExpression(ExpressionType.GreaterThan);
-                case Operator.NotGreaterThan: return MakeBinaryExpression(ExpressionType.LessThanOrEqual);
-                case Operator.Positive: return Expression.UnaryPlus(FirstOperand);
-                case Operator.Negative: return Expression.Negate(FirstOperand);
-                case Operator.Not: return Expression.Not(FirstOperand);
-                default: return null;
+                case 1: return Expression.MakeUnary(Operator.ExpType(), FirstOperand, null);
+                default: return Expression.MakeBinary(Operator.ExpType(), FirstOperand, SecondOperand);
             }
         }
 
@@ -146,35 +136,7 @@
             return count == 1 ? lastExpression : MakeBinaryExpression(MakeAssociation(operands.Take(count - 1)), lastExpression);
         }
 
-        private Expression MakeBinaryExpression(Expression leftExpression, Expression rightExpression)
-        {
-            switch (Operator)
-            {
-                case Operator.And: return Expression.AndAlso(leftExpression, rightExpression);
-                case Operator.Or: return Expression.OrElse(leftExpression, rightExpression);
-                case Operator.Xor: return Expression.ExclusiveOr(leftExpression, rightExpression);
-                case Operator.Add: return MakeBinaryExpression(ExpressionType.Add, leftExpression, rightExpression);
-                case Operator.Subtract: return MakeBinaryExpression(ExpressionType.Subtract, leftExpression, rightExpression);
-                case Operator.Multiply: return MakeBinaryExpression(ExpressionType.Multiply, leftExpression, rightExpression);
-                case Operator.Divide: return MakeBinaryExpression(ExpressionType.Divide, leftExpression, rightExpression);
-                default: return Expression.Empty();
-            }
-        }
-
-        private BinaryExpression MakeBinaryExpression(ExpressionType expressionType) => MakeBinaryExpression(expressionType, FirstOperand, SecondOperand);
-
-        private BinaryExpression MakeBinaryExpression(ExpressionType expressionType, Expression leftExpression, Expression rightExpression)
-        {
-            AdjustTypes(ref leftExpression, ref rightExpression);
-            return Expression.MakeBinary(expressionType, leftExpression, rightExpression);
-        }
-
-        private ConditionalExpression MakeConditionalExpression()
-        {
-            Expression consequent = SecondOperand, alternative = ThirdOperand;
-            AdjustTypes(ref consequent, ref alternative);
-            return Expression.Condition(FirstOperand, consequent, alternative);
-        }
+        private BinaryExpression MakeBinaryExpression(Expression leftExpression, Expression rightExpression) => Expression.MakeBinary(Operator.ExpType(), leftExpression, rightExpression);
 
         private void SetOperator(char c, bool monadic) => SetOperator(c.ToString(), monadic);
         private void SetOperator(string symbol, bool monadic) => SetOperator(ToOperator(symbol, monadic));
@@ -208,10 +170,7 @@
         private string WrapTerm(int index, bool friendlyText)
         {
             var operand = Operands[index];
-            var result = friendlyText ? operand.ToFriendlyText() : operand.ToCode();
-            if (operand.Precedence < Precedence || !Core.MinimiseParentheses)
-                result = $"({result})";
-            return result;
+            return friendlyText ? operand.ToFriendlyText() : operand.ToCode();
         }
 
         #endregion

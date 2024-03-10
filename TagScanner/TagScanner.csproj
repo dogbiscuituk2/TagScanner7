@@ -151,7 +151,6 @@
     <Compile Include="Terms\Core.cs" />
     <Compile Include="Terms\OperatorInfo.cs" />
     <Compile Include="Terms\Parameter.cs" />
-    <Compile Include="Terms\Precedence.cs" />
     <Compile Include="Terms\Term.cs" />
     <Compile Include="Logging\Logger.cs" />
     <Compile Include="Models\Alignment.cs" />

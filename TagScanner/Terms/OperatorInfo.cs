@@ -1,18 +1,19 @@
 ﻿namespace TagScanner.Terms
 {
     using System;
+    using System.Linq.Expressions;
 
     public class OperatorInfo
     {
-        public OperatorInfo(Type resultType, string format, Precedence precedence = Precedence.Unary)
+        public OperatorInfo(ExpressionType expType, Type resultType, string format)
         {
             Format = format;
-            Precedence = precedence;
+            ExpType = expType;
             ResultType = resultType;
         }
 
+        public ExpressionType ExpType;
         public string Format;
-        public Precedence Precedence;
         public Type ResultType;
     }
 }

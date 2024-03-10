@@ -9,7 +9,6 @@
         public static ParameterExpression Work = Expression.Parameter(typeof(Work), "T");
 
         public abstract Expression Expression { get; }
-        public abstract Precedence Precedence { get; }
         public abstract Type ResultType { get; }
 
         public Func<Work, bool> Predicate => Expression.Lambda<Func<Work, bool>>(Expression, Work).Compile();

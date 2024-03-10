@@ -131,15 +131,8 @@
                 return true; ;
             if (tag is TagProps tagProps)
                 return types.Contains(tagProps.Type);
-            if (tag is KeyValuePair<Operator, OperatorInfo> op)
-                return GetTargetType(target, op.Value, types);
-            if (tag is KeyValuePair<string, MethodInfo> method)
-            {
-                var type = target == Filter.FirstArg
-                    ? method.Value.ParameterTypes.FirstOrDefault()
-                    : umptad.ResultType;
-                return types.Contains(method.Value.ReturnType);
-            }
+            if (tag is KeyValuePair<Operator, OperatorInfo> op) return true;
+            if (tag is KeyValuePair<string, MethodInfo> method) return true;
             return false;
         }
 

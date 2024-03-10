@@ -43,7 +43,6 @@
 
         public override int Arity => Method.GetParameters().Length + (Method.IsStatic ? 0 : 1);
         public override Expression Expression => GetExpression();
-        public override Precedence Precedence => Precedence.Unary;
         public override Type ResultType => Method.ReturnType;
 
         #endregion
