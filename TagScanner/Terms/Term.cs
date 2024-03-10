@@ -9,14 +9,11 @@
         public static ParameterExpression Work = Expression.Parameter(typeof(Work), "T");
 
         public abstract Expression Expression { get; }
+        public virtual Rank Rank => Rank.Unary;
         public abstract Type ResultType { get; }
 
         public Func<Work, bool> Predicate => Expression.Lambda<Func<Work, bool>>(Expression, Work).Compile();
             
-        public virtual string ToCode() => ToString();
-        public virtual string ToFriendlyText() => ToString();
-        public virtual string ToString(bool friendlyText) => friendlyText ? ToFriendlyText() : ToCode();
-
         public Term Add(Term term) => Add(this, term);
         public Term And(Term term) => And(this, term);
         public Term Multiply(Term term) => Multiply(this, term);

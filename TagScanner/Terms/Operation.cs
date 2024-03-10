@@ -27,21 +27,22 @@
 
         public override int Arity => Operator.Arity();
         public override Expression Expression => GetExpression();
+        public override Rank Rank => Operator.GetRank();
         public override Type ResultType => Operator.ResultType() ?? GetCommonResultType(Operands.ToArray());
 
         #endregion
 
         #region Public Methods
 
-        public override string ToString(bool friendlyText)
+        public override string ToString()
         {
-            var format = Operator.Format(friendlyText);
+            var format = Operator.Format();
             var count = Operands.Count;
             if (count < 1)
                 return format;
             var operands = new string[count];
             for (var index = 0; index < Operands.Count; index++)
-                operands[index] = WrapTerm(index, friendlyText);
+                operands[index] = WrapTerm(index);
             if (count == Operator.Arity())
                 return string.Format(format, operands);
             var result = operands[0];
@@ -167,10 +168,13 @@
             }
         }
 
-        private string WrapTerm(int index, bool friendlyText)
+        private string WrapTerm(int index)
         {
             var operand = Operands[index];
-            return friendlyText ? operand.ToFriendlyText() : operand.ToCode();
+            var result = operand.ToString();
+            if (operand.Rank < Rank || !Core.MinimiseParentheses)
+                result = $"({result})";
+            return result;
         }
 
         #endregion

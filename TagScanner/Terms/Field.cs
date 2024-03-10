@@ -23,7 +23,6 @@
 
         public override Type ResultType => TagName.TagType();
 
-        public override string ToFriendlyText() => TagName.DisplayName();
-        public override string ToCode() => $"{Core.ParamName}.{TagName}";
+        public override string ToString() => TagName;
     }
 }

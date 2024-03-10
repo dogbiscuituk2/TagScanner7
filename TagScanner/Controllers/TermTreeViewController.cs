@@ -30,7 +30,7 @@
 
         private TreeView TreeView;
 
-        private void TreeView_AfterCollapse(object sender, TreeViewEventArgs e) => e.Node.Text = (e.Node.Tag as Term).ToFriendlyText();
+        private void TreeView_AfterCollapse(object sender, TreeViewEventArgs e) => e.Node.Text = (e.Node.Tag as Term).ToString();
         private void TreeView_AfterExpand(object sender, TreeViewEventArgs e) => e.Node.Text = GetNodeText(e.Node.Tag as Term);
 
         private int AddNode(TreeNodeCollection nodes, Term term) => nodes.Add(NewNode(term));
@@ -45,12 +45,12 @@
                     case Operator.EqualTo: return "These are equal:";
                     case Operator.NotEqualTo: return "These are not equal:";
                 }
-            return term.ToFriendlyText();
+            return term.ToString();
         }
 
         private TreeNode NewNode(Term term)
         {
-            var result = new TreeNode(term.ToFriendlyText()) { Tag = term };
+            var result = new TreeNode(term.ToString()) { Tag = term };
             if (term is Operation operation)
                 foreach (var subterm in operation.Operands)
                     AddChild(result, subterm);

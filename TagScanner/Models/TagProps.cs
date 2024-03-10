@@ -7,7 +7,7 @@
     /// This application uses the TagLib# library to access (both read and write) metadata in media files, including video, audio, and photo formats.
     /// In the TagLib# library source code and API, the term "Tag" refers to a structure containing most of the metadata for the given media.
     /// By contrast, the term "Tag" in this application means any single item of metadata from that structure, e.g.work title, performer, duration, etc.
-    /// These Tags have in turn their own metadata, indicating for example their runtime type, category, friendly name, and so on.
+    /// These Tags have in turn their own metadata, indicating for example their runtime type, category, and so on.
     /// Such meta-metadata will be found in this class.
     /// </summary>
     public class TagProps

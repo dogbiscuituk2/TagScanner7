@@ -47,30 +47,6 @@
 
         #endregion
 
-        #region Public Methods
-
-        public override string ToString(bool friendlyText)
-        {
-            var count = Operands.Count();
-            var operands = new string[count];
-            for (var index = 0; index < Operands.Count(); index++)
-                operands[index] = Operands[index].ToString(friendlyText);
-            var isStatic = Method.IsStatic;
-            var sb = new StringBuilder();
-            if (!isStatic)
-                sb.Append($"{operands[0]}.");
-            sb.Append($"{Method.Name}(");
-            for (var index = isStatic ? 0 : 1; index < count; index++)
-            {
-                sb.Append(operands[index]);
-                if (index < count - 1)
-                    sb.Append(", ");
-            }
-            return sb.Append(")").ToString();
-        }
-
-        #endregion
-
         #region Protected Methods
 
         protected override IEnumerable<Type> GetParameterTypes()

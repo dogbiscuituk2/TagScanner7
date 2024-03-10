@@ -30,13 +30,6 @@
 
         #endregion
 
-        #region Public Methods
-
-        public override string ToCode() => ToString(friendlyText: false);
-        public override string ToFriendlyText() => ToString(friendlyText: true);
-
-        #endregion
-
         #region Protected Fields
 
         protected readonly List<Term> _operands = new List<Term>();
