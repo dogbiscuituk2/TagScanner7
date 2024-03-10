@@ -16,14 +16,18 @@
             
         public Term Add(Term term) => Add(this, term);
         public Term And(Term term) => And(this, term);
+        public Term Divide(Term term) => Divide(this, term);
         public Term Multiply(Term term) => Multiply(this, term);
         public Term Or(Term term) => Or(this, term);
+        public Term Subtract(Term term) => Subtract(this, term);
         public Term Xor(Term term) => Xor(this, term);
 
         public static Term Add(params Term[] terms) => new Sum(terms);
         public static Term And(params Term[] terms) => new Conjunction(terms);
+        public static Term Divide(params Term[] terms) => new Quotient(terms);
         public static Term Multiply(params Term[] terms) => new Product(terms);
         public static Term Or(params Term[] terms) => new Disjunction(terms);
+        public static Term Subtract(params Term[] terms) => new Difference(terms);
         public static Term Xor(params Term[] terms) => new ParityOdd(terms);
 
         public static implicit operator Term(char value) => new Constant(value);
@@ -35,5 +39,10 @@
         public static Term operator !(Term term) => new Negation(term);
         public static Term operator &(Term left, Term right) => left.And(right);
         public static Term operator |(Term left, Term right) => left.Or(right);
+        public static Term operator ^(Term left, Term right) => left.Xor(right);
+        public static Term operator +(Term left, Term right) => left.Add(right);
+        public static Term operator -(Term left, Term right) => left.Subtract(right);
+        public static Term operator *(Term left, Term right) => left.Multiply(right);
+        public static Term operator /(Term left, Term right) => left.Divide(right);
     }
 }

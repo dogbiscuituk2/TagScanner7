@@ -77,8 +77,8 @@
             var term2 = new Operation(new Field("JoinedPerformers"), "!=", "ABBA");
             var term3 = new Operation(new Field("Year"), ">=", 2000);
             var term4 = new Operation(new Field("Title"), "<=", "Money Money Money");
-            var term5 = new Sum(one, two, three, four, five);
-            var term = new Conjunction(new Disjunction(term1, term2), new Disjunction(term3, term4), term5);
+            var term5 = one + two + three + four + five;
+            var term = (term1 | term2) & (term3 | term4) & term5;
             TermTreeViewController.AddRoot(term);
         }
 
