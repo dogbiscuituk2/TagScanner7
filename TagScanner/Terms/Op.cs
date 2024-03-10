@@ -1,6 +1,6 @@
 ﻿namespace TagScanner.Terms
 {
-    public enum Operator
+    public enum Op
     {
         Conditional,
         And,
@@ -12,6 +12,7 @@
         NotLessThan,
         GreaterThan,
         NotGreaterThan,
+        Concatenate,
         Add,
         Subtract,
         Multiply,

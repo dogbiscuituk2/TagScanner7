@@ -127,6 +127,7 @@
     <Compile Include="Menus\ConstantEventArgs.cs" />
     <Compile Include="Menus\FieldEventArgs.cs" />
     <Compile Include="Menus\FunctionEventArgs.cs" />
+    <Compile Include="Menus\MenuMakerBasic.cs" />
     <Compile Include="Menus\MenuRouter.cs" />
     <Compile Include="Menus\OperationEventArgs.cs" />
     <Compile Include="Models\GroupTagsBy.cs" />
@@ -144,12 +145,12 @@
     <Compile Include="Terms\Field.cs" />
     <Compile Include="Menus\Filter.cs" />
     <Compile Include="Terms\Function.cs" />
-    <Compile Include="Menus\MenuMaker.cs" />
+    <AdditionalFiles Include="Menus\MenuMakerAdvanced.cs" />
     <Compile Include="Terms\Number.cs" />
     <Compile Include="Terms\Operation.cs" />
-    <Compile Include="Terms\Operator.cs" />
+    <Compile Include="Terms\Op.cs" />
     <Compile Include="Terms\Core.cs" />
-    <Compile Include="Terms\OperatorInfo.cs" />
+    <Compile Include="Terms\OpInfo.cs" />
     <Compile Include="Terms\Parameter.cs" />
     <Compile Include="Terms\Rank.cs" />
     <Compile Include="Terms\Term.cs" />

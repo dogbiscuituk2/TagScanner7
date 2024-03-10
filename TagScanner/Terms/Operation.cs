@@ -10,8 +10,8 @@
     {
         #region Constructors
 
-        public Operation(Operator op, params Term[] operands) : base(operands) => SetOperator(op);
-        public Operation(Term first, Operator op, params Term[] more) : base(first, more) => SetOperator(op);
+        public Operation(Op op, params Term[] operands) : base(operands) => SetOperator(op);
+        public Operation(Term first, Op op, params Term[] more) : base(first, more) => SetOperator(op);
 
         public Operation(string s, params Term[] operands) : base(operands) => SetOperator(s, operands.Length == 1);
         public Operation(Term first, string s, params Term[] more) : base(first, more) => SetOperator(s, more.Length == 0);
@@ -23,7 +23,7 @@
 
         #region Public Properties
 
-        public Operator Operator => _operator;
+        public Op Operator => _operator;
 
         public override int Arity => Operator.Arity();
         public override Expression Expression => GetExpression();
@@ -58,7 +58,7 @@
         protected override IEnumerable<Type> GetParameterTypes()
         {
             var type = GetCommonResultType();
-            if (Operator == Operator.Conditional)
+            if (Operator == Op.Conditional)
             {
                 yield return typeof(bool);
                 yield return type;
@@ -72,7 +72,7 @@
 
         #region Private Fields
 
-        private Operator _operator;
+        private Op _operator;
 
         #endregion
 
@@ -91,24 +91,24 @@
             }
         }
 
-        private object Default()
+        private static object Default(Op op)
         {
-            switch (Operator)
+            switch (op)
             {
-                case Operator.And: return true;
-                case Operator.Or:
-                case Operator.Xor: return false;
-                case Operator.Add:
-                case Operator.Subtract: return 0;
-                case Operator.Multiply:
-                case Operator.Divide: return 1;
+                case Op.And: return true;
+                case Op.Or:
+                case Op.Xor: return false;
+                case Op.Add:
+                case Op.Subtract: return 0;
+                case Op.Multiply:
+                case Op.Divide: return 1;
                 default: return null;
             }
         }
 
         private Type GetCommonResultType(params Term[] operands)
         {
-            if (Operator == Operator.Conditional)
+            if (Operator == Op.Conditional)
                 return GetCommonType(Operands[1]?.ResultType, Operands[2]?.ResultType);
             Type resultType = null;
             for (var index = 0; index < operands.Length; index++)
@@ -118,10 +118,12 @@
 
         private Expression GetExpression()
         {
-            if (Operator == Operator.Add && ResultType == typeof(string))
+            if (Operator == Op.Add && ResultType == typeof(string))
                 return Concatenate(Operands.ToArray()).Expression;
             if (Operator.Associates())
                 return MakeAssociation(Operands);
+            if (Operator.CanChain())
+                return MakeChain(Operands);
             switch (Operator.Arity())
             {
                 case 1: return Expression.MakeUnary(Operator.ExpType(), FirstOperand, null);
@@ -129,42 +131,60 @@
             }
         }
 
-        private Expression MakeAssociation(IEnumerable<Term> operands)
+        private Expression MakeAssociation(IEnumerable<Term> operands) => MakeAssociation(Operator, operands);
+
+        private static Expression MakeAssociation(Op op, IEnumerable<Term> operands)
         {
             var count = operands.Count();
-            if (count == 0) return Expression.Constant(Default());
-            var lastExpression = operands.Last().Expression;
-            return count == 1 ? lastExpression : MakeBinaryExpression(MakeAssociation(operands.Take(count - 1)), lastExpression);
+            if (count == 0) return Expression.Constant(Default(op));
+            var last = operands.Last().Expression;
+            return count == 1 ? last : MakeBinaryExpression(op, MakeAssociation(op, operands.Take(count - 1)), last);
         }
 
-        private BinaryExpression MakeBinaryExpression(Expression leftExpression, Expression rightExpression) => Expression.MakeBinary(Operator.ExpType(), leftExpression, rightExpression);
+        private static BinaryExpression MakeBinaryExpression(Op op, Expression left, Expression right) => Expression.MakeBinary(op.ExpType(), left, right);
+
+        private Expression MakeChain(List<Term> operands)
+        {
+            var count = operands.Count();
+            switch (count)
+            {
+                case 0:
+                case 1:
+                    return null;
+                default:
+                    var terms = new List<Term>();
+                    for (var index = 0; index < count - 1; index++)
+                        terms.Add(new Operation(operands[index], Operator, operands[index + 1]));
+                    return MakeAssociation(Op.And, terms);
+            }
+        }
 
         private void SetOperator(char c, bool monadic) => SetOperator(c.ToString(), monadic);
         private void SetOperator(string symbol, bool monadic) => SetOperator(ToOperator(symbol, monadic));
 
-        private bool SetOperator(Operator op)
+        private bool SetOperator(Op op)
         {
             _operator = op;
             switch (Operator)
             {
-                case Operator.Conditional:
-                    return AddParameters(typeof(bool), null, null);
-                case Operator.And:
-                case Operator.Or:
-                case Operator.Xor:
+                case Op.Conditional:
+                    return AddParameters(typeof(bool), typeof(object), typeof(object));
+                case Op.And:
+                case Op.Or:
+                case Op.Xor:
                     return AddParameters(typeof(bool), typeof(bool));
-                case Operator.EqualTo:
-                case Operator.NotEqualTo:
+                case Op.EqualTo:
+                case Op.NotEqualTo:
+                    return AddParameters(typeof(object), typeof(object));
+                case Op.Concatenate:
                     return AddParameters(typeof(string), typeof(string));
-                case Operator.Add:
-                    return AddParameters(null, null);
-                case Operator.Positive:
-                case Operator.Negative:
-                    return AddParameters(typeof(int));
-                case Operator.Not:
+                case Op.Positive:
+                case Op.Negative:
+                    return AddParameters(typeof(Number));
+                case Op.Not:
                     return AddParameters(typeof(bool));
                 default:
-                    return AddParameters(typeof(int), typeof(int));
+                    return AddParameters(typeof(Number), typeof(Number));
             }
         }
 
@@ -188,59 +208,59 @@
             right = Cast(right, type);
         }
 
-        private static Operator ToOperator(string symbol, bool monadic)
+        private static Op ToOperator(string symbol, bool monadic)
         {
             switch (symbol.ToLower())
             {
                 case "?:":
-                    return Operator.Conditional;
+                    return Op.Conditional;
                 case "&":
                 case "&&":
                 case "and":
-                    return Operator.And;
+                    return Op.And;
                 case "|":
                 case "||":
                 case "or":
-                    return Operator.Or;
+                    return Op.Or;
                 case "^":
                 case "xor":
-                    return Operator.Xor;
+                    return Op.Xor;
                 case "=":
                 case "==":
-                    return Operator.EqualTo;
+                    return Op.EqualTo;
                 case "!=":
                 case "<>":
                 case "≠":
-                    return Operator.NotEqualTo;
+                    return Op.NotEqualTo;
                 case "<":
-                    return Operator.LessThan;
+                    return Op.LessThan;
                 case ">=":
                 case "≥":
                 case "≮":
-                    return Operator.NotLessThan;
+                    return Op.NotLessThan;
                 case ">":
-                    return Operator.GreaterThan;
+                    return Op.GreaterThan;
                 case "<=":
                 case "≤":
                 case "≯":
-                    return Operator.NotGreaterThan;
+                    return Op.NotGreaterThan;
                 case "+":
                 case "＋":
-                    return monadic ? Operator.Positive : Operator.Add;
+                    return monadic ? Op.Positive : Op.Add;
                 case "-":
                 case "－":
-                    return monadic ? Operator.Negative : Operator.Subtract;
+                    return monadic ? Op.Negative : Op.Subtract;
                 case "*":
                 case "×":
                 case "✕":
-                    return Operator.Multiply;
+                    return Op.Multiply;
                 case "/":
                 case "÷":
                 case "／":
-                    return Operator.Divide;
+                    return Op.Divide;
                 case "!":
                 case "not":
-                    return Operator.Not;
+                    return Op.Not;
             }
             throw new ArgumentException($"The symbol \"{symbol}\" does not represent a known operator.");
         }
@@ -250,19 +270,19 @@
 
     #region Derived Classes
 
-    public class Negation : Operation { public Negation(Term term) : base(Operator.Not, term) { } }
-    public class Negative : Operation { public Negative(Term term) : base(Operator.Negative, term) { } }
-    public class Positive : Operation { public Positive(Term term) : base(Operator.Positive, term) { } }
+    public class Negation : Operation { public Negation(Term term) : base(Op.Not, term) { } }
+    public class Negative : Operation { public Negative(Term term) : base(Op.Negative, term) { } }
+    public class Positive : Operation { public Positive(Term term) : base(Op.Positive, term) { } }
 
-    public class Concatenation : Operation { public Concatenation(params Term[] operands) : base(Operator.Add, operands) { } }
-    public class Conditional : Operation { public Conditional(params Term[] operands) : base(Operator.Conditional, operands) { } }
-    public class Conjunction : Operation { public Conjunction(params Term[] operands) : base(Operator.And, operands) { } }
-    public class Disjunction : Operation { public Disjunction(params Term[] operands) : base(Operator.Or, operands) { } }
-    public class Difference : Operation { public Difference(params Term[] operands) : base(Operator.Subtract, operands) { } }
-    public class ParityOdd : Operation { public ParityOdd(params Term[] operands) : base(Operator.Xor, operands) { } }
-    public class Product : Operation { public Product(params Term[] operands) : base(Operator.Multiply, operands) { } }
-    public class Quotient : Operation { public Quotient(params Term[] operands) : base(Operator.Divide, operands) { } }
-    public class Sum : Operation { public Sum(params Term[] operands) : base(Operator.Add, operands) { } }
+    public class Concatenation : Operation { public Concatenation(params Term[] operands) : base(Op.Add, operands) { } }
+    public class Conditional : Operation { public Conditional(params Term[] operands) : base(Op.Conditional, operands) { } }
+    public class Conjunction : Operation { public Conjunction(params Term[] operands) : base(Op.And, operands) { } }
+    public class Disjunction : Operation { public Disjunction(params Term[] operands) : base(Op.Or, operands) { } }
+    public class Difference : Operation { public Difference(params Term[] operands) : base(Op.Subtract, operands) { } }
+    public class ParityOdd : Operation { public ParityOdd(params Term[] operands) : base(Op.Xor, operands) { } }
+    public class Product : Operation { public Product(params Term[] operands) : base(Op.Multiply, operands) { } }
+    public class Quotient : Operation { public Quotient(params Term[] operands) : base(Op.Divide, operands) { } }
+    public class Sum : Operation { public Sum(params Term[] operands) : base(Op.Add, operands) { } }
 
     #endregion
 }

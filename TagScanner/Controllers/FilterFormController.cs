@@ -75,7 +75,7 @@
                 five = new Constant(5);
             var term1 = new Operation(new Field("Album"), '=', "Greatest Hits");
             var term2 = new Operation(new Field("JoinedPerformers"), "!=", "ABBA");
-            var term3 = new Operation(new Field("Year"), ">=", 2000);
+            var term3 = new Operation("<", 1999, new Field("Year"), 2001);
             var term4 = new Operation(new Field("Title"), "<=", "Money Money Money");
             var term5 = one + two + three + four + five;
             var term = (term1 | term2) & (term3 | term4) & term5;
@@ -96,7 +96,7 @@
         private void AddConstant() => TermTreeViewController.AddConstant();
         private void AddField(TagProps tagProps) => TermTreeViewController.AddField(tagProps);
         private void AddFunction(KeyValuePair<string, MethodInfo> method) => TermTreeViewController.AddFunction(method);
-        private void AddOperation(KeyValuePair<Operator, OperatorInfo> operation) => TermTreeViewController.AddOperation(operation);
+        private void AddOperation(KeyValuePair<Op, OpInfo> operation) => TermTreeViewController.AddOperation(operation);
         
         #endregion
     }

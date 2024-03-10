@@ -40,10 +40,10 @@
             if (term is Operation operation)
                 switch (operation.Operator)
                 {
-                    case Operator.And: return "All of the following are true:";
-                    case Operator.Or: return "One or more of the following are true:";
-                    case Operator.EqualTo: return "These are equal:";
-                    case Operator.NotEqualTo: return "These are not equal:";
+                    case Op.And: return "All of the following are true:";
+                    case Op.Or: return "One or more of the following are true:";
+                    case Op.EqualTo: return "These are equal:";
+                    case Op.NotEqualTo: return "These are not equal:";
                 }
             return term.ToString();
         }
@@ -60,6 +60,6 @@
         internal void AddConstant() => Add(new Constant());
         internal void AddField(TagProps tagProps) => Add(new Field(tagProps.Name));
         internal void AddFunction(KeyValuePair<string, MethodInfo> method) => Add(new Function(method.Key));
-        internal void AddOperation(KeyValuePair<Operator, OperatorInfo> operation) => Add(new Operation(operation.Key));
+        internal void AddOperation(KeyValuePair<Op, OpInfo> operation) => Add(new Operation(operation.Key));
     }
 }
