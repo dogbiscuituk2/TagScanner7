@@ -1,0 +1,43 @@
+﻿namespace TagScanner.Menus
+{
+    using System;
+    using System.Collections.Generic;
+    using System.Reflection;
+    using System.Windows.Forms;
+    using TagScanner.Models;
+    using TagScanner.Terms;
+
+    public class MenuRouter
+    {
+        public MenuRouter(ToolStripItemCollection items)
+        {
+            Items = items;
+            MenuMaker.AddAllTerms(items, MenuRouter_TermClick);
+            TermClick += MenuRouter_TermClick;
+        }
+
+        public void FilterItems(Filter action, params Type[] types) => Items.FilterItems(action, types);
+
+        public event EventHandler TermClick;
+        public event EventHandler<ConstantEventArgs> ConstantClick;
+        public event EventHandler<FieldEventArgs> FieldClick;
+        public event EventHandler<FunctionEventArgs> FunctionClick;
+        public event EventHandler<OperationEventArgs> OperationClick;
+
+        protected virtual void OnConstantClick() => ConstantClick?.Invoke(this, new ConstantEventArgs());
+        protected virtual void OnFieldClick(TagProps tagProps) => FieldClick?.Invoke(this, new FieldEventArgs(tagProps));
+        protected virtual void OnOperationClick(KeyValuePair<Operator, OperatorInfo> op) => OperationClick?.Invoke(this, new OperationEventArgs(op));
+        protected virtual void OnFunctionClick(KeyValuePair<string, MethodInfo> method) => FunctionClick?.Invoke(this, new FunctionEventArgs(method));
+
+        private ToolStripItemCollection Items;
+
+        private void MenuRouter_TermClick(object sender, EventArgs e)
+        {
+            var tag = ((ToolStripMenuItem)sender).Tag;
+            if (tag == null) OnConstantClick();
+            else if (tag is TagProps field) OnFieldClick(field);
+            else if (tag is KeyValuePair<Operator, OperatorInfo> operation) OnOperationClick(operation);
+            else if (tag is KeyValuePair<string, MethodInfo> function) OnFunctionClick(function);
+        }
+    }
+}
