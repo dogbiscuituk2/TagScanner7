@@ -12,12 +12,15 @@
     {
         #region Public Methods
 
-        public static void AddAllTerms(this ToolStripItemCollection items, EventHandler click)
+        public static void AddAllTerms(ToolStripItemCollection items, EventHandler click)
         {
             items.AddTags(click);
             items.AddOperations(click);
             items.AddFunctions(click);
+            items.Add(new ToolStripSeparator());
             items.Add("&Constant...", null, click);
+            items.Add("Edit...");
+            items.Add("Delete");
         }
 
         public static bool FilterItems(this ToolStripItemCollection items, Filter action, params Type[] types)
@@ -78,10 +81,14 @@
         private static void AddTags(this ToolStripItemCollection items, EventHandler click)
         {
             items = items.Append("&Tag");
-            var fields = Tags.AllTags.OrderBy(p => p.DisplayName);
-            foreach (var field in fields)
-                items.Buffer(field.DisplayName.Escape(), field, click);
-            items.Flush();
+            var tags = Tags.AllTags.OrderBy(p => p.Category).ThenBy(p => p.DisplayName);
+            var categories = tags.Select(p => p.Category).Distinct();
+            foreach (var category in categories)
+            {
+                var subitems = ((ToolStripMenuItem)items.Add(category.Escape())).DropDownItems;
+                foreach (var tag in tags.Where(p => p.Category == category))
+                    subitems.Append(tag.DisplayName.Escape(), tag, click);
+            }
         }
 
         private static ToolStripItemCollection Append(this ToolStripItemCollection items, string text)

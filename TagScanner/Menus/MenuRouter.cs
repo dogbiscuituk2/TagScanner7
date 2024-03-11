@@ -2,6 +2,7 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.Linq;
     using System.Reflection;
     using System.Windows.Forms;
     using TagScanner.Models;
@@ -11,12 +12,13 @@
     {
         public MenuRouter(ToolStripItemCollection items)
         {
-            Items = items;
             MenuMakerBasic.AddAllTerms(items, MenuRouter_TermClick);
             TermClick += MenuRouter_TermClick;
         }
 
         public void FilterItems(Filter action, params Type[] types) => Items.FilterItems(action, types);
+
+        public static void MoveItems(ToolStripItemCollection from, ToolStripItemCollection to) => to.AddRange(from.OfType<ToolStripItem>().ToArray());
 
         public event EventHandler TermClick;
         public event EventHandler<ConstantEventArgs> ConstantClick;
