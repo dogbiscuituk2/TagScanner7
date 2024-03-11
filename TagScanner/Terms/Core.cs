@@ -134,37 +134,46 @@
         {
             _methods = new Dictionary<string, MethodInfo>
             {
-                {  "Compare", GetMethod("String.Compare(String,String)") },
-                { "Contains", GetMethod("Contains(String)") },
-                { "EndsWith", GetMethod("EndsWith(String)") },
-                { "Equals", GetMethod("Equals(String)") },
-                { "Format", GetMethod("String.Format(String,Object[])") },
-                { "Length", GetMethod("get_Length()") },
-                { "IndexOf", GetMethod("IndexOf(Char)") },
-                { "Insert", GetMethod("Insert(Int32,String)") },
-                { "IsEmpty", GetMethod("String.IsNullOrWhiteSpace(String)") },
-                { "Match$", GetMethod("Regex.IsMatch(String,String)") },
-                { "LastIndexOf", GetMethod("LastIndexOf(String)") },
-                { "Max", GetMethod("Math.Max(Double,Double)") },
-                { "Min", GetMethod("Math.Min(Double,Double)") },
-                { "Power", GetMethod("Math.Pow(Double,Double)") },
-                { "Remove", GetMethod("Remove(Int32,Int32)") },
-                { "Replace", GetMethod("Replace(String,String)") },
-                { "Replace$", GetMethod("Regex.Replace(String,String,String)") },
-                { "Round", GetMethod("Math.Round(Double)") },
-                { "Sign", GetMethod("Math.Sign(Double)") },
-                { "StartsWith", GetMethod("StartsWith(String)") },
-                { "Substring", GetMethod("Substring(Int32,Int32)") },
-                { "ToLower", GetMethod("ToLowerInvariant()") },
-                { "ToString", GetMethod("ToString()") },
-                { "ToUpper", GetMethod("ToUpperInvariant()") },
-                { "Trim", GetMethod("Trim()") },
-                { "Truncate", GetMethod("Math.Truncate(Double)") },
-            };
+                {  "Compare", FindMethodInfo(typeof(string), "Compare", typeof(string), typeof(string)) },
+                //{ "Contains", GetMethod("Contains(String)") },
+                //{ "Ends With", GetMethod("EndsWith(String)") },
+                //{ "Equals", GetMethod("Equals(String)") },
+                {  "Format", FindMethodInfo(typeof(string), "Format", typeof(string), typeof(object[])) },
+                //{ "Length", GetMethod("get_Length()") },
+                //{ "Index Of", GetMethod("IndexOf(Char)") },
+                //{ "Insert", GetMethod("Insert(Int32,String)") },
+                { "Is Empty", FindMethodInfo(typeof(string), "IsNullOrWhiteSpace", typeof(string)) },
+                { "Match$", FindMethodInfo(typeof(Regex), "IsMatch", typeof(string), typeof(string)) },
+                //{ "Last Index Of", GetMethod("LastIndexOf(String)") },
 
+                { "Max", FindMethodInfo(typeof(Math), "Max", typeof(double)) },
+                { "Min", FindMethodInfo(typeof(Math), "Min", typeof(double)) },
+                { "Power", FindMethodInfo(typeof(Math), "Pow", typeof(double)) },
+
+                //{ "Remove", GetMethod("Remove(Int32,Int32)") },
+                //{ "Replace", GetMethod("Replace(String,String)") },
+                //{ "Replace$", GetMethod("Regex.Replace(String,String,String)") },
+                //{ "Round", GetMethod("Math.Round(Double)") },
+                //{ "Sign", GetMethod("Math.Sign(Double)") },
+                //{ "Starts With", GetMethod("StartsWith(String)") },
+                //{ "Substring", GetMethod("Substring(Int32,Int32)") },
+                //{ "To Lowercase", GetMethod("ToLowerInvariant()") },
+                //{ "To String", GetMethod("ToString()") },
+                //{ "To Uppercase", GetMethod("ToUpperInvariant()") },
+                //{ "Trim", GetMethod("Trim()") },
+                //{ "Truncate", GetMethod("Math.Truncate(Double)") },
+            };
             return Methods;
         }
 
+        private static MethodInfo FindMethodInfo(Type declaringType, string name, params Type[] paramTypes)
+        {
+            var foo = declaringType.GetMethods(BindingFlags.Public | BindingFlags.Static);
+            var bar = foo.Where(p => p.Name == name);
+            var baz = bar.Where(p => p.GetParamTypes().SequenceEqual(paramTypes));
+            return baz.FirstOrDefault();
+        }
+        
         private static MethodInfo GetMethod(string signature) => null;
 
         private static Dictionary<Op, OpInfo> GetOperators()

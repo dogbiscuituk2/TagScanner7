@@ -49,27 +49,9 @@
         private static void AddFunctions(this ToolStripItemCollection items, EventHandler click)
         {
             items = items.Append("&Function");
-            //items.AddMethodsStringInstance(click);
-            //items.AddMethodsStringStatic(click);
-            //items.AddMethodsRegexStatic(click);
-            //items.AddMethodsMathStatic(click);
+            foreach (var foo in Core.Methods)
+                items.Append(foo.Key, foo.Value, click);
         }
-
-        private static void AddMethods(this ToolStripItemCollection items, string head, IEnumerable<KeyValuePair<string, MethodInfo>> methods, EventHandler click)
-        {
-            items = items.Append(head);
-            foreach (var method in methods)
-            {
-                var key = method.Key.Escape();
-                items.Buffer(key.Contains('.') ? key.Tail() : key, method, click);
-            }
-            items.Flush();
-        }
-
-        private static void AddMethodsMathStatic(this ToolStripItemCollection items, EventHandler click) => items.AddMethods("&Math", Core.MathStatics, click);
-        private static void AddMethodsRegexStatic(this ToolStripItemCollection items, EventHandler click) => items.AddMethods("&Regex", Core.RegexStatics, click);
-        private static void AddMethodsStringInstance(this ToolStripItemCollection items, EventHandler click) => items.AddMethods("&General", Core.StringMethods, click);
-        private static void AddMethodsStringStatic(this ToolStripItemCollection items, EventHandler click) => items.AddMethods("&String", Core.StringStatics, click);
 
         private static void AddOperations(this ToolStripItemCollection items, EventHandler click)
         {
@@ -120,14 +102,6 @@
                     items.Remove(item);
                 items.Append(head).AddRange(subitems);
             }
-        }
-
-        private static bool GetTargetType(Filter target, Umptad umptad, Type[] types)
-        {
-            var type = target == Filter.FirstArg
-                ? umptad.ParameterTypes.FirstOrDefault()
-                : umptad.ResultType;
-            return types.Contains(type);
         }
 
         private static bool IncludeTerm(this ToolStripMenuItem item, Filter target, Type[] types)
