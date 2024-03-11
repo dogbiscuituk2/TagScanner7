@@ -145,11 +145,11 @@
         {
             _operators = new Dictionary<Operator, OperatorInfo>
             {
-                { Operator.Conditional, new OperatorInfo(ExpressionType.Conditional, Rank.Conditional, null, "{0} ? {1} : {2}") },
-                { Operator.And, new OperatorInfo(ExpressionType.AndAlso, Rank.ConditionalAND, typeof(bool), "{0} && {1}") },
-                { Operator.Or, new OperatorInfo(ExpressionType.OrElse, Rank.ConditionalOR, typeof(bool),"{0} || {1}") },
-                { Operator.Xor, new OperatorInfo(ExpressionType.ExclusiveOr, Rank.BitwiseXOR, typeof(bool), "{0} ^ {1}") },
-                { Operator.EqualTo, new OperatorInfo(ExpressionType.Equal, Rank.Equality, typeof(bool), "{0} == {1}") },
+                { Operator.Conditional, new OperatorInfo(ExpressionType.Conditional, Rank.Conditional, null, "if {0} then {1} else {2}") },
+                { Operator.And, new OperatorInfo(ExpressionType.AndAlso, Rank.ConditionalAND, typeof(bool), "{0} and {1}") },
+                { Operator.Or, new OperatorInfo(ExpressionType.OrElse, Rank.ConditionalOR, typeof(bool),"{0} or {1}") },
+                { Operator.Xor, new OperatorInfo(ExpressionType.ExclusiveOr, Rank.BitwiseXOR, typeof(bool), "{0} xor {1}") },
+                { Operator.EqualTo, new OperatorInfo(ExpressionType.Equal, Rank.Equality, typeof(bool), "{0} = {1}") },
                 { Operator.NotEqualTo, new OperatorInfo(ExpressionType.NotEqual, Rank.Equality, typeof(bool), "{0} != {1}") },
                 { Operator.LessThan, new OperatorInfo(ExpressionType.LessThan, Rank.Relational, typeof(bool), "{0} < {1}") },
                 { Operator.NotLessThan, new OperatorInfo(ExpressionType.GreaterThanOrEqual, Rank.Relational, typeof(bool), "{0} >= {1}") },
