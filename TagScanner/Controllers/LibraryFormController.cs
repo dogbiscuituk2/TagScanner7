@@ -62,7 +62,7 @@
                 View.ViewByGenre.Click += ViewByGenre_Click;
                 View.ViewByYear.Click += ViewByYear_Click;
                 View.ViewByAlbum.Click += ViewByAlbum_Click;
-                View.ViewByNone.Click += ViewByNone_Click;
+                View.ViewByNoGrouping.Click += ViewByNone_Click;
                 View.ViewRefresh.Click += ViewRefresh_Click;
                 View.AddMedia.Click += AddMedia_Click;
                 View.AddFolder.Click += AddFolder_Click;

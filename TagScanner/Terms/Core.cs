@@ -2,6 +2,7 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.Drawing.Text;
     using System.Linq;
     using System.Linq.Expressions;
     using System.Reflection;
@@ -132,15 +133,45 @@
 
         private static Dictionary<string, MethodInfo> GetMethods()
         {
-            _methods = new Dictionary<string, MethodInfo>();
+            _methods = new Dictionary<string, MethodInfo>
+            {
+                {  "Compare", GetMethod("String.Compare(String, String)") },
+                { "Contains", GetMethod("Contains(String)") },
+                { "EndsWith", GetMethod("EndsWith(String)") },
+                { "Equals", GetMethod("Equals(String)") },
+                { "Format", GetMethod("String.Format(String, Object[])") },
+                { "Length", GetMethod("get_Length()") },
+                { "IndexOf", GetMethod("IndexOf(Char)") },
+                { "Insert", GetMethod("Insert(Int32, String)") },
+                { "IsEmpty", GetMethod("String.IsNullOrWhiteSpace(String)") },
+                { "IsMatch", GetMethod("Regex.IsMatch(String, String)") },
+                { "LastIndexOf", GetMethod("LastIndexOf(String)") },
+                { "Max", GetMethod("Math.Max(Double, Double)") },
+                { "Min", GetMethod("Math.Min(Double, Double)") },
+                { "Power", GetMethod("Math.Pow(Double, Double)") },
+                { "Remove", GetMethod("Remove(Int32, Int32)") },
+                { "Replace", GetMethod("Replace(String, String)") },
+                { "Replace", GetMethod("Regex.Replace(String, String, String)") },
+                { "Round", GetMethod("Math.Round(Double)") },
+                { "Sign", GetMethod("Math.Sign(Double)") },
+                { "StartsWith", GetMethod("StartsWith(String)") },
+                { "Substring", GetMethod("Substring(Int32, Int32)") },
+                { "ToLower", GetMethod("ToLowerInvariant()") },
+                { "ToString", GetMethod("ToString()") },
+                { "ToUpper", GetMethod("ToUpperInvariant()") },
+                { "Trim", GetMethod("Trim()") },
+                { "Truncate", GetMethod("Math.Truncate(Double)") },
+            };
             foreach (var method in GetMethodInfos())
             {
                 var signature = method.Signature();
                 if (!Methods.ContainsKey(signature))
                     Methods.Add(method.Signature(), method);
-            }   
+            }
             return Methods;
         }
+
+        private static MethodInfo GetMethod(string signature) => null;
 
         private static Dictionary<Op, OpInfo> GetOperators()
         {

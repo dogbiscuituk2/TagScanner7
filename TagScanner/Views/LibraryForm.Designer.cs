@@ -81,7 +81,7 @@
             this.toolStripMenuItem4 = new System.Windows.Forms.ToolStripSeparator();
             this.ViewByYear = new System.Windows.Forms.ToolStripMenuItem();
             this.ViewByGenre = new System.Windows.Forms.ToolStripMenuItem();
-            this.ViewByNone = new System.Windows.Forms.ToolStripMenuItem();
+            this.ViewByNoGrouping = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem7 = new System.Windows.Forms.ToolStripSeparator();
             this.ViewRefresh = new System.Windows.Forms.ToolStripMenuItem();
             this.AddMenu = new System.Windows.Forms.ToolStripMenuItem();
@@ -182,7 +182,7 @@
             this.toolStripMenuItem6,
             this.GridPopupTags});
             this.GridPopupMenu.Name = "PopupMenu";
-            this.GridPopupMenu.Size = new System.Drawing.Size(181, 76);
+            this.GridPopupMenu.Size = new System.Drawing.Size(166, 54);
             // 
             // GridPopupPlay
             // 
@@ -190,7 +190,7 @@
             this.GridPopupPlayAddToQueue,
             this.GridPopupPlayNewPlaylist});
             this.GridPopupPlay.Name = "GridPopupPlay";
-            this.GridPopupPlay.Size = new System.Drawing.Size(143, 22);
+            this.GridPopupPlay.Size = new System.Drawing.Size(165, 22);
             this.GridPopupPlay.Text = "&Play";
             // 
             // GridPopupPlayAddToQueue
@@ -208,12 +208,12 @@
             // toolStripMenuItem6
             // 
             this.toolStripMenuItem6.Name = "toolStripMenuItem6";
-            this.toolStripMenuItem6.Size = new System.Drawing.Size(140, 6);
+            this.toolStripMenuItem6.Size = new System.Drawing.Size(162, 6);
             // 
             // GridPopupTags
             // 
             this.GridPopupTags.Name = "GridPopupTags";
-            this.GridPopupTags.Size = new System.Drawing.Size(180, 22);
+            this.GridPopupTags.Size = new System.Drawing.Size(165, 22);
             this.GridPopupTags.Text = "Select &Columns...";
             // 
             // FilterGroupBox
@@ -557,7 +557,7 @@
             // ViewFilter
             // 
             this.ViewFilter.Name = "ViewFilter";
-            this.ViewFilter.Size = new System.Drawing.Size(132, 22);
+            this.ViewFilter.Size = new System.Drawing.Size(180, 22);
             this.ViewFilter.Text = "&Filter...";
             // 
             // ViewGroupBy
@@ -569,62 +569,62 @@
             this.toolStripMenuItem4,
             this.ViewByYear,
             this.ViewByGenre,
-            this.ViewByNone});
+            this.ViewByNoGrouping});
             this.ViewGroupBy.Name = "ViewGroupBy";
-            this.ViewGroupBy.Size = new System.Drawing.Size(132, 22);
+            this.ViewGroupBy.Size = new System.Drawing.Size(180, 22);
             this.ViewGroupBy.Text = "&Group by";
             // 
             // ViewByArtistAlbum
             // 
             this.ViewByArtistAlbum.Name = "ViewByArtistAlbum";
-            this.ViewByArtistAlbum.Size = new System.Drawing.Size(143, 22);
+            this.ViewByArtistAlbum.Size = new System.Drawing.Size(180, 22);
             this.ViewByArtistAlbum.Text = "&Artist/Album";
             // 
             // ViewByArtist
             // 
             this.ViewByArtist.Name = "ViewByArtist";
-            this.ViewByArtist.Size = new System.Drawing.Size(143, 22);
+            this.ViewByArtist.Size = new System.Drawing.Size(180, 22);
             this.ViewByArtist.Text = "A&rtist";
             // 
             // ViewByAlbum
             // 
             this.ViewByAlbum.Name = "ViewByAlbum";
-            this.ViewByAlbum.Size = new System.Drawing.Size(143, 22);
+            this.ViewByAlbum.Size = new System.Drawing.Size(180, 22);
             this.ViewByAlbum.Text = "A&lbum";
             // 
             // toolStripMenuItem4
             // 
             this.toolStripMenuItem4.Name = "toolStripMenuItem4";
-            this.toolStripMenuItem4.Size = new System.Drawing.Size(140, 6);
+            this.toolStripMenuItem4.Size = new System.Drawing.Size(177, 6);
             // 
             // ViewByYear
             // 
             this.ViewByYear.Name = "ViewByYear";
-            this.ViewByYear.Size = new System.Drawing.Size(143, 22);
+            this.ViewByYear.Size = new System.Drawing.Size(180, 22);
             this.ViewByYear.Text = "&Year";
             // 
             // ViewByGenre
             // 
             this.ViewByGenre.Name = "ViewByGenre";
-            this.ViewByGenre.Size = new System.Drawing.Size(143, 22);
+            this.ViewByGenre.Size = new System.Drawing.Size(180, 22);
             this.ViewByGenre.Text = "&Genre";
             // 
-            // ViewByNone
+            // ViewByNoGrouping
             // 
-            this.ViewByNone.Name = "ViewByNone";
-            this.ViewByNone.Size = new System.Drawing.Size(143, 22);
-            this.ViewByNone.Text = "&Work";
+            this.ViewByNoGrouping.Name = "ViewByNoGrouping";
+            this.ViewByNoGrouping.Size = new System.Drawing.Size(180, 22);
+            this.ViewByNoGrouping.Text = "&No grouping";
             // 
             // toolStripMenuItem7
             // 
             this.toolStripMenuItem7.Name = "toolStripMenuItem7";
-            this.toolStripMenuItem7.Size = new System.Drawing.Size(129, 6);
+            this.toolStripMenuItem7.Size = new System.Drawing.Size(177, 6);
             // 
             // ViewRefresh
             // 
             this.ViewRefresh.Name = "ViewRefresh";
             this.ViewRefresh.ShortcutKeys = System.Windows.Forms.Keys.F5;
-            this.ViewRefresh.Size = new System.Drawing.Size(132, 22);
+            this.ViewRefresh.Size = new System.Drawing.Size(180, 22);
             this.ViewRefresh.Text = "&Refresh";
             // 
             // AddMenu
@@ -802,7 +802,7 @@
         public System.Windows.Forms.ToolStripMenuItem ViewByYear;
         public System.Windows.Forms.ToolStripMenuItem ViewByArtistAlbum;
         public System.Windows.Forms.ToolStripMenuItem ViewByGenre;
-        public System.Windows.Forms.ToolStripMenuItem ViewByNone;
+        public System.Windows.Forms.ToolStripMenuItem ViewByNoGrouping;
         public System.Windows.Forms.ToolStripMenuItem ViewFilter;
         private System.Windows.Forms.ToolStripSeparator toolStripMenuItem7;
     }

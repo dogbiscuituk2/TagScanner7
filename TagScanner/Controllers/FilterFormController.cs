@@ -61,8 +61,8 @@
         private void MenuRouter_FunctionClick(object sender, FunctionEventArgs e) => AddFunction(e.Method);
         private void MenuRouter_OperationClick(object sender, OperationEventArgs e) => AddOperation(e.Operation);
         private void TermClick(object sender, EventArgs e) { }
-        private void TermMenu_DropDownOpening(object sender, EventArgs e) => MenuRouter.MoveItems(PopupMenuItems, TermMenuItems);
-        private void TreeView_MouseDown(object sender, MouseEventArgs e) { if (e.Button == MouseButtons.Right) MenuRouter.MoveItems(TermMenuItems, PopupMenuItems); }
+        private void TermMenu_DropDownOpening(object sender, EventArgs e) => MovePopupItemsToMainMenu();
+        private void TreeView_MouseDown(object sender, MouseEventArgs e) { if (e.Button == MouseButtons.Right) MoveMainMenuItemsToPopup(); }
 
         private void PopupMenu_Opening(object sender, System.ComponentModel.CancelEventArgs e)
         {
@@ -89,16 +89,22 @@
 
         #endregion
 
-        #region Private Methods
+        #region Private Properties
 
         private FilterForm View => _view ?? CreateFilterForm();
 
         private FilterForm CreateFilterForm() => _view = new FilterForm();
 
+        #endregion
+
+        #region Private Methods
+
         private void AddConstant() => TermTreeViewController.AddConstant();
         private void AddField(TagProps tagProps) => TermTreeViewController.AddField(tagProps);
         private void AddFunction(KeyValuePair<string, MethodInfo> method) => TermTreeViewController.AddFunction(method);
         private void AddOperation(KeyValuePair<Op, OpInfo> operation) => TermTreeViewController.AddOperation(operation);
+        private void MovePopupItemsToMainMenu() => MenuRouter.MoveItems(PopupMenuItems, TermMenuItems);
+        private void MoveMainMenuItemsToPopup() => MenuRouter.MoveItems(TermMenuItems, PopupMenuItems);
         
         #endregion
     }
