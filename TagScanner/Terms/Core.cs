@@ -134,46 +134,41 @@
         {
             _methods = new Dictionary<string, MethodInfo>
             {
-                {  "Compare", FindMethodInfo(typeof(string), "Compare", typeof(string), typeof(string)) },
-                //{ "Contains", GetMethod("Contains(String)") },
-                //{ "Ends With", GetMethod("EndsWith(String)") },
-                //{ "Equals", GetMethod("Equals(String)") },
-                {  "Format", FindMethodInfo(typeof(string), "Format", typeof(string), typeof(object[])) },
-                //{ "Length", GetMethod("get_Length()") },
-                //{ "Index Of", GetMethod("IndexOf(Char)") },
-                //{ "Insert", GetMethod("Insert(Int32,String)") },
-                { "Is Empty", FindMethodInfo(typeof(string), "IsNullOrWhiteSpace", typeof(string)) },
-                { "Match$", FindMethodInfo(typeof(Regex), "IsMatch", typeof(string), typeof(string)) },
-                //{ "Last Index Of", GetMethod("LastIndexOf(String)") },
-
-                { "Max", FindMethodInfo(typeof(Math), "Max", typeof(double)) },
-                { "Min", FindMethodInfo(typeof(Math), "Min", typeof(double)) },
-                { "Power", FindMethodInfo(typeof(Math), "Pow", typeof(double)) },
-
-                //{ "Remove", GetMethod("Remove(Int32,Int32)") },
-                //{ "Replace", GetMethod("Replace(String,String)") },
-                //{ "Replace$", GetMethod("Regex.Replace(String,String,String)") },
-                //{ "Round", GetMethod("Math.Round(Double)") },
-                //{ "Sign", GetMethod("Math.Sign(Double)") },
-                //{ "Starts With", GetMethod("StartsWith(String)") },
-                //{ "Substring", GetMethod("Substring(Int32,Int32)") },
-                //{ "To Lowercase", GetMethod("ToLowerInvariant()") },
-                //{ "To String", GetMethod("ToString()") },
-                //{ "To Uppercase", GetMethod("ToUpperInvariant()") },
-                //{ "Trim", GetMethod("Trim()") },
-                //{ "Truncate", GetMethod("Math.Truncate(Double)") },
+                { "Compare", FindMethodInfo(typeof(string), true, "Compare", typeof(string), typeof(string)) },
+                { "Contains", FindMethodInfo(typeof(string), false, "Contains", typeof(string)) },
+                { "Ends With", FindMethodInfo(typeof(string), false, "EndsWith", typeof(string)) },
+                { "Equals", FindMethodInfo(typeof(string), false, "Equals", typeof(string)) },
+                { "Format", FindMethodInfo(typeof(string), true, "Format", typeof(string), typeof(object[])) },
+                { "Length", FindMethodInfo(typeof(string), false, "get_Length") },
+                { "Index Of", FindMethodInfo(typeof(string), false, "IndexOf", typeof(char)) },
+                { "Insert", FindMethodInfo(typeof(string), false, "Insert", typeof(int), typeof(string)) },
+                { "Is Empty", FindMethodInfo(typeof(string), true, "IsNullOrWhiteSpace", typeof(string)) },
+                { "Match$", FindMethodInfo(typeof(Regex), true, "IsMatch", typeof(string), typeof(string)) },
+                { "Last Index Of", FindMethodInfo(typeof(string), false, "LastIndexOf", typeof(char)) },
+                { "Lowercase", FindMethodInfo(typeof(string), false, "ToLowerInvariant") },
+                { "Max", FindMethodInfo(typeof(Math), true, "Max", typeof(double), typeof(double)) },
+                { "Min", FindMethodInfo(typeof(Math), true, "Min", typeof(double), typeof(double)) },
+                { "Power", FindMethodInfo(typeof(Math), true, "Pow", typeof(double), typeof(double)) },
+                { "Remove", FindMethodInfo(typeof(string), false, "Remove", typeof(int), typeof(int)) },
+                { "Replace", FindMethodInfo(typeof(string), false, "Replace", typeof(string), typeof(string)) },
+                { "Replace$", FindMethodInfo(typeof(Regex), true, "Replace", typeof(string), typeof(string), typeof(string)) },
+                { "Round", FindMethodInfo(typeof(Math), true, "Round", typeof(double)) },
+                { "Sign", FindMethodInfo(typeof(Math), true, "Sign", typeof(double)) },
+                { "Starts With", FindMethodInfo(typeof(string), false, "StartsWith", typeof(string)) },
+                { "Substring", FindMethodInfo(typeof(string), false, "Substring", typeof(int), typeof(int)) },
+                { "To String", FindMethodInfo(typeof(string), false, "ToString") },
+                { "Trim", FindMethodInfo(typeof(string), false, "Trim") },
+                { "Truncate", FindMethodInfo(typeof(Math), true, "Truncate", typeof(double)) },
+                { "Uppercase", FindMethodInfo(typeof(string), false, "ToUpperInvariant") },
             };
             return Methods;
         }
 
-        private static MethodInfo FindMethodInfo(Type declaringType, string name, params Type[] paramTypes)
-        {
-            var foo = declaringType.GetMethods(BindingFlags.Public | BindingFlags.Static);
-            var bar = foo.Where(p => p.Name == name);
-            var baz = bar.Where(p => p.GetParamTypes().SequenceEqual(paramTypes));
-            return baz.FirstOrDefault();
-        }
-        
+        private static MethodInfo FindMethodInfo(Type declaringType, bool isStatic, string name, params Type[] paramTypes) => declaringType
+            .GetMethods(BindingFlags.Public | (isStatic ? BindingFlags.Static : BindingFlags.Instance))
+            .Where(p => p.Name == name && p.GetParamTypes().SequenceEqual(paramTypes))
+            .Single();
+
         private static MethodInfo GetMethod(string signature) => null;
 
         private static Dictionary<Op, OpInfo> GetOperators()
