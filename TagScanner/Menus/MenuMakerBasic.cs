@@ -49,10 +49,10 @@
         private static void AddFunctions(this ToolStripItemCollection items, EventHandler click)
         {
             items = items.Append("&Function");
-            items.AddMethodsStringInstance(click);
-            items.AddMethodsStringStatic(click);
-            items.AddMethodsRegexStatic(click);
-            items.AddMethodsMathStatic(click);
+            //items.AddMethodsStringInstance(click);
+            //items.AddMethodsStringStatic(click);
+            //items.AddMethodsRegexStatic(click);
+            //items.AddMethodsMathStatic(click);
         }
 
         private static void AddMethods(this ToolStripItemCollection items, string head, IEnumerable<KeyValuePair<string, MethodInfo>> methods, EventHandler click)
