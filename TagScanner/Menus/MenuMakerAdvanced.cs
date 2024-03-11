@@ -5,11 +5,10 @@
     using System.Linq;
     using System.Reflection;
     using System.Windows.Forms;
-    using TagLib.Xmp;
     using TagScanner.Models;
     using TagScanner.Terms;
 
-    public static class MenuMaker
+    public static class MenuMakerAdvanced
     {
         #region Public Methods
 
@@ -131,7 +130,7 @@
                 return true; ;
             if (tag is TagProps tagProps)
                 return types.Contains(tagProps.Type);
-            if (tag is KeyValuePair<Operator, OperatorInfo> op) return true;
+            if (tag is KeyValuePair<Op, OpInfo> op) return true;
             if (tag is KeyValuePair<string, MethodInfo> method) return true;
             return false;
         }

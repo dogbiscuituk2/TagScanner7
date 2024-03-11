@@ -31,13 +31,12 @@
             this.components = new System.ComponentModel.Container();
             this.TreeView = new System.Windows.Forms.TreeView();
             this.PopupMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.PopupAdd = new System.Windows.Forms.ToolStripMenuItem();
-            this.PopupEdit = new System.Windows.Forms.ToolStripMenuItem();
-            this.PopupDelete = new System.Windows.Forms.ToolStripMenuItem();
             this.btnAddRoot = new System.Windows.Forms.Button();
             this.FieldComboBox = new System.Windows.Forms.ComboBox();
             this.OperatorComboBox = new System.Windows.Forms.ComboBox();
-            this.PopupMenu.SuspendLayout();
+            this.MainMenu = new System.Windows.Forms.MenuStrip();
+            this.TermMenu = new System.Windows.Forms.ToolStripMenuItem();
+            this.MainMenu.SuspendLayout();
             this.SuspendLayout();
             // 
             // TreeView
@@ -47,39 +46,17 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.TreeView.ContextMenuStrip = this.PopupMenu;
             this.TreeView.HideSelection = false;
-            this.TreeView.Location = new System.Drawing.Point(13, 13);
+            this.TreeView.Location = new System.Drawing.Point(13, 97);
             this.TreeView.Margin = new System.Windows.Forms.Padding(4);
             this.TreeView.Name = "TreeView";
             this.TreeView.ShowNodeToolTips = true;
-            this.TreeView.Size = new System.Drawing.Size(758, 497);
+            this.TreeView.Size = new System.Drawing.Size(758, 413);
             this.TreeView.TabIndex = 0;
             // 
             // PopupMenu
             // 
-            this.PopupMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.PopupAdd,
-            this.PopupEdit,
-            this.PopupDelete});
             this.PopupMenu.Name = "PopupMenu";
-            this.PopupMenu.Size = new System.Drawing.Size(108, 70);
-            // 
-            // PopupAdd
-            // 
-            this.PopupAdd.Name = "PopupAdd";
-            this.PopupAdd.Size = new System.Drawing.Size(107, 22);
-            this.PopupAdd.Text = "&Add";
-            // 
-            // PopupEdit
-            // 
-            this.PopupEdit.Name = "PopupEdit";
-            this.PopupEdit.Size = new System.Drawing.Size(107, 22);
-            this.PopupEdit.Text = "&Edit";
-            // 
-            // PopupDelete
-            // 
-            this.PopupDelete.Name = "PopupDelete";
-            this.PopupDelete.Size = new System.Drawing.Size(107, 22);
-            this.PopupDelete.Text = "&Delete";
+            this.PopupMenu.Size = new System.Drawing.Size(61, 4);
             // 
             // btnAddRoot
             // 
@@ -108,22 +85,42 @@
             this.OperatorComboBox.Size = new System.Drawing.Size(498, 25);
             this.OperatorComboBox.TabIndex = 3;
             // 
+            // MainMenu
+            // 
+            this.MainMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.TermMenu});
+            this.MainMenu.Location = new System.Drawing.Point(0, 0);
+            this.MainMenu.Name = "MainMenu";
+            this.MainMenu.Size = new System.Drawing.Size(784, 24);
+            this.MainMenu.TabIndex = 4;
+            this.MainMenu.Text = "menuStrip1";
+            // 
+            // TermMenu
+            // 
+            this.TermMenu.Name = "TermMenu";
+            this.TermMenu.Size = new System.Drawing.Size(45, 20);
+            this.TermMenu.Text = "&Term";
+            // 
             // FilterForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 17F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(784, 561);
+            this.Controls.Add(this.MainMenu);
             this.Controls.Add(this.OperatorComboBox);
             this.Controls.Add(this.FieldComboBox);
             this.Controls.Add(this.btnAddRoot);
             this.Controls.Add(this.TreeView);
             this.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.MainMenuStrip = this.MainMenu;
             this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "FilterForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Filter";
-            this.PopupMenu.ResumeLayout(false);
+            this.MainMenu.ResumeLayout(false);
+            this.MainMenu.PerformLayout();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -133,8 +130,7 @@
         public System.Windows.Forms.ContextMenuStrip PopupMenu;
         public System.Windows.Forms.ComboBox FieldComboBox;
         public System.Windows.Forms.ComboBox OperatorComboBox;
-        public System.Windows.Forms.ToolStripMenuItem PopupAdd;
-        public System.Windows.Forms.ToolStripMenuItem PopupEdit;
-        public System.Windows.Forms.ToolStripMenuItem PopupDelete;
+        public System.Windows.Forms.MenuStrip MainMenu;
+        public System.Windows.Forms.ToolStripMenuItem TermMenu;
     }
 }

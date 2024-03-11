@@ -31,7 +31,7 @@
         #region Public Properties
 
         public static Dictionary<string, MethodInfo> Methods => _methods ?? GetMethods();
-        public static Dictionary<Operator, OperatorInfo> Operators => _operators ?? GetOperators();
+        public static Dictionary<Op, OpInfo> Operators => _operators ?? GetOperators();
 
         #endregion
 
@@ -53,18 +53,18 @@
         /// <param name="op">The given Operator, method call, or function.</param>
         /// <returns>An integer representing the number of parameters expected by the Operator, method call, or function.
         /// Note: int.MaxValue is returned for associative operators && || ^ + - * / since these can accept any number of parameters.</returns>
-        public static int Arity(this Operator op)
+        public static int Arity(this Op op)
         {
             // Return int.MaxValue in the case of an associative Operator.
             switch (op)
             {
-                case Operator.And:
-                case Operator.Or:
-                case Operator.Xor:
-                case Operator.Add:
-                case Operator.Subtract:
-                case Operator.Multiply:
-                case Operator.Divide:
+                case Op.And:
+                case Op.Or:
+                case Op.Xor:
+                case Op.Add:
+                case Op.Subtract:
+                case Op.Multiply:
+                case Op.Divide:
                     return int.MaxValue;
             }
             // Otherwise, the Arity value is simply the number of {#} placeholders in the relevant Format string.
@@ -74,12 +74,13 @@
                     return result;
         }
 
-        public static bool Associates(this Operator op) => op.Arity() == int.MaxValue;
+        public static bool Associates(this Op op) => op.Arity() == int.MaxValue;
+        public static bool CanChain(this Op op) => op.GetRank() == Rank.Relational;
 
-        public static ExpressionType ExpType(this Operator op) => Operators[op].ExpType;
+        public static ExpressionType ExpType(this Op op) => Operators[op].ExpType;
 
-        public static string Format(this Operator op) => Operators[op].Format;
-        public static Rank GetRank(this Operator op) => Operators[op].Rank;
+        public static string Format(this Op op) => Operators[op].Format;
+        public static Rank GetRank(this Op op) => Operators[op].Rank;
 
         /// <summary>
         /// A string containing either the unadorned MethodInfo name, in the case of a nonstatic member,
@@ -98,7 +99,7 @@
         /// otherwise the empty string.</returns>
         public static string Prefix(this MethodInfo method) => method.IsStatic ? method.DeclaringType.Name : string.Empty;
 
-        public static Type ResultType(this Operator op) => Operators[op].ResultType;
+        public static Type ResultType(this Op op) => Operators[op].ResultType;
         public static string Signature(this MethodInfo method) => $"{method.Label()}({method.GetParams()})";
 
         #endregion
@@ -106,7 +107,7 @@
         #region Private Fields
 
         private static Dictionary<string, MethodInfo> _methods;
-        private static Dictionary<Operator, OperatorInfo> _operators;
+        private static Dictionary<Op, OpInfo> _operators;
 
         #endregion
 
@@ -141,27 +142,28 @@
             return Methods;
         }
 
-        private static Dictionary<Operator, OperatorInfo> GetOperators()
+        private static Dictionary<Op, OpInfo> GetOperators()
         {
-            _operators = new Dictionary<Operator, OperatorInfo>
+            _operators = new Dictionary<Op, OpInfo>
             {
-                { Operator.Conditional, new OperatorInfo(ExpressionType.Conditional, Rank.Conditional, null, "{0} ? {1} : {2}") },
-                { Operator.And, new OperatorInfo(ExpressionType.AndAlso, Rank.ConditionalAND, typeof(bool), "{0} && {1}") },
-                { Operator.Or, new OperatorInfo(ExpressionType.OrElse, Rank.ConditionalOR, typeof(bool),"{0} || {1}") },
-                { Operator.Xor, new OperatorInfo(ExpressionType.ExclusiveOr, Rank.BitwiseXOR, typeof(bool), "{0} ^ {1}") },
-                { Operator.EqualTo, new OperatorInfo(ExpressionType.Equal, Rank.Equality, typeof(bool), "{0} == {1}") },
-                { Operator.NotEqualTo, new OperatorInfo(ExpressionType.NotEqual, Rank.Equality, typeof(bool), "{0} != {1}") },
-                { Operator.LessThan, new OperatorInfo(ExpressionType.LessThan, Rank.Relational, typeof(bool), "{0} < {1}") },
-                { Operator.NotLessThan, new OperatorInfo(ExpressionType.GreaterThanOrEqual, Rank.Relational, typeof(bool), "{0} >= {1}") },
-                { Operator.GreaterThan, new OperatorInfo(ExpressionType.GreaterThan, Rank.Relational, typeof(bool), "{0} > {1}") },
-                { Operator.NotGreaterThan, new OperatorInfo(ExpressionType.LessThanOrEqual, Rank.Relational, typeof(bool), "{0} <= {1}") },
-                { Operator.Add, new OperatorInfo(ExpressionType.Add, Rank.Additive, typeof(double), "{0} + {1}") },
-                { Operator.Subtract, new OperatorInfo(ExpressionType.Subtract, Rank.Additive, typeof(double), "{0} - {1}") },
-                { Operator.Multiply, new OperatorInfo(ExpressionType.Multiply, Rank.Multiplicative, typeof(double), "{0} * {1}") },
-                { Operator.Divide, new OperatorInfo(ExpressionType.Divide, Rank.Multiplicative, typeof(double), "{0} / {1}") },
-                { Operator.Positive, new OperatorInfo(ExpressionType.UnaryPlus, Rank.Unary, typeof(double), "{0}") },
-                { Operator.Negative, new OperatorInfo(ExpressionType.Negate, Rank.Unary, typeof(double), "- {0}") },
-                { Operator.Not, new OperatorInfo(ExpressionType.Not, Rank.Unary, typeof(bool), "!{0}") },
+                { Op.Conditional, new OpInfo("if-then-else", ExpressionType.Conditional, Rank.Conditional, typeof(object), "if {0} then {1} else {2}", new[]{ typeof(bool), typeof(object) }) },
+                { Op.And, new OpInfo("and", ExpressionType.AndAlso, Rank.ConditionalAND, typeof(bool), "{0} and {1}") },
+                { Op.Or, new OpInfo("or", ExpressionType.OrElse, Rank.ConditionalOR, typeof(bool),"{0} or {1}") },
+                { Op.Xor, new OpInfo("exclusive or", ExpressionType.ExclusiveOr, Rank.BitwiseXOR, typeof(bool), "{0} xor {1}") },
+                { Op.EqualTo, new OpInfo("=", ExpressionType.Equal, Rank.Equality, typeof(bool), "{0} = {1}", typeof(object)) },
+                { Op.NotEqualTo, new OpInfo("≠", ExpressionType.NotEqual, Rank.Equality, typeof(bool), "{0} ≠ {1}", typeof(object)) },
+                { Op.LessThan, new OpInfo("<", ExpressionType.LessThan, Rank.Relational, typeof(bool), "{0} < {1}", typeof(Number)) },
+                { Op.NotLessThan, new OpInfo("≥", ExpressionType.GreaterThanOrEqual, Rank.Relational, typeof(bool), "{0} ≥ {1}", typeof(Number)) },
+                { Op.GreaterThan, new OpInfo(">", ExpressionType.GreaterThan, Rank.Relational, typeof(bool), "{0} > {1}", typeof(Number)) },
+                { Op.NotGreaterThan, new OpInfo("≤", ExpressionType.LessThanOrEqual, Rank.Relational, typeof(bool), "{0} ≤ {1}", typeof(Number)) },
+                { Op.Concatenate, new OpInfo("＋", ExpressionType.Add, Rank.Additive, typeof(string), "{0} ＋ {1}") },
+                { Op.Add, new OpInfo("＋",ExpressionType.Add, Rank.Additive, typeof(Number), "{0} ＋ {1}") },
+                { Op.Subtract, new OpInfo("－", ExpressionType.Subtract, Rank.Additive, typeof(Number), "{0} － {1}") },
+                { Op.Multiply, new OpInfo("✕", ExpressionType.Multiply, Rank.Multiplicative, typeof(Number), "{0} ✕ {1}") },
+                { Op.Divide, new OpInfo("／", ExpressionType.Divide, Rank.Multiplicative, typeof(Number), "{0} ／ {1}") },
+                { Op.Positive, new OpInfo("＋", ExpressionType.UnaryPlus, Rank.Unary, typeof(Number), "＋{0}") },
+                { Op.Negative, new OpInfo("－", ExpressionType.Negate, Rank.Unary, typeof(Number), "－{0}") },
+                { Op.Not, new OpInfo("not", ExpressionType.Not, Rank.Unary, typeof(bool), "not {0}") },
             };
             return Operators;
         }
