@@ -13,7 +13,7 @@
         public abstract Type ResultType { get; }
 
         public Func<Work, bool> Predicate => Expression.Lambda<Func<Work, bool>>(Expression, Work).Compile();
-            
+
         public Term Add(Term term) => Add(this, term);
         public Term And(Term term) => And(this, term);
         public Term Divide(Term term) => Divide(this, term);

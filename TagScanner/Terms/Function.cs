@@ -46,7 +46,21 @@
 
         #region Public Methods
 
-        public override string ToString() => 
+        public override string ToString()
+        {
+            var result = Name;
+            var skip = 0;
+            if (!Method.IsStatic)
+            {
+                result = $"{WrapTerm(0)}.{result}";
+                skip = 1;
+            }
+            var count = Operands.Count;
+            if (count <= skip)
+                return result;
+            var operands = Operands.Skip(skip).Select(p => p.ToString()).Aggregate((p, q) => $"{p}, {q}");
+            return $"{result}({operands})";
+        }
 
         #endregion
 
@@ -56,13 +70,8 @@
         {
             if (!Method.IsStatic)
                 yield return Method.DeclaringType;
-            var s = Name;
-            int
-                m = s.IndexOf('(') + 1,
-                n = s.Length - m - 1;
-            if (n > 0)
-                foreach (var type in s.Substring(m, n).Split(',').Select(p => GetType(p.Trim())))
-                    yield return type;
+            foreach (var foo in Method.GetParameters())
+                yield return foo.ParameterType;
         }
     
         #endregion

@@ -69,7 +69,14 @@
 
         protected abstract IEnumerable<Type> GetParameterTypes();
 
-        protected static Type GetType(string typeName) => GetQualifiedType(typeName, ".", ".Globalization.", ".Text.", ".Text.RegularExpressions.");
+        protected string WrapTerm(int index)
+        {
+            var operand = Operands[index];
+            var result = operand.ToString();
+            if (operand.Rank < Rank || !Core.MinimiseParentheses)
+                result = $"({result})";
+            return result;
+        }
 
         #endregion
 
@@ -97,6 +104,8 @@
                 ?? MatchType(typeof(long), type1, type2) // Type "long" absorbs any "int".
                 ?? MatchType(typeof(string), type1, type2); // Type "string" absorbs any "char".
         }
+
+        protected static Type GetType(string typeName) => GetQualifiedType(typeName, ".", ".Globalization.", ".Text.", ".Text.RegularExpressions.");
 
         protected static Type MatchType(Type t, Type t1, Type t2) => t == t1 || t == t2 ? t : null;
 

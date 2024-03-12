@@ -10,7 +10,7 @@
         public override Expression Expression => Expression.Default(ResultType);
         public override Type ResultType => _resultType;
 
-        public override string ToString() => ResultType == null ? "(text/number)" : $"({ResultType.Name})";
+        public override string ToString() => ResultType.Say();
 
         private readonly Type _resultType;
     }

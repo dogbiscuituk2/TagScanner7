@@ -100,6 +100,26 @@
         public static string Prefix(this MethodInfo method) => method.IsStatic ? method.DeclaringType.Name : string.Empty;
 
         public static Type ResultType(this Op op) => Operators[op].ResultType;
+
+        public static string Say(this Type type)
+        {
+            if (type.IsArray)
+                return $"{type.GetElementType().Say()}[]";
+            if (type == typeof(Number))
+                return "number";
+            switch (Type.GetTypeCode(type))
+            {
+                case TypeCode.Boolean: return "condition";
+                case TypeCode.Char: return "character";
+                case TypeCode.Double: return "number";
+                case TypeCode.Int32: return "integer";
+                case TypeCode.Int64: return "long";
+                case TypeCode.Object: return "this";
+                case TypeCode.String: return "string";
+                default: return type.Name;
+            }
+        }
+
         public static string Signature(this MethodInfo method) => $"{method.Label()}({method.GetParams()})";
 
         #endregion
@@ -136,15 +156,15 @@
             {
                 { "Compare", FindMethodInfo(typeof(string), true, "Compare", typeof(string), typeof(string)) },
                 { "Contains", FindMethodInfo(typeof(string), false, "Contains", typeof(string)) },
-                { "Ends With", FindMethodInfo(typeof(string), false, "EndsWith", typeof(string)) },
-                { "Equals", FindMethodInfo(typeof(string), false, "Equals", typeof(string)) },
+                { "EndsWith", FindMethodInfo(typeof(string), false, "EndsWith", typeof(string)) },
+                { "Equals", FindMethodInfo(typeof(object), false, "Equals", typeof(object)) },
                 { "Format", FindMethodInfo(typeof(string), true, "Format", typeof(string), typeof(object[])) },
                 { "Length", FindMethodInfo(typeof(string), false, "get_Length") },
-                { "Index Of", FindMethodInfo(typeof(string), false, "IndexOf", typeof(char)) },
+                { "IndexOf", FindMethodInfo(typeof(string), false, "IndexOf", typeof(char)) },
                 { "Insert", FindMethodInfo(typeof(string), false, "Insert", typeof(int), typeof(string)) },
-                { "Is Empty", FindMethodInfo(typeof(string), true, "IsNullOrWhiteSpace", typeof(string)) },
+                { "IsEmpty", FindMethodInfo(typeof(string), true, "IsNullOrWhiteSpace", typeof(string)) },
                 { "Match$", FindMethodInfo(typeof(Regex), true, "IsMatch", typeof(string), typeof(string)) },
-                { "Last Index Of", FindMethodInfo(typeof(string), false, "LastIndexOf", typeof(char)) },
+                { "LastIndexOf", FindMethodInfo(typeof(string), false, "LastIndexOf", typeof(char)) },
                 { "Lowercase", FindMethodInfo(typeof(string), false, "ToLowerInvariant") },
                 { "Max", FindMethodInfo(typeof(Math), true, "Max", typeof(double), typeof(double)) },
                 { "Min", FindMethodInfo(typeof(Math), true, "Min", typeof(double), typeof(double)) },
@@ -154,9 +174,9 @@
                 { "Replace$", FindMethodInfo(typeof(Regex), true, "Replace", typeof(string), typeof(string), typeof(string)) },
                 { "Round", FindMethodInfo(typeof(Math), true, "Round", typeof(double)) },
                 { "Sign", FindMethodInfo(typeof(Math), true, "Sign", typeof(double)) },
-                { "Starts With", FindMethodInfo(typeof(string), false, "StartsWith", typeof(string)) },
+                { "StartsWith", FindMethodInfo(typeof(string), false, "StartsWith", typeof(string)) },
                 { "Substring", FindMethodInfo(typeof(string), false, "Substring", typeof(int), typeof(int)) },
-                { "To String", FindMethodInfo(typeof(string), false, "ToString") },
+                { "ToString", FindMethodInfo(typeof(object), false, "ToString") },
                 { "Trim", FindMethodInfo(typeof(string), false, "Trim") },
                 { "Truncate", FindMethodInfo(typeof(Math), true, "Truncate", typeof(double)) },
                 { "Uppercase", FindMethodInfo(typeof(string), false, "ToUpperInvariant") },

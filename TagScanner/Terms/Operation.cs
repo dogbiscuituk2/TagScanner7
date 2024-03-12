@@ -188,25 +188,9 @@
             }
         }
 
-        private string WrapTerm(int index)
-        {
-            var operand = Operands[index];
-            var result = operand.ToString();
-            if (operand.Rank < Rank || !Core.MinimiseParentheses)
-                result = $"({result})";
-            return result;
-        }
-
         #endregion
 
         #region Private Static Methods
-
-        private static void AdjustTypes(ref Expression left, ref Expression right)
-        {
-            var type = GetCommonType(left.Type, right.Type);
-            left = Cast(left, type);
-            right = Cast(right, type);
-        }
 
         private static Op ToOperator(string symbol, bool monadic)
         {
