@@ -4,6 +4,7 @@
     using System.Linq.Expressions;
     using Models;
 
+    [Serializable]
     public abstract class Term
     {
         #region Public Fields

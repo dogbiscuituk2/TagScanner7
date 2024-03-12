@@ -3,6 +3,7 @@
     using System;
     using System.Linq.Expressions;
 
+    [Serializable]
     public class Constant : Term
     {
         public Constant(object value = null) { Value = value; }

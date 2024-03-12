@@ -3,6 +3,7 @@
     using System;
     using System.Linq.Expressions;
 
+    [Serializable]
     public class OpInfo
     {
         public OpInfo(string label, ExpressionType expType, Rank rank, Type resultType, string format, params Type[] paramTypes)

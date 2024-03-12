@@ -6,6 +6,7 @@
     using System.Linq.Expressions;
     using System.Reflection;
 
+    [Serializable]
     public class Function : Umptad
     {
         #region Constructors

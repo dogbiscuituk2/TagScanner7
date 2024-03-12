@@ -1,6 +1,7 @@
 ﻿namespace TagScanner.Controllers
 {
     using System.Collections.Generic;
+    using System.Linq;
     using System.Reflection;
     using System.Windows.Forms;
     using Models;
@@ -15,23 +16,50 @@
             _treeView.AfterExpand += TreeView_AfterExpand;
         }
 
+        #region Public Properties
+
         public bool HasSelection => SelectedNode != null;
         public TreeNode SelectedNode => _treeView.SelectedNode;
+        public TreeView TreeView => _treeView;
+        public TreeNodeCollection Roots => _treeView.Nodes;
 
-        public int AddChild(TreeNode parent, Term term) => AddNode(parent.Nodes, term);
-        public int AddRoot(Term term) => AddNode(_treeView.Nodes, term);
-        public void Add(Term term) { if (HasSelection) AddChild(SelectedNode, term); else AddRoot(term); }
+        #endregion
+
+        #region Public Methods
+
+        public int Add(Term term) => HasSelection ? AddChild(SelectedNode, term) : AddRoot(term);
+        public int AddChild(TreeNode parent, Term term) => AddNode(parent != null ? parent.Nodes : Roots, term);
+        public void AddConstant() => Add(new Constant());
+        public void AddField(TagProps tagProps) => Add(new Field(tagProps.Name));
+        public void AddFunction(KeyValuePair<string, MethodInfo> method) => Add(new Function(method.Key));
+        public void AddOperation(KeyValuePair<Op, OpInfo> operation) => Add(new Operation(operation.Key));
+        public int AddRoot(Term term) => AddNode(Roots, term);
+
+        public IEnumerable<Term> GetTerms() => Roots.OfType<TreeNode>().Select(p => p.Tag as Term);
 
         public void Load(IEnumerable<Term> terms)
         {
+            Roots.Clear();
             foreach (var term in terms)
                 AddRoot(term);
         }
 
+        #endregion
+
+        #region Private Fields
+
         private readonly TreeView _treeView;
+
+        #endregion
+
+        #region Private Event Handlers
 
         private void TreeView_AfterCollapse(object sender, TreeViewEventArgs e) => e.Node.Text = (e.Node.Tag as Term).ToString();
         private void TreeView_AfterExpand(object sender, TreeViewEventArgs e) => e.Node.Text = GetNodeText(e.Node.Tag as Term);
+
+        #endregion
+
+        #region Private Methods
 
         private int AddNode(TreeNodeCollection nodes, Term term) => nodes.Add(NewNode(term));
 
@@ -58,9 +86,6 @@
             return result;
         }
 
-        internal void AddConstant() => Add(new Constant());
-        internal void AddField(TagProps tagProps) => Add(new Field(tagProps.Name));
-        internal void AddFunction(KeyValuePair<string, MethodInfo> method) => Add(new Function(method.Key));
-        internal void AddOperation(KeyValuePair<Op, OpInfo> operation) => Add(new Operation(operation.Key));
+        #endregion
     }
 }

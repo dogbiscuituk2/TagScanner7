@@ -4,6 +4,7 @@
     using System.Linq.Expressions;
     using Models;
 
+    [Serializable]
     public class Field : Term
     {
         public Field(string tagName) { TagName = tagName; }

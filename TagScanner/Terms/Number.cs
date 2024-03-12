@@ -1,5 +1,8 @@
 ﻿namespace TagScanner.Terms
 {
+    using System;
+
+    [Serializable]
     public class Number
     {
         public Number(double value) => Value = value;

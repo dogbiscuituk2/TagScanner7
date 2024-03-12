@@ -3,6 +3,7 @@
     using System;
     using System.Linq.Expressions;
 
+    [Serializable]
     public class Parameter : Term
     {
         public Parameter(Type type) { _resultType = type; }

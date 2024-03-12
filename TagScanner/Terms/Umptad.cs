@@ -12,6 +12,7 @@
     /// The "Umptad" class therefore represents an expression built from such an operator.
     /// It is used as the common functionality base for the Function and Operation term types.
     /// </summary>
+    [Serializable]
     public abstract class Umptad : Term
     {
         #region Constructors

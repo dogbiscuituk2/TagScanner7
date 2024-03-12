@@ -5,6 +5,7 @@
     using System.Linq;
     using System.Linq.Expressions;
 
+    [Serializable]
     public class Operation : Umptad
     {
         #region Constructors
