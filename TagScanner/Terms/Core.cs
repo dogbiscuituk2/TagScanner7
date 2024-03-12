@@ -60,7 +60,7 @@
             {
                 case Op.And:
                 case Op.Or:
-                case Op.Xor:
+                //case Op.Xor:
                 case Op.Add:
                 case Op.Subtract:
                 case Op.Multiply:
@@ -75,7 +75,7 @@
         }
 
         public static bool Associates(this Op op) => op.Arity() == int.MaxValue;
-        public static bool CanChain(this Op op) => op.GetRank() == Rank.Relational;
+        public static bool CanChain(this Op op) => op == Op.EqualTo || op.GetRank() == Rank.Relational;
 
         public static ExpressionType ExpType(this Op op) => Operators[op].ExpType;
 

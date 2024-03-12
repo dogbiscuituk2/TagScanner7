@@ -42,6 +42,7 @@
                 {
                     case Op.And: return "All of the following are true:";
                     case Op.Or: return "One or more of the following are true:";
+                    case Op.Xor: return "Exactly one of the following is true:";
                     case Op.EqualTo: return "These are equal:";
                     case Op.NotEqualTo: return "These are not equal:";
                 }
