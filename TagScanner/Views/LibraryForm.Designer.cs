@@ -557,7 +557,7 @@
             // ViewFilter
             // 
             this.ViewFilter.Name = "ViewFilter";
-            this.ViewFilter.Size = new System.Drawing.Size(180, 22);
+            this.ViewFilter.Size = new System.Drawing.Size(132, 22);
             this.ViewFilter.Text = "&Filter...";
             // 
             // ViewGroupBy
@@ -571,60 +571,60 @@
             this.ViewByGenre,
             this.ViewByNoGrouping});
             this.ViewGroupBy.Name = "ViewGroupBy";
-            this.ViewGroupBy.Size = new System.Drawing.Size(180, 22);
+            this.ViewGroupBy.Size = new System.Drawing.Size(132, 22);
             this.ViewGroupBy.Text = "&Group by";
             // 
             // ViewByArtistAlbum
             // 
             this.ViewByArtistAlbum.Name = "ViewByArtistAlbum";
-            this.ViewByArtistAlbum.Size = new System.Drawing.Size(180, 22);
+            this.ViewByArtistAlbum.Size = new System.Drawing.Size(143, 22);
             this.ViewByArtistAlbum.Text = "&Artist/Album";
             // 
             // ViewByArtist
             // 
             this.ViewByArtist.Name = "ViewByArtist";
-            this.ViewByArtist.Size = new System.Drawing.Size(180, 22);
+            this.ViewByArtist.Size = new System.Drawing.Size(143, 22);
             this.ViewByArtist.Text = "A&rtist";
             // 
             // ViewByAlbum
             // 
             this.ViewByAlbum.Name = "ViewByAlbum";
-            this.ViewByAlbum.Size = new System.Drawing.Size(180, 22);
+            this.ViewByAlbum.Size = new System.Drawing.Size(143, 22);
             this.ViewByAlbum.Text = "A&lbum";
             // 
             // toolStripMenuItem4
             // 
             this.toolStripMenuItem4.Name = "toolStripMenuItem4";
-            this.toolStripMenuItem4.Size = new System.Drawing.Size(177, 6);
+            this.toolStripMenuItem4.Size = new System.Drawing.Size(140, 6);
             // 
             // ViewByYear
             // 
             this.ViewByYear.Name = "ViewByYear";
-            this.ViewByYear.Size = new System.Drawing.Size(180, 22);
+            this.ViewByYear.Size = new System.Drawing.Size(143, 22);
             this.ViewByYear.Text = "&Year";
             // 
             // ViewByGenre
             // 
             this.ViewByGenre.Name = "ViewByGenre";
-            this.ViewByGenre.Size = new System.Drawing.Size(180, 22);
+            this.ViewByGenre.Size = new System.Drawing.Size(143, 22);
             this.ViewByGenre.Text = "&Genre";
             // 
             // ViewByNoGrouping
             // 
             this.ViewByNoGrouping.Name = "ViewByNoGrouping";
-            this.ViewByNoGrouping.Size = new System.Drawing.Size(180, 22);
+            this.ViewByNoGrouping.Size = new System.Drawing.Size(143, 22);
             this.ViewByNoGrouping.Text = "&No grouping";
             // 
             // toolStripMenuItem7
             // 
             this.toolStripMenuItem7.Name = "toolStripMenuItem7";
-            this.toolStripMenuItem7.Size = new System.Drawing.Size(177, 6);
+            this.toolStripMenuItem7.Size = new System.Drawing.Size(129, 6);
             // 
             // ViewRefresh
             // 
             this.ViewRefresh.Name = "ViewRefresh";
             this.ViewRefresh.ShortcutKeys = System.Windows.Forms.Keys.F5;
-            this.ViewRefresh.Size = new System.Drawing.Size(180, 22);
+            this.ViewRefresh.Size = new System.Drawing.Size(132, 22);
             this.ViewRefresh.Text = "&Refresh";
             // 
             // AddMenu

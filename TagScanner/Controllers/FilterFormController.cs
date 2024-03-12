@@ -26,11 +26,7 @@
             TermMenu.DropDownOpening += TermMenu_DropDownOpening;
             TreeView.MouseDown += TreeView_MouseDown;
 
-            TagPickerController tagPickerController = new TagPickerController(View.FieldComboBox);
-            OperatorPickerController operatorPickerController = new OperatorPickerController(View.OperatorComboBox);
-
             PopupMenu.Opening += PopupMenu_Opening;
-            View.btnAddRoot.Click += BtnAddRoot_Click;
         }
 
         #endregion
