@@ -60,7 +60,7 @@
             {
                 case Op.And:
                 case Op.Or:
-                //case Op.Xor:
+                case Op.Concatenate:
                 case Op.Add:
                 case Op.Subtract:
                 case Op.Multiply:
