@@ -49,8 +49,8 @@
         private static void AddFunctions(this ToolStripItemCollection items, EventHandler click)
         {
             items = items.Append("&Function");
-            foreach (var foo in Core.Methods)
-                items.Append(foo.Key, foo.Value, click);
+            foreach (var method in Core.Methods)
+                items.Append(method.Key, method, click);
         }
 
         private static void AddOperations(this ToolStripItemCollection items, EventHandler click)

@@ -5,14 +5,13 @@
     using System.Linq;
     using System.Linq.Expressions;
     using System.Reflection;
-    using System.Text;
 
     public class Function : Umptad
     {
         #region Constructors
 
-        public Function(string signature, params Term[] operands) : base(operands) { Signature = signature; }
-        public Function(Term self, string signature, params Term[] operands) : base(self, operands) { Signature = signature; }
+        public Function(string name, params Term[] operands) : base(operands) { Name = name; }
+        public Function(Term self, string name, params Term[] operands) : base(self, operands) { Name = name; }
 
         #endregion
 
@@ -28,15 +27,13 @@
             }
         }
 
-        public string Prototype => $"{Method.ReturnType.Name} {Signature}";
-
-        public string Signature
+        public string Name
         {
-            get => _signature;
+            get => _name;
             set
             {
-                _signature = value;
-                Method = Core.Methods[Signature];
+                _name = value;
+                Method = Core.Methods[Name];
                 AddParameters(GetParameterTypes().ToArray());
             }
         }
@@ -47,13 +44,19 @@
 
         #endregion
 
+        #region Public Methods
+
+        public override string ToString() => this.Name;
+
+        #endregion
+
         #region Protected Methods
 
         protected override IEnumerable<Type> GetParameterTypes()
         {
             if (!Method.IsStatic)
                 yield return Method.DeclaringType;
-            var s = Signature;
+            var s = Name;
             int
                 m = s.IndexOf('(') + 1,
                 n = s.Length - m - 1;
@@ -67,7 +70,7 @@
         #region Private Fields
 
         private MethodInfo _method;
-        private string _signature;
+        private string _name;
 
         #endregion                  l
 
