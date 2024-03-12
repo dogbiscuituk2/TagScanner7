@@ -10,8 +10,8 @@
     {
         #region Constructors
 
-        public Function(string name, params Term[] operands) : base(operands) { Name = name; }
-        public Function(Term self, string name, params Term[] operands) : base(self, operands) { Name = name; }
+        public Function(string name, params Term[] operands) : base(operands) => SetName(name);
+        public Function(Term self, string name, params Term[] operands) : base(self, operands) => SetName(name);
 
         #endregion
 
@@ -46,7 +46,7 @@
 
         #region Public Methods
 
-        public override string ToString() => this.Name;
+        public override string ToString() => 
 
         #endregion
 
@@ -72,7 +72,7 @@
         private MethodInfo _method;
         private string _name;
 
-        #endregion                  l
+        #endregion
 
         #region Private Methods
 
@@ -82,6 +82,12 @@
             return Method.IsStatic
                 ? Expression.Call(Method, expressions)
                 : Expression.Call(FirstOperand, Method, expressions);
+        }
+
+        private void SetName(string name)
+        {
+            _name = name;
+            Method = Core.Methods[name];
         }
 
         #endregion
