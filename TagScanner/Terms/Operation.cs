@@ -70,7 +70,7 @@
 
         #region Private Methods
 
-        private static Term Concatenate(params Term[] operands)
+        private static Term Concatenine(params Term[] operands)
         {
             while (true)
             {
@@ -87,7 +87,7 @@
                     case 4:
                         return new Function("String.Concat(String, String, String, String)", operands[0], operands[1], operands[2], operands[3]);
                     default:
-                        operands = new[] { Concatenate(operands.Take(4).ToArray()), Concatenate(operands.Skip(4).ToArray()) };
+                        operands = new[] { Concatenine(operands.Take(4).ToArray()), Concatenine(operands.Skip(4).ToArray()) };
                         continue;
                 }
             }
@@ -103,7 +103,7 @@
         private Expression GetExpression()
         {
             if (Op == Op.Add && ResultType == typeof(string))
-                return Concatenate(Operands.ToArray()).Expression;
+                return Concatenine(Operands.ToArray()).Expression;
             if (Op.Associates())
                 return MakeAssociation(Operands);
             if (Op.CanChain())

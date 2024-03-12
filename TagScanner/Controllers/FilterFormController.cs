@@ -88,7 +88,8 @@
             var term3 = new Operation("<", 1999, Tag.Year, 2001);
             var term4 = new Operation(Tag.Title, "<=", "Money Money Money");
             var term5 = one + two + three + four + five;
-            var term = (term1 | term2) & (term3 | term4) & term5;
+            var term6 = new Constant("123") + new Constant("456") + new Constant("789") + new Constant("abc") + new Constant("def");
+            var term = (term1 | term2) & (term3 | term4) & term5 & term6;
             _termTreeViewController.AddRoot(term);
         }
 
