@@ -38,7 +38,7 @@
         private string GetNodeText(Term term)
         {
             if (term is Operation operation)
-                switch (operation.Operator)
+                switch (operation.Op)
                 {
                     case Op.And: return "All of the following are true:";
                     case Op.Or: return "One or more of the following are true:";

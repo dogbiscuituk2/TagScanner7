@@ -40,7 +40,6 @@
 
         protected Expression FirstOperand => Operands?.First()?.Expression;
         protected Expression SecondOperand => Operands?.Skip(1)?.First()?.Expression;
-        protected Expression ThirdOperand => Operands?.Skip(2)?.First()?.Expression;
 
         #endregion
 
@@ -52,19 +51,6 @@
                 if (Operands.Count <= index)
                     Operands.Add(new Parameter(types[index]));
             return true;
-        }
-
-        protected void CheckOperands()
-        {
-            var arity = Arity;
-            if (arity == int.MaxValue)
-                return;
-            var count = Operands.Count;
-            if (count > arity)
-                throw new ArgumentException($"Too many parameters - expected: {arity}, actual: {count}.");
-            var types = ParameterTypes.ToArray();
-            for (int index = count - 1; index < arity; index++)
-                Operands.Add(new Parameter(types[index]));
         }
 
         protected abstract IEnumerable<Type> GetParameterTypes();

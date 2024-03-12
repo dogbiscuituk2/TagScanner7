@@ -20,12 +20,6 @@
         public static bool MinimiseParentheses;
         public static string ParamName;
 
-        public static IEnumerable<KeyValuePair<string, MethodInfo>>
-            StringMethods = Methods.Where(p => !p.Value.IsStatic).OrderBy(p => p.Key),
-            StringStatics = Methods.Where(p => p.Value.Prefix() == "String").OrderBy(p => p.Key),
-            RegexStatics = Methods.Where(p => p.Value.Prefix() == "Regex").OrderBy(p => p.Key),
-            MathStatics = Methods.Where(p => p.Value.Prefix() == "Math").OrderBy(p => p.Key);
-
         #endregion
 
         #region Public Properties
@@ -76,29 +70,9 @@
 
         public static bool Associates(this Op op) => op.Arity() == int.MaxValue;
         public static bool CanChain(this Op op) => op == Op.EqualTo || op.GetRank() == Rank.Relational;
-
         public static ExpressionType ExpType(this Op op) => Operators[op].ExpType;
-
         public static string Format(this Op op) => Operators[op].Format;
         public static Rank GetRank(this Op op) => Operators[op].Rank;
-
-        /// <summary>
-        /// A string containing either the unadorned MethodInfo name, in the case of a nonstatic member,
-        /// or else the MethodInfo name qualified with its declaring type name, in the case of a nonstatic member.
-        /// </summary>
-        /// <param name="method">The given MethodInfo.</param>
-        /// <returns>The MethodInfo name, qualified or not as appropriate.</returns>
-        public static string Label(this MethodInfo method) => method.IsStatic ? $"{method.Prefix()}.{method.Name}" : method.Name;
-
-        /// <summary>
-        /// A string containing the declaring type of the given MethodInfo, in the case of a nonstatic member,
-        /// or else the empty string, in the case of a nonstatic member,
-        /// </summary>
-        /// <param name="method">The given MethodInfo.</param>
-        /// <returns>The declaring type of the given MethodInfo, in the case of a nonstatic member,
-        /// otherwise the empty string.</returns>
-        public static string Prefix(this MethodInfo method) => method.IsStatic ? method.DeclaringType.Name : string.Empty;
-
         public static Type ResultType(this Op op) => Operators[op].ResultType;
 
         public static string Say(this Type type)
@@ -120,8 +94,6 @@
             }
         }
 
-        public static string Signature(this MethodInfo method) => $"{method.Label()}({method.GetParams()})";
-
         #endregion
 
         #region Private Fields
@@ -132,23 +104,6 @@
         #endregion
 
         #region Private Methods
-
-        private static List<MethodInfo> GetMethodInfos()
-        {
-            const BindingFlags
-                instances = BindingFlags.Instance | BindingFlags.Public,
-                statics = BindingFlags.Static | BindingFlags.Public;
-            var methods = new List<MethodInfo>();
-            methods.AddRange(GetMethods(typeof(string), instances));
-            methods.AddRange(GetMethods(typeof(string), statics));
-            methods.AddRange(GetMethods(typeof(Regex), statics));
-            methods.AddRange(GetMethods(typeof(Math), statics));
-            foreach (var method in methods)
-                System.Diagnostics.Debug.WriteLine(method.Signature());
-            return methods;
-        }
-
-        private static IEnumerable<MethodInfo> GetMethods(Type type, BindingFlags flags) => type.GetMethods(flags).OrderBy(p => p.Signature());
 
         private static Dictionary<string, MethodInfo> GetMethods()
         {
@@ -188,8 +143,6 @@
             .GetMethods(BindingFlags.Public | (isStatic ? BindingFlags.Static : BindingFlags.Instance))
             .Where(p => p.Name == name && p.GetParamTypes().SequenceEqual(paramTypes))
             .Single();
-
-        private static MethodInfo GetMethod(string signature) => null;
 
         private static Dictionary<Op, OpInfo> GetOperators()
         {
