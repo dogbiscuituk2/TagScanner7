@@ -200,7 +200,7 @@
         [Category(Format)]
         [Column(50)]
         [DefaultValue(0)]
-        [Description("An integer containing the bitrate of the audio represented by the selected item(s). This value is equal to the first non-zero audio bitrate.")]
+        [Description("An integer containing the bit rate of the audio represented by the selected item(s). This value is equal to the first non-zero audio bit rate.")]
         [DisplayName("Audio Bit Rate")]
         [FrequentlyUsed]
         [ReadOnly(true)]
@@ -1857,7 +1857,7 @@
         [Category(Category)]
         [Column(50)]
         [DefaultValue(0)]
-        [Description("An unsigned intreger containing the year that the media represented by the selected item(s) was created, or zero if no value is present.")]
+        [Description("An unsigned integer containing the year that the media represented by the selected item(s) was created, or zero if no value is present.")]
         [DisplayName("Year")]
         [FrequentlyUsed]
         public int Year
@@ -2143,7 +2143,7 @@
                 {
                     try
                     {
-                        values.AddRange(Works?.SelectMany(getStringArray)?.Distinct());
+                        values.AddRange(Works?.SelectMany(getStringArray)?.Distinct() ?? Array.Empty<string>());
                     }
                     catch (NullReferenceException)
                     {

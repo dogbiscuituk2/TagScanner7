@@ -4,46 +4,45 @@
     using System.ComponentModel;
     using System.IO;
     using System.Windows.Forms;
-    using TagScanner.Models;
+    using Models;
+    using Properties;
 
     public abstract class MruSdiController : MruController
     {
         protected MruSdiController(Model model, string filter, string subKeyName, ToolStripMenuItem recentMenuItem)
             : base(model, subKeyName, recentMenuItem)
         {
-            OpenFileDialog = new OpenFileDialog { Filter = filter, Title = "Select the file to open" };
-            SaveFileDialog = new SaveFileDialog { Filter = filter, Title = "Save file" };
+            _openFileDialog = new OpenFileDialog { Filter = filter, Title = Resources.Select_the_file_to_open };
+            _saveFileDialog = new SaveFileDialog { Filter = filter, Title = Resources.Save_file };
         }
 
         public bool Clear()
         {
-            var result = SaveIfModified();
-            if (result)
-            {
-                ClearDocument();
-                Model.Modified = false;
-                FilePath = string.Empty;
-            }
-            return result;
+            if (!SaveIfModified())
+                return false;
+            ClearDocument();
+            Model.Modified = false;
+            FilePath = string.Empty;
+            return true;
         }
 
-        public bool Open() => SaveIfModified() && OpenFileDialog.ShowDialog() == DialogResult.OK && LoadFromFile(OpenFileDialog.FileName);
+        public bool Open() => SaveIfModified() && _openFileDialog.ShowDialog() == DialogResult.OK && LoadFromFile(_openFileDialog.FileName);
         public bool Save() => string.IsNullOrEmpty(FilePath) ? SaveAs() : SaveToFile(FilePath);
-        public bool SaveAs() => SaveFileDialog.ShowDialog() == DialogResult.OK && SaveToFile(SaveFileDialog.FileName);
+        public bool SaveAs() => _saveFileDialog.ShowDialog() == DialogResult.OK && SaveToFile(_saveFileDialog.FileName);
 
         public bool SaveIfModified()
         {
-            if (Model.Modified)
-                switch (MessageBox.Show(
-                    "The contents of this file have changed. Do you want to save the changes?",
-                    "File modified",
-                    MessageBoxButtons.YesNoCancel,
-                    MessageBoxIcon.Warning))
-                {
-                    case DialogResult.Yes: return Save();
-                    case DialogResult.No: return true;
-                    case DialogResult.Cancel: return false;
-                }
+            if (!Model.Modified) return true;
+            switch (MessageBox.Show(
+                        "The contents of this file have changed. Do you want to save the changes?",
+                        "File modified",
+                        MessageBoxButtons.YesNoCancel,
+                        MessageBoxIcon.Warning))
+            {
+                case DialogResult.Yes: return Save();
+                case DialogResult.No: return true;
+                case DialogResult.Cancel: return false;
+            }
             return true;
         }
 
@@ -58,11 +57,9 @@
             get => _filePath;
             set
             {
-                if (FilePath != value)
-                {
-                    _filePath = value;
-                    OnFilePathChanged();
-                }
+                if (FilePath == value) return;
+                _filePath = value;
+                OnFilePathChanged();
             }
         }
 
@@ -73,34 +70,25 @@
         protected virtual void OnFilePathChanged()
         {
             var filePathChanged = FilePathChanged;
-            if (filePathChanged != null)
-                filePathChanged(this, EventArgs.Empty);
+            filePathChanged?.Invoke(this, EventArgs.Empty);
         }
 
         protected virtual bool OnFileLoading()
         {
-            var result = true;
             var fileLoading = FileLoading;
-            if (fileLoading != null)
-            {
-                var e = new CancelEventArgs();
-                fileLoading(this, e);
-                result = !e.Cancel;
-            }
-            return result;
+            if (fileLoading == null) return true;
+            var e = new CancelEventArgs();
+            fileLoading(this, e);
+            return !e.Cancel;
         }
 
         protected virtual bool OnFileSaving()
         {
-            var result = true;
             var fileSaving = FileSaving;
-            if (fileSaving != null)
-            {
-                var e = new CancelEventArgs();
-                fileSaving(this, e);
-                result = !e.Cancel;
-            }
-            return result;
+            if (fileSaving == null) return true;
+            var e = new CancelEventArgs();
+            fileSaving(this, e);
+            return !e.Cancel;
         }
 
         protected override void Reopen(ToolStripItem menuItem)
@@ -140,40 +128,34 @@
             return result;
         }
 
-        private readonly OpenFileDialog OpenFileDialog;
-        private readonly SaveFileDialog SaveFileDialog;
+        private readonly OpenFileDialog _openFileDialog;
+        private readonly SaveFileDialog _saveFileDialog;
 
         private bool LoadFromFile(string filePath)
         {
-            var result = false;
-            if (OnFileLoading())
-            {
-                using (var stream = new FileStream(filePath, FileMode.Open, FileAccess.Read))
-                    result = LoadFromStream(stream, Path.GetExtension(filePath));
-                if (result)
-                {
-                    FilePath = filePath;
-                    AddItem(filePath);
-                }
-            }
-            return result;
+            if (!OnFileLoading()) return false;
+            using (var stream = new FileStream(filePath, FileMode.Open, FileAccess.Read))
+                if (!LoadFromStream(stream, Path.GetExtension(filePath)))
+                    return false;
+            FilePath = filePath;
+            AddItem(filePath);
+            return true;
         }
 
         private bool SaveToFile(string filePath)
         {
-            var result = false;
-            if (OnFileSaving())
-                using (var stream = new FileStream(filePath, FileMode.Create, FileAccess.Write))
+            if (!OnFileSaving()) return false;
+            using (var stream = new FileStream(filePath, FileMode.Create, FileAccess.Write))
+            {
+                if (SaveToStream(stream, Path.GetExtension(filePath)))
                 {
-                    result = SaveToStream(stream, Path.GetExtension(filePath));
-                    if (result)
-                    {
-                        stream.Flush();
-                        FilePath = filePath;
-                        AddItem(filePath);
-                    }
+                    stream.Flush();
+                    FilePath = filePath;
+                    AddItem(filePath);
+                    return true;
                 }
-            return result;
+            }
+            return false;
         }
     }
 }

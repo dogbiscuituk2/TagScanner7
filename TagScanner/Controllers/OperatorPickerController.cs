@@ -1,8 +1,6 @@
 ﻿namespace TagScanner.Controllers
 {
-    using System.Linq;
     using System.Windows.Forms;
-    using TagScanner.Terms;
 
     public class OperatorPickerController
     {

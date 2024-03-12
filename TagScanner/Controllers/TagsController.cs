@@ -3,8 +3,8 @@
     using System.Collections.Generic;
     using System.Linq;
     using System.Windows.Forms;
-    using TagScanner.Models;
-    using TagScanner.Views;
+    using Models;
+    using Views;
     
     public class TagsController : Controller
     {
@@ -12,8 +12,8 @@
 
         public TagsController(Controller parent) : base(parent)
         {
-            TagsListViewController = new TagsListViewController(this);
-            TagsTreeViewController = new TagsTreeViewController(this);
+            _tagsListViewController = new TagsListViewController(this);
+            _tagsTreeViewController = new TagsTreeViewController(this);
         }
 
         public GroupTagsBy GroupTagsBy;
@@ -40,8 +40,8 @@
 
         #region Private Fields
 
-        private readonly TagsListViewController TagsListViewController;
-        private readonly TagsTreeViewController TagsTreeViewController;
+        private readonly TagsListViewController _tagsListViewController;
+        private readonly TagsTreeViewController _tagsTreeViewController;
         private static TagVisibilityDialog _dialog;
         private List<string> _visibleTagNames;
 
@@ -58,12 +58,12 @@
         private TagVisibilityDialog CreateDialog()
         {
             _dialog = new TagVisibilityDialog();
-            TagsListViewController.InitListView();
+            _tagsListViewController.InitListView();
             Dialog.ListAlphabetically.Click += (sender, e) => UseListView(View.Details, GroupTagsBy.None);
             Dialog.ListByCategory.Click += (sender, e) => UseListView(View.Details, GroupTagsBy.Category);
             Dialog.ListByDataType.Click += (sender, e) => UseListView(View.Details, GroupTagsBy.DataType);
             Dialog.ListNamesOnly.Click += (sender, e) => UseListView(View.List, GroupTagsBy.None);
-            TagsTreeViewController.InitTreeView();
+            _tagsTreeViewController.InitTreeView();
             Dialog.TreeByCategory.Click += (sender, e) => UseTreeView(GroupTagsBy.Category);
             Dialog.TreeByDataType.Click += (sender, e) => UseTreeView(GroupTagsBy.DataType);
             Dialog.TreeNamesOnly.Click += (sender, e) => UseTreeView(GroupTagsBy.None);
@@ -74,16 +74,16 @@
         private void UseListView(View view, GroupTagsBy groupTagsBy)
         {
             GroupTagsBy = groupTagsBy;
-            TagsTreeViewController.HideView();
-            TagsListViewController.ShowView();
-            TagsListViewController.ListView.View = view;
+            _tagsTreeViewController.HideView();
+            _tagsListViewController.ShowView();
+            _tagsListViewController.ListView.View = view;
         }
 
         private void UseTreeView(GroupTagsBy groupTagsBy)
         {
             GroupTagsBy = groupTagsBy;
-            TagsListViewController.HideView();
-            TagsTreeViewController.ShowView();
+            _tagsListViewController.HideView();
+            _tagsTreeViewController.ShowView();
         }
 
         #endregion

@@ -591,16 +591,10 @@
         public TagLib.TagTypes TagTypes { get; set; }
         public TagLib.TagTypes TagTypesOnDisk { get; set; }
 
-        private string
-            _replayGainAlbumGain,
-            _replayGainAlbumPeak,
-            _replayGainTrackGain,
-            _replayGainTrackPeak;
-
-        public string AlbumGain => _replayGainAlbumGain;
-        public string AlbumPeak => _replayGainAlbumPeak;
-        public string TrackGain => _replayGainTrackGain;
-        public string TrackPeak => _replayGainTrackPeak;
+        public string AlbumGain { get; private set; }
+        public string AlbumPeak { get; private set; }
+        public string TrackGain { get; private set; }
+        public string TrackPeak { get; private set; }
 
         private string _title;
         public string Title
@@ -909,10 +903,10 @@
         {
             switch (name)
             {
-                case "replaygain_album_gain": _replayGainAlbumGain = value; break;
-                case "replaygain_album_peak": _replayGainAlbumPeak = value; break;
-                case "replaygain_track_gain": _replayGainTrackGain = value; break;
-                case "replaygain_track_peak": _replayGainTrackPeak = value; break;
+                case "replaygain_album_gain": AlbumGain = value; break;
+                case "replaygain_album_peak": AlbumPeak = value; break;
+                case "replaygain_track_gain": TrackGain = value; break;
+                case "replaygain_track_peak": TrackPeak = value; break;
             }
         }
 
@@ -988,7 +982,7 @@
         }
 
         private static bool SequenceEqual(IEnumerable<string> x, IEnumerable<string> y) =>
-            x != null ? y != null && Enumerable.SequenceEqual(x, y) : y == null;
+            x != null ? y != null && x.SequenceEqual(y) : y == null;
 
         #endregion
     }

@@ -25,14 +25,8 @@
         #region Public Properties
 
         public abstract int Arity { get; }
-        public List<Term> Operands => _operands;
+        public List<Term> Operands { get; } = new List<Term>();
         public IEnumerable<Type> ParameterTypes => GetParameterTypes();
-
-        #endregion
-
-        #region Protected Fields
-
-        protected readonly List<Term> _operands = new List<Term>();
 
         #endregion
 

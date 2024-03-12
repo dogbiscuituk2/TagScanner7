@@ -3,23 +3,23 @@
     using System.Collections.Generic;
     using System.Reflection;
     using System.Windows.Forms;
-    using TagScanner.Models;
-    using TagScanner.Terms;
+    using Models;
+    using Terms;
 
     public class TermTreeViewController : Controller
     {
         public TermTreeViewController(Controller parent, TreeView treeView) : base(parent)
         {
-            TreeView = treeView;
-            TreeView.AfterCollapse += TreeView_AfterCollapse;
-            TreeView.AfterExpand += TreeView_AfterExpand;
+            _treeView = treeView;
+            _treeView.AfterCollapse += TreeView_AfterCollapse;
+            _treeView.AfterExpand += TreeView_AfterExpand;
         }
 
         public bool HasSelection => SelectedNode != null;
-        public TreeNode SelectedNode => TreeView.SelectedNode;
+        public TreeNode SelectedNode => _treeView.SelectedNode;
 
         public int AddChild(TreeNode parent, Term term) => AddNode(parent.Nodes, term);
-        public int AddRoot(Term term) => AddNode(TreeView.Nodes, term);
+        public int AddRoot(Term term) => AddNode(_treeView.Nodes, term);
         public void Add(Term term) { if (HasSelection) AddChild(SelectedNode, term); else AddRoot(term); }
 
         public void Load(IEnumerable<Term> terms)
@@ -28,14 +28,14 @@
                 AddRoot(term);
         }
 
-        private TreeView TreeView;
+        private readonly TreeView _treeView;
 
         private void TreeView_AfterCollapse(object sender, TreeViewEventArgs e) => e.Node.Text = (e.Node.Tag as Term).ToString();
         private void TreeView_AfterExpand(object sender, TreeViewEventArgs e) => e.Node.Text = GetNodeText(e.Node.Tag as Term);
 
         private int AddNode(TreeNodeCollection nodes, Term term) => nodes.Add(NewNode(term));
 
-        private string GetNodeText(Term term)
+        private static string GetNodeText(Term term)
         {
             if (term is Operation operation)
                 switch (operation.Op)

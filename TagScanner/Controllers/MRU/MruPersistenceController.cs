@@ -5,7 +5,7 @@
     using System.Windows.Forms;
     using System.Xml;
     using System.Xml.Serialization;
-    using TagScanner.Models;
+    using Models;
 
     public class MruPersistenceController : MruSdiController
     {

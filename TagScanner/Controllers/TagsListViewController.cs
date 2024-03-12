@@ -1,22 +1,24 @@
-﻿namespace TagScanner.Controllers
+﻿using System;
+
+namespace TagScanner.Controllers
 {
     using System.Collections;
     using System.Collections.Generic;
     using System.Drawing;
     using System.Linq;
     using System.Windows.Forms;
-    using TagScanner.Models;
+    using Models;
 
     public class TagsListViewController : TagsViewController, IComparer
     {
         #region Public Interface
 
-        public TagsListViewController(TagsController parent) : base(parent) { }
+        public TagsListViewController(Controller parent) : base(parent) { }
 
         public override Control Control => ListView;
         public ListView ListView => Dialog.ListView;
 
-        public int Compare(object x, object y) => string.Compare(GetValue(x), GetValue(y)) * (_sortDescending ? -1 : +1);
+        public int Compare(object x, object y) => string.CompareOrdinal(GetValue(x), GetValue(y)) * (_sortDescending ? -1 : +1);
 
         public void InitListView()
         {
@@ -50,7 +52,7 @@
         private ListView.ListViewItemCollection Items => ListView.Items;
 
         private IEnumerable<string> GetGroupHeaders() =>
-            Items.Cast<ListViewItem>().Select(item => (TagProps)item.Tag).Select(p => GetGroupHeader(p)).Distinct().OrderBy(p => p);
+            Items.Cast<ListViewItem>().Select(item => (TagProps)item.Tag).Select(GetGroupHeader).Distinct().OrderBy(p => p);
 
         private string GetValue(object o) => _sortColumn == 0 ? ((ListViewItem)o).Text : ((ListViewItem)o).SubItems[_sortColumn].Text;
 
@@ -86,7 +88,7 @@
             Dialog.ListNamesOnly.Checked = list && GroupTagsBy == GroupTagsBy.None && ListView.View == View.List;
         }
 
-        private ListViewGroup NewGroup(string header) => new ListViewGroup(header) { HeaderAlignment = HorizontalAlignment.Right };
+        private static ListViewGroup NewGroup(string header) => new ListViewGroup(header) { HeaderAlignment = HorizontalAlignment.Right };
 
         protected override void SetVisibleTags(IEnumerable<string> visibleTagNames)
         {

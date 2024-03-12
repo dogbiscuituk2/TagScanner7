@@ -2,7 +2,7 @@
 {
     using System;
     using System.Linq.Expressions;
-    using TagScanner.Models;
+    using Models;
 
     public abstract class Term
     {

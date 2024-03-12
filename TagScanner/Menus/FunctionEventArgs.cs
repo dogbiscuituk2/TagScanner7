@@ -6,7 +6,10 @@
 
     public class FunctionEventArgs : EventArgs
     {
-        public FunctionEventArgs(KeyValuePair<string, MethodInfo> method) : base() { Method = method; }
+        public FunctionEventArgs(KeyValuePair<string, MethodInfo> method)
+        {
+            Method = method;
+        }
 
         public KeyValuePair<string, MethodInfo> Method { get; set; }
     }

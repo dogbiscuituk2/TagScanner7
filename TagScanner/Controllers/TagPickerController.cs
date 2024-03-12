@@ -2,23 +2,23 @@
 {
     using System.Linq;
     using System.Windows.Forms;
-    using TagScanner.Models;
+    using Models;
 
     public class TagPickerController
     {
         public TagPickerController(ComboBox comboBox)
         {
-            ComboBox = comboBox;
+            _comboBox = comboBox;
             Init();
         }
 
-        private readonly ComboBox ComboBox;
+        private readonly ComboBox _comboBox;
 
         private void Init()
         {
-            ComboBox.DropDownStyle = ComboBoxStyle.DropDownList;
-            ComboBox.Items.Clear();
-            ComboBox.Items.AddRange(Tags.AllTags.OrderBy(p => p.DisplayName).ToArray());
+            _comboBox.DropDownStyle = ComboBoxStyle.DropDownList;
+            _comboBox.Items.Clear();
+            _comboBox.Items.AddRange(Tags.AllTags.OrderBy(p => p.DisplayName).ToArray());
         }
     }
 }

@@ -6,9 +6,9 @@
     using System;
     using Microsoft.CodeAnalysis.CSharp.Scripting;
     using Microsoft.CodeAnalysis.Scripting;
-    using TagScanner.Logging;
-    using TagScanner.Models;
-    using TagScanner.Views;
+    using Logging;
+    using Models;
+    using Views;
     using System.Reflection;
 
     public class MruFilterController : MruController

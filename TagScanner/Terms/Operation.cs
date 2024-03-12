@@ -1,6 +1,5 @@
 ﻿namespace TagScanner.Terms
 {
-    using Microsoft.CodeAnalysis;
     using System;
     using System.Collections.Generic;
     using System.Linq;
@@ -25,7 +24,7 @@
 
         public override int Arity => Op.Arity();
         public override Expression Expression => GetExpression();
-        public Op Op => _op;
+        public Op Op { get; private set; }
         public override Rank Rank => Op.GetRank();
         public override Type ResultType => Op.ResultType() ?? GetCommonResultType(Operands.ToArray());
 
@@ -69,35 +68,36 @@
 
         #endregion
 
-        #region Private Fields
-
-        private Op _op;
-
-        #endregion
-
         #region Private Methods
 
-        private Term Concatenate(params Term[] operands)
+        private static Term Concatenate(params Term[] operands)
         {
-            switch (operands.Count())
+            while (true)
             {
-                case 0: return null;
-                case 1: return operands[0];
-                case 2: return new Function("String.Concat(String, String)", operands[0], operands[1]);
-                case 3: return new Function("String.Concat(String, String, String)", operands[0], operands[1], operands[2]);
-                case 4: return new Function("String.Concat(String, String, String, String)", operands[0], operands[1], operands[2], operands[3]);
-                default: return Concatenate(new[] { Concatenate(operands.Take(4).ToArray()), Concatenate(operands.Skip(4).ToArray()) });
+                switch (operands.Count())
+                {
+                    case 0:
+                        return null;
+                    case 1:
+                        return operands[0];
+                    case 2:
+                        return new Function("String.Concat(String, String)", operands[0], operands[1]);
+                    case 3:
+                        return new Function("String.Concat(String, String, String)", operands[0], operands[1], operands[2]);
+                    case 4:
+                        return new Function("String.Concat(String, String, String, String)", operands[0], operands[1], operands[2], operands[3]);
+                    default:
+                        operands = new[] { Concatenate(operands.Take(4).ToArray()), Concatenate(operands.Skip(4).ToArray()) };
+                        continue;
+                }
             }
         }
 
         private Type GetCommonResultType(params Term[] operands)
         {
-            if (Op == Op.Conditional)
-                return GetCommonType(Operands[1]?.ResultType, Operands[2]?.ResultType);
-            Type resultType = null;
-            for (var index = 0; index < operands.Length; index++)
-                resultType = GetCommonType(resultType, operands[index]?.ResultType);
-            return resultType;
+            return Op == Op.Conditional
+                ? GetCommonType(Operands[1]?.ResultType, Operands[2]?.ResultType)
+                : operands.Aggregate<Term, Type>(null, (current, t) => GetCommonType(current, t?.ResultType));
         }
 
         private Expression GetExpression()
@@ -138,7 +138,7 @@
 
         private bool SetOperator(Op op)
         {
-            _op = op;
+            Op = op;
             switch (Op)
             {
                 case Op.Conditional:

@@ -61,6 +61,15 @@ namespace TagScanner.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Add Recent Folder.
+        /// </summary>
+        internal static string Add_Recent_Folder {
+            get {
+                return ResourceManager.GetString("Add_Recent_Folder", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
         internal static System.Drawing.Bitmap arrow_Down_16xLG {
@@ -130,6 +139,15 @@ namespace TagScanner.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Folder &quot;{0}&quot; no longer exists. Remove from menu?.
+        /// </summary>
+        internal static string Folder___0___no_longer_exists__Remove_from_menu_ {
+            get {
+                return ResourceManager.GetString("Folder___0___no_longer_exists__Remove_from_menu_", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
         internal static System.Drawing.Bitmap folder_Open_16xLG {
@@ -156,6 +174,42 @@ namespace TagScanner.Properties {
             get {
                 object obj = ResourceManager.GetObject("refresh_16xLG", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Save file.
+        /// </summary>
+        internal static string Save_file {
+            get {
+                return ResourceManager.GetString("Save_file", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Select the file to open.
+        /// </summary>
+        internal static string Select_the_file_to_open {
+            get {
+                return ResourceManager.GetString("Select_the_file_to_open", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Select the media file(s) to add.
+        /// </summary>
+        internal static string Select_the_media_file_s__to_add {
+            get {
+                return ResourceManager.GetString("Select_the_media_file_s__to_add", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Select the media folder to add.
+        /// </summary>
+        internal static string Select_the_media_folder_to_add {
+            get {
+                return ResourceManager.GetString("Select_the_media_folder_to_add", resourceCulture);
             }
         }
         

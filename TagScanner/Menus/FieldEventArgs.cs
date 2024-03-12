@@ -1,11 +1,14 @@
 ﻿namespace TagScanner.Menus
 {
     using System;
-    using TagScanner.Models;
+    using Models;
 
     public class FieldEventArgs : EventArgs
     {
-        public FieldEventArgs(TagProps tagProps) : base() { TagProps = tagProps; }
+        public FieldEventArgs(TagProps tagProps)
+        {
+            TagProps = tagProps;
+        }
 
         public TagProps TagProps { get; set; }
     }

@@ -8,7 +8,7 @@
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            switch (value.ToString())
+            switch (value?.ToString())
             {
                 case "Yes": return true;
                 case "No": return false;

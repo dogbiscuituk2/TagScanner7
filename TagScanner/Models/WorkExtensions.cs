@@ -31,7 +31,7 @@
         public static string AsString(this long bytes, bool binary)
         {
             const string units = "KMGTPE";
-            for (int scale = units.Length; scale > 0; scale--)
+            for (var scale = units.Length; scale > 0; scale--)
             {
                 var chunk = binary ? 1L << 10 * scale : (long)Math.Pow(1000, scale);
                 if (bytes >= chunk)

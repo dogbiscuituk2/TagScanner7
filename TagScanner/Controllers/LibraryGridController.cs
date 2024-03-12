@@ -8,9 +8,9 @@
     using System.Windows.Controls;
     using System.Windows.Data;
     using System.Windows.Forms.Integration;
-    using TagScanner.Models;
-    using TagScanner.ValueConverters;
-    using TagScanner.Views;
+    using Models;
+    using ValueConverters;
+    using Views;
 
     public class LibraryGridController : GridController
     {
@@ -57,7 +57,7 @@
             }
         }
 
-        public override DataGrid DataGrid { get { return ((GridElement)View.Child).DataGrid; } }
+        public override DataGrid DataGrid => ((GridElement)View.Child).DataGrid;
 
         private ListCollectionView ListCollectionView
         {
@@ -91,13 +91,13 @@
         protected override IValueConverter GetConverter(TagProps tagProps)
         {
             var result = base.GetConverter(tagProps);
-            if (result == null)
-                switch (tagProps.Name)
-                {
-                    case Tags.FileSize:
-                        return new FileSizeConverter();
-                }
-            return result;
+            if (result != null) return result;
+            switch (tagProps.Name)
+            {
+                case Tags.FileSize:
+                    return new FileSizeConverter();
+            }
+            return null;
         }
 
         protected override IEnumerable<TagProps> GetTagProps() => Tags.AllTags;
@@ -132,7 +132,7 @@
 
         #region Sorting and Grouping
 
-        private IEnumerable<SortDescription> _sortDescriptions = new SortDescription[0];
+        private IEnumerable<SortDescription> _sortDescriptions = Array.Empty<SortDescription>();
         public IEnumerable<SortDescription> SortDescriptions
         {
             get => _sortDescriptions;
@@ -146,17 +146,15 @@
             }
         }
 
-        private IEnumerable<string> _groupDescriptions = new string[0];
+        private IEnumerable<string> _groupDescriptions = Array.Empty<string>();
         public IEnumerable<string> GroupDescriptions
         {
             get => _groupDescriptions;
             set
             {
-                if (!GroupDescriptions.SequenceEqual(value))
-                {
-                    _groupDescriptions = value;
-                    InitGroups();
-                }
+                if (GroupDescriptions.SequenceEqual(value)) return;
+                _groupDescriptions = value;
+                InitGroups();
             }
         }
 
@@ -167,9 +165,12 @@
             //foreach (var sortDescription in SortDescriptions)
             //	sortDescriptions.Add(sortDescription);
             var groupDescriptions = ListCollectionView.GroupDescriptions;
-            groupDescriptions.Clear();
-            foreach (var groupDescription in GroupDescriptions)
-                groupDescriptions.Add(new PropertyGroupDescription(groupDescription));
+            if (groupDescriptions != null)
+            {
+                groupDescriptions.Clear();
+                foreach (var groupDescription in GroupDescriptions)
+                    groupDescriptions.Add(new PropertyGroupDescription(groupDescription));
+            }
         }
 
         #endregion
@@ -195,11 +196,9 @@
 
         protected virtual void OnSelectionChanged()
         {
-            if (UpdatingSelectionCount == 0)
-            {
-                InvalidateSelection();
-                SelectionChanged?.Invoke(this, EventArgs.Empty);
-            }
+            if (UpdatingSelectionCount != 0) return;
+            InvalidateSelection();
+            SelectionChanged?.Invoke(this, EventArgs.Empty);
         }
 
         public void SelectAll()

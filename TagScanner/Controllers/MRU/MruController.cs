@@ -5,7 +5,7 @@
     using System.IO;
     using System.Linq;
     using System.Windows.Forms;
-    using TagScanner.Models;
+    using Models;
     using Win32 = Microsoft.Win32;
 
     public class MruController
@@ -13,24 +13,24 @@
         protected MruController(Model model, string subKeyName, ToolStripDropDownItem parentItem) :
             this(model, subKeyName, parentItem.DropDownItems)
         {
-            ParentItem = parentItem;
+            _parentItem = parentItem;
             RefreshRecentMenu();
         }
 
         protected MruController(Model model, string subKeyName, ContextMenuStrip parentMenu) :
             this(model, subKeyName, parentMenu.Items)
         {
-            ParentMenu = parentMenu;
+            _parentMenu = parentMenu;
             RefreshRecentMenu();
         }
 
         protected MruController(Model model, string subKeyName, ToolStripItemCollection recentItems)
         {
             if (string.IsNullOrWhiteSpace(subKeyName))
-                throw new ArgumentNullException("subKeyName");
+                throw new ArgumentNullException(nameof(subKeyName));
             Model = model;
-            SubKeyName = $@"Software\{Application.CompanyName}\{Application.ProductName}\{subKeyName}";
-            RecentItems = recentItems;
+            _subKeyName = $@"Software\{Application.CompanyName}\{Application.ProductName}\{subKeyName}";
+            _recentItems = recentItems;
             RefreshRecentMenu();
         }
 
@@ -70,16 +70,16 @@
 
         protected virtual void Reopen(ToolStripItem menuItem) { }
 
-        private readonly ToolStripDropDownItem ParentItem;
-        private readonly ContextMenuStrip ParentMenu;
-        private readonly ToolStripItemCollection RecentItems;
-        private readonly string SubKeyName;
+        private readonly ToolStripDropDownItem _parentItem;
+        private readonly ContextMenuStrip _parentMenu;
+        private readonly ToolStripItemCollection _recentItems;
+        private readonly string _subKeyName;
 
         private Win32.RegistryKey User => Win32.Registry.CurrentUser;
 
         private void DeleteItem(Win32.RegistryKey key, string item)
         {
-            var name = key.GetValueNames().Where(n => key.GetValue(n, null) as string == item).FirstOrDefault();
+            var name = key.GetValueNames().FirstOrDefault(n => key.GetValue(n, null) as string == item);
             if (name != null)
                 key.DeleteValue(name);
         }
@@ -93,23 +93,21 @@
                 Win32.RegistryKey key = OpenSubKey(true);
                 if (key == null)
                     return;
-                foreach (string name in key.GetValueNames())
+                foreach (var name in key.GetValueNames())
                     key.DeleteValue(name, true);
                 key.Close();
-                if (RecentItems != null)
-                {
-                    RecentItems.Clear();
-                    SetEnabled(false);
-                }
+                if (_recentItems == null) return;
+                _recentItems.Clear();
+                SetEnabled(false);
             }
             catch (Exception ex) { Console.WriteLine(ex.ToString()); }
         }
 
         private void RefreshRecentMenu()
         {
-            if (RecentItems == null)
+            if (_recentItems == null)
                 return;
-            RecentItems.Clear();
+            _recentItems.Clear();
             Win32.RegistryKey key = null;
             try { key = OpenSubKey(false); }
             catch (Exception ex) { Console.WriteLine(ex); }
@@ -118,21 +116,21 @@
             {
                 foreach (var name in key.GetValueNames().OrderByDescending(n => n))
                 {
-                    if ((key.GetValue(name, null) is string value))
+                    if (key.GetValue(name, null) is string value)
                         try
                         {
                             var text = CompactMenuText(value.Split('|')[0]);
-                            var item = RecentItems.Add(text, null, OnItemClick);
+                            var item = _recentItems.Add(text, null, OnItemClick);
                             item.Tag = value;
                             item.ToolTipText = value.Replace('|', '\n');
                         }
                         catch (Exception ex) { Console.WriteLine(ex); }
                 }
-                ok = RecentItems.Count > 0;
+                ok = _recentItems.Count > 0;
                 if (ok)
                 {
-                    RecentItems.Add("-");
-                    RecentItems.Add("Clear this list", null, OnRecentClear_Click);
+                    _recentItems.Add("-");
+                    _recentItems.Add("Clear this list", null, OnRecentClear_Click);
                 }
             }
             SetEnabled(ok);
@@ -140,14 +138,14 @@
 
         private void SetEnabled(bool value)
         {
-            if (ParentMenu != null)
-                ParentMenu.Enabled = value;
-            else if (ParentItem != null)
-                ParentItem.Enabled = value;
+            if (_parentMenu != null)
+                _parentMenu.Enabled = value;
+            else if (_parentItem != null)
+                _parentItem.Enabled = value;
         }
 
-        private Win32.RegistryKey CreateSubKey() => User.CreateSubKey(SubKeyName, Win32.RegistryKeyPermissionCheck.ReadWriteSubTree);
-        private Win32.RegistryKey OpenSubKey(bool writable) => User.OpenSubKey(SubKeyName, writable);
+        private Win32.RegistryKey CreateSubKey() => User.CreateSubKey(_subKeyName, Win32.RegistryKeyPermissionCheck.ReadWriteSubTree);
+        private Win32.RegistryKey OpenSubKey(bool writable) => User.OpenSubKey(_subKeyName, writable);
 
         private static string CompactMenuText(string text)
         {

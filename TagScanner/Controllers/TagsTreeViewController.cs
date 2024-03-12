@@ -3,13 +3,13 @@
     using System.Collections.Generic;
     using System.Linq;
     using System.Windows.Forms;
-    using TagScanner.Models;
+    using Models;
 
     public class TagsTreeViewController : TagsViewController
     {
         #region Public Interface
 
-        public TagsTreeViewController(TagsController parent) : base(parent) { }
+        public TagsTreeViewController(Controller parent) : base(parent) { }
 
         public override Control Control => TreeView;
 

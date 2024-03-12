@@ -2,7 +2,7 @@
 {
     using System;
     using System.Linq.Expressions;
-    using TagScanner.Models;
+    using Models;
 
     public class Field : Term
     {
@@ -23,6 +23,6 @@
 
         public override Type ResultType => TagName.TagType();
 
-        public override string ToString() => TagName;
+        public override string ToString() => TagName.DisplayName();
     }
 }

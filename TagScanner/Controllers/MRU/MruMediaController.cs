@@ -4,31 +4,32 @@
     using System.IO;
     using System.Threading.Tasks;
     using System.Windows.Forms;
-    using TagScanner.Models;
+    using Models;
+    using Properties;
 
     public class MruMediaController : MruController
     {
         public MruMediaController(LibraryFormController libraryFormController, ToolStripMenuItem recentMenuItem)
             : base(libraryFormController.Model, "MediaMRU", recentMenuItem)
         {
-            var filter = Properties.Settings.Default.MediaFilter;
-            OpenFileDialog = new OpenFileDialog { Filter = filter, Multiselect = true, Title = "Select the media file(s) to add" };
-            FolderBrowserDialog = new FolderBrowserDialog { Description = "Select the media folder to add" };
-            LibraryFormController = libraryFormController;
+            var filter = Settings.Default.MediaFilter;
+            _openFileDialog = new OpenFileDialog { Filter = filter, Multiselect = true, Title = Resources.Select_the_media_file_s__to_add };
+            _folderBrowserDialog = new FolderBrowserDialog { Description = Resources.Select_the_media_folder_to_add };
+            _libraryFormController = libraryFormController;
         }
 
         public void AddFiles()
         {
-            if (OpenFileDialog.ShowDialog(LibraryFormController.View) == DialogResult.OK)
-                AddFiles(OpenFileDialog.FileNames);
+            if (_openFileDialog.ShowDialog(_libraryFormController.View) == DialogResult.OK)
+                AddFiles(_openFileDialog.FileNames);
         }
 
         public void AddFolder()
         {
-            if (FolderBrowserDialog.ShowDialog(LibraryFormController.View) == DialogResult.OK)
+            if (_folderBrowserDialog.ShowDialog(_libraryFormController.View) == DialogResult.OK)
             {
-                var folderPath = FolderBrowserDialog.SelectedPath;
-                var filter = OpenFileDialog.Filter.Split('|')[2 * OpenFileDialog.FilterIndex - 1];
+                var folderPath = _folderBrowserDialog.SelectedPath;
+                var filter = _openFileDialog.Filter.Split('|')[2 * _openFileDialog.FilterIndex - 1];
                 AddItem(MakeItem(folderPath, filter));
                 AddFolder(folderPath, filter);
             }
@@ -50,13 +51,13 @@
             var folderPath = itemParts[0];
             if (Directory.Exists(folderPath))
                 AddFolder(folderPath, itemParts[1]);
-            else if (MessageBox.Show($"Folder \"{folderPath}\" no longer exists. Remove from menu?", "Add Recent Folder", MessageBoxButtons.YesNo) == DialogResult.Yes)
+            else if (MessageBox.Show(string.Format(Resources.Folder___0___no_longer_exists__Remove_from_menu_, folderPath), Resources.Add_Recent_Folder, MessageBoxButtons.YesNo) == DialogResult.Yes)
                 RemoveItem(item);
         }
 
-        private readonly FolderBrowserDialog FolderBrowserDialog;
-        private readonly OpenFileDialog OpenFileDialog;
-        private readonly LibraryFormController LibraryFormController;
+        private readonly FolderBrowserDialog _folderBrowserDialog;
+        private readonly OpenFileDialog _openFileDialog;
+        private readonly LibraryFormController _libraryFormController;
 
         private void AddFiles(string[] filePaths)
         {
@@ -70,8 +71,8 @@
             Task.Run(() => Model.AddFolder(folderPath, filter, progress));
         }
 
-        private IProgress<ProgressEventArgs> CreateNewProgress() => LibraryFormController.StatusController.CreateNewProgress();
+        private IProgress<ProgressEventArgs> CreateNewProgress() => _libraryFormController.StatusController.CreateNewProgress();
 
-        private string MakeItem(string folderPath, string filter) => string.Concat(folderPath, '|', filter);
+        private static string MakeItem(string folderPath, string filter) => string.Concat(folderPath, '|', filter);
     }
 }

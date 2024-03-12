@@ -5,8 +5,8 @@
     using System.Linq;
     using System.Reflection;
     using System.Windows.Forms;
-    using TagScanner.Models;
-    using TagScanner.Terms;
+    using Models;
+    using Terms;
 
     public static class MenuMakerAdvanced
     {
@@ -28,9 +28,9 @@
                 Filter
                     target = action & Filter.Target,
                     act = action & Filter.Action;
-                var subitems = item.DropDownItems;
-                var ok = act == Filter.None || (subitems.Count > 0
-                    ? subitems.FilterItems(action, types)
+                var subItems = item.DropDownItems;
+                var ok = act == Filter.None || (subItems.Count > 0
+                    ? subItems.FilterItems(action, types)
                     : item.IncludeTerm(target, types));
                 item.Enabled = ok || act != Filter.Disable;
                 item.Visible = ok || act != Filter.Hide;
@@ -106,12 +106,12 @@
             var count = items.Count;
             if (count < 2) return;
             var head = items[count - 1].Text.Head();
-            var subitems = items.OfType<ToolStripMenuItem>().Where(p => p.Text.Head() == head).ToArray();
-            if (subitems.Count() >= 2)
+            var subItems = items.OfType<ToolStripMenuItem>().Where(p => p.Text.Head() == head).ToArray();
+            if (subItems.Count() >= 2)
             {
-                foreach (var item in subitems)
+                foreach (var item in subItems)
                     items.Remove(item);
-                items.Append(head).AddRange(subitems);
+                items.Append(head).AddRange(subItems);
             }
         }
 

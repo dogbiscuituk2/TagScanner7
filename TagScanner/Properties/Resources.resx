@@ -173,4 +173,22 @@ Continue to synchronize and save?</value>
     <value>-- {0:n0} new work(s) will be added to the library file.
 </value>
   </data>
+  <data name="Select_the_media_file_s__to_add" xml:space="preserve">
+    <value>Select the media file(s) to add</value>
+  </data>
+  <data name="Select_the_media_folder_to_add" xml:space="preserve">
+    <value>Select the media folder to add</value>
+  </data>
+  <data name="Folder___0___no_longer_exists__Remove_from_menu_" xml:space="preserve">
+    <value>Folder "{0}" no longer exists. Remove from menu?</value>
+  </data>
+  <data name="Add_Recent_Folder" xml:space="preserve">
+    <value>Add Recent Folder</value>
+  </data>
+  <data name="Select_the_file_to_open" xml:space="preserve">
+    <value>Select the file to open</value>
+  </data>
+  <data name="Save_file" xml:space="preserve">
+    <value>Save file</value>
+  </data>
 </root>

@@ -4,6 +4,5 @@
 
     public class ConstantEventArgs : EventArgs
     {
-        public ConstantEventArgs() : base() { }
     }
 }

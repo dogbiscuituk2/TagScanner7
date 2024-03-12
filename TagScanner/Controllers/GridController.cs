@@ -5,12 +5,12 @@
     using System.Windows;
     using System.Windows.Controls;
     using System.Windows.Data;
-    using TagScanner.Models;
-    using TagScanner.ValueConverters;
+    using Models;
+    using ValueConverters;
 
     public abstract class GridController: Controller
     {
-        public GridController(Controller parent) : base(parent) { }
+        protected GridController(Controller parent) : base(parent) { }
 
         public abstract DataGrid DataGrid { get; }
 

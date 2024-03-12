@@ -7,10 +7,10 @@
     using System.Linq;
     using System.Text;
     using System.Windows.Forms;
-    using TagScanner.Controllers.MRU;
-    using TagScanner.Models;
-    using TagScanner.Properties;
-    using TagScanner.Views;
+    using Models;
+    using MRU;
+    using Properties;
+    using Views;
 
     public class LibraryFormController : Controller
     {
@@ -131,7 +131,7 @@
 
         #region Help
 
-        private void HelpAbout_Click(object sender, EventArgs e)
+        private static void HelpAbout_Click(object sender, EventArgs e)
         {
             MessageBox.Show(
                 $"{Application.CompanyName}\n{Application.ProductName}\nVersion {Application.ProductVersion}",
@@ -196,7 +196,7 @@
             return result;
         }
 
-        private void Say(StringBuilder message, List<Work> works, FileStatus status, string format)
+        private static void Say(StringBuilder message, List<Work> works, FileStatus status, string format)
         {
             var count = works.Count(t => (t.FileStatus & status) != 0);
             if (count > 0)

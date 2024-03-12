@@ -4,14 +4,14 @@
     using System.Collections.Generic;
     using System.IO;
     using System.Linq;
-    using TagScanner.Logging;
+    using Logging;
 
     public class Reader
     {
         public Reader(List<string> existingFilePaths, IProgress<ProgressEventArgs> progress)
         {
             ExistingFilePaths = existingFilePaths;
-            Progress = progress;
+            _progress = progress;
         }
 
         public void AddFolder(string folderPath, IEnumerable<string> searchPatterns)
@@ -22,17 +22,16 @@
             foreach (var searchPattern in searchPatterns)
             {
                 var filePathList = Directory.EnumerateFiles(folderPath, searchPattern, SearchOption.AllDirectories);
-                WorkCount += filePathList.Count();
+                _workCount += filePathList.Count();
                 filePathLists.Add(filePathList);
             }
-            foreach (var filePathList in filePathLists)
-                if (!DoAddWorks(filePathList))
-                    break;
+            foreach (var filePathList in filePathLists.Where(filePathList => !DoAddWorks(filePathList)))
+                break;
         }
 
         public void AddWorks(IEnumerable<string> filePathList)
         {
-            WorkCount += filePathList.Count();
+            _workCount += filePathList.Count();
             DoAddWorks(filePathList);
         }
 
@@ -40,8 +39,8 @@
 
         public readonly List<string> ExistingFilePaths;
         public readonly List<Work> Works = new List<Work>();
-        private int WorkIndex, WorkCount;
-        private readonly IProgress<ProgressEventArgs> Progress;
+        private int _workIndex, _workCount;
+        private readonly IProgress<ProgressEventArgs> _progress;
 
         #endregion
 
@@ -56,15 +55,15 @@
                     work = new Work(filePath);
                     Works.Add(work);
                 }
-                WorkIndex++;
+                _workIndex++;
             }
             catch (Exception ex)
             {
                 Logger.LogException(ex, filePath);
-                WorkCount--;
+                _workCount--;
             }
-            var progressEventArgs = new ProgressEventArgs(WorkIndex, WorkCount, filePath, work);
-            Progress.Report(progressEventArgs);
+            var progressEventArgs = new ProgressEventArgs(_workIndex, _workCount, filePath, work);
+            _progress.Report(progressEventArgs);
             return progressEventArgs.Continue;
         }
 

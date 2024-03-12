@@ -5,8 +5,8 @@
     using System.Linq;
     using System.Reflection;
     using System.Windows.Forms;
-    using TagScanner.Models;
-    using TagScanner.Terms;
+    using Models;
+    using Terms;
 
     public static class MenuMakerBasic
     {
@@ -31,9 +31,9 @@
                 Filter
                     target = action & Filter.Target,
                     act = action & Filter.Action;
-                var subitems = item.DropDownItems;
-                var ok = act == Filter.None || (subitems.Count > 0
-                    ? subitems.FilterItems(action, types)
+                var subItems = item.DropDownItems;
+                var ok = act == Filter.None || (subItems.Count > 0
+                    ? subItems.FilterItems(action, types)
                     : item.IncludeTerm(target, types));
                 item.Enabled = ok || act != Filter.Disable;
                 item.Visible = ok || act != Filter.Hide;
@@ -67,9 +67,9 @@
             var categories = tags.Select(p => p.Category).Distinct();
             foreach (var category in categories)
             {
-                var subitems = ((ToolStripMenuItem)items.Add(category.Escape())).DropDownItems;
+                var subItems = ((ToolStripMenuItem)items.Add(category.Escape())).DropDownItems;
                 foreach (var tag in tags.Where(p => p.Category == category))
-                    subitems.Append(tag.DisplayName.Escape(), tag, click);
+                    subItems.Append(tag.DisplayName.Escape(), tag, click);
             }
         }
 
@@ -82,38 +82,21 @@
 
         private static void Append(this ToolStripItemCollection items, string text, object info, EventHandler click) => items.Add(new ToolStripMenuItem(text, null, click) { Tag = info });
 
-        private static void Buffer(this ToolStripItemCollection items, string text, object info, EventHandler click)
-        {
-            var count = items.Count;
-            if (count > 0 && items[count - 1].Text.Head() != text.Head())
-                items.Flush();
-            items.Append(text, info, click);
-        }
-
-        public static void Flush(this ToolStripItemCollection items)
-        {
-            var count = items.Count;
-            if (count < 2) return;
-            var head = items[count - 1].Text.Head();
-            var subitems = items.OfType<ToolStripMenuItem>().Where(p => p.Text.Head() == head).ToArray();
-            if (subitems.Count() >= 2)
-            {
-                foreach (var item in subitems)
-                    items.Remove(item);
-                items.Append(head).AddRange(subitems);
-            }
-        }
-
-        private static bool IncludeTerm(this ToolStripMenuItem item, Filter target, Type[] types)
+        private static bool IncludeTerm(this ToolStripItem item, Filter target, IEnumerable<Type> types)
         {
             var tag = item.Tag;
             if (tag == null)
                 return true; ;
-            if (tag is TagProps tagProps)
-                return types.Contains(tagProps.Type);
-            if (tag is KeyValuePair<Op, OpInfo> op) return true;
-            if (tag is KeyValuePair<string, MethodInfo> method) return true;
-            return false;
+            switch (tag)
+            {
+                case TagProps tagProps:
+                    return types.Contains(tagProps.Type);
+                case KeyValuePair<Op, OpInfo> _:
+                case KeyValuePair<string, MethodInfo> _:
+                    return true;
+                default:
+                    return false;
+            }
         }
 
         #endregion
@@ -121,8 +104,6 @@
         #region Private Utils
 
         private static string Escape(this string s) => s.Replace("&", "&&");
-        private static string Head(this string s) => s.Split(' ', '.', '/', '(')[0];
-        private static string Tail(this string s) => s.Substring(s.Head().Length + 1);
 
         #endregion
     }

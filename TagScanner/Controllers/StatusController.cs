@@ -3,16 +3,16 @@
     using System;
     using System.IO;
     using System.Windows.Forms;
-    using TagScanner.Models;
+    using Models;
 
     public class StatusController
     {
-        public StatusController(Model model, StatusStrip statusStrip) { Model = model; StatusBar = statusStrip; }
+        public StatusController(Model model, StatusStrip statusStrip) { _model = model; _statusBar = statusStrip; }
 
-        private readonly Model Model;
-        private readonly StatusStrip StatusBar;
+        private readonly Model _model;
+        private readonly StatusStrip _statusBar;
 
-        private ToolStripItemCollection StatusBarItems => StatusBar.Items;
+        private ToolStripItemCollection StatusBarItems => _statusBar.Items;
 
         public IProgress<ProgressEventArgs> CreateNewProgress()
         {
@@ -33,8 +33,8 @@
                     statusLine.Text = Path.GetDirectoryName(e.Path);
                     if (e.Work != null)
                     {
-                        Model.Modified = true;
-                        e.Work.PropertyChanged += Model.Work_PropertyChanged;
+                        _model.Modified = true;
+                        e.Work.PropertyChanged += _model.Work_PropertyChanged;
                     }
                 }
                 else
@@ -48,6 +48,6 @@
             return progress;
         }
 
-        private void CancelButton_ButtonClick(object sender, EventArgs e) => ((ToolStripItem)sender).Enabled = false;
+        private static void CancelButton_ButtonClick(object sender, EventArgs e) => ((ToolStripItem)sender).Enabled = false;
     }
 }

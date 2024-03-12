@@ -3,14 +3,14 @@
     using System.Collections.Generic;
     using System.Linq;
     using System.Windows.Forms;
-    using TagScanner.Models;
-    using TagScanner.Views;
+    using Models;
+    using Views;
 
     public abstract class TagsViewController : Controller
     {
         #region Public Interface
 
-        public TagsViewController(Controller parent) : base(parent) { }
+        protected TagsViewController(Controller parent) : base(parent) { }
 
         public abstract Control Control { get; }
         public TagVisibilityDialog Dialog => (TagVisibilityDialog)Form;

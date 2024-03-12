@@ -6,8 +6,8 @@
     using System.Linq;
     using System.Windows.Forms;
     using NReco.VideoConverter;
-    using TagScanner.Logging;
-    using TagScanner.Models;
+    using Logging;
+    using Models;
 
     public class PictureController
     {
@@ -121,7 +121,7 @@
         /// <returns>The System.Drawing.RotateFlipType value needed to "correct" the image.</returns>
         private static RotateFlipType GetRotateFlipType(TagLib.Image.ImageOrientation orientation) => RotateFlipTypes[(int)orientation];
 
-        private Image GetVideoThumbnail(string filePath, double frameTimeSeconds)
+        private static Image GetVideoThumbnail(string filePath, double frameTimeSeconds)
         {
             var videoConverter = new FFMpegConverter();
             using (var stream = new MemoryStream())
@@ -136,14 +136,11 @@
             // If a Picture is selected in the PropertyGrid,
             // then use that particular Picture.
             var gridItem = PropertyGrid.SelectedGridItem;
-            if (gridItem != null)
+            var picture = gridItem?.Value as Picture;
+            if (picture != null)
             {
-                var picture = gridItem.Value as Picture;
-                if (picture != null)
-                {
-                    SetPicture(picture);
-                    return;
-                }
+                SetPicture(picture);
+                return;
             }
             // If no Picture is selected in the PropertyGrid,
             // then use the first Picture in the selection, if any.
@@ -168,7 +165,7 @@
             InitSizeMode();
         }
 
-        private void SetPicture(Picture picture) => SetImage(picture != null ? picture.GetImage() : null);
+        private void SetPicture(Picture picture) => SetImage(picture?.GetImage());
 
         #endregion
     }

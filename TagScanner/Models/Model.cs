@@ -96,15 +96,13 @@
         protected virtual void OnModifiedChanged()
         {
             var modifiedChanged = ModifiedChanged;
-            if (modifiedChanged != null)
-                modifiedChanged(this, EventArgs.Empty);
+            modifiedChanged?.Invoke(this, EventArgs.Empty);
         }
 
         protected virtual void OnWorksChanged()
         {
             var worksChanged = WorksChanged;
-            if (worksChanged != null)
-                WorksChanged(this, EventArgs.Empty);
+            worksChanged?.Invoke(this, EventArgs.Empty);
         }
 
         private int ReadWorks(Action<Reader> action, IProgress<ProgressEventArgs> progress)

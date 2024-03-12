@@ -141,17 +141,16 @@
 
         private static MethodInfo FindMethodInfo(Type declaringType, bool isStatic, string name, params Type[] paramTypes) => declaringType
             .GetMethods(BindingFlags.Public | (isStatic ? BindingFlags.Static : BindingFlags.Instance))
-            .Where(p => p.Name == name && p.GetParamTypes().SequenceEqual(paramTypes))
-            .Single();
+            .Single(p => p.Name == name && p.GetParamTypes().SequenceEqual(paramTypes));
 
         private static Dictionary<Op, OpInfo> GetOperators()
         {
             _operators = new Dictionary<Op, OpInfo>
             {
                 { Op.Conditional, new OpInfo("if-then-else", ExpressionType.Conditional, Rank.Conditional, typeof(object), "if {0} then {1} else {2}", new[]{ typeof(bool), typeof(object) }) },
-                { Op.And, new OpInfo("and", ExpressionType.AndAlso, Rank.ConditionalAND, typeof(bool), "{0} and {1}") },
-                { Op.Or, new OpInfo("or", ExpressionType.OrElse, Rank.ConditionalOR, typeof(bool),"{0} or {1}") },
-                { Op.Xor, new OpInfo("exclusive or", ExpressionType.ExclusiveOr, Rank.BitwiseXOR, typeof(bool), "{0} xor {1}") },
+                { Op.And, new OpInfo("and", ExpressionType.AndAlso, Rank.ConditionalAnd, typeof(bool), "{0} and {1}") },
+                { Op.Or, new OpInfo("or", ExpressionType.OrElse, Rank.ConditionalOr, typeof(bool),"{0} or {1}") },
+                { Op.Xor, new OpInfo("exclusive or", ExpressionType.ExclusiveOr, Rank.BitwiseXor, typeof(bool), "{0} xor {1}") },
                 { Op.EqualTo, new OpInfo("=", ExpressionType.Equal, Rank.Equality, typeof(bool), "{0} = {1}", typeof(object)) },
                 { Op.NotEqualTo, new OpInfo("≠", ExpressionType.NotEqual, Rank.Equality, typeof(bool), "{0} ≠ {1}", typeof(object)) },
                 { Op.LessThan, new OpInfo("<", ExpressionType.LessThan, Rank.Relational, typeof(bool), "{0} < {1}", typeof(Number)) },

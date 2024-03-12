@@ -8,8 +8,8 @@
     using System.Windows.Forms;
     using AxWMPLib;
     using WMPLib;
-    using TagScanner.Models;
-    using TagScanner.Views;
+    using Models;
+    using Views;
     
     public class PlayerController : GridController
     {
@@ -20,13 +20,12 @@
             View.PlaylistElementHost.Child = new GridElement();
             DataGrid.AutoGenerateColumns = false;
             InitColumns();
-            DataGrid.ItemsSource = new ListCollectionView(CurrentPlaylist);
+            DataGrid.ItemsSource = new ListCollectionView(_currentPlaylist);
             Player.CurrentItemChange += Player_CurrentItemChange;
         }
 
         public System.Windows.Controls.DataGrid PlaylistGrid => DataGrid;
 
-        private LibraryFormController _libraryFormController;
         private LibraryFormController LibraryFormController => (LibraryFormController)Parent;
 
         private LibraryForm View => LibraryFormController.View;
@@ -35,7 +34,7 @@
 
         public override System.Windows.Controls.DataGrid DataGrid => ((GridElement)View.PlaylistElementHost.Child).DataGrid;
 
-        private readonly ObservableCollection<Work> CurrentPlaylist = new ObservableCollection<Work>();
+        private readonly ObservableCollection<Work> _currentPlaylist = new ObservableCollection<Work>();
 
         private void PlaylistAddToQueue_Click(object sender, EventArgs e) => PlaySelection(newPlaylist: false);
 
@@ -44,16 +43,17 @@
         private void PlaySelection(bool newPlaylist)
         {
             var works = LibraryFormController.LibraryGridController.Selection.Works;
-            if (!works.Any())
+            var worksArray = works as Work[] ?? works.ToArray();
+            if (!worksArray.Any())
                 return;
             if (newPlaylist)
             {
-                CurrentPlaylist.Clear();
+                _currentPlaylist.Clear();
                 Player.currentPlaylist = Player.newPlaylist(string.Empty, string.Empty);
             }
-            foreach (var work in works)
+            foreach (var work in worksArray)
             {
-                CurrentPlaylist.Add(work);
+                _currentPlaylist.Add(work);
                 Player.currentPlaylist.appendItem(Player.newMedia(work.FilePath));
             }
             Player.Ctlcontrols.play();
@@ -64,11 +64,11 @@
 
         private void UpdatePlaylist(IWMPMedia currentItem)
         {
-            for (var index = 0; index < CurrentPlaylist.Count; index++)
-                if (CurrentPlaylist[index].FilePath == currentItem.sourceURL)
+            foreach (var work in _currentPlaylist)
+                if (work.FilePath == currentItem.sourceURL)
                 {
                     DataGrid.SelectedItems.Clear();
-                    DataGrid.SelectedItems.Add(CurrentPlaylist[index]);
+                    DataGrid.SelectedItems.Add(work);
                     break;
                 }
         }
