@@ -112,6 +112,7 @@
             switch (Op.Arity())
             {
                 case 1: return Expression.MakeUnary(Op.ExpType(), FirstOperand, null);
+                case 3: return Expression.Condition(FirstOperand, SecondOperand, ThirdOperand);
                 default: return Expression.MakeBinary(Op.ExpType(), FirstOperand, SecondOperand);
             }
         }

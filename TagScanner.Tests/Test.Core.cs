@@ -39,8 +39,13 @@
         {
             foreach (var key in Core.Operators.Keys)
             {
+                var opInfo = Core.Operators[key];
                 var term = new Operation(key);
                 Assert.IsNotNull(term);
+                Assert.AreEqual(expected: key, actual: term.Op);
+                Assert.AreEqual(expected: opInfo.ExpType, actual: term.Expression.NodeType);
+                Assert.AreEqual(expected: opInfo.Rank, actual: term.Rank);
+                Assert.AreEqual(expected: opInfo.ResultType, actual: term.ResultType);
             }
         }
     }

@@ -35,6 +35,7 @@
 
         protected Expression FirstOperand => Operands?.First()?.Expression;
         protected Expression SecondOperand => Operands?.Skip(1)?.First()?.Expression;
+        protected Expression ThirdOperand => Operands?.Skip(2)?.First()?.Expression;
 
         #endregion
 
