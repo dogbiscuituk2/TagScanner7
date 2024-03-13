@@ -8,7 +8,7 @@
     using Models;
     using Terms;
 
-    public static class MenuMakerBasic
+    public static class MenuMaker
     {
         #region Public Methods
 

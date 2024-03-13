@@ -11,9 +11,9 @@
     using Views;
     using System.Reflection;
 
-    public class MruFilterController : MruController
+    public class MruRoslynController : MruController
     {
-        public MruFilterController(LibraryFormController libraryFormController) :
+        public MruRoslynController(LibraryFormController libraryFormController) :
             base(libraryFormController.Model, "Filters", libraryFormController.View.FilterPopupMenu)
         {
             LibraryFormController = libraryFormController;

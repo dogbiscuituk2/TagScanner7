@@ -49,17 +49,17 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Microsoft.CodeAnalysis, Version=4.8.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.CodeAnalysis.Common.4.8.0\lib\netstandard2.0\Microsoft.CodeAnalysis.dll</HintPath>
+    <Reference Include="Microsoft.CodeAnalysis, Version=4.9.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.CodeAnalysis.Common.4.9.2\lib\netstandard2.0\Microsoft.CodeAnalysis.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.CodeAnalysis.CSharp, Version=4.8.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.CodeAnalysis.CSharp.4.8.0\lib\netstandard2.0\Microsoft.CodeAnalysis.CSharp.dll</HintPath>
+    <Reference Include="Microsoft.CodeAnalysis.CSharp, Version=4.9.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.CodeAnalysis.CSharp.4.9.2\lib\netstandard2.0\Microsoft.CodeAnalysis.CSharp.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.CodeAnalysis.CSharp.Scripting, Version=4.8.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.CodeAnalysis.CSharp.Scripting.4.8.0\lib\netstandard2.0\Microsoft.CodeAnalysis.CSharp.Scripting.dll</HintPath>
+    <Reference Include="Microsoft.CodeAnalysis.CSharp.Scripting, Version=4.9.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.CodeAnalysis.CSharp.Scripting.4.9.2\lib\netstandard2.0\Microsoft.CodeAnalysis.CSharp.Scripting.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.CodeAnalysis.Scripting, Version=4.8.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.CodeAnalysis.Scripting.Common.4.8.0\lib\netstandard2.0\Microsoft.CodeAnalysis.Scripting.dll</HintPath>
+    <Reference Include="Microsoft.CodeAnalysis.Scripting, Version=4.9.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.CodeAnalysis.Scripting.Common.4.9.2\lib\netstandard2.0\Microsoft.CodeAnalysis.Scripting.dll</HintPath>
     </Reference>
     <Reference Include="NReco.VideoConverter, Version=1.2.1.0, Culture=neutral, PublicKeyToken=395ccb334978a0cd, processorArchitecture=MSIL">
       <HintPath>..\packages\NReco.VideoConverter.1.2.1\lib\net45\NReco.VideoConverter.dll</HintPath>
@@ -127,11 +127,11 @@
     <Compile Include="Menus\ConstantEventArgs.cs" />
     <Compile Include="Menus\FieldEventArgs.cs" />
     <Compile Include="Menus\FunctionEventArgs.cs" />
-    <Compile Include="Menus\MenuMakerBasic.cs" />
+    <Compile Include="Menus\MenuMaker.cs" />
     <Compile Include="Menus\MenuRouter.cs" />
     <Compile Include="Menus\OperationEventArgs.cs" />
     <Compile Include="Models\GroupTagsBy.cs" />
-    <Compile Include="Controllers\MRU\MruFilterController.cs" />
+    <Compile Include="Controllers\MRU\MruRoslynController.cs" />
     <Compile Include="Controllers\GridController.cs" />
     <Compile Include="Controllers\LibraryFormController.cs" />
     <Compile Include="Controllers\PlayerController.cs" />
@@ -146,7 +146,6 @@
     <Compile Include="Terms\Field.cs" />
     <Compile Include="Menus\Filter.cs" />
     <Compile Include="Terms\Function.cs" />
-    <AdditionalFiles Include="Menus\MenuMakerAdvanced.cs" />
     <Compile Include="Terms\Number.cs" />
     <Compile Include="Terms\Operation.cs" />
     <Compile Include="Terms\Op.cs" />

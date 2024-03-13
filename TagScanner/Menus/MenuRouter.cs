@@ -10,11 +10,8 @@
 
     public class MenuRouter
     {
-        public MenuRouter(ToolStripItemCollection items)
-        {
-            MenuMakerBasic.AddAllTerms(items, MenuRouter_TermClick);
-        }
-
+        public MenuRouter(ToolStripItemCollection items) => MenuMaker.AddAllTerms(items, MenuRouter_TermClick);
+        
         public static void MoveItems(ToolStripItemCollection from, ToolStripItemCollection to) => to.AddRange(from.OfType<ToolStripItem>().ToArray());
 
         public event EventHandler<ConstantEventArgs> ConstantClick;
