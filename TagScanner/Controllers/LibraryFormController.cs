@@ -12,11 +12,11 @@
     using TagScanner.Properties;
     using TagScanner.Views;
 
-    public class LibraryFormController : Controller
+    internal class LibraryFormController : Controller
     {
         #region Lifetime Management
 
-        public LibraryFormController(Controller parent) : base(parent)
+        internal LibraryFormController(Controller parent) : base(parent)
         {
             View = new LibraryForm();
             Model = new Model();
@@ -42,7 +42,7 @@
         #region View
 
         private LibraryForm _view;
-        public LibraryForm View
+        internal LibraryForm View
         {
             get => _view;
             set
@@ -73,19 +73,19 @@
             }
         }
 
-        public override Form Form => View;
+        internal override Form Form => View;
 
         #endregion
 
         #region Fields
 
-        public readonly Model Model;
-        public readonly LibraryGridController LibraryGridController;
-        public readonly MruMediaController MediaController;
-        public readonly MruPersistenceController PersistenceController;
-        public readonly PlayerController PlayerController;
-        public readonly FilterFormController FilterFormController;
-        public readonly StatusController StatusController;
+        internal readonly Model Model;
+        internal readonly LibraryGridController LibraryGridController;
+        internal readonly MruMediaController MediaController;
+        internal readonly MruPersistenceController PersistenceController;
+        internal readonly PlayerController PlayerController;
+        internal readonly FilterFormController FilterFormController;
+        internal readonly StatusController StatusController;
 
         #endregion
 

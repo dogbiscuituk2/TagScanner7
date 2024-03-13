@@ -11,10 +11,9 @@
     using Views;
     using System.Reflection;
 
-    public class MruRoslynController : MruController
+    internal class MruRoslynController : MruController
     {
-        public MruRoslynController(LibraryFormController libraryFormController) :
-            base(libraryFormController.Model, "Filters", libraryFormController.View.FilterPopupMenu)
+        internal MruRoslynController(LibraryFormController libraryFormController) : base("Filters", libraryFormController.View.FilterPopupMenu)
         {
             LibraryFormController = libraryFormController;
             ApplyButton.Click += ApplyButton_Click;

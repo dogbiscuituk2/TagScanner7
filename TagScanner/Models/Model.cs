@@ -6,7 +6,7 @@
     using System.Linq;
 
     [Serializable]
-    public class Model
+    public class Model : IModel
     {
         #region Public Interface
 

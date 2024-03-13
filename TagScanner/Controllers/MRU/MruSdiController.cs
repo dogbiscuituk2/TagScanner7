@@ -7,16 +7,19 @@
     using Models;
     using Properties;
 
-    public abstract class MruSdiController : MruController
+    internal abstract class MruSdiController : MruController
     {
-        protected MruSdiController(Model model, string filter, string subKeyName, ToolStripMenuItem recentMenuItem)
-            : base(model, subKeyName, recentMenuItem)
+        protected MruSdiController(IModel model, string filter, string subKeyName, ToolStripMenuItem recentMenuItem)
+            : base(subKeyName, recentMenuItem)
         {
+            Model = model;
             _openFileDialog = new OpenFileDialog { Filter = filter, Title = Resources.Select_the_file_to_open };
             _saveFileDialog = new SaveFileDialog { Filter = filter, Title = Resources.Save_file };
         }
 
-        public bool Clear()
+        protected IModel Model;
+
+        internal bool Clear()
         {
             if (!SaveIfModified())
                 return false;
@@ -26,11 +29,11 @@
             return true;
         }
 
-        public bool Open() => SaveIfModified() && _openFileDialog.ShowDialog() == DialogResult.OK && LoadFromFile(_openFileDialog.FileName);
-        public bool Save() => string.IsNullOrEmpty(FilePath) ? SaveAs() : SaveToFile(FilePath);
-        public bool SaveAs() => _saveFileDialog.ShowDialog() == DialogResult.OK && SaveToFile(_saveFileDialog.FileName);
+        internal bool Open() => SaveIfModified() && _openFileDialog.ShowDialog() == DialogResult.OK && LoadFromFile(_openFileDialog.FileName);
+        internal bool Save() => string.IsNullOrEmpty(FilePath) ? SaveAs() : SaveToFile(FilePath);
+        internal bool SaveAs() => _saveFileDialog.ShowDialog() == DialogResult.OK && SaveToFile(_saveFileDialog.FileName);
 
-        public bool SaveIfModified()
+        internal bool SaveIfModified()
         {
             if (!Model.Modified) return true;
             switch (MessageBox.Show(
@@ -46,10 +49,10 @@
             return true;
         }
 
-        public event EventHandler FilePathChanged;
+        internal event EventHandler FilePathChanged;
 
-        public event EventHandler<CancelEventArgs> FileLoading;
-        public event EventHandler<CancelEventArgs> FileSaving;
+        internal event EventHandler<CancelEventArgs> FileLoading;
+        internal event EventHandler<CancelEventArgs> FileSaving;
 
         private string _filePath = string.Empty;
         protected string FilePath

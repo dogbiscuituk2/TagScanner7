@@ -7,24 +7,27 @@
     using Models;
     using Properties;
 
-    public class MruMediaController : MruController
+    internal class MruMediaController : MruController
     {
-        public MruMediaController(LibraryFormController libraryFormController, ToolStripMenuItem recentMenuItem)
-            : base(libraryFormController.Model, "MediaMRU", recentMenuItem)
+        internal MruMediaController(LibraryFormController libraryFormController, ToolStripMenuItem recentMenuItem)
+            : base("MediaMRU", recentMenuItem)
         {
+            _model = libraryFormController.Model;
             var filter = Settings.Default.MediaFilter;
             _openFileDialog = new OpenFileDialog { Filter = filter, Multiselect = true, Title = Resources.Select_the_media_file_s__to_add };
             _folderBrowserDialog = new FolderBrowserDialog { Description = Resources.Select_the_media_folder_to_add };
             _libraryFormController = libraryFormController;
         }
 
-        public void AddFiles()
+        private readonly Model _model;
+
+        internal void AddFiles()
         {
             if (_openFileDialog.ShowDialog(_libraryFormController.View) == DialogResult.OK)
                 AddFiles(_openFileDialog.FileNames);
         }
 
-        public void AddFolder()
+        internal void AddFolder()
         {
             if (_folderBrowserDialog.ShowDialog(_libraryFormController.View) == DialogResult.OK)
             {
@@ -35,9 +38,9 @@
             }
         }
 
-        public void Rescan()
+        internal void Rescan()
         {
-            foreach (var folder in Model.Folders)
+            foreach (var folder in _model.Folders)
             {
                 var folderParts = folder.Split('|');
                 AddFolder(folderParts[0], folderParts[1]);
@@ -62,13 +65,13 @@
         private void AddFiles(string[] filePaths)
         {
             var progress = CreateNewProgress();
-            Task.Run(() => Model.AddFiles(filePaths, progress));
+            Task.Run(() => _model.AddFiles(filePaths, progress));
         }
 
         private void AddFolder(string folderPath, string filter)
         {
             var progress = CreateNewProgress();
-            Task.Run(() => Model.AddFolder(folderPath, filter, progress));
+            Task.Run(() => _model.AddFolder(folderPath, filter, progress));
         }
 
         private IProgress<ProgressEventArgs> CreateNewProgress() => _libraryFormController.StatusController.CreateNewProgress();

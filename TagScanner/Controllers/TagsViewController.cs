@@ -6,19 +6,19 @@
     using Models;
     using Views;
 
-    public abstract class TagsViewController : Controller
+    internal abstract class TagsViewController : Controller
     {
         #region Public Interface
 
         protected TagsViewController(Controller parent) : base(parent) { }
 
-        public abstract Control Control { get; }
-        public TagVisibilityDialog Dialog => (TagVisibilityDialog)Form;
-        public GroupTagsBy GroupTagsBy => ((TagsController)Parent).GroupTagsBy;
+        internal abstract Control Control { get; }
+        internal TagVisibilityDialog Dialog => (TagVisibilityDialog)Form;
+        internal GroupTagsBy GroupTagsBy => ((TagsController)Parent).GroupTagsBy;
 
-        public void HideView() => Control?.Hide();
+        internal void HideView() => Control?.Hide();
 
-        public void ShowView()
+        internal void ShowView()
         {
             Control.Visible = true;
             Control.BringToFront();

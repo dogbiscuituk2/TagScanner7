@@ -120,6 +120,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Controllers\Controller.cs" />
+    <Compile Include="Controllers\MRU\MruWorksController.cs" />
     <Compile Include="Controllers\OperatorPickerController.cs" />
     <Compile Include="Controllers\TagsListViewController.cs" />
     <Compile Include="Controllers\TagsTreeViewController.cs" />
@@ -141,6 +142,7 @@
     <Compile Include="Controllers\FilterFormController.cs" />
     <Compile Include="Controllers\TermTreeViewController.cs" />
     <Compile Include="Models\FrequentlyUsedAttribute.cs" />
+    <Compile Include="Models\IModel.cs" />
     <Compile Include="Models\Tag.cs" />
     <Compile Include="Terms\Constant.cs" />
     <Compile Include="Terms\Field.cs" />

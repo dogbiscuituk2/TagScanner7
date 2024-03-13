@@ -9,11 +9,11 @@
     using Terms;
     using Views;
 
-    public class FilterFormController : Controller
+    internal class FilterFormController : Controller
     {
         #region Constructor
 
-        public FilterFormController(LibraryFormController parent) : base(parent)
+        internal FilterFormController(LibraryFormController parent) : base(parent)
         {
             _termTreeViewController = new TermTreeViewController(this, TreeView);
 
@@ -33,7 +33,7 @@
 
         #region Public Methods
 
-        public void Show() => View.ShowDialog(Form);
+        internal void Show() => View.ShowDialog(Form);
 
         #endregion
 

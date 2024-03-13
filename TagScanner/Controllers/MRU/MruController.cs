@@ -5,36 +5,30 @@
     using System.IO;
     using System.Linq;
     using System.Windows.Forms;
-    using Models;
     using Win32 = Microsoft.Win32;
 
-    public class MruController
+    internal class MruController
     {
-        protected MruController(Model model, string subKeyName, ToolStripDropDownItem parentItem) :
-            this(model, subKeyName, parentItem.DropDownItems)
+        protected MruController(string subKeyName, ToolStripDropDownItem parentItem) : this(subKeyName, parentItem.DropDownItems)
         {
             _parentItem = parentItem;
             RefreshRecentMenu();
         }
 
-        protected MruController(Model model, string subKeyName, ContextMenuStrip parentMenu) :
-            this(model, subKeyName, parentMenu.Items)
+        protected MruController(string subKeyName, ContextMenuStrip parentMenu) : this(subKeyName, parentMenu.Items)
         {
             _parentMenu = parentMenu;
             RefreshRecentMenu();
         }
 
-        protected MruController(Model model, string subKeyName, ToolStripItemCollection recentItems)
+        protected MruController(string subKeyName, ToolStripItemCollection recentItems)
         {
             if (string.IsNullOrWhiteSpace(subKeyName))
                 throw new ArgumentNullException(nameof(subKeyName));
-            Model = model;
             _subKeyName = $@"Software\{Application.CompanyName}\{Application.ProductName}\{subKeyName}";
             _recentItems = recentItems;
             RefreshRecentMenu();
         }
-
-        protected readonly Model Model;
 
         protected void AddItem(string item)
         {

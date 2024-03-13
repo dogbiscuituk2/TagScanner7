@@ -5,16 +5,16 @@
     using System.Windows.Forms;
     using Models;
 
-    public class StatusController
+    internal class StatusController
     {
-        public StatusController(Model model, StatusStrip statusStrip) { _model = model; _statusBar = statusStrip; }
+        internal StatusController(Model model, StatusStrip statusStrip) { _model = model; _statusBar = statusStrip; }
 
         private readonly Model _model;
         private readonly StatusStrip _statusBar;
 
         private ToolStripItemCollection StatusBarItems => _statusBar.Items;
 
-        public IProgress<ProgressEventArgs> CreateNewProgress()
+        internal IProgress<ProgressEventArgs> CreateNewProgress()
         {
             var progressBar = new ToolStripProgressBar { Style = ProgressBarStyle.Continuous };
             var cancelButton = new ToolStripSplitButton { DropDownButtonWidth = 0, Text = "Cancel" };

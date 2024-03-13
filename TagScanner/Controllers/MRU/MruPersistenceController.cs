@@ -7,12 +7,12 @@
     using System.Xml.Serialization;
     using Models;
 
-    public class MruPersistenceController : MruSdiController
+    internal class MruPersistenceController : MruWorksController
     {
-        public MruPersistenceController(Model model, ToolStripMenuItem recentMenuItem)
+        internal MruPersistenceController(Model model, ToolStripMenuItem recentMenuItem)
             : base(model, Properties.Settings.Default.LibraryFilter, "LibraryMRU", recentMenuItem) { }
 
-        public string WindowCaption
+        internal string WindowCaption
         {
             get
             {

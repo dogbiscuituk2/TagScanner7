@@ -2,9 +2,9 @@
 {
     using System.Windows.Forms;
 
-    public class OperatorPickerController
+    internal class OperatorPickerController
     {
-        public OperatorPickerController(ComboBox comboBox)
+        internal OperatorPickerController(ComboBox comboBox)
         {
             ComboBox = comboBox;
             Init();

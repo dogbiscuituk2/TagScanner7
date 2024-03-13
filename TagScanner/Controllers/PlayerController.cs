@@ -11,9 +11,9 @@
     using Models;
     using Views;
     
-    public class PlayerController : GridController
+    internal class PlayerController : GridController
     {
-        public PlayerController(LibraryFormController libraryFormController, ToolStripDropDownItem recentMenu) : base(libraryFormController)
+        internal PlayerController(LibraryFormController libraryFormController, ToolStripDropDownItem recentMenu) : base(libraryFormController)
         {
             View.GridPopupPlayAddToQueue.Click += PlaylistAddToQueue_Click;
             View.GridPopupPlayNewPlaylist.Click += PlaylistCreateNew_Click;
@@ -24,7 +24,7 @@
             Player.CurrentItemChange += Player_CurrentItemChange;
         }
 
-        public System.Windows.Controls.DataGrid PlaylistGrid => DataGrid;
+        internal System.Windows.Controls.DataGrid PlaylistGrid => DataGrid;
 
         private LibraryFormController LibraryFormController => (LibraryFormController)Parent;
 
@@ -32,7 +32,7 @@
 
         private AxWindowsMediaPlayer Player => View.MediaPlayer;
 
-        public override System.Windows.Controls.DataGrid DataGrid => ((GridElement)View.PlaylistElementHost.Child).DataGrid;
+        internal override System.Windows.Controls.DataGrid DataGrid => ((GridElement)View.PlaylistElementHost.Child).DataGrid;
 
         private readonly ObservableCollection<Work> _currentPlaylist = new ObservableCollection<Work>();
 

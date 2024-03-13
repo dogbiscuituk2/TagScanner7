@@ -8,11 +8,11 @@
     using Models;
     using ValueConverters;
 
-    public abstract class GridController: Controller
+    internal abstract class GridController: Controller
     {
         protected GridController(Controller parent) : base(parent) { }
 
-        public abstract DataGrid DataGrid { get; }
+        internal abstract DataGrid DataGrid { get; }
 
         protected virtual DataGridBoundColumn GetColumn(TagProps tagProps)
         {

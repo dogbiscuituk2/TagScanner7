@@ -6,21 +6,21 @@
     using Models;
     using Views;
     
-    public class TagsController : Controller
+    internal class TagsController : Controller
     {
         #region Public Interface
 
-        public TagsController(Controller parent) : base(parent)
+        internal TagsController(Controller parent) : base(parent)
         {
             _tagsListViewController = new TagsListViewController(this);
             _tagsTreeViewController = new TagsTreeViewController(this);
         }
 
-        public GroupTagsBy GroupTagsBy;
+        internal GroupTagsBy GroupTagsBy;
 
-        public override Form Form => Dialog;
+        internal override Form Form => Dialog;
 
-        public bool Execute(string caption, List<string> visibleTagNames)
+        internal bool Execute(string caption, List<string> visibleTagNames)
         {
             Dialog.Text = caption;
             _visibleTagNames = visibleTagNames.ToList();

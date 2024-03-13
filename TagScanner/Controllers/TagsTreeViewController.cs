@@ -5,15 +5,15 @@
     using System.Windows.Forms;
     using Models;
 
-    public class TagsTreeViewController : TagsViewController
+    internal class TagsTreeViewController : TagsViewController
     {
         #region Public Interface
 
-        public TagsTreeViewController(Controller parent) : base(parent) { }
+        internal TagsTreeViewController(Controller parent) : base(parent) { }
 
-        public override Control Control => TreeView;
+        internal override Control Control => TreeView;
 
-        public void InitTreeView()
+        internal void InitTreeView()
         {
             TreeView.Nodes.Clear();
             TreeView.Nodes.Add("All Tags");

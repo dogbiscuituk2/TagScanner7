@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace TagScanner.Controllers
+﻿namespace TagScanner.Controllers
 {
     using System.Collections;
     using System.Collections.Generic;
@@ -9,18 +7,22 @@ namespace TagScanner.Controllers
     using System.Windows.Forms;
     using Models;
 
-    public class TagsListViewController : TagsViewController, IComparer
+    internal class TagsListViewController : TagsViewController, IComparer
     {
-        #region Public Interface
-
-        public TagsListViewController(Controller parent) : base(parent) { }
-
-        public override Control Control => ListView;
-        public ListView ListView => Dialog.ListView;
+        #region Public Interface IComparer
 
         public int Compare(object x, object y) => string.CompareOrdinal(GetValue(x), GetValue(y)) * (_sortDescending ? -1 : +1);
 
-        public void InitListView()
+        #endregion
+
+        #region Internal Interface
+
+        internal TagsListViewController(Controller parent) : base(parent) { }
+
+        internal override Control Control => ListView;
+        internal ListView ListView => Dialog.ListView;
+
+        internal void InitListView()
         {
             Items.Clear();
             foreach (var tag in Tags.AllTags)

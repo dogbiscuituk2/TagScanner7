@@ -7,9 +7,9 @@
     using Models;
     using Terms;
 
-    public class TermTreeViewController : Controller
+    internal class TermTreeViewController : Controller
     {
-        public TermTreeViewController(Controller parent, TreeView treeView) : base(parent)
+        internal TermTreeViewController(Controller parent, TreeView treeView) : base(parent)
         {
             _treeView = treeView;
             _treeView.AfterCollapse += TreeView_AfterCollapse;
@@ -18,26 +18,26 @@
 
         #region Public Properties
 
-        public bool HasSelection => SelectedNode != null;
-        public TreeNode SelectedNode => _treeView.SelectedNode;
-        public TreeView TreeView => _treeView;
-        public TreeNodeCollection Roots => _treeView.Nodes;
+        internal bool HasSelection => SelectedNode != null;
+        internal TreeNode SelectedNode => _treeView.SelectedNode;
+        internal TreeView TreeView => _treeView;
+        internal TreeNodeCollection Roots => _treeView.Nodes;
 
         #endregion
 
         #region Public Methods
 
-        public int Add(Term term) => HasSelection ? AddChild(SelectedNode, term) : AddRoot(term);
-        public int AddChild(TreeNode parent, Term term) => AddNode(parent != null ? parent.Nodes : Roots, term);
-        public void AddConstant() => Add(new Constant());
-        public void AddField(TagProps tagProps) => Add(new Field(tagProps.Name));
-        public void AddFunction(KeyValuePair<string, MethodInfo> method) => Add(new Function(method.Key));
-        public void AddOperation(KeyValuePair<Op, OpInfo> operation) => Add(new Operation(operation.Key));
-        public int AddRoot(Term term) => AddNode(Roots, term);
+        internal int Add(Term term) => HasSelection ? AddChild(SelectedNode, term) : AddRoot(term);
+        internal int AddChild(TreeNode parent, Term term) => AddNode(parent != null ? parent.Nodes : Roots, term);
+        internal void AddConstant() => Add(new Constant());
+        internal void AddField(TagProps tagProps) => Add(new Field(tagProps.Name));
+        internal void AddFunction(KeyValuePair<string, MethodInfo> method) => Add(new Function(method.Key));
+        internal void AddOperation(KeyValuePair<Op, OpInfo> operation) => Add(new Operation(operation.Key));
+        internal int AddRoot(Term term) => AddNode(Roots, term);
 
-        public IEnumerable<Term> GetTerms() => Roots.OfType<TreeNode>().Select(p => p.Tag as Term);
+        internal IEnumerable<Term> GetTerms() => Roots.OfType<TreeNode>().Select(p => p.Tag as Term);
 
-        public void Load(IEnumerable<Term> terms)
+        internal void Load(IEnumerable<Term> terms)
         {
             Roots.Clear();
             foreach (var term in terms)
