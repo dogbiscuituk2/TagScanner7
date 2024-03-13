@@ -31,7 +31,7 @@
 
         #endregion
 
-        #region Public Methods
+        #region Internal Methods
 
         internal void Show() => View.ShowDialog(Form);
 

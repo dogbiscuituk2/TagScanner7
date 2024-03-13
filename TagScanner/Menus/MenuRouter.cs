@@ -10,8 +10,13 @@
 
     public class MenuRouter
     {
-        public MenuRouter(ToolStripItemCollection items) => MenuMaker.AddAllTerms(items, MenuRouter_TermClick);
-        
+        public MenuRouter(ToolStripItemCollection items)
+        {
+            MenuMaker.AddAllTerms(items, MenuRouter_TermClick);
+            items.Add(new ToolStripMenuItem("Modify...", null, MenuRouter_TermModifyClick));
+            items.Add(new ToolStripMenuItem("Delete...", null, MenuRouter_TermDeleteClick));
+        }
+
         public static void MoveItems(ToolStripItemCollection from, ToolStripItemCollection to) => to.AddRange(from.OfType<ToolStripItem>().ToArray());
 
         public event EventHandler<ConstantEventArgs> ConstantClick;
@@ -23,6 +28,12 @@
         protected virtual void OnFieldClick(TagProps tagProps) => FieldClick?.Invoke(this, new FieldEventArgs(tagProps));
         protected virtual void OnOperationClick(KeyValuePair<Op, OpInfo> op) => OperationClick?.Invoke(this, new OperationEventArgs(op));
         protected virtual void OnFunctionClick(KeyValuePair<string, MethodInfo> method) => FunctionClick?.Invoke(this, new FunctionEventArgs(method));
+
+        private void MenuRouter_TermDeleteClick(object sender, EventArgs e)
+        { }
+
+        private void MenuRouter_TermModifyClick(object sender, EventArgs e)
+        { }
 
         private void MenuRouter_TermClick(object sender, EventArgs e)
         {

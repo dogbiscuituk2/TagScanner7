@@ -19,8 +19,6 @@
             items.AddFunctions(click);
             items.Add(new ToolStripSeparator());
             items.Add("&Constant...", null, click);
-            items.Add("Edit...");
-            items.Add("Delete");
         }
 
         public static bool FilterItems(this ToolStripItemCollection items, Filter action, params Type[] types)
