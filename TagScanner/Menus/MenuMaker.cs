@@ -46,7 +46,7 @@
         private static void AddFunctions(this ToolStripItemCollection items, EventHandler click)
         {
             items = items.Append("&Function");
-            foreach (var method in Core.Methods)
+            foreach (var method in Core.Methods.Where(p=> p.Key.IndexOf('_') < 0))
                 items.Append(method.Key, method, click);
         }
 
@@ -66,7 +66,8 @@
             {
                 var subItems = ((ToolStripMenuItem)items.Add(category.Escape())).DropDownItems;
                 foreach (var tag in tags.Where(p => p.Category == category))
-                    subItems.Append(tag.DisplayName.Escape(), tag, click);
+                    subItems.Add(new ToolStripMenuItem(tag.DisplayName.Escape(), null, click)
+                        { Tag = tag, ToolTipText = tag.Details });
             }
         }
 

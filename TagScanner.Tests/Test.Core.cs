@@ -1,4 +1,6 @@
-﻿namespace TagScanner.Tests
+﻿using System.Linq.Expressions;
+
+namespace TagScanner.Tests
 {
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using Models;
@@ -43,7 +45,10 @@
                 var term = new Operation(key);
                 Assert.IsNotNull(term);
                 Assert.AreEqual(expected: key, actual: term.Op);
-                Assert.AreEqual(expected: opInfo.ExpType, actual: term.Expression.NodeType);
+                // String concatenation, using the + operator, gets converted internally to Concat method invocation.
+                // Therefore, the expected ExpressionType in this case is Call, instead of Add.
+                var expType = key == Op.Concatenate ? ExpressionType.Call : opInfo.ExpType;
+                Assert.AreEqual(expected: expType, actual: term.Expression.NodeType);
                 Assert.AreEqual(expected: opInfo.Rank, actual: term.Rank);
                 Assert.AreEqual(expected: opInfo.ResultType, actual: term.ResultType);
             }

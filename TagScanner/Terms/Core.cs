@@ -56,8 +56,6 @@
         {
             if (type.IsArray)
                 return $"{type.GetElementType().Say()}[]";
-            if (type == typeof(Number))
-                return "number";
             switch (Type.GetTypeCode(type))
             {
                 case TypeCode.Boolean: return "condition";
@@ -87,6 +85,9 @@
             _methods = new Dictionary<string, MethodInfo>
             {
                 { "Compare", FindMethodInfo(typeof(string), true, "Compare", typeof(string), typeof(string)) },
+                { "Concat_2", FindMethodInfo(typeof(string), true, "Concat", typeof(string), typeof(string)) },
+                { "Concat_3", FindMethodInfo(typeof(string), true, "Concat", typeof(string), typeof(string), typeof(string)) },
+                { "Concat_4", FindMethodInfo(typeof(string), true, "Concat", typeof(string), typeof(string), typeof(string), typeof(string)) },
                 { "Contains", FindMethodInfo(typeof(string), false, "Contains", typeof(string)) },
                 { "EndsWith", FindMethodInfo(typeof(string), false, "EndsWith", typeof(string)) },
                 { "Equals", FindMethodInfo(typeof(object), false, "Equals", typeof(object)) },
@@ -130,17 +131,17 @@
                 { Op.Xor, new OpInfo("exclusive or", ExpressionType.ExclusiveOr, Rank.BitwiseXor, typeof(bool), "{0} xor {1}") },
                 { Op.EqualTo, new OpInfo("=", ExpressionType.Equal, Rank.Equality, typeof(bool), "{0} = {1}", typeof(object)) },
                 { Op.NotEqualTo, new OpInfo("≠", ExpressionType.NotEqual, Rank.Equality, typeof(bool), "{0} ≠ {1}", typeof(object)) },
-                { Op.LessThan, new OpInfo("<", ExpressionType.LessThan, Rank.Relational, typeof(bool), "{0} < {1}", typeof(Number)) },
-                { Op.NotLessThan, new OpInfo("≥", ExpressionType.GreaterThanOrEqual, Rank.Relational, typeof(bool), "{0} ≥ {1}", typeof(Number)) },
-                { Op.GreaterThan, new OpInfo(">", ExpressionType.GreaterThan, Rank.Relational, typeof(bool), "{0} > {1}", typeof(Number)) },
-                { Op.NotGreaterThan, new OpInfo("≤", ExpressionType.LessThanOrEqual, Rank.Relational, typeof(bool), "{0} ≤ {1}", typeof(Number)) },
+                { Op.LessThan, new OpInfo("<", ExpressionType.LessThan, Rank.Relational, typeof(bool), "{0} < {1}", typeof(double)) },
+                { Op.NotLessThan, new OpInfo("≥", ExpressionType.GreaterThanOrEqual, Rank.Relational, typeof(bool), "{0} ≥ {1}", typeof(double)) },
+                { Op.GreaterThan, new OpInfo(">", ExpressionType.GreaterThan, Rank.Relational, typeof(bool), "{0} > {1}", typeof(double)) },
+                { Op.NotGreaterThan, new OpInfo("≤", ExpressionType.LessThanOrEqual, Rank.Relational, typeof(bool), "{0} ≤ {1}", typeof(double)) },
                 { Op.Concatenate, new OpInfo("＋", ExpressionType.Add, Rank.Additive, typeof(string), "{0} ＋ {1}") },
-                { Op.Add, new OpInfo("＋",ExpressionType.Add, Rank.Additive, typeof(Number), "{0} ＋ {1}") },
-                { Op.Subtract, new OpInfo("－", ExpressionType.Subtract, Rank.Additive, typeof(Number), "{0} － {1}") },
-                { Op.Multiply, new OpInfo("✕", ExpressionType.Multiply, Rank.Multiplicative, typeof(Number), "{0} ✕ {1}") },
-                { Op.Divide, new OpInfo("／", ExpressionType.Divide, Rank.Multiplicative, typeof(Number), "{0} ／ {1}") },
-                { Op.Positive, new OpInfo("＋", ExpressionType.UnaryPlus, Rank.Unary, typeof(Number), "＋{0}") },
-                { Op.Negative, new OpInfo("－", ExpressionType.Negate, Rank.Unary, typeof(Number), "－{0}") },
+                { Op.Add, new OpInfo("＋",ExpressionType.Add, Rank.Additive, typeof(double), "{0} ＋ {1}") },
+                { Op.Subtract, new OpInfo("－", ExpressionType.Subtract, Rank.Additive, typeof(double), "{0} － {1}") },
+                { Op.Multiply, new OpInfo("✕", ExpressionType.Multiply, Rank.Multiplicative, typeof(double), "{0} ✕ {1}") },
+                { Op.Divide, new OpInfo("／", ExpressionType.Divide, Rank.Multiplicative, typeof(double), "{0} ／ {1}") },
+                { Op.Positive, new OpInfo("＋", ExpressionType.UnaryPlus, Rank.Unary, typeof(double), "＋{0}") },
+                { Op.Negative, new OpInfo("－", ExpressionType.Negate, Rank.Unary, typeof(double), "－{0}") },
                 { Op.Not, new OpInfo("not", ExpressionType.Not, Rank.Unary, typeof(bool), "not {0}") },
             };
             return Operators;

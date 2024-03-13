@@ -71,26 +71,36 @@
 
         #region Private Methods
 
-        private static Term Concatenine(params Term[] operands)
+        private static Term Concatenate(params Term[] operands)
         {
             while (true)
             {
                 switch (operands.Count())
                 {
-                    case 0:
-                        return null;
-                    case 1:
-                        return operands[0];
-                    case 2:
-                        return new Function("String.Concat(String, String)", operands[0], operands[1]);
-                    case 3:
-                        return new Function("String.Concat(String, String, String)", operands[0], operands[1], operands[2]);
-                    case 4:
-                        return new Function("String.Concat(String, String, String, String)", operands[0], operands[1], operands[2], operands[3]);
-                    default:
-                        operands = new[] { Concatenine(operands.Take(4).ToArray()), Concatenine(operands.Skip(4).ToArray()) };
+                    case 0: return null;
+                    case 1: return operands[0];
+                    case 2: return new Function("Concat_2", operands[0], operands[1]);
+                    case 3: return new Function("Concat_3", operands[0], operands[1], operands[2]);
+                    case 4: return new Function("Concat_4", operands[0], operands[1], operands[2], operands[3]);
+                    default: operands = new[] { Concatenate(operands.Take(4).ToArray()), Concatenate(operands.Skip(4).ToArray()) };
                         continue;
                 }
+            }
+        }
+
+        private static object Default(Op op)
+        {
+            switch (op)
+            {
+                case Op.Concatenate: return string.Empty;
+                case Op.And: return true;
+                case Op.Or:
+                case Op.Xor: return false;
+                case Op.Add:
+                case Op.Subtract: return 0;
+                case Op.Multiply:
+                case Op.Divide: return 1;
+                default: return null;
             }
         }
 
@@ -104,33 +114,59 @@
         private Expression GetExpression()
         {
             if (Op == Op.Add && ResultType == typeof(string))
-                return Concatenine(Operands.ToArray()).Expression;
+                return Concatenate(Operands.ToArray()).Expression;
             if (Op.Associates())
                 return MakeAssociation(Operands);
             if (Op.CanChain())
-                return MakeChain(Operands);
+                return MakeChain();
             switch (Op.Arity())
             {
-                case 1: return Expression.MakeUnary(Op.ExpType(), FirstOperand, null);
-                case 3: return Expression.Condition(FirstOperand, SecondOperand, ThirdOperand);
-                default: return Expression.MakeBinary(Op.ExpType(), FirstOperand, SecondOperand);
+                case 1: return Expression.MakeUnary(Op.ExpType(), FirstSubExpression, null);
+                case 3: return Expression.Condition(FirstSubExpression, SecondSubExpression, ThirdSubExpression);
+                default: return Expression.MakeBinary(Op.ExpType(), FirstSubExpression, SecondSubExpression);
             }
         }
 
         private Expression MakeAssociation(IEnumerable<Term> operands) => MakeAssociation(Op, operands);
 
-        private Expression MakeChain(List<Term> operands)
+        private static Expression MakeAssociation(Op op, IEnumerable<Term> operands)
         {
-            var count = operands.Count();
+            if (op == Op.Concatenate)
+                return Concatenate(operands.ToArray()).Expression;
+            var operandsArray = operands.ToArray();
+            var count = operandsArray.Length;
+            if (count == 0)
+                return Expression.Constant(Default(op));
+            var last = operandsArray.Last().Expression;
+            switch (count)
+            {
+                case 1:
+                    return last;
+                case 2:
+                    return MakeBinaryExpression(op, operandsArray[0].Expression, last);
+                default:
+                    return MakeBinaryExpression(op, MakeAssociation(op, operandsArray.Take(count - 1)), last);
+            }
+        }
+
+        private BinaryExpression MakeBinaryExpression(Expression left, Expression right) => MakeBinaryExpression(Op, left, right);
+
+        private static BinaryExpression MakeBinaryExpression(Op op, Expression left, Expression right) => Expression.MakeBinary(op.ExpType(), left, right);
+
+        private Expression MakeChain()
+        {
+            var count = Operands.Count();
             switch (count)
             {
                 case 0:
                 case 1:
                     return null;
+                case 2:
+                    return MakeBinaryExpression(FirstSubExpression, SecondSubExpression);
                 default:
                     var terms = new List<Term>();
                     for (var index = 0; index < count - 1; index++)
-                        terms.Add(new Operation(operands[index], Op, operands[index + 1]));
+                        terms.Add(new Operation(Operands[index], Op,Operands[index + 1]));
                     return MakeAssociation(Op.And, terms);
             }
         }
@@ -156,49 +192,17 @@
                     return AddParameters(typeof(string), typeof(string));
                 case Op.Positive:
                 case Op.Negative:
-                    return AddParameters(typeof(Number));
+                    return AddParameters(typeof(double));
                 case Op.Not:
                     return AddParameters(typeof(bool));
                 default:
-                    return AddParameters(typeof(Number), typeof(Number));
+                    return AddParameters(typeof(double), typeof(double));
             }
         }
 
         #endregion
 
         #region Private Static Methods
-
-        private static object Default(Op op)
-        {
-            switch (op)
-            {
-                case Op.Concatenate:
-                    return string.Empty;
-                case Op.And:
-                    return true;
-                case Op.Or:
-                case Op.Xor:
-                    return false;
-                case Op.Add:
-                case Op.Subtract:
-                    return 0;
-                case Op.Multiply:
-                case Op.Divide:
-                    return 1;
-                default:
-                    return null;
-            }
-        }
-
-        private static Expression MakeAssociation(Op op, IEnumerable<Term> operands)
-        {
-            var count = operands.Count();
-            if (count == 0) return Expression.Constant(Default(op));
-            var last = operands.Last().Expression;
-            return count == 1 ? last : MakeBinaryExpression(op, MakeAssociation(op, operands.Take(count - 1)), last);
-        }
-
-        private static BinaryExpression MakeBinaryExpression(Op op, Expression left, Expression right) => Expression.MakeBinary(op.ExpType(), left, right);
 
         private static Op ToOperator(string symbol, bool unary)
         {

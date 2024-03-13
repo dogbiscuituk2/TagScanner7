@@ -147,7 +147,6 @@
     <Compile Include="Terms\Field.cs" />
     <Compile Include="Menus\Filter.cs" />
     <Compile Include="Terms\Function.cs" />
-    <Compile Include="Terms\Number.cs" />
     <Compile Include="Terms\Operation.cs" />
     <Compile Include="Terms\Op.cs" />
     <Compile Include="Terms\Core.cs" />

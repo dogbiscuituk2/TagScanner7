@@ -33,9 +33,9 @@
 
         #region Protected Properties
 
-        protected Expression FirstOperand => Operands?.First()?.Expression;
-        protected Expression SecondOperand => Operands?.Skip(1)?.First()?.Expression;
-        protected Expression ThirdOperand => Operands?.Skip(2)?.First()?.Expression;
+        protected Expression FirstSubExpression => Operands?.First()?.Expression;
+        protected Expression SecondSubExpression => Operands?.Skip(1)?.First()?.Expression;
+        protected Expression ThirdSubExpression => Operands?.Skip(2)?.First()?.Expression;
 
         #endregion
 

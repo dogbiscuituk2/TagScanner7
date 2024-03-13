@@ -91,7 +91,7 @@
             var expressions = (Method.IsStatic ? Operands : Operands.Skip(1)).Select(p => p.Expression).ToArray();
             return Method.IsStatic
                 ? Expression.Call(Method, expressions)
-                : Expression.Call(FirstOperand, Method, expressions);
+                : Expression.Call(FirstSubExpression, Method, expressions);
         }
 
         private void SetName(string name)
