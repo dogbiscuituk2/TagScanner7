@@ -175,7 +175,7 @@
     <Compile Include="Controllers\LibraryGridController.cs" />
     <Compile Include="ValueConverters\LogicalConverter.cs" />
     <Compile Include="Controllers\MRU\MruMediaController.cs" />
-    <Compile Include="Controllers\MRU\MruPersistenceController.cs" />
+    <Compile Include="Controllers\MRU\MruLibraryController.cs" />
     <Compile Include="Controllers\StatusController.cs" />
     <Compile Include="Models\Logical.cs" />
     <Compile Include="Models\Reader.cs" />

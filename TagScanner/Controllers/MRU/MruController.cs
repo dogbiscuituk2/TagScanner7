@@ -71,7 +71,7 @@
 
         private Win32.RegistryKey User => Win32.Registry.CurrentUser;
 
-        private void DeleteItem(Win32.RegistryKey key, string item)
+        private static void DeleteItem(Win32.RegistryKey key, string item)
         {
             var name = key.GetValueNames().FirstOrDefault(n => key.GetValue(n, null) as string == item);
             if (name != null)
@@ -84,7 +84,7 @@
         {
             try
             {
-                Win32.RegistryKey key = OpenSubKey(true);
+                var key = OpenSubKey(true);
                 if (key == null)
                     return;
                 foreach (var name in key.GetValueNames())
@@ -105,20 +105,20 @@
             Win32.RegistryKey key = null;
             try { key = OpenSubKey(false); }
             catch (Exception ex) { Console.WriteLine(ex); }
-            bool ok = key != null;
+            var ok = key != null;
             if (ok)
             {
                 foreach (var name in key.GetValueNames().OrderByDescending(n => n))
                 {
-                    if (key.GetValue(name, null) is string value)
-                        try
-                        {
-                            var text = CompactMenuText(value.Split('|')[0]);
-                            var item = _recentItems.Add(text, null, OnItemClick);
-                            item.Tag = value;
-                            item.ToolTipText = value.Replace('|', '\n');
-                        }
-                        catch (Exception ex) { Console.WriteLine(ex); }
+                    if (!(key.GetValue(name, null) is string value)) continue;
+                    try
+                    {
+                        var text = CompactMenuText(value.Split('|')[0]);
+                        var item = _recentItems.Add(text, null, OnItemClick);
+                        item.Tag = value;
+                        item.ToolTipText = value.Replace('|', '\n');
+                    }
+                    catch (Exception ex) { Console.WriteLine(ex); }
                 }
                 ok = _recentItems.Count > 0;
                 if (ok)

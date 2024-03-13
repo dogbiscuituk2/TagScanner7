@@ -54,7 +54,7 @@
         {
             var operand = Operands[index];
             var result = operand.ToString();
-            if (operand.Rank < Rank || !Core.MinimiseParentheses)
+            if (operand.Rank < Rank)
                 result = $"({result})";
             return result;
         }

@@ -9,33 +9,10 @@
 
     public static class Core
     {
-        #region Static Constructor
-
-        static Core() => ResetDefaults();
-
-        #endregion
-
-        #region Public Fields
-
-        public static bool MinimiseParentheses;
-        public static string ParamName;
-
-        #endregion
-
         #region Public Properties
 
         public static Dictionary<string, MethodInfo> Methods => _methods ?? GetMethods();
         public static Dictionary<Op, OpInfo> Operators => _operators ?? GetOperators();
-
-        #endregion
-
-        #region Public Methods
-
-        public static void ResetDefaults()
-        {
-            MinimiseParentheses = true;
-            ParamName = "T";
-        }
 
         #endregion
 

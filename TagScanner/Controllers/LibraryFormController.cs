@@ -24,7 +24,7 @@
             LibraryGridController = new LibraryGridController(this, Model, View.GridElementHost);
             LibraryGridController.SelectionChanged += LibraryGridController_SelectionChanged;
             StatusController = new StatusController(Model, View.StatusBar);
-            PersistenceController = new MruPersistenceController(Model, View.FileReopen);
+            PersistenceController = new MruLibraryController(Model, View.FileReopen);
             PersistenceController.FilePathChanged += PersistenceController_FilePathChanged;
             PersistenceController.FileSaving += PersistenceController_FileSaving;
             MediaController = new MruMediaController(this, View.AddRecentFolders);
@@ -82,7 +82,7 @@
         internal readonly Model Model;
         internal readonly LibraryGridController LibraryGridController;
         internal readonly MruMediaController MediaController;
-        internal readonly MruPersistenceController PersistenceController;
+        internal readonly MruLibraryController PersistenceController;
         internal readonly PlayerController PlayerController;
         internal readonly FilterFormController FilterFormController;
         internal readonly StatusController StatusController;

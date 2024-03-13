@@ -7,9 +7,9 @@
     using System.Xml.Serialization;
     using Models;
 
-    internal class MruPersistenceController : MruWorksController
+    internal class MruLibraryController : MruWorksController
     {
-        internal MruPersistenceController(Model model, ToolStripMenuItem recentMenuItem)
+        internal MruLibraryController(Model model, ToolStripMenuItem recentMenuItem)
             : base(model, Properties.Settings.Default.LibraryFilter, "LibraryMRU", recentMenuItem) { }
 
         internal string WindowCaption

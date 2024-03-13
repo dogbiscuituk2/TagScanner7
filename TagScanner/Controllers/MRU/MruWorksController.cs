@@ -5,12 +5,12 @@
 
     internal abstract class MruWorksController : MruSdiController
     {
-        internal MruWorksController(Model model, string filter, string subKeyName, ToolStripMenuItem recentMenuItem)
+        internal MruWorksController(IModel model, string filter, string subKeyName, ToolStripMenuItem recentMenuItem)
             : base(model, filter, subKeyName, recentMenuItem) { }
 
         internal new Model Model
         {
-            get => (Model) base.Model;
+            get => base.Model as Model;
             set => base.Model = value;
         }
     }
