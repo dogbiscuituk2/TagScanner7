@@ -28,7 +28,11 @@
 
         #region Internal Methods
 
-        internal void Show() => View.ShowDialog(Form);
+        internal bool Execute()
+        {
+            var result = View.ShowDialog(Form);
+            return result == DialogResult.OK;
+        }
 
         #endregion
 

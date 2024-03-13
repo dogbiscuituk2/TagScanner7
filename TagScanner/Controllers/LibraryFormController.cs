@@ -106,7 +106,7 @@
 
         private void EditSelectAll_Click(object sender, EventArgs e) => LibraryGridController.SelectAll();
         private void EditInvertSelection_Click(object sender, EventArgs e) => LibraryGridController.InvertSelection();
-        private void ViewFilter_Click(object sender, EventArgs e) => FilterFormController.Show();
+        private void ViewFilter_Click(object sender, EventArgs e) => FilterFormController.Execute();
 
         #endregion
 
