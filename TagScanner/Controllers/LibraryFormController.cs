@@ -7,10 +7,10 @@
     using System.Linq;
     using System.Text;
     using System.Windows.Forms;
-    using TagScanner.Controllers.MRU;
-    using TagScanner.Models;
-    using TagScanner.Properties;
-    using TagScanner.Views;
+    using Models;
+    using MRU;
+    using Properties;
+    using Views;
 
     internal class LibraryFormController : Controller
     {

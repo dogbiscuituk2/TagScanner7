@@ -17,7 +17,6 @@
             items.AddTags(click);
             items.AddOperations(click);
             items.AddFunctions(click);
-            items.Add(new ToolStripSeparator());
             items.Add("&Constant...", null, click);
         }
 

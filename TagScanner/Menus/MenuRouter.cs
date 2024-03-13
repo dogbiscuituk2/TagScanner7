@@ -2,38 +2,43 @@
 {
     using System;
     using System.Collections.Generic;
-    using System.Linq;
     using System.Reflection;
     using System.Windows.Forms;
     using Models;
     using Terms;
 
-    public class MenuRouter
+    internal class MenuRouter
     {
-        public MenuRouter(ToolStripItemCollection items)
+        #region Constructor
+
+        internal MenuRouter(ToolStripDropDownItem termMenu, ToolStripDropDown popupMenu)
         {
+            var items = popupMenu.Items;
             MenuMaker.AddAllTerms(items, MenuRouter_TermClick);
             items.Add(new ToolStripMenuItem("Modify...", null, MenuRouter_TermModifyClick));
             items.Add(new ToolStripMenuItem("Delete...", null, MenuRouter_TermDeleteClick));
+            termMenu.DropDown = popupMenu;
         }
 
-        public static void MoveItems(ToolStripItemCollection from, ToolStripItemCollection to) => to.AddRange(from.OfType<ToolStripItem>().ToArray());
+        #endregion
 
-        public event EventHandler<ConstantEventArgs> ConstantClick;
-        public event EventHandler<FieldEventArgs> FieldClick;
-        public event EventHandler<FunctionEventArgs> FunctionClick;
-        public event EventHandler<OperationEventArgs> OperationClick;
+        #region Internal Events
 
-        protected virtual void OnConstantClick() => ConstantClick?.Invoke(this, new ConstantEventArgs());
-        protected virtual void OnFieldClick(TagProps tagProps) => FieldClick?.Invoke(this, new FieldEventArgs(tagProps));
-        protected virtual void OnOperationClick(KeyValuePair<Op, OpInfo> op) => OperationClick?.Invoke(this, new OperationEventArgs(op));
-        protected virtual void OnFunctionClick(KeyValuePair<string, MethodInfo> method) => FunctionClick?.Invoke(this, new FunctionEventArgs(method));
+        internal event EventHandler ConstantClick, TermModifyClick, TermDeleteClick;
+        internal event EventHandler<FieldEventArgs> FieldClick;
+        internal event EventHandler<FunctionEventArgs> FunctionClick;
+        internal event EventHandler<OperationEventArgs> OperationClick;
 
-        private void MenuRouter_TermDeleteClick(object sender, EventArgs e)
-        { }
+        #endregion
 
-        private void MenuRouter_TermModifyClick(object sender, EventArgs e)
-        { }
+        #region Private Methods
+
+        private void OnConstantClick() => ConstantClick?.Invoke(this, EventArgs.Empty);
+        private void OnFieldClick(TagProps tagProps) => FieldClick?.Invoke(this, new FieldEventArgs(tagProps));
+        private void OnOperationClick(KeyValuePair<Op, OpInfo> op) => OperationClick?.Invoke(this, new OperationEventArgs(op));
+        private void OnFunctionClick(KeyValuePair<string, MethodInfo> method) => FunctionClick?.Invoke(this, new FunctionEventArgs(method));
+        private void MenuRouter_TermDeleteClick(object sender, EventArgs e) => TermDeleteClick?.Invoke(this, e);
+        private void MenuRouter_TermModifyClick(object sender, EventArgs e) => TermModifyClick?.Invoke(this, e);
 
         private void MenuRouter_TermClick(object sender, EventArgs e)
         {
@@ -54,5 +59,7 @@
                     break;
             }
         }
+
+        #endregion
     }
 }

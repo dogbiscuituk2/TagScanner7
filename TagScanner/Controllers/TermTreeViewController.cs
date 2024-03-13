@@ -11,17 +11,17 @@
     {
         internal TermTreeViewController(Controller parent, TreeView treeView) : base(parent)
         {
-            _treeView = treeView;
-            _treeView.AfterCollapse += TreeView_AfterCollapse;
-            _treeView.AfterExpand += TreeView_AfterExpand;
+            TreeView = treeView;
+            TreeView.AfterCollapse += TreeView_AfterCollapse;
+            TreeView.AfterExpand += TreeView_AfterExpand;
         }
 
-        #region Public Properties
+        #region Internal Properties
 
         internal bool HasSelection => SelectedNode != null;
-        internal TreeNode SelectedNode => _treeView.SelectedNode;
-        internal TreeView TreeView => _treeView;
-        internal TreeNodeCollection Roots => _treeView.Nodes;
+        internal TreeNode SelectedNode => TreeView.SelectedNode;
+        internal TreeView TreeView { get; }
+        internal TreeNodeCollection Roots => TreeView.Nodes;
 
         #endregion
 
@@ -46,16 +46,10 @@
 
         #endregion
 
-        #region Private Fields
-
-        private readonly TreeView _treeView;
-
-        #endregion
-
         #region Private Event Handlers
 
-        private void TreeView_AfterCollapse(object sender, TreeViewEventArgs e) => e.Node.Text = (e.Node.Tag as Term).ToString();
-        private void TreeView_AfterExpand(object sender, TreeViewEventArgs e) => e.Node.Text = GetNodeText(e.Node.Tag as Term);
+        private void TreeView_AfterCollapse(object sender, TreeViewEventArgs e) => e.Node.Text = ((Term)e.Node.Tag).ToString();
+        private void TreeView_AfterExpand(object sender, TreeViewEventArgs e) => e.Node.Text = GetNodeText((Term)e.Node.Tag);
 
         #endregion
 
@@ -81,8 +75,11 @@
         {
             var result = new TreeNode(term.ToString()) { Tag = term };
             if (term is Operation operation)
-                foreach (var subterm in operation.Operands)
-                    AddChild(result, subterm);
+                foreach (var subTerm in operation.Operands)
+                    AddChild(result, subTerm);
+            else if (term is Function function)
+                foreach (var subTerm in function.Operands)
+                    AddChild(result, subTerm);
             return result;
         }
 
