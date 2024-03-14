@@ -114,8 +114,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Test.Core.cs" />
-    <Compile Include="Test.cs" />
+    <Compile Include="Test.Fields.cs" />
+    <Compile Include="Test.AlbumData.cs" />
+    <Compile Include="Test.Functions.cs" />
+    <Compile Include="Test.Operations.cs" />
+    <Compile Include="Test.Tags.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />

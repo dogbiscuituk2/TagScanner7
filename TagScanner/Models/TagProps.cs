@@ -14,7 +14,7 @@
     {
         public bool Browsable;
         public bool CanRead;
-        public bool CanSort => !Type.IsArray && TypeName != Tags.FileStatus && TypeName != Tags.TagTypes;
+        public bool CanSort => !Type.IsArray;
         public bool CanWrite;
         public string Category;
         public Column Column;
