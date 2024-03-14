@@ -10,6 +10,7 @@
     using Models;
     using MRU;
     using Properties;
+    using TagScanner.Terms;
     using Views;
 
     internal class LibraryFormController : Controller
@@ -209,11 +210,11 @@
 
         private void SelectPropertyGridTags()
         {
-            var visibleTags = Tags.BrowsableTagNames.ToList();
-            var ok = new TagsController(this).Execute("Select the Tags to display in the Details Panel", visibleTags);
+            var visibleTags = Core.BrowsableTags;
+            var ok = new TagsController(this).Execute("Select the Tags to display in the Details Panel", visibleTags.ToList());
             if (ok)
             {
-                Tags.WriteBrowsableTags(visibleTags);
+                Core.WriteBrowsableTags(visibleTags);
                 UpdatePropertyGrid();
             }
         }

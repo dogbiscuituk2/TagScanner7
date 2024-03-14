@@ -40,9 +40,9 @@
             }
         }
 
-        protected abstract IEnumerable<string> GetVisibleTags();
+        public abstract List<Tag> GetVisibleTags();
         protected abstract void InitGroups();
-        protected abstract void SetVisibleTags(IEnumerable<string> visibleTagNames);
+        public abstract void SetVisibleTags(List<Tag> visibleTags);
 
         protected IEnumerable<TagProps> SortTags()
         {

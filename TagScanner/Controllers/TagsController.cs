@@ -20,16 +20,15 @@
 
         internal override Form Form => Dialog;
 
-        internal bool Execute(string caption, List<string> visibleTagNames)
+        internal bool Execute(string caption, List<Tag> visibleTags)
         {
             Dialog.Text = caption;
-            _visibleTagNames = visibleTagNames.ToList();
-            //TagsListViewController.SetVisibleTags(visibleTagNames);
+            _tagsListViewController.SetVisibleTags(visibleTags);
             var ok = Dialog.ShowDialog(Parent.Form) == DialogResult.OK;
             if (ok)
             {
-                visibleTagNames.Clear();
-                visibleTagNames.AddRange(_visibleTagNames);
+                visibleTags.Clear();
+                visibleTags.AddRange(_visibleTags);
             }
             return ok;
         }
@@ -43,7 +42,7 @@
         private readonly TagsListViewController _tagsListViewController;
         private readonly TagsTreeViewController _tagsTreeViewController;
         private static TagVisibilityDialog _dialog;
-        private List<string> _visibleTagNames;
+        private List<Tag> _visibleTags;
 
         #endregion
 

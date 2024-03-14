@@ -49,8 +49,10 @@
         protected void InitColumns()
         {
             DataGrid.Columns.Clear();
-            foreach (var column in GetTagProps().Select(GetColumn).Where(c => c != null))
-                DataGrid.Columns.Add(column);
+            var columns = GetTagProps()?.Select(GetColumn)?.Where(c => c != null);
+            if (columns != null)
+                foreach (var column in columns)
+                    DataGrid.Columns.Add(column);
             DataGrid.GridLinesVisibility = DataGridGridLinesVisibility.Vertical;
         }
 

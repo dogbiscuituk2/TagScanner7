@@ -9,6 +9,7 @@
     using AxWMPLib;
     using WMPLib;
     using Models;
+    using Terms;
     using Views;
     
     internal class PlayerController : GridController
@@ -73,6 +74,6 @@
                 }
         }
 
-        protected override IEnumerable<TagProps> GetTagProps() => new[] { Tags.Title, Tags.JoinedPerformers, Tags.Album }.Select(p => p.GetProps());
+        protected override IEnumerable<TagProps> GetTagProps() => new[] { Tag.Title, Tag.JoinedPerformers, Tag.Album }.Select(p => Core.Tags[p]);
     }
 }

@@ -6,6 +6,7 @@
     using System.Linq;
     using System.Windows.Forms;
     using Models;
+    using TagScanner.Terms;
 
     internal class TagsListViewController : TagsViewController, IComparer
     {
@@ -58,17 +59,17 @@
 
         private string GetValue(object o) => _sortColumn == 0 ? ((ListViewItem)o).Text : ((ListViewItem)o).SubItems[_sortColumn].Text;
 
-        protected override IEnumerable<string> GetVisibleTags()
+        public override List<Tag> GetVisibleTags()
         {
-            var result = new List<string>();
-            result.AddRange(Dialog.ListView.Items.Cast<ListViewItem>().Where(t => t.Checked).Select(t => t.Name));
+            var result = new List<Tag>();
+            result.AddRange(Dialog.ListView.Items.Cast<ListViewItem>().Where(t => t.Checked).Select(t => (Tag)t.Tag));
             return result;
         }
 
-        private void ReadCheckBoxes(List<string> visibleTagNames)
+        private void ReadCheckBoxes(List<Tag> visibleTags)
         {
-            visibleTagNames.Clear();
-            visibleTagNames.AddRange(GetVisibleTags());
+            visibleTags.Clear();
+            visibleTags.AddRange(GetVisibleTags());
         }
 
         protected override void InitGroups()
@@ -92,15 +93,14 @@
 
         private static ListViewGroup NewGroup(string header) => new ListViewGroup(header) { HeaderAlignment = HorizontalAlignment.Right };
 
-        protected override void SetVisibleTags(IEnumerable<string> visibleTagNames)
+        public override void SetVisibleTags(List<Tag> visibleTags)
         {
             var items = Items.Cast<ListViewItem>();
-            foreach (var tag in Tags.AllTags)
+            foreach (var tag in Core.Tags.Keys)
             {
-                var name = tag.Name;
-                var item = items.FirstOrDefault(p => p.Name == name);
+                var item = items.FirstOrDefault(p => (Tag)p.Tag == tag);
                 if (item != null)
-                    item.Checked = visibleTagNames.Contains(name);
+                    item.Checked = visibleTags.Contains(tag);
             }
         }
 

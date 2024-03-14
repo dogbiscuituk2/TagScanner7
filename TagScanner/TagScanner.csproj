@@ -144,12 +144,14 @@
     <Compile Include="Models\IModel.cs" />
     <Compile Include="Models\Tag.cs" />
     <Compile Include="Terms\Constant.cs" />
+    <Compile Include="Terms\Core.Methods.cs" />
+    <Compile Include="Terms\Core.Operators.cs" />
     <Compile Include="Terms\Field.cs" />
     <Compile Include="Menus\Filter.cs" />
     <Compile Include="Terms\Function.cs" />
     <Compile Include="Terms\Operation.cs" />
     <Compile Include="Terms\Op.cs" />
-    <Compile Include="Terms\Core.cs" />
+    <Compile Include="Terms\Core.Tags.cs" />
     <Compile Include="Terms\OpInfo.cs" />
     <Compile Include="Terms\Parameter.cs" />
     <Compile Include="Terms\Rank.cs" />
@@ -163,7 +165,9 @@
     <Compile Include="Models\TagType.cs" />
     <Compile Include="Models\UsesAttribute.cs" />
     <Compile Include="Models\Library.cs" />
-    <Compile Include="Models\Tags.cs" />
+    <Compile Include="Models\Tags.cs">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Compile>
     <Compile Include="Models\TagProps.cs" />
     <Compile Include="Models\FileStatus.cs" />
     <Compile Include="Terms\Umptad.cs" />

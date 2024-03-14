@@ -9,6 +9,7 @@
     using System.Windows.Data;
     using System.Windows.Forms.Integration;
     using Models;
+    using Terms;
     using ValueConverters;
     using Views;
 
@@ -82,10 +83,10 @@
 
         internal void EditTagVisibility()
         {
-            var gridVisibleTags = VisibleTagNames.ToList();
+            var gridVisibleTags = VisibleTags;
             var ok = new TagsController(this).Execute("Select the Columns to display in the Media Table", gridVisibleTags);
             if (ok)
-                VisibleTagNames = VisibleTagNames.Intersect(gridVisibleTags).Union(gridVisibleTags);
+                VisibleTags = VisibleTags.Intersect(gridVisibleTags).Union(gridVisibleTags).ToList();
         }
 
         protected override IValueConverter GetConverter(TagProps tagProps)
@@ -102,15 +103,15 @@
 
         protected override IEnumerable<TagProps> GetTagProps() => Tags.AllTags;
 
-        private IEnumerable<string> _visibleTagNames = new[] { Tags.FilePath };
-        internal IEnumerable<string> VisibleTagNames
+        private List<Tag> _visibleTags = new List<Tag>{ Tag.FilePath };
+        internal List<Tag> VisibleTags
         {
-            get => _visibleTagNames;
+            get => _visibleTags;
             set
             {
-                if (VisibleTagNames.SequenceEqual(value))
+                if (VisibleTags.SequenceEqual(value))
                     return;
-                _visibleTagNames = value;
+                _visibleTags = value;
                 InitVisibleTags();
             }
         }
@@ -120,9 +121,9 @@
             foreach (var column in DataGrid.Columns)
                 column.Visibility = Visibility.Collapsed;
             var displayIndex = 0;
-            foreach (var name in VisibleTagNames)
+            foreach (var tag in VisibleTags)
             {
-                var column = DataGrid.Columns.Single(c => ((TagProps)c.Header).Name == name);
+                var column = DataGrid.Columns.Single(c => ((TagProps)c.Header).Name == Core.Tags[tag].Name);
                 column.DisplayIndex = displayIndex++;
                 column.Visibility = Visibility.Visible;
             }
@@ -146,8 +147,8 @@
             }
         }
 
-        private IEnumerable<string> _groupDescriptions = Array.Empty<string>();
-        internal IEnumerable<string> GroupDescriptions
+        private IEnumerable<Tag> _groupDescriptions = Array.Empty<Tag>();
+        internal IEnumerable<Tag> GroupDescriptions
         {
             get => _groupDescriptions;
             set
@@ -169,7 +170,7 @@
             {
                 groupDescriptions.Clear();
                 foreach (var groupDescription in GroupDescriptions)
-                    groupDescriptions.Add(new PropertyGroupDescription(groupDescription));
+                    groupDescriptions.Add(new PropertyGroupDescription(Core.Tags[groupDescription].Name));
             }
         }
 
@@ -241,24 +242,21 @@
 
         #region Presets
 
-        private static readonly IEnumerable<string>
-            VisibleTagsDefault = new[] { Tags.DiscTrack, Tags.Title, Tags.Duration, Tags.FileSize },
-            VisibleTagsExtended = VisibleTagsDefault.Union(new[] { Tags.JoinedPerformers, Tags.Album });
+        private static readonly List<Tag>
+            VisibleTagsDefault = new[] { Tag.DiscTrack, Tag.Title, Tag.Duration, Tag.FileSize }.ToList(),
+            VisibleTagsExtended = new[] { Tag.DiscTrack, Tag.Title, Tag.Duration, Tag.FileSize, Tag.JoinedPerformers, Tag.Album }.ToList();
+        
+        internal void ViewByAlbum() => SetQuery(VisibleTagsDefault, new[] { Tag.Album }, new[] { Tag.DiscNumber, Tag.TrackNumber });
+        internal void ViewByArtist() => SetQuery(new[] { Tag.YearAlbum, Tag.DiscTrack, Tag.Title, Tag.Duration, Tag.FileSize }, new[] { Tag.JoinedPerformers }, new[] { Tag.DiscNumber, Tag.TrackNumber });
+        internal void ViewByArtistAlbum() => SetQuery(VisibleTagsDefault, new[] { Tag.JoinedPerformers, Tag.YearAlbum }, new[] { Tag.DiscNumber, Tag.TrackNumber });
+        internal void ViewByGenre() => SetQuery(VisibleTagsDefault, new[] { Tag.JoinedGenres, Tag.JoinedPerformers, Tag.YearAlbum }, new[] { Tag.DiscNumber, Tag.TrackNumber });
+        internal void ViewByNone() => SetQuery(VisibleTagsExtended, null, new[] { Tag.DiscNumber, Tag.TrackNumber });
+        internal void ViewByYear() => SetQuery(VisibleTagsExtended, new[] { Tag.DiscNumber, Tag.Decade, Tag.Year }, new[] { Tag.DiscNumber, Tag.TrackNumber });
 
-        internal void ViewByAlbum() => SetQuery(VisibleTagsDefault, new[] { Tags.Album }, new[] { Tags.DiscNumber, Tags.TrackNumber });
-        internal void ViewByArtist() => SetQuery(new[] { Tags.YearAlbum, Tags.DiscTrack, Tags.Title, Tags.Duration, Tags.FileSize }, new[] { Tags.JoinedPerformers }, new[] { Tags.DiscNumber, Tags.TrackNumber });
-        internal void ViewByArtistAlbum() => SetQuery(VisibleTagsDefault, new[] { Tags.JoinedPerformers, Tags.YearAlbum }, new[] { Tags.DiscNumber, Tags.TrackNumber });
-        internal void ViewByGenre() => SetQuery(VisibleTagsDefault, new[] { Tags.JoinedGenres, Tags.JoinedPerformers, Tags.YearAlbum }, new[] { Tags.DiscNumber, Tags.TrackNumber });
-        internal void ViewByNone() => SetQuery(VisibleTagsExtended, new string[0], new[] { Tags.DiscNumber, Tags.TrackNumber });
-        internal void ViewByYear() => SetQuery(VisibleTagsExtended, new[] { Tags.DiscNumber, Tags.Decade, Tags.Year }, new[] { Tags.DiscNumber, Tags.TrackNumber });
-
-        private void SetQuery(
-            IEnumerable<string> visibleTags,
-            IEnumerable<string> groupDescriptions,
-            IEnumerable<string> sortDescriptions)
+        private void SetQuery(IEnumerable<Tag> visibleTags, IEnumerable<Tag> groupDescriptions, IEnumerable<Tag> sortDescriptions)
         {
-            VisibleTagNames = visibleTags.Union(VisibleTagNames);
-            _sortDescriptions = sortDescriptions.Select(s => new SortDescription(s, ListSortDirection.Ascending));
+            VisibleTags = visibleTags.Union(VisibleTags).ToList();
+            _sortDescriptions = sortDescriptions.Select(s => new SortDescription(Core.Tags[s].Name, ListSortDirection.Ascending));
             _groupDescriptions = groupDescriptions;
             InitGroups();
         }

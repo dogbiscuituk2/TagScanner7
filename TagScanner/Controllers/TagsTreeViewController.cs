@@ -50,7 +50,7 @@
             }
         }
 
-        protected override IEnumerable<string> GetVisibleTags()
+        public override List<Tag> GetVisibleTags()
         {
             return null;
         }
@@ -67,7 +67,7 @@
             Dialog.TreeNamesOnly.Checked = tree && GroupTagsBy == GroupTagsBy.None; ;
         }
 
-        protected override void SetVisibleTags(IEnumerable<string> visibleTagNames)
+        public override void SetVisibleTags(List<Tag> visibleTags)
         {
         }
 

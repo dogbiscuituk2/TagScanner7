@@ -18,7 +18,7 @@
         {
             _comboBox.DropDownStyle = ComboBoxStyle.DropDownList;
             _comboBox.Items.Clear();
-            _comboBox.Items.AddRange(Tags.AllTags.OrderBy(p => p.DisplayName).ToArray());
+            _comboBox.Items.AddRange(Core.Tags.Values.OrderBy(p => p.DisplayName).ToArray());
         }
     }
 }

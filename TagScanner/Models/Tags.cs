@@ -2,16 +2,15 @@
 {
     using System;
     using System.Collections.Generic;
-    using System.ComponentModel;
     using System.Linq;
-    using System.Reflection;
+    using TagScanner.Terms;
 
     public static class Tags
     {
-        #region Public Interface
+        /*#region Public Interface
 
         #region Tag Names
-
+*/
         public const string
             Album = nameof(IWork.Album),
             AlbumArtists = nameof(IWork.AlbumArtists),
@@ -131,7 +130,7 @@
             VideoWidth = nameof(IWork.VideoWidth),
             Year = nameof(IWork.Year),
             YearAlbum = nameof(IWork.YearAlbum);
-
+/*
         #endregion
 
         public static List<TagProps> AllTags;
@@ -144,84 +143,13 @@
         public static IEnumerable<TagProps> StringTags => AllTags.Where(p => p.IsString);
         public static IEnumerable<TagProps> TextTags => AllTags.Where(p => p.IsText);
 
-        public static TagProps GetProps(this string propertyName) => AllTags.Single(p => p.Name == propertyName);
+        public static TagProps GetProps(this string propertyName) => Core.Tags[propertyName];
 
         public static IEnumerable<TagProps> GetDependencies(string name) => AllTags.Where(p => p.DirectUses.Contains(name));
         public static IEnumerable<string> GetDependencyNames(string name) => GetDependencies(name).Select(p => p.Name);
 
         public static Type TagType(this string name) => AllTags.Single(p => p.Name == name).Type;
 
-        public static void WriteBrowsableTags(IEnumerable<string> names)
-        {
-            foreach (var name in AllTagNames) SetBrowsable(name, names.Contains(name));
-        }
-
-        #endregion
-
-        #region Private Implementation
-
-        static Tags()
-        {
-            AllTags = new List<TagProps>();
-            foreach (var info in typeof(Selection).GetProperties())
-            {
-                string
-                    name = info.Name,
-                    category = GetCategory(name);
-                if (category == Selection.Selected)
-                    continue;
-                var tagProps = new TagProps
-                {
-                    Browsable = GetBrowsable(name),
-                    CanRead = info.CanRead,
-                    CanWrite = info.CanWrite,
-                    Category = category,
-                    Column = GetColumn(name),
-                    Details = GetDescription(name),
-                    DirectUses = GetDirectUses(name),
-                    DisplayName = GetDisplayName(name),
-                    FrequentlyUsed = GetFrequentlyUsed(name),
-                    Name = name,
-                    ReadOnly = GetReadOnly(name),
-                    Type = info.PropertyType,
-                };
-                tagProps.AdjustAlignment();
-                AllTags.Add(tagProps);
-            }
-        }
-
-        private static bool GetBrowsable(string name) => (bool)UseField(name, typeof(BrowsableAttribute), "browsable");
-        private static string GetCategory(string name) => (string)UseField(name, typeof(CategoryAttribute), "categoryValue");
-        private static Column GetColumn(string name) => (Column)UseField(name, typeof(ColumnAttribute), "_column");
-        private static string GetDescription(string name) => (string)UseField(name, typeof(DescriptionAttribute), "description");
-        private static string GetDisplayName(string name) => (string)UseField(name, typeof(DisplayNameAttribute), "_displayName");
-        private static bool GetFrequentlyUsed(string name) => (bool)UseField(name, typeof(FrequentlyUsedAttribute), "_frequentlyUsed");
-        private static bool GetReadOnly(string name) => (bool)UseField(name, typeof(ReadOnlyAttribute), "isReadOnly");
-        private static IEnumerable<string> GetDirectUses(string name) => (IEnumerable<string>)UseField(name, typeof(UsesAttribute), "_propertyNames");
-
-        private static object UseField(string name, Type attrType, string field, object value = null) => typeof(Selection).UseField(name, attrType, field, value);
-
-        public static object UseField(this Type type, string propName, Type attrType, string field, object value = null)
-        {
-            var attr = TypeDescriptor.GetProperties(type)[propName].Attributes[attrType];
-            var info = attrType.GetField(field, BindingFlags.NonPublic | BindingFlags.Instance);
-            if (value == null)
-                value = info?.GetValue(attr);
-            else
-                info?.SetValue(attr, value);
-            return value;
-        }
-
-        private static void SetBrowsable(string name, bool value)
-        {
-            var property = name.GetProps();
-            if (property.Browsable != value)
-            {
-                UseField(name, typeof(BrowsableAttribute), "browsable", value);
-                property.Browsable = value;
-            }
-        }
-
-        #endregion
+        #endregion*/
     }
 }
