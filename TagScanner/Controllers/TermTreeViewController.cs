@@ -73,14 +73,22 @@
 
         private TreeNode NewNode(Term term)
         {
-            var result = new TreeNode(term.ToString()) { Tag = term };
-            if (term is Operation operation)
-                foreach (var subTerm in operation.Operands)
-                    AddChild(result, subTerm);
-            else if (term is Function function)
-                foreach (var subTerm in function.Operands)
-                    AddChild(result, subTerm);
-            return result;
+            var node = new TreeNode(term.ToString()) { Tag = term };
+            switch (term)
+            {
+                case Field field:
+                    node.ToolTipText = field.TagName.Details();
+                    break;
+                case Operation operation:
+                    foreach (var subTerm in operation.Operands)
+                        AddChild(node, subTerm);
+                    break;
+                case Function function:
+                    foreach (var subTerm in function.Operands)
+                        AddChild(node, subTerm);
+                    break;
+            }
+            return node;
         }
 
         #endregion
