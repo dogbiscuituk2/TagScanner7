@@ -24,6 +24,6 @@
 
         public override Type ResultType => TagName.TagType();
 
-        public override string ToString() => TagName.DisplayName();
+        public override string ToString() => Core.Tags[TagName].DisplayName;
     }
 }

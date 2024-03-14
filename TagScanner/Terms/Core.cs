@@ -1,7 +1,10 @@
-﻿namespace TagScanner.Terms
+﻿using TagScanner.Models;
+
+namespace TagScanner.Terms
 {
     using System;
     using System.Collections.Generic;
+    using System.ComponentModel;
     using System.Linq;
     using System.Linq.Expressions;
     using System.Reflection;
@@ -11,8 +14,9 @@
     {
         #region Public Properties
 
-        public static Dictionary<string, MethodInfo> Methods => _methods ?? GetMethods();
-        public static Dictionary<Op, OpInfo> Operators => _operators ?? GetOperators();
+        public static MethodDictionary Methods => _methodDictionary ?? GetMethods();
+        public static OperatorDictionary Operators => _operatorDictionary ?? GetOperators();
+        public static TagDictionary Tags => _tagDictionary ?? GetTags();
 
         #endregion
 
@@ -38,9 +42,10 @@
                 case Op.Divide:
                     return int.MaxValue;
             }
+
             // Otherwise, the Arity value is simply the number of {#} placeholders in the relevant Format string.
             var format = op.Format();
-            for (var result = 0; ; result++)
+            for (var result = 0;; result++)
                 if (format.IndexOf($"{{{result}}}") < 0)
                     return result;
         }
@@ -73,82 +78,79 @@
 
         #region Private Fields
 
-        private static Dictionary<string, MethodInfo> _methods;
-        private static Dictionary<Op, OpInfo> _operators;
+        private static MethodDictionary _methodDictionary;
+        private static OperatorDictionary _operatorDictionary;
+        private static TagDictionary _tagDictionary;
 
         #endregion
 
         #region Private Methods
 
-        private static Dictionary<string, MethodInfo> GetMethods()
+        private static MethodDictionary GetMethods() => _methodDictionary = new MethodDictionary
         {
-            _methods = new Dictionary<string, MethodInfo>
-            {
-                { "Compare", FindMethodInfo(typeof(string), true, "Compare", typeof(string), typeof(string)) },
-                { "Concat_2", FindMethodInfo(typeof(string), true, "Concat", typeof(string), typeof(string)) },
-                { "Concat_3", FindMethodInfo(typeof(string), true, "Concat", typeof(string), typeof(string), typeof(string)) },
-                { "Concat_4", FindMethodInfo(typeof(string), true, "Concat", typeof(string), typeof(string), typeof(string), typeof(string)) },
-                { "Contains", FindMethodInfo(typeof(string), false, "Contains", typeof(string)) },
-                { "EndsWith", FindMethodInfo(typeof(string), false, "EndsWith", typeof(string)) },
-                { "Equals", FindMethodInfo(typeof(object), false, "Equals", typeof(object)) },
-                { "Format", FindMethodInfo(typeof(string), true, "Format", typeof(string), typeof(object[])) },
-                { "Length", FindMethodInfo(typeof(string), false, "get_Length") },
-                { "IndexOf", FindMethodInfo(typeof(string), false, "IndexOf", typeof(char)) },
-                { "Insert", FindMethodInfo(typeof(string), false, "Insert", typeof(int), typeof(string)) },
-                { "IsEmpty", FindMethodInfo(typeof(string), true, "IsNullOrWhiteSpace", typeof(string)) },
-                { "Match$", FindMethodInfo(typeof(Regex), true, "IsMatch", typeof(string), typeof(string)) },
-                { "LastIndexOf", FindMethodInfo(typeof(string), false, "LastIndexOf", typeof(char)) },
-                { "Lowercase", FindMethodInfo(typeof(string), false, "ToLowerInvariant") },
-                { "Max", FindMethodInfo(typeof(Math), true, "Max", typeof(double), typeof(double)) },
-                { "Min", FindMethodInfo(typeof(Math), true, "Min", typeof(double), typeof(double)) },
-                { "Power", FindMethodInfo(typeof(Math), true, "Pow", typeof(double), typeof(double)) },
-                { "Remove", FindMethodInfo(typeof(string), false, "Remove", typeof(int), typeof(int)) },
-                { "Replace", FindMethodInfo(typeof(string), false, "Replace", typeof(string), typeof(string)) },
-                { "Replace$", FindMethodInfo(typeof(Regex), true, "Replace", typeof(string), typeof(string), typeof(string)) },
-                { "Round", FindMethodInfo(typeof(Math), true, "Round", typeof(double)) },
-                { "Sign", FindMethodInfo(typeof(Math), true, "Sign", typeof(double)) },
-                { "StartsWith", FindMethodInfo(typeof(string), false, "StartsWith", typeof(string)) },
-                { "Substring", FindMethodInfo(typeof(string), false, "Substring", typeof(int), typeof(int)) },
-                { "ToString", FindMethodInfo(typeof(object), false, "ToString") },
-                { "Trim", FindMethodInfo(typeof(string), false, "Trim") },
-                { "Truncate", FindMethodInfo(typeof(Math), true, "Truncate", typeof(double)) },
-                { "Uppercase", FindMethodInfo(typeof(string), false, "ToUpperInvariant") },
-            };
-            return Methods;
-        }
+            { "Compare", FindMethodInfo(typeof(string), true, "Compare", typeof(string), typeof(string)) },
+            { "Concat_2", FindMethodInfo(typeof(string), true, "Concat", typeof(string), typeof(string)) },
+            { "Concat_3", FindMethodInfo(typeof(string), true, "Concat", typeof(string), typeof(string), typeof(string)) },
+            { "Concat_4", FindMethodInfo(typeof(string), true, "Concat", typeof(string), typeof(string), typeof(string), typeof(string)) },
+            { "Contains", FindMethodInfo(typeof(string), false, "Contains", typeof(string)) },
+            { "EndsWith", FindMethodInfo(typeof(string), false, "EndsWith", typeof(string)) },
+            { "Equals", FindMethodInfo(typeof(object), false, "Equals", typeof(object)) },
+            { "Format", FindMethodInfo(typeof(string), true, "Format", typeof(string), typeof(object[])) },
+            { "Length", FindMethodInfo(typeof(string), false, "get_Length") },
+            { "IndexOf", FindMethodInfo(typeof(string), false, "IndexOf", typeof(char)) },
+            { "Insert", FindMethodInfo(typeof(string), false, "Insert", typeof(int), typeof(string)) },
+            { "IsEmpty", FindMethodInfo(typeof(string), true, "IsNullOrWhiteSpace", typeof(string)) },
+            { "Match$", FindMethodInfo(typeof(Regex), true, "IsMatch", typeof(string), typeof(string)) },
+            { "LastIndexOf", FindMethodInfo(typeof(string), false, "LastIndexOf", typeof(char)) },
+            { "Lowercase", FindMethodInfo(typeof(string), false, "ToLowerInvariant") },
+            { "Max", FindMethodInfo(typeof(Math), true, "Max", typeof(double), typeof(double)) },
+            { "Min", FindMethodInfo(typeof(Math), true, "Min", typeof(double), typeof(double)) },
+            { "Power", FindMethodInfo(typeof(Math), true, "Pow", typeof(double), typeof(double)) },
+            { "Remove", FindMethodInfo(typeof(string), false, "Remove", typeof(int), typeof(int)) },
+            { "Replace", FindMethodInfo(typeof(string), false, "Replace", typeof(string), typeof(string)) },
+            { "Replace$", FindMethodInfo(typeof(Regex), true, "Replace", typeof(string), typeof(string), typeof(string)) },
+            { "Round", FindMethodInfo(typeof(Math), true, "Round", typeof(double)) },
+            { "Sign", FindMethodInfo(typeof(Math), true, "Sign", typeof(double)) },
+            { "StartsWith", FindMethodInfo(typeof(string), false, "StartsWith", typeof(string)) },
+            { "Substring", FindMethodInfo(typeof(string), false, "Substring", typeof(int), typeof(int)) },
+            { "ToString", FindMethodInfo(typeof(object), false, "ToString") },
+            { "Trim", FindMethodInfo(typeof(string), false, "Trim") },
+            { "Truncate", FindMethodInfo(typeof(Math), true, "Truncate", typeof(double)) },
+            { "Uppercase", FindMethodInfo(typeof(string), false, "ToUpperInvariant") },
+        };
 
-        private static MethodInfo FindMethodInfo(Type declaringType, bool isStatic, string name, params Type[] paramTypes) => declaringType
+        private static MethodInfo FindMethodInfo(Type declaringType, bool isStatic, string name,
+            params Type[] paramTypes) => declaringType
             .GetMethods(BindingFlags.Public | (isStatic ? BindingFlags.Static : BindingFlags.Instance))
             .Single(p => p.Name == name && p.GetParamTypes().SequenceEqual(paramTypes));
 
-        private static Dictionary<Op, OpInfo> GetOperators()
+        private static OperatorDictionary GetOperators() => _operatorDictionary = new OperatorDictionary
         {
-            _operators = new Dictionary<Op, OpInfo>
-            {
-                { Op.Conditional, new OpInfo("if-then-else", ExpressionType.Conditional, Rank.Conditional, typeof(object), "if {0} then {1} else {2}", new[]{ typeof(bool), typeof(object) }) },
-                { Op.And, new OpInfo("and", ExpressionType.AndAlso, Rank.ConditionalAnd, typeof(bool), "{0} and {1}") },
-                { Op.Or, new OpInfo("or", ExpressionType.OrElse, Rank.ConditionalOr, typeof(bool),"{0} or {1}") },
-                { Op.Xor, new OpInfo("exclusive or", ExpressionType.ExclusiveOr, Rank.BitwiseXor, typeof(bool), "{0} xor {1}") },
-                { Op.EqualTo, new OpInfo("=", ExpressionType.Equal, Rank.Equality, typeof(bool), "{0} = {1}", typeof(object)) },
-                { Op.NotEqualTo, new OpInfo("≠", ExpressionType.NotEqual, Rank.Equality, typeof(bool), "{0} ≠ {1}", typeof(object)) },
-                { Op.LessThan, new OpInfo("<", ExpressionType.LessThan, Rank.Relational, typeof(bool), "{0} < {1}", typeof(double)) },
-                { Op.NotLessThan, new OpInfo("≥", ExpressionType.GreaterThanOrEqual, Rank.Relational, typeof(bool), "{0} ≥ {1}", typeof(double)) },
-                { Op.GreaterThan, new OpInfo(">", ExpressionType.GreaterThan, Rank.Relational, typeof(bool), "{0} > {1}", typeof(double)) },
-                { Op.NotGreaterThan, new OpInfo("≤", ExpressionType.LessThanOrEqual, Rank.Relational, typeof(bool), "{0} ≤ {1}", typeof(double)) },
-                { Op.Concatenate, new OpInfo("＋", ExpressionType.Add, Rank.Additive, typeof(string), "{0} ＋ {1}") },
-                { Op.Add, new OpInfo("＋",ExpressionType.Add, Rank.Additive, typeof(double), "{0} ＋ {1}") },
-                { Op.Subtract, new OpInfo("－", ExpressionType.Subtract, Rank.Additive, typeof(double), "{0} － {1}") },
-                { Op.Multiply, new OpInfo("✕", ExpressionType.Multiply, Rank.Multiplicative, typeof(double), "{0} ✕ {1}") },
-                { Op.Divide, new OpInfo("／", ExpressionType.Divide, Rank.Multiplicative, typeof(double), "{0} ／ {1}") },
-                { Op.Positive, new OpInfo("＋", ExpressionType.UnaryPlus, Rank.Unary, typeof(double), "＋{0}") },
-                { Op.Negative, new OpInfo("－", ExpressionType.Negate, Rank.Unary, typeof(double), "－{0}") },
-                { Op.Not, new OpInfo("not", ExpressionType.Not, Rank.Unary, typeof(bool), "not {0}") },
-            };
-            return Operators;
-        }
+            { Op.Conditional, new OpInfo("if-then-else", ExpressionType.Conditional, Rank.Conditional, typeof(object), "if {0} then {1} else {2}", new[] { typeof(bool), typeof(object) }) },
+            { Op.And, new OpInfo("and", ExpressionType.AndAlso, Rank.ConditionalAnd, typeof(bool), "{0} and {1}") },
+            { Op.Or, new OpInfo("or", ExpressionType.OrElse, Rank.ConditionalOr, typeof(bool), "{0} or {1}") },
+            { Op.Xor, new OpInfo("exclusive or", ExpressionType.ExclusiveOr, Rank.BitwiseXor, typeof(bool), "{0} xor {1}") },
+            { Op.EqualTo, new OpInfo("=", ExpressionType.Equal, Rank.Equality, typeof(bool), "{0} = {1}", typeof(object)) },
+            { Op.NotEqualTo, new OpInfo("≠", ExpressionType.NotEqual, Rank.Equality, typeof(bool), "{0} ≠ {1}", typeof(object)) },
+            { Op.LessThan, new OpInfo("<", ExpressionType.LessThan, Rank.Relational, typeof(bool), "{0} < {1}", typeof(double)) },
+            { Op.NotLessThan, new OpInfo("≥", ExpressionType.GreaterThanOrEqual, Rank.Relational, typeof(bool), "{0} ≥ {1}", typeof(double)) },
+            { Op.GreaterThan, new OpInfo(">", ExpressionType.GreaterThan, Rank.Relational, typeof(bool), "{0} > {1}", typeof(double)) },
+            { Op.NotGreaterThan, new OpInfo("≤", ExpressionType.LessThanOrEqual, Rank.Relational, typeof(bool), "{0} ≤ {1}", typeof(double)) },
+            { Op.Concatenate, new OpInfo("＋", ExpressionType.Add, Rank.Additive, typeof(string), "{0} ＋ {1}") },
+            { Op.Add, new OpInfo("＋", ExpressionType.Add, Rank.Additive, typeof(double), "{0} ＋ {1}") },
+            { Op.Subtract, new OpInfo("－", ExpressionType.Subtract, Rank.Additive, typeof(double), "{0} － {1}") },
+            { Op.Multiply, new OpInfo("✕", ExpressionType.Multiply, Rank.Multiplicative, typeof(double), "{0} ✕ {1}") },
+            { Op.Divide, new OpInfo("／", ExpressionType.Divide, Rank.Multiplicative, typeof(double), "{0} ／ {1}") },
+            { Op.Positive, new OpInfo("＋", ExpressionType.UnaryPlus, Rank.Unary, typeof(double), "＋{0}") },
+            { Op.Negative, new OpInfo("－", ExpressionType.Negate, Rank.Unary, typeof(double), "－{0}") },
+            { Op.Not, new OpInfo("not", ExpressionType.Not, Rank.Unary, typeof(bool), "not {0}") },
+        };
 
-        private static IEnumerable<string> GetParamTypeNames(this MethodInfo method) => method.GetParamTypes().Select(t => t.Name);
-        private static IEnumerable<Type> GetParamTypes(this MethodInfo method) => method.GetParameters().Select(p => p.ParameterType);
+        private static IEnumerable<string> GetParamTypeNames(this MethodInfo method) =>
+            method.GetParamTypes().Select(t => t.Name);
+
+        private static IEnumerable<Type> GetParamTypes(this MethodInfo method) =>
+            method.GetParameters().Select(p => p.ParameterType);
 
         private static string GetParams(this MethodInfo method)
         {
@@ -156,6 +158,77 @@
             return names.Any() ? names.Aggregate((p, q) => $"{p}, {q}") : string.Empty;
         }
 
+        private static TagDictionary GetTags()
+        {
+            _tagDictionary = new TagDictionary();
+            var props = typeof(Selection).GetProperties();
+            foreach (Tag tag in Enum.GetValues(typeof(Tag)))
+            {
+                var name = tag.ToString();
+                var prop = props.Single(p => p.Name == name);
+                var category = GetCategory(name);
+                if (category == Selection.Selected)
+                    continue;
+                var tagProps = new TagProps
+                {
+                    Browsable = GetBrowsable(name),
+                    CanRead = prop.CanRead,
+                    CanWrite = prop.CanWrite,
+                    Category = category,
+                    Column = GetColumn(name),
+                    Details = GetDescription(name),
+                    DirectUses = GetDirectUses(name),
+                    DisplayName = GetDisplayName(name),
+                    FrequentlyUsed = GetFrequentlyUsed(name),
+                    Name = name,
+                    ReadOnly = GetReadOnly(name),
+                    Type = prop.PropertyType,
+                };
+                tagProps.AdjustAlignment();
+                _tagDictionary.Add(tag, tagProps);
+            }
+            return _tagDictionary;
+        }
+
+        private static bool GetBrowsable(string name) => (bool)UseField(name, typeof(BrowsableAttribute), "browsable");
+        private static string GetCategory(string name) => (string)UseField(name, typeof(CategoryAttribute), "categoryValue");
+        private static Column GetColumn(string name) => (Column)UseField(name, typeof(ColumnAttribute), "_column");
+        private static string GetDescription(string name) => (string)UseField(name, typeof(DescriptionAttribute), "description");
+        private static string GetDisplayName(string name) => (string)UseField(name, typeof(DisplayNameAttribute), "_displayName");
+        private static bool GetFrequentlyUsed(string name) => (bool)UseField(name, typeof(FrequentlyUsedAttribute), "_frequentlyUsed");
+        private static bool GetReadOnly(string name) => (bool)UseField(name, typeof(ReadOnlyAttribute), "isReadOnly");
+        private static IEnumerable<string> GetDirectUses(string name) => (IEnumerable<string>)UseField(name, typeof(UsesAttribute), "_propertyNames");
+        private static object UseField(string name, Type attrType, string field, object value = null) => typeof(Selection).UseField(name, attrType, field, value);
+
+        public static object UseField(this Type type, string propName, Type attrType, string field, object value = null)
+        {
+            var attr = TypeDescriptor.GetProperties(type)[propName].Attributes[attrType];
+            var info = attrType.GetField(field, BindingFlags.NonPublic | BindingFlags.Instance);
+            if (value == null)
+                value = info?.GetValue(attr);
+            else
+                info?.SetValue(attr, value);
+            return value;
+        }
+
+        private static void SetBrowsable(string name, bool value)
+        {
+            var property = name.GetProps();
+            if (property.Browsable != value)
+            {
+                UseField(name, typeof(BrowsableAttribute), "browsable", value);
+                property.Browsable = value;
+            }
+        }
+
         #endregion
     }
+
+    #region Utility Classes
+
+    public class MethodDictionary : Dictionary<string, MethodInfo> { }
+    public class OperatorDictionary : Dictionary<Op, OpInfo> { }
+    public class TagDictionary : Dictionary<Tag, TagProps> { public TagProps this[string name] => this[(Tag)Enum.Parse(typeof(Tag), name)]; }
+
+    #endregion
 }

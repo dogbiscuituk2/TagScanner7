@@ -1,4 +1,6 @@
-﻿namespace TagScanner.Models
+﻿using System.Linq;
+
+namespace TagScanner.Models
 {
     using System;
     using System.Collections.Generic;
@@ -19,6 +21,7 @@
         public string Category;
         public Column Column;
         public string Details;
+        public IEnumerable<string> DirectUses;
         public string DisplayName;
         public bool FrequentlyUsed;
         public bool IsString => TypeName == TagType.String;
@@ -27,7 +30,6 @@
         public bool ReadOnly;
         public Type Type;
         public string TypeName => Type.Name;
-        public IEnumerable<string> Uses;
 
         public void AdjustAlignment()
         {

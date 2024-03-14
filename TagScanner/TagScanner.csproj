@@ -153,6 +153,7 @@
     <Compile Include="Terms\OpInfo.cs" />
     <Compile Include="Terms\Parameter.cs" />
     <Compile Include="Terms\Rank.cs" />
+    <Compile Include="Terms\TermDictionaries.cs" />
     <Compile Include="Terms\Term.cs" />
     <Compile Include="Logging\Logger.cs" />
     <Compile Include="Models\Alignment.cs" />
