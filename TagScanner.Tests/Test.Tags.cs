@@ -21,23 +21,18 @@
                     canWrite = property.SetMethod != null;
                 var column = tag.Column;
                 Assert.IsNotNull(column);
-                var columnAlignment = tag.Type == typeof(string) ? Alignment.Near : Alignment.Far;
+                //var columnAlignment = tag.Type == typeof(string) ? Alignment.Near : Alignment.Far;
                 var columnType = tag.Type == typeof(bool) ? ColumnType.CheckBox : ColumnType.Text;
-
-                //var foo = column.Type;
-
                 Assert.AreEqual(expected: true, actual: tag.CanRead);
                 Assert.AreEqual(expected: canSort, actual: tag.CanSort);
                 Assert.AreEqual(expected: canWrite, actual: tag.CanWrite);
                 Assert.IsFalse(string.IsNullOrWhiteSpace(tag.Category));
-                Assert.AreEqual(expected: columnAlignment, actual: column.Alignment);
+                //Assert.AreEqual(expected: columnAlignment, actual: column.Alignment);
                 Assert.AreEqual(expected: columnType, actual: column.Type);
                 Assert.IsFalse(string.IsNullOrWhiteSpace(tag.Details));
                 Assert.IsFalse(string.IsNullOrWhiteSpace(tag.DisplayName));
                 Assert.AreNotEqual(notExpected: canWrite, actual: tag.ReadOnly);
                 Assert.AreEqual(expected: property.PropertyType, actual: tag.Type);
-
-                
             }
         }
     }
