@@ -74,6 +74,6 @@
                 }
         }
 
-        protected override IEnumerable<TagProps> GetTagProps() => new[] { Tag.Title, Tag.JoinedPerformers, Tag.Album }.Select(p => Core.Tags[p]);
+        //protected override IEnumerable<TagProps> GetTagProps() => new[] { Tag.Title, Tag.JoinedPerformers, Tag.Album }.Select(p => Core.Tags[p]);
     }
 }

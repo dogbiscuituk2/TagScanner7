@@ -19,6 +19,16 @@
 
         #region Public Methods
 
+        public static IEnumerable<Tag> GetDependencies(this Tag tag)
+        {
+            var tags = Tags.Keys.Where(p => Tags[p].Uses.Contains(tag));
+            foreach (var t in tags.ToList())
+                tags = tags.Union(GetDependencies(t));
+            return tags;
+        }
+
+        public static IEnumerable<string> GetDependencyNames(this string name) => Tags[name].Tag.GetDependencies().Select(p => Tags[p].Name);
+
         public static string Say(this Type type)
         {
             if (type.IsArray)
@@ -70,11 +80,12 @@
                     Category = category,
                     Column = GetColumn(tag),
                     Details = GetDescription(tag),
-                    DirectUses = GetDirectUses(tag),
+                    Uses = GetUses(tag),
                     DisplayName = GetDisplayName(tag),
                     FrequentlyUsed = GetFrequentlyUsed(tag),
                     Name = name,
                     ReadOnly = GetReadOnly(tag),
+                    Tag = tag,
                     Type = prop.PropertyType,
                 };
                 tagProps.AdjustAlignment();
@@ -90,7 +101,7 @@
         private static string GetDisplayName(Tag tag) => (string)UseField(tag, typeof(DisplayNameAttribute), "_displayName");
         private static bool GetFrequentlyUsed(Tag tag) => (bool)UseField(tag, typeof(FrequentlyUsedAttribute), "_frequentlyUsed");
         private static bool GetReadOnly(Tag tag) => (bool)UseField(tag, typeof(ReadOnlyAttribute), "isReadOnly");
-        private static IEnumerable<string> GetDirectUses(Tag tag) => (IEnumerable<string>)UseField(tag, typeof(UsesAttribute), "_propertyNames");
+        private static IEnumerable<Tag> GetUses(Tag tag) => (IEnumerable<Tag>)UseField(tag, typeof(UsesAttribute), "_propertyNames");
         private static object UseField(Tag tag, Type attrType, string field, object value = null) => typeof(Selection).UseField(tag, attrType, field, value);
 
         private static void SetBrowsable(Tag tag, bool value)

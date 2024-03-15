@@ -2,7 +2,6 @@
 {
     using System;
     using System.Linq.Expressions;
-    using Models;
 
     [Serializable]
     public class Field : Term
@@ -22,7 +21,7 @@
             }
         }
 
-        public override Type ResultType => TagName.TagType();
+        public override Type ResultType => Core.Tags[TagName].Type;
 
         public override string ToString() => Core.Tags[TagName].DisplayName;
     }

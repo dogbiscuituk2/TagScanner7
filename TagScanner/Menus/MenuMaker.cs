@@ -60,7 +60,7 @@
         private static void AddTags(this ToolStripItemCollection items, EventHandler click)
         {
             items = items.Append("&Tag");
-            var tags = Tags.AllTags.OrderBy(p => p.Category).ThenBy(p => p.DisplayName);
+            var tags = Core.Tags.Values.OrderBy(p => p.Category).ThenBy(p => p.DisplayName);
             var categories = tags.Select(p => p.Category).Distinct();
             foreach (var category in categories)
             {

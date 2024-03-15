@@ -101,7 +101,7 @@
             return null;
         }
 
-        protected override IEnumerable<TagProps> GetTagProps() => Tags.AllTags;
+        //protected override IEnumerable<TagProps> GetTagProps() => Tags.AllTags;
 
         private List<Tag> _visibleTags = new List<Tag>{ Tag.FilePath };
         internal List<Tag> VisibleTags

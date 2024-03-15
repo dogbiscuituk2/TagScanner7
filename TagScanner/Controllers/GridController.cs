@@ -6,6 +6,7 @@
     using System.Windows.Controls;
     using System.Windows.Data;
     using Models;
+    using Terms;
     using ValueConverters;
 
     internal abstract class GridController: Controller
@@ -44,12 +45,12 @@
             return null;
         }
 
-        protected abstract IEnumerable<TagProps> GetTagProps();
+        //protected abstract IEnumerable<TagProps> GetTagProps();
 
         protected void InitColumns()
         {
             DataGrid.Columns.Clear();
-            var columns = GetTagProps()?.Select(GetColumn)?.Where(c => c != null);
+            var columns = Core.Tags.Values.Select(GetColumn)?.Where(c => c != null);
             if (columns != null)
                 foreach (var column in columns)
                     DataGrid.Columns.Add(column);

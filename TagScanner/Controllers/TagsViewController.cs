@@ -4,6 +4,7 @@
     using System.Linq;
     using System.Windows.Forms;
     using Models;
+    using Terms;
     using Views;
 
     internal abstract class TagsViewController : Controller
@@ -46,7 +47,7 @@
 
         protected IEnumerable<TagProps> SortTags()
         {
-            IEnumerable<TagProps> tags = Tags.AllTags;
+            IEnumerable<TagProps> tags = Core.Tags.Values;
             switch (GroupTagsBy)
             {
                 case GroupTagsBy.Category: return tags.OrderBy(t => t.Category).ThenBy(t => t.DisplayName);

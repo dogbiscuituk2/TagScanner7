@@ -8,6 +8,7 @@
     using System.Reflection;
     using System.Xml;
     using System.Xml.Serialization;
+    using Terms;
 
     [Serializable]
     public class Work : IWork, INotifyPropertyChanged
@@ -728,7 +729,7 @@
         private void InvokeHandler(PropertyChangedEventHandler propertyChanged, string propertyName)
         {
             propertyChanged(this, new PropertyChangedEventArgs(propertyName));
-            foreach (var dependentPropertyName in Tags.GetDependencyNames(propertyName))
+            foreach (var dependentPropertyName in Core.GetDependencyNames(propertyName))
                 InvokeHandler(propertyChanged, dependentPropertyName);
         }
 

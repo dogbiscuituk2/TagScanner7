@@ -66,7 +66,7 @@
         [Description("An integer indicating the number of band(s) or artist(s) credited in the creation of the entire album or collection containing the media described by the selected item(s), or zero if none are present.")]
         [DisplayName("# Album Artists")]
         [ReadOnly(true)]
-        [Uses(Tags.AlbumArtists)]
+        [Uses(Tag.AlbumArtists)]
         public int AlbumArtistsCount => AlbumArtists.Length;
 
         #endregion
@@ -99,7 +99,7 @@
         [Description("An integer indicating the number of band(s) or artist(s) credited in the creation of the entire album or collection containing the media described by the selected item(s), or zero if none are present.")]
         [DisplayName("# Album Artists (sorted)")]
         [ReadOnly(true)]
-        [Uses(Tags.AlbumArtistsSort)]
+        [Uses(Tag.AlbumArtistsSort)]
         public int AlbumArtistsSortCount => AlbumArtistsSort.Length;
 
         #endregion
@@ -192,7 +192,7 @@
         [Description("An integer indicating the number of performers or artists who performed in the media described by the selected item(s), or zero if none are present. (Obsolete. For album artists, use AlbumArtistsCount. For track artists, use PerformersCount.)")]
         [DisplayName("# Artists")]
         [ReadOnly(true)]
-        [Uses(Tags.Artists)]
+        [Uses(Tag.Artists)]
         public int ArtistsCount => Artists.Length;
 
         #endregion
@@ -278,7 +278,7 @@
         [Description("A string containing the century that the media represented by the selected item(s) was created, or zero if no value is present.")]
         [DisplayName("Century")]
         [ReadOnly(true)]
-        [Uses(Tags.Year)]
+        [Uses(Tag.Year)]
         public string Century => GetString(p => p.Century, ref _century);
 
         #endregion
@@ -343,7 +343,7 @@
         [Description("An integer indicating the number of composers of the media represented by the selected item(s), or zero if none are present.")]
         [DisplayName("# Composers")]
         [ReadOnly(true)]
-        [Uses(Tags.Composers)]
+        [Uses(Tag.Composers)]
         public int ComposersCount => Composers.Length;
 
         #endregion
@@ -375,7 +375,7 @@
         [Description("An integer indicating the number of composers of the media represented by the selected item(s), or zero if none are present.")]
         [DisplayName("# Composers (sorted)")]
         [ReadOnly(true)]
-        [Uses(Tags.ComposersSort)]
+        [Uses(Tag.ComposersSort)]
         public int ComposersSortCount => ComposersSort.Length;
 
         #endregion
@@ -427,7 +427,7 @@
         [Description("A string containing the decade that the media represented by the selected item(s) was created, or zero if no value is present. Following popular usage, years ending in '0' are treated as the start of a decade.")]
         [DisplayName("Decade")]
         [ReadOnly(true)]
-        [Uses(Tags.Year)]
+        [Uses(Tag.Year)]
         public string Decade => GetString(p => p.Decade, ref _decade);
 
         #endregion
@@ -494,7 +494,7 @@
         [Description("A string containing both the number of the disc, and the total number of discs in the boxed set, containing the media represented by the selected item(s).")]
         [DisplayName("Disc # of #")]
         [ReadOnly(true)]
-        [Uses(Tags.DiscNumber, "DiscCount")]
+        [Uses(Tag.DiscNumber, Tag.DiscCount)]
         public string DiscOf => GetString(p => p.DiscOf, ref _discOf);
 
         #endregion
@@ -507,7 +507,7 @@
         [Description("A string containing the track number, the total number of tracks, the disc number, and the total number of discs in the boxed set, containing the media represented by the selected item(s).")]
         [DisplayName("Disc & Track #")]
         [ReadOnly(true)]
-        [Uses(Tags.DiscCount, Tags.DiscNumber, Tags.TrackCount, Tags.TrackNumber)]
+        [Uses(Tag.DiscCount, Tag.DiscNumber, Tag.TrackCount, Tag.TrackNumber)]
         public string DiscTrack => GetString(p => p.DiscTrack, ref _discTrack);
 
         #endregion
@@ -705,7 +705,7 @@
         [Description("A string containing the first band or artist who is credited in the creation of the entire album or collection containing the media described by the selected item(s), or an empty string if no value is present.")]
         [DisplayName("1st Album Artist")]
         [ReadOnly(true)]
-        [Uses(Tags.AlbumArtists)]
+        [Uses(Tag.AlbumArtists)]
         public string FirstAlbumArtist => GetString(p => p.FirstAlbumArtist, ref _firstAlbumArtist);
 
         #endregion
@@ -718,7 +718,7 @@
         [Description("A string containing the sort names for the first band or artist who is credited in the creation of the entire album or collection containing the media described by the selected item(s), or an empty string if no value is present.")]
         [DisplayName("1st Album Artist (sorted)")]
         [ReadOnly(true)]
-        [Uses(Tags.AlbumArtistsSort)]
+        [Uses(Tag.AlbumArtistsSort)]
         public string FirstAlbumArtistSort => GetString(p => p.FirstAlbumArtistSort, ref _firstAlbumArtistSort);
 
         #endregion
@@ -731,7 +731,7 @@
         [Description("A string containing the sort name for the first performer or artist who performed in the media described by the selected item(s), or an empty string if no value is present. (Obsolete. For album artists, use FirstAlbumArtist. For track artists, use FirstPerformer.)")]
         [DisplayName("1st Artist")]
         [ReadOnly(true)]
-        [Uses(Tags.Artists)]
+        [Uses(Tag.Artists)]
         public string FirstArtist => GetString(p => p.FirstArtist, ref _firstArtist);
 
         #endregion
@@ -744,7 +744,7 @@
         [Description("A string containing the first composer of the media represented by the selected item(s), or an empty string if no value is present.")]
         [DisplayName("1st Composer")]
         [ReadOnly(true)]
-        [Uses(Tags.Composers)]
+        [Uses(Tag.Composers)]
         public string FirstComposer => GetString(p => p.FirstComposer, ref _firstComposer);
 
         #endregion
@@ -757,7 +757,7 @@
         [Description("A string containing the sort name for first composer of the media represented by the selected item(s), or an empty string if no value is present.")]
         [DisplayName("1st Composer (sorted)")]
         [ReadOnly(true)]
-        [Uses(Tags.ComposersSort)]
+        [Uses(Tag.ComposersSort)]
         public string FirstComposerSort => GetString(p => p.FirstComposerSort, ref _firstComposerSort);
 
         #endregion
@@ -770,7 +770,7 @@
         [Description("A string containing the first genre of the media represented by the selected item(s), or an empty string if no value is present.")]
         [DisplayName("1st Genre")]
         [ReadOnly(true)]
-        [Uses(Tags.Genres)]
+        [Uses(Tag.Genres)]
         public string FirstGenre => GetString(p => p.FirstGenre, ref _firstGenre);
 
         #endregion
@@ -783,7 +783,7 @@
         [Description("A string containing the first performer or artist who performed in the media described by the selected item(s), or an empty string if no value is present.")]
         [DisplayName("1st Performer")]
         [ReadOnly(true)]
-        [Uses(Tags.Performers)]
+        [Uses(Tag.Performers)]
         public string FirstPerformer => GetString(p => p.FirstPerformer, ref _firstPerformer);
 
         #endregion
@@ -796,7 +796,7 @@
         [Description("A string containing the sort name for the first performer or artist who performed in the media described by the selected item(s), or an empty string if no value is present.")]
         [DisplayName("1st Performer (sorted)")]
         [ReadOnly(true)]
-        [Uses(Tags.PerformersSort)]
+        [Uses(Tag.PerformersSort)]
         public string FirstPerformerSort => GetString(p => p.FirstPerformerSort, ref _firstPerformerSort);
 
         #endregion
@@ -832,7 +832,7 @@
         [Description("An integer indicating the number of genres of the media represented by the selected item(s), or zero if none are present.")]
         [DisplayName("# Genres")]
         [ReadOnly(true)]
-        [Uses(Tags.Genres)]
+        [Uses(Tag.Genres)]
         public int GenresCount => Genres.Length;
 
         #endregion
@@ -1198,7 +1198,7 @@
         [Description("A bool indicating whether or not the first genre of the selected item(s) is 'Classical'.")]
         [DisplayName("Classical?")]
         [ReadOnly(true)]
-        [Uses(Tags.Genres)]
+        [Uses(Tag.Genres)]
         public Logical IsClassical => GetLogical(p => p.IsClassical, ref _isClassical);
 
         #endregion
@@ -1223,7 +1223,7 @@
         [Description("A string containing the artist(s) credited in the creation of the entire album or collection containing the media described by the selected item(s), or an empty string if no value is present.")]
         [DisplayName("Album Artists (joined)")]
         [ReadOnly(true)]
-        [Uses(Tags.AlbumArtists)]
+        [Uses(Tag.AlbumArtists)]
         public string JoinedAlbumArtists => GetString(p => p.JoinedAlbumArtists, ref _joinedAlbumArtists);
 
         #endregion
@@ -1236,7 +1236,7 @@
         [Description("A string containing the sort names for the performers or artists who performed in the media described by the selected item(s), or an empty string if no value is present. (Obsolete. For album artists, use JoinedAlbumArtists. For track artists, use JoinedPerformers.)")]
         [DisplayName("Artists (joined)")]
         [ReadOnly(true)]
-        [Uses(Tags.Artists)]
+        [Uses(Tag.Artists)]
         public string JoinedArtists => GetString(p => p.JoinedArtists, ref _joinedArtists);
 
         #endregion
@@ -1249,7 +1249,7 @@
         [Description("A string containing the composers of the media represented by the selected item(s), or an empty string if no value is present.")]
         [DisplayName("Composers (joined)")]
         [ReadOnly(true)]
-        [Uses(Tags.Composers)]
+        [Uses(Tag.Composers)]
         public string JoinedComposers => GetString(p => p.JoinedComposers, ref _joinedComposers);
 
         #endregion
@@ -1262,7 +1262,7 @@
         [Description("A string containing the genres of the media represented by the selected item(s), or an empty string if no value is present.")]
         [DisplayName("Genres (joined)")]
         [ReadOnly(true)]
-        [Uses(Tags.Genres)]
+        [Uses(Tag.Genres)]
         public string JoinedGenres => GetString(p => p.JoinedGenres, ref _joinedGenres);
 
         #endregion
@@ -1275,7 +1275,7 @@
         [Description("A string containing the performers or artists who performed in the media described by the selected item(s), or an empty string if no value is present.")]
         [DisplayName("Performers (joined)")]
         [ReadOnly(true)]
-        [Uses(Tags.Performers)]
+        [Uses(Tag.Performers)]
         public string JoinedPerformers => GetString(p => p.JoinedPerformers, ref _joinedPerformers);
 
         #endregion
@@ -1288,7 +1288,7 @@
         [Description("A string containing the sort names for the performers or artists who performed in the media described by the selected item(s), or an empty string if no value is present.")]
         [DisplayName("Performers (joined, sorted)")]
         [ReadOnly(true)]
-        [Uses(Tags.PerformersSort)]
+        [Uses(Tag.PerformersSort)]
         public string JoinedPerformersSort => GetString(p => p.JoinedPerformersSort, ref _joinedPerformersSort);
 
         #endregion
@@ -1333,7 +1333,7 @@
         [Description("A string containing the millennium that the media represented by the selected item(s) was created, or zero if no value is present.")]
         [DisplayName("Millennium")]
         [ReadOnly(true)]
-        [Uses(Tags.Year)]
+        [Uses(Tag.Year)]
         public string Millennium => GetString(p => p.Millennium, ref _millennium);
 
         #endregion
@@ -1542,7 +1542,7 @@
         [Description("An integer indicating the number of performers or artists who performed in the media described by the selected item(s), or zero if none are present.")]
         [DisplayName("# Performers")]
         [ReadOnly(true)]
-        [Uses(Tags.Performers)]
+        [Uses(Tag.Performers)]
         public int PerformersCount => Performers.Length;
 
         #endregion
@@ -1576,7 +1576,7 @@
         [Description("An integer indicating the number of performers or artists who performed in the media described by the selected item(s), or zero if none are present.")]
         [DisplayName("# Performers (sorted)")]
         [ReadOnly(true)]
-        [Uses(Tags.PerformersSort)]
+        [Uses(Tag.PerformersSort)]
         public int PerformersSortCount => PerformersSort.Length;
 
         #endregion
@@ -1642,7 +1642,7 @@
         [Description("An integer indicating the number of embedded pictures in the selected item(s), or zero if none are present.")]
         [DisplayName("# Pictures")]
         [ReadOnly(true)]
-        [Uses(Tags.Pictures)]
+        [Uses(Tag.Pictures)]
         public int PicturesCount => GetInt(p => p.PicturesCount, ref _picturesCount);
 
         #endregion
@@ -1825,7 +1825,7 @@
         [Description("A string containing both the number of the track, and the total number of tracks in the album, containing the media represented by the selected item(s).")]
         [DisplayName("Track # of #")]
         [ReadOnly(true)]
-        [Uses(Tags.TrackNumber, Tags.TrackCount)]
+        [Uses(Tag.TrackNumber, Tag.TrackCount)]
         public string TrackOf => GetString(p => p.TrackOf, ref _trackOf);
 
         #endregion
@@ -1900,7 +1900,7 @@
         [Description("A string containing both the year of release and the title of the album of the media represented by the selected item(s).")]
         [DisplayName("Year/Album")]
         [ReadOnly(true)]
-        [Uses(Tags.Album, "Year")]
+        [Uses(Tag.Album, Tag.Year)]
         public string YearAlbum => GetString(p => p.YearAlbum, ref _yearAlbum);
 
         #endregion

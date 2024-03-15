@@ -21,13 +21,14 @@ namespace TagScanner.Models
         public string Category;
         public Column Column;
         public string Details;
-        public IEnumerable<string> DirectUses;
+        public IEnumerable<Tag> Uses;
         public string DisplayName;
         public bool FrequentlyUsed;
         public bool IsString => TypeName == TagType.String;
         public bool IsText => TypeName.StartsWith(TagType.String);
         public string Name;
         public bool ReadOnly;
+        public Tag Tag;
         public Type Type;
         public string TypeName => Type.Name;
 

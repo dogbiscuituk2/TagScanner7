@@ -1,7 +1,6 @@
 ﻿namespace TagScanner.Tests
 {
     using Microsoft.VisualStudio.TestTools.UnitTesting;
-    using Models;
     using Terms;
 
     public partial class Test
@@ -9,7 +8,7 @@
         [TestMethod]
         public void TestFields()
         {
-            foreach (var tag in Tags.AllTags)
+            foreach (var tag in Core.Tags.Values)
             {
                 var term = new Field(tag.Name);
                 Assert.IsNotNull(term);

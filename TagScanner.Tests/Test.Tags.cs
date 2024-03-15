@@ -4,6 +4,7 @@
     using Models;
     using System;
     using System.Linq;
+    using Terms;
 
     public partial class Test
     {
@@ -12,7 +13,7 @@
         [TestMethod]
         public void TestTags()
         {
-            foreach (var tag in Tags.AllTags)
+            foreach (var tag in Core.Tags.Values)
             {
                 var property = typeof(IWork).GetProperty(tag.Name);
                 Assert.IsNotNull(property);

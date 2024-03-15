@@ -5,10 +5,10 @@
     [AttributeUsage(AttributeTargets.Property)]
     public class UsesAttribute : Attribute
     {
-        public UsesAttribute(params string[] propertyNames) => _propertyNames = propertyNames;
+        public UsesAttribute(params Tag[] tags) => _tags = tags;
 
         public static UsesAttribute Default = new UsesAttribute();
 
-        private readonly string[] _propertyNames;
+        private readonly Tag[] _tags;
     }
 }
