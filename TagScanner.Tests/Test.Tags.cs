@@ -8,12 +8,12 @@
 
     public partial class Test
     {
-        private static readonly Type[] SortableTypes = new Type[] { typeof(DateTime), typeof(double), typeof(int), typeof(long), typeof(string), typeof(TimeSpan) };
+        private static readonly Type[] SortableTypes = { typeof(DateTime), typeof(double), typeof(int), typeof(long), typeof(string), typeof(TimeSpan) };
 
         [TestMethod]
         public void TestTags()
         {
-            foreach (var tagInfo in Core.Tags.Values)
+            foreach (var tagInfo in Tags.Values)
             {
                 var property = typeof(IWork).GetProperty(tagInfo.Name);
                 Assert.IsNotNull(property);

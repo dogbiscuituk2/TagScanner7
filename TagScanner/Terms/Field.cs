@@ -22,8 +22,7 @@
             }
         }
 
-        public override Type ResultType => Core.Tags[Tag].Type;
-
-        public override string ToString() => Core.Tags[Tag].DisplayName;
+        public override Type ResultType => Tag.Type();
+        public override string ToString() => Tag.DisplayName();
     }
 }

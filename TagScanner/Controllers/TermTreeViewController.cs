@@ -77,7 +77,7 @@
             switch (term)
             {
                 case Field field:
-                    node.ToolTipText = Core.Tags[field.Tag].Details;
+                    node.ToolTipText = field.Tag.Details();
                     break;
                 case Operation operation:
                     foreach (var subTerm in operation.Operands)

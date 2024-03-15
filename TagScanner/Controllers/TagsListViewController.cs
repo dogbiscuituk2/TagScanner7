@@ -96,7 +96,7 @@
         public override void SetVisibleTags(List<Tag> visibleTags)
         {
             var items = Items.Cast<ListViewItem>();
-            foreach (var tag in Core.Tags.Keys)
+            foreach (var tag in Tags.Keys)
             {
                 var item = items.FirstOrDefault(p => (Tag)p.Tag == tag);
                 if (item != null)

@@ -8,9 +8,9 @@
         [TestMethod]
         public void TestFields()
         {
-            foreach (var tag in Core.Tags.Keys)
+            foreach (var tag in Tags.Keys)
             {
-                var tagInfo = Core.Tags[tag];
+                var tagInfo = tag.GetInfo();
                 var term = new Field(tag);
                 Assert.IsNotNull(term);
                 Assert.AreEqual(expected: tagInfo.Name, actual: term.Tag.ToString());

@@ -47,7 +47,7 @@
 
         protected IEnumerable<TagInfo> SortTags()
         {
-            IEnumerable<TagInfo> tagInfo = Core.Tags.Values;
+            IEnumerable<TagInfo> tagInfo = Tags.Values;
             switch (GroupTagsBy)
             {
                 case GroupTagsBy.Category: return tagInfo.OrderBy(t => t.Category).ThenBy(t => t.DisplayName);
