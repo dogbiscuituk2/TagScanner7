@@ -21,10 +21,16 @@
 
         public static IEnumerable<Tag> GetDependencies(this Tag tag)
         {
-            var tags = Tags.Keys.Where(p => Tags[p].Uses.Contains(tag));
+            var tags = Tags.Keys.Where(p => p.Uses(tag));
             foreach (var t in tags.ToList())
                 tags = tags.Union(GetDependencies(t));
             return tags;
+        }
+
+        public static bool Uses(this Tag user, Tag used)
+        {
+            var uses = Tags[user].Uses;
+            return uses != null && uses.Contains(used);
         }
 
         public static IEnumerable<string> GetDependencyNames(this string name) => Tags[name].Tag.GetDependencies().Select(p => Tags[p].Name);
@@ -72,7 +78,7 @@
                 var category = GetCategory(tag);
                 if (category == Selection.Selected)
                     continue;
-                var tagProps = new TagProps
+                var tagInfo = new TagInfo
                 {
                     Browsable = GetBrowsable(tag),
                     CanRead = prop.CanRead,
@@ -80,16 +86,15 @@
                     Category = category,
                     Column = GetColumn(tag),
                     Details = GetDescription(tag),
-                    Uses = GetUses(tag),
                     DisplayName = GetDisplayName(tag),
-                    FrequentlyUsed = GetFrequentlyUsed(tag),
                     Name = name,
                     ReadOnly = GetReadOnly(tag),
                     Tag = tag,
                     Type = prop.PropertyType,
+                    Uses = GetUses(tag),
                 };
-                tagProps.AdjustAlignment();
-                _tagDictionary.Add(tag, tagProps);
+                tagInfo.AdjustAlignment();
+                _tagDictionary.Add(tag, tagInfo);
             }
             return _tagDictionary;
         }
@@ -99,10 +104,8 @@
         private static Column GetColumn(Tag tag) => (Column)UseField(tag, typeof(ColumnAttribute), "_column");
         private static string GetDescription(Tag tag) => (string)UseField(tag, typeof(DescriptionAttribute), "description");
         private static string GetDisplayName(Tag tag) => (string)UseField(tag, typeof(DisplayNameAttribute), "_displayName");
-        private static bool GetFrequentlyUsed(Tag tag) => (bool)UseField(tag, typeof(FrequentlyUsedAttribute), "_frequentlyUsed");
         private static bool GetReadOnly(Tag tag) => (bool)UseField(tag, typeof(ReadOnlyAttribute), "isReadOnly");
-        private static IEnumerable<Tag> GetUses(Tag tag) => (IEnumerable<Tag>)UseField(tag, typeof(UsesAttribute), "_propertyNames");
-        private static object UseField(Tag tag, Type attrType, string field, object value = null) => typeof(Selection).UseField(tag, attrType, field, value);
+        private static Tag[] GetUses(Tag tag) => (Tag[])UseField(tag, typeof(UsesAttribute), "_propertyNames");
 
         private static void SetBrowsable(Tag tag, bool value)
         {
@@ -114,15 +117,14 @@
             }
         }
 
-        private static object UseField(this Type type, Tag tag, Type attrType, string field, object value = null)
+        private static object UseField(Tag tag, Type attributeType, string fieldName, object value = null)
         {
-            var propName = tag.ToString();
-            var attr = TypeDescriptor.GetProperties(type)[propName].Attributes[attrType];
-            var info = attrType.GetField(field, BindingFlags.NonPublic | BindingFlags.Instance);
+            var attributes = TypeDescriptor.GetProperties(typeof(Selection))[tag.ToString()].Attributes[attributeType];
+            var fieldInfo = attributeType.GetField(fieldName, BindingFlags.NonPublic | BindingFlags.Instance);
             if (value == null)
-                value = info?.GetValue(attr);
+                value = fieldInfo?.GetValue(attributes);
             else
-                info?.SetValue(attr, value);
+                fieldInfo?.SetValue(attributes, value);
             return value;
         }
 
@@ -131,9 +133,9 @@
 
     #region Utility Classes
 
-    public class TagDictionary : Dictionary<Tag, TagProps>
+    public class TagDictionary : Dictionary<Tag, TagInfo>
     {
-        public TagProps this[string name] => this[(Tag)Enum.Parse(typeof(Tag), name)];
+        public TagInfo this[string name] => this[(Tag)Enum.Parse(typeof(Tag), name)];
     }
 
     #endregion

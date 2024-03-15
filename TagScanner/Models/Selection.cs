@@ -5,7 +5,7 @@
     using System.ComponentModel;
     using System.Linq;
 
-    [DefaultProperty(Tags.Title)]
+    [DefaultProperty("Title")]
     public class Selection : IWork
     {
         public Selection(IEnumerable<Work> works) => Works = works;
@@ -22,7 +22,6 @@
         [Column(160)]
         [Description("A string containing the album name of the media represented by the selected item(s), or an empty string if no value is present.")]
         [DisplayName("Album Title")]
-        [FrequentlyUsed]
         public string Album
         {
             get => GetString(p => p.Album, ref _album);
@@ -43,7 +42,6 @@
         [Column(160)]
         [Description("A string array containing the band(s) or artist(s) credited in the creation of the entire album or collection containing the media described by the selected item(s), or an empty array if no value is present.")]
         [DisplayName("Album Artists")]
-        [FrequentlyUsed]
         public string[] AlbumArtists
         {
             get => GetStringArray(p => p.AlbumArtists, ref _albumArtists);
@@ -205,7 +203,6 @@
         [DefaultValue(0)]
         [Description("An integer containing the bit rate of the audio represented by the selected item(s). This value is equal to the first non-zero audio bit rate.")]
         [DisplayName("Audio Bit Rate")]
-        [FrequentlyUsed]
         [ReadOnly(true)]
         public int AudioBitrate => GetInt(p => p.AudioBitrate, ref _audioBitrate);
 
@@ -386,8 +383,7 @@
         [Category(Personnel)]
         [Column(160)]
         [Description("A string containing the conductor or director of the media represented by the selected item(s), or an empty string if no value is present.")]
-        //[DisplayName("Conductor")]
-        [DisplayName(Tags.Conductor)]
+        [DisplayName("Conductor")]
         public string Conductor
         {
             get => GetString(p => p.Conductor, ref _conductor);
@@ -452,7 +448,6 @@
         [DefaultValue(0)]
         [Description("An unsigned integer containing the number of discs in the boxed set containing the media represented by the selected item(s), or zero if not specified.")]
         [DisplayName("# Discs")]
-        [FrequentlyUsed]
         public int DiscCount
         {
             get => GetInt(p => p.DiscCount, ref _discCount);
@@ -473,7 +468,6 @@
         [DefaultValue(0)]
         [Description("An unsigned integer containing the number of the disc containing the media represented by the selected item(s) in the boxed set.")]
         [DisplayName("Disc #")]
-        [FrequentlyUsed]
         public int DiscNumber
         {
             get => GetInt(p => p.DiscNumber, ref _discNumber);
@@ -519,7 +513,6 @@
         [Column(50)]
         [Description("A TimeSpan containing the duration of the media represented by the selected item(s). If the duration was set in the constructor, that value is returned. Otherwise, the longest codec duration is used.")]
         [DisplayName("Duration")]
-        [FrequentlyUsed]
         [ReadOnly(true)]
         public TimeSpan Duration => GetTimeSpan(p => p.Duration, ref _duration);
 
@@ -531,7 +524,6 @@
         [Category(File)]
         [Description("A string representing the filesystem attributes of the file containing the selected media.")]
         [DisplayName("File Attributes")]
-        [FrequentlyUsed]
         [ReadOnly(true)]
         public string FileAttributes => GetString(p => p.FileAttributes, ref _fileAttributes);
 
@@ -544,7 +536,6 @@
         [Column(100)]
         [Description("A DateTime value representing the date and time of creation of the file containing the selected media.")]
         [DisplayName("File Created")]
-        [FrequentlyUsed]
         [ReadOnly(true)]
         public DateTime FileCreationTime => GetDateTime(p => p.FileCreationTime, ref _fileCreationTime);
 
@@ -653,7 +644,6 @@
         [Column(320)]
         [Description("A string containing the full path to the media file or folder in the filesystem.")]
         [DisplayName("File Path")]
-        [FrequentlyUsed]
         [ReadOnly(true)]
         public string FilePath => GetFileOrCommonFolderPath(p => p.FilePath, ref _filePath);
 
@@ -667,7 +657,6 @@
         [DefaultValue(0)]
         [Description("A long integer containing the byte length of the media file in the filesystem.")]
         [DisplayName("File Size")]
-        [FrequentlyUsed]
         [ReadOnly(true)]
         public long FileSize => GetLong(p => p.FileSize, ref _fileSize, true); // Files.Sum(f => f.FileSize);
 
@@ -808,7 +797,6 @@
         [Column(160)]
         [Description("A string array containing the genres of the media represented by the selected item(s), or an empty array if no value is present.")]
         [DisplayName("Genres")]
-        [FrequentlyUsed]
         public string[] Genres
         {
             get => GetStringArray(p => p.Genres, ref _genres);
@@ -1300,7 +1288,6 @@
         [Column(320)]
         [Description("A string containing the lyrics or script of the media represented by the selected item(s), or an empty string if no value is present.")]
         [DisplayName("Lyrics")]
-        [FrequentlyUsed]
         public string Lyrics
         {
             get => GetString(p => p.Lyrics, ref _lyrics);
@@ -1519,7 +1506,6 @@
         [Column(160)]
         [Description("A string array containing the performers or artists who performed in the media described by the selected item(s), or an empty array if no value is present.")]
         [DisplayName("Performers")]
-        [FrequentlyUsed]
         public string[] Performers
         {
             get => GetStringArray(p => p.Performers, ref _performers);
@@ -1627,7 +1613,6 @@
         [Column(50)]
         [Description("A Picture array containing the embedded pictures in the selected item(s).")]
         [DisplayName("Pictures")]
-        [FrequentlyUsed]
         [ReadOnly(true)]
         public Picture[] Pictures => GetPictures(p => p.Pictures, ref _pictures);
 
@@ -1732,7 +1717,6 @@
         [Column(160)]
         [Description("A string containing the title for the media described by the selected item(s), or an empty string if no value is present.")]
         [DisplayName("Title")]
-        [FrequentlyUsed]
         public string Title
         {
             get => GetString(p => p.Title, ref _title);
@@ -1772,7 +1756,6 @@
         [DefaultValue(0)]
         [Description("An unsigned integer containing the number of tracks in the album containing the media represented by the selected item(s), or zero if not specified.")]
         [DisplayName("# Tracks")]
-        [FrequentlyUsed]
         public int TrackCount
         {
             get => GetInt(p => p.TrackCount, ref _trackCount);
@@ -1804,7 +1787,6 @@
         [DefaultValue(0)]
         [Description("An unsigned integer containing the position of the media represented by the selected item(s) in its containing album, or zero if not specified.")]
         [DisplayName("Track #")]
-        [FrequentlyUsed]
         public int TrackNumber
         {
             get => GetInt(p => p.TrackNumber, ref _trackNumber);
@@ -1875,7 +1857,6 @@
         [DefaultValue(0)]
         [Description("An unsigned integer containing the year that the media represented by the selected item(s) was created, or zero if no value is present.")]
         [DisplayName("Year")]
-        [FrequentlyUsed]
         public int Year
         {
             get => GetInt(p => p.Year, ref _year);

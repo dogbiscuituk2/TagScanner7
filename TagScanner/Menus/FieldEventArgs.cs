@@ -5,11 +5,11 @@
 
     public class FieldEventArgs : EventArgs
     {
-        public FieldEventArgs(TagProps tagProps)
+        public FieldEventArgs(TagInfo tagInfo)
         {
-            TagProps = tagProps;
+            TagInfo = tagInfo;
         }
 
-        public TagProps TagProps { get; set; }
+        public TagInfo TagInfo { get; set; }
     }
 }

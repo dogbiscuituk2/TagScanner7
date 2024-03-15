@@ -53,7 +53,7 @@
                 if (Album != value)
                 {
                     _album = value;
-                    OnPropertyChanged(Tags.Album);
+                    OnPropertyChanged(Tag.Album);
                 }
             }
         }
@@ -67,7 +67,7 @@
                 if (!SequenceEqual(AlbumArtists, value))
                 {
                     _albumArtists = value;
-                    OnPropertyChanged(Tags.AlbumArtists);
+                    OnPropertyChanged(Tag.AlbumArtists);
                 }
             }
         }
@@ -83,7 +83,7 @@
                 if (!SequenceEqual(AlbumArtistsSort, value))
                 {
                     _albumArtistsSort = value;
-                    OnPropertyChanged(Tags.AlbumArtistsSort);
+                    OnPropertyChanged(Tag.AlbumArtistsSort);
                 }
             }
         }
@@ -99,7 +99,7 @@
                 if (AlbumSort != value)
                 {
                     _albumSort = value;
-                    OnPropertyChanged(Tags.AlbumSort);
+                    OnPropertyChanged(Tag.AlbumSort);
                 }
             }
         }
@@ -113,7 +113,7 @@
                 if (AmazonId != value)
                 {
                     _amazonId = value;
-                    OnPropertyChanged(Tags.AmazonId);
+                    OnPropertyChanged(Tag.AmazonId);
                 }
             }
         }
@@ -127,7 +127,7 @@
                 if (!SequenceEqual(Artists, value))
                 {
                     _artists = value;
-                    OnPropertyChanged(Tags.Artists);
+                    OnPropertyChanged(Tag.Artists);
                 }
             }
         }
@@ -148,7 +148,7 @@
                 if (BeatsPerMinute != value)
                 {
                     _beatsPerMinute = value;
-                    OnPropertyChanged(Tags.BeatsPerMinute);
+                    OnPropertyChanged(Tag.BeatsPerMinute);
                 }
             }
         }
@@ -168,7 +168,7 @@
                 if (Comment != value)
                 {
                     _comment = value;
-                    OnPropertyChanged(Tags.Comment);
+                    OnPropertyChanged(Tag.Comment);
                 }
             }
         }
@@ -182,7 +182,7 @@
                 if (!SequenceEqual(Composers, value))
                 {
                     _composers = value;
-                    OnPropertyChanged(Tags.Composers);
+                    OnPropertyChanged(Tag.Composers);
                 }
             }
         }
@@ -198,7 +198,7 @@
                 if (!SequenceEqual(ComposersSort, value))
                 {
                     _composersSort = value;
-                    OnPropertyChanged(Tags.ComposersSort);
+                    OnPropertyChanged(Tag.ComposersSort);
                 }
             }
         }
@@ -214,7 +214,7 @@
                 if (Conductor != value)
                 {
                     _conductor = value;
-                    OnPropertyChanged(Tags.Conductor);
+                    OnPropertyChanged(Tag.Conductor);
                 }
             }
         }
@@ -228,7 +228,7 @@
                 if (Copyright != value)
                 {
                     _copyright = value;
-                    OnPropertyChanged(Tags.Copyright);
+                    OnPropertyChanged(Tag.Copyright);
                 }
             }
         }
@@ -247,7 +247,7 @@
                 if (DiscCount != value)
                 {
                     _discCount = value;
-                    OnPropertyChanged(Tags.DiscCount);
+                    OnPropertyChanged(Tag.DiscCount);
                 }
             }
         }
@@ -262,7 +262,7 @@
                 if (DiscNumber != value)
                 {
                     _discNumber = value;
-                    OnPropertyChanged(Tags.DiscNumber);
+                    OnPropertyChanged(Tag.DiscNumber);
                 }
             }
         }
@@ -313,7 +313,7 @@
                 if (!SequenceEqual(Genres, value))
                 {
                     _genres = value;
-                    OnPropertyChanged(Tags.Genres);
+                    OnPropertyChanged(Tag.Genres);
                 }
             }
         }
@@ -329,7 +329,7 @@
                 if (Grouping != value)
                 {
                     _grouping = value;
-                    OnPropertyChanged(Tags.Grouping);
+                    OnPropertyChanged(Tag.Grouping);
                 }
             }
         }
@@ -383,7 +383,7 @@
                 if (Lyrics != value)
                 {
                     _lyrics = value;
-                    OnPropertyChanged(Tags.Lyrics);
+                    OnPropertyChanged(Tag.Lyrics);
                 }
             }
         }
@@ -403,7 +403,7 @@
                 if (MusicBrainzArtistId != value)
                 {
                     _musicBrainzArtistId = value;
-                    OnPropertyChanged(Tags.MusicBrainzArtistId);
+                    OnPropertyChanged(Tag.MusicBrainzArtistId);
                 }
             }
         }
@@ -417,7 +417,7 @@
                 if (MusicBrainzArtistId != value)
                 {
                     MusicBrainzArtistId = value;
-                    OnPropertyChanged(Tags.MusicBrainzDiscId);
+                    OnPropertyChanged(Tag.MusicBrainzDiscId);
                 }
             }
         }
@@ -431,7 +431,7 @@
                 if (MusicBrainzReleaseArtistId != value)
                 {
                     _musicBrainzReleaseArtistId = value;
-                    OnPropertyChanged(Tags.MusicBrainzReleaseArtistId);
+                    OnPropertyChanged(Tag.MusicBrainzReleaseArtistId);
                 }
             }
         }
@@ -445,7 +445,7 @@
                 if (MusicBrainzReleaseCountry != value)
                 {
                     _musicBrainzReleaseCountry = value;
-                    OnPropertyChanged(Tags.MusicBrainzReleaseCountry);
+                    OnPropertyChanged(Tag.MusicBrainzReleaseCountry);
                 }
             }
         }
@@ -459,7 +459,7 @@
                 if (MusicBrainzReleaseId != value)
                 {
                     _musicBrainzReleaseId = value;
-                    OnPropertyChanged(Tags.MusicBrainzReleaseId);
+                    OnPropertyChanged(Tag.MusicBrainzReleaseId);
                 }
             }
         }
@@ -473,7 +473,7 @@
                 if (MusicBrainzReleaseStatus != value)
                 {
                     _musicBrainzReleaseStatus = value;
-                    OnPropertyChanged(Tags.MusicBrainzReleaseStatus);
+                    OnPropertyChanged(Tag.MusicBrainzReleaseStatus);
                 }
             }
         }
@@ -487,7 +487,7 @@
                 if (MusicBrainzReleaseType != value)
                 {
                     _musicBrainzReleaseType = value;
-                    OnPropertyChanged(Tags.MusicBrainzReleaseType);
+                    OnPropertyChanged(Tag.MusicBrainzReleaseType);
                 }
             }
         }
@@ -501,7 +501,7 @@
                 if (MusicBrainzTrackId != value)
                 {
                     _musicBrainzTrackId = value;
-                    OnPropertyChanged(Tags.MusicBrainzTrackId);
+                    OnPropertyChanged(Tag.MusicBrainzTrackId);
                 }
             }
         }
@@ -515,7 +515,7 @@
                 if (MusicIpId != value)
                 {
                     _musicIpId = value;
-                    OnPropertyChanged(Tags.MusicIpId);
+                    OnPropertyChanged(Tag.MusicIpId);
                 }
             }
         }
@@ -531,7 +531,7 @@
                 if (!SequenceEqual(Performers, value))
                 {
                     _performers = value;
-                    OnPropertyChanged(Tags.Performers);
+                    OnPropertyChanged(Tag.Performers);
                 }
             }
         }
@@ -547,7 +547,7 @@
                 if (!SequenceEqual(PerformersSort, value))
                 {
                     _performersSort = value;
-                    OnPropertyChanged(Tags.PerformersSort);
+                    OnPropertyChanged(Tag.PerformersSort);
                 }
             }
         }
@@ -606,7 +606,7 @@
                 if (Title != value)
                 {
                     _title = value;
-                    OnPropertyChanged(Tags.Title);
+                    OnPropertyChanged(Tag.Title);
                 }
             }
         }
@@ -620,7 +620,7 @@
                 if (TitleSort != value)
                 {
                     _titleSort = value;
-                    OnPropertyChanged(Tags.TitleSort);
+                    OnPropertyChanged(Tag.TitleSort);
                 }
             }
         }
@@ -635,7 +635,7 @@
                 if (TrackCount != value)
                 {
                     _trackCount = value;
-                    OnPropertyChanged(Tags.TrackCount);
+                    OnPropertyChanged(Tag.TrackCount);
                 }
             }
         }
@@ -650,7 +650,7 @@
                 if (TrackNumber != value)
                 {
                     _trackNumber = value;
-                    OnPropertyChanged(Tags.TrackNumber);
+                    OnPropertyChanged(Tag.TrackNumber);
                 }
             }
         }
@@ -670,7 +670,7 @@
                 if (Year != value)
                 {
                     _year = value;
-                    OnPropertyChanged(Tags.Year);
+                    OnPropertyChanged(Tag.Year);
                 }
             }
         }
@@ -726,12 +726,16 @@
 
         private TagLib.File GetTagLibFile() => TagLib.File.Create(FilePath);
 
+        private void InvokeHandler(PropertyChangedEventHandler propertyChanged, Tag propertyTag) => InvokeHandler(propertyChanged, Core.Tags[propertyTag].Name);
+
         private void InvokeHandler(PropertyChangedEventHandler propertyChanged, string propertyName)
         {
             propertyChanged(this, new PropertyChangedEventArgs(propertyName));
             foreach (var dependentPropertyName in Core.GetDependencyNames(propertyName))
                 InvokeHandler(propertyChanged, dependentPropertyName);
         }
+
+        protected virtual void OnPropertyChanged(Tag propertyTag) => OnPropertyChanged(Core.Tags[propertyTag].Name);
 
         protected virtual void OnPropertyChanged(string propertyName)
         {
@@ -740,7 +744,7 @@
                 return; // Yes: then property accessors should have no side effects.
             IsModified = true;
             InvokeHandler(propertyChanged, propertyName);
-            InvokeHandler(propertyChanged, Tags.FileStatus);
+            InvokeHandler(propertyChanged, Tag.FileStatus);
         }
 
         private void ReadFile(TagLib.File file)

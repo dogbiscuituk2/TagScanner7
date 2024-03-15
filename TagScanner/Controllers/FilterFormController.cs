@@ -56,7 +56,7 @@
         #region Event Handlers
 
         private void MenuRouter_ConstantClick(object sender, EventArgs e) => AddConstant();
-        private void MenuRouter_FieldClick(object sender, FieldEventArgs e) => AddField(e.TagProps);
+        private void MenuRouter_FieldClick(object sender, FieldEventArgs e) => AddField(e.TagInfo);
         private void MenuRouter_FunctionClick(object sender, FunctionEventArgs e) => AddFunction(e.Method);
         private void MenuRouter_OperationClick(object sender, OperationEventArgs e) => AddOperation(e.Operation);
 
@@ -70,7 +70,7 @@
         #region Private Methods
 
         private void AddConstant() => TermTreeViewController.AddConstant();
-        private void AddField(TagProps tagProps) => TermTreeViewController.AddField(tagProps);
+        private void AddField(TagInfo tagInfo) => TermTreeViewController.AddField(tagInfo);
         private void AddFunction(KeyValuePair<string, MethodInfo> method) => TermTreeViewController.AddFunction(method);
         private void AddOperation(KeyValuePair<Op, OpInfo> operation) => TermTreeViewController.AddOperation(operation);
         private FilterForm CreateFilterForm() => _view = new FilterForm();

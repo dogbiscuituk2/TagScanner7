@@ -37,7 +37,7 @@
 
         private TreeNode FindNode(string text) => Nodes.Cast<TreeNode>().FirstOrDefault(p => p.Text == text) ?? Nodes.Add(text);
 
-        private TreeNode FindParent(TagProps tag)
+        private TreeNode FindParent(TagInfo tag)
         {
             switch (GroupTagsBy)
             {

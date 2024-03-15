@@ -140,7 +140,6 @@
     <Compile Include="Controllers\TagsController.cs" />
     <Compile Include="Controllers\FilterFormController.cs" />
     <Compile Include="Controllers\TermTreeViewController.cs" />
-    <Compile Include="Models\FrequentlyUsedAttribute.cs" />
     <Compile Include="Models\IModel.cs" />
     <Compile Include="Models\Tag.cs" />
     <Compile Include="Terms\Constant.cs" />
@@ -165,10 +164,7 @@
     <Compile Include="Models\TagType.cs" />
     <Compile Include="Models\UsesAttribute.cs" />
     <Compile Include="Models\Library.cs" />
-    <Compile Include="Models\Tags.cs">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Compile>
-    <Compile Include="Models\TagProps.cs" />
+    <Compile Include="Models\TagInfo.cs" />
     <Compile Include="Models\FileStatus.cs" />
     <Compile Include="Terms\Umptad.cs" />
     <Compile Include="ValueConverters\DateTimeConverter.cs" />

@@ -31,7 +31,7 @@
 
         #region Protected Implementation
 
-        protected string GetGroupHeader(TagProps tag)
+        protected string GetGroupHeader(TagInfo tag)
         {
             switch (GroupTagsBy)
             {
@@ -45,14 +45,14 @@
         protected abstract void InitGroups();
         public abstract void SetVisibleTags(List<Tag> visibleTags);
 
-        protected IEnumerable<TagProps> SortTags()
+        protected IEnumerable<TagInfo> SortTags()
         {
-            IEnumerable<TagProps> tags = Core.Tags.Values;
+            IEnumerable<TagInfo> tagInfo = Core.Tags.Values;
             switch (GroupTagsBy)
             {
-                case GroupTagsBy.Category: return tags.OrderBy(t => t.Category).ThenBy(t => t.DisplayName);
-                case GroupTagsBy.DataType: return tags.OrderBy(t => t.TypeName).ThenBy(t => t.DisplayName);
-                default: return tags.OrderBy(t => t.DisplayName);
+                case GroupTagsBy.Category: return tagInfo.OrderBy(t => t.Category).ThenBy(t => t.DisplayName);
+                case GroupTagsBy.DataType: return tagInfo.OrderBy(t => t.TypeName).ThenBy(t => t.DisplayName);
+                default: return tagInfo.OrderBy(t => t.DisplayName);
             }
         }
 

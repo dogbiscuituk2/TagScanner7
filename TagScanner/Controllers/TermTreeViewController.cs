@@ -30,7 +30,7 @@
         internal int Add(Term term) => HasSelection ? AddChild(SelectedNode, term) : AddRoot(term);
         internal int AddChild(TreeNode parent, Term term) => AddNode(parent != null ? parent.Nodes : Roots, term);
         internal void AddConstant() => Add(new Constant());
-        internal void AddField(TagProps tagProps) => Add(new Field(tagProps.Name));
+        internal void AddField(TagInfo tagInfo) => Add(new Field(tagInfo.Name));
         internal void AddFunction(KeyValuePair<string, MethodInfo> method) => Add(new Function(method.Key));
         internal void AddOperation(KeyValuePair<Op, OpInfo> operation) => Add(new Operation(operation.Key));
         internal int AddRoot(Term term) => AddNode(Roots, term);

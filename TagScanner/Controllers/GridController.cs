@@ -1,6 +1,5 @@
 ﻿namespace TagScanner.Controllers
 {
-    using System.Collections.Generic;
     using System.Linq;
     using System.Windows;
     using System.Windows.Controls;
@@ -15,27 +14,27 @@
 
         internal abstract DataGrid DataGrid { get; }
 
-        protected virtual DataGridBoundColumn GetColumn(TagProps tagProps)
+        protected virtual DataGridBoundColumn GetColumn(TagInfo tagInfo)
         {
-            var column = tagProps.Column.Type == ColumnType.CheckBox
+            var column = tagInfo.Column.Type == ColumnType.CheckBox
                 ? (DataGridBoundColumn)new DataGridCheckBoxColumn()
                 : new DataGridTextColumn();
-            column.Binding = new Binding(tagProps.Name)
+            column.Binding = new Binding(tagInfo.Name)
             {
-                Mode = tagProps.CanWrite ? BindingMode.TwoWay : BindingMode.OneWay,
-                Converter = GetConverter(tagProps)
+                Mode = tagInfo.CanWrite ? BindingMode.TwoWay : BindingMode.OneWay,
+                Converter = GetConverter(tagInfo)
             };
-            column.CellStyle = tagProps.Column.Alignment == Alignment.Far
+            column.CellStyle = tagInfo.Column.Alignment == Alignment.Far
                 ? _rightAlignStyle ?? (_rightAlignStyle = GetNewRightAlignStyle())
                 : null;
-            column.Header = tagProps;
-            column.Width = tagProps.Column.Width;
+            column.Header = tagInfo;
+            column.Width = tagInfo.Column.Width;
             return column;
         }
 
-        protected virtual IValueConverter GetConverter(TagProps tagProps)
+        protected virtual IValueConverter GetConverter(TagInfo tagInfo)
         {
-            switch (tagProps.TypeName)
+            switch (tagInfo.TypeName)
             {
                 case TagType.DateTime: return new DateTimeConverter();
                 case TagType.Logical: return new LogicalConverter();
@@ -44,8 +43,6 @@
             }
             return null;
         }
-
-        //protected abstract IEnumerable<TagProps> GetTagProps();
 
         protected void InitColumns()
         {

@@ -89,19 +89,17 @@
                 VisibleTags = VisibleTags.Intersect(gridVisibleTags).Union(gridVisibleTags).ToList();
         }
 
-        protected override IValueConverter GetConverter(TagProps tagProps)
+        protected override IValueConverter GetConverter(TagInfo tagInfo)
         {
-            var result = base.GetConverter(tagProps);
+            var result = base.GetConverter(tagInfo);
             if (result != null) return result;
-            switch (tagProps.Name)
+            switch (tagInfo.Tag)
             {
-                case Tags.FileSize:
+                case Tag.FileSize:
                     return new FileSizeConverter();
             }
             return null;
         }
-
-        //protected override IEnumerable<TagProps> GetTagProps() => Tags.AllTags;
 
         private List<Tag> _visibleTags = new List<Tag>{ Tag.FilePath };
         internal List<Tag> VisibleTags
@@ -123,7 +121,7 @@
             var displayIndex = 0;
             foreach (var tag in VisibleTags)
             {
-                var column = DataGrid.Columns.Single(c => ((TagProps)c.Header).Name == Core.Tags[tag].Name);
+                var column = DataGrid.Columns.Single(c => ((TagInfo)c.Header).Name == Core.Tags[tag].Name);
                 column.DisplayIndex = displayIndex++;
                 column.Visibility = Visibility.Visible;
             }
@@ -256,7 +254,7 @@
         private void SetQuery(IEnumerable<Tag> visibleTags, IEnumerable<Tag> groupDescriptions, IEnumerable<Tag> sortDescriptions)
         {
             VisibleTags = visibleTags.Union(VisibleTags).ToList();
-            _sortDescriptions = sortDescriptions.Select(s => new SortDescription(Core.Tags[s].Name, ListSortDirection.Ascending));
+            _sortDescriptions = sortDescriptions.Select(p => new SortDescription(Core.Tags[p].Name, ListSortDirection.Ascending));
             _groupDescriptions = groupDescriptions;
             InitGroups();
         }

@@ -61,7 +61,7 @@
         /// <returns>Value a, if a is non-null, non-empty, and not just whitespace; otherwise, value b.</returns>
         public static string Coalesce(this string a, string b) => !string.IsNullOrWhiteSpace(a) ? a : b;
 
-        public static string Format(this object value, string propertyName, Type type, bool exact)
+        /*public static string Format(this object value, string propertyName, Type type, bool exact)
         {
             if (value == null)
                 return string.Empty;
@@ -79,7 +79,7 @@
                 type == typeof(int?) || type == typeof(uint?) || type == typeof(long?)
                     ? Convert.ToInt64(value) == 0 ? string.Empty : $"{value:n0}"
                     : value.ToString();
-        }
+        }*/
 
         public static string GetIndex(this string s) => string.IsNullOrWhiteSpace(s) ? " " : (s.ToUpper() + " ").Substring(0, 1);
 

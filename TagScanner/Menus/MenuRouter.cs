@@ -34,7 +34,7 @@
         #region Private Methods
 
         private void OnConstantClick() => ConstantClick?.Invoke(this, EventArgs.Empty);
-        private void OnFieldClick(TagProps tagProps) => FieldClick?.Invoke(this, new FieldEventArgs(tagProps));
+        private void OnFieldClick(TagInfo tagInfo) => FieldClick?.Invoke(this, new FieldEventArgs(tagInfo));
         private void OnOperationClick(KeyValuePair<Op, OpInfo> op) => OperationClick?.Invoke(this, new OperationEventArgs(op));
         private void OnFunctionClick(KeyValuePair<string, MethodInfo> method) => FunctionClick?.Invoke(this, new FunctionEventArgs(method));
         private void MenuRouter_TermDeleteClick(object sender, EventArgs e) => TermDeleteClick?.Invoke(this, e);
@@ -48,7 +48,7 @@
                 case null:
                     OnConstantClick();
                     break;
-                case TagProps field:
+                case TagInfo field:
                     OnFieldClick(field);
                     break;
                 case KeyValuePair<Op, OpInfo> operation:

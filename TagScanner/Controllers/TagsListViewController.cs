@@ -26,17 +26,17 @@
         internal void InitListView()
         {
             Items.Clear();
-            foreach (var tag in Core.Tags.Values)
+            foreach (var tagInfo in Core.Tags.Values)
             {
-                var item = Items.Add(tag.DisplayName);
-                item.Name = tag.Name;
-                item.ToolTipText = tag.Details;
-                item.Tag = tag;
+                var item = Items.Add(tagInfo.DisplayName);
+                item.Name = tagInfo.Name;
+                item.ToolTipText = tagInfo.Details;
+                item.Tag = tagInfo;
                 var subItems = item.SubItems;
-                subItems.Add(tag.Category);
-                subItems.Add(tag.TypeName);
-                subItems.Add(tag.CanWrite ? "Yes" : "No");
-                if (!tag.CanWrite)
+                subItems.Add(tagInfo.Category);
+                subItems.Add(tagInfo.TypeName);
+                subItems.Add(tagInfo.CanWrite ? "Yes" : "No");
+                if (!tagInfo.CanWrite)
                     item.ForeColor = Color.FromKnownColor(KnownColor.GrayText);
             }
             ListView.ColumnClick += (sender, e) => SortByColumn(e.Column);
@@ -55,7 +55,7 @@
         private ListView.ListViewItemCollection Items => ListView.Items;
 
         private IEnumerable<string> GetGroupHeaders() =>
-            Items.Cast<ListViewItem>().Select(item => (TagProps)item.Tag).Select(GetGroupHeader).Distinct().OrderBy(p => p);
+            Items.Cast<ListViewItem>().Select(item => (TagInfo)item.Tag).Select(GetGroupHeader).Distinct().OrderBy(p => p);
 
         private string GetValue(object o) => _sortColumn == 0 ? ((ListViewItem)o).Text : ((ListViewItem)o).SubItems[_sortColumn].Text;
 
@@ -79,7 +79,7 @@
             foreach (var header in GetGroupHeaders())
                 Groups.Add(NewGroup(header));
             foreach (ListViewItem item in Items)
-                item.Group = Groups.Cast<ListViewGroup>().First(p => p.Header == GetGroupHeader((TagProps)item.Tag));
+                item.Group = Groups.Cast<ListViewGroup>().First(p => p.Header == GetGroupHeader((TagInfo)item.Tag));
         }
 
         private void InitListMenu()

@@ -87,8 +87,8 @@
                 return true; ;
             switch (tag)
             {
-                case TagProps tagProps:
-                    return types.Contains(tagProps.Type);
+                case TagInfo tagInfo:
+                    return types.Contains(tagInfo.Type);
                 case KeyValuePair<Op, OpInfo> _:
                 case KeyValuePair<string, MethodInfo> _:
                     return true;

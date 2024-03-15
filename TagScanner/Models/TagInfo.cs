@@ -12,7 +12,7 @@ namespace TagScanner.Models
     /// These Tags have in turn their own metadata, indicating for example their runtime type, category, and so on.
     /// Such meta-metadata will be found in this class.
     /// </summary>
-    public class TagProps
+    public class TagInfo
     {
         public bool Browsable;
         public bool CanRead;
@@ -21,9 +21,7 @@ namespace TagScanner.Models
         public string Category;
         public Column Column;
         public string Details;
-        public IEnumerable<Tag> Uses;
         public string DisplayName;
-        public bool FrequentlyUsed;
         public bool IsString => TypeName == TagType.String;
         public bool IsText => TypeName.StartsWith(TagType.String);
         public string Name;
@@ -31,6 +29,7 @@ namespace TagScanner.Models
         public Tag Tag;
         public Type Type;
         public string TypeName => Type.Name;
+        public Tag[] Uses;
 
         public void AdjustAlignment()
         {

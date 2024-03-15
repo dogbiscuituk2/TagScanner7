@@ -1,7 +1,6 @@
 ﻿namespace TagScanner.Controllers
 {
     using System;
-    using System.Collections.Generic;
     using System.Collections.ObjectModel;
     using System.Linq;
     using System.Windows.Data;
@@ -9,7 +8,6 @@
     using AxWMPLib;
     using WMPLib;
     using Models;
-    using Terms;
     using Views;
     
     internal class PlayerController : GridController
@@ -73,7 +71,5 @@
                     break;
                 }
         }
-
-        //protected override IEnumerable<TagProps> GetTagProps() => new[] { Tag.Title, Tag.JoinedPerformers, Tag.Album }.Select(p => Core.Tags[p]);
     }
 }
