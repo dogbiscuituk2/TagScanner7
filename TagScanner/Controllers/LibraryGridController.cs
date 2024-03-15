@@ -121,7 +121,7 @@
             var displayIndex = 0;
             foreach (var tag in VisibleTags)
             {
-                var column = DataGrid.Columns.Single(c => ((TagInfo)c.Header).Name == Core.Tags[tag].Name);
+                var column = DataGrid.Columns.Single(c => ((TagInfo)c.Header).Name == tag.ToString());
                 column.DisplayIndex = displayIndex++;
                 column.Visibility = Visibility.Visible;
             }
@@ -168,7 +168,7 @@
             {
                 groupDescriptions.Clear();
                 foreach (var groupDescription in GroupDescriptions)
-                    groupDescriptions.Add(new PropertyGroupDescription(Core.Tags[groupDescription].Name));
+                    groupDescriptions.Add(new PropertyGroupDescription(groupDescription.ToString()));
             }
         }
 
@@ -254,7 +254,7 @@
         private void SetQuery(IEnumerable<Tag> visibleTags, IEnumerable<Tag> groupDescriptions, IEnumerable<Tag> sortDescriptions)
         {
             VisibleTags = visibleTags.Union(VisibleTags).ToList();
-            _sortDescriptions = sortDescriptions.Select(p => new SortDescription(Core.Tags[p].Name, ListSortDirection.Ascending));
+            _sortDescriptions = sortDescriptions.Select(p => new SortDescription(p.ToString(), ListSortDirection.Ascending));
             _groupDescriptions = groupDescriptions;
             InitGroups();
         }

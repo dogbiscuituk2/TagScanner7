@@ -53,7 +53,7 @@
         public static implicit operator Term(int value) => new Constant(value);
         public static implicit operator Term(long value) => new Constant(value);
         public static implicit operator Term(string value) => new Constant(value);
-        public static implicit operator Term(Tag tag) => new Field(Enum.GetName(typeof(Tag), tag));
+        public static implicit operator Term(Tag tag) => new Field(tag);
 
         public static Term operator -(Term term) => Minus(term);
         public static Term operator !(Term term) => Not(term);

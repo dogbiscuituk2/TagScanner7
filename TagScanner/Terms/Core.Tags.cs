@@ -11,9 +11,7 @@
     {
         #region Public Properties
 
-        public static TagDictionary Tags => _tagDictionary ?? GetTags();
-
-        public static List<Tag> BrowsableTags => Tags.Keys.Where(p => Tags[p].Browsable).ToList();
+        public static List<Tag> BrowsableTags => Tags.Keys.Where(p => Tags.Values[p].Browsable).ToList();
 
         #endregion
 
@@ -66,10 +64,28 @@
         #endregion
 
         #region Private Methods
+        #endregion
+    }
+
+    #region Utility Classes
+
+    public class TagDictionary : Dictionary<Tag, TagInfo>
+    {
+    }
+
+    public static class Tags
+    {
+        static Tags() => _tags = GetTags();
+
+        public static IEnumerable<Tag> Keys => _tags.Keys;
+        public static IEnumerable<TagInfo> Values => _tags.Values;
+
+
+        private static Dictionary<Tag, TagInfo> _tags;
 
         private static TagDictionary GetTags()
         {
-            _tagDictionary = new TagDictionary();
+            var _tagDictionary = new TagDictionary();
             var props = typeof(Selection).GetProperties();
             foreach (Tag tag in Enum.GetValues(typeof(Tag)))
             {
@@ -109,7 +125,7 @@
 
         private static void SetBrowsable(Tag tag, bool value)
         {
-            var property = Tags[tag];
+            var property = _tags[tag];
             if (property.Browsable != value)
             {
                 UseField(tag, typeof(BrowsableAttribute), "browsable", value);
@@ -128,14 +144,7 @@
             return value;
         }
 
-        #endregion
-    }
 
-    #region Utility Classes
-
-    public class TagDictionary : Dictionary<Tag, TagInfo>
-    {
-        public TagInfo this[string name] => this[(Tag)Enum.Parse(typeof(Tag), name)];
     }
 
     #endregion

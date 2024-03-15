@@ -8,15 +8,16 @@
         [TestMethod]
         public void TestFields()
         {
-            foreach (var tag in Core.Tags.Values)
+            foreach (var tag in Core.Tags.Keys)
             {
-                var term = new Field(tag.Name);
+                var tagInfo = Core.Tags[tag];
+                var term = new Field(tag);
                 Assert.IsNotNull(term);
-                Assert.AreEqual(expected: tag.Name, actual: term.TagName);
+                Assert.AreEqual(expected: tagInfo.Name, actual: term.Tag.ToString());
                 Assert.AreEqual(expected: Rank.Unary, actual: term.Rank);
-                Assert.AreEqual(expected: Core.Tags[tag.Name].Type, actual: term.ResultType);
-                Assert.AreEqual(expected: $"{tag.DisplayName}", actual: term.ToString());
-                Assert.AreEqual(expected: $"T.{tag.Name}", actual: term.Expression.ToString());
+                Assert.AreEqual(expected: tagInfo.Type, actual: term.ResultType);
+                Assert.AreEqual(expected: $"{tagInfo.DisplayName}", actual: term.ToString());
+                Assert.AreEqual(expected: $"T.{tagInfo.Name}", actual: term.Expression.ToString());
             }
         }
     }

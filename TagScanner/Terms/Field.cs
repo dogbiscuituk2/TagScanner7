@@ -2,13 +2,14 @@
 {
     using System;
     using System.Linq.Expressions;
+    using Models;
 
     [Serializable]
     public class Field : Term
     {
-        public Field(string tagName) { TagName = tagName; }
+        public Field(Tag tag) { Tag = tag; }
 
-        public string TagName { get; set; }
+        public Tag Tag { get; set; }
 
         // https://www.strathweb.com/2018/01/easy-way-to-create-a-c-lambda-expression-from-a-string-with-roslyn/
 
@@ -16,13 +17,13 @@
         {
             get
             {
-                var property = Expression.Property(Work, TagName);
+                var property = Expression.Property(Work, Tag.ToString());
                 return property;
             }
         }
 
-        public override Type ResultType => Core.Tags[TagName].Type;
+        public override Type ResultType => Core.Tags[Tag].Type;
 
-        public override string ToString() => Core.Tags[TagName].DisplayName;
+        public override string ToString() => Core.Tags[Tag].DisplayName;
     }
 }

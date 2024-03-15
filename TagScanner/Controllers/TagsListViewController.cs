@@ -26,7 +26,7 @@
         internal void InitListView()
         {
             Items.Clear();
-            foreach (var tagInfo in Core.Tags.Values)
+            foreach (var tagInfo in Tags.Values)
             {
                 var item = Items.Add(tagInfo.DisplayName);
                 item.Name = tagInfo.Name;

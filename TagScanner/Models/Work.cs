@@ -726,7 +726,7 @@
 
         private TagLib.File GetTagLibFile() => TagLib.File.Create(FilePath);
 
-        private void InvokeHandler(PropertyChangedEventHandler propertyChanged, Tag propertyTag) => InvokeHandler(propertyChanged, Core.Tags[propertyTag].Name);
+        private void InvokeHandler(PropertyChangedEventHandler propertyChanged, Tag propertyTag) => InvokeHandler(propertyChanged, propertyTag.ToString());
 
         private void InvokeHandler(PropertyChangedEventHandler propertyChanged, string propertyName)
         {
@@ -735,7 +735,7 @@
                 InvokeHandler(propertyChanged, dependentPropertyName);
         }
 
-        protected virtual void OnPropertyChanged(Tag propertyTag) => OnPropertyChanged(Core.Tags[propertyTag].Name);
+        protected virtual void OnPropertyChanged(Tag propertyTag) => OnPropertyChanged(propertyTag.ToString());
 
         protected virtual void OnPropertyChanged(string propertyName)
         {

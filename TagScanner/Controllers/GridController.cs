@@ -47,7 +47,7 @@
         protected void InitColumns()
         {
             DataGrid.Columns.Clear();
-            var columns = Core.Tags.Values.Select(GetColumn)?.Where(c => c != null);
+            var columns = Tags.Values.Select(GetColumn)?.Where(c => c != null);
             if (columns != null)
                 foreach (var column in columns)
                     DataGrid.Columns.Add(column);
