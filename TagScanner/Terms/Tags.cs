@@ -80,6 +80,7 @@
 
         public static bool Browsable(this Tag tag) => TagDictionary[tag].Browsable;
         public static string Details(this Tag tag) => TagDictionary[tag].Details;
+        public static string Category(this Tag tag) => TagDictionary[tag].Category;
         public static string DisplayName(this Tag tag) => TagDictionary[tag].DisplayName;
         public static Type Type(this Tag tag) => TagDictionary[tag].Type;
         public static Tag[] Uses(this Tag tag) => TagDictionary[tag].Uses;

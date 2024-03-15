@@ -1,8 +1,6 @@
 ﻿namespace TagScanner.Menus
 {
     using System;
-    using System.Collections.Generic;
-    using System.Reflection;
     using System.Windows.Forms;
     using Models;
     using Terms;
@@ -34,28 +32,28 @@
         #region Private Methods
 
         private void OnConstantClick() => ConstantClick?.Invoke(this, EventArgs.Empty);
-        private void OnFieldClick(TagInfo tagInfo) => FieldClick?.Invoke(this, new FieldEventArgs(tagInfo));
-        private void OnOperationClick(KeyValuePair<Op, OpInfo> op) => OperationClick?.Invoke(this, new OperationEventArgs(op));
-        private void OnFunctionClick(KeyValuePair<string, MethodInfo> method) => FunctionClick?.Invoke(this, new FunctionEventArgs(method));
+        private void OnFieldClick(Tag tag) => FieldClick?.Invoke(this, new FieldEventArgs(tag));
+        private void OnOperationClick(Op op) => OperationClick?.Invoke(this, new OperationEventArgs(op));
+        private void OnFunctionClick(string key) => FunctionClick?.Invoke(this, new FunctionEventArgs(key));
         private void MenuRouter_TermDeleteClick(object sender, EventArgs e) => TermDeleteClick?.Invoke(this, e);
         private void MenuRouter_TermModifyClick(object sender, EventArgs e) => TermModifyClick?.Invoke(this, e);
 
         private void MenuRouter_TermClick(object sender, EventArgs e)
         {
-            var tag = ((ToolStripMenuItem)sender).Tag;
-            switch (tag)
+            var foo = ((ToolStripMenuItem)sender).Tag;
+            switch (foo)
             {
                 case null:
                     OnConstantClick();
                     break;
-                case TagInfo field:
-                    OnFieldClick(field);
+                case Tag tag:
+                    OnFieldClick(tag);
                     break;
-                case KeyValuePair<Op, OpInfo> operation:
-                    OnOperationClick(operation);
+                case Op op:
+                    OnOperationClick(op);
                     break;
-                case KeyValuePair<string, MethodInfo> function:
-                    OnFunctionClick(function);
+                case string key:
+                    OnFunctionClick(key);
                     break;
             }
         }

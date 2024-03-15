@@ -5,11 +5,8 @@
 
     public class FieldEventArgs : EventArgs
     {
-        public FieldEventArgs(TagInfo tagInfo)
-        {
-            TagInfo = tagInfo;
-        }
+        public FieldEventArgs(Tag tag) { Tag = tag; }
 
-        public TagInfo TagInfo { get; set; }
+        public Tag Tag { get; set; }
     }
 }

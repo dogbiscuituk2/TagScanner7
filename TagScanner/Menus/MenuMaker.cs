@@ -3,7 +3,6 @@
     using System;
     using System.Collections.Generic;
     using System.Linq;
-    using System.Reflection;
     using System.Windows.Forms;
     using Models;
     using Terms;
@@ -47,27 +46,27 @@
         {
             items = items.Append("&Function");
             foreach (var key in Methods.Keys.Where(p => p.IndexOf('_') < 0))
-                items.Append(key, key.MethodInfo(), click);
+                items.Append(key, key, click);
         }
 
         private static void AddOperations(this ToolStripItemCollection items, EventHandler click)
         {
             items = items.Append("&Operation");
             foreach (var op in Operators.Keys)
-                items.Append(op.ToString(), op.OpInfo(), click);
+                items.Append(op.ToString(), op, click);
         }
 
         private static void AddTags(this ToolStripItemCollection items, EventHandler click)
         {
             items = items.Append("&Tag");
-            var tags = Tags.Values.OrderBy(p => p.Category).ThenBy(p => p.DisplayName);
-            var categories = tags.Select(p => p.Category).Distinct();
+            var tags = Tags.Keys.OrderBy(p => p.Category()).ThenBy(p => p.DisplayName());
+            var categories = tags.Select(p => p.Category()).Distinct();
             foreach (var category in categories)
             {
                 var subItems = ((ToolStripMenuItem)items.Add(category.Escape())).DropDownItems;
-                foreach (var tag in tags.Where(p => p.Category == category))
-                    subItems.Add(new ToolStripMenuItem(tag.DisplayName.Escape(), null, click)
-                        { Tag = tag, ToolTipText = tag.Details });
+                foreach (var tag in tags.Where(p => p.Category() == category))
+                    subItems.Add(new ToolStripMenuItem(tag.DisplayName().Escape(), null, click)
+                        { Tag = tag, ToolTipText = tag.Details() });
             }
         }
 
@@ -82,15 +81,15 @@
 
         private static bool IncludeTerm(this ToolStripItem item, Filter target, IEnumerable<Type> types)
         {
-            var tag = item.Tag;
-            if (tag == null)
+            var key = item.Tag;
+            if (key == null)
                 return true; ;
-            switch (tag)
+            switch (key)
             {
-                case TagInfo tagInfo:
-                    return types.Contains(tagInfo.Type);
-                case KeyValuePair<Op, OpInfo> _:
-                case KeyValuePair<string, MethodInfo> _:
+                case Tag tag:
+                    return types.Contains(tag.Type());
+                case Op _:
+                case string _:
                     return true;
                 default:
                     return false;

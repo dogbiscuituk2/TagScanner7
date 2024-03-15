@@ -56,9 +56,9 @@
         #region Event Handlers
 
         private void MenuRouter_ConstantClick(object sender, EventArgs e) => AddConstant();
-        private void MenuRouter_FieldClick(object sender, FieldEventArgs e) => AddField(e.TagInfo);
-        private void MenuRouter_FunctionClick(object sender, FunctionEventArgs e) => AddFunction(e.Method);
-        private void MenuRouter_OperationClick(object sender, OperationEventArgs e) => AddOperation(e.Operation);
+        private void MenuRouter_FieldClick(object sender, FieldEventArgs e) => AddField(e.Tag);
+        private void MenuRouter_FunctionClick(object sender, FunctionEventArgs e) => AddFunction(e.Key);
+        private void MenuRouter_OperationClick(object sender, OperationEventArgs e) => AddOperation(e.Op);
 
         private void PopupMenu_Opening(object sender, System.ComponentModel.CancelEventArgs e)
         {
@@ -70,9 +70,9 @@
         #region Private Methods
 
         private void AddConstant() => TermTreeViewController.AddConstant();
-        private void AddField(TagInfo tagInfo) => TermTreeViewController.AddField(tagInfo);
-        private void AddFunction(KeyValuePair<string, MethodInfo> method) => TermTreeViewController.AddFunction(method);
-        private void AddOperation(KeyValuePair<Op, OpInfo> operation) => TermTreeViewController.AddOperation(operation);
+        private void AddField(Tag tag) => TermTreeViewController.AddField(tag);
+        private void AddFunction(string key) => TermTreeViewController.AddFunction(key);
+        private void AddOperation(Op op) => TermTreeViewController.AddOperation(op);
         private FilterForm CreateFilterForm() => _view = new FilterForm();
         
         #endregion

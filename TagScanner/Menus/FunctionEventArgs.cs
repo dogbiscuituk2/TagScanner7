@@ -1,16 +1,11 @@
 ﻿namespace TagScanner.Menus
 {
     using System;
-    using System.Collections.Generic;
-    using System.Reflection;
 
     public class FunctionEventArgs : EventArgs
     {
-        public FunctionEventArgs(KeyValuePair<string, MethodInfo> method)
-        {
-            Method = method;
-        }
+        public FunctionEventArgs(string key) { Key = key; }
 
-        public KeyValuePair<string, MethodInfo> Method { get; set; }
+        public string Key { get; set; }
     }
 }

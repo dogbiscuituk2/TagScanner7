@@ -2,7 +2,6 @@
 {
     using System.Collections.Generic;
     using System.Linq;
-    using System.Reflection;
     using System.Windows.Forms;
     using Models;
     using Terms;
@@ -30,9 +29,9 @@
         internal int Add(Term term) => HasSelection ? AddChild(SelectedNode, term) : AddRoot(term);
         internal int AddChild(TreeNode parent, Term term) => AddNode(parent != null ? parent.Nodes : Roots, term);
         internal void AddConstant() => Add(new Constant());
-        internal void AddField(TagInfo tagInfo) => Add(new Field(tagInfo.Tag));
-        internal void AddFunction(KeyValuePair<string, MethodInfo> method) => Add(new Function(method.Key));
-        internal void AddOperation(KeyValuePair<Op, OpInfo> operation) => Add(new Operation(operation.Key));
+        internal void AddField(Tag tag) => Add(new Field(tag));
+        internal void AddFunction(string key) => Add(new Function(key));
+        internal void AddOperation(Op op) => Add(new Operation(op));
         internal int AddRoot(Term term) => AddNode(Roots, term);
 
         internal IEnumerable<Term> GetTerms() => Roots.OfType<TreeNode>().Select(p => p.Tag as Term);
