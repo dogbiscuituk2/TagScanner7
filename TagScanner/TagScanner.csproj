@@ -143,14 +143,13 @@
     <Compile Include="Models\IModel.cs" />
     <Compile Include="Models\Tag.cs" />
     <Compile Include="Terms\Constant.cs" />
-    <Compile Include="Terms\Core.Methods.cs" />
-    <Compile Include="Terms\Core.Operators.cs" />
+    <Compile Include="Terms\Methods.cs" />
+    <Compile Include="Terms\Operators.cs" />
     <Compile Include="Terms\Field.cs" />
     <Compile Include="Menus\Filter.cs" />
     <Compile Include="Terms\Function.cs" />
     <Compile Include="Terms\Operation.cs" />
     <Compile Include="Terms\Op.cs" />
-    <Compile Include="Terms\Core.Tags.cs" />
     <Compile Include="Terms\OpInfo.cs" />
     <Compile Include="Terms\Parameter.cs" />
     <Compile Include="Terms\Rank.cs" />

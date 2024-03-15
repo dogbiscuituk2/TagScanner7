@@ -731,7 +731,7 @@
         private void InvokeHandler(PropertyChangedEventHandler propertyChanged, string propertyName)
         {
             propertyChanged(this, new PropertyChangedEventArgs(propertyName));
-            foreach (var dependentPropertyName in Core.GetDependencyNames(propertyName))
+            foreach (var dependentPropertyName in Tags.GetDependencyNames(propertyName))
                 InvokeHandler(propertyChanged, dependentPropertyName);
         }
 

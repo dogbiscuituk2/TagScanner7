@@ -9,15 +9,15 @@
         [TestMethod]
         public void TestOperations()
         {
-            foreach (var key in Core.Operators.Keys)
+            foreach (var op in Operators.Keys)
             {
-                var opInfo = Core.Operators[key];
-                var term = new Operation(key);
+                var opInfo = op.OpInfo();
+                var term = new Operation(op);
                 Assert.IsNotNull(term);
-                Assert.AreEqual(expected: key, actual: term.Op);
+                Assert.AreEqual(expected: op, actual: term.Op);
                 // Internally, concatenation with operator+ invokes the Concat method.
                 // So, the expected ExpressionType in this case is Call, instead of Add.
-                var expType = key == Op.Concatenate ? ExpressionType.Call : opInfo.ExpType;
+                var expType = op == Op.Concatenate ? ExpressionType.Call : opInfo.ExpType;
                 Assert.AreEqual(expected: expType, actual: term.Expression.NodeType);
                 Assert.AreEqual(expected: opInfo.Rank, actual: term.Rank);
                 Assert.AreEqual(expected: opInfo.ResultType, actual: term.ResultType);

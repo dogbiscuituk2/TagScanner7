@@ -46,15 +46,15 @@
         private static void AddFunctions(this ToolStripItemCollection items, EventHandler click)
         {
             items = items.Append("&Function");
-            foreach (var method in Core.Methods.Where(p=> p.Key.IndexOf('_') < 0))
-                items.Append(method.Key, method, click);
+            foreach (var key in Methods.Keys.Where(p => p.IndexOf('_') < 0))
+                items.Append(key, key.MethodInfo(), click);
         }
 
         private static void AddOperations(this ToolStripItemCollection items, EventHandler click)
         {
             items = items.Append("&Operation");
-            foreach (var op in Core.Operators)
-                items.Append(op.Key.ToString(), op, click);
+            foreach (var op in Operators.Keys)
+                items.Append(op.ToString(), op.OpInfo(), click);
         }
 
         private static void AddTags(this ToolStripItemCollection items, EventHandler click)

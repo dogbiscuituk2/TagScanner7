@@ -2,6 +2,7 @@
 {
     using System;
     using System.Linq.Expressions;
+    using Models;
 
     [Serializable]
     public class Parameter : Term

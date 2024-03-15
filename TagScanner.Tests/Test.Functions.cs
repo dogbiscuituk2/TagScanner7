@@ -8,7 +8,7 @@
         [TestMethod]
         public void TestFunctions()
         {
-            foreach (var key in Core.Methods.Keys)
+            foreach (var key in Methods.Keys)
             {
                 var term = new Function(key);
                 Assert.IsNotNull(term);

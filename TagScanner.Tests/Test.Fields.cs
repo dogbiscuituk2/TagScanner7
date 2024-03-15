@@ -10,7 +10,7 @@
         {
             foreach (var tag in Tags.Keys)
             {
-                var tagInfo = tag.GetInfo();
+                var tagInfo = tag.TagInfo();
                 var term = new Field(tag);
                 Assert.IsNotNull(term);
                 Assert.AreEqual(expected: tagInfo.Name, actual: term.Tag.ToString());

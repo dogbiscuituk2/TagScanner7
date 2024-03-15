@@ -34,7 +34,7 @@
             set
             {
                 _name = value;
-                Method = Core.Methods[Name];
+                Method = Name.MethodInfo();
                 AddParameters(GetParameterTypes().ToArray());
             }
         }
@@ -97,7 +97,7 @@
         private void SetName(string name)
         {
             _name = name;
-            Method = Core.Methods[name];
+            Method = Name.MethodInfo();
         }
 
         #endregion
