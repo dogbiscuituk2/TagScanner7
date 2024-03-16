@@ -257,7 +257,22 @@
     <Content Include="Resources\Level_2.png" />
     <Content Include="Resources\Level_3.png" />
     <Content Include="Resources\Open_6296.png" />
+    <Content Include="Resources\Op_Add.bmp" />
+    <Content Include="Resources\Op_And.bmp" />
+    <Content Include="Resources\Op_Concatenate.bmp" />
     <Content Include="Resources\Op_Conditional.bmp" />
+    <Content Include="Resources\Op_Divide.bmp" />
+    <Content Include="Resources\Op_EqualTo.bmp" />
+    <Content Include="Resources\Op_GreaterThan.bmp" />
+    <Content Include="Resources\Op_LessThan.bmp" />
+    <Content Include="Resources\Op_Multiply.bmp" />
+    <Content Include="Resources\Op_Not.bmp" />
+    <Content Include="Resources\Op_NotEqualTo.bmp" />
+    <Content Include="Resources\Op_NotGreaterThan.bmp" />
+    <Content Include="Resources\Op_NotLessThan.bmp" />
+    <Content Include="Resources\Op_Or.bmp" />
+    <Content Include="Resources\Op_Subtract.bmp" />
+    <Content Include="Resources\Op_Xor.bmp" />
     <Content Include="Resources\refresh_16xLG.png" />
     <Content Include="Resources\Views_7953_32.bmp" />
   </ItemGroup>
