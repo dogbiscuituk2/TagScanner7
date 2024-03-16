@@ -17,8 +17,8 @@
                 Assert.AreEqual(expected: op, actual: term.Op);
                 // Internally, concatenation with operator+ invokes the Concat method.
                 // So, the expected ExpressionType in this case is Call, instead of Add.
-                var expType = op == Op.Concatenate ? ExpressionType.Call : opInfo.ExpType;
-                Assert.AreEqual(expected: expType, actual: term.Expression.NodeType);
+                var nodeType = op == Op.Concatenate ? ExpressionType.Call : opInfo.ExpType;
+                Assert.AreEqual(expected: nodeType, actual: term.Expression.NodeType);
                 Assert.AreEqual(expected: opInfo.Rank, actual: term.Rank);
                 Assert.AreEqual(expected: opInfo.ResultType, actual: term.ResultType);
             }

@@ -13,26 +13,26 @@
         [TestMethod]
         public void TestTags()
         {
-            foreach (var tagInfo in Tags.Values)
+            foreach (var tag in Tags.Keys)
             {
-                var property = typeof(IWork).GetProperty(tagInfo.Name);
+                var property = typeof(IWork).GetProperty(tag.Name());
                 Assert.IsNotNull(property);
                 bool
-                    canSort = tagInfo.Type.BaseType == typeof(Enum) || SortableTypes.Contains(tagInfo.Type),
+                    canSort = tag.Type().BaseType == typeof(Enum) || SortableTypes.Contains(tag.Type()),
                     canWrite = property.SetMethod != null;
-                var column = tagInfo.Column;
+                var column = tag.Column();
                 Assert.IsNotNull(column);
-                var columnType = tagInfo.Type == typeof(bool) ? ColumnType.CheckBox : ColumnType.Text;
-                Assert.AreEqual(expected: true, actual: tagInfo.CanRead);
-                Assert.AreEqual(expected: canSort, actual: tagInfo.CanSort);
-                Assert.AreEqual(expected: canWrite, actual: tagInfo.CanWrite);
-                Assert.IsFalse(string.IsNullOrWhiteSpace(tagInfo.Category));
+                var columnType = tag.Type() == typeof(bool) ? ColumnType.CheckBox : ColumnType.Text;
+                Assert.AreEqual(expected: true, actual: tag.CanRead());
+                Assert.AreEqual(expected: canSort, actual: tag.CanSort());
+                Assert.AreEqual(expected: canWrite, actual: tag.CanWrite());
+                Assert.IsFalse(string.IsNullOrWhiteSpace(tag.Category()));
                 Assert.AreNotEqual(notExpected: Alignment.Default, actual: column.Alignment); // All defaults resolved?
                 Assert.AreEqual(expected: columnType, actual: column.Type);
-                Assert.IsFalse(string.IsNullOrWhiteSpace(tagInfo.Details));
-                Assert.IsFalse(string.IsNullOrWhiteSpace(tagInfo.DisplayName));
-                Assert.AreNotEqual(notExpected: canWrite, actual: tagInfo.ReadOnly);
-                Assert.AreEqual(expected: property.PropertyType, actual: tagInfo.Type);
+                Assert.IsFalse(string.IsNullOrWhiteSpace(tag.Details()));
+                Assert.IsFalse(string.IsNullOrWhiteSpace(tag.DisplayName()));
+                Assert.AreNotEqual(notExpected: canWrite, actual: tag.ReadOnly());
+                Assert.AreEqual(expected: property.PropertyType, actual: tag.Type());
             }
         }
     }
