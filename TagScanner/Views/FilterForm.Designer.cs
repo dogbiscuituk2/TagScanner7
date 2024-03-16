@@ -52,6 +52,7 @@
             this.EditDelete = new System.Windows.Forms.ToolStripMenuItem();
             this.TermMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.btnApply = new System.Windows.Forms.Button();
             this.btnCancel = new System.Windows.Forms.Button();
             this.btnOK = new System.Windows.Forms.Button();
             this.imageList1 = new System.Windows.Forms.ImageList(this.components);
@@ -68,7 +69,7 @@
             this.TreeView.Margin = new System.Windows.Forms.Padding(4);
             this.TreeView.Name = "TreeView";
             this.TreeView.ShowNodeToolTips = true;
-            this.TreeView.Size = new System.Drawing.Size(784, 486);
+            this.TreeView.Size = new System.Drawing.Size(624, 373);
             this.TreeView.TabIndex = 0;
             // 
             // PopupMenu
@@ -84,7 +85,7 @@
             this.TermMenu});
             this.MainMenu.Location = new System.Drawing.Point(0, 0);
             this.MainMenu.Name = "MainMenu";
-            this.MainMenu.Size = new System.Drawing.Size(784, 24);
+            this.MainMenu.Size = new System.Drawing.Size(624, 24);
             this.MainMenu.TabIndex = 4;
             this.MainMenu.Text = "menuStrip1";
             // 
@@ -109,7 +110,7 @@
             this.FileNew.Name = "FileNew";
             this.FileNew.ShortcutKeyDisplayString = "^N";
             this.FileNew.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.N)));
-            this.FileNew.Size = new System.Drawing.Size(180, 22);
+            this.FileNew.Size = new System.Drawing.Size(144, 22);
             this.FileNew.Text = "&New";
             // 
             // FileOpen
@@ -219,20 +220,32 @@
             // 
             // panel1
             // 
+            this.panel1.Controls.Add(this.btnApply);
             this.panel1.Controls.Add(this.btnCancel);
             this.panel1.Controls.Add(this.btnOK);
             this.panel1.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.panel1.Location = new System.Drawing.Point(0, 510);
+            this.panel1.Location = new System.Drawing.Point(0, 397);
             this.panel1.Margin = new System.Windows.Forms.Padding(4);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(784, 51);
+            this.panel1.Size = new System.Drawing.Size(624, 44);
             this.panel1.TabIndex = 5;
+            // 
+            // btnApply
+            // 
+            this.btnApply.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnApply.Location = new System.Drawing.Point(331, 8);
+            this.btnApply.Margin = new System.Windows.Forms.Padding(4);
+            this.btnApply.Name = "btnApply";
+            this.btnApply.Size = new System.Drawing.Size(88, 30);
+            this.btnApply.TabIndex = 21;
+            this.btnApply.Text = "Apply";
+            this.btnApply.UseVisualStyleBackColor = true;
             // 
             // btnCancel
             // 
             this.btnCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.btnCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.btnCancel.Location = new System.Drawing.Point(682, 9);
+            this.btnCancel.Location = new System.Drawing.Point(523, 8);
             this.btnCancel.Margin = new System.Windows.Forms.Padding(4);
             this.btnCancel.Name = "btnCancel";
             this.btnCancel.Size = new System.Drawing.Size(88, 30);
@@ -244,7 +257,7 @@
             // 
             this.btnOK.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.btnOK.DialogResult = System.Windows.Forms.DialogResult.OK;
-            this.btnOK.Location = new System.Drawing.Point(588, 9);
+            this.btnOK.Location = new System.Drawing.Point(427, 8);
             this.btnOK.Margin = new System.Windows.Forms.Padding(4);
             this.btnOK.Name = "btnOK";
             this.btnOK.Size = new System.Drawing.Size(88, 30);
@@ -262,7 +275,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 17F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(784, 561);
+            this.ClientSize = new System.Drawing.Size(624, 441);
             this.Controls.Add(this.TreeView);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.MainMenu);
@@ -305,6 +318,7 @@
         public System.Windows.Forms.Panel panel1;
         public System.Windows.Forms.Button btnCancel;
         public System.Windows.Forms.Button btnOK;
-        private System.Windows.Forms.ImageList imageList1;
+        public System.Windows.Forms.ImageList imageList1;
+        public System.Windows.Forms.Button btnApply;
     }
 }

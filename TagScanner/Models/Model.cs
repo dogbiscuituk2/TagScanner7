@@ -4,6 +4,7 @@
     using System.Collections.Generic;
     using System.ComponentModel;
     using System.Linq;
+    using Terms;
 
     [Serializable]
     public class Model : IModel
@@ -19,6 +20,13 @@
                 _library = value;
                 OnWorksChanged();
             }
+        }
+
+        private Term _filter;
+        public Term Filter
+        {
+            get => _filter;
+            set => SetFilter(value);
         }
 
         public List<string> Folders => Library.Folders;
@@ -85,6 +93,11 @@
 
         private bool AddAndSaveWork(Work work) => AddWork(work) && SaveWork(work);
 
+        private void ApplyFilter()
+        {
+
+        }
+
         private bool DropWork(Work work) => Works.Remove(work);
 
         private bool LoadWork(Work work)
@@ -120,6 +133,12 @@
         {
             work.Save();
             return true;
+        }
+
+        private void SetFilter(Term filter)
+        {
+            Filter = filter;
+            ApplyFilter();
         }
 
         #endregion
