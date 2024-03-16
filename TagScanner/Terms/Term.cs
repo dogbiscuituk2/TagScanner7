@@ -9,7 +9,7 @@
     {
         #region Public Fields
 
-        public static readonly ParameterExpression Work = Expression.Parameter(typeof(Work), "T");
+        public static readonly ParameterExpression Work = Expression.Parameter(typeof(Work), "Work");
 
         #endregion
 
@@ -48,6 +48,7 @@
 
         #region Public Operators
 
+        public static implicit operator Term(bool value) => new Constant(value);
         public static implicit operator Term(char value) => new Constant(value);
         public static implicit operator Term(double value) => new Constant(value);
         public static implicit operator Term(int value) => new Constant(value);

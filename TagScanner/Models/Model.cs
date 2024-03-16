@@ -11,6 +11,17 @@
     {
         #region Public Interface
 
+        private Term _filter = true;
+        public Term Filter
+        {
+            get => _filter;
+            set
+            {
+                _filter = value;
+                _predicate = null;
+            }
+        }
+
         private Library _library = new Library();
         public Library Library
         {
@@ -22,15 +33,10 @@
             }
         }
 
-        private Term _filter;
-        public Term Filter
-        {
-            get => _filter;
-            set => SetFilter(value);
-        }
+        private Func<Work, bool> _predicate = null;
+        public Func<Work, bool> Predicate => _predicate ?? (_predicate = _filter.Predicate);
 
         public List<string> Folders => Library.Folders;
-
         public List<Work> Works => Library.Works;
 
         private bool _modified;
@@ -60,6 +66,7 @@
         public void Clear()
         {
             Library.Clear();
+            _filter = null;
             OnWorksChanged();
         }
 
@@ -92,11 +99,6 @@
         }
 
         private bool AddAndSaveWork(Work work) => AddWork(work) && SaveWork(work);
-
-        private void ApplyFilter()
-        {
-
-        }
 
         private bool DropWork(Work work) => Works.Remove(work);
 
@@ -133,12 +135,6 @@
         {
             work.Save();
             return true;
-        }
-
-        private void SetFilter(Term filter)
-        {
-            Filter = filter;
-            ApplyFilter();
         }
 
         #endregion
