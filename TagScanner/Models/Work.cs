@@ -90,6 +90,9 @@
 
         public int AlbumArtistsSortCount => AlbumArtistsSort.Length;
 
+        public string AlbumGain { get; set; }
+        public string AlbumPeak { get; set; }
+
         private string _albumSort;
         public string AlbumSort
         {
@@ -295,6 +298,28 @@
         public string FileNameWithoutExtension => Path.GetFileNameWithoutExtension(FilePath);
         public string FilePath { get; set; }
         public long FileSize { get; set; }
+        public FileStatus FileStatus
+        {
+            get
+            {
+                if (!FileExists)
+                    return FileStatus.Deleted;
+                if (IsNew)
+                    return IsModified ? FileStatus.New | FileStatus.Pending : FileStatus.New;
+                if (IsModified)
+                    return FileStatus.Pending;
+                // TODO: check for resolution inaccuracies & daylight saving time transitions.
+                var elapsedTime = FileLastWriteTimeUtc - File.GetLastWriteTimeUtc(FilePath);
+                switch (Math.Sign(elapsedTime.Ticks))
+                {
+                    case +1:
+                        return FileStatus.Pending;
+                    case -1:
+                        return FileStatus.Updated;
+                }
+                return FileStatus.Current;
+            }
+        }
         public string FirstAlbumArtist { get; set; }
         public string FirstAlbumArtistSort { get; set; }
         public string FirstArtist { get; set; }
@@ -566,36 +591,8 @@
         private bool _possiblyCorrupt;
         public Logical PossiblyCorrupt => _possiblyCorrupt.AsLogical();
 
-        public FileStatus FileStatus
-        {
-            get
-            {
-                if (!FileExists)
-                    return FileStatus.Deleted;
-                if (IsNew)
-                    return IsModified ? FileStatus.New | FileStatus.Pending : FileStatus.New;
-                if (IsModified)
-                    return FileStatus.Pending;
-                // TODO: check for resolution inaccuracies & daylight saving time transitions.
-                var elapsedTime = FileLastWriteTimeUtc - File.GetLastWriteTimeUtc(FilePath);
-                switch (Math.Sign(elapsedTime.Ticks))
-                {
-                    case +1:
-                        return FileStatus.Pending;
-                    case -1:
-                        return FileStatus.Updated;
-                }
-                return FileStatus.Current;
-            }
-        }
-
         public TagLib.TagTypes TagTypes { get; set; }
         public TagLib.TagTypes TagTypesOnDisk { get; set; }
-
-        public string AlbumGain { get; private set; }
-        public string AlbumPeak { get; private set; }
-        public string TrackGain { get; private set; }
-        public string TrackPeak { get; private set; }
 
         private string _title;
         public string Title
@@ -640,6 +637,8 @@
             }
         }
 
+        public string TrackGain { get; set; }
+
         private int _trackNumber;
         [DefaultValue(0)]
         public int TrackNumber
@@ -656,6 +655,8 @@
         }
 
         public string TrackOf => NumberOfTotal(TrackNumber, TrackCount, 2);
+
+        public string TrackPeak { get; set; }
 
         [DefaultValue(0)] public int VideoHeight { get; set; }
         [DefaultValue(0)] public int VideoWidth { get; set; }

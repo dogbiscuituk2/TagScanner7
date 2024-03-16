@@ -117,6 +117,7 @@
     <Compile Include="Test.Fields.cs" />
     <Compile Include="Test.AlbumData.cs" />
     <Compile Include="Test.Functions.cs" />
+    <Compile Include="Mock.cs" />
     <Compile Include="Test.Operations.cs" />
     <Compile Include="Test.Tags.cs" />
   </ItemGroup>
