@@ -80,9 +80,12 @@
 
         public static bool Browsable(this Tag tag) => TagDictionary[tag].Browsable;
         public static string Details(this Tag tag) => TagDictionary[tag].Details;
+        public static bool CanWrite(this Tag tag) => TagDictionary[tag].CanWrite;
         public static string Category(this Tag tag) => TagDictionary[tag].Category;
         public static string DisplayName(this Tag tag) => TagDictionary[tag].DisplayName;
+        public static string Name(this Tag tag) => TagDictionary[tag].Name;
         public static Type Type(this Tag tag) => TagDictionary[tag].Type;
+        public static string TypeName(this Tag tag) => TagDictionary[tag].TypeName;
         public static Tag[] Uses(this Tag tag) => TagDictionary[tag].Uses;
 
         public static void SetBrowsable(this Tag tag, bool value)

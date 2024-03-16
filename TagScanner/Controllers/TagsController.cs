@@ -1,7 +1,6 @@
 ﻿namespace TagScanner.Controllers
 {
     using System.Collections.Generic;
-    using System.Linq;
     using System.Windows.Forms;
     using Models;
     using Views;
@@ -28,7 +27,7 @@
             if (ok)
             {
                 visibleTags.Clear();
-                visibleTags.AddRange(_visibleTags);
+                visibleTags.AddRange(_tagsListViewController.GetVisibleTags());
             }
             return ok;
         }
@@ -42,13 +41,13 @@
         private readonly TagsListViewController _tagsListViewController;
         private readonly TagsTreeViewController _tagsTreeViewController;
         private static TagVisibilityDialog _dialog;
-        private List<Tag> _visibleTags;
 
         #endregion
 
         #region Private Properties
 
         private TagVisibilityDialog Dialog => _dialog ?? CreateDialog();
+        private List<Tag> VisibleTags { get; set; }
 
         #endregion
 

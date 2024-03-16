@@ -83,10 +83,10 @@
 
         internal void EditTagVisibility()
         {
-            var gridVisibleTags = VisibleTags;
-            var ok = new TagsController(this).Execute("Select the Columns to display in the Media Table", gridVisibleTags);
+            var visibleTags = VisibleTags.ToList();
+            var ok = new TagsController(this).Execute("Select the Columns to display in the Media Table", visibleTags);
             if (ok)
-                VisibleTags = VisibleTags.Intersect(gridVisibleTags).Union(gridVisibleTags).ToList();
+                VisibleTags = VisibleTags.Intersect(visibleTags).Union(visibleTags).ToList();
         }
 
         protected override IValueConverter GetConverter(TagInfo tagInfo)

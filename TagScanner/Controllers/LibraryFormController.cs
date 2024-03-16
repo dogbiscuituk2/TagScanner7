@@ -211,7 +211,7 @@
         private void SelectPropertyGridTags()
         {
             var visibleTags = Tags.BrowsableTags;
-            var ok = new TagsController(this).Execute("Select the Tags to display in the Details Panel", visibleTags.ToList());
+            var ok = new TagsController(this).Execute("Select the Tags to display in the Details Panel", visibleTags);
             if (ok)
             {
                 Tags.WriteBrowsableTags(visibleTags);

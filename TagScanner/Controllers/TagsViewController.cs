@@ -31,12 +31,12 @@
 
         #region Protected Implementation
 
-        protected string GetGroupHeader(TagInfo tag)
+        protected string GetGroupHeader(Tag tag)
         {
             switch (GroupTagsBy)
             {
-                case GroupTagsBy.Category: return tag.Category;
-                case GroupTagsBy.DataType: return tag.TypeName;
+                case GroupTagsBy.Category: return tag.Category();
+                case GroupTagsBy.DataType: return tag.TypeName();
                 default: return string.Empty;
             }
         }
