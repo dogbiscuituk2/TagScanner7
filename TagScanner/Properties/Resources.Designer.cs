@@ -160,6 +160,16 @@ namespace TagScanner.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap Op_Conditional {
+            get {
+                object obj = ResourceManager.GetObject("Op_Conditional", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap Open_6296 {
             get {
                 object obj = ResourceManager.GetObject("Open_6296", resourceCulture);

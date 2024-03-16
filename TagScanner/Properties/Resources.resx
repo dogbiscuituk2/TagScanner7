@@ -117,21 +117,73 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="Add_Recent_Folder" xml:space="preserve">
+    <value>Add Recent Folder</value>
+  </data>
   <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="arrow_Down_16xLG" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\resources\arrow_down_16xlg.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="Expand_32" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\expand_32.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Select_the_file_to_open" xml:space="preserve">
+    <value>Select the file to open</value>
+  </data>
+  <data name="WorksAdded" xml:space="preserve">
+    <value>-- {0:n0} new work(s) will be added to the library file.
+</value>
   </data>
   <data name="arrow_Up_16xLG" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\resources\arrow_up_16xlg.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="Collapse" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\resources\collapse.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="Save_file" xml:space="preserve">
+    <value>Save file</value>
+  </data>
+  <data name="WorksChanged" xml:space="preserve">
+    <value>You may synchronise the library file with the ID3 work data in your media prior to saving. If you choose to do this, the following {0:n0} operation(s) will be performed:
+
+</value>
+  </data>
+  <data name="arrow_Down_16xLG" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\arrow_down_16xlg.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ConfirmSyncCaption" xml:space="preserve">
+    <value>Synchronise library file</value>
+  </data>
+  <data name="Views_7953_32" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\views_7953_32.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Select_the_media_folder_to_add" xml:space="preserve">
+    <value>Select the media folder to add</value>
   </data>
   <data name="Expand" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\resources\expand.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="Expand_32" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\resources\expand_32.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="WorksPending" xml:space="preserve">
+    <value>-- The embedded ID3 tag data of {0:n0} work(s) will be overwritten to match the current contents of the library file.
+</value>
+  </data>
+  <data name="Folder___0___no_longer_exists__Remove_from_menu_" xml:space="preserve">
+    <value>Folder "{0}" no longer exists. Remove from menu?</value>
+  </data>
+  <data name="WorksDeleted" xml:space="preserve">
+    <value>-- The previously loaded ID3 tag data of {0:n0} missing work(s) will be removed from the library file.
+</value>
+  </data>
+  <data name="WorksUpdated" xml:space="preserve">
+    <value>-- The contents of the library file will be updated to match the currently embedded ID3 tag data of {0:n0} work(s).
+</value>
+  </data>
+  <data name="Select_the_media_file_s__to_add" xml:space="preserve">
+    <value>Select the media file(s) to add</value>
+  </data>
+  <data name="ConfirmSync" xml:space="preserve">
+    <value>
+Continue to synchronize and save?</value>
+  </data>
+  <data name="refresh_16xLG" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\refresh_16xlg.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Collapse" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\collapse.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="folder_Open_16xLG" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\resources\folder_open_16xlg.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -139,56 +191,7 @@
   <data name="Open_6296" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\resources\open_6296.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="refresh_16xLG" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\resources\refresh_16xlg.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="Views_7953_32" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\resources\views_7953_32.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="ConfirmSync" xml:space="preserve">
-    <value>
-Continue to synchronize and save?</value>
-  </data>
-  <data name="WorksChanged" xml:space="preserve">
-    <value>You may synchronise the library file with the ID3 work data in your media prior to saving. If you choose to do this, the following {0:n0} operation(s) will be performed:
-
-</value>
-  </data>
-  <data name="WorksDeleted" xml:space="preserve">
-    <value>-- The previously loaded ID3 tag data of {0:n0} missing work(s) will be removed from the library file.
-</value>
-  </data>
-  <data name="WorksPending" xml:space="preserve">
-    <value>-- The embedded ID3 tag data of {0:n0} work(s) will be overwritten to match the current contents of the library file.
-</value>
-  </data>
-  <data name="WorksUpdated" xml:space="preserve">
-    <value>-- The contents of the library file will be updated to match the currently embedded ID3 tag data of {0:n0} work(s).
-</value>
-  </data>
-  <data name="ConfirmSyncCaption" xml:space="preserve">
-    <value>Synchronise library file</value>
-  </data>
-  <data name="WorksAdded" xml:space="preserve">
-    <value>-- {0:n0} new work(s) will be added to the library file.
-</value>
-  </data>
-  <data name="Select_the_media_file_s__to_add" xml:space="preserve">
-    <value>Select the media file(s) to add</value>
-  </data>
-  <data name="Select_the_media_folder_to_add" xml:space="preserve">
-    <value>Select the media folder to add</value>
-  </data>
-  <data name="Folder___0___no_longer_exists__Remove_from_menu_" xml:space="preserve">
-    <value>Folder "{0}" no longer exists. Remove from menu?</value>
-  </data>
-  <data name="Add_Recent_Folder" xml:space="preserve">
-    <value>Add Recent Folder</value>
-  </data>
-  <data name="Select_the_file_to_open" xml:space="preserve">
-    <value>Select the file to open</value>
-  </data>
-  <data name="Save_file" xml:space="preserve">
-    <value>Save file</value>
+  <data name="Op_Conditional" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Op_Conditional.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
 </root>

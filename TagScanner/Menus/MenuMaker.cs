@@ -2,6 +2,7 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.Drawing;
     using System.Linq;
     using System.Windows.Forms;
     using Models;
@@ -51,9 +52,30 @@
 
         private static void AddOperations(this ToolStripItemCollection items, EventHandler click)
         {
+            var images = new[]
+            {
+                Properties.Resources.Op_Conditional,
+                Properties.Resources.Op_Conditional,
+                Properties.Resources.Op_Conditional,
+                Properties.Resources.Op_Conditional,
+                Properties.Resources.Op_Conditional,
+                Properties.Resources.Op_Conditional,
+                Properties.Resources.Op_Conditional,
+                Properties.Resources.Op_Conditional,
+                Properties.Resources.Op_Conditional,
+                Properties.Resources.Op_Conditional,
+                Properties.Resources.Op_Conditional,
+                Properties.Resources.Op_Conditional,
+                Properties.Resources.Op_Conditional,
+                Properties.Resources.Op_Conditional,
+                Properties.Resources.Op_Conditional,
+                Properties.Resources.Op_Conditional,
+                Properties.Resources.Op_Conditional,
+                Properties.Resources.Op_Conditional,
+            };
             items = items.Append("&Operation");
             foreach (var op in Operators.Keys)
-                items.Append(op.ToString(), op, click);
+                items.Append(op.ToString(), op, click, images[(int)op]);
         }
 
         private static void AddTags(this ToolStripItemCollection items, EventHandler click)
@@ -70,14 +92,15 @@
             }
         }
 
-        private static ToolStripItemCollection Append(this ToolStripItemCollection items, string text)
+        private static ToolStripItemCollection Append(this ToolStripItemCollection items, string text, Image image = null)
         {
-            var item = new ToolStripMenuItem(text);
+            var item = new ToolStripMenuItem(text, image);
             items.Add(item);
             return item.DropDownItems;
         }
 
-        private static void Append(this ToolStripItemCollection items, string text, object info, EventHandler click) => items.Add(new ToolStripMenuItem(text, null, click) { Tag = info });
+        private static void Append(this ToolStripItemCollection items, string text, object info, EventHandler click, Image image = null) =>
+            items.Add(new ToolStripMenuItem(text, image, click) { Tag = info });
 
         private static bool IncludeTerm(this ToolStripItem item, Filter target, IEnumerable<Type> types)
         {

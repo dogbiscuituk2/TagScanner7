@@ -257,6 +257,7 @@
     <Content Include="Resources\Level_2.png" />
     <Content Include="Resources\Level_3.png" />
     <Content Include="Resources\Open_6296.png" />
+    <Content Include="Resources\Op_Conditional.bmp" />
     <Content Include="Resources\refresh_16xLG.png" />
     <Content Include="Resources\Views_7953_32.bmp" />
   </ItemGroup>
