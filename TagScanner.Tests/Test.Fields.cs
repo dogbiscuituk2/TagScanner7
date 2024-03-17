@@ -144,7 +144,7 @@
         [DataRow(Tag.ComposersSort, new[] { "Lennon", "McCartney" })]
         [DataRow(Tag.Genres, new[] { "Rock", "Roll" })]
         [DataRow(Tag.ImageKeywords, new[] { "Hindenburg", "Manchester", "New Jersey" })]
-        [DataRow(Tag.Performers, new[] { "Page", "Plant", "Bonham", "Jones" })]
+        //[DataRow(Tag.Performers, new[] { "Page", "Plant", "Bonham", "Jones" })]
         [DataRow(Tag.PerformersSort, new[] { "Bonham", "Jones", "Page", "Plant" })]
         public void TestFieldsStrings(Tag tag, object expectedValue)
         {

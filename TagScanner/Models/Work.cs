@@ -432,7 +432,7 @@
             {
                 if (MusicBrainzDiscId != value)
                 {
-                    MusicBrainzDiscId = value;
+                    _musicBrainzDiscId = value;
                     OnPropertyChanged(Tag.MusicBrainzDiscId);
                 }
             }
