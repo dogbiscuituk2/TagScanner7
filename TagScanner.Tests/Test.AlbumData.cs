@@ -48,7 +48,7 @@
             new Mock(TB, 1970, LIB, 5, "0:50", "Dig It") { Conductor = "George Martin" },
             new Mock(TB, 1970, LIB, 6, "4:03", "Let It Be") { Copyright = "Hands Off It's Mine" },
             new Mock(TB, 1970, LIB, 7, "0:40", "Maggie Mae") { Description = "MPEG Version 1 Audio, Layer 3" },
-            new Mock(TB, 1970, LIB, 8, "3:37", "I've Got a Feeling") { DiscNumber = 1, DiscCount = 2 },
+            new Mock(TB, 1970, LIB, 8, "3:37", "I've Got a Feeling") { DiscNumber = 2, DiscCount = 3, TrackCount = 12 },
             new Mock(TB, 1970, LIB, 9, "2:54", "One After 909") { DurationString="PT2M54S" },
             new Mock(TB, 1970, LIB, 10, "3:38", "The Long and Winding Road") { FileAttributes = "Archive" },
             new Mock(TB, 1970, LIB, 11, "2:32", "For You Blue") { FileCreationTime = DateTime.Parse("24/01/2024 19:34:00") },
@@ -118,7 +118,7 @@
             new Mock(LZ, 1971, LZiv, 7, "3:33", "Going to California") { PhotoQuality = 5 },
             new Mock(LZ, 1971, LZiv, 8, "7:08", "When the Levee Breaks") { PhotoWidth = 640 },
 
-            new Mock(LZ, 1973, HH, 1, "5:32", "The Song Remains the Same") { Pictures = Array.Empty<Picture>() },
+            new Mock(LZ, 1973, HH, 1, "5:32", "The Song Remains the Same") { Pictures = new[] { new Picture(@"C:\Pictures\Picture.png", 0, new TagLib.Picture()) } },
             new Mock(LZ, 1973, HH, 2, "7:39", "The Rain Song") { TagTypes = TagLib.TagTypes.Id3v1 | TagLib.TagTypes.Id3v2 },
             new Mock(LZ, 1973, HH, 3, "4:50", "Over the Hills and Far Away") { TitleSort = "and Away Far Hills Over the" },
             new Mock(LZ, 1973, HH, 4, "3:17", "The Crunge") { TrackNumber = 1, TrackCount = 2 },

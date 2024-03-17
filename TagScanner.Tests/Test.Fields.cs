@@ -31,11 +31,19 @@
         [DataRow(Tag.FileLastWriteTime, "24/01/2024 19:34:00")]
         [DataRow(Tag.FileLastWriteTimeUtc, "24/01/2024 19:34:00")]
         [DataRow(Tag.ImageDateTime, "24/01/2024 19:34:00")]
-        public void TestFieldsDateTime(Tag tag, object expectedValue)
+        public void TestFields_DateTime(Tag tag, object expectedValue)
         {
             var works = Works.Where(p => (DateTime)p.GetPropertyValue(tag) != DateTime.MinValue);
             Assert.AreEqual(expected: 1, actual: works.Count());
             Assert.AreEqual(expected: expectedValue, actual: works.First().GetPropertyValue(tag).ToString());
+        }
+
+        [TestMethod]
+        public void TestFields_DiscTrack()
+        {
+            var works = Works.Where(p => p.DiscNumber > 1);
+            Assert.AreEqual(expected: 1, actual: works.Count());
+            Assert.AreEqual(expected: "2/3 - 08/12", actual: works.First().DiscTrack);
         }
 
         [TestMethod]
@@ -44,7 +52,7 @@
         [DataRow(Tag.ImageFocalLength, 75.2)]
         [DataRow(Tag.ImageLatitude, 45.6)]
         [DataRow(Tag.ImageLongitude, 277.8)]
-        public void TestFieldsDouble(Tag tag, object expectedValue)
+        public void TestFields_Double(Tag tag, object expectedValue)
         {
             var works = Works.Where(p => (double)p.GetPropertyValue(tag) != 0);
             Assert.AreEqual(expected: 1, actual: works.Count());
@@ -66,7 +74,7 @@
         [DataRow(Tag.PhotoWidth, 640)]
         [DataRow(Tag.VideoHeight, 480)]
         [DataRow(Tag.VideoWidth, 640)]
-        public void TestFieldsInt(Tag tag, object expectedValue)
+        public void TestFields_Int(Tag tag, object expectedValue)
         {
             var works = Works.Where(p => (int)p.GetPropertyValue(tag) != 0);
             Assert.AreEqual(expected: 1, actual: works.Count());
@@ -77,11 +85,24 @@
         [DataRow(Tag.FileSize, 2968691L)]
         [DataRow(Tag.InvariantEndPosition, 67890L)]
         [DataRow(Tag.InvariantStartPosition, 12345L)]
-        public void TestFieldsLong(Tag tag, object expectedValue)
+        public void TestFields_Long(Tag tag, object expectedValue)
         {
             var works = Works.Where(p => (long)p.GetPropertyValue(tag) != 0);
             Assert.AreEqual(expected: 1, actual: works.Count());
             Assert.AreEqual(expected: expectedValue, actual: works.First().GetPropertyValue(tag));
+        }
+
+        [TestMethod]
+        public void TestFields_Pictures()
+        {
+            var works = Works.Where(p => p.Pictures != null);
+            Assert.AreEqual(expected: 1, actual: works.Count());
+            var pictures = works.First().Pictures;
+            Assert.AreEqual(expected: 1, actual: pictures.Length);
+            var picture = pictures[0];
+            Assert.AreEqual(expected: @"C:\Pictures\Picture.png", actual: picture.FilePath);
+            Assert.AreEqual(expected: 0, actual: picture.Index);
+            Assert.AreEqual(expected: "Other", actual: picture.Type);
         }
 
         [TestMethod]
@@ -129,7 +150,7 @@
         [DataRow(Tag.TitleSort, "and Away Far Hills Over the")]
         [DataRow(Tag.TrackGain, "-4.07 dB")]
         [DataRow(Tag.TrackPeak, "1.049575")]
-        public void TestFieldsString(Tag tag, object expectedValue)
+        public void TestFields_String(Tag tag, object expectedValue)
         {
             var works = Works.Where(p => !string.IsNullOrWhiteSpace(p.GetPropertyValue(tag)?.ToString()));
             Assert.AreEqual(expected: 1, actual: works.Count());
@@ -145,7 +166,7 @@
         [DataRow(Tag.Genres, new[] { "Rock", "Roll" })]
         [DataRow(Tag.ImageKeywords, new[] { "Hindenburg", "Manchester", "New Jersey" })]
         [DataRow(Tag.PerformersSort, new[] { "Bonham", "Jones", "Page", "Plant" })]
-        public void TestFieldsStrings(Tag tag, object expectedValue)
+        public void TestFields_Strings(Tag tag, object expectedValue)
         {
             var works = Works.Where(p => !string.IsNullOrWhiteSpace(p.GetPropertyValue(tag)?.ToString()));
             Assert.AreEqual(expected: 1, actual: works.Count());
@@ -156,7 +177,7 @@
         [TestMethod]
         [DataRow(Tag.ImageOrientation, TagLib.Image.ImageOrientation.TopLeft)]
         [DataRow(Tag.TagTypes, TagLib.TagTypes.Id3v1 | TagLib.TagTypes.Id3v2)]
-        public void TestFieldsUint(Tag tag, object expectedValue)
+        public void TestFields_Uint(Tag tag, object expectedValue)
         {
             var works = Works.Where(p => (uint)p.GetPropertyValue(tag) != 0);
             Assert.AreEqual(expected: 1, actual: works.Count());
