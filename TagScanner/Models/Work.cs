@@ -680,6 +680,7 @@
 
         #region Methods
 
+        public object GetPropertyValue(Tag tag) => GetPropertyValue(tag.ToString());
         public object GetPropertyValue(string propertyName) => GetPropertyInfo(propertyName).GetValue(this);
 
         public void Load()
