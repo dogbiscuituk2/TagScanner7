@@ -1,7 +1,11 @@
-﻿namespace TagScanner.Tests
+﻿using TagLib;
+using Picture = TagScanner.Models.Picture;
+
+namespace TagScanner.Tests
 {
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using System;
+    using System.Windows.Forms.VisualStyles;
 
     [TestClass]
     public partial class Test
@@ -21,7 +25,9 @@
             LZ = "Led Zeppelin",
             LZii = "Led Zeppelin II",
             LZiii = "Led Zeppelin III",
-            LZiv = "Led Zeppelin IV";
+            LZiv = "Led Zeppelin IV",
+            HH = "Houses of the Holy";
+
 
         private static readonly Mock[] Works = new[]
         {
@@ -64,57 +70,66 @@
             new Mock(RS, 1971, SF, 10, "5:56", "Moonlight Mile") { FirstComposer = "Beethoven" },
 
             new Mock(RS, 2023, HD, 1, "3:46", "Angry") { FirstComposerSort = "Bach" },
-            new Mock(RS, 2023, HD, 1, "4:10", "Get Close") { FirstGenre = "Rock" },
-            new Mock(RS, 2023, HD, 1, "4:03", "Depending On You") { FirstPerformer = "Jagger" },
-            new Mock(RS, 2023, HD, 1, "3:31", "Bite My Head Off") { FirstPerformerSort = "Wyman" },
-            new Mock(RS, 2023, HD, 1, "3:58", "Whole Wide World") { Genres = new[] { "Rock", "Roll" } },
-            new Mock(RS, 2023, HD, 1, "4:38", "Dreamy Skies") { Grouping = "Best" },
-            new Mock(RS, 2023, HD, 1, "4:03", "Mess It Up") { ImageAltitude = 123.456 },
-            new Mock(RS, 2023, HD, 1, "3:59", "Live by the Sword") { ImageCreator = "Nikon" },
-            new Mock(RS, 2023, HD, 1, "3:16", "Driving Me Too Hard") { ImageDateTime = DateTime.Parse("24/01/2024 19:34") },
-            new Mock(RS, 2023, HD, 1, "2:56", "Tell Me Straight") { ImageExposureTime = 1.2345 },
-            new Mock(RS, 2023, HD, 1, "7:22", "Sweet Sounds of Heaven") { ImageFNumber = 1.23 },
-            new Mock(RS, 2023, HD, 1, "2:41", "Rolling Stone Blues (Muddy Waters)") { ImageFocalLength = 75.2 },
+            new Mock(RS, 2023, HD, 2, "4:10", "Get Close") { FirstGenre = "Rock" },
+            new Mock(RS, 2023, HD, 3, "4:03", "Depending On You") { FirstPerformer = "Jagger" },
+            new Mock(RS, 2023, HD, 4, "3:31", "Bite My Head Off") { FirstPerformerSort = "Wyman" },
+            new Mock(RS, 2023, HD, 5, "3:58", "Whole Wide World") { Genres = new[] { "Rock", "Roll" } },
+            new Mock(RS, 2023, HD, 6, "4:38", "Dreamy Skies") { Grouping = "Best" },
+            new Mock(RS, 2023, HD, 7, "4:03", "Mess It Up") { ImageAltitude = 123.456 },
+            new Mock(RS, 2023, HD, 8, "3:59", "Live by the Sword") { ImageCreator = "Sam Shere (1905–1982)" },
+            new Mock(RS, 2023, HD, 9, "3:16", "Driving Me Too Hard") { ImageDateTime = DateTime.Parse("24/01/2024 19:34") },
+            new Mock(RS, 2023, HD, 10, "2:56", "Tell Me Straight") { ImageExposureTime = 1.2345 },
+            new Mock(RS, 2023, HD, 11, "7:22", "Sweet Sounds of Heaven") { ImageFNumber = 1.23 },
+            new Mock(RS, 2023, HD, 12, "2:41", "Rolling Stone Blues (Muddy Waters)") { ImageFocalLength = 75.2 },
 
-            new Mock(LZ, 1969, LZ, 1, "2:43", "Good Times Bad Times"),
-            new Mock(LZ, 1969, LZ, 2, "6:40", "Babe I'm Gonna Leave You"),
-            new Mock(LZ, 1969, LZ, 3, "6:30", "You Shook Me"),
-            new Mock(LZ, 1969, LZ, 4, "6:27", "Dazed and Confused"),
-            new Mock(LZ, 1969, LZ, 5, "4:41", "Your Time is Gonna Come"),
-            new Mock(LZ, 1969, LZ, 6, "2:06", "Black Mountain Side"),
-            new Mock(LZ, 1969, LZ, 7, "2:26", "Communication Breakdown"),
-            new Mock(LZ, 1969, LZ, 8, "4:42", "I Can't Quit You Baby"),
-            new Mock(LZ, 1969, LZ, 9, "8:28", "How Many More Times"),
+            new Mock(LZ, 1969, LZ, 1, "2:43", "Good Times Bad Times") { ImageFocalLengthIn35mmFilm = 60 },
+            new Mock(LZ, 1969, LZ, 2, "6:40", "Babe I'm Gonna Leave You") { ImageISOSpeedRatings = 200},
+            new Mock(LZ, 1969, LZ, 3, "6:30", "You Shook Me") { ImageKeywords = new [] { "Hindenburg", "Manchester", "New Jersey" } },
+            new Mock(LZ, 1969, LZ, 4, "6:27", "Dazed and Confused") { ImageLatitude = 45.6 },
+            new Mock(LZ, 1969, LZ, 5, "4:41", "Your Time is Gonna Come") { ImageLongitude = 277.8 },
+            new Mock(LZ, 1969, LZ, 6, "2:06", "Black Mountain Side") { ImageMake = "Nikon" },
+            new Mock(LZ, 1969, LZ, 7, "2:26", "Communication Breakdown") { ImageModel = "Pro" },
+            new Mock(LZ, 1969, LZ, 8, "4:42", "I Can't Quit You Baby") { ImageOrientation = ImageOrientation.None},
+            new Mock(LZ, 1969, LZ, 9, "8:28", "How Many More Times") { ImageRating = 5},
 
-            new Mock(LZ, 1969, LZii, 1, "5:33", "Whole Lotta Love"),
-            new Mock(LZ, 1969, LZii, 2, "4:47", "What Is and What Should Never Be"),
-            new Mock(LZ, 1969, LZii, 3, "6:20", "The Lemon Song"),
-            new Mock(LZ, 1969, LZii, 4, "3:50", "Thank You"),
-            new Mock(LZ, 1969, LZii, 5, "4:15", "Heartbreaker"),
-            new Mock(LZ, 1969, LZii, 6, "2:40", "Living Loving Maid (She's Just a Woman)"),
-            new Mock(LZ, 1969, LZii, 7, "4:35", "Ramble On"),
-            new Mock(LZ, 1969, LZii, 8, "4:25", "Moby Dick"),
-            new Mock(LZ, 1969, LZii, 9, "4:19", "Bring it On Home"),
+            new Mock(LZ, 1969, LZii, 1, "5:33", "Whole Lotta Love") { ImageSoftware = "Photoshop" },
+            new Mock(LZ, 1969, LZii, 2, "4:47", "What Is and What Should Never Be") { InvariantEndPosition = 67890 },
+            new Mock(LZ, 1969, LZii, 3, "6:20", "The Lemon Song") { InvariantStartPosition = 12345 },
+            new Mock(LZ, 1969, LZii, 4, "3:50", "Thank You") { JoinedAlbumArtists = "Led Zeppelin" },
+            new Mock(LZ, 1969, LZii, 5, "4:15", "Heartbreaker") { JoinedArtists = "Led Zeppelin" },
+            new Mock(LZ, 1969, LZii, 6, "2:40", "Living Loving Maid (She's Just a Woman)") { JoinedComposers = "Led Zeppelin" },
+            new Mock(LZ, 1969, LZii, 7, "4:35", "Ramble On") { JoinedGenres = "Rock & Roll" },
+            new Mock(LZ, 1969, LZii, 8, "4:25", "Moby Dick") { JoinedPerformers = "Led Zeppelin" },
+            new Mock(LZ, 1969, LZii, 9, "4:19", "Bring it On Home") { JoinedPerformersSort = "Led Zeppelin" },
 
-            new Mock(LZ, 1970, LZiii, 1, "2:26", "Immigrant Song"),
-            new Mock(LZ, 1970, LZiii, 2, "3:55", "Friends"),
-            new Mock(LZ, 1970, LZiii, 3, "3:29", "Celebration Day"),
-            new Mock(LZ, 1970, LZiii, 4, "7:25", "Since I've Been Loving You"),
-            new Mock(LZ, 1970, LZiii, 5, "4:04", "Out on the Tiles"),
-            new Mock(LZ, 1970, LZiii, 6, "4:58", "Gallows Pole"),
-            new Mock(LZ, 1970, LZiii, 7, "3:12", "Tangerine"),
-            new Mock(LZ, 1970, LZiii, 8, "5:38", "That's the Way"),
-            new Mock(LZ, 1970, LZiii, 9, "4:20", "Bron-Y-Aur Stomp"),
-            new Mock(LZ, 1970, LZiii, 10, "3:41", "Hats Off to (Roy) Harper"),
+            new Mock(LZ, 1970, LZiii, 1, "2:26", "Immigrant Song") { Lyrics = "We come from the land of the ice and snow" },
+            new Mock(LZ, 1970, LZiii, 2, "3:55", "Friends") { MediaTypes = TagLib.MediaTypes.Audio | TagLib.MediaTypes.Photo },
+            new Mock(LZ, 1970, LZiii, 3, "3:29", "Celebration Day") { MimeType = "taglib/mp3" },
+            new Mock(LZ, 1970, LZiii, 4, "7:25", "Since I've Been Loving You") { MusicBrainzArtistId = "Artist0123" },
+            new Mock(LZ, 1970, LZiii, 5, "4:04", "Out on the Tiles") { MusicBrainzDiscId = "Disc0123" },
+            new Mock(LZ, 1970, LZiii, 6, "4:58", "Gallows Pole") { MusicBrainzReleaseArtistId = "ReleaseArtist0123" },
+            new Mock(LZ, 1970, LZiii, 7, "3:12", "Tangerine") { MusicBrainzReleaseCountry = "Country0123" },
+            new Mock(LZ, 1970, LZiii, 8, "5:38", "That's the Way") { MusicBrainzReleaseId = "Release0123" },
+            new Mock(LZ, 1970, LZiii, 9, "4:20", "Bron-Y-Aur Stomp") { MusicBrainzReleaseStatus = "ReleaseStatus0123" },
+            new Mock(LZ, 1970, LZiii, 10, "3:41", "Hats Off to (Roy) Harper") { MusicBrainzReleaseType = "ReleaseType0123" },
 
-            new Mock(LZ, 1971, LZiv, 1, ":", "Black Dog"),
-            new Mock(LZ, 1971, LZiv, 1, ":", "Rock and Roll"),
-            new Mock(LZ, 1971, LZiv, 1, ":", "The Battle of Evermore"),
-            new Mock(LZ, 1971, LZiv, 1, ":", "Stairway to Heaven"),
-            new Mock(LZ, 1971, LZiv, 1, ":", "Misty Mountain Hop"),
-            new Mock(LZ, 1971, LZiv, 1, ":", "Four Sticks"),
-            new Mock(LZ, 1971, LZiv, 1, ":", ""),
-            new Mock(LZ, 1971, LZiv, 1, ":", ""),
+            new Mock(LZ, 1971, LZiv, 1, "4:55", "Black Dog") { MusicBrainzTrackId = "Track0123" },
+            new Mock(LZ, 1971, LZiv, 2, "3:41", "Rock and Roll") { MusicIpId = "MusicIp0123" },
+            new Mock(LZ, 1971, LZiv, 3, "5:52", "The Battle of Evermore") { Name = "Hastings" },
+            new Mock(LZ, 1971, LZiv, 4, "8:03", "Stairway to Heaven") { Performers = new [] { "Page", "Plant", "Bonham", "Jones" } },
+            new Mock(LZ, 1971, LZiv, 5, "4:39", "Misty Mountain Hop") { PerformersSort = new [] { "Bonham", "Jones", "Page", "Plant" } },
+            new Mock(LZ, 1971, LZiv, 6, "4:46", "Four Sticks") { PhotoHeight = 480 },
+            new Mock(LZ, 1971, LZiv, 7, "3:33", "Going to California") { PhotoQuality = 5 },
+            new Mock(LZ, 1971, LZiv, 8, "7:08", "When the Levee Breaks") { PhotoWidth = 640 },
+
+            new Mock(LZ, 1973, HH, 1, "5:32", "The Song Remains the Same") { Pictures = Array.Empty<Picture>() },
+            new Mock(LZ, 1973, HH, 2, "7:39", "The Rain Song") { TagTypes = TagTypes.Id3v1 | TagTypes.Id3v2 },
+            new Mock(LZ, 1973, HH, 3, "4:50", "Over the Hills and Far Away") { TitleSort = "and Away Far Hills Over the" },
+            new Mock(LZ, 1973, HH, 4, "3:17", "The Crunge") { TrackNumber = 1, TrackCount = 2 },
+            new Mock(LZ, 1973, HH, 5, "3:43", "Dancing Days") { TrackGain= "-4.07 dB" },
+            new Mock(LZ, 1973, HH, 6, "4:23", "D'yer Mak'er") { TrackPeak = "1.049575" },
+            new Mock(LZ, 1973, HH, 7, "7:00", "No Quarter") { VideoHeight = 480 },
+            new Mock(LZ, 1973, HH, 8, "4:31", "The Ocean") { VideoWidth = 640 },
         };
     }
 }

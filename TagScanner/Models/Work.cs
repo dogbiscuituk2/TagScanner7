@@ -359,31 +359,22 @@
             }
         }
 
-        [DefaultValue(0)]
-        public double ImageAltitude { get; set; }
-
+        [DefaultValue(0)] public double ImageAltitude { get; set; }
         public string ImageCreator { get; set; }
         public DateTime ImageDateTime { get; set; }
-
         [DefaultValue(0)] public double ImageExposureTime { get; set; }
         [DefaultValue(0)] public double ImageFNumber { get; set; }
         [DefaultValue(0)] public double ImageFocalLength { get; set; }
         [DefaultValue(0)] public int ImageFocalLengthIn35mmFilm { get; set; }
         [DefaultValue(0)] public int ImageISOSpeedRatings { get; set; }
-
         public string[] ImageKeywords { get; set; }
-
         [DefaultValue(0)] public double ImageLatitude { get; set; }
         [DefaultValue(0)] public double ImageLongitude { get; set; }
-
         public string ImageMake { get; set; }
         public string ImageModel { get; set; }
-
         [DefaultValue(TagLib.Image.ImageOrientation.None)]
         public TagLib.Image.ImageOrientation ImageOrientation { get; set; }
-
         [DefaultValue(0)] public int ImageRating { get; set; }
-
         public string ImageSoftware { get; set; }
         public long InvariantEndPosition { get; set; }
         public long InvariantStartPosition { get; set; }
