@@ -261,6 +261,7 @@
     <Content Include="Resources\Op_And.bmp" />
     <Content Include="Resources\Op_Concatenate.bmp" />
     <Content Include="Resources\Op_Conditional.bmp" />
+    <Content Include="Resources\Op_Conditional.png" />
     <Content Include="Resources\Op_Divide.bmp" />
     <Content Include="Resources\Op_EqualTo.bmp" />
     <Content Include="Resources\Op_GreaterThan.bmp" />
