@@ -430,9 +430,9 @@
             get => _musicBrainzDiscId;
             set
             {
-                if (MusicBrainzArtistId != value)
+                if (MusicBrainzDiscId != value)
                 {
-                    MusicBrainzArtistId = value;
+                    MusicBrainzDiscId = value;
                     OnPropertyChanged(Tag.MusicBrainzDiscId);
                 }
             }
