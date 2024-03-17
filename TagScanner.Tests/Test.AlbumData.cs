@@ -1,11 +1,8 @@
-﻿using TagLib;
-using Picture = TagScanner.Models.Picture;
-
-namespace TagScanner.Tests
+﻿namespace TagScanner.Tests
 {
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using System;
-    using System.Windows.Forms.VisualStyles;
+    using Models;
 
     [TestClass]
     public partial class Test
@@ -27,7 +24,6 @@ namespace TagScanner.Tests
             LZiii = "Led Zeppelin III",
             LZiv = "Led Zeppelin IV",
             HH = "Houses of the Holy";
-
 
         private static readonly Mock[] Works = new[]
         {
@@ -89,7 +85,7 @@ namespace TagScanner.Tests
             new Mock(LZ, 1969, LZ, 5, "4:41", "Your Time is Gonna Come") { ImageLongitude = 277.8 },
             new Mock(LZ, 1969, LZ, 6, "2:06", "Black Mountain Side") { ImageMake = "Nikon" },
             new Mock(LZ, 1969, LZ, 7, "2:26", "Communication Breakdown") { ImageModel = "Pro" },
-            new Mock(LZ, 1969, LZ, 8, "4:42", "I Can't Quit You Baby") { ImageOrientation = ImageOrientation.None},
+            new Mock(LZ, 1969, LZ, 8, "4:42", "I Can't Quit You Baby") { ImageOrientation = TagLib.Image.ImageOrientation.None},
             new Mock(LZ, 1969, LZ, 9, "8:28", "How Many More Times") { ImageRating = 5},
 
             new Mock(LZ, 1969, LZii, 1, "5:33", "Whole Lotta Love") { ImageSoftware = "Photoshop" },
@@ -123,7 +119,7 @@ namespace TagScanner.Tests
             new Mock(LZ, 1971, LZiv, 8, "7:08", "When the Levee Breaks") { PhotoWidth = 640 },
 
             new Mock(LZ, 1973, HH, 1, "5:32", "The Song Remains the Same") { Pictures = Array.Empty<Picture>() },
-            new Mock(LZ, 1973, HH, 2, "7:39", "The Rain Song") { TagTypes = TagTypes.Id3v1 | TagTypes.Id3v2 },
+            new Mock(LZ, 1973, HH, 2, "7:39", "The Rain Song") { TagTypes = TagLib.TagTypes.Id3v1 | TagLib.TagTypes.Id3v2 },
             new Mock(LZ, 1973, HH, 3, "4:50", "Over the Hills and Far Away") { TitleSort = "and Away Far Hills Over the" },
             new Mock(LZ, 1973, HH, 4, "3:17", "The Crunge") { TrackNumber = 1, TrackCount = 2 },
             new Mock(LZ, 1973, HH, 5, "3:43", "Dancing Days") { TrackGain= "-4.07 dB" },
