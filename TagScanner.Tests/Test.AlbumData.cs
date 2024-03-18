@@ -3,6 +3,7 @@
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using System;
     using Models;
+    using Terms;
 
     [TestClass]
     public partial class Test
@@ -127,5 +128,21 @@
             new Mock(LZ, 1973, HH, 7, "7:00", "No Quarter") { VideoHeight = 480 },
             new Mock(LZ, 1973, HH, 8, "4:31", "The Ocean") { VideoWidth = 640 },
         };
+
+        public void TestTerm(Term term)
+        {
+            System.Diagnostics.Debug.WriteLine(term);
+            if (!(term is Umptad umptad)) return;
+            for (var index = 0; index < umptad.Operands.Count; index++)
+            {
+                var start = umptad.Start(index);
+                var subTerm = umptad.Operands[index];
+                var length = subTerm.Length;
+                var expected = subTerm.ToString();
+                var actual = umptad.ToString().Substring(start, length);
+                Assert.AreEqual(expected, actual);
+                TestTerm(subTerm);
+            }
+        }
     }
 }

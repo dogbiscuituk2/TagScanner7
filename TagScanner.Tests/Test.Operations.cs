@@ -60,21 +60,5 @@ namespace TagScanner.Tests
             TestTerm(new Operation('-', 123));
             TestTerm(new Operation('!', equalTo));
         }
-
-        public void TestTerm(Term term)
-        {
-            System.Diagnostics.Debug.WriteLine(term);
-            if (!(term is Umptad umptad)) return;
-            for (var index = 0; index < umptad.Operands.Count; index++)
-            {
-                var start = umptad.Start(index);
-                var subTerm = umptad.Operands[index];
-                var length = subTerm.Length;
-                var expected = subTerm.ToString();
-                var actual = umptad.ToString().Substring(start, length);
-                Assert.AreEqual(expected, actual);
-                TestTerm(subTerm);
-            }
-        }
     }
 }
