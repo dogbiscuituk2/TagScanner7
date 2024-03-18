@@ -50,7 +50,7 @@
 
         #region Public Methods
 
-        public override int Pos(int index)
+        public override int Start(int index)
         {
             switch (IsStatic)
             {
@@ -67,7 +67,7 @@
                     break;
                 }
             }
-            return Pos(index - 1) + Operands[index - 1].Length + 2;
+            return Start(index - 1) + Operands[index - 1].Length + 2;
         }
 
         public override string ToString()

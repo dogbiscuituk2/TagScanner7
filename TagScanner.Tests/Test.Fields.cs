@@ -13,13 +13,13 @@
         {
             foreach (var tag in Tags.Keys)
             {
-                var term = new Field(tag);
-                Assert.IsNotNull(term);
-                Assert.AreEqual(expected: tag.DisplayName(), actual: term.ToString());
-                Assert.AreEqual(expected: tag.Name(), actual: term.Tag.ToString());
-                Assert.AreEqual(expected: Rank.Unary, actual: term.Rank);
-                Assert.AreEqual(expected: tag.Type(), actual: term.ResultType);
-                Assert.AreEqual(expected: $"{Term.Work.Name}.{tag.Name()}", actual: term.Expression.ToString());
+                var field = new Field(tag);
+                Assert.IsNotNull(field);
+                Assert.AreEqual(expected: tag.DisplayName(), actual: field.ToString());
+                Assert.AreEqual(expected: tag.Name(), actual: field.Tag.ToString());
+                Assert.AreEqual(expected: Rank.Unary, actual: field.Rank);
+                Assert.AreEqual(expected: tag.Type(), actual: field.ResultType);
+                Assert.AreEqual(expected: $"{Term.Work.Name}.{tag.Name()}", actual: field.Expression.ToString());
             }
         }
 

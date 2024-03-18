@@ -29,14 +29,14 @@
         /// An integer indicating the first character position, in the full string representation of a given term, of its index'th subTerm.
         /// </summary>
         /// <param name="index">The index of the subTerm. The first subTerm has index 0.</param>
-        /// <returns>The first character position, in the full string representation of the given term, of its index'th subTerm
-        /// (or -1 if the indexed subTerm does not exist, e.g., if the given "parent" Term is a Constant.).</returns>
-        public virtual int Pos(int index) => -1;
+        /// <returns>The first character position, in the full string representation of the given term, of its "index"-th subTerm
+        /// (or -1 if the indexed subTerm does not exist, e.g., if the given "parent" Term is a Constant or a Field.).</returns>
+        public virtual int Start(int index) => -1;
 
         public Term Add(Term term) => Add(this, term);
         public Term And(Term term) => And(this, term);
-        public Term Divide(Term term) => Divide(this, term);
-        public Term Multiply(Term term) => Multiply(this, term);
+        public Term DivideBy(Term term) => Divide(this, term);
+        public Term MultiplyBy(Term term) => Multiply(this, term);
         public Term Or(Term term) => Or(this, term);
         public Term Subtract(Term term) => Subtract(this, term);
         public Term Xor(Term term) => Xor(this, term);
@@ -71,8 +71,8 @@
 
         public static Term operator +(Term left, Term right) => left.Add(right);
         public static Term operator &(Term left, Term right) => left.And(right);
-        public static Term operator /(Term left, Term right) => left.Divide(right);
-        public static Term operator *(Term left, Term right) => left.Multiply(right);
+        public static Term operator /(Term left, Term right) => left.DivideBy(right);
+        public static Term operator *(Term left, Term right) => left.MultiplyBy(right);
         public static Term operator |(Term left, Term right) => left.Or(right);
         public static Term operator -(Term left, Term right) => left.Subtract(right);
         public static Term operator ^(Term left, Term right) => left.Xor(right);

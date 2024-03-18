@@ -10,11 +10,11 @@
         {
             foreach (var key in Methods.Keys)
             {
-                var term = new Function(key);
-                Assert.IsNotNull(term);
-                Assert.AreEqual(expected: Rank.Unary, actual: term.Rank);
-                if (term.IsStatic)
-                    Assert.AreEqual(expected: key, actual: term.ToString().Substring(0, key.Length));
+                var function = new Function(key);
+                Assert.IsNotNull(function);
+                Assert.AreEqual(expected: Rank.Unary, actual: function.Rank);
+                if (function.IsStatic)
+                    Assert.AreEqual(expected: key, actual: function.ToString().Substring(0, key.Length));
             }
         }
     }
