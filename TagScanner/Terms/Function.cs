@@ -1,5 +1,6 @@
 ﻿namespace TagScanner.Terms
 {
+    using Microsoft.CodeAnalysis.CSharp.Syntax;
     using System;
     using System.Collections.Generic;
     using System.Linq;
@@ -51,6 +52,15 @@
 
         public override int Pos(int index)
         {
+            if (IsStatic)
+                switch (index)
+                {
+                    case 0:
+                        return Name.Length + 1;
+                    default:
+                        return Pos(index - 1) + Operands[index - 1].Length + 2;
+                }
+            else
             switch (index)
             {
                 case 0:
