@@ -52,20 +52,22 @@
 
         public override int Pos(int index)
         {
-            if (IsStatic)
-                switch (index)
-                {
-                    case 0:
-                        return Name.Length + 1;
-                    default:
-                        return Pos(index - 1) + Operands[index - 1].Length + 2;
-                }
-            else
-            switch (index)
+            switch (IsStatic)
             {
-                case 0:
-                    return NeedsParens(0) ? 1 : 0;
+                case true when index == 0:
+                    return Name.Length + 1;
+                case false:
+                {
+                    var up = UseParens(0);
+                    switch (index)
+                    {
+                        case 0: return up ? 1 : 0;
+                        case 1: return Operands.First().Length + Name.Length + (up ? 4 : 2);
+                    }
+                    break;
+                }
             }
+            return Pos(index - 1) + Operands[index - 1].Length + 2;
         }
 
         public override string ToString()
@@ -96,7 +98,7 @@
                 yield return foo.ParameterType;
         }
 
-        protected override bool NeedsParens(int index) => !IsStatic && index == 0 && Operands.First().Rank < Rank.Unary;
+        protected override bool UseParens(int index) => !IsStatic && index == 0 && Operands.First().Rank < Rank.Unary;
 
         #endregion
 

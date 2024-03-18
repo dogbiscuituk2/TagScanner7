@@ -51,13 +51,13 @@
 
         protected abstract IEnumerable<Type> GetParameterTypes();
 
-        protected abstract bool NeedsParens(int index);
+        protected abstract bool UseParens(int index);
 
         protected string WrapTerm(int index)
         {
             var operand = Operands[index];
             var result = operand.ToString();
-            return NeedsParens(index) ? $"({result})" : result;
+            return UseParens(index) ? $"({result})" : result;
         }
 
         #endregion

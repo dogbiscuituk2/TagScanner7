@@ -26,12 +26,27 @@
         public override int Arity => Op.Arity();
         public override Expression Expression => GetExpression();
         public Op Op { get; private set; }
-        public override Rank Rank => Op.GetRank();
+        public override Rank Rank => Op.Rank();
         public override Type ResultType => Op.ResultType() ?? GetCommonResultType(Operands.ToArray());
 
         #endregion
 
         #region Public Methods
+
+        public override int Pos(int index)
+        {
+            var format = Op.Format();
+            var delta = format.IndexOf("{0}");
+            var up = UseParens(0);
+            if (index == 0)
+                return delta + (up ? 1 : 0);
+            delta = format.IndexOf("{1}") - delta;
+            return Pos(index - 1)
+                   + Operands[index - 1].Length
+                   + (UseParens(index - 1) ? 1 : 0)
+                   + delta
+                   + (UseParens(index) ? 1 : 0);
+        }
 
         public override string ToString()
         {
@@ -67,7 +82,7 @@
                 yield return type;
         }
 
-        protected override bool NeedsParens(int index) => Operands[index].Rank < Rank;
+        protected override bool UseParens(int index) => Operands[index].Rank < Rank;
 
         #endregion
 
