@@ -1,8 +1,8 @@
 ﻿namespace TagScanner.Controllers
 {
-    using System;
     using System.Collections.Generic;
     using System.Drawing;
+    using System.Drawing.Text;
     using System.Linq;
     using System.Windows.Forms;
     using Models;
@@ -57,22 +57,50 @@
 
         #endregion
 
+        private readonly Color[] _colours = { Color.Black, Color.Red, Color.Green, Color.Blue };
+        
         #region Private Methods
 
         private int AddNode(TreeNodeCollection nodes, Term term) => nodes.Add(NewNode(term));
 
-        private void DrawNode(DrawTreeNodeEventArgs e)
+        private void DrawNode(DrawTreeNodeEventArgs e) => 
+            DrawNodeText(e.Graphics, TreeView.Font, e.Node.Tag as Term, e.Bounds, 0, e.State);
+        
+        private void DrawNodeText(Graphics g, Font font, Term term, Rectangle r, int level, TreeNodeStates state)
         {
-            Graphics g = e.Graphics;
-            TreeNode node = e.Node;
-            TreeNodeStates state = e.State;
-            Term term = node.Tag as Term;
-            Rectangle r = e.Bounds;
-
-            e.DrawDefault = true;
+            var text = term.ToString();
+            using (var brush = new SolidBrush(_colours[level & 3]))
+            {
+                if (term is Umptad umptad)
+                {
+                    int p = 0, q;
+                    for (var index = 0; index < umptad.Operands.Count; index++)
+                    {
+                        q = term.Start(index);
+                        r = DrawPart(g, font, brush, p, q, r, text);
+                        var operand = umptad.Operands[index];
+                        DrawNodeText(g, font, operand, r, level + 1, state);
+                        r.X += (int)g.MeasureString(operand.ToString(), font).Width;
+                        p = q + operand.Length;
+                    }
+                    q = text.Length;
+                    DrawPart(g, font, brush, p, q, r, text);
+                }
+                else
+                    g.DrawString(text, font, brush, r);
+            }
         }
 
-    private static string GetNodeText(Term term)
+        private static Rectangle DrawPart(Graphics g, Font font, SolidBrush brush, int p, int q, Rectangle r, string text)
+        {
+            if (q <= p) return r;
+            text = text.Substring(p, q - p);
+            g.DrawString(text, font, brush, r);
+            r.X += (int)g.MeasureString(text, font).Width;
+            return r;
+        }
+
+        private static string GetNodeText(Term term)
         {
             if (term is Operation operation)
                 switch (operation.Op)
