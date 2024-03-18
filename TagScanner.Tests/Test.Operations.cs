@@ -23,6 +23,7 @@ namespace TagScanner.Tests
                 Assert.AreEqual(expected: nodeType, actual: operation.Expression.NodeType);
                 Assert.AreEqual(expected: opInfo.Rank, actual: operation.Rank);
                 Assert.AreEqual(expected: opInfo.ResultType, actual: operation.ResultType);
+                TestTerm(operation);
             }
             Term
                 conditional = new Conditional(Tag.IsClassical, "Beethoven", "The Beatles"),

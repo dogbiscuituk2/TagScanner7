@@ -15,6 +15,7 @@
                 Assert.AreEqual(expected: Rank.Unary, actual: function.Rank);
                 if (function.IsStatic)
                     Assert.AreEqual(expected: key, actual: function.ToString().Substring(0, key.Length));
+                TestTerm(function);
             }
         }
     }
