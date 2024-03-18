@@ -18,6 +18,8 @@
 
         #region Public Properties
 
+        public bool IsStatic => Method.IsStatic;
+
         public MethodInfo Method
         {
             get => _method;
@@ -39,7 +41,7 @@
             }
         }
 
-        public override int Arity => Method.GetParameters().Length + (Method.IsStatic ? 0 : 1);
+        public override int Arity => Method.GetParameters().Length + (IsStatic ? 0 : 1);
         public override Expression Expression => GetExpression();
         public override Type ResultType => Method.ReturnType;
 
@@ -47,11 +49,20 @@
 
         #region Public Methods
 
+        public override int Pos(int index)
+        {
+            switch (index)
+            {
+                case 0:
+                    return NeedsParens(0) ? 1 : 0;
+            }
+        }
+
         public override string ToString()
         {
             var result = Name;
             var skip = 0;
-            if (!Method.IsStatic)
+            if (!IsStatic)
             {
                 result = $"{WrapTerm(0)}.{result}";
                 skip = 1;
@@ -69,12 +80,14 @@
 
         protected override IEnumerable<Type> GetParameterTypes()
         {
-            if (!Method.IsStatic)
+            if (!IsStatic)
                 yield return Method.DeclaringType;
             foreach (var foo in Method.GetParameters())
                 yield return foo.ParameterType;
         }
-    
+
+        protected override bool NeedsParens(int index) => !IsStatic && index == 0 && Operands.First().Rank < Rank.Unary;
+
         #endregion
 
         #region Private Fields
@@ -88,8 +101,8 @@
 
         private Expression GetExpression()
         {
-            var expressions = (Method.IsStatic ? Operands : Operands.Skip(1)).Select(p => p.Expression).ToArray();
-            return Method.IsStatic
+            var expressions = (IsStatic ? Operands : Operands.Skip(1)).Select(p => p.Expression).ToArray();
+            return IsStatic
                 ? Expression.Call(Method, expressions)
                 : Expression.Call(FirstSubExpression, Method, expressions);
         }

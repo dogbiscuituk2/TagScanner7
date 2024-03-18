@@ -67,6 +67,8 @@
                 yield return type;
         }
 
+        protected override bool NeedsParens(int index) => Operands[index].Rank < Rank;
+
         #endregion
 
         #region Private Methods

@@ -16,6 +16,7 @@
         #region Public Properties
 
         public abstract Expression Expression { get; }
+        public int Length => ToString().Length;
         public Func<Work, bool> Predicate => Expression.Lambda<Func<Work, bool>>(Expression, Work).Compile();
         public virtual Rank Rank => Rank.Unary;
         public abstract Type ResultType { get; }
@@ -23,6 +24,14 @@
         #endregion
 
         #region Public Methods
+
+        /// <summary>
+        /// An integer indicating the first character position, in the full string representation of a given term, of its index'th subTerm.
+        /// </summary>
+        /// <param name="index">The index of the subTerm. The first subTerm has index 0.</param>
+        /// <returns>The first character position, in the full string representation of the given term, of its index'th subTerm
+        /// (or -1 if the indexed subTerm does not exist, e.g., if the given "parent" Term is a Constant.).</returns>
+        public virtual int Pos(int index) => -1;
 
         public Term Add(Term term) => Add(this, term);
         public Term And(Term term) => And(this, term);

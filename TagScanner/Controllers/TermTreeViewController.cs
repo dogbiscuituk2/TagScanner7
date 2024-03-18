@@ -1,6 +1,8 @@
 ﻿namespace TagScanner.Controllers
 {
+    using System;
     using System.Collections.Generic;
+    using System.Drawing;
     using System.Linq;
     using System.Windows.Forms;
     using Models;
@@ -11,8 +13,10 @@
         internal TermTreeViewController(Controller parent, TreeView treeView) : base(parent)
         {
             TreeView = treeView;
+            TreeView.DrawMode = TreeViewDrawMode.OwnerDrawText;
             TreeView.AfterCollapse += TreeView_AfterCollapse;
             TreeView.AfterExpand += TreeView_AfterExpand;
+            TreeView.DrawNode += TreeView_DrawNode;
         }
 
         #region Internal Properties
@@ -49,6 +53,7 @@
 
         private void TreeView_AfterCollapse(object sender, TreeViewEventArgs e) => e.Node.Text = ((Term)e.Node.Tag).ToString();
         private void TreeView_AfterExpand(object sender, TreeViewEventArgs e) => e.Node.Text = GetNodeText((Term)e.Node.Tag);
+        private void TreeView_DrawNode(object sender, DrawTreeNodeEventArgs e) => DrawNode(e);
 
         #endregion
 
@@ -56,7 +61,18 @@
 
         private int AddNode(TreeNodeCollection nodes, Term term) => nodes.Add(NewNode(term));
 
-        private static string GetNodeText(Term term)
+        private void DrawNode(DrawTreeNodeEventArgs e)
+        {
+            Graphics g = e.Graphics;
+            TreeNode node = e.Node;
+            TreeNodeStates state = e.State;
+            Term term = node.Tag as Term;
+            Rectangle r = e.Bounds;
+
+            e.DrawDefault = true;
+        }
+
+    private static string GetNodeText(Term term)
         {
             if (term is Operation operation)
                 switch (operation.Op)
