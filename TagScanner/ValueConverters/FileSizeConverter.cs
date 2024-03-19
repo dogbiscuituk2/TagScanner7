@@ -3,7 +3,7 @@
     using System;
     using System.Globalization;
     using System.Windows.Data;
-    using Models;
+    using Utils;
 
     public class FileSizeConverter : IValueConverter
     {

@@ -7,6 +7,7 @@
     using System.Windows.Forms;
     using Models;
     using Terms;
+    using Utils;
 
     public static class MenuMaker
     {
@@ -118,12 +119,6 @@
                     return false;
             }
         }
-
-        #endregion
-
-        #region Private Utils
-
-        private static string Escape(this string s) => s.Replace("&", "&&");
 
         #endregion
     }

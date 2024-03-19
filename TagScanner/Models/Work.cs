@@ -9,6 +9,7 @@
     using System.Xml;
     using System.Xml.Serialization;
     using Terms;
+    using Utils;
 
     [Serializable]
     public class Work : IWork, INotifyPropertyChanged

@@ -35,17 +35,22 @@
             get
             {
                 var ranges = new List<CharacterRange>();
-                var p = 0;
+                int first = 0, length;
                 for (var index = 0; index < Operands.Count; index++)
                 {
-                    var q = Start(index);
-                    ranges.Add(new CharacterRange(p, q - p));
-                    var operand = Operands[index];
-                    foreach (var range in operand.CharacterRanges)
-                        ranges.Add(new CharacterRange(range.First + q, range.Length));
-                    p = q + operand.Length;
+                    length = Start(index) - first;
+                    ranges.Add(new CharacterRange(first, length));
+                    first += length;
+                    length = Operands[index].Length;
+                    ranges.Add(new CharacterRange(first, length));
+                    first += length;
+                    //var operand = Operands[index];
+                    //foreach (var range in operand.CharacterRanges)
+                    //    ranges.Add(new CharacterRange(range.First + q, range.Length));
+                    //p = q + operand.Length;
                 }
-                ranges.Add(new CharacterRange(p, Length - p));
+                length = Length - first;
+                ranges.Add(new CharacterRange(first, length));
                 return ranges.ToArray();
             }
         }

@@ -7,6 +7,7 @@
     using System.Linq;
     using System.Windows.Data;
     using Models;
+    using Utils;
 
     public class GroupSummary : IValueConverter
     {

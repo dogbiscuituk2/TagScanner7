@@ -1,8 +1,10 @@
-﻿namespace TagScanner.Models
+﻿namespace TagScanner.Utils
 {
     using System;
+    using System.Drawing;
+    using Models;
 
-    public static class WorkExtensions
+    public static class Utilities
     {
         #region Public Interface
 
@@ -81,7 +83,10 @@
                     : value.ToString();
         }*/
 
+        public static string Escape(this string s) => s.Replace("&", "&&");
+        public static RectangleF Expand(this RectangleF r) => new RectangleF(r.X, r.Y, 999, r.Height);
         public static string GetIndex(this string s) => string.IsNullOrWhiteSpace(s) ? " " : (s.ToUpper() + " ").Substring(0, 1);
+        public static string SubRange(this string s, CharacterRange range) => s.Substring(range.First, range.Length);
 
         #endregion
 
