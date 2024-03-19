@@ -2,7 +2,6 @@
 {
     using System.Collections.Generic;
     using System.Drawing;
-    using System.Drawing.Text;
     using System.Linq;
     using System.Windows.Forms;
     using Models;
@@ -58,7 +57,9 @@
         #endregion
 
         private readonly Color[] _colours = { Color.Black, Color.Red, Color.Green, Color.Blue };
-        
+        private readonly StringFormat _format = new StringFormat(StringFormat.GenericTypographic)
+            { FormatFlags = StringFormatFlags.MeasureTrailingSpaces | StringFormatFlags.NoWrap | StringFormatFlags.NoClip };
+
         #region Private Methods
 
         private int AddNode(TreeNodeCollection nodes, Term term) => nodes.Add(NewNode(term));
@@ -66,9 +67,12 @@
         private void DrawNode(DrawTreeNodeEventArgs e) => 
             DrawNodeText(e.Graphics, TreeView.Font, e.Node.Tag as Term, e.Bounds, 0, e.State);
         
-        private void DrawNodeText(Graphics g, Font font, Term term, Rectangle r, int level, TreeNodeStates state)
+        private void DrawNodeText(Graphics g, Font font, Term term, RectangleF r, int level, TreeNodeStates state)
         {
             var text = term.ToString();
+            if ((state & TreeNodeStates.Focused) != 0)
+                using (var brush = new SolidBrush(Color.AliceBlue))
+                    g.FillRectangle(brush, r);
             using (var brush = new SolidBrush(_colours[level & 3]))
             {
                 if (term is Umptad umptad)
@@ -77,27 +81,33 @@
                     for (var index = 0; index < umptad.Operands.Count; index++)
                     {
                         q = term.Start(index);
-                        r = DrawPart(g, font, brush, p, q, r, text);
+                        r = DrawPart(g, font, brush, r, text, p, q);
                         var operand = umptad.Operands[index];
                         DrawNodeText(g, font, operand, r, level + 1, state);
-                        r.X += (int)g.MeasureString(operand.ToString(), font).Width;
+                        r.X += GetWidth(g, font, r, operand.ToString());
                         p = q + operand.Length;
                     }
                     q = text.Length;
-                    DrawPart(g, font, brush, p, q, r, text);
+                    DrawPart(g, font, brush, r, text, p, q);
                 }
                 else
                     g.DrawString(text, font, brush, r);
             }
         }
 
-        private static Rectangle DrawPart(Graphics g, Font font, SolidBrush brush, int p, int q, Rectangle r, string text)
+        private RectangleF DrawPart(Graphics g, Font font, SolidBrush brush, RectangleF r, string text, int p, int q)
         {
             if (q <= p) return r;
             text = text.Substring(p, q - p);
             g.DrawString(text, font, brush, r);
-            r.X += (int)g.MeasureString(text, font).Width;
+            r.X += GetWidth(g, font, r, text);
             return r;
+        }
+
+        private float GetWidth(Graphics g, Font font, RectangleF r, string text)
+        {
+            _format.SetMeasurableCharacterRanges(new[] { new CharacterRange(0, text.Length) });
+            return g.MeasureCharacterRanges(text, font, r, _format)[0].GetBounds(g).Width;
         }
 
         private static string GetNodeText(Term term)

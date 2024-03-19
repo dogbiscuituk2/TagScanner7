@@ -1,8 +1,8 @@
 ﻿namespace TagScanner.Terms
 {
-    using Microsoft.CodeAnalysis.CSharp.Syntax;
     using System;
     using System.Collections.Generic;
+    using System.Drawing;
     using System.Linq;
     using System.Linq.Expressions;
     using System.Reflection;

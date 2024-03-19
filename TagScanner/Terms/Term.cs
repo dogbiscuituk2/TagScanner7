@@ -1,6 +1,7 @@
 ﻿namespace TagScanner.Terms
 {
     using System;
+    using System.Drawing;
     using System.Linq.Expressions;
     using Models;
 
@@ -15,6 +16,7 @@
 
         #region Public Properties
 
+        public virtual CharacterRange[] CharacterRanges => new[] { new CharacterRange(0, Length) };
         public abstract Expression Expression { get; }
         public int Length => ToString().Length;
         public Func<Work, bool> Predicate => Expression.Lambda<Func<Work, bool>>(Expression, Work).Compile();

@@ -2,6 +2,7 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.Drawing;
     using System.Linq;
     using System.Linq.Expressions;
     using System.Text.RegularExpressions;
@@ -28,6 +29,26 @@
         public abstract int Arity { get; }
         public List<Term> Operands { get; } = new List<Term>();
         public IEnumerable<Type> ParameterTypes => GetParameterTypes();
+
+        public override CharacterRange[] CharacterRanges
+        {
+            get
+            {
+                var ranges = new List<CharacterRange>();
+                var p = 0;
+                for (var index = 0; index < Operands.Count; index++)
+                {
+                    var q = Start(index);
+                    ranges.Add(new CharacterRange(p, q - p));
+                    var operand = Operands[index];
+                    foreach (var range in operand.CharacterRanges)
+                        ranges.Add(new CharacterRange(range.First + q, range.Length));
+                    p = q + operand.Length;
+                }
+                ranges.Add(new CharacterRange(p, Length - p));
+                return ranges.ToArray();
+            }
+        }
 
         #endregion
 
