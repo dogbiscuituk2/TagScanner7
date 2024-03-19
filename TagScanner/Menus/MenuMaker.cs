@@ -17,13 +17,13 @@ namespace TagScanner.Menus
 
         public static void AddAllTerms(ToolStripItemCollection items, EventHandler click)
         {
+#if DEBUG
+            items.Add("(add test terms)", null, click).Tag = null;
+#endif
             items.AddTags(click);
             items.AddOperations(click);
             items.AddFunctions(click);
             items.Add("&Constant...", null, click).Tag = 0;
-#if DEBUG
-            items.Add("Test Terms", null, click).Tag = null;
-#endif
         }
 
         public static bool FilterItems(this ToolStripItemCollection items, Filter action, params Type[] types)

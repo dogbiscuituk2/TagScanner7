@@ -86,6 +86,24 @@
         public static string Escape(this string s) => s.Replace("&", "&&");
         public static RectangleF Expand(this RectangleF r) => new RectangleF(r.X, r.Y, 999, r.Height);
         public static string GetIndex(this string s) => string.IsNullOrWhiteSpace(s) ? " " : (s.ToUpper() + " ").Substring(0, 1);
+
+        public static string Say(this Type type)
+        {
+            if (type.IsArray)
+                return $"{type.GetElementType().Say()}[]";
+            switch (Type.GetTypeCode(type))
+            {
+                case TypeCode.Boolean: return "condition";
+                case TypeCode.Char: return "character";
+                case TypeCode.Double: return "number";
+                case TypeCode.Int32: return "integer";
+                case TypeCode.Int64: return "long";
+                case TypeCode.Object: return "this";
+                case TypeCode.String: return "string";
+                default: return type.Name;
+            }
+        }
+
         public static string SubRange(this string s, CharacterRange range) => s.Substring(range.First, range.Length);
 
         #endregion
