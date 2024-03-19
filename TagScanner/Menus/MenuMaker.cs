@@ -1,4 +1,6 @@
-﻿namespace TagScanner.Menus
+﻿using System.Runtime.Remoting.Channels;
+
+namespace TagScanner.Menus
 {
     using System;
     using System.Collections.Generic;
@@ -18,7 +20,10 @@
             items.AddTags(click);
             items.AddOperations(click);
             items.AddFunctions(click);
-            items.Add("&Constant...", null, click);
+            items.Add("&Constant...", null, click).Tag = 0;
+#if DEBUG
+            items.Add("Test Terms", null, click).Tag = null;
+#endif
         }
 
         public static bool FilterItems(this ToolStripItemCollection items, Filter action, params Type[] types)

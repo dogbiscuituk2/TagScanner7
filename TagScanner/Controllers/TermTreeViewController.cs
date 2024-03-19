@@ -1,12 +1,11 @@
 ﻿namespace TagScanner.Controllers
 {
-    using System.Collections.Generic;
     using System.Drawing;
     using System.Linq;
     using System.Windows.Forms;
     using Models;
-    using TagScanner.Utils;
     using Terms;
+    using Utils;
 
     internal class TermTreeViewController : Controller
     {
@@ -14,8 +13,8 @@
         {
             TreeView = treeView;
             TreeView.DrawMode = TreeViewDrawMode.OwnerDrawText;
-            TreeView.AfterCollapse += TreeView_AfterCollapse;
-            TreeView.AfterExpand += TreeView_AfterExpand;
+            //TreeView.AfterCollapse += TreeView_AfterCollapse;
+            //TreeView.AfterExpand += TreeView_AfterExpand;
             TreeView.DrawNode += TreeView_DrawNode;
         }
 
@@ -38,21 +37,23 @@
         internal void AddOperation(Op op) => Add(new Operation(op));
         internal int AddRoot(Term term) => AddNode(Roots, term);
 
-        internal IEnumerable<Term> GetTerms() => Roots.OfType<TreeNode>().Select(p => p.Tag as Term);
-
-        internal void Load(IEnumerable<Term> terms)
+        internal void AddTestTerms()
         {
-            Roots.Clear();
-            foreach (var term in terms)
-                AddRoot(term);
+            Term
+                band = new Operation(Tag.Artists, '=', "The Beatles"),
+                song = new Operation(Tag.Title, "!=", "Get Back"),
+                album = new Operation(Tag.Album, '=', "Let It Be"),
+                duration = new Operation(Tag.Duration, ">=", "00:03:30"),
+                lyrics = !new Function("IsEmpty", Tag.Lyrics);
+            Add(new Conditional(band, song, album | duration & lyrics));
         }
 
         #endregion
 
         #region Private Event Handlers
 
-        private void TreeView_AfterCollapse(object sender, TreeViewEventArgs e) => e.Node.Text = ((Term)e.Node.Tag).ToString();
-        private void TreeView_AfterExpand(object sender, TreeViewEventArgs e) => e.Node.Text = GetNodeText((Term)e.Node.Tag);
+        private static void TreeView_AfterCollapse(object sender, TreeViewEventArgs e) => e.Node.Text = ((Term)e.Node.Tag).ToString();
+        private static void TreeView_AfterExpand(object sender, TreeViewEventArgs e) => e.Node.Text = GetNodeText((Term)e.Node.Tag);
         private void TreeView_DrawNode(object sender, DrawTreeNodeEventArgs e) => DrawNode(e);
 
         #endregion
@@ -66,15 +67,14 @@
         private int AddNode(TreeNodeCollection nodes, Term term) => nodes.Add(NewNode(term));
 
         private void DrawNode(DrawTreeNodeEventArgs e) => DrawNodeText(e.Graphics, TreeView.Font, e.Node.Tag as Term, e.Bounds, 0, e.State);
-        
+
         private void DrawNodeText(Graphics g, Font font, Term term, RectangleF r, int level, TreeNodeStates state)
         {
             var text = term.ToString();
             if ((state & TreeNodeStates.Focused) != 0)
-                using (var brush = new SolidBrush(Color.AliceBlue))
+                using (var brush = new SolidBrush(Color.Yellow))
                     g.FillRectangle(brush, r);
             using (var brush = new SolidBrush(_colours[level & 3]))
-            {
                 if (term is Umptad umptad)
                 {
                     var ranges = term.CharacterRanges;
@@ -90,7 +90,6 @@
                 }
                 else
                     g.DrawString(text, font, brush, r);
-            }
         }
 
         private static string GetNodeText(Term term)

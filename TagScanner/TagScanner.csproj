@@ -125,6 +125,7 @@
     <Compile Include="Controllers\TagsListViewController.cs" />
     <Compile Include="Controllers\TagsTreeViewController.cs" />
     <Compile Include="Controllers\TagsViewController.cs" />
+    <Compile Include="Menus\ConstantEventArgs.cs" />
     <Compile Include="Menus\FieldEventArgs.cs" />
     <Compile Include="Menus\FunctionEventArgs.cs" />
     <Compile Include="Menus\MenuMaker.cs" />

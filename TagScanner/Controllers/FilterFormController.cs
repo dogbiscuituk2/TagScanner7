@@ -1,8 +1,6 @@
 ﻿namespace TagScanner.Controllers
 {
     using System;
-    using System.Collections.Generic;
-    using System.Reflection;
     using System.Windows.Forms;
     using Menus;
     using Models;
@@ -21,7 +19,7 @@
             MenuRouter.FieldClick += MenuRouter_FieldClick;
             MenuRouter.FunctionClick += MenuRouter_FunctionClick;
             MenuRouter.OperationClick += MenuRouter_OperationClick;
-            PopupMenu.Opening += PopupMenu_Opening;
+            MenuRouter.TestTermsClick += MenuRouter_TestTermsClick;
         }
 
         #endregion
@@ -59,11 +57,7 @@
         private void MenuRouter_FieldClick(object sender, FieldEventArgs e) => AddField(e.Tag);
         private void MenuRouter_FunctionClick(object sender, FunctionEventArgs e) => AddFunction(e.Key);
         private void MenuRouter_OperationClick(object sender, OperationEventArgs e) => AddOperation(e.Op);
-
-        private void PopupMenu_Opening(object sender, System.ComponentModel.CancelEventArgs e)
-        {
-
-        }
+        private void MenuRouter_TestTermsClick(object sender, EventArgs e) => AddTestTerms();
 
         #endregion
 
@@ -73,6 +67,7 @@
         private void AddField(Tag tag) => TermTreeViewController.AddField(tag);
         private void AddFunction(string key) => TermTreeViewController.AddFunction(key);
         private void AddOperation(Op op) => TermTreeViewController.AddOperation(op);
+        private void AddTestTerms() => TermTreeViewController.AddTestTerms();
         private FilterForm CreateFilterForm() => _view = new FilterForm();
         
         #endregion
