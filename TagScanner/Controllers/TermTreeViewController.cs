@@ -58,16 +58,16 @@
 
         #endregion
 
-        private readonly Color[] _colours =
+        private readonly Brush[] _brushes =
         {
-            Color.Black,
-            Color.Red,
-            Color.Orange,
-            Color.YellowGreen,
-            Color.Green,
-            Color.DarkCyan,
-            Color.Blue,
-            Color.DarkMagenta,
+            Brushes.Black,
+            Brushes.Red,
+            Brushes.Orange,
+            Brushes.YellowGreen,
+            Brushes.Green,
+            Brushes.DarkCyan,
+            Brushes.Blue,
+            Brushes.DarkMagenta,
         };
 
         private readonly StringFormat _format = new StringFormat(StringFormat.GenericTypographic)
@@ -81,26 +81,27 @@
 
         private void DrawNodeText(Graphics g, Font font, Term term, RectangleF r, int level, TreeNodeStates state)
         {
-            var text = term.ToString();
+            System.Diagnostics.Debug.WriteLine($"{r.X},{r.Y},{r.Width},{r.Height} state={state}");
+
             if ((state & TreeNodeStates.Focused) != 0)
-                using (var brush = new SolidBrush(Color.Yellow))
-                    g.FillRectangle(brush, r);
-            using (var brush = new SolidBrush(_colours[level & 3]))
-                if (term is Umptad umptad)
+                g.FillRectangle(Brushes.Yellow, r);
+            var text = term.ToString();
+            var brush = _brushes[level & 7];
+            if (term is Umptad umptad)
+            {
+                var ranges = term.CharacterRanges;
+                _format.SetMeasurableCharacterRanges(ranges);
+                var regions = g.MeasureCharacterRanges(text, font, r, _format).Select(p => p.GetBounds(g).Expand()).ToList();
+                var range = 0;
+                foreach (Term operand in umptad.Operands)
                 {
-                    var ranges = term.CharacterRanges;
-                    _format.SetMeasurableCharacterRanges(ranges);
-                    var regions = g.MeasureCharacterRanges(text, font, r, _format).Select(p => p.GetBounds(g).Expand()).ToList();
-                    var range = 0;
-                    foreach (Term operand in umptad.Operands)
-                    {
-                        g.DrawString(text.SubRange(ranges[range]), font, brush, regions[range++]);
-                        DrawNodeText(g, font, operand, regions[range++], level + 1, state);
-                    }
-                    g.DrawString(text.SubRange(ranges.Last()), font, brush, regions.Last());
+                    g.DrawString(text.SubRange(ranges[range]), font, brush, regions[range++]);
+                    DrawNodeText(g, font, operand, regions[range++], level + 1, state);
                 }
-                else
-                    g.DrawString(text, font, brush, r);
+                g.DrawString(text.SubRange(ranges.Last()), font, brush, regions.Last());
+            }
+            else
+                g.DrawString(text, font, brush, r);
         }
 
         private static string GetNodeText(Term term)

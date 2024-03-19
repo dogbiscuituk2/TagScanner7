@@ -64,6 +64,7 @@
             // 
             this.TreeView.ContextMenuStrip = this.PopupMenu;
             this.TreeView.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.TreeView.DrawMode = System.Windows.Forms.TreeViewDrawMode.OwnerDrawText;
             this.TreeView.HideSelection = false;
             this.TreeView.Location = new System.Drawing.Point(0, 24);
             this.TreeView.Margin = new System.Windows.Forms.Padding(4);
