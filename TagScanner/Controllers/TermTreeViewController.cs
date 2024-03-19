@@ -58,7 +58,18 @@
 
         #endregion
 
-        private readonly Color[] _colours = { Color.Black, Color.Red, Color.Green, Color.Blue };
+        private readonly Color[] _colours =
+        {
+            Color.Black,
+            Color.Red,
+            Color.Orange,
+            Color.YellowGreen,
+            Color.Green,
+            Color.DarkCyan,
+            Color.Blue,
+            Color.DarkMagenta,
+        };
+
         private readonly StringFormat _format = new StringFormat(StringFormat.GenericTypographic)
             { FormatFlags = StringFormatFlags.MeasureTrailingSpaces | StringFormatFlags.NoClip | StringFormatFlags.NoWrap };
 
