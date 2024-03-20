@@ -11,9 +11,11 @@
     {
         #region Constructor
 
-        internal FilterFormController(LibraryFormController parent) : base(parent)
+        internal FilterFormController(Controller parent) : base(parent)
         {
             TermTreeViewController = new TermTreeViewController(this, TreeView);
+            View.ViewCollapseAll.Click += ViewCollapseAll_Click;
+            View.ViewExpandAll.Click += ViewExpandAll_Click;
             MenuRouter = new MenuRouter(TermMenu, PopupMenu);
             MenuRouter.ConstantClick += MenuRouter_ConstantClick;
             MenuRouter.FieldClick += MenuRouter_FieldClick;
@@ -58,6 +60,8 @@
         private void MenuRouter_FunctionClick(object sender, FunctionEventArgs e) => AddFunction(e.Key);
         private void MenuRouter_OperationClick(object sender, OperationEventArgs e) => AddOperation(e.Op);
         private void MenuRouter_TestTermsClick(object sender, EventArgs e) => AddTestTerms();
+        private void ViewCollapseAll_Click(object sender, EventArgs e) => TermTreeViewController.CollapseAll();
+        private void ViewExpandAll_Click(object sender, EventArgs e) => TermTreeViewController.ExpandAll();
 
         #endregion
 

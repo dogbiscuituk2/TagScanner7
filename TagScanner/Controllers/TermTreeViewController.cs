@@ -3,6 +3,7 @@
     using System.Drawing;
     using System.Linq;
     using System.Windows.Forms;
+    using Logging;
     using Models;
     using Terms;
     using Utils;
@@ -25,7 +26,7 @@
 
         #endregion
 
-        #region Public Methods
+        #region Internal Methods
 
         internal int Add(Term term) => HasSelection ? AddChild(SelectedNode, term) : AddRoot(term);
         internal int AddChild(TreeNode parent, Term term) => AddNode(parent != null ? parent.Nodes : Roots, term);
@@ -42,9 +43,13 @@
                 song = new Operation(Tag.Title, "!=", "Get Back"),
                 album = new Operation(Tag.Album, '=', "Let It Be"),
                 duration = new Operation(Tag.Duration, ">=", "00:03:30"),
-                lyrics = !new Function("IsEmpty", Tag.Lyrics);
-            Add(new Conditional(band, song, album | duration & lyrics));
+                lyrics = !new Function("IsEmpty", Tag.Lyrics),
+                tree = new Conditional(band, song, album | duration & lyrics);
+            Add(new Conditional(band, song, album | duration & tree));
         }
+
+        internal void CollapseAll() => TreeView.CollapseAll();
+        internal void ExpandAll() => TreeView.ExpandAll();
 
         #endregion
 
@@ -55,6 +60,12 @@
         #endregion
 
         private readonly Brush[] _brushes =
+        {
+            Brushes.Black,
+            Brushes.Blue,
+        };
+
+        private readonly Brush[] _brushes16 =
         {
             Brushes.Black,
             Brushes.DarkRed,
@@ -81,16 +92,24 @@
 
         private int AddNode(TreeNodeCollection nodes, Term term) => nodes.Add(NewNode(term));
 
-        private void DrawNode(DrawTreeNodeEventArgs e) => DrawNodeText(e.Graphics, TreeView.Font, e.Node.Tag as Term, e.Bounds, 0, e.State);
+        private void DrawNode(DrawTreeNodeEventArgs e)
+        {
+            DrawNodeText(e.Graphics, TreeView.Font, e.Node.Tag as Term, e.Bounds, 0, e.State);
+            e.DrawDefault = false;
+        }
 
         private void DrawNodeText(Graphics g, Font font, Term term, RectangleF r, int level, TreeNodeStates state)
         {
             if (r.IsEmpty) return;
             g.TextRenderingHint = System.Drawing.Text.TextRenderingHint.ClearTypeGridFit;
-            if (level == 0 && (state & TreeNodeStates.Focused) != 0)
-                g.FillRectangle(Brushes.Yellow, r);
             var text = term.ToString();
-            var brush = _brushes[level & 0x0F];
+            var brush = _brushes[level % _brushes.Length];
+            if (level == 0)
+            {
+                LogDrawString(text, r);
+                if ((state & TreeNodeStates.Focused) != 0)
+                    g.FillRectangle(Brushes.Yellow, r);
+            }
             if (term is Umptad umptad)
             {
                 var ranges = term.CharacterRanges;
@@ -99,14 +118,23 @@
                 var range = 0;
                 foreach (var operand in umptad.Operands)
                 {
-                    g.DrawString(text.SubRange(ranges[range]), font, brush, regions[range++]);
+                    DrawString(g, text.SubRange(ranges[range]), font, brush, regions[range++]);
                     DrawNodeText(g, font, operand, regions[range++], level + 1, state);
                 }
-                g.DrawString(text.SubRange(ranges.Last()), font, brush, regions.Last());
+                DrawString(g, text.SubRange(ranges.Last()), font, brush, regions.Last());
             }
             else
-                g.DrawString(text, font, brush, r);
+                DrawString(g, text, font, brush, r);
         }
+
+        private void DrawString(Graphics g, string text, Font font, Brush brush, RectangleF r)
+        {
+            if (r.IsEmpty) return;
+            g.DrawString(text, font, brush, r);
+            LogDrawString(text, r);
+        }
+
+        private void LogDrawString(string text, RectangleF r) => Logger.Log($"'{text}' - ({r.X}, {r.Y}, {r.Width}, {r.Height})");
 
         private TreeNode NewNode(Term term)
         {

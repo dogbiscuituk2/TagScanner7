@@ -19,7 +19,6 @@
         #region Constructors
 
         protected Umptad(IEnumerable<Term> operands) : base() => AddOperands(operands);
-
         protected Umptad(Term firstOperand, IEnumerable<Term> moreOperands) : this(new[] { firstOperand }) => AddOperands(moreOperands);
 
         #endregion
@@ -44,10 +43,6 @@
                     length = Operands[index].Length;
                     ranges.Add(new CharacterRange(first, length));
                     first += length;
-                    //var operand = Operands[index];
-                    //foreach (var range in operand.CharacterRanges)
-                    //    ranges.Add(new CharacterRange(range.First + q, range.Length));
-                    //p = q + operand.Length;
                 }
                 length = Length - first;
                 ranges.Add(new CharacterRange(first, length));
