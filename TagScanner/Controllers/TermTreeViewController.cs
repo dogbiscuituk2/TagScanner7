@@ -81,27 +81,36 @@
 
         private void DrawNodeText(Graphics g, Font font, Term term, RectangleF r, int level, TreeNodeStates state)
         {
-            System.Diagnostics.Debug.WriteLine($"{r.X},{r.Y},{r.Width},{r.Height} state={state}");
-
-            if ((state & TreeNodeStates.Focused) != 0)
-                g.FillRectangle(Brushes.Yellow, r);
-            var text = term.ToString();
-            var brush = _brushes[level & 7];
-            if (term is Umptad umptad)
+            void DrawNodeText(Term foo, RectangleF region)
             {
-                var ranges = term.CharacterRanges;
-                _format.SetMeasurableCharacterRanges(ranges);
-                var regions = g.MeasureCharacterRanges(text, font, r, _format).Select(p => p.GetBounds(g).Expand()).ToList();
-                var range = 0;
-                foreach (Term operand in umptad.Operands)
+
+                if (r.IsEmpty) return;
+                g.TextRenderingHint = System.Drawing.Text.TextRenderingHint.ClearTypeGridFit;
+                if (level == 0 && (state & TreeNodeStates.Focused) != 0)
+                    g.FillRectangle(Brushes.Yellow, r);
+                var text = term.ToString();
+                var brush = _brushes[level & 7];
+                if (term is Umptad umptad)
                 {
-                    g.DrawString(text.SubRange(ranges[range]), font, brush, regions[range++]);
-                    DrawNodeText(g, font, operand, regions[range++], level + 1, state);
+                    var ranges = term.CharacterRanges;
+                    _format.SetMeasurableCharacterRanges(ranges);
+                    var regions = g.MeasureCharacterRanges(text, font, r, _format).Select(p => p.GetBounds(g).Expand()).ToList();
+                    var range = 0;
+                    foreach (Term operand in umptad.Operands)
+                    {
+                        g.DrawString(text.SubRange(ranges[range]), font, brush, regions[range++]);
+                        //DrawNodeText(g, font, operand, regions[range++], level + 1, state);
+                        level++;
+                        DrawNodeText(operand, regions[range++]);
+                        level--;
+                    }
+                    g.DrawString(text.SubRange(ranges.Last()), font, brush, regions.Last());
                 }
-                g.DrawString(text.SubRange(ranges.Last()), font, brush, regions.Last());
+                else
+                    g.DrawString(text, font, brush, r);
+
             }
-            else
-                g.DrawString(text, font, brush, r);
+            DrawNodeText(term, r);
         }
 
         private static string GetNodeText(Term term)
