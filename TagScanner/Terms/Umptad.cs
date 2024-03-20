@@ -29,25 +29,26 @@
         public List<Term> Operands { get; } = new List<Term>();
         public IEnumerable<Type> ParameterTypes => GetParameterTypes();
 
-        public override CharacterRange[] CharacterRanges
+        #endregion
+
+        #region Public Methods
+
+        public override CharacterRange[] GetCharacterRanges(bool all)
         {
-            get
+            var ranges = new List<CharacterRange>();
+            int first = 0, length;
+            for (var index = 0; index < Operands.Count; index++)
             {
-                var ranges = new List<CharacterRange>();
-                int first = 0, length;
-                for (var index = 0; index < Operands.Count; index++)
-                {
-                    length = Start(index) - first;
-                    ranges.Add(new CharacterRange(first, length));
-                    first += length;
-                    length = Operands[index].Length;
-                    ranges.Add(new CharacterRange(first, length));
-                    first += length;
-                }
-                length = Length - first;
+                length = Start(index) - first;
                 ranges.Add(new CharacterRange(first, length));
-                return ranges.ToArray();
+                first += length;
+                length = Operands[index].Length;
+                ranges.Add(new CharacterRange(first, length));
+                first += length;
             }
+            length = Length - first;
+            ranges.Add(new CharacterRange(first, length));
+            return ranges.ToArray();
         }
 
         #endregion

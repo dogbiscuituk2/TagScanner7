@@ -16,7 +16,6 @@
 
         #region Public Properties
 
-        public virtual CharacterRange[] CharacterRanges => new[] { new CharacterRange(0, Length) };
         public abstract Expression Expression { get; }
         public int Length => ToString().Length;
         public Func<Work, bool> Predicate => Expression.Lambda<Func<Work, bool>>(Expression, Work).Compile();
@@ -34,6 +33,8 @@
         /// <returns>The first character position, in the full string representation of the given term, of its "index"-th subTerm
         /// (or -1 if the indexed subTerm does not exist, e.g., if the given "parent" Term is a Constant or a Field.).</returns>
         public virtual int Start(int index) => -1;
+
+        public virtual CharacterRange[] GetCharacterRanges(bool all) => new[] { new CharacterRange(0, Length) };
 
         public Term Add(Term term) => Add(this, term);
         public Term And(Term term) => And(this, term);

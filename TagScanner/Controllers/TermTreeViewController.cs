@@ -94,44 +94,53 @@
 
         private void DrawNode(DrawTreeNodeEventArgs e)
         {
-            DrawNodeText(e.Graphics, TreeView.Font, e.Node.Tag as Term, e.Bounds, 0, e.State);
+            DrawNodeText(e.Graphics, TreeView.Font, e.Node.Tag as Term, e.Bounds, (e.State & TreeNodeStates.Focused) != 0);
             e.DrawDefault = false;
         }
 
-        private void DrawNodeText(Graphics g, Font font, Term term, RectangleF r, int level, TreeNodeStates state)
+        private void DrawNodeText(Graphics g, Font font, Term term1, RectangleF bounds, bool focused)
         {
-            if (r.IsEmpty) return;
-            g.TextRenderingHint = System.Drawing.Text.TextRenderingHint.ClearTypeGridFit;
-            var text = term.ToString();
-            var brush = _brushes[level % _brushes.Length];
-            if (level == 0)
-            {
-                LogDrawString(text, r);
-                if ((state & TreeNodeStates.Focused) != 0)
-                    g.FillRectangle(Brushes.Yellow, r);
-            }
-            if (term is Umptad umptad)
-            {
-                var ranges = term.CharacterRanges;
-                _format.SetMeasurableCharacterRanges(ranges);
-                var regions = g.MeasureCharacterRanges(text, font, r, _format).Select(p => p.GetBounds(g).Expand()).ToList();
-                var range = 0;
-                foreach (var operand in umptad.Operands)
-                {
-                    DrawString(g, text.SubRange(ranges[range]), font, brush, regions[range++]);
-                    DrawNodeText(g, font, operand, regions[range++], level + 1, state);
-                }
-                DrawString(g, text.SubRange(ranges.Last()), font, brush, regions.Last());
-            }
-            else
-                DrawString(g, text, font, brush, r);
-        }
+            var level = 0;
 
-        private void DrawString(Graphics g, string text, Font font, Brush brush, RectangleF r)
-        {
-            if (r.IsEmpty) return;
-            g.DrawString(text, font, brush, r);
-            LogDrawString(text, r);
+            void DrawNodeText(Term term, RectangleF r)
+            {
+                if (r.IsEmpty) return;
+                g.TextRenderingHint = System.Drawing.Text.TextRenderingHint.ClearTypeGridFit;
+                var text = term.ToString();
+                var brush = _brushes[level % _brushes.Length];
+                if (level == 0)
+                {
+                    LogDrawString(text, r);
+                    if (focused)
+                        g.FillRectangle(Brushes.Yellow, r);
+                }
+                if (term is Umptad umptad)
+                {
+                    var ranges = term.GetCharacterRanges(all: false);
+                    _format.SetMeasurableCharacterRanges(ranges);
+                    var regions = g.MeasureCharacterRanges(text, font, r, _format).Select(p => p.GetBounds(g).Expand()).ToList();
+                    var range = 0;
+                    foreach (var operand in umptad.Operands)
+                    {
+                        DrawString(text.SubRange(ranges[range]), brush, regions[range++]);
+                        level++;
+                        DrawNodeText(operand, regions[range++]);
+                        level--;
+                    }
+                    DrawString(text.SubRange(ranges.Last()), brush, regions.Last());
+                }
+                else
+                    DrawString(text, brush, r);
+            }
+
+            void DrawString(string text, Brush brush, RectangleF r)
+            {
+                if (r.IsEmpty) return;
+                g.DrawString(text, font, brush, r);
+                LogDrawString(text, r);
+            }
+
+            DrawNodeText(term1, bounds);
         }
 
         private void LogDrawString(string text, RectangleF r) => Logger.Log($"'{text}' - ({r.X}, {r.Y}, {r.Width}, {r.Height})");
