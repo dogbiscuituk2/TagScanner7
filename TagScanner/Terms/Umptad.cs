@@ -33,31 +33,25 @@
 
         #region Public Methods
 
-        public override CharacterRange[] GetCharacterRanges(bool all)
+        public override IEnumerable<CharacterRange> GetRanges(bool all)
         {
-            var ranges = new List<CharacterRange>();
             int first = 0, length;
             for (var index = 0; index < Operands.Count; index++)
             {
                 length = Start(index) - first;
-                ranges.Add(new CharacterRange(first, length));
+                yield return new CharacterRange(first, length);
                 first += length;
                 var operand = Operands[index];
+                length = operand.Length;
                 if (all)
-                {
-                    var subRanges = operand.GetCharacterRanges(true);
-
-                }
+                    foreach (var foo in operand.GetRanges(true).Select(p => new CharacterRange(first + p.First, p.Length)))
+                        yield return foo;
                 else
-                {
-                    length = operand.Length;
-                    ranges.Add(new CharacterRange(first, length));
-                    first += length;
-                }
+                    yield return new CharacterRange(first, length);
+                first += length;
             }
             length = Length - first;
-            ranges.Add(new CharacterRange(first, length));
-            return ranges.ToArray();
+            yield return new CharacterRange(first, length);
         }
 
         #endregion

@@ -1,4 +1,6 @@
-﻿namespace TagScanner.Terms
+﻿using System.Collections.Generic;
+
+namespace TagScanner.Terms
 {
     using System;
     using System.Drawing;
@@ -34,7 +36,7 @@
         /// (or -1 if the indexed subTerm does not exist, e.g., if the given "parent" Term is a Constant or a Field.).</returns>
         public virtual int Start(int index) => -1;
 
-        public virtual CharacterRange[] GetCharacterRanges(bool all) => new[] { new CharacterRange(0, Length) };
+        public virtual IEnumerable<CharacterRange> GetRanges(bool all) => new[] { new CharacterRange(0, Length) };
 
         public Term Add(Term term) => Add(this, term);
         public Term And(Term term) => And(this, term);
