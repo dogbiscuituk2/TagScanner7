@@ -42,9 +42,18 @@
                 length = Start(index) - first;
                 ranges.Add(new CharacterRange(first, length));
                 first += length;
-                length = Operands[index].Length;
-                ranges.Add(new CharacterRange(first, length));
-                first += length;
+                var operand = Operands[index];
+                if (all)
+                {
+                    var subRanges = operand.GetCharacterRanges(true);
+
+                }
+                else
+                {
+                    length = operand.Length;
+                    ranges.Add(new CharacterRange(first, length));
+                    first += length;
+                }
             }
             length = Length - first;
             ranges.Add(new CharacterRange(first, length));
