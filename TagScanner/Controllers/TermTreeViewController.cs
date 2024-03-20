@@ -13,12 +13,16 @@ namespace TagScanner.Controllers
 
     internal class TermTreeViewController : Controller
     {
+        #region Constructor
+
         internal TermTreeViewController(Controller parent, TreeView treeView) : base(parent)
         {
             TreeView = treeView;
             TreeView.DrawMode = TreeViewDrawMode.OwnerDrawText;
             TreeView.DrawNode += TreeView_DrawNode;
         }
+
+        #endregion
 
         #region Internal Properties
 
@@ -56,11 +60,7 @@ namespace TagScanner.Controllers
 
         #endregion
 
-        #region Private Event Handlers
-
-        private void TreeView_DrawNode(object sender, DrawTreeNodeEventArgs e) => DrawNode(e);
-
-        #endregion
+        #region Private Fields
 
         private readonly Brush[] _brushes =
         {
@@ -91,6 +91,14 @@ namespace TagScanner.Controllers
         private readonly StringFormat _format = new StringFormat(StringFormat.GenericTypographic)
             { FormatFlags = StringFormatFlags.MeasureTrailingSpaces | StringFormatFlags.NoClip | StringFormatFlags.NoWrap };
 
+        #endregion
+
+        #region Private Event Handlers
+
+        private void TreeView_DrawNode(object sender, DrawTreeNodeEventArgs e) => DrawNode(e);
+
+        #endregion
+
         #region Private Methods
 
         private int AddNode(TreeNodeCollection nodes, Term term) => nodes.Add(NewNode(term));
@@ -103,15 +111,21 @@ namespace TagScanner.Controllers
 
         private void DrawNodeText(Graphics g, Font font, Term term, RectangleF bounds, bool focused)
         {
-            int level = 0, range = 0, region = 0;
+            if (bounds.IsEmpty) return;
+            g.TextRenderingHint = System.Drawing.Text.TextRenderingHint.ClearTypeGridFit;
             var text = term.ToString();
-            List<CharacterRange> ranges;
+            LogDrawString(text, bounds);
+            int level = 0, range = 0, region = 0;
+            var ranges = term.GetRanges(all: true).ToList();
             var regions = new List<RectangleF>();
+            if (focused)
+                g.FillRectangle(Brushes.Yellow, bounds);
+            DrawNodeSubText(term);
+            return;
 
             void DrawNodeSubText(Term subTerm)
             {
                 if (subTerm is Umptad umptad)
-                {
                     foreach (var operand in umptad.Operands)
                     {
                         DrawString(text.SubRange(ranges[range]), GetNextRegion());
@@ -119,40 +133,29 @@ namespace TagScanner.Controllers
                         DrawNodeSubText(operand);
                         level--;
                     }
-                }
                 DrawString(text.SubRange(ranges[range]), GetNextRegion());
             }
 
             void DrawString(string s, RectangleF r)
             {
-                if (r.Width <= 0 || r.Height <= 0) return;
-                g.DrawString(s, font, _brushes[level % _brushes.Length], r);
                 LogDrawString(s, r);
+                if (r.IsEmpty) return;
+                g.DrawString(s, font, _brushes[level % _brushes.Length], r);
             }
 
             RectangleF GetNextRegion()
             {
-                if ((region & 0x1F) == 0)
+                if ((region &= 0x1F) == 0) // Max 32 ranges can be passed to SetMeasurableCharacterRanges.
                 {
                     _format.SetMeasurableCharacterRanges(ranges.Skip(range).Take(32).ToArray());
                     regions = g.MeasureCharacterRanges(text, font, bounds, _format).Select(p => p.GetBounds(g).Expand()).ToList();
-                    region = 0;
                 }
                 range++;
                 return regions[region++];
             }
-
-            LogDrawString(text, bounds);
-            g.TextRenderingHint = System.Drawing.Text.TextRenderingHint.ClearTypeGridFit;
-            ranges = term.GetRanges(all: true).ToList();
-            if (focused)
-                g.FillRectangle(Brushes.Yellow, bounds);
-            else
-                g.FillRectangle(Brushes.White, bounds);
-            DrawNodeSubText(term);
         }
 
-        private void LogDrawString(string text, RectangleF r) => Logger.Log($"({r.X}, {r.Y}, {r.Width}, {r.Height}) - '{text}'");
+        private static void LogDrawString(string text, RectangleF r) => Logger.Log($"({r.X}, {r.Y}, {r.Width}, {r.Height}) - '{text}'");
 
         private TreeNode NewNode(Term term)
         {
