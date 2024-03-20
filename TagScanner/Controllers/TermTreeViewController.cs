@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace TagScanner.Controllers
+﻿namespace TagScanner.Controllers
 {
     using System.Collections.Generic;
     using System.Drawing;
