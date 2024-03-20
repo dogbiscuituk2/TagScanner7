@@ -13,8 +13,6 @@
         {
             TreeView = treeView;
             TreeView.DrawMode = TreeViewDrawMode.OwnerDrawText;
-            //TreeView.AfterCollapse += TreeView_AfterCollapse;
-            //TreeView.AfterExpand += TreeView_AfterExpand;
             TreeView.DrawNode += TreeView_DrawNode;
         }
 
@@ -52,8 +50,6 @@
 
         #region Private Event Handlers
 
-        private static void TreeView_AfterCollapse(object sender, TreeViewEventArgs e) => e.Node.Text = ((Term)e.Node.Tag).ToString();
-        private static void TreeView_AfterExpand(object sender, TreeViewEventArgs e) => e.Node.Text = GetNodeText((Term)e.Node.Tag);
         private void TreeView_DrawNode(object sender, DrawTreeNodeEventArgs e) => DrawNode(e);
 
         #endregion
@@ -61,12 +57,20 @@
         private readonly Brush[] _brushes =
         {
             Brushes.Black,
+            Brushes.DarkRed,
+            Brushes.Brown,
+            Brushes.MediumVioletRed,
             Brushes.Red,
-            Brushes.Orange,
-            Brushes.YellowGreen,
+            Brushes.DarkOrange,
+            Brushes.DarkGoldenrod,
+            Brushes.DarkOliveGreen,
+            Brushes.DarkGreen,
             Brushes.Green,
             Brushes.DarkCyan,
             Brushes.Blue,
+            Brushes.DarkBlue,
+            Brushes.DarkOrchid,
+            Brushes.DarkViolet,
             Brushes.DarkMagenta,
         };
 
@@ -81,50 +85,27 @@
 
         private void DrawNodeText(Graphics g, Font font, Term term, RectangleF r, int level, TreeNodeStates state)
         {
-            void DrawNodeText(Term foo, RectangleF region)
+            if (r.IsEmpty) return;
+            g.TextRenderingHint = System.Drawing.Text.TextRenderingHint.ClearTypeGridFit;
+            if (level == 0 && (state & TreeNodeStates.Focused) != 0)
+                g.FillRectangle(Brushes.Yellow, r);
+            var text = term.ToString();
+            var brush = _brushes[level & 0x0F];
+            if (term is Umptad umptad)
             {
-
-                if (r.IsEmpty) return;
-                g.TextRenderingHint = System.Drawing.Text.TextRenderingHint.ClearTypeGridFit;
-                if (level == 0 && (state & TreeNodeStates.Focused) != 0)
-                    g.FillRectangle(Brushes.Yellow, r);
-                var text = term.ToString();
-                var brush = _brushes[level & 7];
-                if (term is Umptad umptad)
+                var ranges = term.CharacterRanges;
+                _format.SetMeasurableCharacterRanges(ranges);
+                var regions = g.MeasureCharacterRanges(text, font, r, _format).Select(p => p.GetBounds(g).Expand()).ToList();
+                var range = 0;
+                foreach (var operand in umptad.Operands)
                 {
-                    var ranges = term.CharacterRanges;
-                    _format.SetMeasurableCharacterRanges(ranges);
-                    var regions = g.MeasureCharacterRanges(text, font, r, _format).Select(p => p.GetBounds(g).Expand()).ToList();
-                    var range = 0;
-                    foreach (Term operand in umptad.Operands)
-                    {
-                        g.DrawString(text.SubRange(ranges[range]), font, brush, regions[range++]);
-                        //DrawNodeText(g, font, operand, regions[range++], level + 1, state);
-                        level++;
-                        DrawNodeText(operand, regions[range++]);
-                        level--;
-                    }
-                    g.DrawString(text.SubRange(ranges.Last()), font, brush, regions.Last());
+                    g.DrawString(text.SubRange(ranges[range]), font, brush, regions[range++]);
+                    DrawNodeText(g, font, operand, regions[range++], level + 1, state);
                 }
-                else
-                    g.DrawString(text, font, brush, r);
-
+                g.DrawString(text.SubRange(ranges.Last()), font, brush, regions.Last());
             }
-            DrawNodeText(term, r);
-        }
-
-        private static string GetNodeText(Term term)
-        {
-            if (term is Operation operation)
-                switch (operation.Op)
-                {
-                    case Op.And: return "All of the following are true:";
-                    case Op.Or: return "One or more of the following are true:";
-                    case Op.Xor: return "Exactly one of the following is true:";
-                    case Op.EqualTo: return "These are equal:";
-                    case Op.NotEqualTo: return "These are not equal:";
-                }
-            return term.ToString();
+            else
+                g.DrawString(text, font, brush, r);
         }
 
         private TreeNode NewNode(Term term)
