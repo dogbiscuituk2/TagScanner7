@@ -2,8 +2,10 @@
 {
     using System.Collections.Generic;
     using System.Drawing;
+    using System.Linq;
     using System.Windows.Forms;
     using Terms;
+    using Utils;
 
     public class TermNode : TreeNode
     {
@@ -43,12 +45,13 @@
 
         public void SetRegions(IEnumerable<RectangleF> regions)
         {
-            Regions.Clear();
+            InvalidateRegions();
             Regions.AddRange(regions);
         }
 
         public void InvalidateCharacterRanges()
         {
+            InvalidateRegions();
             if (Term == null) return;
             Term.InvalidateCharacterRanges();
             if (Parent is TermNode parent)
@@ -58,5 +61,18 @@
         public void ValidateCharacterRanges() => Term?.ValidateCharacterRanges();
 
         private Term _term;
+
+        public void InvalidateRegions() => Regions.Clear();
+
+        internal void ValidateRegions(Graphics g, RectangleF bounds, StringFormat format)
+        {
+            ValidateCharacterRanges();
+            if (Regions.Any()) return;
+            for (var index = 0; index <  CharacterRangesAll.Count; index += 32)
+            {
+                format.SetMeasurableCharacterRanges(CharacterRangesAll.Skip(index).Take(32).ToArray());
+                AddRegions(g.MeasureCharacterRanges(Text, TreeView.Font, bounds, format).Select(p => p.GetBounds(g).Expand()));
+            }
+        }
     }
 }

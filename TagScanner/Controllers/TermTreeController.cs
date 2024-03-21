@@ -132,8 +132,8 @@
             var term = termNode.Term;
             var text = term.ToString();
             LogDrawString(text, bounds);
+            var regions = new List<RectangleF>();
             int level = 0, range = 0;
-            List<RectangleF> regions = null;
             if (focused)
                 g.FillRectangle(Brushes.Yellow, bounds);
             DrawNodeSubText(term);
