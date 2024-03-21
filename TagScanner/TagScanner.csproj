@@ -119,8 +119,8 @@
     <Reference Include="WindowsFormsIntegration" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Controllers\Ink.cs" />
-    <Compile Include="Controllers\Inks.cs" />
+    <Compile Include="Utils\Ink.cs" />
+    <Compile Include="Utils\Inks.cs" />
     <Compile Include="Controllers\Controller.cs" />
     <Compile Include="Controllers\MRU\MruWorksController.cs" />
     <Compile Include="Controllers\OperatorPickerController.cs" />

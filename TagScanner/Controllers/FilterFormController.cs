@@ -5,6 +5,7 @@
     using Menus;
     using Models;
     using Terms;
+    using Utils;
     using Views;
 
     internal class FilterFormController : Controller
@@ -14,6 +15,7 @@
         internal FilterFormController(Controller parent) : base(parent)
         {
             TermTreeViewController = new TermTreeViewController(this, TreeView);
+            TermTreeViewController.Inks = Inks._16inks;
             View.ViewCollapseAll.Click += ViewCollapseAll_Click;
             View.ViewExpandAll.Click += ViewExpandAll_Click;
             MenuRouter = new MenuRouter(TermMenu, PopupMenu);

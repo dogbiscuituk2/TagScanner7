@@ -1,10 +1,10 @@
-﻿namespace TagScanner.Controllers
+﻿namespace TagScanner.Utils
 {
     using System.Drawing;
 
     internal class Ink
     {
-        internal Ink(Inks inks = Inks.Inks16) => Inks = inks;
+        internal Ink(Inks inks = Inks._16inks) => Inks = inks;
 
         /// <summary>
         /// Essentially 0 to 4.
