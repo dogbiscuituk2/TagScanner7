@@ -104,7 +104,7 @@
             }
         }
 
-        public static string SubRange(this string s, CharacterRange range) => s.Substring(range.First, range.Length);
+        public static string Range(this string s, CharacterRange range) => s.Substring(range.First, range.Length);
 
         #endregion
 

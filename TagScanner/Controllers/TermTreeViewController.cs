@@ -56,8 +56,13 @@
                 album = new Operation(Tag.Album, '=', "Let It Be"),
                 duration = new Operation(Tag.Duration, ">=", "00:03:30"),
                 lyrics = !new Function("IsEmpty", Tag.Lyrics),
-                tree = new Conditional(band, song, album | duration & lyrics);
-            Add(new Conditional(band, song, album | duration & tree));
+                tree = new Conditional(band, song, album | duration & lyrics),
+                tree2 = new Conditional(band, song, album | duration & lyrics & tree);
+            Add(new Conditional(band, song, album | duration & tree2));
+            Term
+                a = new Operation('A', Op.EqualTo, 'B'),
+                b = a | a, c = b | b, d = c | c, e = d | d, f = e | e, g = f | f, h = g | g;
+            Add(h);
         }
 
         internal void CollapseAll()
@@ -120,12 +125,12 @@
                 if (subTerm is Umptad umptad)
                     foreach (var operand in umptad.Operands)
                     {
-                        DrawString(text.SubRange(ranges[range]), GetNextRegion());
+                        DrawString(text.Range(ranges[range]), GetNextRegion());
                         level++;
                         DrawNodeSubText(operand);
                         level--;
                     }
-                DrawString(text.SubRange(ranges[range]), GetNextRegion());
+                DrawString(text.Range(ranges[range]), GetNextRegion());
             }
 
             void DrawString(string s, RectangleF r)

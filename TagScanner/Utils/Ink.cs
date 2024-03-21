@@ -2,18 +2,20 @@
 {
     using System.Drawing;
 
-    internal class Ink
+    public class Ink
     {
-        internal Ink(Inks inks = Inks._16inks) => Inks = inks;
+        public Ink(Inks inks = Inks._16inks, bool dark = false)
+        {
+            Inks = inks;
+            Dark = dark;
+        }
 
-        /// <summary>
-        /// Essentially 0 to 4.
-        /// </summary>
-        internal Inks Inks { get; set; }
+        public bool Dark { get; set; }
+        public Inks Inks { get; set; }
 
-        internal Brush Brush(int ink) => _brushes[Pick(ink)];
-        internal Color Colour(int ink) => _colours[Pick(ink)];
-        internal Pen Pen(int ink) => _pens[Pick(ink)];
+        public Brush Brush(int ink) => _brushes[Pick(ink)];
+        public Color Colour(int ink) => _colours[Pick(ink)];
+        public Pen Pen(int ink) => _pens[Pick(ink)];
 
         private readonly Brush[] _brushes =
         {
@@ -82,6 +84,6 @@
         /// </summary>
         /// <param name="ink">Index, from 0 to max colours - 1.</param>
         /// <returns>Calculated index into arrays.</returns>
-        private int Pick(int ink) => (ink & ((1 << ((int)Inks)) - 1)) << (4 - (int)Inks);
+        private int Pick(int ink) => (ink & ((1 << ((int)Inks)) - 1) << (4 - (int)Inks)) + (Dark ? 16 : 0);
     }
 }
