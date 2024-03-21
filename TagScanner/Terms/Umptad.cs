@@ -33,25 +33,45 @@
 
         #region Public Methods
 
-        public override IEnumerable<CharacterRange> GetRanges(bool all)
+        protected override List<CharacterRange> GetCharacterRangesAll()
         {
+            ValidateCharacterRanges();
+            return _characterRangesAll;
+        }
+
+        protected override void InitCharacterRanges()
+        {
+            _characterRanges.Clear();
+            _characterRangesAll.Clear();
+            CharacterRange range;
             int first = 0, length;
             for (var index = 0; index < Operands.Count; index++)
             {
                 length = Start(index) - first;
-                yield return new CharacterRange(first, length);
+                AddRangeAll();
                 first += length;
                 var operand = Operands[index];
                 length = operand.Length;
-                if (all)
-                    foreach (var foo in operand.GetRanges(true).Select(p => new CharacterRange(first + p.First, p.Length)))
-                        yield return foo;
-                else
-                    yield return new CharacterRange(first, length);
+                AddRange();
+                foreach (var subRange in operand.CharacterRangesAll)
+                    _characterRangesAll.Add(new CharacterRange(first + subRange.First, subRange.Length));
                 first += length;
             }
             length = Length - first;
-            yield return new CharacterRange(first, length);
+            AddRangeAll();
+            return;
+
+            void AddRange()
+            {
+                range = new CharacterRange(first, length);
+                _characterRanges.Add(range);
+            }
+
+            void AddRangeAll()
+            {
+                AddRange();
+                _characterRangesAll.Add(range);
+            }
         }
 
         #endregion
@@ -115,6 +135,12 @@
         protected static Type GetType(string typeName) => GetQualifiedType(typeName, ".", ".Globalization.", ".Text.", ".Text.RegularExpressions.");
 
         protected static Type MatchType(Type t, Type t1, Type t2) => t == t1 || t == t2 ? t : null;
+
+        #endregion
+
+        #region Private Fields
+
+        private List<CharacterRange> _characterRangesAll = new List<CharacterRange>();
 
         #endregion
 

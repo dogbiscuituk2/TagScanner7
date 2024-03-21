@@ -121,17 +121,18 @@
         private void DrawNode(DrawTreeNodeEventArgs e)
         {
             e.DrawDefault = false;
-            DrawNodeText(e.Graphics, TreeView.Font, e.Node.Tag as Term, e.Bounds, (e.State & TreeNodeStates.Focused) != 0);
+            DrawNodeText(e.Graphics, TreeView.Font, e.Node, e.Bounds, (e.State & TreeNodeStates.Focused) != 0);
         }
 
-        private void DrawNodeText(Graphics g, Font font, Term term, RectangleF bounds, bool focused)
+        private void DrawNodeText(Graphics g, Font font, TreeNode node, RectangleF bounds, bool focused)
         {
             if (bounds.IsEmpty) return;
             g.TextRenderingHint = System.Drawing.Text.TextRenderingHint.ClearTypeGridFit;
+            var termNode = (TermNode)node;
+            var term = termNode.Term;
             var text = term.ToString();
             LogDrawString(text, bounds);
             int level = 0, range = 0;
-            var ranges = term.GetRanges(all: true).ToList();
             List<RectangleF> regions = null;
             if (focused)
                 g.FillRectangle(Brushes.Yellow, bounds);
@@ -143,12 +144,12 @@
                 if (subTerm is Umptad umptad)
                     foreach (var operand in umptad.Operands)
                     {
-                        DrawString(text.Range(ranges[range]), GetNextRegion());
+                        DrawString(text.Range(termNode.CharacterRangesAll[range]), GetNextRegion());
                         level++;
                         DrawNodeSubText(operand);
                         level--;
                     }
-                DrawString(text.Range(ranges[range]), GetNextRegion());
+                DrawString(text.Range(termNode.CharacterRangesAll[range]), GetNextRegion());
             }
 
             void DrawString(string s, RectangleF r)
@@ -162,7 +163,7 @@
             {
                 if ((range & 0x1F) == 0) // Max 32 ranges can be passed to SetMeasurableCharacterRanges.
                 {
-                    _format.SetMeasurableCharacterRanges(ranges.Skip(range).Take(32).ToArray());
+                    _format.SetMeasurableCharacterRanges(termNode.CharacterRangesAll.Skip(range).Take(32).ToArray());
                     regions = g.MeasureCharacterRanges(text, font, bounds, _format).Select(p => p.GetBounds(g).Expand()).ToList();
                 }
                 return regions[range++ & 0x1F];
@@ -176,9 +177,9 @@
             HotNode = TreeView.GetNodeAt(e.Location);
         }
 
-        private TermTreeNode NewNode(Term term)
+        private TermNode NewNode(Term term)
         {
-            var node = new TermTreeNode(term);
+            var node = new TermNode(term);
             switch (term)
             {
                 case Field field:

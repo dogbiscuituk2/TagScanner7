@@ -1,8 +1,7 @@
-﻿using System.Collections.Generic;
-
-namespace TagScanner.Terms
+﻿namespace TagScanner.Terms
 {
     using System;
+    using System.Collections.Generic;
     using System.Drawing;
     using System.Linq.Expressions;
     using Models;
@@ -18,6 +17,8 @@ namespace TagScanner.Terms
 
         #region Public Properties
 
+        public List<CharacterRange> CharacterRanges => GetCharacterRanges();
+        public List<CharacterRange> CharacterRangesAll => GetCharacterRangesAll();
         public abstract Expression Expression { get; }
         public int Length => ToString().Length;
         public Func<Work, bool> Predicate => Expression.Lambda<Func<Work, bool>>(Expression, Work).Compile();
@@ -36,7 +37,30 @@ namespace TagScanner.Terms
         /// (or -1 if the indexed subTerm does not exist, e.g., if the given "parent" Term is a Constant or a Field.).</returns>
         public virtual int Start(int index) => -1;
 
-        public virtual IEnumerable<CharacterRange> GetRanges(bool all) => new[] { new CharacterRange(0, Length) };
+        protected List<CharacterRange> GetCharacterRanges()
+        {
+            ValidateCharacterRanges();
+            return _characterRanges;
+        }
+
+        protected virtual List<CharacterRange> GetCharacterRangesAll() => GetCharacterRanges();
+
+        protected virtual void InitCharacterRanges()
+        {
+            _characterRanges.Clear();
+            _characterRanges.Add(new CharacterRange(0, Length));
+        }
+
+        public virtual void InvalidateCharacterRanges() => _characterRangesValid = false;
+
+        public virtual void ValidateCharacterRanges()
+        {
+            if (!_characterRangesValid)
+            {
+                InitCharacterRanges();
+                _characterRangesValid = true;
+            }
+        }
 
         public Term Add(Term term) => Add(this, term);
         public Term And(Term term) => And(this, term);
@@ -81,6 +105,13 @@ namespace TagScanner.Terms
         public static Term operator |(Term left, Term right) => left.Or(right);
         public static Term operator -(Term left, Term right) => left.Subtract(right);
         public static Term operator ^(Term left, Term right) => left.Xor(right);
+
+        #endregion
+
+        #region Private Fields
+
+        protected List<CharacterRange> _characterRanges = new List<CharacterRange>();
+        private bool _characterRangesValid;
 
         #endregion
     }

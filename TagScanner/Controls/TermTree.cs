@@ -2,9 +2,9 @@
 {
     using System.Windows.Forms;
 
-    public class TermTreeView : TreeView
+    public class TermTree : TreeView
     {
-        public TermTreeView() : base()
+        public TermTree() : base()
         {
             DoubleBuffered = true;
         }

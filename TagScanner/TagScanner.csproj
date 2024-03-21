@@ -119,8 +119,8 @@
     <Reference Include="WindowsFormsIntegration" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Controls\TermTreeNode.cs" />
-    <Compile Include="Controls\TermTreeView.cs">
+    <Compile Include="Controls\TermNode.cs" />
+    <Compile Include="Controls\TermTree.cs">
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Utils\Ink.cs" />

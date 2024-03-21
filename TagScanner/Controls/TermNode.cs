@@ -1,17 +1,15 @@
-﻿using TagScanner.Terms;
-
-namespace TagScanner.Controls
+﻿namespace TagScanner.Controls
 {
     using System.Collections.Generic;
     using System.Drawing;
     using System.Windows.Forms;
-    using System.Xml.Linq;
+    using Terms;
 
-    public class TermTreeNode : TreeNode
+    public class TermNode : TreeNode
     {
-        public TermTreeNode() { }
-        public TermTreeNode(string text) : this() { Text = text; }
-        public TermTreeNode(Term term) : this(term.ToString()) { Term = term; }
+        public TermNode() { }
+        public TermNode(string text) : this() { Text = text; }
+        public TermNode(Term term) : this(term.ToString()) { Term = term; }
 
         public Term Term
         {
@@ -33,26 +31,31 @@ namespace TagScanner.Controls
 
         private void AddTerms(List<Term> terms)
         {
-            foreach (var term in terms) { Nodes.Add(new TermTreeNode(term)); }
+            foreach (var term in terms) { Nodes.Add(new TermNode(term)); }
         }
 
-        public List<CharacterRange> Ranges { get; } = new List<CharacterRange>();
+        public List<CharacterRange> CharacterRanges => Term?.CharacterRanges;
+        public List<CharacterRange> CharacterRangesAll => Term?.CharacterRangesAll;
+
         public List<RectangleF> Regions { get; } = new List<RectangleF>();
 
-        public void AddRanges(IEnumerable<CharacterRange> ranges) => Ranges.AddRange(ranges);
         public void AddRegions(IEnumerable<RectangleF> regions) => Regions.AddRange(regions);
-
-        public void SetRanges(IEnumerable<CharacterRange> ranges)
-        {
-            Ranges.Clear();
-            Ranges.AddRange(ranges);
-        }
 
         public void SetRegions(IEnumerable<RectangleF> regions)
         {
             Regions.Clear();
             Regions.AddRange(regions);
         }
+
+        public void InvalidateCharacterRanges()
+        {
+            if (Term == null) return;
+            Term.InvalidateCharacterRanges();
+            if (Parent is TermNode parent)
+                parent.InvalidateCharacterRanges();
+        }
+
+        public void ValidateCharacterRanges() => Term?.ValidateCharacterRanges();
 
         private Term _term;
     }
