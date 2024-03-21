@@ -2,16 +2,23 @@
 {
     using System.Collections.Generic;
     using System.Drawing;
-    using System.Linq;
     using System.Windows.Forms;
     using Terms;
-    using Utils;
 
     public class TermNode : TreeNode
     {
+        #region Constructors
+
         public TermNode() { }
         public TermNode(string text) : this() { Text = text; }
         public TermNode(Term term) : this(term.ToString()) { Term = term; }
+
+        #endregion
+
+        #region Public Properties
+
+        public List<CharacterRange> CharacterRanges => Term?.CharacterRanges;
+        public List<CharacterRange> CharacterRangesAll => Term?.CharacterRangesAll;
 
         public Term Term
         {
@@ -31,48 +38,30 @@
             }
         }
 
-        private void AddTerms(List<Term> terms)
-        {
-            foreach (var term in terms) { Nodes.Add(new TermNode(term)); }
-        }
+        #endregion
 
-        public List<CharacterRange> CharacterRanges => Term?.CharacterRanges;
-        public List<CharacterRange> CharacterRangesAll => Term?.CharacterRangesAll;
-
-        public List<RectangleF> Regions { get; } = new List<RectangleF>();
-
-        public void AddRegions(IEnumerable<RectangleF> regions) => Regions.AddRange(regions);
-
-        public void SetRegions(IEnumerable<RectangleF> regions)
-        {
-            InvalidateRegions();
-            Regions.AddRange(regions);
-        }
+        #region Public Methods
 
         public void InvalidateCharacterRanges()
         {
-            InvalidateRegions();
             if (Term == null) return;
             Term.InvalidateCharacterRanges();
             if (Parent is TermNode parent)
                 parent.InvalidateCharacterRanges();
         }
 
-        public void ValidateCharacterRanges() => Term?.ValidateCharacterRanges();
+        #endregion
+
+        #region Private Fields
 
         private Term _term;
 
-        public void InvalidateRegions() => Regions.Clear();
+        #endregion
 
-        internal void ValidateRegions(Graphics g, RectangleF bounds, StringFormat format)
-        {
-            ValidateCharacterRanges();
-            if (Regions.Any()) return;
-            for (var index = 0; index <  CharacterRangesAll.Count; index += 32)
-            {
-                format.SetMeasurableCharacterRanges(CharacterRangesAll.Skip(index).Take(32).ToArray());
-                AddRegions(g.MeasureCharacterRanges(Text, TreeView.Font, bounds, format).Select(p => p.GetBounds(g).Expand()));
-            }
-        }
+        #region Private Methods
+
+        private void AddTerms(List<Term> terms) { foreach (var term in terms) { Nodes.Add(new TermNode(term)); } }
+
+        #endregion
     }
 }

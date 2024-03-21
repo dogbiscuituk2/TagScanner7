@@ -1,5 +1,6 @@
 ﻿namespace TagScanner.Controllers
 {
+    using System;
     using System.Collections.Generic;
     using System.Drawing;
     using System.Linq;
@@ -27,12 +28,6 @@
 
         #region Internal Properties
 
-        internal Inks Inks
-        {
-            get => _ink.Inks;
-            set => _ink = new Ink(value);
-        }
-
         internal bool HasSelection => SelectedNode != null;
 
         internal TreeNode HotNode
@@ -40,17 +35,21 @@
             get => _hotNode;
             set
             {
-                if (HotNode != value)
-                {
-                    _hotNode = value;
-                    Logger.Log($"HotNode = {value?.Text}");
-                }
+                if (HotNode == value) return;
+                _hotNode = value;
+                Logger.Log($"HotNode = {value?.Text}");
             }
-        } 
+        }
 
+        internal Inks Inks
+        {
+            get => _ink.Inks;
+            set => _ink = new Ink(value);
+        }
+
+        internal TreeNodeCollection Roots => TreeView.Nodes;
         internal TreeNode SelectedNode => TreeView.SelectedNode;
         internal TreeView TreeView { get; }
-        internal TreeNodeCollection Roots => TreeView.Nodes;
 
         #endregion
 
@@ -102,8 +101,8 @@
         private readonly StringFormat _format = new StringFormat(StringFormat.GenericTypographic)
             { FormatFlags = StringFormatFlags.MeasureTrailingSpaces | StringFormatFlags.NoClip | StringFormatFlags.NoWrap };
 
-        private Ink _ink;
         private TreeNode _hotNode;
+        private Ink _ink;
 
         #endregion
 
@@ -121,42 +120,57 @@
         private void DrawNode(DrawTreeNodeEventArgs e)
         {
             e.DrawDefault = false;
-            DrawNodeText(e.Graphics, TreeView.Font, e.Node, e.Bounds, (e.State & TreeNodeStates.Focused) != 0);
+            var action = Action.Draw;
+            if ((e.State & TreeNodeStates.Focused) != 0)
+                action |= Action.DrawFocused;
+            VisitRoot(e.Graphics, TreeView.Font, e.Node, e.Bounds, action);
         }
 
-        private void DrawNodeText(Graphics g, Font font, TreeNode node, RectangleF bounds, bool focused)
+        private static void LogVisit(string text, RectangleF r) => Logger.Log($"Bounds: ({r.X}, {r.Y}, {r.Width}, {r.Height}), Text: '{text}'");
+
+        private void MouseMove(MouseEventArgs e) => HotNode = TreeView.GetNodeAt(e.Location);
+
+        private static TermNode NewNode(Term term) => new TermNode(term);
+
+        private void VisitRoot(Graphics g, Font font, TreeNode node, RectangleF bounds, Action action)
         {
             if (bounds.IsEmpty) return;
             g.TextRenderingHint = System.Drawing.Text.TextRenderingHint.ClearTypeGridFit;
             var termNode = (TermNode)node;
             var term = termNode.Term;
             var text = term.ToString();
-            LogDrawString(text, bounds);
+            LogVisit(text, bounds);
             var regions = new List<RectangleF>();
             int level = 0, range = 0;
-            if (focused)
+            bool
+                draw = (action & Action.Draw) != 0,
+                drawFocused = (action & Action.DrawFocused) != 0,
+                hitTest = (action & Action.HitTest) != 0;
+            if (drawFocused)
                 g.FillRectangle(Brushes.Yellow, bounds);
-            DrawNodeSubText(term);
+            VisitNode();
             return;
 
-            void DrawNodeSubText(Term subTerm)
+            void VisitNode()
             {
-                if (subTerm is Umptad umptad)
+                if (term is Umptad umptad)
                     foreach (var operand in umptad.Operands)
                     {
-                        DrawString(text.Range(termNode.CharacterRangesAll[range]), GetNextRegion());
+                        VisitRegion(text.Range(termNode.CharacterRangesAll[range]), GetNextRegion());
+                        term = operand;
                         level++;
-                        DrawNodeSubText(operand);
+                        VisitNode();
                         level--;
                     }
-                DrawString(text.Range(termNode.CharacterRangesAll[range]), GetNextRegion());
+                VisitRegion(text.Range(termNode.CharacterRangesAll[range]), GetNextRegion());
             }
 
-            void DrawString(string s, RectangleF r)
+            void VisitRegion(string s, RectangleF r)
             {
                 if (r.IsEmpty) return;
-                LogDrawString(s, r);
-                g.DrawString(s, font, _ink.Brush(level), r);
+                LogVisit(s, r);
+                if (draw)
+                    g.DrawString(s, font, _ink.Brush(level), r);
             }
 
             RectangleF GetNextRegion()
@@ -166,35 +180,22 @@
                     _format.SetMeasurableCharacterRanges(termNode.CharacterRangesAll.Skip(range).Take(32).ToArray());
                     regions = g.MeasureCharacterRanges(text, font, bounds, _format).Select(p => p.GetBounds(g).Expand()).ToList();
                 }
-                return regions[range++ & 0x1F];
+                var region = regions[range++ & 0x1F];
+                return region;
             }
         }
 
-        private static void LogDrawString(string text, RectangleF r) => Logger.Log($"Bounds: ({r.X}, {r.Y}, {r.Width}, {r.Height}), Text: '{text}'");
+        #endregion
 
-        private void MouseMove(MouseEventArgs e)
-        {
-            HotNode = TreeView.GetNodeAt(e.Location);
-        }
+        #region Private Enumerations
 
-        private TermNode NewNode(Term term)
+        [Flags]
+        private enum Action
         {
-            var node = new TermNode(term);
-            switch (term)
-            {
-                case Field field:
-                    node.ToolTipText = field.Tag.Details();
-                    break;
-                case Operation operation:
-                    foreach (var subTerm in operation.Operands)
-                        AddChild(node, subTerm);
-                    break;
-                case Function function:
-                    foreach (var subTerm in function.Operands)
-                        AddChild(node, subTerm);
-                    break;
-            }
-            return node;
+            None = 0,
+            Draw = 1,
+            DrawFocused = 2,
+            HitTest = 4,
         }
 
         #endregion
