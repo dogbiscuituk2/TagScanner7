@@ -60,7 +60,7 @@
 
         #region Private Fields
 
-        private readonly Brush[] _brushes =
+        private readonly Brush[] _brushes2 =
         {
             Brushes.Black,
             Brushes.Blue,
@@ -112,10 +112,10 @@
             if (bounds.IsEmpty) return;
             g.TextRenderingHint = System.Drawing.Text.TextRenderingHint.ClearTypeGridFit;
             var text = term.ToString();
-            LogDrawString(text, bounds);
-            int level = 0, range = 0, region = 0;
+            //LogDrawString(text, bounds);
+            int level = 0, range = 0;
             var ranges = term.GetRanges(all: true).ToList();
-            var regions = new List<RectangleF>();
+            List<RectangleF> regions = null;
             if (focused)
                 g.FillRectangle(Brushes.Yellow, bounds);
             DrawNodeSubText(term);
@@ -136,20 +136,19 @@
 
             void DrawString(string s, RectangleF r)
             {
-                LogDrawString(s, r);
                 if (r.IsEmpty) return;
-                g.DrawString(s, font, _brushes[level % _brushes.Length], r);
+                //LogDrawString(s, r);
+                g.DrawString(s, font, _brushes16[level % _brushes16.Length], r);
             }
 
             RectangleF GetNextRegion()
             {
-                if ((region &= 0x1F) == 0) // Max 32 ranges can be passed to SetMeasurableCharacterRanges.
+                if ((range & 0x1F) == 0) // Max 32 ranges can be passed to SetMeasurableCharacterRanges.
                 {
                     _format.SetMeasurableCharacterRanges(ranges.Skip(range).Take(32).ToArray());
                     regions = g.MeasureCharacterRanges(text, font, bounds, _format).Select(p => p.GetBounds(g).Expand()).ToList();
                 }
-                range++;
-                return regions[region++];
+                return regions[range++ & 0x1F];
             }
         }
 
