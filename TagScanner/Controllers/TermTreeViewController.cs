@@ -18,11 +18,18 @@
             TreeView = treeView;
             TreeView.DrawMode = TreeViewDrawMode.OwnerDrawText;
             TreeView.DrawNode += TreeView_DrawNode;
+            Inks = 0;
         }
 
         #endregion
 
         #region Internal Properties
+
+        internal Inks Inks
+        {
+            get => _ink.Inks;
+            set => _ink = new Ink(value);
+        }
 
         internal bool HasSelection => SelectedNode != null;
         internal TreeNode SelectedNode => TreeView.SelectedNode;
@@ -53,41 +60,28 @@
             Add(new Conditional(band, song, album | duration & tree));
         }
 
-        internal void CollapseAll() => TreeView.CollapseAll();
-        internal void ExpandAll() => TreeView.ExpandAll();
+        internal void CollapseAll()
+        {
+            TreeView.BeginUpdate();
+            TreeView.CollapseAll();
+            TreeView.EndUpdate();
+        }
+
+        internal void ExpandAll()
+        {
+            TreeView.BeginUpdate();
+            TreeView.ExpandAll();
+            TreeView.EndUpdate();
+        }
 
         #endregion
 
         #region Private Fields
 
-        private readonly Brush[] _brushes2 =
-        {
-            Brushes.Black,
-            Brushes.Blue,
-        };
-
-        private readonly Brush[] _brushes16 =
-        {
-            Brushes.Black,
-            Brushes.DarkRed,
-            Brushes.Brown,
-            Brushes.MediumVioletRed,
-            Brushes.Red,
-            Brushes.DarkOrange,
-            Brushes.DarkGoldenrod,
-            Brushes.DarkOliveGreen,
-            Brushes.DarkGreen,
-            Brushes.Green,
-            Brushes.DarkCyan,
-            Brushes.Blue,
-            Brushes.DarkBlue,
-            Brushes.DarkOrchid,
-            Brushes.DarkViolet,
-            Brushes.DarkMagenta,
-        };
-
         private readonly StringFormat _format = new StringFormat(StringFormat.GenericTypographic)
             { FormatFlags = StringFormatFlags.MeasureTrailingSpaces | StringFormatFlags.NoClip | StringFormatFlags.NoWrap };
+
+        private Ink _ink;
 
         #endregion
 
@@ -138,7 +132,7 @@
             {
                 if (r.IsEmpty) return;
                 //LogDrawString(s, r);
-                g.DrawString(s, font, _brushes16[level % _brushes16.Length], r);
+                g.DrawString(s, font, _ink.Brush(level), r);
             }
 
             RectangleF GetNextRegion()
