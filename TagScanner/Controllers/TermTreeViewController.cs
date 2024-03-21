@@ -4,6 +4,7 @@
     using System.Drawing;
     using System.Linq;
     using System.Windows.Forms;
+    using Controls;
     using Logging;
     using Models;
     using Terms;
@@ -16,9 +17,10 @@
         internal TermTreeViewController(Controller parent, TreeView treeView) : base(parent)
         {
             TreeView = treeView;
+            Inks = 0;
             TreeView.DrawMode = TreeViewDrawMode.OwnerDrawText;
             TreeView.DrawNode += TreeView_DrawNode;
-            Inks = 0;
+            TreeView.MouseMove += TreeView_MouseMove;
         }
 
         #endregion
@@ -32,6 +34,20 @@
         }
 
         internal bool HasSelection => SelectedNode != null;
+
+        internal TreeNode HotNode
+        {
+            get => _hotNode;
+            set
+            {
+                if (HotNode != value)
+                {
+                    _hotNode = value;
+                    Logger.Log($"HotNode = {value?.Text}");
+                }
+            }
+        } 
+
         internal TreeNode SelectedNode => TreeView.SelectedNode;
         internal TreeView TreeView { get; }
         internal TreeNodeCollection Roots => TreeView.Nodes;
@@ -87,12 +103,14 @@
             { FormatFlags = StringFormatFlags.MeasureTrailingSpaces | StringFormatFlags.NoClip | StringFormatFlags.NoWrap };
 
         private Ink _ink;
+        private TreeNode _hotNode;
 
         #endregion
 
         #region Private Event Handlers
 
         private void TreeView_DrawNode(object sender, DrawTreeNodeEventArgs e) => DrawNode(e);
+        private void TreeView_MouseMove(object sender, MouseEventArgs e) => MouseMove(e);
 
         #endregion
 
@@ -111,7 +129,7 @@
             if (bounds.IsEmpty) return;
             g.TextRenderingHint = System.Drawing.Text.TextRenderingHint.ClearTypeGridFit;
             var text = term.ToString();
-            //LogDrawString(text, bounds);
+            LogDrawString(text, bounds);
             int level = 0, range = 0;
             var ranges = term.GetRanges(all: true).ToList();
             List<RectangleF> regions = null;
@@ -136,7 +154,7 @@
             void DrawString(string s, RectangleF r)
             {
                 if (r.IsEmpty) return;
-                //LogDrawString(s, r);
+                LogDrawString(s, r);
                 g.DrawString(s, font, _ink.Brush(level), r);
             }
 
@@ -151,11 +169,16 @@
             }
         }
 
-        private static void LogDrawString(string text, RectangleF r) => Logger.Log($"({r.X}, {r.Y}, {r.Width}, {r.Height}) - '{text}'");
+        private static void LogDrawString(string text, RectangleF r) => Logger.Log($"Bounds: ({r.X}, {r.Y}, {r.Width}, {r.Height}), Text: '{text}'");
 
-        private TreeNode NewNode(Term term)
+        private void MouseMove(MouseEventArgs e)
         {
-            var node = new TreeNode(term.ToString()) { Tag = term };
+            HotNode = TreeView.GetNodeAt(e.Location);
+        }
+
+        private TermTreeNode NewNode(Term term)
+        {
+            var node = new TermTreeNode(term);
             switch (term)
             {
                 case Field field:

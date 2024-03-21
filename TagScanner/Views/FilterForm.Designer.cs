@@ -30,7 +30,7 @@
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FilterForm));
-            this.TreeView = new System.Windows.Forms.TreeView();
+            this.TreeView = new TagScanner.Controls.TermTreeView();
             this.PopupMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.MainMenu = new System.Windows.Forms.MenuStrip();
             this.FileMenu = new System.Windows.Forms.ToolStripMenuItem();
@@ -321,7 +321,7 @@
         }
 
         #endregion
-        public System.Windows.Forms.TreeView TreeView;
+        public TagScanner.Controls.TermTreeView TreeView;
         public System.Windows.Forms.ContextMenuStrip PopupMenu;
         public System.Windows.Forms.MenuStrip MainMenu;
         public System.Windows.Forms.ToolStripMenuItem TermMenu;
