@@ -11,8 +11,8 @@
 
         internal TagsController(Controller parent) : base(parent)
         {
-            _tagsListViewController = new TagsListViewController(this);
-            _tagsTreeViewController = new TagsTreeViewController(this);
+            _tagsListController = new TagsListController(this);
+            _tagsTreeController = new TagsTreeController(this);
         }
 
         internal GroupTagsBy GroupTagsBy;
@@ -22,12 +22,12 @@
         internal bool Execute(string caption, List<Tag> visibleTags)
         {
             Dialog.Text = caption;
-            _tagsListViewController.SetVisibleTags(visibleTags);
+            _tagsListController.SetVisibleTags(visibleTags);
             var ok = Dialog.ShowDialog(Parent.Form) == DialogResult.OK;
             if (ok)
             {
                 visibleTags.Clear();
-                visibleTags.AddRange(_tagsListViewController.GetVisibleTags());
+                visibleTags.AddRange(_tagsListController.GetVisibleTags());
             }
             return ok;
         }
@@ -38,8 +38,8 @@
 
         #region Private Fields
 
-        private readonly TagsListViewController _tagsListViewController;
-        private readonly TagsTreeViewController _tagsTreeViewController;
+        private readonly TagsListController _tagsListController;
+        private readonly TagsTreeController _tagsTreeController;
         private static TagVisibilityDialog _dialog;
 
         #endregion
@@ -56,12 +56,12 @@
         private TagVisibilityDialog CreateDialog()
         {
             _dialog = new TagVisibilityDialog();
-            _tagsListViewController.InitListView();
+            _tagsListController.InitListView();
             Dialog.ListAlphabetically.Click += (sender, e) => UseListView(View.Details, GroupTagsBy.None);
             Dialog.ListByCategory.Click += (sender, e) => UseListView(View.Details, GroupTagsBy.Category);
             Dialog.ListByDataType.Click += (sender, e) => UseListView(View.Details, GroupTagsBy.DataType);
             Dialog.ListNamesOnly.Click += (sender, e) => UseListView(View.List, GroupTagsBy.None);
-            _tagsTreeViewController.InitTreeView();
+            _tagsTreeController.InitTreeView();
             Dialog.TreeByCategory.Click += (sender, e) => UseTreeView(GroupTagsBy.Category);
             Dialog.TreeByDataType.Click += (sender, e) => UseTreeView(GroupTagsBy.DataType);
             Dialog.TreeNamesOnly.Click += (sender, e) => UseTreeView(GroupTagsBy.None);
@@ -72,16 +72,16 @@
         private void UseListView(View view, GroupTagsBy groupTagsBy)
         {
             GroupTagsBy = groupTagsBy;
-            _tagsTreeViewController.HideView();
-            _tagsListViewController.ShowView();
-            _tagsListViewController.ListView.View = view;
+            _tagsTreeController.HideView();
+            _tagsListController.ShowView();
+            _tagsListController.ListView.View = view;
         }
 
         private void UseTreeView(GroupTagsBy groupTagsBy)
         {
             GroupTagsBy = groupTagsBy;
-            _tagsListViewController.HideView();
-            _tagsTreeViewController.ShowView();
+            _tagsListController.HideView();
+            _tagsTreeController.ShowView();
         }
 
         #endregion

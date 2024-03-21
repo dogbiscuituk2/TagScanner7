@@ -10,11 +10,11 @@
     using Terms;
     using Utils;
 
-    internal class TermTreeViewController : Controller
+    internal class TermTreeController : Controller
     {
         #region Constructor
 
-        internal TermTreeViewController(Controller parent, TreeView treeView) : base(parent)
+        internal TermTreeController(Controller parent, TreeView treeView) : base(parent)
         {
             TreeView = treeView;
             Inks = 0;

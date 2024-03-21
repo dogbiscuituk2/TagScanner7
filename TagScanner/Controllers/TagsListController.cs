@@ -8,7 +8,7 @@
     using Models;
     using TagScanner.Terms;
 
-    internal class TagsListViewController : TagsViewController, IComparer
+    internal class TagsListController : TagsViewController, IComparer
     {
         #region Public Interface IComparer
 
@@ -18,7 +18,7 @@
 
         #region Internal Interface
 
-        internal TagsListViewController(Controller parent) : base(parent) { }
+        internal TagsListController(Controller parent) : base(parent) { }
 
         internal override Control Control => ListView;
         internal ListView ListView => Dialog.ListView;

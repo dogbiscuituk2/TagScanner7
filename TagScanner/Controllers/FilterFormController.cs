@@ -14,8 +14,8 @@
 
         internal FilterFormController(Controller parent) : base(parent)
         {
-            TermTreeViewController = new TermTreeViewController(this, TreeView);
-            TermTreeViewController.Inks = Inks._16inks;
+            TermTreeController = new TermTreeController(this, TreeView);
+            TermTreeController.Inks = Inks._16inks;
             View.ViewCollapseAll.Click += ViewCollapseAll_Click;
             View.ViewExpandAll.Click += ViewExpandAll_Click;
             MenuRouter = new MenuRouter(TermMenu, PopupMenu);
@@ -49,7 +49,7 @@
         private MenuRouter MenuRouter { get; }
         private ContextMenuStrip PopupMenu => View.PopupMenu;
         private ToolStripMenuItem TermMenu => View.TermMenu;
-        private TermTreeViewController TermTreeViewController { get; }
+        private TermTreeController TermTreeController { get; }
         private TreeView TreeView => View.TreeView;
         private FilterForm View => _view ?? CreateFilterForm();
 
@@ -62,18 +62,18 @@
         private void MenuRouter_FunctionClick(object sender, FunctionEventArgs e) => AddFunction(e.Key);
         private void MenuRouter_OperationClick(object sender, OperationEventArgs e) => AddOperation(e.Op);
         private void MenuRouter_TestTermsClick(object sender, EventArgs e) => AddTestTerms();
-        private void ViewCollapseAll_Click(object sender, EventArgs e) => TermTreeViewController.CollapseAll();
-        private void ViewExpandAll_Click(object sender, EventArgs e) => TermTreeViewController.ExpandAll();
+        private void ViewCollapseAll_Click(object sender, EventArgs e) => TermTreeController.CollapseAll();
+        private void ViewExpandAll_Click(object sender, EventArgs e) => TermTreeController.ExpandAll();
 
         #endregion
 
         #region Private Methods
 
-        private void AddConstant() => TermTreeViewController.AddConstant();
-        private void AddField(Tag tag) => TermTreeViewController.AddField(tag);
-        private void AddFunction(string key) => TermTreeViewController.AddFunction(key);
-        private void AddOperation(Op op) => TermTreeViewController.AddOperation(op);
-        private void AddTestTerms() => TermTreeViewController.AddTestTerms();
+        private void AddConstant() => TermTreeController.AddConstant();
+        private void AddField(Tag tag) => TermTreeController.AddField(tag);
+        private void AddFunction(string key) => TermTreeController.AddFunction(key);
+        private void AddOperation(Op op) => TermTreeController.AddOperation(op);
+        private void AddTestTerms() => TermTreeController.AddTestTerms();
         private FilterForm CreateFilterForm() => _view = new FilterForm();
         
         #endregion
