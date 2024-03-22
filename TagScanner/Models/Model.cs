@@ -4,21 +4,20 @@
     using System.Collections.Generic;
     using System.ComponentModel;
     using System.Linq;
-    using Terms;
 
     [Serializable]
     public class Model : IModel
     {
         #region Public Interface
 
-        private Term _filter = true;
-        public Term Filter
+        private Filter _filter = new Filter();
+        public Filter Filter
         {
             get => _filter;
             set
             {
                 _filter = value;
-                _predicate = null;
+                OnFilterChanged();
             }
         }
 
@@ -32,9 +31,6 @@
                 OnWorksChanged();
             }
         }
-
-        private Func<Work, bool> _predicate = null;
-        public Func<Work, bool> Predicate => _predicate ?? (_predicate = _filter.Predicate);
 
         public List<string> Folders => Library.Folders;
         public List<Work> Works => Library.Works;
@@ -66,7 +62,6 @@
         public void Clear()
         {
             Library.Clear();
-            _filter = null;
             OnWorksChanged();
         }
 
@@ -85,6 +80,7 @@
 
         public void Work_PropertyChanged(object sender, PropertyChangedEventArgs e) => Modified = true;
 
+        public event EventHandler FilterChanged;
         public event EventHandler ModifiedChanged;
         public event EventHandler WorksChanged;
 
@@ -106,6 +102,12 @@
         {
             work.Load();
             return true;
+        }
+
+        protected virtual void OnFilterChanged()
+        {
+            var filterChanged = FilterChanged;
+            filterChanged?.Invoke(this, EventArgs.Empty);
         }
 
         protected virtual void OnModifiedChanged()
