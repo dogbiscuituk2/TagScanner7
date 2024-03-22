@@ -119,6 +119,7 @@
     <Reference Include="WindowsFormsIntegration" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Controllers\MRU\MruFilterController.cs" />
     <Compile Include="Controls\TermNode.cs" />
     <Compile Include="Controls\TermTree.cs">
       <SubType>Component</SubType>
@@ -126,7 +127,6 @@
     <Compile Include="Utils\Ink.cs" />
     <Compile Include="Utils\Inks.cs" />
     <Compile Include="Controllers\Controller.cs" />
-    <Compile Include="Controllers\MRU\MruWorksController.cs" />
     <Compile Include="Controllers\OperatorPickerController.cs" />
     <Compile Include="Controllers\TagsListController.cs" />
     <Compile Include="Controllers\TagsTreeController.cs" />

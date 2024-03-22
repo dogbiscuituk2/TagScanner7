@@ -126,8 +126,6 @@
             VisitRoot(e.Graphics, TreeView.Font, e.Node, e.Bounds, action);
         }
 
-        private static void LogVisit(string text, RectangleF r) => Logger.Log($"Bounds: ({r.X}, {r.Y}, {r.Width}, {r.Height}), Text: '{text}'");
-
         private void MouseMove(MouseEventArgs e) => HotNode = TreeView.GetNodeAt(e.Location);
 
         private static TermNode NewNode(Term term) => new TermNode(term);
@@ -139,7 +137,6 @@
             var termNode = (TermNode)node;
             var term = termNode.Term;
             var text = term.ToString();
-            LogVisit(text, bounds);
             var regions = new List<RectangleF>();
             int level = 0, range = 0;
             bool
@@ -168,7 +165,6 @@
             void VisitRegion(string s, RectangleF r)
             {
                 if (r.IsEmpty) return;
-                LogVisit(s, r);
                 if (draw)
                     g.DrawString(s, font, _ink.Brush(level), r);
             }

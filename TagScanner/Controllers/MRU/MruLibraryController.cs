@@ -7,10 +7,16 @@
     using System.Xml.Serialization;
     using Models;
 
-    internal class MruLibraryController : MruWorksController
+    internal class MruLibraryController : MruSdiController
     {
         internal MruLibraryController(Model model, ToolStripMenuItem recentMenuItem)
             : base(model, Properties.Settings.Default.LibraryFilter, "LibraryMRU", recentMenuItem) { }
+
+        internal new Model Model
+        {
+            get => base.Model as Model;
+            set => base.Model = value;
+        }
 
         internal string WindowCaption
         {
