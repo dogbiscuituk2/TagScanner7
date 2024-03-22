@@ -7,6 +7,6 @@
     {
         public OperationEventArgs(Op op) { Op = op; }
 
-        public Op Op { get; set; }
+        public Op Op { get; private set; }
     }
 }

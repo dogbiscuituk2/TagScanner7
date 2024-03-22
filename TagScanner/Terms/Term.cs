@@ -88,11 +88,13 @@
 
         public static implicit operator Term(bool value) => new Constant(value);
         public static implicit operator Term(char value) => new Constant(value);
+        public static implicit operator Term(DateTime value) => new Constant(value);
         public static implicit operator Term(double value) => new Constant(value);
         public static implicit operator Term(int value) => new Constant(value);
         public static implicit operator Term(long value) => new Constant(value);
         public static implicit operator Term(string value) => new Constant(value);
         public static implicit operator Term(Tag tag) => new Field(tag);
+        public static implicit operator Term(TimeSpan value) => new Constant(value);
 
         public static Term operator -(Term term) => Minus(term);
         public static Term operator !(Term term) => Not(term);

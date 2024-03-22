@@ -18,8 +18,8 @@
     {
         #region Constructors
 
-        protected Umptad(IEnumerable<Term> operands) : base() => AddOperands(operands);
-        protected Umptad(Term firstOperand, IEnumerable<Term> moreOperands) : this(new[] { firstOperand }) => AddOperands(moreOperands);
+        protected Umptad(params Term[] operands) : base() => AddOperands(operands);
+        protected Umptad(Term firstOperand, params Term[] moreOperands) : this(new[] { firstOperand }) => AddOperands(moreOperands);
 
         #endregion
 
@@ -108,9 +108,6 @@
         #endregion
 
         #region Protected Static Methods
-
-        protected static Expression Cast(Expression expression, Type type) =>
-            expression.Type == type ? expression : Expression.Convert(expression, type);
 
         /// <summary>
         /// Find the "best" type to represent the result of a dyadic operation using the given operands.

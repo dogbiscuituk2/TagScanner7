@@ -6,6 +6,6 @@
     {
         public ConstantEventArgs(int value) { Value = value; }
 
-        public int Value { get; set; }
+        public int Value { get; private set; }
     }
 }

@@ -56,6 +56,7 @@
         #region Internal Methods
 
         internal int Add(Term term) => HasSelection ? AddChild(SelectedNode, term) : AddRoot(term);
+        internal void AddCast(Type type) => Add(new Cast(type));
         internal int AddChild(TreeNode parent, Term term) => AddNode(parent != null ? parent.Nodes : Roots, term);
         internal void AddConstant() => Add(new Constant());
         internal void AddField(Tag tag) => Add(new Field(tag));

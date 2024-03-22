@@ -22,6 +22,7 @@
 
         #region Internal Events
 
+        internal event EventHandler<CastEventArgs> CastClick;
         internal event EventHandler<ConstantEventArgs> ConstantClick;
         internal event EventHandler<FieldEventArgs> FieldClick;
         internal event EventHandler<FunctionEventArgs> FunctionClick;
@@ -37,6 +38,7 @@
         private void OnFieldClick(Tag tag) => FieldClick?.Invoke(this, new FieldEventArgs(tag));
         private void OnOperationClick(Op op) => OperationClick?.Invoke(this, new OperationEventArgs(op));
         private void OnFunctionClick(string key) => FunctionClick?.Invoke(this, new FunctionEventArgs(key));
+        private void OnCastClick(Type type) => CastClick?.Invoke(this, new CastEventArgs(type));
         private void OnTestTermsClick() => TestTermsClick?.Invoke(this, EventArgs.Empty);
         private void MenuRouter_TermDeleteClick(object sender, EventArgs e) => TermDeleteClick?.Invoke(this, e);
         private void MenuRouter_TermModifyClick(object sender, EventArgs e) => TermModifyClick?.Invoke(this, e);
@@ -56,6 +58,9 @@
                     break;
                 case string key:
                     OnFunctionClick(key);
+                    break;
+                case Type type:
+                    OnCastClick(type);
                     break;
                 case null:
                     OnTestTermsClick();

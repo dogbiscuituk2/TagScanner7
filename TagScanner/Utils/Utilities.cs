@@ -93,17 +93,24 @@
         {
             if (type.IsArray)
                 return $"{type.GetElementType().Say()}[]";
-            switch (Type.GetTypeCode(type))
-            {
-                case TypeCode.Boolean: return "condition";
-                case TypeCode.Char: return "character";
-                case TypeCode.Double: return "number";
-                case TypeCode.Int32: return "integer";
-                case TypeCode.Int64: return "long";
-                case TypeCode.Object: return "this";
-                case TypeCode.String: return "string";
-                default: return type.Name;
-            }
+            if (type == typeof(bool)) return "bool";
+            if (type == typeof(byte)) return "byte";
+            if (type == typeof(char)) return "char";
+            if (type == typeof(DateTime)) return "DateTime";
+            if (type == typeof(decimal)) return "decimal";
+            if (type == typeof(double)) return "double";
+            if (type == typeof(float)) return "float";
+            if (type == typeof(int)) return "int";
+            if (type == typeof(long)) return "long";
+            if (type == typeof(object)) return "object";
+            if (type == typeof(sbyte)) return "sbyte";
+            if (type == typeof(short)) return "short";
+            if (type == typeof(string)) return "string";
+            if (type == typeof(TimeSpan)) return "TimeSpan";
+            if (type == typeof(uint)) return "uint";
+            if (type == typeof(ulong)) return "ulong";
+            if (type == typeof(ushort)) return "ushort";
+            return type.Name;
         }
 
         public static string Range(this string s, CharacterRange range) => s.Substring(range.First, range.Length);

@@ -7,6 +7,6 @@
     {
         public FieldEventArgs(Tag tag) { Tag = tag; }
 
-        public Tag Tag { get; set; }
+        public Tag Tag { get; private set; }
     }
 }

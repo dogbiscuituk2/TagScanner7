@@ -6,6 +6,6 @@
     {
         public FunctionEventArgs(string key) { Key = key; }
 
-        public string Key { get; set; }
+        public string Key { get; private set; }
     }
 }

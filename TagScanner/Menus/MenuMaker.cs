@@ -23,7 +23,8 @@ namespace TagScanner.Menus
             items.AddTags(click);
             items.AddOperations(click);
             items.AddFunctions(click);
-            items.Add("&Constant...", null, click).Tag = 0;
+            items.AddCasts(click);
+            items.Add("&Value...", null, click).Tag = 0;
         }
 
         public static bool FilterItems(this ToolStripItemCollection items, Filter action, params Type[] types)
@@ -48,6 +49,13 @@ namespace TagScanner.Menus
         #endregion
 
         #region Private Methods
+
+        private static void AddCasts(this ToolStripItemCollection items, EventHandler click)
+        {
+            items = items.Append("&Cast");
+            foreach (var type in Cast.NewTypes)
+                items.Append(type.Say(), type, click);
+        }
 
         private static void AddFunctions(this ToolStripItemCollection items, EventHandler click)
         {
