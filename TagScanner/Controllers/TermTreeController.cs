@@ -146,7 +146,10 @@
                 hitTest = (action & Action.HitTest) != 0;
             if (drawFocused)
                 g.FillRectangle(Brushes.Yellow, bounds);
-            VisitNode();
+            var font1 = font;
+            Font font2;
+            using (font2 = new Font(font, FontStyle.Underline))
+                VisitNode();
             return;
 
             void VisitNode()
@@ -154,12 +157,15 @@
                 if (term is Umptad umptad)
                     foreach (var operand in umptad.Operands)
                     {
+                        font = font1;
                         VisitRegion(text.Range(termNode.CharacterRangesAll[range]), GetNextRegion());
                         term = operand;
                         level++;
                         VisitNode();
                         level--;
                     }
+                else
+                    font = font2;
                 VisitRegion(text.Range(termNode.CharacterRangesAll[range]), GetNextRegion());
             }
 
