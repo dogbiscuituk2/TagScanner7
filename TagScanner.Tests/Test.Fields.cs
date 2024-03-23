@@ -48,6 +48,7 @@
             var works = Works.Where(p => term.Predicate(p));
             Assert.AreEqual(expected: 1, actual: works.Count());
             Assert.AreEqual(expected: "2/3 - 08/12", actual: works.First().DiscTrack);
+            RoundTrip(term);
         }
 
         [TestMethod]
@@ -62,6 +63,7 @@
             var works = Works.Where(p => term.Predicate(p));
             Assert.AreEqual(expected: 1, actual: works.Count());
             Assert.AreEqual(expected: expectedValue, actual: works.First().GetPropertyValue(tag));
+            RoundTrip(term);
         }
 
         [TestMethod]
@@ -85,6 +87,7 @@
             var works = Works.Where(p => term.Predicate(p));
             Assert.AreEqual(expected: 1, actual: works.Count());
             Assert.AreEqual(expected: expectedValue, actual: works.First().GetPropertyValue(tag));
+            RoundTrip(term);
         }
 
         [TestMethod]
@@ -97,6 +100,7 @@
             var works = Works.Where(p => term.Predicate(p));
             Assert.AreEqual(expected: 1, actual: works.Count());
             Assert.AreEqual(expected: expectedValue, actual: works.First().GetPropertyValue(tag));
+            RoundTrip(term);
         }
 
         [TestMethod]
@@ -163,6 +167,7 @@
             var works = Works.Where(p => term.Predicate(p));
             Assert.AreEqual(expected: 1, actual: works.Count());
             Assert.AreEqual(expected: expectedValue, actual: works.First().GetPropertyValue(tag));
+            RoundTrip(term);
         }
 
         [TestMethod]
@@ -176,9 +181,9 @@
         [DataRow(Tag.PerformersSort, new[] { "Bonham", "Jones", "Page", "Plant" })]
         public void TestFields_Strings(Tag tag, object expectedValue)
         {
-            var term = new Function("IsEmpty", tag);
-            var works = Works.Where(p => term.Predicate(p));
-            //var works = Works.Where(p => !string.IsNullOrWhiteSpace(p.GetPropertyValue(tag)?.ToString()));
+            //var term = new Function("IsEmpty", tag);
+            //var works = Works.Where(p => term.Predicate(p));
+            var works = Works.Where(p => !string.IsNullOrWhiteSpace(p.GetPropertyValue(tag)?.ToString()));
             Assert.AreEqual(expected: 1, actual: works.Count());
             var actualValue = works.First().GetPropertyValue(tag);
             Assert.IsTrue(((string[])actualValue).SequenceEqual((string[])expectedValue));
@@ -193,6 +198,7 @@
             var works = Works.Where(p => term.Predicate(p));
             Assert.AreEqual(expected: 1, actual: works.Count());
             Assert.AreEqual(expected: expectedValue, actual: works.First().GetPropertyValue(tag));
+            RoundTrip(term);
         }
     }
 }

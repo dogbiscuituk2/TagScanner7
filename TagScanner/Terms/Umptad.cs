@@ -137,7 +137,7 @@
 
         #region Private Fields
 
-        private List<CharacterRange> _characterRangesAll = new List<CharacterRange>();
+        [NonSerialized] private List<CharacterRange> _characterRangesAll = new List<CharacterRange>();
 
         #endregion
 

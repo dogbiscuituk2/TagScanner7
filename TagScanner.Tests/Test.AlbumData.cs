@@ -154,6 +154,7 @@
         public void TestTerm(Term term)
         {
             System.Diagnostics.Debug.WriteLine(term);
+            RoundTrip(term);
             if (!(term is Umptad umptad)) return;
             for (var index = 0; index < umptad.Operands.Count; index++)
             {

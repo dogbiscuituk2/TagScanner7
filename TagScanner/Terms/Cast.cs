@@ -4,8 +4,9 @@
     using System.Collections.Generic;
     using System.Linq;
     using System.Linq.Expressions;
-    using TagScanner.Utils;
+    using Utils;
 
+    [Serializable]
     public class Cast : Umptad
     {
         public Cast(Type newType) : base() => SetNewType(newType);
