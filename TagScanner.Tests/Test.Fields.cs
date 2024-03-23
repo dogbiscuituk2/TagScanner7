@@ -20,6 +20,7 @@
                 Assert.AreEqual(expected: Rank.Unary, actual: field.Rank);
                 Assert.AreEqual(expected: tag.Type(), actual: field.ResultType);
                 Assert.AreEqual(expected: $"{Term.Work.Name}.{tag.Name()}", actual: field.Expression.ToString());
+                RoundTrip(field);
             }
         }
 

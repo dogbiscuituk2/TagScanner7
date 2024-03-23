@@ -9,7 +9,7 @@
     using System.Xml.Serialization;
     using Models;
     using Properties;
-    using TagScanner.Utils;
+    using Utils;
 
     public abstract class MruSdiController : MruController
     {

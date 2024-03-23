@@ -112,8 +112,8 @@
 
         #region Private Fields
 
-        protected List<CharacterRange> _characterRanges = new List<CharacterRange>();
-        private bool _characterRangesValid;
+        [NonSerialized] protected List<CharacterRange> _characterRanges = new List<CharacterRange>();
+        [NonSerialized] private bool _characterRangesValid;
 
         #endregion
     }

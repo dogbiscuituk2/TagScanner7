@@ -2,7 +2,6 @@
 {
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using System;
-    using Controllers.Mru;
     using Models;
     using Terms;
     using System.IO;
@@ -133,8 +132,23 @@
 
         public void RoundTrip(Term term)
         {
-            var stream = new MemoryStream();
+            RoundTrip(term, StreamFormat.Binary);
+            //RoundTrip(term, StreamFormat.Xml, typeof(Term));
+        }
 
+        public void RoundTrip(Term term, StreamFormat format, params Type[] types)
+        {
+            var text = term.ToString();
+            var streamer = new Streamer(format, types);
+            using (var stream = new MemoryStream())
+            {
+                streamer.Save(stream, term);
+                term = null;
+                Assert.AreNotEqual(notExpected: text, actual: term?.ToString());
+                stream.Seek(0, SeekOrigin.Begin);
+                term = (Term)streamer.Load(stream);
+            }
+            Assert.AreEqual(expected: text, actual: term?.ToString());
         }
 
         public void TestTerm(Term term)
