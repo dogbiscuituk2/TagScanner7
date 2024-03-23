@@ -23,6 +23,8 @@
         private Func<Work, bool> _predicate = null;
         public Func<Work, bool> Predicate => _predicate ?? (_predicate = Root?.Predicate);
 
+        public void Add(Term term) => Root.Add(term);
+
         public void Clear()
         {
             _root = new Conjunction();

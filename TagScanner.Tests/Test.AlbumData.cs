@@ -5,6 +5,7 @@
     using Controllers.Mru;
     using Models;
     using Terms;
+    using System.IO;
 
     [TestClass]
     public partial class Test
@@ -130,8 +131,11 @@
             new Mock(LZ, 1973, HH, 8, "4:31", "The Ocean") { VideoWidth = 640 },
         };
 
-        public static Filter Filter = new Filter();
-        public static MruFilterController FilterController = new MruFilterController(Filter, null);
+        public void RoundTrip(Term term)
+        {
+            var stream = new MemoryStream();
+
+        }
 
         public void TestTerm(Term term)
         {

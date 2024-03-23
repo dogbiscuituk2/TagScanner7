@@ -10,7 +10,7 @@
     using Models;
     using Mru;
     using Properties;
-    using TagScanner.Terms;
+    using Terms;
     using Views;
 
     public class LibraryFormController : Controller

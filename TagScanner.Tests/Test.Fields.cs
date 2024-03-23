@@ -37,6 +37,7 @@
             var works = Works.Where(p => term.Predicate(p));
             Assert.AreEqual(expected: 1, actual: works.Count());
             Assert.AreEqual(expected: expectedValue, actual: works.First().GetPropertyValue(tag).ToString());
+            RoundTrip(term);
         }
 
         [TestMethod]
