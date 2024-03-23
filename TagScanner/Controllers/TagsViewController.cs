@@ -7,7 +7,7 @@
     using Terms;
     using Views;
 
-    internal abstract class TagsViewController : Controller
+    public abstract class TagsViewController : Controller
     {
         #region Public Interface
 

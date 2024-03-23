@@ -4,12 +4,12 @@
     using System.Windows.Forms;
     using Models;
     using Views;
-    
-    internal class TagsController : Controller
+
+    public class TagsController : Controller
     {
         #region Public Interface
 
-        internal TagsController(Controller parent) : base(parent)
+        public TagsController(Controller parent) : base(parent)
         {
             _tagsListController = new TagsListController(this);
             _tagsTreeController = new TagsTreeController(this);

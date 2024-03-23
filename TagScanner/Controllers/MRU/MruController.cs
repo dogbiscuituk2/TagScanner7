@@ -1,4 +1,4 @@
-﻿namespace TagScanner.Controllers.MRU
+﻿namespace TagScanner.Controllers.Mru
 {
     using System;
     using System.Drawing;
@@ -7,21 +7,21 @@
     using System.Windows.Forms;
     using Win32 = Microsoft.Win32;
 
-    internal class MruController
+    public class MruController
     {
-        protected MruController(string subKeyName, ToolStripDropDownItem parentItem) : this(subKeyName, parentItem.DropDownItems)
+        public MruController(string subKeyName, ToolStripDropDownItem parentItem) : this(subKeyName, parentItem?.DropDownItems)
         {
             _parentItem = parentItem;
             RefreshRecentMenu();
         }
 
-        protected MruController(string subKeyName, ContextMenuStrip parentMenu) : this(subKeyName, parentMenu.Items)
+        public MruController(string subKeyName, ContextMenuStrip parentMenu) : this(subKeyName, parentMenu?.Items)
         {
             _parentMenu = parentMenu;
             RefreshRecentMenu();
         }
 
-        protected MruController(string subKeyName, ToolStripItemCollection recentItems)
+        public MruController(string subKeyName, ToolStripItemCollection recentItems)
         {
             if (string.IsNullOrWhiteSpace(subKeyName))
                 throw new ArgumentNullException(nameof(subKeyName));

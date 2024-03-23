@@ -4,9 +4,9 @@
     using System.Windows.Forms;
     using Terms;
 
-    internal class TagPickerController
+    public class TagPickerController
     {
-        internal TagPickerController(ComboBox comboBox)
+        public TagPickerController(ComboBox comboBox)
         {
             _comboBox = comboBox;
             Init();

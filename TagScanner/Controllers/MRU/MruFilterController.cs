@@ -1,4 +1,4 @@
-﻿namespace TagScanner.Controllers.MRU
+﻿namespace TagScanner.Controllers.Mru
 {
     using System.IO;
     using System.Windows.Forms;
@@ -6,10 +6,10 @@
     using Models;
     using Terms;
 
-    internal class MruFilterController : MruSdiController
+    public class MruFilterController : MruSdiController
     {
-        internal MruFilterController(IModel model, string filter, string subKeyName, ToolStripMenuItem recentMenuItem)
-            : base(model, filter, subKeyName, recentMenuItem) { }
+        public MruFilterController(IModel model, ToolStripMenuItem recentMenuItem)
+            : base(model, Properties.Settings.Default.LibraryFilter, "FilterMRU", recentMenuItem) { }
 
         internal Filter Filter
         {

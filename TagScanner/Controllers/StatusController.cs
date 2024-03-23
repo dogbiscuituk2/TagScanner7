@@ -5,9 +5,9 @@
     using System.Windows.Forms;
     using Models;
 
-    internal class StatusController
+    public class StatusController
     {
-        internal StatusController(Model model, StatusStrip statusStrip) { _model = model; _statusBar = statusStrip; }
+        public StatusController(Model model, StatusStrip statusStrip) { _model = model; _statusBar = statusStrip; }
 
         private readonly Model _model;
         private readonly StatusStrip _statusBar;

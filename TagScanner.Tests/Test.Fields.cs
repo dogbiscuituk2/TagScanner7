@@ -33,8 +33,8 @@
         [DataRow(Tag.ImageDateTime, "24/01/2024 19:34:00")]
         public void TestFields_DateTime(Tag tag, object expectedValue)
         {
-            var condition = new Operation(tag, "!=", DateTime.MinValue).Predicate;
-            var works = Works.Where(p => condition(p));
+            var term = new Operation(tag, "!=", DateTime.MinValue);
+            var works = Works.Where(p => term.Predicate(p));
             Assert.AreEqual(expected: 1, actual: works.Count());
             Assert.AreEqual(expected: expectedValue, actual: works.First().GetPropertyValue(tag).ToString());
         }

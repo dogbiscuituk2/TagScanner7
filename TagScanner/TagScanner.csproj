@@ -119,7 +119,7 @@
     <Reference Include="WindowsFormsIntegration" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Controllers\MRU\MruFilterController.cs" />
+    <Compile Include="Controllers\Mru\MruFilterController.cs" />
     <Compile Include="Controls\TermNode.cs" />
     <Compile Include="Controls\TermTree.cs">
       <SubType>Component</SubType>
@@ -141,11 +141,11 @@
     <Compile Include="Menus\MenuRouter.cs" />
     <Compile Include="Menus\OperationEventArgs.cs" />
     <Compile Include="Models\GroupTagsBy.cs" />
-    <Compile Include="Controllers\MRU\MruRoslynController.cs" />
+    <Compile Include="Controllers\Mru\MruRoslynController.cs" />
     <Compile Include="Controllers\GridController.cs" />
     <Compile Include="Controllers\LibraryFormController.cs" />
     <Compile Include="Controllers\PlayerController.cs" />
-    <Compile Include="Controllers\MRU\MruSdiController.cs" />
+    <Compile Include="Controllers\Mru\MruSdiController.cs" />
     <Compile Include="Controllers\TagPickerController.cs" />
     <Compile Include="Controllers\TagsController.cs" />
     <Compile Include="Controllers\FilterFormController.cs" />
@@ -184,8 +184,8 @@
     <Compile Include="ValueConverters\GroupSummary.cs" />
     <Compile Include="Controllers\LibraryGridController.cs" />
     <Compile Include="ValueConverters\LogicalConverter.cs" />
-    <Compile Include="Controllers\MRU\MruMediaController.cs" />
-    <Compile Include="Controllers\MRU\MruLibraryController.cs" />
+    <Compile Include="Controllers\Mru\MruMediaController.cs" />
+    <Compile Include="Controllers\Mru\MruLibraryController.cs" />
     <Compile Include="Controllers\StatusController.cs" />
     <Compile Include="Models\Logical.cs" />
     <Compile Include="Models\Reader.cs" />
@@ -199,7 +199,7 @@
     <Compile Include="Views\LibraryForm.Designer.cs">
       <DependentUpon>LibraryForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="Controllers\MRU\MruController.cs" />
+    <Compile Include="Controllers\Mru\MruController.cs" />
     <Compile Include="Models\Picture.cs" />
     <Compile Include="Controllers\PictureController.cs" />
     <Compile Include="Models\ProgressEventArgs.cs" />

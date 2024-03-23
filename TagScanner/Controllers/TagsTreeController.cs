@@ -5,11 +5,11 @@
     using System.Windows.Forms;
     using Models;
 
-    internal class TagsTreeController : TagsViewController
+    public class TagsTreeController : TagsViewController
     {
         #region Public Interface
 
-        internal TagsTreeController(Controller parent) : base(parent) { }
+        public TagsTreeController(Controller parent) : base(parent) { }
 
         internal override Control Control => TreeView;
 

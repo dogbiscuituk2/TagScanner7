@@ -1,13 +1,13 @@
-﻿namespace TagScanner.Controllers.MRU
+﻿namespace TagScanner.Controllers.Mru
 {
     using System.IO;
     using System.Windows.Forms;
     using System.Xml.Serialization;
     using Models;
 
-    internal class MruLibraryController : MruSdiController
+    public class MruLibraryController : MruSdiController
     {
-        internal MruLibraryController(Model model, ToolStripMenuItem recentMenuItem)
+        public MruLibraryController(Model model, ToolStripMenuItem recentMenuItem)
             : base(model, Properties.Settings.Default.LibraryFilter, "LibraryMRU", recentMenuItem) { }
 
         internal new Model Model

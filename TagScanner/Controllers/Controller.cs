@@ -2,7 +2,7 @@
 {
     using System.Windows.Forms;
 
-    internal abstract class Controller
+    public abstract class Controller
     {
         protected Controller(Controller parent) => Parent = parent;
 

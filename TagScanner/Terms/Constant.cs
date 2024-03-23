@@ -17,8 +17,7 @@
         {
             if (Value == null) return "(?)";
             if (ResultType == typeof(bool)) return (bool)Value ? "true" : "false";
-            if (ResultType == typeof(char)) return $"'{Value}'";
-            if (ResultType == typeof(string)) return $"\"{Value}\"";
+            if (ResultType == typeof(char) || ResultType == typeof(string)) return $"'{Value}'";
             switch (Value)
             {
                 case DateTime _:

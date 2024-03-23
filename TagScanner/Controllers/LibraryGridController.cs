@@ -13,11 +13,11 @@
     using ValueConverters;
     using Views;
 
-    internal class LibraryGridController : GridController
+    public class LibraryGridController : GridController
     {
         #region Constructor
 
-        internal LibraryGridController(LibraryFormController parent, Model model, ElementHost view) : base(parent)
+        public LibraryGridController(LibraryFormController parent, Model model, ElementHost view) : base(parent)
         {
             Model = model;
             View = view;

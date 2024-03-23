@@ -8,7 +8,7 @@
     using Models;
     using TagScanner.Terms;
 
-    internal class TagsListController : TagsViewController, IComparer
+    public class TagsListController : TagsViewController, IComparer
     {
         #region Public Interface IComparer
 

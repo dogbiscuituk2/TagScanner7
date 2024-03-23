@@ -11,11 +11,11 @@
     using Terms;
     using Utils;
 
-    internal class TermTreeController : Controller
+    public class TermTreeController : Controller
     {
         #region Constructor
 
-        internal TermTreeController(Controller parent, TreeView treeView) : base(parent)
+        public TermTreeController(Controller parent, TreeView treeView) : base(parent)
         {
             TreeView = treeView;
             Inks = 0;

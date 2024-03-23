@@ -9,10 +9,10 @@
     using WMPLib;
     using Models;
     using Views;
-    
-    internal class PlayerController : GridController
+
+    public class PlayerController : GridController
     {
-        internal PlayerController(LibraryFormController libraryFormController, ToolStripDropDownItem recentMenu) : base(libraryFormController)
+        public PlayerController(LibraryFormController libraryFormController, ToolStripDropDownItem recentMenu) : base(libraryFormController)
         {
             View.GridPopupPlayAddToQueue.Click += PlaylistAddToQueue_Click;
             View.GridPopupPlayNewPlaylist.Click += PlaylistCreateNew_Click;

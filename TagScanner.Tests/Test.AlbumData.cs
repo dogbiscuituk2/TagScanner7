@@ -2,6 +2,7 @@
 {
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using System;
+    using Controllers.Mru;
     using Models;
     using Terms;
 
@@ -128,6 +129,9 @@
             new Mock(LZ, 1973, HH, 7, "7:00", "No Quarter") { VideoHeight = 480 },
             new Mock(LZ, 1973, HH, 8, "4:31", "The Ocean") { VideoWidth = 640 },
         };
+
+        public static Filter Filter = new Filter();
+        public static MruFilterController FilterController = new MruFilterController(Filter, null);
 
         public void TestTerm(Term term)
         {

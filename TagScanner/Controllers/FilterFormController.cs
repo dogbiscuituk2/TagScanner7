@@ -8,11 +8,11 @@
     using Utils;
     using Views;
 
-    internal class FilterFormController : Controller
+    public class FilterFormController : Controller
     {
         #region Constructor
 
-        internal FilterFormController(Controller parent) : base(parent)
+        public FilterFormController(Controller parent) : base(parent)
         {
             TermTreeController = new TermTreeController(this, TreeView);
             TermTreeController.Inks = Inks._16inks;

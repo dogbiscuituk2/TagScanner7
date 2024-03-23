@@ -1,4 +1,4 @@
-﻿namespace TagScanner.Controllers.MRU
+﻿namespace TagScanner.Controllers.Mru
 {
     using System.Threading.Tasks;
     using System.Windows.Forms;
@@ -11,9 +11,9 @@
     using Views;
     using System.Reflection;
 
-    internal class MruRoslynController : MruController
+    public class MruRoslynController : MruController
     {
-        internal MruRoslynController(LibraryFormController libraryFormController) : base("Filters", libraryFormController.View.FilterPopupMenu)
+        public MruRoslynController(LibraryFormController libraryFormController) : base("Filters", libraryFormController.View.FilterPopupMenu)
         {
             LibraryFormController = libraryFormController;
             ApplyButton.Click += ApplyButton_Click;

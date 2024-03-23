@@ -1,4 +1,4 @@
-﻿namespace TagScanner.Controllers.MRU
+﻿namespace TagScanner.Controllers.Mru
 {
     using System;
     using System.ComponentModel;
@@ -11,7 +11,7 @@
     using Properties;
     using TagScanner.Utils;
 
-    internal abstract class MruSdiController : MruController
+    public abstract class MruSdiController : MruController
     {
         protected MruSdiController(IModel model, string filter, string subKeyName, ToolStripMenuItem recentMenuItem)
             : base(subKeyName, recentMenuItem)

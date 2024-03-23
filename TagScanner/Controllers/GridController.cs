@@ -10,7 +10,7 @@ namespace TagScanner.Controllers
     using Terms;
     using ValueConverters;
 
-    internal abstract class GridController: Controller
+    public abstract class GridController: Controller
     {
         protected GridController(Controller parent) : base(parent) { }
 

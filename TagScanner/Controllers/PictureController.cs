@@ -9,11 +9,11 @@
     using Logging;
     using Models;
 
-    internal class PictureController
+    public class PictureController
     {
         #region Lifetime Management
 
-        internal PictureController(PictureBox pictureBox, PropertyGrid propertyGrid, System.Windows.Controls.DataGrid playlistGrid)
+        public PictureController(PictureBox pictureBox, PropertyGrid propertyGrid, System.Windows.Controls.DataGrid playlistGrid)
         {
             PictureBox = pictureBox;
             PropertyGrid = propertyGrid;

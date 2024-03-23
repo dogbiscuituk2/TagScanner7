@@ -8,16 +8,16 @@
     using System.Text;
     using System.Windows.Forms;
     using Models;
-    using MRU;
+    using Mru;
     using Properties;
     using TagScanner.Terms;
     using Views;
 
-    internal class LibraryFormController : Controller
+    public class LibraryFormController : Controller
     {
         #region Lifetime Management
 
-        internal LibraryFormController(Controller parent) : base(parent)
+        public LibraryFormController(Controller parent) : base(parent)
         {
             View = new LibraryForm();
             Model = new Model();

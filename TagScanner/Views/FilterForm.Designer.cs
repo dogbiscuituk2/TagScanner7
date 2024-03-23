@@ -50,15 +50,15 @@
             this.EditCopy = new System.Windows.Forms.ToolStripMenuItem();
             this.EditPaste = new System.Windows.Forms.ToolStripMenuItem();
             this.EditDelete = new System.Windows.Forms.ToolStripMenuItem();
+            this.ViewMenu = new System.Windows.Forms.ToolStripMenuItem();
+            this.ViewExpandAll = new System.Windows.Forms.ToolStripMenuItem();
+            this.ViewCollapseAll = new System.Windows.Forms.ToolStripMenuItem();
             this.TermMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.panel1 = new System.Windows.Forms.Panel();
             this.btnApply = new System.Windows.Forms.Button();
             this.btnCancel = new System.Windows.Forms.Button();
             this.btnOK = new System.Windows.Forms.Button();
             this.imageList1 = new System.Windows.Forms.ImageList(this.components);
-            this.ViewMenu = new System.Windows.Forms.ToolStripMenuItem();
-            this.ViewExpandAll = new System.Windows.Forms.ToolStripMenuItem();
-            this.ViewCollapseAll = new System.Windows.Forms.ToolStripMenuItem();
             this.MainMenu.SuspendLayout();
             this.panel1.SuspendLayout();
             this.SuspendLayout();
@@ -68,7 +68,7 @@
             this.TreeView.ContextMenuStrip = this.PopupMenu;
             this.TreeView.Dock = System.Windows.Forms.DockStyle.Fill;
             this.TreeView.DrawMode = System.Windows.Forms.TreeViewDrawMode.OwnerDrawText;
-            this.TreeView.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.TreeView.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.TreeView.HideSelection = false;
             this.TreeView.Location = new System.Drawing.Point(0, 24);
             this.TreeView.Margin = new System.Windows.Forms.Padding(4);
@@ -180,43 +180,64 @@
             // EditUndo
             // 
             this.EditUndo.Name = "EditUndo";
-            this.EditUndo.Size = new System.Drawing.Size(180, 22);
+            this.EditUndo.Size = new System.Drawing.Size(107, 22);
             this.EditUndo.Text = "&Undo";
             // 
             // EditRedo
             // 
             this.EditRedo.Name = "EditRedo";
-            this.EditRedo.Size = new System.Drawing.Size(180, 22);
+            this.EditRedo.Size = new System.Drawing.Size(107, 22);
             this.EditRedo.Text = "&Redo";
             // 
             // toolStripMenuItem1
             // 
             this.toolStripMenuItem1.Name = "toolStripMenuItem1";
-            this.toolStripMenuItem1.Size = new System.Drawing.Size(177, 6);
+            this.toolStripMenuItem1.Size = new System.Drawing.Size(104, 6);
             // 
             // EditCut
             // 
             this.EditCut.Name = "EditCut";
-            this.EditCut.Size = new System.Drawing.Size(180, 22);
+            this.EditCut.Size = new System.Drawing.Size(107, 22);
             this.EditCut.Text = "Cu&t";
             // 
             // EditCopy
             // 
             this.EditCopy.Name = "EditCopy";
-            this.EditCopy.Size = new System.Drawing.Size(180, 22);
+            this.EditCopy.Size = new System.Drawing.Size(107, 22);
             this.EditCopy.Text = "&Copy";
             // 
             // EditPaste
             // 
             this.EditPaste.Name = "EditPaste";
-            this.EditPaste.Size = new System.Drawing.Size(180, 22);
+            this.EditPaste.Size = new System.Drawing.Size(107, 22);
             this.EditPaste.Text = "&Paste";
             // 
             // EditDelete
             // 
             this.EditDelete.Name = "EditDelete";
-            this.EditDelete.Size = new System.Drawing.Size(180, 22);
+            this.EditDelete.Size = new System.Drawing.Size(107, 22);
             this.EditDelete.Text = "&Delete";
+            // 
+            // ViewMenu
+            // 
+            this.ViewMenu.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.ViewExpandAll,
+            this.ViewCollapseAll});
+            this.ViewMenu.Name = "ViewMenu";
+            this.ViewMenu.Size = new System.Drawing.Size(44, 20);
+            this.ViewMenu.Text = "&View";
+            // 
+            // ViewExpandAll
+            // 
+            this.ViewExpandAll.Name = "ViewExpandAll";
+            this.ViewExpandAll.Size = new System.Drawing.Size(136, 22);
+            this.ViewExpandAll.Text = "&Expand All";
+            // 
+            // ViewCollapseAll
+            // 
+            this.ViewCollapseAll.Name = "ViewCollapseAll";
+            this.ViewCollapseAll.Size = new System.Drawing.Size(136, 22);
+            this.ViewCollapseAll.Text = "&Collapse All";
             // 
             // TermMenu
             // 
@@ -276,27 +297,6 @@
             this.imageList1.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("imageList1.ImageStream")));
             this.imageList1.TransparentColor = System.Drawing.Color.Transparent;
             this.imageList1.Images.SetKeyName(0, "Operators.bmp");
-            // 
-            // ViewMenu
-            // 
-            this.ViewMenu.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.ViewExpandAll,
-            this.ViewCollapseAll});
-            this.ViewMenu.Name = "ViewMenu";
-            this.ViewMenu.Size = new System.Drawing.Size(44, 20);
-            this.ViewMenu.Text = "&View";
-            // 
-            // ViewExpandAll
-            // 
-            this.ViewExpandAll.Name = "ViewExpandAll";
-            this.ViewExpandAll.Size = new System.Drawing.Size(180, 22);
-            this.ViewExpandAll.Text = "&Expand All";
-            // 
-            // ViewCollapseAll
-            // 
-            this.ViewCollapseAll.Name = "ViewCollapseAll";
-            this.ViewCollapseAll.Size = new System.Drawing.Size(180, 22);
-            this.ViewCollapseAll.Text = "&Collapse All";
             // 
             // FilterForm
             // 

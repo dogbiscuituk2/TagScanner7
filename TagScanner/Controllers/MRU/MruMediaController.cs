@@ -1,4 +1,4 @@
-﻿namespace TagScanner.Controllers.MRU
+﻿namespace TagScanner.Controllers.Mru
 {
     using System;
     using System.IO;
@@ -7,9 +7,9 @@
     using Models;
     using Properties;
 
-    internal class MruMediaController : MruController
+    public class MruMediaController : MruController
     {
-        internal MruMediaController(LibraryFormController libraryFormController, ToolStripMenuItem recentMenuItem)
+        public MruMediaController(LibraryFormController libraryFormController, ToolStripMenuItem recentMenuItem)
             : base("MediaMRU", recentMenuItem)
         {
             _model = libraryFormController.Model;
