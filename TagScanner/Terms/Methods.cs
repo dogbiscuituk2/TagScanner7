@@ -1,11 +1,13 @@
-﻿namespace TagScanner.Terms
+﻿using System.Text;
+using TagScanner.Utils;
+
+namespace TagScanner.Terms
 {
     using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Reflection;
     using System.Text.RegularExpressions;
-    using System.Windows.Forms;
 
     public static class Methods
     {
@@ -62,6 +64,13 @@
 
         public static MethodInfo MethodInfo(this string key) => MethodDictionary[key];
 
+        public static string GetPrototype(this string key)
+        {
+            var method = key.MethodInfo();
+            var fullName = method.IsStatic ? key : $"({method.DeclaringType.Say()}).{key}";
+            return $"{method.ReturnType.Say()} {fullName}({method.SayParamTypes()})";
+        }
+
         #endregion
 
         #region Private Fields
@@ -77,14 +86,13 @@
             .GetMethods(BindingFlags.Public | (isStatic ? BindingFlags.Static : BindingFlags.Instance))
             .Single(p => p.Name == name && p.GetParamTypes().SequenceEqual(paramTypes));
 
-        private static string GetParams(this MethodInfo method)
-        {
-            var names = method.GetParamTypeNames();
-            return names.Any() ? names.Aggregate((p, q) => $"{p}, {q}") : string.Empty;
-        }
-
-        private static IEnumerable<string> GetParamTypeNames(this MethodInfo method) => method.GetParamTypes().Select(t => t.Name);
         private static IEnumerable<Type> GetParamTypes(this MethodInfo method) => method.GetParameters().Select(p => p.ParameterType);
+
+        private static string SayParamTypes(this MethodInfo method)
+        {
+            var types = method.GetParamTypes();
+            return types.Any() ? types.Select(p => p.Say()).Aggregate((p, q) => $"{p}, {q}") : string.Empty;
+        }
 
         #endregion
     }
