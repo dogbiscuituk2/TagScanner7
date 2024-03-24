@@ -130,31 +130,10 @@
             new Mock(LZ, 1973, HH, 8, "4:31", "The Ocean") { VideoWidth = 640 },
         };
 
-        public void RoundTrip(Term term)
-        {
-            RoundTrip(term, StreamFormat.Binary);
-            //RoundTrip(term, StreamFormat.Xml, typeof(Term));
-        }
-
-        public void RoundTrip(Term term, StreamFormat format, params Type[] types)
-        {
-            var text = term.ToString();
-            var streamer = new Streamer(format, types);
-            using (var stream = new MemoryStream())
-            {
-                streamer.Save(stream, term);
-                term = null;
-                Assert.AreNotEqual(notExpected: text, actual: term?.ToString());
-                stream.Seek(0, SeekOrigin.Begin);
-                term = (Term)streamer.Load(stream);
-            }
-            Assert.AreEqual(expected: text, actual: term?.ToString());
-        }
-
         public void TestTerm(Term term)
         {
             System.Diagnostics.Debug.WriteLine(term);
-            RoundTrip(term);
+            RoundTripAll(term);
             if (!(term is Umptad umptad)) return;
             for (var index = 0; index < umptad.Operands.Count; index++)
             {
@@ -165,6 +144,27 @@
                 var actual = umptad.ToString().Substring(start, length);
                 Assert.AreEqual(expected, actual);
                 TestTerm(subTerm);
+            }
+
+            void RoundTripAll(Term t)
+            {
+                RoundTrip(t, StreamFormat.Binary);
+                //RoundTrip(term, StreamFormat.Xml, typeof(Term));
+            }
+
+            void RoundTrip(Term t, StreamFormat format, params Type[] types)
+            {
+                var text = t.ToString();
+                var streamer = new Streamer(format, types);
+                using (var stream = new MemoryStream())
+                {
+                    streamer.Save(stream, t);
+                    t = null;
+                    Assert.AreNotEqual(notExpected: text, actual: t?.ToString());
+                    stream.Seek(0, SeekOrigin.Begin);
+                    t = (Term)streamer.Load(stream);
+                }
+                Assert.AreEqual(expected: text, actual: t?.ToString());
             }
         }
     }

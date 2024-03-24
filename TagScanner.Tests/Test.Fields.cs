@@ -20,7 +20,7 @@
                 Assert.AreEqual(expected: Rank.Unary, actual: field.Rank);
                 Assert.AreEqual(expected: tag.Type(), actual: field.ResultType);
                 Assert.AreEqual(expected: $"{Term.Work.Name}.{tag.Name()}", actual: field.Expression.ToString());
-                RoundTrip(field);
+                TestTerm(field);
             }
         }
 
@@ -38,7 +38,7 @@
             var works = Works.Where(p => term.Predicate(p));
             Assert.AreEqual(expected: 1, actual: works.Count());
             Assert.AreEqual(expected: expectedValue, actual: works.First().GetPropertyValue(tag).ToString());
-            RoundTrip(term);
+            TestTerm(term);
         }
 
         [TestMethod]
@@ -48,7 +48,7 @@
             var works = Works.Where(p => term.Predicate(p));
             Assert.AreEqual(expected: 1, actual: works.Count());
             Assert.AreEqual(expected: "2/3 - 08/12", actual: works.First().DiscTrack);
-            RoundTrip(term);
+            TestTerm(term);
         }
 
         [TestMethod]
@@ -63,7 +63,7 @@
             var works = Works.Where(p => term.Predicate(p));
             Assert.AreEqual(expected: 1, actual: works.Count());
             Assert.AreEqual(expected: expectedValue, actual: works.First().GetPropertyValue(tag));
-            RoundTrip(term);
+            TestTerm(term);
         }
 
         [TestMethod]
@@ -87,7 +87,7 @@
             var works = Works.Where(p => term.Predicate(p));
             Assert.AreEqual(expected: 1, actual: works.Count());
             Assert.AreEqual(expected: expectedValue, actual: works.First().GetPropertyValue(tag));
-            RoundTrip(term);
+            TestTerm(term);
         }
 
         [TestMethod]
@@ -100,13 +100,14 @@
             var works = Works.Where(p => term.Predicate(p));
             Assert.AreEqual(expected: 1, actual: works.Count());
             Assert.AreEqual(expected: expectedValue, actual: works.First().GetPropertyValue(tag));
-            RoundTrip(term);
+            TestTerm(term);
         }
 
         [TestMethod]
         public void TestFields_Pictures()
         {
-            var works = Works.Where(p => p.Pictures != null);
+            var term = new Operation(Tag.Pictures, "!=", Constant.Nothing);
+            var works = Works.Where(p => term.Predicate(p));
             Assert.AreEqual(expected: 1, actual: works.Count());
             var pictures = works.First().Pictures;
             Assert.AreEqual(expected: 1, actual: pictures.Length);
@@ -114,6 +115,7 @@
             Assert.AreEqual(expected: @"C:\Pictures\Picture.png", actual: picture.FilePath);
             Assert.AreEqual(expected: 0, actual: picture.Index);
             Assert.AreEqual(expected: "Other", actual: picture.Type);
+            TestTerm(term);
         }
 
         [TestMethod]
@@ -167,7 +169,7 @@
             var works = Works.Where(p => term.Predicate(p));
             Assert.AreEqual(expected: 1, actual: works.Count());
             Assert.AreEqual(expected: expectedValue, actual: works.First().GetPropertyValue(tag));
-            RoundTrip(term);
+            TestTerm(term);
         }
 
         [TestMethod]
@@ -198,7 +200,7 @@
             var works = Works.Where(p => term.Predicate(p));
             Assert.AreEqual(expected: 1, actual: works.Count());
             Assert.AreEqual(expected: expectedValue, actual: works.First().GetPropertyValue(tag));
-            RoundTrip(term);
+            TestTerm(term);
         }
     }
 }
