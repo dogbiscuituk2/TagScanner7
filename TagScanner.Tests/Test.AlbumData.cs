@@ -5,6 +5,7 @@
     using Models;
     using Terms;
     using System.IO;
+    using System.Linq;
 
     [TestClass]
     public partial class Test
@@ -148,23 +149,25 @@
 
             void RoundTripAll(Term t)
             {
-                //RoundTrip(t, StreamFormat.Binary);
-                RoundTrip(term, StreamFormat.Xml, typeof(Term), typeof(Parameter), typeof(Cast));
+                RoundTrip(t, StreamFormats.Binary);
+                RoundTrip(term, StreamFormats.Xml);
             }
 
-            void RoundTrip(Term t, StreamFormat format, params Type[] types)
+            void RoundTrip(Term t, StreamFormats format)
             {
-                var text = t.ToString();
-                var streamer = new Streamer(format, types);
+                string before = t.ToString(), after;
+                //var streamer = new Streamer(format, types)
                 using (var stream = new MemoryStream())
                 {
-                    streamer.Save(stream, t);
+                    Streamer.Save(stream, format, t);
                     t = null;
-                    Assert.AreNotEqual(notExpected: text, actual: t?.ToString());
+                    after = t?.ToString();
+                    Assert.AreNotEqual(notExpected: before, actual: after);
                     stream.Seek(0, SeekOrigin.Begin);
-                    t = (Term)streamer.Load(stream);
+                    t = (Term)Streamer.Load(stream, format);
                 }
-                Assert.AreEqual(expected: text, actual: t?.ToString());
+                after = t?.ToString();
+                Assert.AreEqual(expected: before, actual: after);
             }
         }
     }

@@ -2,6 +2,7 @@
 {
     using System;
     using System.Linq.Expressions;
+    using System.Xml.Serialization;
 
     [Serializable]
     public class Constant : Term
@@ -11,7 +12,10 @@
 
         public object Value { get; set; }
 
+        [XmlIgnore]
         public override Expression Expression => Expression.Constant(Value);
+
+        [XmlIgnore]
         public override Type ResultType => Value?.GetType();
 
         public override string ToString()
@@ -30,6 +34,7 @@
             }
         }
 
+        [XmlIgnore]
         public static readonly Constant
             Empty = new Constant(string.Empty),
             False = new Constant(false),

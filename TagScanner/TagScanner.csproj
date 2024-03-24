@@ -128,7 +128,7 @@
     <Compile Include="Models\Filter.cs" />
     <Compile Include="Terms\Cast.cs" />
     <Compile Include="Terms\Streamer.cs" />
-    <Compile Include="Terms\StreamFormat.cs" />
+    <Compile Include="Terms\StreamFormats.cs" />
     <Compile Include="Utils\Ink.cs" />
     <Compile Include="Utils\Inks.cs" />
     <Compile Include="Controllers\Controller.cs" />

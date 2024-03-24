@@ -6,6 +6,7 @@
     using System.Linq;
     using System.Linq.Expressions;
     using System.Text.RegularExpressions;
+    using System.Xml.Serialization;
 
     /// <summary>
     /// By analogy with monadic, dyadic, triadic, tetradic etc. operators, which accept respectively
@@ -19,6 +20,7 @@
         #region Constructors
 
         public Umptad() : base() { }
+
         protected Umptad(params Term[] operands) : base() => AddOperands(operands);
         protected Umptad(Term firstOperand, params Term[] moreOperands) : this(new[] { firstOperand }) => AddOperands(moreOperands);
 
@@ -26,8 +28,17 @@
 
         #region Public Properties
 
+        [XmlIgnore]
         public abstract int Arity { get; }
-        public List<Term> Operands { get; } = new List<Term>();
+
+        private List<Term> _operands = new List<Term>();
+        public List<Term> Operands
+        {
+            get => _operands;
+            set => _operands = value;
+        }
+
+        [XmlIgnore]
         public IEnumerable<Type> ParameterTypes => GetParameterTypes();
 
         #endregion
@@ -138,7 +149,8 @@
 
         #region Private Fields
 
-        [NonSerialized] private List<CharacterRange> _characterRangesAll = new List<CharacterRange>();
+        [NonSerialized]
+        private List<CharacterRange> _characterRangesAll = new List<CharacterRange>();
 
         #endregion
 

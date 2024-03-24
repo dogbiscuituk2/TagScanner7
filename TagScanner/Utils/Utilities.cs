@@ -91,6 +91,7 @@
 
         public static string Say(this Type type)
         {
+            if (type == null) return "null";
             if (type.IsArray)
                 return $"{type.GetElementType().Say()}[]";
             if (type == typeof(bool)) return "bool";

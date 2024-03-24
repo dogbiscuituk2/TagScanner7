@@ -4,6 +4,7 @@
     using System.Collections.Generic;
     using System.Linq;
     using System.Linq.Expressions;
+    using System.Xml.Serialization;
 
     [Serializable]
     public class Operation : Umptad
@@ -25,10 +26,18 @@
 
         #region Public Properties
 
+        [XmlIgnore]
         public override int Arity => Op.Arity();
+
+        [XmlIgnore]
         public override Expression Expression => GetExpression();
-        public Op Op { get; private set; }
+
+        public Op Op { get; set; }
+
+        [XmlIgnore]
         public override Rank Rank => Op.Rank();
+
+        [XmlIgnore]
         public override Type ResultType => Op.ResultType() ?? GetCommonResultType(Operands.ToArray());
 
         #endregion
@@ -285,19 +294,89 @@
 
     #region Derived Classes
 
-    [Serializable] public class Negation : Operation { public Negation(Term term) : base(Op.Not, term) { } }
-    [Serializable] public class Negative : Operation { public Negative(Term term) : base(Op.Negative, term) { } }
-    [Serializable] public class Positive : Operation { public Positive(Term term) : base(Op.Positive, term) { } }
+    [Serializable]
+    public class Negation : Operation
+    {
+        public Negation() : base() { }
+        public Negation(Term term) : base(Op.Not, term) { }
+    }
 
-    [Serializable] public class Concatenation : Operation { public Concatenation(params Term[] operands) : base(Op.Add, operands) { } }
-    [Serializable] public class Conditional : Operation { public Conditional(params Term[] operands) : base(Op.Conditional, operands) { } }
-    [Serializable] public class Conjunction : Operation { public Conjunction(params Term[] operands) : base(Op.And, operands) { } }
-    [Serializable] public class Disjunction : Operation { public Disjunction(params Term[] operands) : base(Op.Or, operands) { } }
-    [Serializable] public class Difference : Operation { public Difference(params Term[] operands) : base(Op.Subtract, operands) { } }
-    [Serializable] public class ParityOdd : Operation { public ParityOdd(params Term[] operands) : base(Op.Xor, operands) { } }
-    [Serializable] public class Product : Operation { public Product(params Term[] operands) : base(Op.Multiply, operands) { } }
-    [Serializable] public class Quotient : Operation { public Quotient(params Term[] operands) : base(Op.Divide, operands) { } }
-    [Serializable] public class Sum : Operation { public Sum(params Term[] operands) : base(Op.Add, operands) { } }
+    [Serializable]
+    public class Negative : Operation
+    {
+        public Negative() : base() { }
+        public Negative(Term term) : base(Op.Negative, term) { }
+    }
+
+    [Serializable]
+    public class Positive : Operation
+    {
+        public Positive() : base() { }
+        public Positive(Term term) : base(Op.Positive, term) { }
+    }
+
+    [Serializable]
+    public class Concatenation : Operation
+    {
+        public Concatenation() : base() { }
+        public Concatenation(params Term[] operands) : base(Op.Add, operands) { }
+    }
+
+    [Serializable]
+    public class Conditional : Operation
+    {
+        public Conditional() : base() { }
+        public Conditional(params Term[] operands) : base(Op.Conditional, operands) { }
+    }
+
+    [Serializable]
+    public class Conjunction : Operation
+    {
+        public Conjunction() : base() { }
+        public Conjunction(params Term[] operands) : base(Op.And, operands) { }
+    }
+
+    [Serializable]
+    public class Disjunction : Operation 
+    {
+        public Disjunction() : base() { }
+        public Disjunction(params Term[] operands) : base(Op.Or, operands) { }
+    }
+
+    [Serializable]
+    public class Difference : Operation
+    {
+        public Difference() : base() { }
+        public Difference(params Term[] operands) : base(Op.Subtract, operands) { }
+    }
+
+    [Serializable]
+    public class ParityOdd : Operation
+    {
+        public ParityOdd() : base() { }
+        public ParityOdd(params Term[] operands) : base(Op.Xor, operands) { }
+    }
+
+    [Serializable]
+    public class Product : Operation
+    {
+        public Product() : base() { }
+        public Product(params Term[] operands) : base(Op.Multiply, operands) { }
+    }
+
+    [Serializable]
+    public class Quotient : Operation
+    {
+        public Quotient() : base() { }
+        public Quotient(params Term[] operands) : base(Op.Divide, operands) { }
+    }
+
+    [Serializable]
+    public class Sum : Operation
+    {
+        public Sum() : base() { }
+        public Sum(params Term[] operands) : base(Op.Add, operands) { }
+    }
 
     #endregion
 }

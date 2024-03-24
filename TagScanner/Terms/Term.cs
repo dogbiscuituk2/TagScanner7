@@ -14,19 +14,33 @@
 
         #region Public Fields
 
+        [XmlIgnore]
         public static readonly ParameterExpression Work = Expression.Parameter(typeof(Work), "Work");
 
         #endregion
 
         #region Public Properties
 
-        [XmlIgnore] public List<CharacterRange> CharacterRanges => GetCharacterRanges();
-        [XmlIgnore] public List<CharacterRange> CharacterRangesAll => GetCharacterRangesAll();
-        [XmlIgnore] public abstract Expression Expression { get; }
-        [XmlIgnore] public int Length => ToString().Length;
-        [XmlIgnore] public Func<Work, bool> Predicate => Expression.Lambda<Func<Work, bool>>(Expression, Work).Compile();
-        [XmlIgnore] public virtual Rank Rank => Rank.Unary;
-        [XmlIgnore] public abstract Type ResultType { get; }
+        [XmlIgnore]
+        public List<CharacterRange> CharacterRanges => GetCharacterRanges();
+        
+        [XmlIgnore]
+        public List<CharacterRange> CharacterRangesAll => GetCharacterRangesAll();
+        
+        [XmlIgnore]
+        public abstract Expression Expression { get; }
+        
+        [XmlIgnore]
+        public int Length => ToString().Length;
+        
+        [XmlIgnore]
+        public Func<Work, bool> Predicate => Expression.Lambda<Func<Work, bool>>(Expression, Work).Compile();
+        
+        [XmlIgnore]
+        public virtual Rank Rank => Rank.Unary;
+        
+        [XmlIgnore]
+        public abstract Type ResultType { get; }
 
         #endregion
 

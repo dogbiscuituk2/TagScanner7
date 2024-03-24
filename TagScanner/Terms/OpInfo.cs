@@ -4,7 +4,6 @@
     using System.Drawing;
     using System.Linq.Expressions;
 
-    [Serializable]
     public class OpInfo
     {
         public OpInfo(string label, ExpressionType expType, Rank rank, Type resultType, string format, Image image, params Type[] paramTypes)

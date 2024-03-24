@@ -6,16 +6,10 @@
     using System.Runtime.Serialization.Formatters.Binary;
     using System.Xml;
     using System.Xml.Serialization;
-    using System.Linq;
 
-    public class Streamer
+    public static class Streamer
     {
-        public Streamer(StreamFormat format, params Type[] types) { Format = format; Types = types; }
-
-        public StreamFormat Format { get; }
-        public Type[] Types { get; }
-
-        public object Load(Stream stream)
+        public static object Load(Stream stream, StreamFormats formats)
         {
             /*
 				The asymmetrical use of XmlTextReader below is necessitated by a bug in .NET's XML Serialization routines.
@@ -33,85 +27,84 @@
 				with its Normalization property set to true, which was causing the observed failure at deserialization time.
 			*/
             object result = null;
-            switch (Format)
-            {
-                case StreamFormat.Binary:
-                    UseStream(() => result = new BinaryFormatter().Deserialize(stream));
-                    break;
-                case StreamFormat.Json:
-                    throw new NotImplementedException();
-                case StreamFormat.Xml:
-                    UseStream(() => result = GetXmlSerializer().Deserialize(new XmlTextReader(stream)));
-                    break;
-            }
-            return result;
-        }
-
-        public bool Save(Stream stream, object document)
-        {
-            switch (Format)
-            {
-                case StreamFormat.Binary:
-                    return UseStream(() => new BinaryFormatter().Serialize(stream, document));
-                case StreamFormat.Json:
-                    throw new NotImplementedException();
-                case StreamFormat.Xml:
-                    var serializer = GetXmlSerializer();
-                    serializer.UnknownAttribute += (sender, args) =>
-                    {
-                        System.Xml.XmlAttribute attr = args.Attr;
-                        Console.WriteLine($"Unknown attribute {attr.Name}=\'{attr.Value}\'");
-                    };
-                    serializer.UnknownNode += (sender, args) =>
-                    {
-                        Console.WriteLine($"Unknown Node:{args.Name}\t{args.Text}");
-                    };
-                    serializer.UnknownElement +=
-                        (sender, args) =>
-                            Console.WriteLine("Unknown Element:"
-                                + args.Element.Name + "\t" + args.Element.InnerXml);
-                    serializer.UnreferencedObject +=
-                        (sender, args) =>
-                            Console.WriteLine("Unreferenced Object:"
-                                + args.UnreferencedId + "\t" + args.UnreferencedObject.ToString());
-
-                    //return UseStream(() => GetXmlSerializer().Serialize(stream, document));
-                    return UseStream(() => serializer.Serialize(stream, document));
-                default:
-                    return false;
-            }
-        }
-
-        private XmlSerializer GetXmlSerializer()
-        {
-            switch(Types.Length)
-            {
-                case 0:
-                    return new XmlSerializer(typeof(Stream));
-                case 1:
-                    return new XmlSerializer(Types[0]);
-                default:
-                    return new XmlSerializer(Types[0], Types.Skip(1).ToArray());
-            }
-        }
-            
-        private bool UseStream(Action action)
-        {
-            var result = true;
             try
             {
-                action();
+                switch (formats)
+                {
+                    case StreamFormats.Binary:
+                        result = BinaryFormatter.Deserialize(stream);
+                        break;
+                    case StreamFormats.Json:
+                        throw new NotImplementedException();
+                    case StreamFormats.Xml:
+                        result = XmlSerializer.Deserialize(new XmlTextReader(stream));
+                        break;
+                    default:
+                        throw new NotImplementedException();
+                }
             }
-            catch (Exception x)
+            catch (Exception ex)
             {
-                MessageBox.Show(
-                    x.Message,
-                    x.GetType().Name,
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Error);
-                result = false;
+                HandleException(ex);
             }
             return result;
+        }
+
+        public static bool Save(Stream stream, StreamFormats formats, object document)
+        {
+            try
+            {
+                switch (formats)
+                {
+                    case StreamFormats.Binary:
+                        BinaryFormatter.Serialize(stream, document);
+                        return true;
+                    case StreamFormats.Json:
+                        throw new NotImplementedException();
+                    case StreamFormats.Xml:
+                        XmlSerializer.Serialize(stream, document);
+                        return true;
+                    default:
+                        throw new NotImplementedException();
+                }
+            }
+            catch (Exception ex)
+            {
+                HandleException(ex);
+                return false;
+            }
+        }
+
+        public static BinaryFormatter BinaryFormatter => _binaryFormatter ?? (_binaryFormatter = NewBinaryFormatter());
+        private static BinaryFormatter _binaryFormatter;
+        private static BinaryFormatter NewBinaryFormatter() => new BinaryFormatter();
+
+        public static XmlSerializer XmlSerializer => _xmlSerializer ?? (_xmlSerializer = NewXmlSerializer());
+        private static XmlSerializer _xmlSerializer;
+        private static XmlSerializer NewXmlSerializer() => new XmlSerializer(typeof(Term),
+            new Type[]
+            {
+                typeof(Cast),
+                typeof(Constant),
+                typeof(Field),
+                typeof(Function),
+                typeof(Negation),
+                typeof(Operation),
+                typeof(Parameter)
+            });
+
+        private static void HandleException(Exception ex)
+        {
+            string
+                message = ex.Message,
+                exType = ex.GetType().Name;
+            var innerEx = ex.InnerException;
+            if (innerEx != null)
+            {
+                message = $"{message}\r\n{innerEx.Message}";
+                exType = $"{exType} ({innerEx.GetType().Name})";
+            }
+            MessageBox.Show(message, exType, MessageBoxButtons.OK, MessageBoxIcon.Error);
         }
     }
 }

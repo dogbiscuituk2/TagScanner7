@@ -1,13 +1,11 @@
-﻿using System.Text;
-using TagScanner.Utils;
-
-namespace TagScanner.Terms
+﻿namespace TagScanner.Terms
 {
     using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Reflection;
     using System.Text.RegularExpressions;
+    using Utils;
 
     public static class Methods
     {
