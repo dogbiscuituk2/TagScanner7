@@ -18,6 +18,7 @@
     {
         #region Constructors
 
+        public Umptad() : base() { }
         protected Umptad(params Term[] operands) : base() => AddOperands(operands);
         protected Umptad(Term firstOperand, params Term[] moreOperands) : this(new[] { firstOperand }) => AddOperands(moreOperands);
 

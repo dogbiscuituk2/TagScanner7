@@ -10,6 +10,8 @@
     {
         #region Constructors
 
+        public Operation() : base() { }
+
         public Operation(Op op, params Term[] operands) : base(operands) => SetOperator(op);
         public Operation(Term first, Op op, params Term[] more) : base(first, more) => SetOperator(op);
 

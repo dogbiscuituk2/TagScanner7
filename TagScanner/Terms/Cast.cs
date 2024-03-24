@@ -4,19 +4,21 @@
     using System.Collections.Generic;
     using System.Linq;
     using System.Linq.Expressions;
+    using System.Xml.Serialization;
     using Utils;
 
     [Serializable]
     public class Cast : Umptad
     {
+        public Cast() : base() { }
         public Cast(Type newType) : base() => SetNewType(newType);
         public Cast(Type newType, Term operand) : base(operand) => SetNewType(newType);
 
         public override int Arity => 1;
-        public override Expression Expression => Expression.Convert(FirstSubExpression, NewType);
-        public Type NewType { get; set; }
+        [XmlIgnore] public override Expression Expression => Expression.Convert(FirstSubExpression, NewType);
+        [XmlIgnore] public Type NewType { get; set; }
         public override Rank Rank => Rank.Unary;
-        public override Type ResultType => NewType;
+        [XmlIgnore] public override Type ResultType => NewType;
 
         protected override IEnumerable<Type> GetParameterTypes() => new[] { typeof(object) };
         public override int Start(int index) => NewType.Say().Length + (UseParens(0) ? 3 : 2);
@@ -29,7 +31,7 @@
             AddParameters(typeof(object));
         }
 
-        public static Type[] NewTypes =
+        [XmlIgnore] public static Type[] NewTypes =
         {
             typeof(bool),
             typeof(byte),

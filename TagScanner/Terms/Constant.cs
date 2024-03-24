@@ -6,6 +6,7 @@
     [Serializable]
     public class Constant : Term
     {
+        public Constant() : base() { }
         public Constant(object value = null) { Value = value; }
 
         public object Value { get; set; }

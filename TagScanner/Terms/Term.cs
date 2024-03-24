@@ -4,11 +4,14 @@
     using System.Collections.Generic;
     using System.Drawing;
     using System.Linq.Expressions;
+    using System.Xml.Serialization;
     using Models;
 
     [Serializable]
     public abstract class Term
     {
+        public Term() { }
+
         #region Public Fields
 
         public static readonly ParameterExpression Work = Expression.Parameter(typeof(Work), "Work");
@@ -17,13 +20,13 @@
 
         #region Public Properties
 
-        public List<CharacterRange> CharacterRanges => GetCharacterRanges();
-        public List<CharacterRange> CharacterRangesAll => GetCharacterRangesAll();
-        public abstract Expression Expression { get; }
-        public int Length => ToString().Length;
-        public Func<Work, bool> Predicate => Expression.Lambda<Func<Work, bool>>(Expression, Work).Compile();
-        public virtual Rank Rank => Rank.Unary;
-        public abstract Type ResultType { get; }
+        [XmlIgnore] public List<CharacterRange> CharacterRanges => GetCharacterRanges();
+        [XmlIgnore] public List<CharacterRange> CharacterRangesAll => GetCharacterRangesAll();
+        [XmlIgnore] public abstract Expression Expression { get; }
+        [XmlIgnore] public int Length => ToString().Length;
+        [XmlIgnore] public Func<Work, bool> Predicate => Expression.Lambda<Func<Work, bool>>(Expression, Work).Compile();
+        [XmlIgnore] public virtual Rank Rank => Rank.Unary;
+        [XmlIgnore] public abstract Type ResultType { get; }
 
         #endregion
 

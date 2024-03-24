@@ -7,6 +7,7 @@
     [Serializable]
     public class Parameter : Term
     {
+        public Parameter() : base() { }
         public Parameter(Type type) { _resultType = type; }
 
         public override Expression Expression => Expression.Default(ResultType);

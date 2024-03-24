@@ -1,6 +1,4 @@
-﻿using System.Windows.Media;
-
-namespace TagScanner.Terms
+﻿namespace TagScanner.Terms
 {
     using System;
     using System.Collections.Generic;

@@ -7,6 +7,7 @@
     [Serializable]
     public class Field : Term
     {
+        public Field() : base() { }
         public Field(Tag tag) { Tag = tag; }
 
         public Tag Tag { get; set; }
