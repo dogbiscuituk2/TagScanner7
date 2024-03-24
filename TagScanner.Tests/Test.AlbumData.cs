@@ -149,7 +149,7 @@
             void RoundTripAll(Term t)
             {
                 //RoundTrip(t, StreamFormat.Binary);
-                RoundTrip(term, StreamFormat.Xml, typeof(Term));
+                RoundTrip(term, StreamFormat.Xml, typeof(Term), typeof(Parameter), typeof(Cast));
             }
 
             void RoundTrip(Term t, StreamFormat format, params Type[] types)

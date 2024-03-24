@@ -16,7 +16,14 @@
 
         public override int Arity => 1;
         [XmlIgnore] public override Expression Expression => Expression.Convert(FirstSubExpression, NewType);
-        [XmlIgnore] public Type NewType { get; set; }
+
+        [XmlIgnore] public Type NewType
+        {
+            get => Type.GetType(NewTypeName);
+            set => NewTypeName = value?.FullName;
+        }
+
+        public string NewTypeName { get; set; }
         public override Rank Rank => Rank.Unary;
         [XmlIgnore] public override Type ResultType => NewType;
 

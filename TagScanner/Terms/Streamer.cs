@@ -56,7 +56,27 @@
                 case StreamFormat.Json:
                     throw new NotImplementedException();
                 case StreamFormat.Xml:
-                    return UseStream(() => GetXmlSerializer().Serialize(stream, document));
+                    var serializer = GetXmlSerializer();
+                    serializer.UnknownAttribute += (sender, args) =>
+                    {
+                        System.Xml.XmlAttribute attr = args.Attr;
+                        Console.WriteLine($"Unknown attribute {attr.Name}=\'{attr.Value}\'");
+                    };
+                    serializer.UnknownNode += (sender, args) =>
+                    {
+                        Console.WriteLine($"Unknown Node:{args.Name}\t{args.Text}");
+                    };
+                    serializer.UnknownElement +=
+                        (sender, args) =>
+                            Console.WriteLine("Unknown Element:"
+                                + args.Element.Name + "\t" + args.Element.InnerXml);
+                    serializer.UnreferencedObject +=
+                        (sender, args) =>
+                            Console.WriteLine("Unreferenced Object:"
+                                + args.UnreferencedId + "\t" + args.UnreferencedObject.ToString());
+
+                    //return UseStream(() => GetXmlSerializer().Serialize(stream, document));
+                    return UseStream(() => serializer.Serialize(stream, document));
                 default:
                     return false;
             }
