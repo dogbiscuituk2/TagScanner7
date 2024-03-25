@@ -4,7 +4,6 @@
     using System.Collections.Generic;
     using System.Linq;
     using System.Linq.Expressions;
-    using System.Xml.Serialization;
     using Utils;
 
     [Serializable]
@@ -14,25 +13,10 @@
         public Cast(Type newType) : base() => SetNewType(newType);
         public Cast(Type newType, Term operand) : base(operand) => SetNewType(newType);
 
-        [XmlIgnore]
         public override int Arity => 1;
-
-        [XmlIgnore]
         public override Expression Expression => Expression.Convert(FirstSubExpression, NewType);
-
-        [XmlIgnore]
-        public Type NewType
-        {
-            get => Type.GetType(NewTypeName);
-            set => NewTypeName = value?.FullName;
-        }
-
-        public string NewTypeName { get; set; }
-
-        [XmlIgnore]
+        public Type NewType { get; set; }
         public override Rank Rank => Rank.Unary;
-
-        [XmlIgnore]
         public override Type ResultType => NewType;
 
         protected override IEnumerable<Type> GetParameterTypes() => new[] { typeof(object) };
@@ -46,7 +30,7 @@
             AddParameters(typeof(object));
         }
 
-        [XmlIgnore]
+        [NonSerialized]
         public static Type[] NewTypes =
         {
             typeof(bool),
@@ -58,7 +42,6 @@
             typeof(float),
             typeof(int),
             typeof(long),
-            // typeof(object), // Never need to cast down to System.Object.
             typeof(sbyte),
             typeof(short),
             typeof(string),

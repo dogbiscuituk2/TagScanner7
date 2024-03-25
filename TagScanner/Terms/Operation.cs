@@ -4,7 +4,6 @@
     using System.Collections.Generic;
     using System.Linq;
     using System.Linq.Expressions;
-    using System.Xml.Serialization;
 
     [Serializable]
     public class Operation : Umptad
@@ -26,18 +25,10 @@
 
         #region Public Properties
 
-        [XmlIgnore]
         public override int Arity => Op.Arity();
-
-        [XmlIgnore]
         public override Expression Expression => GetExpression();
-
         public Op Op { get; set; }
-
-        [XmlIgnore]
         public override Rank Rank => Op.Rank();
-
-        [XmlIgnore]
         public override Type ResultType => Op.ResultType() ?? GetCommonResultType(Operands.ToArray());
 
         #endregion

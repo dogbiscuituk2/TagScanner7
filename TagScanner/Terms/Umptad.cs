@@ -6,7 +6,6 @@
     using System.Linq;
     using System.Linq.Expressions;
     using System.Text.RegularExpressions;
-    using System.Xml.Serialization;
 
     /// <summary>
     /// By analogy with monadic, dyadic, triadic, tetradic etc. operators, which accept respectively
@@ -28,26 +27,16 @@
 
         #region Public Properties
 
-        [XmlIgnore]
         public abstract int Arity { get; }
 
         private List<Term> _operands = new List<Term>();
 
-        /*[XmlElement(typeof(Cast))]
-        [XmlElement(typeof(Constant))]
-        [XmlElement(typeof(Field))]
-        [XmlElement(typeof(Function))]
-        [XmlElement(typeof(Operation))]
-        [XmlElement(typeof(Parameter))]
-        [XmlElement(typeof(Term))]
-        [XmlElement(typeof(Umptad))]*/
         public List<Term> Operands
         {
             get => _operands;
             set => _operands = value;
         }
 
-        [XmlIgnore]
         public IEnumerable<Type> ParameterTypes => GetParameterTypes();
 
         #endregion

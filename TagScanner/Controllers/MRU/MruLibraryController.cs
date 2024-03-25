@@ -2,7 +2,6 @@
 {
     using System.IO;
     using System.Windows.Forms;
-    using System.Xml.Serialization;
     using Models;
 
     public class MruLibraryController : MruSdiController
@@ -33,10 +32,10 @@
 
         protected override void ClearDocument() => Model.Clear();
 
-        protected override bool LoadFromStream(Stream stream, string format)
+        protected override bool LoadFromStream(Stream stream)
         {
             var result = false;
-            if (LoadDocument(stream, format) is Library library)
+            if (LoadDocument(stream) is Library library)
             {
                 Model.Library = library;
                 foreach (var work in Model.Works)
@@ -46,8 +45,6 @@
             return result;
         }
 
-        protected override bool SaveToStream(Stream stream, string format) => SaveDocument(stream, format, Model.Library);
-
-        protected override XmlSerializer GetXmlSerializer() => new XmlSerializer(typeof(Library));
+        protected override bool SaveToStream(Stream stream) => SaveDocument(stream, Model.Library);
     }
 }

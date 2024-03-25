@@ -5,7 +5,6 @@
     using System.Linq;
     using System.Linq.Expressions;
     using System.Reflection;
-    using System.Xml.Serialization;
 
     [Serializable]
     public class Function : Umptad
@@ -21,10 +20,8 @@
 
         #region Public Properties
 
-        [XmlIgnore]
         public bool IsStatic => Method.IsStatic;
 
-        [XmlIgnore]
         public MethodInfo Method
         {
             get => _method;
@@ -46,13 +43,8 @@
             }
         }
 
-        [XmlIgnore]
         public override int Arity => Method.GetParameters().Length + (IsStatic ? 0 : 1);
-
-        [XmlIgnore]
         public override Expression Expression => GetExpression();
-
-        [XmlIgnore]
         public override Type ResultType => Method.ReturnType;
 
         #endregion

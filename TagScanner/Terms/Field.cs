@@ -2,7 +2,6 @@
 {
     using System;
     using System.Linq.Expressions;
-    using System.Xml.Serialization;
     using Models;
 
     [Serializable]
@@ -15,7 +14,6 @@
 
         // https://www.strathweb.com/2018/01/easy-way-to-create-a-c-lambda-expression-from-a-string-with-roslyn/
 
-        [XmlIgnore]
         public override Expression Expression
         {
             get
@@ -25,7 +23,6 @@
             }
         }
 
-        [XmlIgnore]
         public override Type ResultType => Tag.Type();
 
         public override string ToString() => Tag.DisplayName();

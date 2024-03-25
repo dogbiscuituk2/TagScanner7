@@ -2,8 +2,8 @@
 {
     using System;
     using System.Collections.Generic;
-    using System.Xml.Serialization;
-
+    using System.Linq;
+ 
     [Serializable]
     public class Filter
     {
@@ -11,30 +11,14 @@
 
         private List<Term> _terms = new List<Term>();
 
-        [XmlElement(typeof(Cast))]
-        [XmlElement(typeof(Concatenation))]
-        [XmlElement(typeof(Conditional))]
-        [XmlElement(typeof(Conjunction))]
-        [XmlElement(typeof(Constant))]
-        [XmlElement(typeof(Difference))]
-        [XmlElement(typeof(Disjunction))]
-        [XmlElement(typeof(Field))]
-        [XmlElement(typeof(Function))]
-        [XmlElement(typeof(Negation))]
-        [XmlElement(typeof(Negative))]
-        [XmlElement(typeof(Operation))]
-        [XmlElement(typeof(Parameter))]
-        [XmlElement(typeof(ParityOdd))]
-        [XmlElement(typeof(Positive))]
-        [XmlElement(typeof(Product))]
-        [XmlElement(typeof(Quotient))]
-        [XmlElement(typeof(Sum))]
-        [XmlElement(typeof(Term))]
-        [XmlElement(typeof(Umptad))]
         public List<Term> Terms
         {
             get => _terms;
             set => _terms = value;
         }
+
+        public override string ToString() => Terms.Any()
+            ? Terms.Select(p => p.ToString()).Aggregate((p, q) => $"{p}{Environment.NewLine}{q}")
+            : string.Empty;
     }
 }

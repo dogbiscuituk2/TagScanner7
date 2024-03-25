@@ -3,6 +3,7 @@
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using System;
     using System.IO;
+    using Controllers;
     using Models;
     using Terms;
 
@@ -51,7 +52,7 @@
             new Mock(TB, 1970, LIB, 6, "4:03", "Let It Be") { Copyright = "Hands Off It's Mine" },
             new Mock(TB, 1970, LIB, 7, "0:40", "Maggie Mae") { Description = "MPEG Version 1 Audio, Layer 3" },
             new Mock(TB, 1970, LIB, 8, "3:37", "I've Got a Feeling") { DiscNumber = 2, DiscCount = 3, TrackCount = 12 },
-            new Mock(TB, 1970, LIB, 9, "2:54", "One After 909") { DurationString="PT2M54S" },
+            new Mock(TB, 1970, LIB, 9, "2:54", "One After 909"),
             new Mock(TB, 1970, LIB, 10, "3:38", "The Long and Winding Road") { FileAttributes = "Archive" },
             new Mock(TB, 1970, LIB, 11, "2:32", "For You Blue") { FileCreationTime = DateTime.Parse("24/01/2024 19:34:00") },
             new Mock(TB, 1970, LIB, 12, "3:09", "Get Back") { FileCreationTimeUtc = DateTime.Parse("24/01/2024 19:34:00") },
@@ -133,7 +134,20 @@
         public void TestTerm(Term term)
         {
             System.Diagnostics.Debug.WriteLine(term);
-            RoundTripAll(term);
+            var filter = new Filter();
+            filter.Terms.Add(term);
+            using (var stream = new MemoryStream())
+            {
+                var before = filter.ToString();
+                StreamController.SaveToStream(stream, filter);
+                filter = null;
+                var after = filter?.ToString();
+                Assert.AreNotEqual(notExpected: before, actual: after);
+                stream.Seek(0, SeekOrigin.Begin);
+                filter = (Filter)StreamController.LoadFromStream(stream);
+                after = filter?.ToString();
+                Assert.AreEqual(expected: before, actual: after);
+            }
             if (!(term is Umptad umptad)) return;
             for (var index = 0; index < umptad.Operands.Count; index++)
             {
@@ -144,30 +158,6 @@
                 var actual = umptad.ToString().Substring(start, length);
                 Assert.AreEqual(expected, actual);
                 TestTerm(subTerm);
-            }
-
-            void RoundTripAll(Term t)
-            {
-                RoundTrip(t, StreamFormats.Binary);
-                RoundTrip(term, StreamFormats.Xml);
-            }
-
-            void RoundTrip(Term t, StreamFormats format)
-            {
-                var filter = new Filter();
-                filter.Terms.Add(t);
-                string before = filter.ToString(), after;
-                using (var stream = new MemoryStream())
-                {
-                    Streamer.SaveToStream(stream, format, filter);
-                    filter = null;
-                    after = filter?.ToString();
-                    Assert.AreNotEqual(notExpected: before, actual: after);
-                    stream.Seek(0, SeekOrigin.Begin);
-                    filter = (Filter)Streamer.LoadFromStream(stream, format);
-                }
-                after = filter?.ToString();
-                Assert.AreEqual(expected: before, actual: after);
             }
         }
     }

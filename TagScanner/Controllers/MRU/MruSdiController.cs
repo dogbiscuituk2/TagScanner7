@@ -5,11 +5,8 @@
     using System.IO;
     using System.Runtime.Serialization.Formatters.Binary;
     using System.Windows.Forms;
-    using System.Xml;
-    using System.Xml.Serialization;
     using Models;
     using Properties;
-    using Utils;
 
     public abstract class MruSdiController : MruController
     {
@@ -111,26 +108,6 @@
                 RemoveItem(filePath);
         }
 
-        protected bool UseStream(Action action)
-        {
-            var result = true;
-            try
-            {
-                action();
-                Model.Modified = false;
-            }
-            catch (Exception x)
-            {
-                MessageBox.Show(
-                    x.Message,
-                    x.GetType().Name,
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Error);
-                result = false;
-            }
-            return result;
-        }
-
         private readonly OpenFileDialog _openFileDialog;
         private readonly SaveFileDialog _saveFileDialog;
 
@@ -138,7 +115,7 @@
         {
             if (!OnFileLoading()) return false;
             using (var stream = new FileStream(filePath, FileMode.Open, FileAccess.Read))
-                if (!LoadFromStream(stream, Path.GetExtension(filePath)))
+                if (!LoadFromStream(stream))
                     return false;
             FilePath = filePath;
             AddItem(filePath);
@@ -150,7 +127,7 @@
             if (!OnFileSaving()) return false;
             using (var stream = new FileStream(filePath, FileMode.Create, FileAccess.Write))
             {
-                if (SaveToStream(stream, Path.GetExtension(filePath)))
+                if (SaveToStream(stream))
                 {
                     stream.Flush();
                     FilePath = filePath;
@@ -161,39 +138,23 @@
             return false;
         }
 
-        protected abstract XmlSerializer GetXmlSerializer();
+        protected abstract bool LoadFromStream(Stream stream);
+        protected abstract bool SaveToStream(Stream stream);
 
-        protected abstract bool LoadFromStream(Stream stream, string format);
-        protected abstract bool SaveToStream(Stream stream, string format);
-
-        protected object LoadDocument(Stream stream, string format)
+        protected object LoadDocument(Stream stream)
         {
-            /*
-				The asymmetrical use of XmlTextReader below is necessitated by a bug in .NET's XML Serialization routines.
-				These can serialize an object to XML, which will subsequently throw an exception when trying to deserialize.
-				For example, when a string contains an unprintable character like char(1), this will get serialized to &#x1;
-				but fail on subsequent attempted deserialization. Note that it is actually the serialization step which is at
-				fault, because the definition of an XML character (see "http://www.w3.org/TR/2000/REC-xml-20001006#charsets")
-				specifically excludes all such control characters except tab, line feed, and carriage return:
-
-					Char ::= #x9 | #xA | #xD | [#x20-#xD7FF] | [#xE000-#xFFFD] | [#x10000-#x10FFFF]
-
-				The use of XmlTextReader gets round this problem by defaulting its Normalization property to false, hence
-				disabling character range checking for numeric entities. As a result, character entities such as &#1; are
-				allowed during deserialization too. The default TextReader variant on the other hand creates an XmlTextReader
-				with its Normalization property set to true, which was causing the observed failure at deserialization time.
-			*/
-            object result = null;
-            if (format.IsXmlFile())
-                UseStream(() => result = GetXmlSerializer().Deserialize(new XmlTextReader(stream)));
-            else
-                UseStream(() => result = new BinaryFormatter().Deserialize(stream));
+            var result = StreamController.LoadFromStream(stream);
+            if (result != null)
+                Model.Modified = false;
             return result;
         }
 
-        protected bool SaveDocument(Stream stream, string format, object document) =>
-            format.IsXmlFile()
-            ? UseStream(() => GetXmlSerializer().Serialize(stream, document))
-            : UseStream(() => new BinaryFormatter().Serialize(stream, document));
+        protected bool SaveDocument(Stream stream, object document)
+        {
+            var result = StreamController.SaveToStream(stream, document);
+            if (result)
+                Model.Modified = false;
+            return result;
+        }
     }
 }

@@ -87,7 +87,6 @@
         public static string Escape(this string s) => s.Replace("&", "&&");
         public static RectangleF Expand(this RectangleF r) => r.IsEmpty ? r : new RectangleF(r.X, r.Y, r.Width + 99, r.Height);
         public static string GetIndex(this string s) => string.IsNullOrWhiteSpace(s) ? " " : (s.ToUpper() + " ").Substring(0, 1);
-        public static bool IsXmlFile(this string filename) => filename.EndsWith("x");
 
         public static string Say(this Type type)
         {
