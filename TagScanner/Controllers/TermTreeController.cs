@@ -37,7 +37,6 @@
             {
                 if (HotNode == value) return;
                 _hotNode = value;
-                Logger.Log($"HotNode = {value?.Text}");
             }
         }
 
