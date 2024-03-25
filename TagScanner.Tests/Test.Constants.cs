@@ -1,9 +1,8 @@
-﻿using System.Globalization;
-
-namespace TagScanner.Tests
+﻿namespace TagScanner.Tests
 {
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using System;
+    using System.Globalization;
     using Terms;
 
     public partial class Test

@@ -6,6 +6,20 @@
     using System.Linq.Expressions;
     using Models;
 
+    /// <summary>
+    /// 
+    /// Term - abstract base class
+    ///   \
+    ///     Constant
+    ///     Field
+    ///     Parameter
+    ///     Umptad - abstract base class
+    ///       \
+    ///         Cast
+    ///         Function
+    ///         Operation
+    ///
+    /// </summary>
     [Serializable]
     public abstract class Term
     {

@@ -30,7 +30,7 @@
         }
 
         [NonSerialized]
-        public static Type[] NewTypes =
+        public static Type[] Types =
         {
             typeof(bool),
             typeof(byte),
@@ -41,6 +41,7 @@
             typeof(float),
             typeof(int),
             typeof(long),
+            typeof(object),
             typeof(sbyte),
             typeof(short),
             typeof(string),
