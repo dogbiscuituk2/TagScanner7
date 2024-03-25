@@ -1,15 +1,15 @@
 ﻿namespace TagScanner.Terms
 {
-    using System.Windows.Forms;
     using System;
     using System.IO;
     using System.Runtime.Serialization.Formatters.Binary;
+    using System.Windows.Forms;
     using System.Xml;
     using System.Xml.Serialization;
 
     public static class Streamer
     {
-        public static object Load(Stream stream, StreamFormats formats)
+        public static object LoadFromStream(Stream stream, StreamFormats formats)
         {
             /*
 				The asymmetrical use of XmlTextReader below is necessitated by a bug in .NET's XML Serialization routines.
@@ -50,7 +50,7 @@
             return result;
         }
 
-        public static bool Save(Stream stream, StreamFormats formats, object document)
+        public static bool SaveToStream(Stream stream, StreamFormats formats, object document)
         {
             try
             {
@@ -76,35 +76,26 @@
         }
 
         public static BinaryFormatter BinaryFormatter => _binaryFormatter ?? (_binaryFormatter = NewBinaryFormatter());
-        private static BinaryFormatter _binaryFormatter;
-        private static BinaryFormatter NewBinaryFormatter() => new BinaryFormatter();
-
         public static XmlSerializer XmlSerializer => _xmlSerializer ?? (_xmlSerializer = NewXmlSerializer());
-        private static XmlSerializer _xmlSerializer;
-        private static XmlSerializer NewXmlSerializer() => new XmlSerializer(typeof(Term),
-            new Type[]
-            {
-                typeof(Cast),
-                typeof(Constant),
-                typeof(Field),
-                typeof(Function),
-                typeof(Negation),
-                typeof(Operation),
-                typeof(Parameter)
-            });
 
-        private static void HandleException(Exception ex)
+        private static BinaryFormatter _binaryFormatter;
+        private static XmlSerializer _xmlSerializer;
+
+        private static BinaryFormatter NewBinaryFormatter() => new BinaryFormatter();
+        private static XmlSerializer NewXmlSerializer() => new XmlSerializer(typeof(Filter));
+
+        private static void HandleException(Exception exception)
         {
             string
-                message = ex.Message,
-                exType = ex.GetType().Name;
-            var innerEx = ex.InnerException;
-            if (innerEx != null)
+                message = exception.Message,
+                exceptionType = exception.GetType().Name;
+            var innerException = exception.InnerException;
+            if (innerException != null)
             {
-                message = $"{message}\r\n{innerEx.Message}";
-                exType = $"{exType} ({innerEx.GetType().Name})";
+                message = $"{message}{Environment.NewLine}{innerException.Message}";
+                exceptionType = $"{exceptionType} ({innerException.GetType().Name})";
             }
-            MessageBox.Show(message, exType, MessageBoxButtons.OK, MessageBoxIcon.Error);
+            MessageBox.Show(message, exceptionType, MessageBoxButtons.OK, MessageBoxIcon.Error);
         }
     }
 }

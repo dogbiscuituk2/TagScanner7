@@ -32,6 +32,15 @@
         public abstract int Arity { get; }
 
         private List<Term> _operands = new List<Term>();
+
+        /*[XmlElement(typeof(Cast))]
+        [XmlElement(typeof(Constant))]
+        [XmlElement(typeof(Field))]
+        [XmlElement(typeof(Function))]
+        [XmlElement(typeof(Operation))]
+        [XmlElement(typeof(Parameter))]
+        [XmlElement(typeof(Term))]
+        [XmlElement(typeof(Umptad))]*/
         public List<Term> Operands
         {
             get => _operands;

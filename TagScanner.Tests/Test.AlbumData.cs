@@ -2,10 +2,9 @@
 {
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using System;
+    using System.IO;
     using Models;
     using Terms;
-    using System.IO;
-    using System.Linq;
 
     [TestClass]
     public partial class Test
@@ -155,18 +154,19 @@
 
             void RoundTrip(Term t, StreamFormats format)
             {
-                string before = t.ToString(), after;
-                //var streamer = new Streamer(format, types)
+                var filter = new Filter();
+                filter.Terms.Add(t);
+                string before = filter.ToString(), after;
                 using (var stream = new MemoryStream())
                 {
-                    Streamer.Save(stream, format, t);
-                    t = null;
-                    after = t?.ToString();
+                    Streamer.SaveToStream(stream, format, filter);
+                    filter = null;
+                    after = filter?.ToString();
                     Assert.AreNotEqual(notExpected: before, actual: after);
                     stream.Seek(0, SeekOrigin.Begin);
-                    t = (Term)Streamer.Load(stream, format);
+                    filter = (Filter)Streamer.LoadFromStream(stream, format);
                 }
-                after = t?.ToString();
+                after = filter?.ToString();
                 Assert.AreEqual(expected: before, actual: after);
             }
         }

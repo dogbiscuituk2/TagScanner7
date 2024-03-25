@@ -119,13 +119,12 @@
     <Reference Include="WindowsFormsIntegration" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Controllers\Mru\MruFilterController.cs" />
     <Compile Include="Controls\TermNode.cs" />
     <Compile Include="Controls\TermTree.cs">
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Menus\CastEventArgs.cs" />
-    <Compile Include="Models\Filter.cs" />
+    <Compile Include="Terms\Filter.cs" />
     <Compile Include="Terms\Cast.cs" />
     <Compile Include="Terms\Streamer.cs" />
     <Compile Include="Terms\StreamFormats.cs" />

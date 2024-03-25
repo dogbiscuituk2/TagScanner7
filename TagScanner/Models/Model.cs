@@ -10,17 +10,6 @@
     {
         #region Public Interface
 
-        private Filter _filter = new Filter();
-        public Filter Filter
-        {
-            get => _filter;
-            set
-            {
-                _filter = value;
-                OnFilterChanged();
-            }
-        }
-
         private Library _library = new Library();
         public Library Library
         {
@@ -80,7 +69,6 @@
 
         public void Work_PropertyChanged(object sender, PropertyChangedEventArgs e) => Modified = true;
 
-        public event EventHandler FilterChanged;
         public event EventHandler ModifiedChanged;
         public event EventHandler WorksChanged;
 
@@ -102,12 +90,6 @@
         {
             work.Load();
             return true;
-        }
-
-        protected virtual void OnFilterChanged()
-        {
-            var filterChanged = FilterChanged;
-            filterChanged?.Invoke(this, EventArgs.Empty);
         }
 
         protected virtual void OnModifiedChanged()
