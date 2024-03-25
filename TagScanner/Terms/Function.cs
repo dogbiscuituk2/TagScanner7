@@ -11,8 +11,6 @@
     {
         #region Constructors
 
-        public Function() : base() { }
-
         public Function(string name, params Term[] operands) : base(operands) => SetName(name);
         public Function(Term self, string name, params Term[] operands) : base(self, operands) => SetName(name);
 
@@ -20,11 +18,9 @@
 
         #region Public Properties
 
-        public bool IsStatic => Method.IsStatic;
-
         public MethodInfo Method
         {
-            get => _method;
+            get => _method ?? (_method = Name.MethodInfo());
             set
             {
                 _method = value;
@@ -45,6 +41,7 @@
 
         public override int Arity => Method.GetParameters().Length + (IsStatic ? 0 : 1);
         public override Expression Expression => GetExpression();
+        public bool IsStatic => Method.IsStatic;
         public override Type ResultType => Method.ReturnType;
 
         #endregion
@@ -105,7 +102,9 @@
 
         #region Private Fields
 
+        [NonSerialized]
         private MethodInfo _method;
+
         private string _name;
 
         #endregion

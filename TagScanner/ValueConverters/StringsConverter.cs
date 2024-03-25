@@ -10,9 +10,9 @@
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            if (!(value is IEnumerable<string>)) return value;
-            var strings = (IEnumerable<string>)value;
-            return strings.Any() ? strings.Aggregate((x, y) => string.Concat(x, '\n', y)) : string.Empty;
+            if (!(value is IEnumerable<string> strings)) return value;
+            var stringArray = strings as string[] ?? strings.ToArray();
+            return stringArray.Any() ? stringArray.Aggregate((p, q) => $"{p}{Environment.NewLine}{q}") : string.Empty;
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture) => value;

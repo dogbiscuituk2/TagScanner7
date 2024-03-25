@@ -24,14 +24,14 @@
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture) => value;
 
-        private void AddWorks(List<Work> works, ReadOnlyObservableCollection<object> group)
+        private static void AddWorks(List<Work> works, IReadOnlyList<object> group)
         {
-            if (group.Any())
-                if (group[0] is Work)
-                    works.AddRange(group.Cast<Work>());
-                else
-                    foreach (var item in group.Cast<CollectionViewGroup>())
-                        AddWorks(works, item.Items);
+            if (!group.Any()) return;
+            if (group[0] is Work)
+                works.AddRange(group.Cast<Work>());
+            else
+                foreach (var item in group.Cast<CollectionViewGroup>())
+                    AddWorks(works, item.Items);
         }
     }
 }

@@ -7,7 +7,7 @@
     public class DateTimeConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture) =>
-            value is DateTime ? ((DateTime)value).ToString("g") : value;
+            value is DateTime dateTime ? dateTime.ToString("g") : value;
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture) => value;
     }

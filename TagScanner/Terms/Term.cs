@@ -9,8 +9,6 @@
     [Serializable]
     public abstract class Term
     {
-        public Term() { }
-
         #region Public Fields
 
         [NonSerialized]

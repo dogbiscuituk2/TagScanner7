@@ -9,8 +9,7 @@
     [Serializable]
     public class Cast : Umptad
     {
-        public Cast() : base() { }
-        public Cast(Type newType) : base() => SetNewType(newType);
+        public Cast(Type newType) => SetNewType(newType);
         public Cast(Type newType, Term operand) : base(operand) => SetNewType(newType);
 
         public override int Arity => 1;

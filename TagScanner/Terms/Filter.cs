@@ -7,10 +7,7 @@
     [Serializable]
     public class Filter
     {
-        public Filter() { }
-
         private List<Term> _terms = new List<Term>();
-
         public List<Term> Terms
         {
             get => _terms;

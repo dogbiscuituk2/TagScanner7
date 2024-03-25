@@ -1,4 +1,6 @@
-﻿namespace TagScanner.Tests
+﻿using System.Globalization;
+
+namespace TagScanner.Tests
 {
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using System;
@@ -9,18 +11,18 @@
         [TestMethod]
         [DataRow(typeof(bool), false, "False")]
         [DataRow(typeof(bool), true, "True")]
-        [DataRow(typeof(byte), (byte)127, "127")]
+        [DataRow(typeof(byte), (byte)0xFF, "255")]
         [DataRow(typeof(char), 'c', "c")]
         [DataRow(typeof(double), 123.45D, "123.45")]
         [DataRow(typeof(float), 123.45F, "123.45")]
-        [DataRow(typeof(int), 2147483647, "2147483647")]
-        [DataRow(typeof(long), 9223372036854775807L, "9223372036854775807")]
-        [DataRow(typeof(sbyte), (sbyte)127, "127")]
-        [DataRow(typeof(short), (short)32767, "32767")]
+        [DataRow(typeof(int), 0x7FFFFFFF, "2147483647")]
+        [DataRow(typeof(long), 0x7FFFFFFFFFFFFFFFL, "9223372036854775807")]
+        [DataRow(typeof(sbyte), (sbyte)0x7F, "127")]
+        [DataRow(typeof(short), (short)0x7FFF, "32767")]
         [DataRow(typeof(string), "Hello World", "\"Hello World\"")]
-        [DataRow(typeof(uint), 4294967295U, "4294967295")]
-        [DataRow(typeof(ulong), 18446744073709551615UL, "18446744073709551615")]
-        [DataRow(typeof(ushort), (ushort)65535, "65535")]
+        [DataRow(typeof(uint), 0xFFFFFFFFU, "4294967295")]
+        [DataRow(typeof(ulong), 0xFFFFFFFFFFFFFFFFUL, "18446744073709551615")]
+        [DataRow(typeof(ushort), (ushort)0xFFFF, "65535")]
         public void TestConstant(Type type, object value, string expression)
         {
             var constant = new Constant(value);
@@ -32,16 +34,26 @@
         }
 
         [TestMethod]
+        public void TestConstants()
+        {
+            TestTerm(Constant.Empty);
+            TestTerm(Constant.False);
+            TestTerm(Constant.Nothing);
+            TestTerm(Constant.True);
+            TestTerm(Constant.Zero);
+        }
+
+        [TestMethod]
         public void TestDateTime()
         {
             var now = DateTime.Now;
-            TestConstant(typeof(DateTime), now, now.ToString());
+            TestConstant(typeof(DateTime), now, now.ToString(CultureInfo.CurrentCulture));
         }
 
         [TestMethod]
         public void TestDecimal()
         {
-            var money = 123.45M;
+            const decimal money = 123.45M;
             TestConstant(typeof(decimal), money, "123.45");
         }
 

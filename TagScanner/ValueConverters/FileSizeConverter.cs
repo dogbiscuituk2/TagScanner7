@@ -8,7 +8,7 @@
     public class FileSizeConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture) =>
-            value is long ? ((long)value).AsString(false) : value;
+            value is long longValue ? longValue.AsString(false) : value;
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture) => value;
     }

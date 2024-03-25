@@ -18,8 +18,6 @@
     {
         #region Constructors
 
-        public Umptad() : base() { }
-
         protected Umptad(params Term[] operands) : base() => AddOperands(operands);
         protected Umptad(Term firstOperand, params Term[] moreOperands) : this(new[] { firstOperand }) => AddOperands(moreOperands);
 
@@ -28,8 +26,6 @@
         #region Public Properties
 
         public abstract int Arity { get; }
-
-        private List<Term> _operands = new List<Term>();
 
         public List<Term> Operands
         {
@@ -149,6 +145,8 @@
 
         [NonSerialized]
         private List<CharacterRange> _characterRangesAll = new List<CharacterRange>();
+
+        private List<Term> _operands = new List<Term>();
 
         #endregion
 
