@@ -26,7 +26,7 @@
                 { "Length", FindMethodInfo(typeof(string), false, "get_Length") },
                 { "IndexOf", FindMethodInfo(typeof(string), false, "IndexOf", typeof(char)) },
                 { "Insert", FindMethodInfo(typeof(string), false, "Insert", typeof(int), typeof(string)) },
-                { "IsEmpty", FindMethodInfo(typeof(string), true, "IsNullOrWhiteSpace", typeof(string)) },
+                { "IsNull", FindMethodInfo(typeof(string), true, "IsNullOrWhiteSpace", typeof(string)) }, // "IsEmpty" already used as a Tag :-(
                 { "Match$", FindMethodInfo(typeof(Regex), true, "IsMatch", typeof(string), typeof(string)) },
                 { "LastIndexOf", FindMethodInfo(typeof(string), false, "LastIndexOf", typeof(char)) },
                 { "Lowercase", FindMethodInfo(typeof(string), false, "ToLowerInvariant") },

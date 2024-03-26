@@ -14,10 +14,10 @@
         {
             OperatorDictionary = new Dictionary<Op, OpInfo>
             {
-                { Op.Conditional, new OpInfo("if-then-else", ExpressionType.Conditional, Terms.Rank.Conditional, typeof(object), "if {0} then {1} else {2}", Icons.Op_Conditional, typeof(bool), typeof(object)) },
-                { Op.And, new OpInfo("and", ExpressionType.AndAlso, Terms.Rank.ConditionalAnd, typeof(bool), "{0} and {1}", Icons.Op_And) },
-                { Op.Or, new OpInfo("or", ExpressionType.OrElse, Terms.Rank.ConditionalOr, typeof(bool), "{0} or {1}", Icons.Op_Or) },
-                { Op.Xor, new OpInfo("exclusive or", ExpressionType.ExclusiveOr, Terms.Rank.BitwiseXor, typeof(bool), "{0} xor {1}", Icons.Op_Xor) },
+                { Op.Conditional, new OpInfo("if-then-else", ExpressionType.Conditional, Terms.Rank.Conditional, typeof(object), "{0} ? {1} : {2}", Icons.Op_Conditional, typeof(bool), typeof(object)) },
+                { Op.And, new OpInfo("and", ExpressionType.AndAlso, Terms.Rank.ConditionalAnd, typeof(bool), "{0} & {1}", Icons.Op_And) },
+                { Op.Or, new OpInfo("or", ExpressionType.OrElse, Terms.Rank.ConditionalOr, typeof(bool), "{0} | {1}", Icons.Op_Or) },
+                { Op.Xor, new OpInfo("exclusive or", ExpressionType.ExclusiveOr, Terms.Rank.BitwiseXor, typeof(bool), "{0} ^ {1}", Icons.Op_Xor) },
                 { Op.EqualTo, new OpInfo("=", ExpressionType.Equal, Terms.Rank.Equality, typeof(bool), "{0} = {1}", Icons.Op_EqualTo, typeof(object)) },
                 { Op.NotEqualTo, new OpInfo("≠", ExpressionType.NotEqual, Terms.Rank.Equality, typeof(bool), "{0} ≠ {1}", Icons.Op_NotEqualTo, typeof(object)) },
                 { Op.LessThan, new OpInfo("<", ExpressionType.LessThan, Terms.Rank.Relational, typeof(bool), "{0} < {1}", Icons.Op_LessThan, typeof(double)) },
@@ -31,7 +31,7 @@
                 { Op.Divide, new OpInfo("／", ExpressionType.Divide, Terms.Rank.Multiplicative, typeof(double), "{0} ／ {1}", Icons.Op_Divide) },
                 { Op.Positive, new OpInfo("＋", ExpressionType.UnaryPlus, Terms.Rank.Unary, typeof(double), "＋{0}", Icons.Op_Add) },
                 { Op.Negative, new OpInfo("－", ExpressionType.Negate, Terms.Rank.Unary, typeof(double), "－{0}", Icons.Op_Subtract) },
-                { Op.Not, new OpInfo("not", ExpressionType.Not, Terms.Rank.Unary, typeof(bool), "not {0}", Icons.Op_Not) },
+                { Op.Not, new OpInfo("not", ExpressionType.Not, Terms.Rank.Unary, typeof(bool), "! {0}", Icons.Op_Not) },
             };
             Keys = OperatorDictionary.Keys.ToArray();
             Values = OperatorDictionary.Values.ToArray();

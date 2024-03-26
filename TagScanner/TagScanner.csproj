@@ -127,6 +127,7 @@
     <Compile Include="Terms\Filter.cs" />
     <Compile Include="Terms\Cast.cs" />
     <Compile Include="Controllers\StreamController.cs" />
+    <Compile Include="Terms\Parser.cs" />
     <Compile Include="Utils\Ink.cs" />
     <Compile Include="Utils\Inks.cs" />
     <Compile Include="Controllers\Controller.cs" />
@@ -284,6 +285,7 @@
     <Content Include="Resources\Op_Xor.bmp" />
     <Content Include="Resources\refresh_16xLG.png" />
     <Content Include="Resources\Views_7953_32.bmp" />
+    <Content Include="Terms\Parser.txt" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.5">
