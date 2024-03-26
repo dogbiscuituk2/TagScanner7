@@ -126,6 +126,7 @@
     <Compile Include="Mock.cs" />
     <Compile Include="Test.Operations.cs" />
     <Compile Include="Test.Parameters.cs" />
+    <Compile Include="Test.Parser.cs" />
     <Compile Include="Test.Tags.cs" />
     <Compile Include="Test.Casts.cs" />
     <Compile Include="Test.Terms.cs" />
