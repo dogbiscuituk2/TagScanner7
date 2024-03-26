@@ -141,14 +141,13 @@
     <Compile Include="Menus\MenuRouter.cs" />
     <Compile Include="Menus\OperationEventArgs.cs" />
     <Compile Include="Models\GroupTagsBy.cs" />
-    <Compile Include="Controllers\Mru\MruRoslynController.cs" />
     <Compile Include="Controllers\GridController.cs" />
     <Compile Include="Controllers\LibraryFormController.cs" />
     <Compile Include="Controllers\PlayerController.cs" />
     <Compile Include="Controllers\Mru\MruSdiController.cs" />
     <Compile Include="Controllers\TagPickerController.cs" />
     <Compile Include="Controllers\TagsController.cs" />
-    <Compile Include="Controllers\FilterFormController.cs" />
+    <Compile Include="Controllers\FilterController.cs" />
     <Compile Include="Controllers\TermTreeController.cs" />
     <Compile Include="Models\IModel.cs" />
     <Compile Include="Models\Tag.cs" />

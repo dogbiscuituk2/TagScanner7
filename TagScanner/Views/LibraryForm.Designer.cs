@@ -40,7 +40,6 @@
             this.toolStripMenuItem6 = new System.Windows.Forms.ToolStripSeparator();
             this.GridPopupTags = new System.Windows.Forms.ToolStripMenuItem();
             this.FilterGroupBox = new System.Windows.Forms.Panel();
-            this.FilterTextBox = new System.Windows.Forms.TextBox();
             this.FilterPopupMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.panel1 = new System.Windows.Forms.Panel();
             this.ClearButton = new System.Windows.Forms.Button();
@@ -94,6 +93,7 @@
             this.AddFolderDialog = new System.Windows.Forms.FolderBrowserDialog();
             this.AddFileDialog = new System.Windows.Forms.OpenFileDialog();
             this.StatusBar = new System.Windows.Forms.StatusStrip();
+            this.TreeView = new TagScanner.Controls.TermTree();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -166,7 +166,7 @@
             // GridElementHost
             // 
             this.GridElementHost.ContextMenuStrip = this.GridPopupMenu;
-            this.GridElementHost.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.GridElementHost.Dock = System.Windows.Forms.DockStyle.Right;
             this.GridElementHost.Location = new System.Drawing.Point(4, 0);
             this.GridElementHost.Margin = new System.Windows.Forms.Padding(0);
             this.GridElementHost.Name = "GridElementHost";
@@ -218,7 +218,7 @@
             // 
             // FilterGroupBox
             // 
-            this.FilterGroupBox.Controls.Add(this.FilterTextBox);
+            this.FilterGroupBox.Controls.Add(this.TreeView);
             this.FilterGroupBox.Controls.Add(this.panel1);
             this.FilterGroupBox.Dock = System.Windows.Forms.DockStyle.Fill;
             this.FilterGroupBox.Location = new System.Drawing.Point(4, 0);
@@ -227,19 +227,6 @@
             this.FilterGroupBox.Size = new System.Drawing.Size(634, 54);
             this.FilterGroupBox.TabIndex = 0;
             this.FilterGroupBox.Text = "Filter";
-            // 
-            // FilterTextBox
-            // 
-            this.FilterTextBox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.FilterTextBox.ContextMenuStrip = this.FilterPopupMenu;
-            this.FilterTextBox.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.FilterTextBox.Location = new System.Drawing.Point(0, 0);
-            this.FilterTextBox.Margin = new System.Windows.Forms.Padding(0);
-            this.FilterTextBox.Multiline = true;
-            this.FilterTextBox.Name = "FilterTextBox";
-            this.FilterTextBox.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.FilterTextBox.Size = new System.Drawing.Size(579, 54);
-            this.FilterTextBox.TabIndex = 0;
             // 
             // FilterPopupMenu
             // 
@@ -447,7 +434,7 @@
             this.FileNew.Name = "FileNew";
             this.FileNew.ShortcutKeyDisplayString = "^N";
             this.FileNew.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.N)));
-            this.FileNew.Size = new System.Drawing.Size(180, 22);
+            this.FileNew.Size = new System.Drawing.Size(136, 22);
             this.FileNew.Text = "&New";
             // 
             // FileOpen
@@ -455,45 +442,45 @@
             this.FileOpen.Name = "FileOpen";
             this.FileOpen.ShortcutKeyDisplayString = "^O";
             this.FileOpen.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.O)));
-            this.FileOpen.Size = new System.Drawing.Size(180, 22);
+            this.FileOpen.Size = new System.Drawing.Size(136, 22);
             this.FileOpen.Text = "&Open...";
             // 
             // FileReopen
             // 
             this.FileReopen.Name = "FileReopen";
-            this.FileReopen.Size = new System.Drawing.Size(180, 22);
+            this.FileReopen.Size = new System.Drawing.Size(136, 22);
             this.FileReopen.Text = "&Reopen";
             // 
             // toolStripMenuItem1
             // 
             this.toolStripMenuItem1.Name = "toolStripMenuItem1";
-            this.toolStripMenuItem1.Size = new System.Drawing.Size(177, 6);
+            this.toolStripMenuItem1.Size = new System.Drawing.Size(133, 6);
             // 
             // FileSave
             // 
             this.FileSave.Name = "FileSave";
             this.FileSave.ShortcutKeyDisplayString = "^S";
             this.FileSave.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.S)));
-            this.FileSave.Size = new System.Drawing.Size(180, 22);
+            this.FileSave.Size = new System.Drawing.Size(136, 22);
             this.FileSave.Text = "&Save";
             // 
             // FileSaveAs
             // 
             this.FileSaveAs.Name = "FileSaveAs";
-            this.FileSaveAs.Size = new System.Drawing.Size(180, 22);
+            this.FileSaveAs.Size = new System.Drawing.Size(136, 22);
             this.FileSaveAs.Text = "Save &As...";
             // 
             // toolStripMenuItem5
             // 
             this.toolStripMenuItem5.Name = "toolStripMenuItem5";
-            this.toolStripMenuItem5.Size = new System.Drawing.Size(177, 6);
+            this.toolStripMenuItem5.Size = new System.Drawing.Size(133, 6);
             // 
             // FileExit
             // 
             this.FileExit.Name = "FileExit";
             this.FileExit.ShortcutKeyDisplayString = "Alt+F4";
             this.FileExit.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Alt | System.Windows.Forms.Keys.F4)));
-            this.FileExit.Size = new System.Drawing.Size(180, 22);
+            this.FileExit.Size = new System.Drawing.Size(136, 22);
             this.FileExit.Text = "E&xit";
             // 
             // EditMenu
@@ -694,6 +681,19 @@
             this.StatusBar.TabIndex = 9;
             this.StatusBar.Text = "Status";
             // 
+            // TreeView
+            // 
+            this.TreeView.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.TreeView.DrawMode = System.Windows.Forms.TreeViewDrawMode.OwnerDrawText;
+            this.TreeView.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.TreeView.HideSelection = false;
+            this.TreeView.Location = new System.Drawing.Point(0, 0);
+            this.TreeView.Margin = new System.Windows.Forms.Padding(4);
+            this.TreeView.Name = "TreeView";
+            this.TreeView.ShowNodeToolTips = true;
+            this.TreeView.Size = new System.Drawing.Size(579, 54);
+            this.TreeView.TabIndex = 2;
+            // 
             // LibraryForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 17F);
@@ -716,7 +716,6 @@
             this.splitContainer4.ResumeLayout(false);
             this.GridPopupMenu.ResumeLayout(false);
             this.FilterGroupBox.ResumeLayout(false);
-            this.FilterGroupBox.PerformLayout();
             this.panel1.ResumeLayout(false);
             this.splitContainer2.Panel1.ResumeLayout(false);
             this.splitContainer2.Panel2.ResumeLayout(false);
@@ -787,7 +786,6 @@
 		public System.Windows.Forms.ToolStripMenuItem ViewRefresh;
         public System.Windows.Forms.SplitContainer splitContainer4;
         public System.Windows.Forms.Panel FilterGroupBox;
-        public System.Windows.Forms.TextBox FilterTextBox;
         public System.Windows.Forms.Panel panel1;
         public System.Windows.Forms.Button ApplyButton;
         public System.Windows.Forms.Button ClearButton;
@@ -805,6 +803,7 @@
         public System.Windows.Forms.ToolStripMenuItem ViewByNoGrouping;
         public System.Windows.Forms.ToolStripMenuItem ViewFilter;
         private System.Windows.Forms.ToolStripSeparator toolStripMenuItem7;
+        public Controls.TermTree TreeView;
     }
 }
 

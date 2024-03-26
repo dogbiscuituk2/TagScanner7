@@ -30,9 +30,8 @@
             PersistenceController.FileSaving += PersistenceController_FileSaving;
             MediaController = new MruMediaController(this, View.AddRecentFolders);
             PlayerController = new PlayerController(this, null);
-            FilterFormController = new FilterFormController(this);
+            FilterFormController = new FilterController(this);
             new PictureController(View.PictureBox, View.PropertyGrid, PlayerController.PlaylistGrid);
-            new MruRoslynController(this);
             ModifiedChanged();
             LibraryGridController.ViewByArtist();
             UpdatePropertyGrid();
@@ -85,7 +84,7 @@
         internal readonly MruMediaController MediaController;
         internal readonly MruLibraryController PersistenceController;
         internal readonly PlayerController PlayerController;
-        internal readonly FilterFormController FilterFormController;
+        internal readonly FilterController FilterFormController;
         internal readonly StatusController StatusController;
 
         #endregion

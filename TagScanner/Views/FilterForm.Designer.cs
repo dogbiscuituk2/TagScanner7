@@ -66,7 +66,6 @@
             // TreeView
             // 
             this.TreeView.ContextMenuStrip = this.PopupMenu;
-            this.TreeView.Dock = System.Windows.Forms.DockStyle.Fill;
             this.TreeView.DrawMode = System.Windows.Forms.TreeViewDrawMode.OwnerDrawText;
             this.TreeView.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.TreeView.HideSelection = false;
@@ -74,7 +73,7 @@
             this.TreeView.Margin = new System.Windows.Forms.Padding(4);
             this.TreeView.Name = "TreeView";
             this.TreeView.ShowNodeToolTips = true;
-            this.TreeView.Size = new System.Drawing.Size(624, 373);
+            this.TreeView.Size = new System.Drawing.Size(218, 88);
             this.TreeView.TabIndex = 0;
             // 
             // PopupMenu

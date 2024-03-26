@@ -8,16 +8,14 @@
     using Utils;
     using Views;
 
-    public class FilterFormController : Controller
+    public class FilterController : Controller
     {
         #region Constructor
 
-        public FilterFormController(Controller parent) : base(parent)
+        public FilterController(Controller parent) : base(parent)
         {
             TermTreeController = new TermTreeController(this, TreeView);
             TermTreeController.Inks = Inks._16inks;
-            View.ViewCollapseAll.Click += ViewCollapseAll_Click;
-            View.ViewExpandAll.Click += ViewExpandAll_Click;
             MenuRouter = new MenuRouter(TermMenu, PopupMenu);
             MenuRouter.CastClick += MenuRouter_CastClick;
             MenuRouter.ConstantClick += MenuRouter_ConstantClick;
@@ -65,8 +63,6 @@
         private void MenuRouter_FunctionClick(object sender, FunctionEventArgs e) => AddFunction(e.Key);
         private void MenuRouter_OperationClick(object sender, OperationEventArgs e) => AddOperation(e.Op);
         private void MenuRouter_TestTermsClick(object sender, EventArgs e) => AddTestTerms();
-        private void ViewCollapseAll_Click(object sender, EventArgs e) => TermTreeController.CollapseAll();
-        private void ViewExpandAll_Click(object sender, EventArgs e) => TermTreeController.ExpandAll();
 
         #endregion
 
