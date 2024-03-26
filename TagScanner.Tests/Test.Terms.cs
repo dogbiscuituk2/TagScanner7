@@ -11,9 +11,9 @@
         {
             var filter = new Filter();
             filter.Terms.Add(term);
+            var text = filter.ToString();
             using (var stream = new MemoryStream())
             {
-                var text = filter.ToString();
                 StreamController.SaveToStream(stream, filter);
                 filter = new Filter();
                 Assert.AreNotEqual(notExpected: text, actual: filter?.ToString());

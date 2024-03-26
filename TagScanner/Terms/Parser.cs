@@ -23,14 +23,15 @@
 
         public IEnumerable<string> AllTokens()
         {
-            string token = null;
-            while(token != string.Empty)
+            while(true)
             {
-                token = PeekToken();
+                var token = PeekToken();
+                if (string.IsNullOrWhiteSpace(token))
+                    yield break;
+                System.Diagnostics.Debug.WriteLine(token);
                 ReadPast(token);
                 yield return token;
             }
-            yield break;
         }
 
         #endregion
@@ -45,71 +46,97 @@
 
         #region Private Fields
 
-        private const char Eof = (char)26;
+        private const char
+            Eof = (char)26,
+            SingleQuote = '\'',
+            DoubleQuote = '"';
 
         /// <summary>
         /// Names are ordered descending to that, for example, "Album Artists" is matched before "Artists".
         /// If these were sorted in ascending or other order, "Album Artists" might never be matched.
         /// </summary>
-        private static readonly string[] Tokens = Functions.Union(Tags).Union(Types).Union(Symbols).OrderByDescending(p => p).ToArray();
+        private static readonly string[] Tokens = Functions.Union(Fields).Union(Types).Union(Symbols).OrderByDescending(p => p).ToArray();
 
         #endregion
 
         #region Private Properties
 
+        private static IEnumerable<string> Dyads => new[] { "&", "|", "^", "=", "!=", "<", ">=", ">", "<=", "+", "-", "*", "/" };
         private static IEnumerable<string> Functions => Methods.Keys;
-        private static IEnumerable<string> Tags => Terms.Tags.Keys.Select(p => p.DisplayName());
+        private static IEnumerable<string> MemberFunctions => Methods.Keys.Where(p => !p.IsStatic());
+        private static IEnumerable<string> Monads => new[] { "+", "-", "!" };
+        private static IEnumerable<string> StaticFunctions => Methods.Keys.Where(p => p.IsStatic());
+        private static IEnumerable<string> Symbols => Monads.Union(Dyads).Union(Triads).Union(new[] { "(", ")", ",", "." });
+        private static IEnumerable<string> Fields => Tags.Keys.Select(p => p.DisplayName());
+        private static IEnumerable<string> Triads => new[] { "?", ":" };
         private static IEnumerable<string> Types => Cast.Types.Select(p => p.Say());
-        private static IEnumerable<string> Symbols => new[] { "(", ")", "?", ":", "&", "|", "^", "=", "!=", "<", ">=", ">", "<=", "+", "-", "*", "/", "!", ",", "." };
-
+            
         #endregion
 
         #region Private Methods
 
+        private bool IsChar(string token) => token[0] == SingleQuote;
+        private bool IsFunction(string token) => Functions.Contains(token);
+        private bool IsMemberFunction(string token) => MemberFunctions.Contains(token);
+        private bool IsMonad(string token) => Monads.Contains(token);
+        private bool IsNumber(string token) => char.IsDigit(token[0]);
+        private bool IsStaticFunction(string token) => StaticFunctions.Contains(token);
+        private bool IsString(string token) => token[0] == DoubleQuote;
+        private bool IsTag(string token) => Fields.Contains(token);
+        private bool IsType(string token) => Types.Contains(token);
+
         private string MatchCharacter() => MatchRegex(@"^'([^\]|\.)'");
         private string MatchNumber() => MatchRegex(@"^(\d+\.?\d*|)");
         private string MatchRegex(string pattern) => Regex.Match(Text.Substring(Index), pattern).Value;
-        private string MatchString() => MatchRegex(@"^""([^\]|\.)*""");
+
+        private string MatchString()
+        {
+            var p = Index;
+            while (p >= 0)
+            {
+                p = Text.IndexOf('"', p + 1);
+                if (p > 0 && Text[p - 1] != '\\')
+                    return Text.Substring(Index, p - Index + 1);
+            }
+            return string.Empty;
+        }
 
         private string MatchToken()
         {
             var text = Text.Substring(Index);
-            try { return Tokens.First(p => text.StartsWith(p)); }
-            catch (InvalidOperationException) { throw new FormatException($"Unrecognised token: '{text}'."); }
+            return Tokens.FirstOrDefault(p => text.StartsWith(p));
         }
 
-        private char PeekChar()
-        {
-            // Skip whitespace.
-            while (Index < Count && Text[Index] <= ' ')
-                Index++;
-            return Index < Count ? Text[Index] : Eof;
-        }
+        private char PeekChar() => Index < Count ? Text[Index] : Eof;
 
         private string PeekToken()
         {
+            SkipWhitespace();
             var result = MatchToken();
             if (!string.IsNullOrWhiteSpace(result))
                 return result;
-            var nextChar = PeekChar();
-            switch (nextChar)
+            var c = PeekChar();
+            switch (c)
             {
-                case '\'':
+                case SingleQuote:
                     return MatchCharacter();
-                case '"':
+                case DoubleQuote:
                     return MatchString();
-                case char c when char.IsDigit(c):
+                case char digit when char.IsDigit(digit):
                     return MatchNumber();
                 case Eof:
                     return string.Empty;
             }
-            UnexpectedCharacter(nextChar);
-            return string.Empty;
+            throw new FormatException($"Unexpected character '{c}' in input '{Text}' at position {Index}.");
         }
 
-        private void UnexpectedCharacter(char c) => throw new FormatException($"Unexpected character '{c}' in input '{Text}' at position {Index}.");
-
         private void ReadPast(string token) => Index += token.Length;
+
+        private void SkipWhitespace()
+        {
+            while (Index < Count && Text[Index] <= ' ')
+                Index++;
+        }
 
         #endregion
     }

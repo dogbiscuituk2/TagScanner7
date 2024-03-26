@@ -1,5 +1,6 @@
 ﻿namespace TagScanner.Terms
 {
+    using Microsoft.CodeAnalysis.CSharp.Syntax;
     using System;
     using System.Collections.Generic;
     using System.Linq;
@@ -60,14 +61,16 @@
 
         #region Public Methods
 
-        public static MethodInfo MethodInfo(this string key) => MethodDictionary[key];
-
         public static string GetPrototype(this string key)
         {
             var method = key.MethodInfo();
             var fullName = method.IsStatic ? key : $"({method.DeclaringType.Say()}).{key}";
             return $"{method.ReturnType.Say()} {fullName}({method.SayParamTypes()})";
         }
+
+        public static MethodInfo MethodInfo(this string key) => MethodDictionary[key];
+
+        public static bool IsStatic(this string key) => key.MethodInfo().IsStatic;
 
         #endregion
 

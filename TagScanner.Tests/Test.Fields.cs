@@ -165,7 +165,7 @@
         [DataRow(Tag.TrackPeak, "1.049575")]
         public void TestFields_String(Tag tag, object expectedValue)
         {
-            var term = (!new Function("IsEmpty", tag));
+            var term = !new Function("IsNull", tag);
             var works = Works.Where(p => term.Predicate(p));
             Assert.AreEqual(expected: 1, actual: works.Count());
             Assert.AreEqual(expected: expectedValue, actual: works.First().GetPropertyValue(tag));
