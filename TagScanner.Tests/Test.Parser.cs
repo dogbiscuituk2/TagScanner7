@@ -7,7 +7,7 @@
     public partial class Test
     {
         [TestMethod]
-        [DataRow("Compare(Album, \"Sgt Pepper\")", "Compare", "(", "Album", ",", "\"Sgt Pepper\"", ")")]
+        [DataRow("Compare(Album Title, \"Sgt Pepper\")", "Compare", "(", "Album Title", ",", "\"Sgt Pepper\"", ")")]
         public void TestParseFunctions(string text, params string[] expected)
         {
             var parser = new Parser(text);
