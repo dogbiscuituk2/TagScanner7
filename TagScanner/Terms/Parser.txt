@@ -5,29 +5,29 @@ Term:			Cast|Constant|Field|Function|Operation
 
 Cast:				( Type ) Term
 
-Type:				bool|byte|char|DateTime|decimal|double|float|int|long|object|sbyte|short|string|TimeSpan|uint|ulong|ushort
+Type:			bool|byte|char|DateTime|decimal|double|float|int|long|object|sbyte|short|string|TimeSpan|uint|ulong|ushort
 
 Constant:		Number|Char|String
 
 Number:		[-+]?[0-9]+
 
-Char:				'([^']|'')'
+Char:			'([^']|'')'
 
 String:			"([^\"]|\.)*"
 
-Field:				Album|Album Artists|# Album Artists|...|Year
+Field:			Album|Album Artists|# Album Artists|...|Year
 
 Function:		StaticFn ( Operands? )
 					Term . MemberFn ( Operands? )
 
 MemberFn:	Contains|EndsWith|...|Uppercase
 
-StaticFn:			Compare|Format|...|Replace$|...|Truncate
+StaticFn:		Compare|Format|...|Replace$|...|Truncate
 
-Operands:		Term
+Operands:	Term
 					Term, Operands
 
-Operation:		Operator1 Term
+Operation:	Operator1 Term
 					Term Operator2 Term
 					Term ? Term : Term
 
