@@ -14,6 +14,7 @@
         {
             OperatorDictionary = new Dictionary<Op, OpInfo>
             {
+                { Op.Comma, new OpInfo(",", 0, Terms.Rank.Comma, typeof(object), "{0}, {1}", null) },
                 { Op.Conditional, new OpInfo("if-then-else", ExpressionType.Conditional, Terms.Rank.Conditional, typeof(object), "{0} ? {1} : {2}", Icons.Op_Conditional, typeof(bool), typeof(object)) },
                 { Op.And, new OpInfo("and", ExpressionType.AndAlso, Terms.Rank.ConditionalAnd, typeof(bool), "{0} & {1}", Icons.Op_And) },
                 { Op.Or, new OpInfo("or", ExpressionType.OrElse, Terms.Rank.ConditionalOr, typeof(bool), "{0} | {1}", Icons.Op_Or) },

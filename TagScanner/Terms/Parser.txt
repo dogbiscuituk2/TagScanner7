@@ -1,38 +1,51 @@
 ﻿Syntax definition for the Parser class:
 
-Expression:	Term
+Term:
+	Cast|Constant|Field|Function|Operation
+	( Term )
 
-Term:			Cast|Constant|Field|Function|Operation
-					( Term )
+Cast:
+	( Type ) Term
 
-Cast:				( Type ) Term
+Type:
+	bool|byte|char|DateTime|decimal|double|float|int|long|object|sbyte|short|string|TimeSpan|uint|ulong|ushort
 
-Type:			bool|byte|char|DateTime|decimal|double|float|int|long|object|sbyte|short|string|TimeSpan|uint|ulong|ushort
+Constant:
+	Number|Char|String
 
-Constant:		Number|Char|String
+Number:
+	[-+]?[0-9]+
 
-Number:		[-+]?[0-9]+
+Char:
+	'([^']|'')'
 
-Char:			'([^']|'')'
+String:
+	"([^\"]|\.)*"
 
-String:			"([^\"]|\.)*"
+Field:
+	Album|Album Artists|# Album Artists|...|Year
 
-Field:			Album|Album Artists|# Album Artists|...|Year
+Function:
+	StaticFn ( Operands? )
+	Term . MemberFn ( Operands? )
 
-Function:		StaticFn ( Operands? )
-					Term . MemberFn ( Operands? )
+MemberFn:
+	Contains|EndsWith|...|Uppercase
 
-MemberFn:	Contains|EndsWith|...|Uppercase
+StaticFn:
+	Compare|Format|...|Replace$|...|Truncate
 
-StaticFn:		Compare|Format|...|Replace$|...|Truncate
+Operands:
+	Term
+	Term, Operands
 
-Operands:	Term
-					Term, Operands
+Operation:
+	Operator1 Term
+	Term Operator2 Term
+	Term ? Term : Term
 
-Operation:	Operator1 Term
-					Term Operator2 Term
-					Term ? Term : Term
+Operator1:
+	+|-|!
 
-Operator1:	+|-|!
-
-Operator2:	&|'|'|^|=|!=|<|<=|>|>=|+|-|*|/
+Operator2:
+	&|'|'|^|=|!=|<|<=|>|>=|+|-|*|/

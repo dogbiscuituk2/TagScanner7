@@ -75,6 +75,7 @@
 
         public static bool IsBoolean(this string token) => Booleans.Contains(token);
         public static bool IsChar(this string token) => token[0] == SingleQuote;
+        public static bool IsConstant(this string token) => token.IsBoolean() || token.IsChar() || token.IsNumber() || token.IsString();
         public static bool IsDyadicOperator(this string token) => DyadicOperators.Contains(token);
         public static bool IsField(this string token) => Fields.Contains(token);
         public static bool IsFunction(this string token) => Functions.Contains(token);

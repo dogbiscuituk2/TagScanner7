@@ -5,6 +5,7 @@
     [Serializable]
     public enum Op
     {
+        Comma,
         Conditional,
         And,
         Or,
