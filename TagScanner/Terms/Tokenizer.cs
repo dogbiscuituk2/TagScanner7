@@ -12,7 +12,6 @@
 
         public static IEnumerable<string> GetTokens(string text)
         {
-            var tokens = new List<string>();
             int count = text.Length, index = 0;
             while (true)
             {

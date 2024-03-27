@@ -2,7 +2,7 @@
 {
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using System;
-    using TagScanner.Terms;
+    using Terms;
 
     public partial class Test
     {
@@ -18,6 +18,10 @@
         [DataRow("12345.67M", typeof(Constant), typeof(decimal))]
         [DataRow("12345.67D", typeof(Constant), typeof(double))]
         [DataRow("12345.67", typeof(Constant), typeof(double), "12345.67D")]
+        [DataRow("[1958-11-23 3:45]", typeof(Constant), typeof(DateTime))]
+        [DataRow("[1958-11-23 23:45:67.890]", typeof(Constant), typeof(DateTime))]
+        [DataRow("[3:45]", typeof(Constant), typeof(TimeSpan))]
+        [DataRow("[23:45:67.890]", typeof(Constant), typeof(TimeSpan))]
         public void TestParse(string text, Type termType, Type resultType, string expectedText = null)
         {
             var term = new Parser().Parse(text);

@@ -28,10 +28,10 @@
             if (ResultType == typeof(ulong)) return $"{Value}UL";
             switch (Value)
             {
-                case DateTime _:
-                    return $"DateTime.Parse(\"{Value}\")";
-                case TimeSpan _:
-                    return $"TimeSpan.Parse(\"{Value}\")";
+                case DateTime dateTime:
+                    return dateTime.ToString(dateTime.TimeOfDay.Ticks == 0 ? "[yyyy-MM-dd]" : "[yyyy-MM-dd HH:mm:ss]");
+                case TimeSpan timeSpan:
+                    return string.Format(@"[{0:h\:mm\:ss}]", timeSpan);
                 default:
                     return Value.ToString();
             }
