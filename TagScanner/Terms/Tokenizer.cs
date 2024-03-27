@@ -24,9 +24,9 @@
             }
             yield break;
 
-            string MatchCharacter() => MatchRegex(@"^'([^\]|\.)'");
-            string MatchNumber() => MatchRegex(@"^(\d+\.?\d*|)");
-            string MatchRegex(string pattern) => Regex.Match(text.Substring(index), pattern).Value;
+            string MatchCharacter() => MatchRegex(@"^'.'");
+            string MatchNumber() => MatchRegex(@"^(\d+\.?\d*(UL|LU|D|F|L|M|U)?)", RegexOptions.IgnoreCase);
+            string MatchRegex(string pattern, RegexOptions options = RegexOptions.None) => Regex.Match(text.Substring(index), pattern, options).Value;
 
             string MatchString()
             {

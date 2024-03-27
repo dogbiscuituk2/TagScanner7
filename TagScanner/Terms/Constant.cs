@@ -17,7 +17,15 @@
         {
             if (Value == null) return "(?)";
             if (ResultType == typeof(bool)) return (bool)Value ? "true" : "false";
-            if (ResultType == typeof(char) || ResultType == typeof(string)) return $"'{Value}'";
+            if (ResultType == typeof(char)) return $"'{Value}'";
+            if (ResultType == typeof(double)) return $"{Value}D";
+            if (ResultType == typeof(decimal)) return $"{Value}M";
+            if (ResultType == typeof(float)) return $"{Value}F";
+            if (ResultType == typeof(int)) return $"{Value}";
+            if (ResultType == typeof(long)) return $"{Value}L";
+            if (ResultType == typeof(string)) return $"\"{Value}\"";
+            if (ResultType == typeof(uint)) return $"{Value}U";
+            if (ResultType == typeof(ulong)) return $"{Value}UL";
             switch (Value)
             {
                 case DateTime _:
