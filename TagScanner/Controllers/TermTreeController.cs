@@ -70,7 +70,7 @@
                 song = new Operation(Tag.Title, "!=", "Get Back"),
                 album = new Operation(Tag.Album, '=', "Let It Be"),
                 duration = new Operation(Tag.Duration, ">=", "00:03:30"),
-                lyrics = !new Function("IsEmpty", Tag.Lyrics),
+                lyrics = !new Function("IsNull", Tag.Lyrics),
                 tree = new Conditional(band, song, album | duration & lyrics),
                 tree2 = new Conditional(band, song, album | duration & lyrics & tree);
             Add(new Conditional(band, song, album | duration & tree2));

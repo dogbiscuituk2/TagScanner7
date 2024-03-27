@@ -183,7 +183,7 @@
         [DataRow(Tag.PerformersSort, new[] { "Bonham", "Jones", "Page", "Plant" })]
         public void TestFields_Strings(Tag tag, object expectedValue)
         {
-            //var term = new Function("IsEmpty", tag);
+            //var term = new Function("IsNull", tag);
             //var works = Works.Where(p => term.Predicate(p));
             var works = Works.Where(p => !string.IsNullOrWhiteSpace(p.GetPropertyValue(tag)?.ToString()));
             Assert.AreEqual(expected: 1, actual: works.Count());
