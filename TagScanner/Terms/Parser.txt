@@ -1,5 +1,7 @@
 ﻿Syntax definition for the Parser class:
 
+Expression:	Term
+
 Term:			Cast|Constant|Field|Function|Operation
 					( Term )
 

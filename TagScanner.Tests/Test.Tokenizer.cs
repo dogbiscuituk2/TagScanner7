@@ -14,11 +14,10 @@
         [DataRow("Artists (joined).Contains(\"Beat\")", "Artists (joined)", ".", "Contains", "(", "\"Beat\"", ")")]
         [DataRow("Performers (joined).EndsWith(\"les\")", "Performers (joined)", ".", "EndsWith", "(", "\"les\"", ")")]
         [DataRow("(123).Equals(456)", "(", "123", ")", ".", "Equals", "(", "456", ")")]
-        public void TestParseFunctions(string text, params string[] expected)
+        public void TestTokenizeFunctions(string text, params string[] expected)
         {
-            var parser = new Parser(text);
-            var actual = parser.AllTokens();
-            Assert.IsTrue(actual.SequenceEqual(expected));
+            var actual = Tokenizer.GetTokens(text);
+            Assert.IsTrue(expected.SequenceEqual(actual));
         }
     }
 }
