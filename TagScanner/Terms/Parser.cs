@@ -2,6 +2,7 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.Linq;
 
     public class Parser
     {
@@ -12,8 +13,7 @@
             Reset();
             foreach (var token in Tokenizer.GetTokens(text))
                 _tokenQueue.Enqueue(token);
-            AcceptTerm();
-            return null;
+            return ParseTerm();
         }
 
         #endregion
@@ -35,39 +35,68 @@
                 throw new FormatException($"Invalid token: expected {{{expected}}}, actual {{{actual}}}.");
         }
 
-        private void AcceptTerm()
+        private Term ParseMonad(string token)
+        {
+            var term = ParseTerm();
+            switch (token)
+            {
+                case "+": return new Positive(term);
+                case "-": return new Negative(term);
+                case "!": return new Negation(term);
+            }
+            return null;
+        }
+
+        private object ParseNumber(string token) =>
+            token.EndsWith("UL") || token.EndsWith("LU") ? ulong.Parse(token) :
+            token.EndsWith("U") ? ulong.Parse(token) :
+            token.EndsWith("M") ? decimal.Parse(token) :
+            token.EndsWith("L") ? long.Parse(token) :
+            token.EndsWith("F") ? float.Parse(token) :
+            token.EndsWith("D") || token.Contains(".") ? double.Parse(token) :
+            (object) int.Parse(token);
+
+        private Function ParseStaticFunction(string token)
+        {
+            Accept("(");
+            return new Function(token, ParseTerms().ToArray());
+        }
+
+
+        private Term ParseTerm()
         {
             var token = _tokenQueue.Dequeue();
+            if (token.IsBoolean())
+                return token == "true" ? Constant.True : Constant.False;
+            if (token.IsChar())
+                return new Constant(char.Parse(token.Substring(1, token.Length - 2)));
+            if (token.IsField())
+                return new Field(Tags.ToTag(token));
             if (token.IsMonadicOperator())
-                _operatorStack.Push(token);
-            else if (token.IsConstant() || token.IsField())
-                _argumentStack.Push(token);
-            else if (token.IsStaticFunction())
+                return ParseMonad(token);
+            if (token.IsNumber())
+                return new Constant(ParseNumber(token.ToUpperInvariant()));
+            if (token.IsStaticFunction())
+                return ParseStaticFunction(token);
+            if (token == "(")
             {
-                _operatorStack.Push(token);
-                Accept("(");
-                AcceptTermList();
-                Accept(")");
-            }
-            else if (token == "(")
-            {
-                AcceptTerm();
-                Accept(")");
             }
         }
 
-        private void AcceptTermList()
+        private IEnumerable<Term> ParseTerms()
         {
-            while (_tokenQueue.Peek() != ")")
-            {
-                AcceptTerm();
-                if (_tokenQueue.Peek() == ",")
+            while (true)
+                if (_tokenQueue.Peek() == ")")
                 {
-                    Accept(",");
-                    AcceptTerm();
+                    Accept(")");
+                    yield break;
                 }
-            }
-            Accept(")");
+                else
+                {
+                    yield return ParseTerm();
+                    if (_tokenQueue.Peek() == ",")
+                        Accept(",");
+                }
         }
 
         private void Reset()
