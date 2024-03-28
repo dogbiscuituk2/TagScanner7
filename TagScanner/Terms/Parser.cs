@@ -3,6 +3,7 @@
     using System;
     using System.Collections.Generic;
     using System.Linq;
+    using System.Text.RegularExpressions;
 
     public class Parser
     {
@@ -84,6 +85,10 @@
                 return token == "true" ? Constant.True : Constant.False;
             if (token.IsChar())
                 return new Constant(char.Parse(token.Substring(1, token.Length - 2)));
+            if (token.IsDateTime())
+                return new Constant(ParseDateTime(token));
+            if (token.IsTimeSpan())
+                return new Constant(ParseTimeSpan(token));
             if (token.IsField())
                 return new Field(Tags.Values.Single(p => p.DisplayName == token).Tag);
             if (token.IsMonadicOperator())
@@ -118,6 +123,33 @@
                     if (_tokenQueue.Peek() == ",")
                         Accept(",");
                 }
+        }
+
+        private DateTime ParseDateTime(string token)
+        {
+            var groups = Regex.Match(token, Tokenizer.DateTimePattern).Groups;
+            return DateTime.Now;
+        }
+
+        private TimeSpan ParseTimeSpan(string token)
+        {
+            // 9 groups are returned:
+            // [3] is days,
+            // [4] is hours,
+            // [5] is minutes,
+            // [6] is seconds,
+            // [7] is fraction of a second, including a leading decimal point.
+            var groups = Regex.Match(token, Tokenizer.TimeSpanPattern).Groups;
+            int
+                days = 0,
+                hours = 0,
+                minutes = int.Parse(groups[5].Value),
+                seconds = int.Parse(groups[6].Value);
+            double ms = 0;
+            int.TryParse(groups[3].Value, out days);
+            int.TryParse(groups[4].Value, out hours);
+            double.TryParse(groups[7].Value, out ms);
+            return new TimeSpan(days, hours, minutes, seconds, (int)(ms * 1000));
         }
 
         private void Reset()

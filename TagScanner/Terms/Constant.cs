@@ -2,6 +2,7 @@
 {
     using System;
     using System.Linq.Expressions;
+    using System.Text;
 
     [Serializable]
     public class Constant : Term
@@ -31,10 +32,24 @@
                 case DateTime dateTime:
                     return dateTime.ToString(dateTime.TimeOfDay.Ticks == 0 ? "[yyyy-MM-dd]" : "[yyyy-MM-dd HH:mm:ss]");
                 case TimeSpan timeSpan:
-                    return string.Format(@"[{0:h\:mm\:ss}]", timeSpan);
+                    return FormatTimeSpan(timeSpan);
                 default:
                     return Value.ToString();
             }
+        }
+
+        private string FormatTimeSpan(TimeSpan timeSpan)
+        {
+            var format = new StringBuilder(@"mm\:ss");
+            if (timeSpan.Days > 0 || timeSpan.Hours > 0)
+            {
+                format.Insert(0, @"hh\:");
+                if (timeSpan.Days > 0)
+                    format.Insert(0, @"d\.");
+            }
+            if (timeSpan.Milliseconds > 0)
+                format.Append(@"\.fff");
+            return string.Format($@"[{{0:{format}}}]", timeSpan);
         }
 
         [NonSerialized]
