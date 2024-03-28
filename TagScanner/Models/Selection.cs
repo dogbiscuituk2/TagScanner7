@@ -168,6 +168,7 @@
         [Column(160)]
         [Description("A string array containing the performers or artists who performed in the media described by the selected item(s), or an empty array if no value is present. (Obsolete. For album artists, use AlbumArtists. For track artists, use Performers.)")]
         [DisplayName("Artists")]
+        [Obsolete("Obsolete. For album artists, use AlbumArtists. For track artists, use Performers.")]
         public string[] Artists
         {
             get => GetStringArray(p => p.Artists, ref _artists);
@@ -189,6 +190,7 @@
         [DefaultValue(0)]
         [Description("An integer indicating the number of performers or artists who performed in the media described by the selected item(s), or zero if none are present. (Obsolete. For album artists, use AlbumArtistsCount. For track artists, use PerformersCount.)")]
         [DisplayName("# Artists")]
+        [Obsolete("Obsolete. For album artists, use AlbumArtistsCount. For track artists, use PerformersCount.")]
         [ReadOnly(true)]
         [Uses(Tag.Artists)]
         public int ArtistsCount => Artists.Length;
@@ -719,6 +721,7 @@
         [Column(160)]
         [Description("A string containing the sort name for the first performer or artist who performed in the media described by the selected item(s), or an empty string if no value is present. (Obsolete. For album artists, use FirstAlbumArtist. For track artists, use FirstPerformer.)")]
         [DisplayName("1st Artist")]
+        [Obsolete("Obsolete. For album artists, use FirstAlbumArtist. For track artists, use FirstPerformer.")]
         [ReadOnly(true)]
         [Uses(Tag.Artists)]
         public string FirstArtist => GetString(p => p.FirstArtist, ref _firstArtist);
@@ -1223,6 +1226,7 @@
         [Column(160)]
         [Description("A string containing the sort names for the performers or artists who performed in the media described by the selected item(s), or an empty string if no value is present. (Obsolete. For album artists, use JoinedAlbumArtists. For track artists, use JoinedPerformers.)")]
         [DisplayName("Artists (joined)")]
+        [Obsolete("Obsolete. For album artists, use JoinedAlbumArtists. For track artists, use JoinedPerformers.")]
         [ReadOnly(true)]
         [Uses(Tag.Artists)]
         public string JoinedArtists => GetString(p => p.JoinedArtists, ref _joinedArtists);

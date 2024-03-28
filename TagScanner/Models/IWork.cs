@@ -15,8 +15,8 @@
         string AlbumPeak { get; } // ReplayGain
         string AlbumSort { get; set; }
         string AmazonId { get; set; }
-        string[] Artists { get; set; }
-        int ArtistsCount { get; }
+        string[] Artists { get; set; } // Obsolete
+        int ArtistsCount { get; } // Obsolete
         int AudioBitrate { get; }
         int AudioChannels { get; }
         int AudioSampleRate { get; }
@@ -53,7 +53,7 @@
         FileStatus FileStatus { get; }
         string FirstAlbumArtist { get; }
         string FirstAlbumArtistSort { get; }
-        string FirstArtist { get; }
+        string FirstArtist { get; } // Obsolete
         string FirstComposer { get; }
         string FirstComposerSort { get; }
         string FirstGenre { get; }
@@ -83,7 +83,7 @@
         Logical IsClassical { get; }
         Logical IsEmpty { get; }
         string JoinedAlbumArtists { get; }
-        string JoinedArtists { get; }
+        string JoinedArtists { get; } // Obsolete
         string JoinedComposers { get; }
         string JoinedGenres { get; }
         string JoinedPerformers { get; }
