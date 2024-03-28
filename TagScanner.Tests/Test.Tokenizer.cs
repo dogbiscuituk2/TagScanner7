@@ -16,7 +16,7 @@
         [DataRow("(123).Equals(456)", "(", "123", ")", ".", "Equals", "(", "456", ")")]
         public void TestTokenizeFunctions(string text, params string[] expected)
         {
-            var actual = Tokenizer.GetTokens(text);
+            var actual = Tokens.GetTokens(text);
             Assert.IsTrue(expected.SequenceEqual(actual));
         }
     }

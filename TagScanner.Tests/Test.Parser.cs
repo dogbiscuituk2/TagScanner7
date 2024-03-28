@@ -18,10 +18,14 @@
         [DataRow("12345.67M", typeof(Constant), typeof(decimal))]
         [DataRow("12345.67D", typeof(Constant), typeof(double))]
         [DataRow("12345.67", typeof(Constant), typeof(double), "12345.67D")]
+        [DataRow("[1958-11-23]", typeof(Constant), typeof(DateTime))]
+        [DataRow("[1958-1-2 1:2:3]", typeof(Constant), typeof(DateTime), "[1958-01-02 01:02:03]")]
         [DataRow("[1958-11-23 1:23:00]", typeof(Constant), typeof(DateTime), "[1958-11-23 01:23:00]")]
         [DataRow("[1958-11-23 12:34:56.789]", typeof(Constant), typeof(DateTime))]
         [DataRow("[11.22:33:44.555]", typeof(Constant), typeof(TimeSpan))]
+        [DataRow("[1.2:3:4]", typeof(Constant), typeof(TimeSpan), "[1.02:03:04]")]
         [DataRow("[12:34:56]", typeof(Constant), typeof(TimeSpan))]
+        [DataRow("[12:34:56.789]", typeof(Constant), typeof(TimeSpan))]
         public void TestParse(string text, Type termType, Type resultType, string expectedText = null)
         {
             var term = new Parser().Parse(text);

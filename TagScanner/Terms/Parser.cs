@@ -12,7 +12,7 @@
         public Term Parse(string text)
         {
             Reset();
-            foreach (var token in Tokenizer.GetTokens(text))
+            foreach (var token in Tokens.GetTokens(text))
                 _tokenQueue.Enqueue(token);
             return ParseSimpleTerm();
         }
@@ -66,7 +66,7 @@
             // [5] is minutes,
             // [6] is seconds,
             // [7] is fraction of a second, including a leading decimal point.
-            var groups = Regex.Match(token, Tokenizer.DateTimePattern).Groups;
+            var groups = Regex.Match(token, Tokens.DateTimePattern).Groups;
             int year = int.Parse(groups[1].Value),
                 month = int.Parse(groups[2].Value),
                 day = int.Parse(groups[3].Value);
@@ -156,18 +156,19 @@
 
         private TimeSpan ParseTimeSpan(string token)
         {
-            // TimeSpan pattern generates 8 Groups.
-            // [3] is days,
-            // [4] is hours,
-            // [5] is minutes,
-            // [6] is seconds,
-            // [7] is fraction of a second, including a leading decimal point.
-            var groups = Regex.Match(token, Tokenizer.TimeSpanPattern).Groups;
-            int.TryParse(groups[3].Value, out var days);
-            int.TryParse(groups[4].Value, out var hours);
-            int minutes = int.Parse(groups[5].Value),
-                seconds = int.Parse(groups[6].Value);
-            double.TryParse(groups[7].Value, out var ms);
+            // TimeSpan pattern captures 6 Groups.
+            // [0] is the full DateTime (unused),
+            // [1] is days,
+            // [2] is hours,
+            // [3] is minutes,
+            // [4] is seconds,
+            // [5] is fraction of a second, including a leading decimal point.
+            var groups = Regex.Match(token, Tokens.TimeSpanPattern).Groups;
+            int.TryParse(groups[1].Value, out var days);
+            int.TryParse(groups[2].Value, out var hours);
+            int minutes = int.Parse(groups[3].Value),
+                seconds = int.Parse(groups[4].Value);
+            double.TryParse(groups[5].Value, out var ms);
             return new TimeSpan(days, hours, minutes, seconds, (int)(ms * 1000));
         }
 

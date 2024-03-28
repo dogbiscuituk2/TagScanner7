@@ -6,11 +6,14 @@
     using System.Text.RegularExpressions;
     using Utils;
 
-    public static class Tokenizer
+    public static class Tokens
     {
-        public const string DateTimePattern = @"^\[(\d{4})-(\d\d?)\-(\d\d?)(?: (\d\d?)\:(\d\d?)\:(\d\d?)(\.\d+)?)?\]";
+        #region Public Fields
 
-        public const string TimeSpanPattern = @"^\[(((\d+)\.)?(\d\d?)\:)(\d\d?)\:(\d\d?)(\.\d+)?\]";
+        public const string DateTimePattern = @"^\[(\d{4})-(\d\d?)\-(\d\d?)(?: " + TimePattern + @")?\]";
+        public const string TimeSpanPattern = @"^\[(?:(\d+)\.)?" + TimePattern + @"\]";
+
+        #endregion
 
         #region Public Methods
 
@@ -56,7 +59,7 @@
                 {
                     while (index < count && text[index] <= ' ')
                         index++;
-                    var result = Tokens.FirstOrDefault(p => text.Substring(index).StartsWith(p));
+                    var result = AllTokens.FirstOrDefault(p => text.Substring(index).StartsWith(p));
                     if (!string.IsNullOrWhiteSpace(result))
                         return result;
                     switch (index < count ? text[index] : Nul)
@@ -69,9 +72,7 @@
                             return MatchNumber();
                         case LeftBracket:
                             var dateTime = MatchDateTime();
-                            if (!string.IsNullOrWhiteSpace(dateTime))
-                                return dateTime;
-                            return MatchTimeSpan();
+                            return !string.IsNullOrWhiteSpace(dateTime) ? dateTime : MatchTimeSpan();
                         case Nul:
                             return string.Empty;
                     }
@@ -112,7 +113,9 @@
         /// Names are ordered descending to that, for example, "Album Artists" is matched before "Artists".
         /// If these were sorted in ascending or other order, "Album Artists" might never be matched.
         /// </summary>
-        private static readonly string[] Tokens = Booleans.Union(Fields).Union(Functions).Union(Symbols).Union(Types).OrderByDescending(p => p).ToArray();
+        private static readonly string[] AllTokens = Booleans.Union(Fields).Union(Functions).Union(Symbols).Union(Types).OrderByDescending(p => p).ToArray();
+
+        private const string TimePattern = @"(\d\d?)\:(\d\d?)\:(\d\d?)(\.\d+)?";
 
         #endregion
 
