@@ -43,6 +43,39 @@
             return new Cast(type, ParseSimpleTerm());
         }
 
+        private Term ParseCompoundTerm()
+        {
+            var term = ParseSimpleTerm();
+            var token = _tokenQueue.Dequeue();
+            while (token.IsOperator())
+            {
+                term = new Operation(token, term, ParseSimpleTerm());
+                token = _tokenQueue.Dequeue();
+            }
+            return term;
+        }
+
+        private DateTime ParseDateTime(string token)
+        {
+            // DateTimePattern generates 12 Groups.
+            // [2] is year,
+            // [3] is month,
+            // [4] is day,
+            // [7] is hours,
+            // [8] is minutes,
+            // [9] is seconds,
+            // [10] is fraction of a second, including a leading decimal point.
+            var groups = Regex.Match(token, Tokenizer.DateTimePattern).Groups;
+            int year = int.Parse(groups[2].Value),
+                month = int.Parse(groups[3].Value),
+                day = int.Parse(groups[4].Value);
+            int.TryParse(groups[7].Value, out var hours);
+            int.TryParse(groups[8].Value, out var minutes);
+            int.TryParse(groups[9].Value, out var seconds);
+            double.TryParse(groups[10].Value, out var ms);
+            return new DateTime(year, month, day, hours, minutes, seconds, (int)(ms * 1000));
+        }
+
         private Term ParseMonad(string token)
         {
             var term = ParseSimpleTerm();
@@ -65,38 +98,9 @@
             token.Contains(".") ? double.Parse(token) :
             (object) int.Parse(token);
 
-        private Function ParseStaticFunction(string token)
-        {
-            Accept("(");
-            return new Function(token, ParseTerms().ToArray());
-        }
-
-        private Term ParseCompoundTerm()
-        {
-            var term = ParseCompoundTerm();
-            Accept(")");
-            return term;
-        }
-
         private Term ParseSimpleTerm()
         {
             var token = _tokenQueue.Dequeue();
-            if (token.IsBoolean())
-                return token == "true" ? Constant.True : Constant.False;
-            if (token.IsChar())
-                return new Constant(char.Parse(token.Substring(1, token.Length - 2)));
-            if (token.IsDateTime())
-                return new Constant(ParseDateTime(token));
-            if (token.IsTimeSpan())
-                return new Constant(ParseTimeSpan(token));
-            if (token.IsField())
-                return new Field(Tags.Values.Single(p => p.DisplayName == token).Tag);
-            if (token.IsMonadicOperator())
-                return ParseMonad(token);
-            if (token.IsNumber())
-                return new Constant(ParseNumber(token.ToUpperInvariant()));
-            if (token.IsStaticFunction())
-                return ParseStaticFunction(token);
             if (token == "(")
                 if (_tokenQueue.Peek().IsType())
                     return ParseCast();
@@ -106,6 +110,24 @@
                     Accept(")");
                     return term;
                 }
+            if (token.IsBoolean())
+                return token == "true" ? Constant.True : Constant.False;
+            if (token.IsChar())
+                return new Constant(char.Parse(token.Substring(1, token.Length - 2)));
+            if (token.IsField())
+                return new Field(Tags.Values.Single(p => p.DisplayName == token).Tag);
+            if (token.IsMonadicOperator())
+                return ParseMonad(token);
+            if (token.IsNumber())
+                return new Constant(ParseNumber(token.ToUpperInvariant()));
+            if (token.IsStaticFunction())
+                return ParseStaticFunction(token);
+            // DateTime & TimeSpan constants involve expensive Regex pattern matching,
+            // and in all probability, are relatively infrequent; hence these are checked last.
+            if (token.IsDateTime())
+                return new Constant(ParseDateTime(token));
+            if (token.IsTimeSpan())
+                return new Constant(ParseTimeSpan(token));
             throw new FormatException("Whoooops!");
         }
 
@@ -125,30 +147,26 @@
                 }
         }
 
-        private DateTime ParseDateTime(string token)
+        private Function ParseStaticFunction(string token)
         {
-            var groups = Regex.Match(token, Tokenizer.DateTimePattern).Groups;
-            return DateTime.Now;
+            Accept("(");
+            return new Function(token, ParseTerms().ToArray());
         }
 
         private TimeSpan ParseTimeSpan(string token)
         {
-            // 9 groups are returned:
+            // TimeSpan pattern generates 9 Groups.
             // [3] is days,
             // [4] is hours,
             // [5] is minutes,
             // [6] is seconds,
             // [7] is fraction of a second, including a leading decimal point.
             var groups = Regex.Match(token, Tokenizer.TimeSpanPattern).Groups;
-            int
-                days = 0,
-                hours = 0,
-                minutes = int.Parse(groups[5].Value),
+            int.TryParse(groups[3].Value, out var days);
+            int.TryParse(groups[4].Value, out var hours);
+            int minutes = int.Parse(groups[5].Value),
                 seconds = int.Parse(groups[6].Value);
-            double ms = 0;
-            int.TryParse(groups[3].Value, out days);
-            int.TryParse(groups[4].Value, out hours);
-            double.TryParse(groups[7].Value, out ms);
+            double.TryParse(groups[7].Value, out var ms);
             return new TimeSpan(days, hours, minutes, seconds, (int)(ms * 1000));
         }
 

@@ -8,14 +8,8 @@
 
     public static class Tokenizer
     {
-        #region Public Fields
-
-        public static string DateTimePattern = $@"^\[((\d\d\d\d)-(\d\d?)\-(\d\d?))( ((\\d\\d?)\\:)?(\\d\\d?)\\:(\\d\\d?)(\\.(\\d+))?))?\]";
-        public static string TimeSpanPattern = $@"^\[(((\d+)\.)?(\\d\\d?)\\:)?(\\d\\d?)\\:(\\d\\d?)(\\.(\\d+))?\]";
-
-        private static string TimePattern = @"";
-
-        #endregion
+        public const string DateTimePattern = @"^\[((\d\d\d\d)-(\d\d?)\-(\d\d?))( ((\d\d?)\:)?(\d\d?)\:(\d\d?)(\.(\d+))?)?\]";
+        public const string TimeSpanPattern = @"^\[(((\d+)\.)?(\d\d?)\:)?(\d\d?)\:(\d\d?)(\.(\d+))?\]";
 
         #region Public Methods
 
@@ -36,7 +30,6 @@
             string MatchDateTime() => MatchRegex(DateTimePattern);
             string MatchNumber() => MatchRegex(@"^(\d+\.?\d*(UL|LU|D|F|L|M|U)?)", RegexOptions.IgnoreCase);
             string MatchRegex(string pattern, RegexOptions options = RegexOptions.None) => Regex.Match(text.Substring(index), pattern, options).Value;
-            string MatchTimeSpan() => MatchRegex(TimeSpanPattern);
 
             string MatchString()
             {
@@ -49,6 +42,8 @@
                 }
                 return string.Empty;
             }
+
+            string MatchTimeSpan() => MatchRegex(TimeSpanPattern);
 
             string ReadToken()
             {

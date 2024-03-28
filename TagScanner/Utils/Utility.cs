@@ -4,7 +4,7 @@
     using System.Drawing;
     using Models;
 
-    public static class Utilities
+    public static class Utility
     {
         #region Public Interface
 

@@ -2,6 +2,9 @@
 {
     using System;
 
+    /// <summary>
+    /// The term "Rank" is used in preference to "Precedence" coz short.
+    /// </summary>
     [Flags]
     public enum Rank
     {
