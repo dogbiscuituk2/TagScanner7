@@ -8,13 +8,6 @@
 
     public static class Tokens
     {
-        #region Public Fields
-
-        public const string DateTimePattern = @"^\[(\d{4})-(\d\d?)\-(\d\d?)(?: " + TimePattern + @")?\]";
-        public const string TimeSpanPattern = @"^\[(?:(\d+)\.)?" + TimePattern + @"\]";
-
-        #endregion
-
         #region Public Methods
 
         public static IEnumerable<string> GetTokens(string text)
@@ -31,7 +24,7 @@
             yield break;
 
             string MatchCharacter() => MatchRegex(@"^'.'");
-            string MatchDateTime() => MatchRegex(DateTimePattern);
+            string MatchDateTime() => MatchRegex(Parser.DateTimePattern);
             string MatchNumber() => MatchRegex(@"^(\d+\.?\d*(UL|LU|D|F|L|M|U)?)", RegexOptions.IgnoreCase);
             string MatchRegex(string pattern, RegexOptions options = RegexOptions.None) => Regex.Match(text.Substring(index), pattern, options).Value;
 
@@ -47,7 +40,7 @@
                 return string.Empty;
             }
 
-            string MatchTimeSpan() => MatchRegex(TimeSpanPattern);
+            string MatchTimeSpan() => MatchRegex(Parser.TimeSpanPattern);
 
             string ReadToken()
             {
@@ -84,7 +77,7 @@
         public static bool IsBoolean(this string token) => Booleans.Contains(token);
         public static bool IsChar(this string token) => token[0] == SingleQuote;
         public static bool IsConstant(this string token) => token.IsBoolean() || token.IsChar() || token.IsNumber() || token.IsString();
-        public static bool IsDateTime(this string token) => Regex.IsMatch(token, DateTimePattern);
+        public static bool IsDateTime(this string token) => Regex.IsMatch(token, Parser.DateTimePattern);
         public static bool IsDyadicOperator(this string token) => DyadicOperators.Contains(token);
         public static bool IsField(this string token) => Fields.Contains(token);
         public static bool IsFunction(this string token) => Functions.Contains(token);
@@ -95,7 +88,7 @@
         public static bool IsStaticFunction(this string token) => StaticFunctions.Contains(token);
         public static bool IsString(this string token) => token[0] == DoubleQuote;
         public static bool IsSymbol(this string token) => Symbols.Contains(token);
-        public static bool IsTimeSpan(this string token) => Regex.IsMatch(token, TimeSpanPattern);
+        public static bool IsTimeSpan(this string token) => Regex.IsMatch(token, Parser.TimeSpanPattern);
         public static bool IsTriadicOperator(this string token) => TriadicOperators.Contains(token);
         public static bool IsType(this string token) => Types.Contains(token);
 
@@ -114,8 +107,6 @@
         /// If these were sorted in ascending or other order, "Album Artists" might never be matched.
         /// </summary>
         private static readonly string[] AllTokens = Booleans.Union(Fields).Union(Functions).Union(Symbols).Union(Types).OrderByDescending(p => p).ToArray();
-
-        private const string TimePattern = @"(\d\d?)\:(\d\d?)\:(\d\d?)(\.\d+)?";
 
         #endregion
 
