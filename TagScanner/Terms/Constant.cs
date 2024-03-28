@@ -30,7 +30,7 @@
             switch (Value)
             {
                 case DateTime dateTime:
-                    return dateTime.ToString(dateTime.TimeOfDay.Ticks == 0 ? "[yyyy-MM-dd]" : "[yyyy-MM-dd HH:mm:ss]");
+                    return FormatDateTime(dateTime);
                 case TimeSpan timeSpan:
                     return FormatTimeSpan(timeSpan);
                 default:
@@ -38,7 +38,20 @@
             }
         }
 
-        private string FormatTimeSpan(TimeSpan timeSpan)
+        private string FormatDateTime(DateTime dateTime)
+        {
+            var format = new StringBuilder("yyyy-MM-dd");
+            var timeSpan = dateTime.TimeOfDay;
+            if (timeSpan.Ticks > 0)
+            {
+                format.Append(" HH:mm:ss");
+                if (timeSpan.Milliseconds > 0)
+                    format.Append(".fff");
+            }
+            return dateTime.ToString($"[{format}]");
+        }
+
+            private string FormatTimeSpan(TimeSpan timeSpan)
         {
             var format = new StringBuilder(@"mm\:ss");
             if (timeSpan.Days > 0 || timeSpan.Hours > 0)
@@ -49,7 +62,7 @@
             }
             if (timeSpan.Milliseconds > 0)
                 format.Append(@"\.fff");
-            return string.Format($@"[{{0:{format}}}]", timeSpan);
+            return string.Format($"[{{0:{format}}}]", timeSpan);
         }
 
         [NonSerialized]

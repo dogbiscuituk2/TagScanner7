@@ -8,8 +8,9 @@
 
     public static class Tokenizer
     {
-        public const string DateTimePattern = @"^\[((\d\d\d\d)-(\d\d?)\-(\d\d?))( ((\d\d?)\:)?(\d\d?)\:(\d\d?)(\.(\d+))?)?\]";
-        public const string TimeSpanPattern = @"^\[(((\d+)\.)?(\d\d?)\:)?(\d\d?)\:(\d\d?)(\.(\d+))?\]";
+        public const string DateTimePattern = @"^\[(\d{4})-(\d\d?)\-(\d\d?)(?: (\d\d?)\:(\d\d?)\:(\d\d?)(\.\d+)?)?\]";
+
+        public const string TimeSpanPattern = @"^\[(((\d+)\.)?(\d\d?)\:)(\d\d?)\:(\d\d?)(\.\d+)?\]";
 
         #region Public Methods
 

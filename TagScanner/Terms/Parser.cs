@@ -57,22 +57,23 @@
 
         private DateTime ParseDateTime(string token)
         {
-            // DateTimePattern generates 12 Groups.
-            // [2] is year,
-            // [3] is month,
-            // [4] is day,
-            // [7] is hours,
-            // [8] is minutes,
-            // [9] is seconds,
-            // [10] is fraction of a second, including a leading decimal point.
+            // DateTimePattern captures 8 Groups.
+            // [0] is the full DateTime (unused),
+            // [1] is year,
+            // [2] is month,
+            // [3] is day,
+            // [4] is hours,
+            // [5] is minutes,
+            // [6] is seconds,
+            // [7] is fraction of a second, including a leading decimal point.
             var groups = Regex.Match(token, Tokenizer.DateTimePattern).Groups;
-            int year = int.Parse(groups[2].Value),
-                month = int.Parse(groups[3].Value),
-                day = int.Parse(groups[4].Value);
-            int.TryParse(groups[7].Value, out var hours);
-            int.TryParse(groups[8].Value, out var minutes);
-            int.TryParse(groups[9].Value, out var seconds);
-            double.TryParse(groups[10].Value, out var ms);
+            int year = int.Parse(groups[1].Value),
+                month = int.Parse(groups[2].Value),
+                day = int.Parse(groups[3].Value);
+            int.TryParse(groups[4].Value, out var hours);
+            int.TryParse(groups[5].Value, out var minutes);
+            int.TryParse(groups[6].Value, out var seconds);
+            double.TryParse(groups[7].Value, out var ms);
             return new DateTime(year, month, day, hours, minutes, seconds, (int)(ms * 1000));
         }
 
@@ -131,6 +132,12 @@
             throw new FormatException("Whoooops!");
         }
 
+        private Function ParseStaticFunction(string token)
+        {
+            Accept("(");
+            return new Function(token, ParseTerms().ToArray());
+        }
+
         private IEnumerable<Term> ParseTerms()
         {
             while (true)
@@ -147,15 +154,9 @@
                 }
         }
 
-        private Function ParseStaticFunction(string token)
-        {
-            Accept("(");
-            return new Function(token, ParseTerms().ToArray());
-        }
-
         private TimeSpan ParseTimeSpan(string token)
         {
-            // TimeSpan pattern generates 9 Groups.
+            // TimeSpan pattern generates 8 Groups.
             // [3] is days,
             // [4] is hours,
             // [5] is minutes,
