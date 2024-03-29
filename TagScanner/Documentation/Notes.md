@@ -4,16 +4,16 @@
 
 - <a href="#Model">Model</a>
 - <a href="#Filter">Filter</a>
-- <a href="#Term">Term _(abstract)_</a>
+- <a href="#Term">_Term (abstract)_</a>
   - <a href="#Constant">Constant</a>
   - <a href="#Field">___Field___</a>
   - <a href="#Parameter">Parameter</a>
-  - <a href="#Umptad">Umptad _(abstract)_</a>
+  - <a href="#Umptad">_Umptad (abstract)_</a>
     - <a href="#Cast">Cast</a>
     - <a href="#Function">___Function___</a>
     - <a href="#Operation">___Operation___</a>
-      - <a href="#MonadicOperation">Monadic Operation _+, -, !_</a>
-      - <a href="#DyadicOperation">Dyadic Operation _+, -, *, /, &amp;, |, ^, =, !=, &lt;, &lt;=, &gt;=, &gt;_</a>
+      - <a href="#MonadicOperation">Monadic Operations _+, -, !_</a>
+      - <a href="#DyadicOperation">Dyadic Operations _+, -, *, /, &amp;, |, ^, =, !=, &lt;, &lt;=, &gt;=, &gt;_</a>
       - <a href="#TriadicOperation">Triadic Operation _? :_</a>
 
 ## Model {#Model}
@@ -43,7 +43,9 @@ The __Term__ class is the abstract base of the following hierarchy:
     - __Function__
     - __Operation__
 
-<div style="text-align: right"><a href="#Contents">^ Contents</a></div>## Constant {#Constant}
+<div style="text-align: right"><a href="#Contents">^ Contents</a></div>
+
+## Constant {#Constant}
 
 The __Constant__ class represents fixed values in expressions. Supported value types are _bool_, _char_, _string_, various numerical integer (_int_, _uint_, _long_, _ulong_) and floating point (_float_, _double_, _decimal_) formats, together with _TimeSpan_ and _DateTime_.
 
@@ -55,7 +57,7 @@ The __Field__ class represents domain item properties. This system was developed
 
 Notice that field denotations are permitted to contain spaces and other non-alphanumeric characters.
 
-At runtime, the full list of accessible fields, together with their various metadata, will be assembled from the attributes attached to properties in the <a href="..\Models\Selection.cs">_Selection_</a> class. This is so for historical reasons; the first UI developed for the application used the Winforms PropertyGrid control, which binds to these attributes. The next stage of development will include moving these into readily available storage, free of recompilation requirements.
+At runtime, the full list of accessible fields, together with their various metadata, will be assembled from the attributes attached to properties in the _Selection_ class. This is so for historical reasons; the first UI developed for the application used the Winforms PropertyGrid control, which binds to these attributes. The next stage of development will include moving these into readily available storage, free of recompilation requirements.
 
 <div style="text-align: right"><a href="#Contents">^ Contents</a></div>
 
@@ -116,7 +118,7 @@ The available __Operator__ set is currently found in the _Operators.cs_ file, th
 
 <div style="text-align: right"><a href="#Contents">^ Contents</a></div>
 
-## Monadic Operation {#MonadicOperation}
+## Monadic Operations {#MonadicOperation}
 
 The available __Monadic Operator__ set includes _unary plus (+)_, _negative (-)_, and _logical negation (!)_.
 
@@ -129,11 +131,11 @@ Each of these has its own specialized __Operation__ subclass, (__Positive__, __N
 
 <div style="text-align: right"><a href="#Contents">^ Contents</a></div>
 
-## Dyadic Operation {#DyadicOperation}
-
+## Dyadic Operations {#DyadicOperation}
+<details>
 The classes in this category are labelled dyadic, not because they take exactly two operands, but rather because their underlying C# operators are themselves strictly dyadic. However, many of these __Operation__ subclasses can accept any number of operands. This freedom should be used carefully, and only when the precedence & associativity context is clear.
 
-The following is not a complete dyadic __Operation__ list, since several of them, such as the equalities ('=', '!=') and the relationals ('<', '<=', '>=', '>') don't have their own dedicated subclasses.
+The following is not a complete dyadic __Operation__ list, since several of them, such as the equalities ('=', '!=') and the relationals ('<', '<=', '>=', '>'), don't have their own dedicated subclasses.
 
 - __Operation__
   - __Sum__
@@ -165,6 +167,7 @@ As another example, the removal of the 2-term restriction on these operators mak
 Under the hood, this is implemented as a __Conjunction__ of _1 &lt; 2_ and _2 &lt; 3_.
 
 <div style="text-align: right"><a href="#Contents">^ Contents</a></div>
+</details>
 
 ## Triadic Operation {#TriadicOperation}
 
