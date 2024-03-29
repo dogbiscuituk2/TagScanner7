@@ -251,7 +251,7 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
-    <None Include="Notes.md" />
+    <None Include="Documentation\Notes.md" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
