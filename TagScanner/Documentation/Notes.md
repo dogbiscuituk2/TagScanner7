@@ -1,34 +1,44 @@
-﻿# TagScanner Classes - An Overview
+﻿# TagScanner Classes - An Overview {#Contents}
 
-## Contents {#Contents}
+## Contents
 
 - <a href="#Model">Model</a>
-- <a href="#Filter">Filter</a>
+  - <a href="#Library">Library</a>
+  - <a href="#Filter">Filter</a>
 - <a href="#Term">_Term (abstract)_</a>
   - <a href="#Constant">Constant</a>
   - <a href="#Field">___Field___</a>
   - <a href="#Parameter">Parameter</a>
   - <a href="#Umptad">_Umptad (abstract)_</a>
-    - <a href="#Cast">Cast</a>
-    - <a href="#Function">___Function___</a>
-    - <a href="#Operation">___Operation___</a>
+  - <a href="#Cast">Cast</a>
+  - <a href="#Function">___Function___</a>
+  - <a href="#Operation">___Operation___</a>
       - <a href="#MonadicOperation">Monadic Operations _+, -, !_</a>
       - <a href="#DyadicOperation">Dyadic Operations _+, -, *, /, &amp;, |, ^, =, !=, &lt;, &lt;=, &gt;=, &gt;_</a>
       - <a href="#TriadicOperation">Triadic Operation _? :_</a>
+- <a href="#Grammar">Grammar</a>
+  - <a href="#Tokens">Tokens</a>
+  - <a href="#Parser">Parser</a>
 
 ## Model {#Model}
 
 The __Model__ class represents the collection of _data items_ (also known as _business objects_) used by the application.
 
-<div style="text-align: right"><a href="#Contents">^ Contents</a></div>
+Two important properties of the __Model__ are its __Library__ and __Filter__.
+
+<a href="#Contents">^ Contents</a>
+
+## Library {#Library}
+
+<a href="#Contents">^ Contents</a>
 
 ## Filter {#Filter}
 
-The __Filter__ class is the receptacle for a collection of __Term__ objects, any of which may be selected to apply to the data. The _ResultType_ of a __Term__ in a __Filter__ must be _bool_.
+The **Filter** class is the receptacle for a collection of **Term** objects, any _one_ of which may be selected to apply to the data. The _ResultType_ of a __Term__ in a __Filter__ must be _bool_.
 
 At runtime, the selected __Term__ is converted to a _Predicate_ and applied to the list of data in the __Model__. If the selected __Term__ returns _true_ for any given item, then the item is displayed normally in the set presented to the user. If it returns _false_, then depending on the currently chosen _Filter Action_, that item will either be grayed out, or entirely hidden.
 
-<div style="text-align: right"><a href="#Contents">^ Contents</a></div>
+<a href="#Contents">^ Contents</a>
 
 ## Term {#Term}
 
@@ -43,13 +53,13 @@ The __Term__ class is the abstract base of the following hierarchy:
     - __Function__
     - __Operation__
 
-<div style="text-align: right"><a href="#Contents">^ Contents</a></div>
+<a href="#Contents">^ Contents</a>
 
 ## Constant {#Constant}
 
 The __Constant__ class represents fixed values in expressions. Supported value types are _bool_, _char_, _string_, various numerical integer (_int_, _uint_, _long_, _ulong_) and floating point (_float_, _double_, _decimal_) formats, together with _TimeSpan_ and _DateTime_.
 
-<div style="text-align: right"><a href="#Contents">^ Contents</a></div>
+<a href="#Contents">^ Contents</a>
 
 ## Field {#Field}
 
@@ -59,13 +69,13 @@ Notice that field denotations are permitted to contain spaces and other non-alph
 
 At runtime, the full list of accessible fields, together with their various metadata, will be assembled from the attributes attached to properties in the _Selection_ class. This is so for historical reasons; the first UI developed for the application used the Winforms PropertyGrid control, which binds to these attributes. The next stage of development will include moving these into readily available storage, free of recompilation requirements.
 
-<div style="text-align: right"><a href="#Contents">^ Contents</a></div>
+<a href="#Contents">^ Contents</a>
 
 ## Parameter {#Parameter}
 
 The __Parameter__ class is used internally, to provide the default parameter values needed while building expressions manually.
 
-<div style="text-align: right"><a href="#Contents">^ Contents</a></div>
+<a href="#Contents">^ Contents</a>
 
 ## Umptad {#Umptad}
 
@@ -78,7 +88,7 @@ An operator accepting an indeterminate number of operands can then be said to ac
   - __Function__
   - __Operation__
 
-<div style="text-align: right"><a href="#Contents">^ Contents</a></div>
+<a href="#Contents">^ Contents</a>
 
 ## Cast {#Cast}
 
@@ -88,7 +98,7 @@ The __Cast__ class is the first and simplest __Umptad__ descendant. Taking a sin
 
 converts the _# Album Artists_ property from a normal integer (System.Int32) to a long one (System.Int64).
 
-<div style="text-align: right"><a href="#Contents">^ Contents</a></div>
+<a href="#Contents">^ Contents</a>
 
 ## Function {#Function}
 
@@ -108,7 +118,7 @@ which, in the case of a Beatles song, would return a __Constant Term__ with a _R
 
 The available roster of __Function__s is currently found in the _Methods.cs_ file, though the next stage of development will include moving these into readily available storage, free of recompilation requirements.
 
-<div style="text-align: right"><a href="#Contents">^ Contents</a></div>
+<a href="#Contents">^ Contents</a>
 
 ## Operation {#Operation}
 
@@ -116,7 +126,7 @@ The __Operation__ class represents a C# operator call, taking one or more __Term
 
 The available __Operator__ set is currently found in the _Operators.cs_ file, though the next stage of development will include moving these into readily available storage, free of recompilation requirements.
 
-<div style="text-align: right"><a href="#Contents">^ Contents</a></div>
+<a href="#Contents">^ Contents</a>
 
 ## Monadic Operations {#MonadicOperation}
 
@@ -129,10 +139,10 @@ The available __Monadic Operator__ set includes _unary plus (+)_, _negative (-)_
 
 Each of these has its own specialized __Operation__ subclass, (__Positive__, __Negative__ and __Negation__ respectively, although they can equally be instantiated using just the __Operation__ base class, supplying the appropriate __Operator__ symbol.
 
-<div style="text-align: right"><a href="#Contents">^ Contents</a></div>
+<a href="#Contents">^ Contents</a>
 
 ## Dyadic Operations {#DyadicOperation}
-<details>
+
 The classes in this category are labelled dyadic, not because they take exactly two operands, but rather because their underlying C# operators are themselves strictly dyadic. However, many of these __Operation__ subclasses can accept any number of operands. This freedom should be used carefully, and only when the precedence & associativity context is clear.
 
 The following is not a complete dyadic __Operation__ list, since several of them, such as the equalities ('=', '!=') and the relationals ('<', '<=', '>=', '>'), don't have their own dedicated subclasses.
@@ -146,7 +156,7 @@ The following is not a complete dyadic __Operation__ list, since several of them
   - __Disjunction__
   - __Concatenation__
 
-For example, the sum of 1+2+3 can be coded as any of the following:
+For example, the sum of 1+2+3 can be coded as any of the following (click to expand):
 
     new Sum(new Sum(1, 2), 3) // Nested dyads.
 
@@ -166,16 +176,81 @@ As another example, the removal of the 2-term restriction on these operators mak
 
 Under the hood, this is implemented as a __Conjunction__ of _1 &lt; 2_ and _2 &lt; 3_.
 
-<div style="text-align: right"><a href="#Contents">^ Contents</a></div>
-</details>
+<a href="#Contents">^ Contents</a>
 
 ## Triadic Operation {#TriadicOperation}
 
-The single provided triadic operation is of course the __Conditional__, the expression equivalent of a coding _if-then-else__ construct. Here is an example of its use in first a coding, and then a scripting, context:
+The single provided triadic operation is of course the __Conditional__, the expression equivalent of a coding _if-then-else__ construct. Here is an example of its use, first in a coding context, then in a scripting, context:
 
-    var foo = new Conditional(Title.Contains("Pepper"), 10, 2); // Returns 10 for "Sgt. Pepper's", or else 2 for any pepperless title.
+    var foo = new Conditional(Album Title.Contains("Pepper"), 10, 2); // Returns 10 for "Sgt. Pepper's", or else 2 for any pepperless title.
 
-    Title.Contains("Pepper") ? 10 : 2
+    Album Title.Contains("Pepper") ? 10 : 2
 
-<div style="text-align: right"><a href="#Contents">^ Contents</a></div>
+<a href="#Contents">^ Contents</a>
 
+## Grammar {#Grammar}
+
+<details><summary>The grammar of the TagScanner application's scripting language looks a little bit like this (click <u>here</u> to expand / collapse):</summary>
+
+- __Term:__
+  - Cast | Constant | Field | Function | Operation
+  - ( Term )
+
+- __Cast:__
+  - ( Type ) Term
+
+- __Type:__
+  - bool | byte | char | DateTime | decimal | double | float | int | long | object | sbyte | short | string | TimeSpan | uint | ulong | ushort
+
+- __Constant:__
+  - Number | Char | String
+
+- __Number:__
+  - [-+]?[0-9]+
+
+- __Char:__
+  - '([^']|'')'
+
+- __String:__
+  - "([^\"]|\.)*"
+
+- __Field:__
+  - Album | Album Artists | # Album Artists | ... | Year
+
+- __Function:__
+  - StaticFn ( Operands? )
+  - Term . MemberFn ( Operands? )
+
+- __MemberFn:__
+  - Contains | EndsWith | ... | Uppercase
+
+- __StaticFn:__
+  - Compare | Format | ... | Replace$ | ... | Truncate
+
+- __Operands:__
+  - Term
+  - Term, Operands
+
+- __Operation:__
+  - Operator1 Term
+  - Term Operator2 Term
+  - Term ? Term : Term
+
+- __Operator1:__ _one of_ + - !
+
+- __Operator2:__ _one of_ &amp; | ^ = != &lt; &lt;= &gt; &gt;= + - * /
+
+</details>
+<a href="#Contents">^ Contents</a>
+
+## Tokens {#Tokens}
+
+The __Tokens__ class performs the first stage of expression parsing, separating the input character stream into its various recognisable language tokens.
+
+<a href="#Contents">^ Contents</a>
+
+## Parser {#Parser}
+
+The __Parser__ class, leaning heavily on the resources of the __Tokens__ class, performs the difficult part of the process of converting the input character stream into an executable expression.
+
+<a href="#Contents">^ Contents</a>
