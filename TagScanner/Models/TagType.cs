@@ -1,7 +1,5 @@
 ﻿namespace TagScanner.Models
 {
-    using System;
-
     public static class TagType
     {
         public const string

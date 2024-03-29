@@ -1,24 +1,35 @@
-﻿# TagScanner Classes - An Overview {#Contents}
+﻿# TagScanner - A Code Overview {#Contents}
+
+This document presents brief desciptions of the most important classes and other design elements of the TagScanner application.
 
 ## Contents
 
 - <a href="#Model">Model</a>
   - <a href="#Library">Library</a>
   - <a href="#Filter">Filter</a>
+  - <a href="#Tags">Tags</a>
+  -  <a href="IWork">IWork _(interface)_</a>
+      - <a href="#Work">Work</a>
+      - <a href="#Selection">Selection</a>
 - <a href="#Term">_Term (abstract)_</a>
   - <a href="#Constant">Constant</a>
-  - <a href="#Field">___Field___</a>
+  - <a href="#Field">Field</a>
   - <a href="#Parameter">Parameter</a>
   - <a href="#Umptad">_Umptad (abstract)_</a>
   - <a href="#Cast">Cast</a>
-  - <a href="#Function">___Function___</a>
-  - <a href="#Operation">___Operation___</a>
+  - <a href="#Function">Function</a>
+  - <a href="#Operation">Operation</a>
       - <a href="#MonadicOperation">Monadic Operations _+, -, !_</a>
       - <a href="#DyadicOperation">Dyadic Operations _+, -, *, /, &amp;, |, ^, =, !=, &lt;, &lt;=, &gt;=, &gt;_</a>
       - <a href="#TriadicOperation">Triadic Operation _? :_</a>
 - <a href="#Grammar">Grammar</a>
   - <a href="#Tokens">Tokens</a>
   - <a href="#Parser">Parser</a>
+- <a href="#DevCheatSheet">Development Cheat Sheet</a>
+  - <a href="#CheatSheetTags">Tags</a>
+  - <a href="#CheatSheetFields">Fields</a>
+  - <a href="#CheatSheetFunctions">Functions</a>
+  - <a href="#CheatSheetOperations">Operations</a>
 
 ## Model {#Model}
 
@@ -40,7 +51,19 @@ At runtime, the selected __Term__ is converted to a _Predicate_ and applied to t
 
 <a href="#Contents">^ Contents</a>
 
-## Term {#Term}
+## Tags {#Tags}
+
+<a href="#Contents">^ Contents</a>
+
+## IWork {#IWork}
+
+<a href="#Contents">^ Contents</a>
+
+## Work {#Work}
+
+<a href="#Contents">^ Contents</a>
+
+## Selection {#Selection}
 
 The __Term__ class is the abstract base of the following hierarchy:
 
@@ -52,6 +75,8 @@ The __Term__ class is the abstract base of the following hierarchy:
     - __Cast__
     - __Function__
     - __Operation__
+
+These and several other related classes and types are grouped together under the _TagScanner.Terms_ namespace, distinct from the _TagScanner.Models_ namespace in general use up to this point in the document.
 
 <a href="#Contents">^ Contents</a>
 
@@ -190,7 +215,7 @@ The single provided triadic operation is of course the __Conditional__, the expr
 
 ## Grammar {#Grammar}
 
-<details><summary>The grammar of the TagScanner application's scripting language looks a little bit like this (click <u>here</u> to expand / collapse):</summary>
+<details><summary>The grammar of the TagScanner application's scripting language looks a little bit like this <i>(<u>click here</u> to expand / collapse):</i></summary>
 
 - __Term:__
   - Cast | Constant | Field | Function | Operation
@@ -218,18 +243,18 @@ The single provided triadic operation is of course the __Conditional__, the expr
   - Album | Album Artists | # Album Artists | ... | Year
 
 - __Function:__
-  - StaticFn ( Operands? )
-  - Term . MemberFn ( Operands? )
+  - StaticFunction ( TermList? )
+  - Term . MemberFunction ( TermList? )
 
-- __MemberFn:__
+- __MemberFunction:__
   - Contains | EndsWith | ... | Uppercase
 
-- __StaticFn:__
+- __StaticFunction:__
   - Compare | Format | ... | Replace$ | ... | Truncate
 
-- __Operands:__
+- __TermList:__
   - Term
-  - Term, Operands
+  - Term , TermList
 
 - __Operation:__
   - Operator1 Term
@@ -252,5 +277,45 @@ The __Tokens__ class performs the first stage of expression parsing, separating 
 ## Parser {#Parser}
 
 The __Parser__ class, leaning heavily on the resources of the __Tokens__ class, performs the difficult part of the process of converting the input character stream into an executable expression.
+
+<a href="#Contents">^ Contents</a>
+
+## Development Cheat Sheet {#DevCheatSheet}
+
+__Tags__ {#CheatSheetTags}
+
+- This application uses the _TagLib#_ library to access (both read and write) metadata in media files, including video, audio, and photo formats.
+- In the _TagLib#_ library source code and API, the term _Tag_ refers to a structure containing most of the metadata for the given media.
+- By contrast, the term _Tag_ in this application means any single item of metadata from that structure, e.g. work title, performer, duration, etc.
+- These _Tags_ have in turn their own metadata, indicating for example their runtime type, category, and so on.
+- Such _meta-metadata_ can be found in the _TagScanner.Models.TagInfo_ class _(TagInfo.cs)_.
+- In the application source code, __Tag__ values are introduced in the _TagScanner.Models.Tag_ enumeration _(Tags.cs)_.
+- __Tag__ data types and read/write permissions are best summarised in the _TagScanner.Models.IWork_ interface _(IWork.cs)_.
+- The set of possible __Tag__ data type names is supplied by the static _TagScanner.Models.TagType_ class _(TagType.cs)_.
+- This interface is implemented by two classes in the _TagScanner.Models_ namespace: _Work (Work.cs)_ and _Selection (Selection.cs)_.
+- The code level name of a __Tag__ is not exposed in the app UI, nor in the scripting interface. Instead, its _DisplayText_ value is used throughout.
+- For historical reasons, these values appear as attributes on corresponding properties of the _TagScanner.Models.Selection_ class _(Selection.cs)_.
+- To see all __Tag__ _DisplayText_ values: (1) run the app, (2) right-click _Select Columns_ or _Select Tags_, then (3) choose _List | Names only_.
+
+<a href="#Contents">^ Contents</a>
+
+__Fields__ {#CheatSheetFields}
+
+- Available __Field__ instances are defined by a _Dictionary<Tag, TagInfo>_ called _TagDictionary_ in static class _TagScanner.Terms.Tags_.
+- The dictionary exposes two arrays as properties of this static class: _Tag[] Keys_, and _TagInfo[] Values_.
+
+<a href="#Contents">^ Contents</a>
+
+__Functions__ {#CheatSheetFunctions}
+
+- Available __Function__ instances are defined by a _Dictionary<string, MethodInfo>_ called _MethodDictionary_ in static class _TagScanner.Terms.Methods_.
+- The dictionary exposes two arrays as properties of this static class: _string[] Keys_, and _MethodInfo[] Values_.
+
+<a href="#Contents">^ Contents</a>
+
+__Operations__ {#CheatSheetOperations}
+
+- Available __Operation__ instances are defined by a _Dictionary<Op, OpInfo>_ called _OperatorDictionary_ in static class _TagScanner.Terms.Operators_.
+- The dictionary exposes two arrays as properties of this static class: _Op[] Keys_, and _OpInfo[] Values_.
 
 <a href="#Contents">^ Contents</a>
