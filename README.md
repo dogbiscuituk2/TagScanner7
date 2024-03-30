@@ -18,22 +18,22 @@ This document presents brief desciptions of the most important classes and other
 - <a href="#term">_Term (abstract)_</a>
   - <a href="#constant">Constant</a>
   - <a href="#field">Field</a>
-  - <a href="#parameter">Parameter</a>
+  - <a href="#param">Parameter</a>
   - <a href="#umptad">_Umptad (abstract)_</a>
   - <a href="#cast">Cast</a>
   - <a href="#function">Function</a>
   - <a href="#operation">Operation</a>
-      - <a href="#monadicoperation">Monadic Operation ( + - !</a> )
-      - <a href="#dyadicoperation">Dyadic Operation ( + - * / &amp; | \^ = != &lt; &lt;= &gt;= &gt; )</a>
-      - <a href="#triadicoperation">Triadic Operation ( ? : )</a>
+      - <a href="#monad">Monadic Operation ( + - !</a> )
+      - <a href="#dyad">Dyadic Operation ( + - * / &amp; | \^ = != &lt; &lt;= &gt;= &gt; )</a>
+      - <a href="#triad">Triadic Operation ( ? : )</a>
 - <a href="#grammar">Grammar</a>
   - <a href="#tokens">Tokens</a>
   - <a href="#parser">Parser</a>
-- <a href="#devcheatsheet">Development Cheat Sheet</a>
-  - <a href="#cheatsheettags">Tags</a>
-  - <a href="#cheatsheetfields">Fields</a>
-  - <a href="#cheatsheetfunctions">Functions</a>
-  - <a href="#cheatsheetoperations">Operations</a>
+- <a href="#dcs">Development Cheat Sheet</a>
+  - <a href="#cstags">Tags</a>
+  - <a href="#csfields">Fields</a>
+  - <a href="#csfuncs">Functions</a>
+  - <a href="#csops">Operations</a>
 
 ## Model {#model}
 
@@ -78,7 +78,7 @@ The __Term__ class is the abstract base of the following hierarchy:
 - ___Term__ (abstract)_
   - <a href="#constant">__Constant__</a>
   - <a href="#field">__Field__</a>
-  - <a href="#parameter">__Parameter__</a>
+  - <a href="#param">__Parameter__</a>
   - <a href="#umptad">___Umptad__ (abstract)_</a>
     - <a href="#cast">__Cast__</a>
     - <a href="#function">__Function__</a>
@@ -104,7 +104,7 @@ At runtime, the full list of accessible fields, together with their various meta
 
 <a href="#term">\^Term</a> <a href="#contents">\^Contents</a>
 
-## Parameter {#parameter}
+## Parameter {#param}
 
 The __Parameter__ class is used internally, to provide the default parameter values needed while building expressions manually.
 
@@ -161,7 +161,7 @@ The available __Operator__ set is currently found in the _Operators.cs_ file, th
 
 <a href="#umptad">\^Umptad</a> <a href="#term">\^Term</a> <a href="#contents">\^Contents</a>
 
-## Monadic Operation ( + - ! ) {#monadicoperation}
+## Monadic Operation ( + - ! ) {#monad}
 
 The available __Monadic Operator__ set includes _unary plus (+)_, _negative (-)_, and _logical negation (!)_.
 
@@ -174,7 +174,7 @@ Each of these has its own specialized __Operation__ subclass, (__Positive__, __N
 
 <a href="#operation">\^Operation</a> <a href="#umptad">\^Umptad</a> <a href="#term">\^Term</a> <a href="#contents">\^Contents</a>
 
-## Dyadic Operation ( + - * / &amp; | \^ = != &lt; &lt;= &gt;= &gt; ) {#dyadicoperation}
+## Dyadic Operation ( + - * / &amp; | \^ = != &lt; &lt;= &gt;= &gt; ) {#dyad}
 
 The classes in this category are labelled dyadic, not because they take exactly two operands, but rather because their underlying C# operators are themselves strictly dyadic. However, many of these __Operation__ subclasses can accept any number of operands. This freedom should be used carefully, and only when the precedence & associativity context is clear.
 
@@ -211,7 +211,7 @@ Under the hood, this is implemented as a __Conjunction__ of _1 &lt; 2_ and _2 &l
 
 <a href="#operation">\^Operation</a> <a href="#umptad">\^Umptad</a> <a href="#term">\^Term</a> <a href="#contents">\^Contents</a>
 
-## Triadic Operation ( ? : ) {#triadicoperation}
+## Triadic Operation ( ? : ) {#triad}
 
 The single provided triadic operation is of course the __Conditional__, the expression equivalent of a coding _if-then-else__ construct. Here is an example of its use, first in a coding context, then in a scripting, context:
 
@@ -285,13 +285,13 @@ The __Tokens__ class performs the first stage of expression parsing, separating 
 
 ## Parser {#parser}
 
-The __Parser__ class, leaning heavily on the resources of the __Tokens__ class, performs the difficult part of the process of converting the input character stream into an executable expression.
+The __Parser__ class, leaning heavily on the resources of the __Tokens__ class, implements a <a href="https://en.wikipedia.org/wiki/Recursive_descent_parser">recursive descent parser</a> to convert the input character stream into an executable expression.
 
 <a href="#contents">\^Contents</a>
 
-## Development Cheat Sheet {#devcheatsheet}
+## Development Cheat Sheet {#dcs}
 
-### __Tags__ {#cheatsheettags}
+### __Tags__ {#cstags}
 
 - This application uses the _TagLib#_ library to access (both read and write) metadata in media files, including video, audio, and photo formats.
   - In the _TagLib#_ library source code and API, the term _Tag_ refers to a structure containing most of the metadata for the given media.
@@ -308,7 +308,7 @@ The __Parser__ class, leaning heavily on the resources of the __Tokens__ class, 
 
 <a href="#contents">\^Contents</a>
 
-### __Fields__ {#cheatsheetfields}
+### __Fields__ {#csfields}
 
 - Available __Field__ instances are defined by a _Dictionary<Tag, TagInfo>_ called _TagDictionary_ in the static class _TagScanner.Terms.Tags_.
 - The dictionary exposes two arrays as properties of this static class: _Tag[] Keys_, and _TagInfo[] Values_.
@@ -324,7 +324,7 @@ The __Parser__ class, leaning heavily on the resources of the __Tokens__ class, 
 
 <a href="#contents">\^Contents</a>
 
-### __Functions__ {#cheatsheetfunctions}
+### __Functions__ {#csfuncs}
 
 - Available __Function__ instances are defined by a _Dictionary<string, MethodInfo>_ called _MethodDictionary_ in the static class _TagScanner.Terms.Methods_.
 - The dictionary exposes two arrays as properties of this static class: _string[] Keys_, and _MethodInfo[] Values_.
@@ -337,7 +337,7 @@ The __Parser__ class, leaning heavily on the resources of the __Tokens__ class, 
 
 <a href="#contents">\^Contents</a>
 
-### __Operations__ {#cheatsheetoperations}
+### __Operations__ {#csops}
 
 - Available __Operation__ instances are defined by a _Dictionary<Op, OpInfo>_ called _OperatorDictionary_ in the static class _TagScanner.Terms.Operators_.
 - The dictionary exposes two arrays as properties of this static class: _Op[] Keys_, and _OpInfo[] Values_.
