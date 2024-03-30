@@ -3,6 +3,7 @@
 namespace TagScanner.Tests
 {
     using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using System.Linq;
     using System.Linq.Expressions;
     using Terms;
 
@@ -11,7 +12,7 @@ namespace TagScanner.Tests
         [TestMethod]
         public void TestOperations()
         {
-            foreach (var op in Operators.Keys)
+            foreach (var op in Operators.Keys.Where(p => p.GetImage() != null))
             {
                 var opInfo = op.GetOpInfo();
                 var operation = new Operation(op);

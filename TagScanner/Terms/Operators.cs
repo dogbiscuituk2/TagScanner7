@@ -2,6 +2,7 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.Drawing;
     using System.Linq;
     using System.Linq.Expressions;
     using Icons = Properties.Resources;
@@ -14,7 +15,7 @@
         {
             OperatorDictionary = new Dictionary<Op, OpInfo>
             {
-                { Op.Comma, new OpInfo(",", ExpressionType.Block, Rank.Comma, typeof(object), "{0}, {1}", null) },
+                { Op.Comma, new OpInfo(",", ExpressionType.MemberAccess, Rank.Comma, typeof(object), "{0}, {1}", null) },
                 { Op.Conditional, new OpInfo("if-then-else", ExpressionType.Conditional, Rank.Conditional, typeof(object), "{0} ? {1} : {2}", Icons.Op_Conditional, typeof(bool), typeof(object)) },
                 { Op.And, new OpInfo("and", ExpressionType.AndAlso, Rank.ConditionalAnd, typeof(bool), "{0} & {1}", Icons.Op_And) },
                 { Op.Or, new OpInfo("or", ExpressionType.OrElse, Rank.ConditionalOr, typeof(bool), "{0} | {1}", Icons.Op_Or) },
@@ -74,6 +75,7 @@
         public static bool CanChain(this Op op) => op == Op.EqualTo || op.GetRank() == Terms.Rank.Relational;
         public static ExpressionType GetExpType(this Op op) => OperatorDictionary[op].ExpressionType;
         public static string GetFormat(this Op op) => OperatorDictionary[op].Format;
+        public static Image GetImage(this Op op) => OperatorDictionary[op].Image;
         public static OpInfo GetOpInfo(this Op op) => OperatorDictionary[op];
         public static Rank GetRank(this Op op) => OperatorDictionary[op].Rank;
         public static Type GetResultType(this Op op) => OperatorDictionary[op].ResultType;

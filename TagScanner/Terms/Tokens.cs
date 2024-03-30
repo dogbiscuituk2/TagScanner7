@@ -98,6 +98,7 @@
         {
             switch (token)
             {
+                case ",": return Op.Comma;
                 case "?": goto case ":";
                 case ":": return Op.Conditional;
                 case "&": return Op.And;

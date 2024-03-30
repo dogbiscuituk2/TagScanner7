@@ -17,12 +17,26 @@
             return ParseCompoundTerm();
         }
 
+        public bool TryParse(string text, out Term term)
+        {
+            try
+            {
+                term = Parse(text);
+                return true;
+            }
+            catch
+            {
+                term = null;
+                return false;
+            }
+        }
+
         #endregion
 
         #region Private Fields
 
-        private readonly Stack<Term> _argumentStack = new Stack<Term>();
-        private readonly Stack<string> _operatorStack = new Stack<string>();
+        private readonly Stack<Op> _operatorStack = new Stack<Op>();
+        private readonly Stack<Term> _termStack = new Stack<Term>();
         private readonly Queue<string> _tokenQueue = new Queue<string>();
 
         #endregion
@@ -46,23 +60,13 @@
         private Term ParseCompoundTerm()
         {
             var term = ParseSimpleTerm();
-            var token = _tokenQueue.Dequeue();
-            while (token.IsOperator())
+            while (_tokenQueue.Any())
             {
-                while (true)
-                {
-                    var op = _operatorStack.Peek().Operator();
-                    var rank = op.GetRank();
-                    if (rank >= token.Rank())
-                    {
-                        term = new Operation(op, _argumentStack.Pop(), term);
-                        _operatorStack.Pop();
-                    }
-                    else
-                        break;
-                }
-                _argumentStack.Push(term);
-                _operatorStack.Push(token);
+                var token = _tokenQueue.Dequeue();
+                while (_operatorStack.Peek().GetRank() >= token.Rank())
+                    term = new Operation(_operatorStack.Pop(), _termStack.Pop(), term);
+                _termStack.Push(term);
+                _operatorStack.Push(token.Operator());
                 term = ParseSimpleTerm();
                 token = _tokenQueue.Dequeue();
             }
@@ -107,6 +111,8 @@
                 return token == "true" ? Constant.True : Constant.False;
             if (token.IsChar())
                 return new Constant(char.Parse(token.Substring(1, token.Length - 2)));
+            if (token.IsString())
+                return new Constant(token.Substring(1, token.Length - 2));
             if (token.IsField())
                 return new Field(Tags.Values.Single(p => p.DisplayName == token).Tag);
             if (token.IsMonadicOperator())
@@ -148,9 +154,10 @@
 
         private void Reset()
         {
-            _argumentStack.Clear();
-            _operatorStack.Clear();
             _tokenQueue.Clear();
+            _termStack.Clear();
+            _operatorStack.Clear();
+            _operatorStack.Push(Op.Comma);
         }
 
         #endregion

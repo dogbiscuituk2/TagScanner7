@@ -28,9 +28,17 @@
 
         #endregion
 
-        #region Internal Methods
+        #region Public Methods
 
-        internal bool Execute()
+        public bool Execute(string text)
+        {
+            if (new Parser().TryParse(text, out Term term))
+                TermTreeController.AddRoot(term);
+            var result = View.ShowDialog(Form);
+            return result == DialogResult.OK;
+        }
+
+        public bool Execute()
         {
             var result = View.ShowDialog(Form);
             return result == DialogResult.OK;

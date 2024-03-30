@@ -57,6 +57,7 @@
                 View.EditSelectAll.Click += EditSelectAll_Click;
                 View.EditInvertSelection.Click += EditInvertSelection_Click;
                 View.ViewFilter.Click += ViewFilter_Click;
+                View.btnFilterBuild.Click += BtnFilterBuild_Click;
                 View.ViewByArtistAlbum.Click += ViewByArtistAlbum_Click;
                 View.ViewByArtist.Click += ViewByArtist_Click;
                 View.ViewByGenre.Click += ViewByGenre_Click;
@@ -107,6 +108,8 @@
         private void EditSelectAll_Click(object sender, EventArgs e) => LibraryGridController.SelectAll();
         private void EditInvertSelection_Click(object sender, EventArgs e) => LibraryGridController.InvertSelection();
         private void ViewFilter_Click(object sender, EventArgs e) => FilterFormController.Execute();
+        private void BtnFilterBuild_Click(object sender, EventArgs e) => FilterFormController.Execute(View.FilterComboBox.Text);
+
 
         #endregion
 

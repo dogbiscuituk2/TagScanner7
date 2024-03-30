@@ -40,6 +40,8 @@
             this.GridPopupTags = new System.Windows.Forms.ToolStripMenuItem();
             this.FilterGroupBox = new System.Windows.Forms.GroupBox();
             this.FilterComboBox = new System.Windows.Forms.ComboBox();
+            this.btnFilterBuild = new System.Windows.Forms.Button();
+            this.cbFilterApply = new System.Windows.Forms.CheckBox();
             this.splitContainer2 = new System.Windows.Forms.SplitContainer();
             this.PictureBox = new System.Windows.Forms.PictureBox();
             this.TabControl = new System.Windows.Forms.TabControl();
@@ -90,8 +92,6 @@
             this.AddFolderDialog = new System.Windows.Forms.FolderBrowserDialog();
             this.AddFileDialog = new System.Windows.Forms.OpenFileDialog();
             this.StatusBar = new System.Windows.Forms.StatusStrip();
-            this.cbFilterApply = new System.Windows.Forms.CheckBox();
-            this.btnFilterBuild = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -209,8 +209,32 @@
             this.FilterComboBox.FormattingEnabled = true;
             this.FilterComboBox.Location = new System.Drawing.Point(66, 18);
             this.FilterComboBox.Name = "FilterComboBox";
-            this.FilterComboBox.Size = new System.Drawing.Size(501, 25);
+            this.FilterComboBox.Size = new System.Drawing.Size(497, 25);
             this.FilterComboBox.TabIndex = 0;
+            // 
+            // btnFilterBuild
+            // 
+            this.btnFilterBuild.AutoSize = true;
+            this.btnFilterBuild.Dock = System.Windows.Forms.DockStyle.Right;
+            this.btnFilterBuild.Location = new System.Drawing.Point(563, 18);
+            this.btnFilterBuild.Name = "btnFilterBuild";
+            this.btnFilterBuild.Padding = new System.Windows.Forms.Padding(3, 0, 3, 3);
+            this.btnFilterBuild.Size = new System.Drawing.Size(71, 26);
+            this.btnFilterBuild.TabIndex = 2;
+            this.btnFilterBuild.Text = "Build...";
+            this.btnFilterBuild.UseVisualStyleBackColor = true;
+            // 
+            // cbFilterApply
+            // 
+            this.cbFilterApply.AutoSize = true;
+            this.cbFilterApply.Dock = System.Windows.Forms.DockStyle.Left;
+            this.cbFilterApply.Location = new System.Drawing.Point(0, 18);
+            this.cbFilterApply.Name = "cbFilterApply";
+            this.cbFilterApply.Padding = new System.Windows.Forms.Padding(3);
+            this.cbFilterApply.Size = new System.Drawing.Size(66, 26);
+            this.cbFilterApply.TabIndex = 1;
+            this.cbFilterApply.Text = "Apply";
+            this.cbFilterApply.UseVisualStyleBackColor = true;
             // 
             // splitContainer2
             // 
@@ -632,30 +656,6 @@
             this.StatusBar.TabIndex = 9;
             this.StatusBar.Text = "Status";
             // 
-            // cbFilterApply
-            // 
-            this.cbFilterApply.AutoSize = true;
-            this.cbFilterApply.Dock = System.Windows.Forms.DockStyle.Left;
-            this.cbFilterApply.Location = new System.Drawing.Point(0, 18);
-            this.cbFilterApply.Name = "cbFilterApply";
-            this.cbFilterApply.Padding = new System.Windows.Forms.Padding(3);
-            this.cbFilterApply.Size = new System.Drawing.Size(66, 26);
-            this.cbFilterApply.TabIndex = 1;
-            this.cbFilterApply.Text = "Apply";
-            this.cbFilterApply.UseVisualStyleBackColor = true;
-            // 
-            // btnFilterBuild
-            // 
-            this.btnFilterBuild.AutoSize = true;
-            this.btnFilterBuild.Dock = System.Windows.Forms.DockStyle.Right;
-            this.btnFilterBuild.Location = new System.Drawing.Point(567, 18);
-            this.btnFilterBuild.Name = "btnFilterBuild";
-            this.btnFilterBuild.Padding = new System.Windows.Forms.Padding(3, 0, 3, 3);
-            this.btnFilterBuild.Size = new System.Drawing.Size(67, 26);
-            this.btnFilterBuild.TabIndex = 2;
-            this.btnFilterBuild.Text = "Build...";
-            this.btnFilterBuild.UseVisualStyleBackColor = true;
-            // 
             // LibraryForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 17F);
@@ -757,9 +757,9 @@
         private System.Windows.Forms.ToolStripSeparator toolStripMenuItem7;
         public System.Windows.Forms.Integration.ElementHost GridElementHost;
         private System.Windows.Forms.GroupBox FilterGroupBox;
-        private System.Windows.Forms.ComboBox FilterComboBox;
-        private System.Windows.Forms.CheckBox cbFilterApply;
-        private System.Windows.Forms.Button btnFilterBuild;
+        public System.Windows.Forms.ComboBox FilterComboBox;
+        public System.Windows.Forms.CheckBox cbFilterApply;
+        public System.Windows.Forms.Button btnFilterBuild;
     }
 }
 
