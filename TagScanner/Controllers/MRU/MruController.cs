@@ -5,6 +5,7 @@
     using System.IO;
     using System.Linq;
     using System.Windows.Forms;
+    using Utils;
     using Win32 = Microsoft.Win32;
 
     public class MruController
@@ -152,7 +153,7 @@
             var length = result.IndexOf((char)0);
             if (length >= 0)
                 result = result.Substring(0, length);
-            return result.Replace("&", "&&");
+            return result.Escape();
         }
     }
 }
