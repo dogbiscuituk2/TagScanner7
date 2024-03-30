@@ -79,12 +79,12 @@
         #region Attribute Management
 
         public static bool Browsable(this Tag tag) => TagDictionary[tag].Browsable;
-        public static string Details(this Tag tag) => TagDictionary[tag].Details;
         public static bool CanRead(this Tag tag) => TagDictionary[tag].CanRead;
         public static bool CanSort(this Tag tag) => TagDictionary[tag].CanSort;
         public static bool CanWrite(this Tag tag) => TagDictionary[tag].CanWrite;
         public static string Category(this Tag tag) => TagDictionary[tag].Category;
         public static Column Column(this Tag tag) => TagDictionary[tag].Column;
+        public static string Details(this Tag tag) => TagDictionary[tag].Details;
         public static string DisplayName(this Tag tag) => TagDictionary[tag].DisplayName;
         public static string Name(this Tag tag) => TagDictionary[tag].Name;
         public static bool ReadOnly(this Tag tag) => TagDictionary[tag].ReadOnly;

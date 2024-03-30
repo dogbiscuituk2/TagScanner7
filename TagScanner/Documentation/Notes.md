@@ -19,8 +19,8 @@ This document presents brief desciptions of the most important classes and other
   - <a href="#Cast">Cast</a>
   - <a href="#Function">Function</a>
   - <a href="#Operation">Operation</a>
-      - <a href="#MonadicOperation">Monadic Operations _+, -, !_</a>
-      - <a href="#DyadicOperation">Dyadic Operations _+, -, *, /, &amp;, |, ^, =, !=, &lt;, &lt;=, &gt;=, &gt;_</a>
+      - <a href="#MonadicOperation">Monadic Operation _+, -, !_</a>
+      - <a href="#DyadicOperation">Dyadic Operation _+, -, *, /, &amp;, |, \^, =, !=, &lt;, &lt;=, &gt;=, &gt;_</a>
       - <a href="#TriadicOperation">Triadic Operation _? :_</a>
 - <a href="#Grammar">Grammar</a>
   - <a href="#Tokens">Tokens</a>
@@ -37,11 +37,11 @@ The __Model__ class represents the collection of _data items_ (also known as _bu
 
 Two important properties of the __Model__ are its __Library__ and __Filter__.
 
-<a href="#Contents">^ Contents</a>
+<a href="#Contents">\^Contents</a>
 
 ## Library {#Library}
 
-<a href="#Contents">^ Contents</a>
+<a href="#Contents">\^Contents</a>
 
 ## Filter {#Filter}
 
@@ -49,42 +49,46 @@ The **Filter** class is the receptacle for a collection of **Term** objects, any
 
 At runtime, the selected __Term__ is converted to a _Predicate_ and applied to the list of data in the __Model__. If the selected __Term__ returns _true_ for any given item, then the item is displayed normally in the set presented to the user. If it returns _false_, then depending on the currently chosen _Filter Action_, that item will either be grayed out, or entirely hidden.
 
-<a href="#Contents">^ Contents</a>
+<a href="#Contents">\^Contents</a>
 
 ## Tags {#Tags}
 
-<a href="#Contents">^ Contents</a>
+<a href="#Contents">\^Contents</a>
 
 ## IWork {#IWork}
 
-<a href="#Contents">^ Contents</a>
+<a href="#Contents">\^Contents</a>
 
 ## Work {#Work}
 
-<a href="#Contents">^ Contents</a>
+<a href="#Contents">\^Contents</a>
 
 ## Selection {#Selection}
+
+<a href="#Contents">\^Contents</a>
+
+## Term {#Term}
 
 The __Term__ class is the abstract base of the following hierarchy:
 
 - ___Term__ (abstract)_
-  - __Constant__
-  - __Field__
-  - __Parameter__
-  - ___Umptad__ (abstract)_
-    - __Cast__
-    - __Function__
-    - __Operation__
+  - <a href="#Constant">__Constant__</a>
+  - <a href="#Field">__Field__</a>
+  - <a href="#Parameter">__Parameter__</a>
+  - <a href="#Umptad">___Umptad__ (abstract)_</a>
+    - <a href="#Cast">__Cast__</a>
+    - <a href="#Function">__Function__</a>
+    - <a href="#Operation">__Operation__</a>
 
 These and several other related classes and types are grouped together under the _TagScanner.Terms_ namespace, distinct from the _TagScanner.Models_ namespace in general use up to this point in the document.
 
-<a href="#Contents">^ Contents</a>
+<a href="#Contents">\^Contents</a>
 
 ## Constant {#Constant}
 
 The __Constant__ class represents fixed values in expressions. Supported value types are _bool_, _char_, _string_, various numerical integer (_int_, _uint_, _long_, _ulong_) and floating point (_float_, _double_, _decimal_) formats, together with _TimeSpan_ and _DateTime_.
 
-<a href="#Contents">^ Contents</a>
+<a href="#Contents">\^Contents</a> <a href="#Term">\^Term</a>
 
 ## Field {#Field}
 
@@ -94,13 +98,13 @@ Notice that field denotations are permitted to contain spaces and other non-alph
 
 At runtime, the full list of accessible fields, together with their various metadata, will be assembled from the attributes attached to properties in the _Selection_ class. This is so for historical reasons; the first UI developed for the application used the Winforms PropertyGrid control, which binds to these attributes. The next stage of development will include moving these into readily available storage, free of recompilation requirements.
 
-<a href="#Contents">^ Contents</a>
+<a href="#Contents">\^Contents</a> <a href="#Term">\^Term</a>
 
 ## Parameter {#Parameter}
 
 The __Parameter__ class is used internally, to provide the default parameter values needed while building expressions manually.
 
-<a href="#Contents">^ Contents</a>
+<a href="#Contents">\^Contents</a> <a href="#Term">\^Term</a>
 
 ## Umptad {#Umptad}
 
@@ -109,11 +113,11 @@ The oddly named __Umptad__ class is another abstract base, this time for multite
 An operator accepting an indeterminate number of operands can then be said to accept _umpty_ or _umpteen_ of them; hence, an _umptadic_ operator, or _umptad_.
 
 - ___Umptad__ (abstract)_
-  - __Cast__
-  - __Function__
-  - __Operation__
+  - <a href="#Cast">__Cast__</a>
+  - <a href="#Function">__Function__</a>
+  - <a href="#Operation">__Operation__</a>
 
-<a href="#Contents">^ Contents</a>
+<a href="#Contents">\^Contents</a> <a href="#Term">\^Term</a> <a href="#Umptad">\^Umptad</a>
 
 ## Cast {#Cast}
 
@@ -123,7 +127,7 @@ The __Cast__ class is the first and simplest __Umptad__ descendant. Taking a sin
 
 converts the _# Album Artists_ property from a normal integer (System.Int32) to a long one (System.Int64).
 
-<a href="#Contents">^ Contents</a>
+<a href="#Contents">\^Contents</a> <a href="#Term">\^Term</a> <a href="#Umptad">\^Umptad</a>
 
 ## Function {#Function}
 
@@ -143,7 +147,7 @@ which, in the case of a Beatles song, would return a __Constant Term__ with a _R
 
 The available roster of __Function__s is currently found in the _Methods.cs_ file, though the next stage of development will include moving these into readily available storage, free of recompilation requirements.
 
-<a href="#Contents">^ Contents</a>
+<a href="#Contents">\^Contents</a> <a href="#Term">\^Term</a> <a href="#Umptad">\^Umptad</a>
 
 ## Operation {#Operation}
 
@@ -151,9 +155,9 @@ The __Operation__ class represents a C# operator call, taking one or more __Term
 
 The available __Operator__ set is currently found in the _Operators.cs_ file, though the next stage of development will include moving these into readily available storage, free of recompilation requirements.
 
-<a href="#Contents">^ Contents</a>
+<a href="#Contents">\^Contents</a> <a href="#Term">\^Term</a> <a href="#Umptad">\^Umptad</a>
 
-## Monadic Operations {#MonadicOperation}
+## Monadic Operation {#MonadicOperation}
 
 The available __Monadic Operator__ set includes _unary plus (+)_, _negative (-)_, and _logical negation (!)_.
 
@@ -164,9 +168,9 @@ The available __Monadic Operator__ set includes _unary plus (+)_, _negative (-)_
 
 Each of these has its own specialized __Operation__ subclass, (__Positive__, __Negative__ and __Negation__ respectively, although they can equally be instantiated using just the __Operation__ base class, supplying the appropriate __Operator__ symbol.
 
-<a href="#Contents">^ Contents</a>
+<a href="#Contents">\^Contents</a> <a href="#Term">\^Term</a> <a href="#Umptad">\^Umptad</a> <a href="#Operation">\^Operation</a>
 
-## Dyadic Operations {#DyadicOperation}
+## Dyadic Operation {#DyadicOperation}
 
 The classes in this category are labelled dyadic, not because they take exactly two operands, but rather because their underlying C# operators are themselves strictly dyadic. However, many of these __Operation__ subclasses can accept any number of operands. This freedom should be used carefully, and only when the precedence & associativity context is clear.
 
@@ -201,7 +205,7 @@ As another example, the removal of the 2-term restriction on these operators mak
 
 Under the hood, this is implemented as a __Conjunction__ of _1 &lt; 2_ and _2 &lt; 3_.
 
-<a href="#Contents">^ Contents</a>
+<a href="#Contents">\^Contents</a> <a href="#Term">\^Term</a> <a href="#Umptad">\^Umptad</a> <a href="#Operation">\^Operation</a>
 
 ## Triadic Operation {#TriadicOperation}
 
@@ -211,7 +215,7 @@ The single provided triadic operation is of course the __Conditional__, the expr
 
     Album Title.Contains("Pepper") ? 10 : 2
 
-<a href="#Contents">^ Contents</a>
+<a href="#Contents">\^Contents</a> <a href="#Term">\^Term</a> <a href="#Umptad">\^Umptad</a> <a href="#Operation">\^Operation</a>
 
 ## Grammar {#Grammar}
 
@@ -234,10 +238,10 @@ The single provided triadic operation is of course the __Conditional__, the expr
   - [-+]?[0-9]+
 
 - __Char:__
-  - '([^']|'')'
+  - '([\^']|'')'
 
 - __String:__
-  - "([^\"]|\.)*"
+  - "([\^\"]|\.)*"
 
 - __Field:__
   - Album | Album Artists | # Album Artists | ... | Year
@@ -263,22 +267,22 @@ The single provided triadic operation is of course the __Conditional__, the expr
 
 - __Operator1:__ _one of_ + - !
 
-- __Operator2:__ _one of_ &amp; | ^ = != &lt; &lt;= &gt; &gt;= + - * /
+- __Operator2:__ _one of_ &amp; | \^ = != &lt; &lt;= &gt; &gt;= + - * /
 
 </details>
-<a href="#Contents">^ Contents</a>
+<a href="#Contents">\^Contents</a>
 
 ## Tokens {#Tokens}
 
 The __Tokens__ class performs the first stage of expression parsing, separating the input character stream into its various recognisable language tokens.
 
-<a href="#Contents">^ Contents</a>
+<a href="#Contents">\^Contents</a>
 
 ## Parser {#Parser}
 
 The __Parser__ class, leaning heavily on the resources of the __Tokens__ class, performs the difficult part of the process of converting the input character stream into an executable expression.
 
-<a href="#Contents">^ Contents</a>
+<a href="#Contents">\^Contents</a>
 
 ## Development Cheat Sheet {#DevCheatSheet}
 
@@ -297,25 +301,43 @@ __Tags__ {#CheatSheetTags}
 - For historical reasons, these values appear as attributes on corresponding properties of the _TagScanner.Models.Selection_ class _(Selection.cs)_.
 - To see all __Tag__ _DisplayText_ values: (1) run the app, (2) right-click _Select Columns_ or _Select Tags_, then (3) choose _List | Names only_.
 
-<a href="#Contents">^ Contents</a>
+<a href="#Contents">\^Contents</a>
 
 __Fields__ {#CheatSheetFields}
 
-- Available __Field__ instances are defined by a _Dictionary<Tag, TagInfo>_ called _TagDictionary_ in static class _TagScanner.Terms.Tags_.
+- Available __Field__ instances are defined by a _Dictionary<Tag, TagInfo>_ called _TagDictionary_ in the static class _TagScanner.Terms.Tags_.
 - The dictionary exposes two arrays as properties of this static class: _Tag[] Keys_, and _TagInfo[] Values_.
+- You may use the extension method _TagInfo(this Tag tag)_ toaccess the __Field__ metadata for a given _tag_:
 
-<a href="#Contents">^ Contents</a>
+      var tagInfo = tag.TagInfo();
+
+- However, further extension methods are provided to access any other TagInfo member, given just the _tag_:
+
+      var category = tag.Category();
+      var column = tag.Column(); // Width, Alignment & editor type (Text or CheckBox).
+      var displayName = tag.DisplayName();
+
+<a href="#Contents">\^Contents</a>
 
 __Functions__ {#CheatSheetFunctions}
 
-- Available __Function__ instances are defined by a _Dictionary<string, MethodInfo>_ called _MethodDictionary_ in static class _TagScanner.Terms.Methods_.
+- Available __Function__ instances are defined by a _Dictionary<string, MethodInfo>_ called _MethodDictionary_ in the static class _TagScanner.Terms.Methods_.
 - The dictionary exposes two arrays as properties of this static class: _string[] Keys_, and _MethodInfo[] Values_.
+- You may use the extension method _Methods.MethodInfo(this string key)_ to access the __Function__ metadata for a given _key_:
 
-<a href="#Contents">^ Contents</a>
+      var methodInfo = key.MethodInfo();
+
+- If the _key_ contains an underscore, e.g. _Concat\_2_, _Concat\_3_, _Concat\_4_, the associated __Function__ is not displayed in the application UI.
+- If the _key_ ends in a dollar sign, e.g. _Match$_, _Replace$_, the underlying method is a member of static class _Regex_.
+
+<a href="#Contents">\^Contents</a>
 
 __Operations__ {#CheatSheetOperations}
 
-- Available __Operation__ instances are defined by a _Dictionary<Op, OpInfo>_ called _OperatorDictionary_ in static class _TagScanner.Terms.Operators_.
+- Available __Operation__ instances are defined by a _Dictionary<Op, OpInfo>_ called _OperatorDictionary_ in the static class _TagScanner.Terms.Operators_.
 - The dictionary exposes two arrays as properties of this static class: _Op[] Keys_, and _OpInfo[] Values_.
+- You may use the extension method _Operators.OpInfo(this string key)_ to access the __Operation__ metadata for a given operator _op_:
 
-<a href="#Contents">^ Contents</a>
+      var opInfo = op.OpInfo();
+
+<a href="#Contents">\^Contents</a>
