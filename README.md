@@ -294,17 +294,17 @@ The __Parser__ class, leaning heavily on the resources of the __Tokens__ class, 
 ### __Tags__ {#cheatsheettags}
 
 - This application uses the _TagLib#_ library to access (both read and write) metadata in media files, including video, audio, and photo formats.
-- In the _TagLib#_ library source code and API, the term _Tag_ refers to a structure containing most of the metadata for the given media.
-- By contrast, the term _Tag_ in this application means any single item of metadata from that structure, e.g. work title, performer, duration, etc.
-- These _Tags_ have in turn their own metadata, indicating for example their runtime type, category, and so on.
-- Such _meta-metadata_ can be found in the _TagScanner.Models.TagInfo_ class _(TagInfo.cs)_.
+  - In the _TagLib#_ library source code and API, the term _Tag_ refers to a structure containing most of the metadata for the given media.
+  - By contrast, the term _Tag_ in this application means any single item of metadata from that structure, e.g. work title, performer, duration, etc.
+  - These _Tags_ have in turn their own metadata, indicating for example their runtime type, category, and so on.
+  - Such _meta-metadata_ can be found in the _TagScanner.Models.TagInfo_ class _(TagInfo.cs)_.
 - In the application source code, __Tag__ values are introduced in the _TagScanner.Models.Tag_ enumeration _(Tags.cs)_.
-- __Tag__ data types and read/write permissions are best summarised in the _TagScanner.Models.IWork_ interface _(IWork.cs)_.
-- The set of possible __Tag__ data type names is supplied by the static _TagScanner.Models.TagType_ class _(TagType.cs)_.
-- This interface is implemented by two classes in the _TagScanner.Models_ namespace: _Work (Work.cs)_ and _Selection (Selection.cs)_.
+  - __Tag__ data types and read/write permissions are best summarised in the _TagScanner.Models.IWork_ interface _(IWork.cs)_.
+  - The set of possible __Tag__ data type names is supplied by the static _TagScanner.Models.TagType_ class _(TagType.cs)_.
+  - This interface is implemented by two classes in the _TagScanner.Models_ namespace: _Work (Work.cs)_ and _Selection (Selection.cs)_.
 - The code level name of a __Tag__ is not exposed in the app UI, nor in the scripting interface. Instead, its _DisplayText_ value is used throughout.
-- For historical reasons, these values appear as attributes on corresponding properties of the _TagScanner.Models.Selection_ class _(Selection.cs)_.
-- To see all __Tag__ _DisplayText_ values: (1) run the app, (2) right-click _Select Columns_ or _Select Tags_, then (3) choose _List | Names only_.
+  - For historical reasons, these values appear as attributes on corresponding properties of the _TagScanner.Models.Selection_ class _(Selection.cs)_.
+  - To see all __Tag__ _DisplayText_ values: (1) run the app, (2) right-click _Select Columns_ or _Select Tags_, then (3) choose _List | Names only_.
 
 <a href="#contents">\^Contents</a>
 
@@ -316,7 +316,7 @@ The __Parser__ class, leaning heavily on the resources of the __Tokens__ class, 
 
       var tagInfo = tag.TagInfo();
 
-- However, further extension methods are provided to access any other TagInfo member, given just the _tag_:
+- However, further extension methods are provided to access any other TagInfo member durectly, given just the _tag_:
 
       var category = tag.Category();
       var column = tag.Column(); // Width, Alignment & editor type (Text or CheckBox).
