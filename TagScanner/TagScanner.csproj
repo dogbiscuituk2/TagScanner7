@@ -149,7 +149,7 @@
     <Compile Include="Controllers\Mru\MruSdiController.cs" />
     <Compile Include="Controllers\TagPickerController.cs" />
     <Compile Include="Controllers\TagsController.cs" />
-    <Compile Include="Controllers\FilterController.cs" />
+    <Compile Include="Controllers\FilterFormController.cs" />
     <Compile Include="Controllers\TermTreeController.cs" />
     <Compile Include="Models\IModel.cs" />
     <Compile Include="Models\Tag.cs" />

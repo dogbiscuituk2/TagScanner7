@@ -6,7 +6,6 @@
     using System.Linq;
     using System.Windows.Forms;
     using Controls;
-    using Logging;
     using Models;
     using Terms;
     using Utils;

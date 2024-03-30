@@ -29,7 +29,6 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FilterForm));
             this.TreeView = new TagScanner.Controls.TermTree();
             this.PopupMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.MainMenu = new System.Windows.Forms.MenuStrip();
@@ -58,7 +57,6 @@
             this.btnApply = new System.Windows.Forms.Button();
             this.btnCancel = new System.Windows.Forms.Button();
             this.btnOK = new System.Windows.Forms.Button();
-            this.imageList1 = new System.Windows.Forms.ImageList(this.components);
             this.MainMenu.SuspendLayout();
             this.panel1.SuspendLayout();
             this.SuspendLayout();
@@ -66,6 +64,7 @@
             // TreeView
             // 
             this.TreeView.ContextMenuStrip = this.PopupMenu;
+            this.TreeView.Dock = System.Windows.Forms.DockStyle.Fill;
             this.TreeView.DrawMode = System.Windows.Forms.TreeViewDrawMode.OwnerDrawText;
             this.TreeView.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.TreeView.HideSelection = false;
@@ -73,7 +72,7 @@
             this.TreeView.Margin = new System.Windows.Forms.Padding(4);
             this.TreeView.Name = "TreeView";
             this.TreeView.ShowNodeToolTips = true;
-            this.TreeView.Size = new System.Drawing.Size(218, 88);
+            this.TreeView.Size = new System.Drawing.Size(624, 373);
             this.TreeView.TabIndex = 0;
             // 
             // PopupMenu
@@ -291,12 +290,6 @@
             this.btnOK.Text = "OK";
             this.btnOK.UseVisualStyleBackColor = true;
             // 
-            // imageList1
-            // 
-            this.imageList1.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("imageList1.ImageStream")));
-            this.imageList1.TransparentColor = System.Drawing.Color.Transparent;
-            this.imageList1.Images.SetKeyName(0, "Operators.bmp");
-            // 
             // FilterForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 17F);
@@ -344,7 +337,6 @@
         public System.Windows.Forms.Panel panel1;
         public System.Windows.Forms.Button btnCancel;
         public System.Windows.Forms.Button btnOK;
-        public System.Windows.Forms.ImageList imageList1;
         public System.Windows.Forms.Button btnApply;
         public System.Windows.Forms.ToolStripMenuItem ViewMenu;
         public System.Windows.Forms.ToolStripMenuItem ViewExpandAll;
