@@ -170,7 +170,7 @@ The available __Monadic Operator__ set includes _unary plus (+)_, _negative (-)_
   - __Negative__
   - __Negation__
 
-Each of these has its own specialized __Operation__ subclass, (__Positive__, __Negative__ and __Negation__ respectively, although they can equally be instantiated using just the __Operation__ base class, and supplying the appropriate __Operator__ symbol.
+Each of these has its own specialized __Operation__ subclass, __Positive__, __Negative__ and __Negation__ respectively, although they can equally be instantiated using just the __Operation__ base class and supplying the appropriate __Operator__ symbol.
 
 <a href="#operation">\^Operation</a> <a href="#umptad">\^Umptad</a> <a href="#term">\^Term</a> <a href="#contents">\^Contents</a>
 
