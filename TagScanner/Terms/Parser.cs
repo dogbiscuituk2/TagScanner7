@@ -14,7 +14,7 @@
             Reset();
             foreach (var token in Tokens.GetTokens(text))
                 _tokenQueue.Enqueue(token);
-            return ParseSimpleTerm();
+            return ParseCompoundTerm();
         }
 
         #endregion
@@ -38,7 +38,7 @@
 
         private Term ParseCast()
         {
-            var type = Type.GetType(_tokenQueue.Dequeue());
+            var type =  Cast.GetType(_tokenQueue.Dequeue());
             Accept(")");
             return new Cast(type, ParseSimpleTerm());
         }
@@ -49,7 +49,21 @@
             var token = _tokenQueue.Dequeue();
             while (token.IsOperator())
             {
-                term = new Operation(token, term, ParseSimpleTerm());
+                while (true)
+                {
+                    var op = _operatorStack.Peek().Operator();
+                    var rank = op.GetRank();
+                    if (rank >= token.Rank())
+                    {
+                        term = new Operation(op, _argumentStack.Pop(), term);
+                        _operatorStack.Pop();
+                    }
+                    else
+                        break;
+                }
+                _argumentStack.Push(term);
+                _operatorStack.Push(token);
+                term = ParseSimpleTerm();
                 token = _tokenQueue.Dequeue();
             }
             return term;

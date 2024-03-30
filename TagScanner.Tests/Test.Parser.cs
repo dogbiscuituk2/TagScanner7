@@ -2,10 +2,24 @@
 {
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using System;
+    using System.Linq;
+    using TagScanner.Utils;
     using Terms;
 
     public partial class Test
     {
+        [TestMethod]
+        public void TestParseCasts()
+        {
+            foreach (var type in Cast.Types)
+            {
+                var expectedText = $"({type.Say()})123";
+                var cast = new Parser().Parse(expectedText);
+                Assert.IsInstanceOfType(cast, typeof(Cast));
+                Assert.AreEqual(expected: expectedText, actual: cast.ToString());
+            }
+        }
+
         [TestMethod]
         [DataRow("false", typeof(Constant), typeof(bool))]
         [DataRow("true", typeof(Constant), typeof(bool))]
@@ -26,12 +40,13 @@
         [DataRow("[1.2:3:4]", typeof(Constant), typeof(TimeSpan), "[1.02:03:04]")]
         [DataRow("[12:34:56]", typeof(Constant), typeof(TimeSpan))]
         [DataRow("[12:34:56.789]", typeof(Constant), typeof(TimeSpan))]
-        public void TestParse(string text, Type termType, Type resultType, string expectedText = null)
+        public void TestParseConstants(string text, Type termType, Type resultType, string expectedText = null)
         {
-            var term = new Parser().Parse(text);
-            Assert.AreEqual(expected: termType, actual: term.GetType());
-            Assert.AreEqual(expected: resultType, actual: term.ResultType);
-            Assert.AreEqual(expected: expectedText ?? text, actual: term.ToString());
+            var constant = new Parser().Parse(text);
+            Assert.IsInstanceOfType(constant, typeof(Constant));
+            Assert.AreEqual(expected: termType, actual: constant.GetType());
+            Assert.AreEqual(expected: resultType, actual: constant.ResultType);
+            Assert.AreEqual(expected: expectedText ?? text, actual: constant.ToString());
         }
 
         [TestMethod]
@@ -40,9 +55,21 @@
             foreach (var tag in Tags.Keys)
             {
                 var field = new Parser().Parse(tag.DisplayName());
-                Assert.AreEqual(expected: typeof(Field), actual: field.GetType());
+                Assert.IsInstanceOfType(field, typeof(Field));
                 Assert.AreEqual(expected: tag.Type(), actual: field.ResultType);
                 Assert.AreEqual(expected: tag.DisplayName(), actual: field.ToString());
+            }
+        }
+
+        [TestMethod]
+        public void ParseTestStaticFunctions()
+        {
+            foreach (var key in Methods.Keys.Where(p => p.IsStatic()))
+            {
+                var expectedText = $"{key}(1, 2, 3, 4, 5)";
+                var function = new Parser().Parse(expectedText);
+                Assert.IsInstanceOfType(function, typeof(Function));
+                Assert.AreEqual(expected: expectedText, actual: function.ToString());
             }
         }
     }

@@ -66,7 +66,7 @@
         {
             items = items.Append("&Operation");
             foreach (var op in Operators.Keys)
-                items.Append(op.ToString(), op, click, op. OpInfo().Image);
+                items.Append(op.ToString(), op, click, op. GetOpInfo().Image);
         }
 
         private static void AddTags(this ToolStripItemCollection items, EventHandler click)

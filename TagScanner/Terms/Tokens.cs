@@ -92,6 +92,32 @@
         public static bool IsTriadicOperator(this string token) => TriadicOperators.Contains(token);
         public static bool IsType(this string token) => Types.Contains(token);
 
+        public static Rank Rank(this string token) => token.Operator().GetRank();
+
+        public static Op Operator(this string token)
+        {
+            switch (token)
+            {
+                case "?": goto case ":";
+                case ":": return Op.Conditional;
+                case "&": return Op.And;
+                case "|": return Op.Or;
+                case "^": return Op.Xor;
+                case "=": return Op.EqualTo;
+                case "!=": return Op.NotEqualTo;
+                case "<": return Op.LessThan;
+                case ">=": return Op.NotLessThan;
+                case ">": return Op.GreaterThan;
+                case "<=": return Op.NotGreaterThan;
+                case "+": return Op.Add;
+                case "-": return Op.Subtract;
+                case "*": return Op.Multiply;
+                case "/": return Op.Divide;
+                case ".": return Op.Dot;
+            }
+            throw new FormatException();
+         }
+
         #endregion
 
         #region Private Fields
@@ -113,7 +139,7 @@
         #region Private Properties
 
         private static IEnumerable<string> Booleans => new[] { "false", "true" };
-        private static IEnumerable<string> DyadicOperators => new[] { "&", "|", "^", "=", "!=", "<", ">=", ">", "<=", "+", "-", "*", "/" };
+        private static IEnumerable<string> DyadicOperators => new[] { "&", "|", "^", "=", "!=", "<", ">=", ">", "<=", "+", "-", "*", "/", "." };
         private static IEnumerable<string> Fields => Tags.Keys.Select(p => p.DisplayName());
         private static IEnumerable<string> Functions => Methods.Keys;
         private static IEnumerable<string> MemberFunctions => Methods.Keys.Where(p => !p.IsStatic());

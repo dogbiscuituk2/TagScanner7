@@ -6,9 +6,9 @@
 
     public class OpInfo
     {
-        public OpInfo(string label, ExpressionType expType, Rank rank, Type resultType, string format, Image image, params Type[] paramTypes)
+        public OpInfo(string label, ExpressionType expressionType, Rank rank, Type resultType, string format, Image image, params Type[] paramTypes)
         {
-            ExpType = expType;
+            ExpressionType = expressionType;
             Format = format;
             Image = image;
             Label = label;
@@ -17,7 +17,7 @@
             ResultType = resultType;
         }
 
-        public ExpressionType ExpType;
+        public ExpressionType ExpressionType;
         public string Format;
         public Image Image;
         public string Label;

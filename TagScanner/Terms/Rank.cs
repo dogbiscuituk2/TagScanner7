@@ -23,6 +23,6 @@
         Additive = 0x0800,
         Multiplicative = 0x1000,
         Unary = 0x2000,
-        Postfix = 0x4000,
+        Primary = 0x4000,
     }
 }

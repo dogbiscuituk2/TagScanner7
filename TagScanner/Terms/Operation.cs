@@ -26,8 +26,8 @@
         public override int Arity => Op.Arity();
         public override Expression Expression => GetExpression();
         public Op Op { get; set; }
-        public override Rank Rank => Op.Rank();
-        public override Type ResultType => Op.ResultType() ?? GetCommonResultType(Operands.ToArray());
+        public override Rank Rank => Op.GetRank();
+        public override Type ResultType => Op.GetResultType() ?? GetCommonResultType(Operands.ToArray());
 
         #endregion
 
@@ -35,7 +35,7 @@
 
         public override int Start(int index)
         {
-            var format = Op.Format();
+            var format = Op.GetFormat();
             var delta = format.IndexOf("{0}");
             var up = UseParens(0);
             if (index == 0)
@@ -50,7 +50,7 @@
 
         public override string ToString()
         {
-            var format = Op.Format();
+            var format = Op.GetFormat();
             var count = Operands.Count;
             if (count < 1)
                 return format;
@@ -138,9 +138,9 @@
                 return MakeChain();
             switch (Op.Arity())
             {
-                case 1: return Expression.MakeUnary(Op.ExpType(), FirstSubExpression, null);
+                case 1: return Expression.MakeUnary(Op.GetExpType(), FirstSubExpression, null);
                 case 3: return Expression.Condition(FirstSubExpression, SecondSubExpression, ThirdSubExpression);
-                default: return Expression.MakeBinary(Op.ExpType(), FirstSubExpression, SecondSubExpression);
+                default: return Expression.MakeBinary(Op.GetExpType(), FirstSubExpression, SecondSubExpression);
             }
         }
 
@@ -168,7 +168,7 @@
 
         private BinaryExpression MakeBinaryExpression(Expression left, Expression right) => MakeBinaryExpression(Op, left, right);
 
-        private static BinaryExpression MakeBinaryExpression(Op op, Expression left, Expression right) => Expression.MakeBinary(op.ExpType(), left, right);
+        private static BinaryExpression MakeBinaryExpression(Op op, Expression left, Expression right) => Expression.MakeBinary(op.GetExpType(), left, right);
 
         private Expression MakeChain()
         {

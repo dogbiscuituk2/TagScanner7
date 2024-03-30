@@ -135,7 +135,7 @@
                 ?? MatchType(typeof(string), type1, type2); // Type "string" absorbs any "char".
         }
 
-        protected static Type GetType(string typeName) => GetQualifiedType(typeName, ".", ".Globalization.", ".Text.", ".Text.RegularExpressions.");
+        protected static Type GetQualifiedType(string typeName) => GetQualifiedType(typeName, ".", ".Globalization.", ".Text.", ".Text.RegularExpressions.");
 
         protected static Type MatchType(Type t, Type t1, Type t2) => t == t1 || t == t2 ? t : null;
 
@@ -158,11 +158,11 @@
                 Operands.AddRange(operands);
         }
 
-        private static Type GetQualifiedType(string typeName, params string[] spaces)
+        private static Type GetQualifiedType(string typeName, params string[] nameSpaces)
         {
-            foreach (var space in spaces)
+            foreach (var nameSpace in nameSpaces)
             {
-                var result = Type.GetType($"System{space}{typeName}");
+                var result = Type.GetType($"System{nameSpace}{typeName}");
                 if (result != null)
                     return result;
             }

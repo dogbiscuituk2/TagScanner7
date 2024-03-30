@@ -13,13 +13,13 @@ namespace TagScanner.Tests
         {
             foreach (var op in Operators.Keys)
             {
-                var opInfo = op.OpInfo();
+                var opInfo = op.GetOpInfo();
                 var operation = new Operation(op);
                 Assert.IsNotNull(operation);
                 Assert.AreEqual(expected: op, actual: operation.Op);
                 // Internally, concatenation with operator+ invokes the Concat method.
                 // So, the expected ExpressionType in this case is Call, instead of Add.
-                var nodeType = op == Op.Concatenate ? ExpressionType.Call : opInfo.ExpType;
+                var nodeType = op == Op.Concatenate ? ExpressionType.Call : opInfo.ExpressionType;
                 Assert.AreEqual(expected: nodeType, actual: operation.Expression.NodeType);
                 Assert.AreEqual(expected: opInfo.Rank, actual: operation.Rank);
                 Assert.AreEqual(expected: opInfo.ResultType, actual: operation.ResultType);
