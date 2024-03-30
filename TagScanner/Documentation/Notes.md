@@ -19,9 +19,9 @@ This document presents brief desciptions of the most important classes and other
   - <a href="#Cast">Cast</a>
   - <a href="#Function">Function</a>
   - <a href="#Operation">Operation</a>
-      - <a href="#MonadicOperation">Monadic Operation _+, -, !_</a>
-      - <a href="#DyadicOperation">Dyadic Operation _+, -, *, /, &amp;, |, \^, =, !=, &lt;, &lt;=, &gt;=, &gt;_</a>
-      - <a href="#TriadicOperation">Triadic Operation _? :_</a>
+      - <a href="#MonadicOperation">Monadic Operation ( + - !</a> )
+      - <a href="#DyadicOperation">Dyadic Operation ( + - * / &amp; | \^ = != &lt; &lt;= &gt;= &gt; )</a>
+      - <a href="#TriadicOperation">Triadic Operation ( ? : )</a>
 - <a href="#Grammar">Grammar</a>
   - <a href="#Tokens">Tokens</a>
   - <a href="#Parser">Parser</a>
@@ -157,7 +157,7 @@ The available __Operator__ set is currently found in the _Operators.cs_ file, th
 
 <a href="#Contents">\^Contents</a> <a href="#Term">\^Term</a> <a href="#Umptad">\^Umptad</a>
 
-## Monadic Operation {#MonadicOperation}
+## Monadic Operation ( + - ! ) {#MonadicOperation}
 
 The available __Monadic Operator__ set includes _unary plus (+)_, _negative (-)_, and _logical negation (!)_.
 
@@ -170,7 +170,7 @@ Each of these has its own specialized __Operation__ subclass, (__Positive__, __N
 
 <a href="#Contents">\^Contents</a> <a href="#Term">\^Term</a> <a href="#Umptad">\^Umptad</a> <a href="#Operation">\^Operation</a>
 
-## Dyadic Operation {#DyadicOperation}
+## Dyadic Operation ( + - * / &amp; | \^ = != &lt; &lt;= &gt;= &gt; ) {#DyadicOperation}
 
 The classes in this category are labelled dyadic, not because they take exactly two operands, but rather because their underlying C# operators are themselves strictly dyadic. However, many of these __Operation__ subclasses can accept any number of operands. This freedom should be used carefully, and only when the precedence & associativity context is clear.
 
@@ -207,7 +207,7 @@ Under the hood, this is implemented as a __Conjunction__ of _1 &lt; 2_ and _2 &l
 
 <a href="#Contents">\^Contents</a> <a href="#Term">\^Term</a> <a href="#Umptad">\^Umptad</a> <a href="#Operation">\^Operation</a>
 
-## Triadic Operation {#TriadicOperation}
+## Triadic Operation ( ? : ) {#TriadicOperation}
 
 The single provided triadic operation is of course the __Conditional__, the expression equivalent of a coding _if-then-else__ construct. Here is an example of its use, first in a coding context, then in a scripting, context:
 
@@ -286,7 +286,7 @@ The __Parser__ class, leaning heavily on the resources of the __Tokens__ class, 
 
 ## Development Cheat Sheet {#DevCheatSheet}
 
-__Tags__ {#CheatSheetTags}
+### __Tags__ {#CheatSheetTags}
 
 - This application uses the _TagLib#_ library to access (both read and write) metadata in media files, including video, audio, and photo formats.
 - In the _TagLib#_ library source code and API, the term _Tag_ refers to a structure containing most of the metadata for the given media.
@@ -303,7 +303,7 @@ __Tags__ {#CheatSheetTags}
 
 <a href="#Contents">\^Contents</a>
 
-__Fields__ {#CheatSheetFields}
+### __Fields__ {#CheatSheetFields}
 
 - Available __Field__ instances are defined by a _Dictionary<Tag, TagInfo>_ called _TagDictionary_ in the static class _TagScanner.Terms.Tags_.
 - The dictionary exposes two arrays as properties of this static class: _Tag[] Keys_, and _TagInfo[] Values_.
@@ -319,7 +319,7 @@ __Fields__ {#CheatSheetFields}
 
 <a href="#Contents">\^Contents</a>
 
-__Functions__ {#CheatSheetFunctions}
+### __Functions__ {#CheatSheetFunctions}
 
 - Available __Function__ instances are defined by a _Dictionary<string, MethodInfo>_ called _MethodDictionary_ in the static class _TagScanner.Terms.Methods_.
 - The dictionary exposes two arrays as properties of this static class: _string[] Keys_, and _MethodInfo[] Values_.
@@ -332,7 +332,7 @@ __Functions__ {#CheatSheetFunctions}
 
 <a href="#Contents">\^Contents</a>
 
-__Operations__ {#CheatSheetOperations}
+### __Operations__ {#CheatSheetOperations}
 
 - Available __Operation__ instances are defined by a _Dictionary<Op, OpInfo>_ called _OperatorDictionary_ in the static class _TagScanner.Terms.Operators_.
 - The dictionary exposes two arrays as properties of this static class: _Op[] Keys_, and _OpInfo[] Values_.
