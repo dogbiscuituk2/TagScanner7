@@ -12,7 +12,7 @@ This document presents brief desciptions of the most important classes and other
   - <a href="#library">Library</a>
   - <a href="#filter">Filter</a>
   - <a href="#tags">Tags</a>
-  -  <a href="#iwork">IWork _(interface)_</a>
+  -  <a href="#iwork">_IWork (interface)_</a>
       - <a href="#work">Work</a>
       - <a href="#selection">Selection</a>
 - <a href="#term">_Term (abstract)_</a>
@@ -141,7 +141,7 @@ Syntactically there are two varieties of __Function__, _static_ and _member_. An
 
     Compare(1st Album Artist, "N")
 
-This compares the value of an item's _1st Album Artist_ property to the fixed value _"M"_, and returns a __Constant Term__ representing the usual result of performing a static _Compare_ method between two strings - in this case, indicating whether the artist would appear in the first or second half of a dictionary.
+This compares the value of an item's _1st Album Artist_ property to the fixed value _"N"_, and returns a __Constant Term__ representing the usual result of performing a static _Compare_ method between two strings - in this case, indicating whether the artist would appear in the first or second half of a dictionary.
 
 By contrast, an example of a _member_ __Function__ might be
 
