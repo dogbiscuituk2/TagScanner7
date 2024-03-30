@@ -31,7 +31,6 @@
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(LibraryForm));
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
-            this.splitContainer4 = new System.Windows.Forms.SplitContainer();
             this.GridElementHost = new System.Windows.Forms.Integration.ElementHost();
             this.GridPopupMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.GridPopupPlay = new System.Windows.Forms.ToolStripMenuItem();
@@ -39,11 +38,8 @@
             this.GridPopupPlayNewPlaylist = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem6 = new System.Windows.Forms.ToolStripSeparator();
             this.GridPopupTags = new System.Windows.Forms.ToolStripMenuItem();
-            this.FilterGroupBox = new System.Windows.Forms.Panel();
-            this.FilterPopupMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.panel1 = new System.Windows.Forms.Panel();
-            this.ClearButton = new System.Windows.Forms.Button();
-            this.ApplyButton = new System.Windows.Forms.Button();
+            this.FilterGroupBox = new System.Windows.Forms.GroupBox();
+            this.FilterComboBox = new System.Windows.Forms.ComboBox();
             this.splitContainer2 = new System.Windows.Forms.SplitContainer();
             this.PictureBox = new System.Windows.Forms.PictureBox();
             this.TabControl = new System.Windows.Forms.TabControl();
@@ -55,6 +51,7 @@
             this.splitContainer3 = new System.Windows.Forms.SplitContainer();
             this.PlaylistElementHost = new System.Windows.Forms.Integration.ElementHost();
             this.MediaPlayer = new AxWMPLib.AxWindowsMediaPlayer();
+            this.FilterPopupMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.MainMenu = new System.Windows.Forms.MenuStrip();
             this.FileMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.FileNew = new System.Windows.Forms.ToolStripMenuItem();
@@ -93,18 +90,14 @@
             this.AddFolderDialog = new System.Windows.Forms.FolderBrowserDialog();
             this.AddFileDialog = new System.Windows.Forms.OpenFileDialog();
             this.StatusBar = new System.Windows.Forms.StatusStrip();
-            this.TreeView = new TagScanner.Controls.TermTree();
+            this.cbFilterApply = new System.Windows.Forms.CheckBox();
+            this.btnFilterBuild = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
             this.splitContainer1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.splitContainer4)).BeginInit();
-            this.splitContainer4.Panel1.SuspendLayout();
-            this.splitContainer4.Panel2.SuspendLayout();
-            this.splitContainer4.SuspendLayout();
             this.GridPopupMenu.SuspendLayout();
             this.FilterGroupBox.SuspendLayout();
-            this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer2)).BeginInit();
             this.splitContainer2.Panel1.SuspendLayout();
             this.splitContainer2.Panel2.SuspendLayout();
@@ -131,7 +124,9 @@
             // 
             // splitContainer1.Panel1
             // 
-            this.splitContainer1.Panel1.Controls.Add(this.splitContainer4);
+            this.splitContainer1.Panel1.Controls.Add(this.GridElementHost);
+            this.splitContainer1.Panel1.Controls.Add(this.FilterGroupBox);
+            this.splitContainer1.Panel1.Padding = new System.Windows.Forms.Padding(4, 0, 0, 0);
             // 
             // splitContainer1.Panel2
             // 
@@ -141,37 +136,15 @@
             this.splitContainer1.SplitterWidth = 5;
             this.splitContainer1.TabIndex = 7;
             // 
-            // splitContainer4
-            // 
-            this.splitContainer4.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.splitContainer4.Location = new System.Drawing.Point(0, 0);
-            this.splitContainer4.Margin = new System.Windows.Forms.Padding(0);
-            this.splitContainer4.Name = "splitContainer4";
-            this.splitContainer4.Orientation = System.Windows.Forms.Orientation.Horizontal;
-            // 
-            // splitContainer4.Panel1
-            // 
-            this.splitContainer4.Panel1.Controls.Add(this.GridElementHost);
-            this.splitContainer4.Panel1.Padding = new System.Windows.Forms.Padding(4, 0, 0, 0);
-            // 
-            // splitContainer4.Panel2
-            // 
-            this.splitContainer4.Panel2.Controls.Add(this.FilterGroupBox);
-            this.splitContainer4.Panel2.Padding = new System.Windows.Forms.Padding(4, 0, 0, 0);
-            this.splitContainer4.Panel2MinSize = 54;
-            this.splitContainer4.Size = new System.Drawing.Size(638, 688);
-            this.splitContainer4.SplitterDistance = 630;
-            this.splitContainer4.TabIndex = 3;
-            // 
             // GridElementHost
             // 
             this.GridElementHost.ContextMenuStrip = this.GridPopupMenu;
-            this.GridElementHost.Dock = System.Windows.Forms.DockStyle.Right;
+            this.GridElementHost.Dock = System.Windows.Forms.DockStyle.Fill;
             this.GridElementHost.Location = new System.Drawing.Point(4, 0);
             this.GridElementHost.Margin = new System.Windows.Forms.Padding(0);
             this.GridElementHost.Name = "GridElementHost";
-            this.GridElementHost.Size = new System.Drawing.Size(634, 630);
-            this.GridElementHost.TabIndex = 2;
+            this.GridElementHost.Size = new System.Drawing.Size(634, 640);
+            this.GridElementHost.TabIndex = 3;
             this.GridElementHost.Text = "GridContainerHost";
             this.GridElementHost.Child = null;
             // 
@@ -218,53 +191,26 @@
             // 
             // FilterGroupBox
             // 
-            this.FilterGroupBox.Controls.Add(this.TreeView);
-            this.FilterGroupBox.Controls.Add(this.panel1);
-            this.FilterGroupBox.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.FilterGroupBox.Location = new System.Drawing.Point(4, 0);
-            this.FilterGroupBox.Margin = new System.Windows.Forms.Padding(0);
+            this.FilterGroupBox.Controls.Add(this.FilterComboBox);
+            this.FilterGroupBox.Controls.Add(this.btnFilterBuild);
+            this.FilterGroupBox.Controls.Add(this.cbFilterApply);
+            this.FilterGroupBox.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.FilterGroupBox.Location = new System.Drawing.Point(4, 640);
             this.FilterGroupBox.Name = "FilterGroupBox";
-            this.FilterGroupBox.Size = new System.Drawing.Size(634, 54);
-            this.FilterGroupBox.TabIndex = 0;
+            this.FilterGroupBox.Padding = new System.Windows.Forms.Padding(0, 0, 0, 4);
+            this.FilterGroupBox.Size = new System.Drawing.Size(634, 48);
+            this.FilterGroupBox.TabIndex = 4;
+            this.FilterGroupBox.TabStop = false;
             this.FilterGroupBox.Text = "Filter";
             // 
-            // FilterPopupMenu
+            // FilterComboBox
             // 
-            this.FilterPopupMenu.Name = "FilterPopupMenu";
-            this.FilterPopupMenu.Size = new System.Drawing.Size(61, 4);
-            // 
-            // panel1
-            // 
-            this.panel1.Controls.Add(this.ClearButton);
-            this.panel1.Controls.Add(this.ApplyButton);
-            this.panel1.Dock = System.Windows.Forms.DockStyle.Right;
-            this.panel1.Location = new System.Drawing.Point(579, 0);
-            this.panel1.Margin = new System.Windows.Forms.Padding(0);
-            this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(55, 54);
-            this.panel1.TabIndex = 1;
-            // 
-            // ClearButton
-            // 
-            this.ClearButton.Dock = System.Windows.Forms.DockStyle.Top;
-            this.ClearButton.Location = new System.Drawing.Point(0, 26);
-            this.ClearButton.Margin = new System.Windows.Forms.Padding(0);
-            this.ClearButton.Name = "ClearButton";
-            this.ClearButton.Size = new System.Drawing.Size(55, 26);
-            this.ClearButton.TabIndex = 1;
-            this.ClearButton.Text = "Clear";
-            this.ClearButton.UseVisualStyleBackColor = true;
-            // 
-            // ApplyButton
-            // 
-            this.ApplyButton.Dock = System.Windows.Forms.DockStyle.Top;
-            this.ApplyButton.Location = new System.Drawing.Point(0, 0);
-            this.ApplyButton.Margin = new System.Windows.Forms.Padding(0);
-            this.ApplyButton.Name = "ApplyButton";
-            this.ApplyButton.Size = new System.Drawing.Size(55, 26);
-            this.ApplyButton.TabIndex = 0;
-            this.ApplyButton.Text = "Filter";
-            this.ApplyButton.UseVisualStyleBackColor = true;
+            this.FilterComboBox.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.FilterComboBox.FormattingEnabled = true;
+            this.FilterComboBox.Location = new System.Drawing.Point(66, 18);
+            this.FilterComboBox.Name = "FilterComboBox";
+            this.FilterComboBox.Size = new System.Drawing.Size(501, 25);
+            this.FilterComboBox.TabIndex = 0;
             // 
             // splitContainer2
             // 
@@ -398,6 +344,11 @@
             this.MediaPlayer.OcxState = ((System.Windows.Forms.AxHost.State)(resources.GetObject("MediaPlayer.OcxState")));
             this.MediaPlayer.Size = new System.Drawing.Size(256, 338);
             this.MediaPlayer.TabIndex = 0;
+            // 
+            // FilterPopupMenu
+            // 
+            this.FilterPopupMenu.Name = "FilterPopupMenu";
+            this.FilterPopupMenu.Size = new System.Drawing.Size(61, 4);
             // 
             // MainMenu
             // 
@@ -681,18 +632,29 @@
             this.StatusBar.TabIndex = 9;
             this.StatusBar.Text = "Status";
             // 
-            // TreeView
+            // cbFilterApply
             // 
-            this.TreeView.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.TreeView.DrawMode = System.Windows.Forms.TreeViewDrawMode.OwnerDrawText;
-            this.TreeView.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.TreeView.HideSelection = false;
-            this.TreeView.Location = new System.Drawing.Point(0, 0);
-            this.TreeView.Margin = new System.Windows.Forms.Padding(4);
-            this.TreeView.Name = "TreeView";
-            this.TreeView.ShowNodeToolTips = true;
-            this.TreeView.Size = new System.Drawing.Size(579, 54);
-            this.TreeView.TabIndex = 2;
+            this.cbFilterApply.AutoSize = true;
+            this.cbFilterApply.Dock = System.Windows.Forms.DockStyle.Left;
+            this.cbFilterApply.Location = new System.Drawing.Point(0, 18);
+            this.cbFilterApply.Name = "cbFilterApply";
+            this.cbFilterApply.Padding = new System.Windows.Forms.Padding(3);
+            this.cbFilterApply.Size = new System.Drawing.Size(66, 26);
+            this.cbFilterApply.TabIndex = 1;
+            this.cbFilterApply.Text = "Apply";
+            this.cbFilterApply.UseVisualStyleBackColor = true;
+            // 
+            // btnFilterBuild
+            // 
+            this.btnFilterBuild.AutoSize = true;
+            this.btnFilterBuild.Dock = System.Windows.Forms.DockStyle.Right;
+            this.btnFilterBuild.Location = new System.Drawing.Point(567, 18);
+            this.btnFilterBuild.Name = "btnFilterBuild";
+            this.btnFilterBuild.Padding = new System.Windows.Forms.Padding(3, 0, 3, 3);
+            this.btnFilterBuild.Size = new System.Drawing.Size(67, 26);
+            this.btnFilterBuild.TabIndex = 2;
+            this.btnFilterBuild.Text = "Build...";
+            this.btnFilterBuild.UseVisualStyleBackColor = true;
             // 
             // LibraryForm
             // 
@@ -710,13 +672,9 @@
             this.splitContainer1.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
             this.splitContainer1.ResumeLayout(false);
-            this.splitContainer4.Panel1.ResumeLayout(false);
-            this.splitContainer4.Panel2.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.splitContainer4)).EndInit();
-            this.splitContainer4.ResumeLayout(false);
             this.GridPopupMenu.ResumeLayout(false);
             this.FilterGroupBox.ResumeLayout(false);
-            this.panel1.ResumeLayout(false);
+            this.FilterGroupBox.PerformLayout();
             this.splitContainer2.Panel1.ResumeLayout(false);
             this.splitContainer2.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer2)).EndInit();
@@ -767,7 +725,6 @@
 		public System.Windows.Forms.ToolStripSeparator toolStripMenuItem3;
 		public System.Windows.Forms.ToolStripMenuItem FileReopen;
 		public System.Windows.Forms.ToolStripSeparator toolStripMenuItem5;
-		public System.Windows.Forms.Integration.ElementHost GridElementHost;
 		public System.Windows.Forms.ContextMenuStrip GridPopupMenu;
 		public System.Windows.Forms.ToolStripMenuItem GridPopupTags;
 		public System.Windows.Forms.TabControl TabControl;
@@ -784,11 +741,6 @@
 		public System.Windows.Forms.ToolStripMenuItem GridPopupPlayNewPlaylist;
 		public System.Windows.Forms.Integration.ElementHost PlaylistElementHost;
 		public System.Windows.Forms.ToolStripMenuItem ViewRefresh;
-        public System.Windows.Forms.SplitContainer splitContainer4;
-        public System.Windows.Forms.Panel FilterGroupBox;
-        public System.Windows.Forms.Panel panel1;
-        public System.Windows.Forms.Button ApplyButton;
-        public System.Windows.Forms.Button ClearButton;
         public System.Windows.Forms.ContextMenuStrip FilterPopupMenu;
         public System.Windows.Forms.ToolStripSeparator toolStripMenuItem2;
         public System.Windows.Forms.ToolStripMenuItem EditFind;
@@ -803,7 +755,11 @@
         public System.Windows.Forms.ToolStripMenuItem ViewByNoGrouping;
         public System.Windows.Forms.ToolStripMenuItem ViewFilter;
         private System.Windows.Forms.ToolStripSeparator toolStripMenuItem7;
-        public Controls.TermTree TreeView;
+        public System.Windows.Forms.Integration.ElementHost GridElementHost;
+        private System.Windows.Forms.GroupBox FilterGroupBox;
+        private System.Windows.Forms.ComboBox FilterComboBox;
+        private System.Windows.Forms.CheckBox cbFilterApply;
+        private System.Windows.Forms.Button btnFilterBuild;
     }
 }
 
