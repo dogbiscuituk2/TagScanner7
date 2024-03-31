@@ -174,13 +174,6 @@
         {
             if (operands != null)
                 Operands.AddRange(operands);
-
-            //if (operands == null || !operands.Any()) return;
-            //foreach (var operand in operands)
-            //    if (operand is TermList termList)
-            //        AddOperands(termList.Operands);
-            //    else
-            //        Operands.Add(operand);
         }
 
         private static Type GetQualifiedType(string typeName, params string[] nameSpaces)

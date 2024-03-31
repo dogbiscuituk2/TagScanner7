@@ -62,8 +62,22 @@
                 operation.Operands[2] = right;
                 right = operation;
             }
+            else if (op == Op.Comma)
+            {
+                if (left is TermList termList)
+                {
+                    termList.Operands.Add(right);
+                    right = termList;
+                }
+                else
+                {
+                    right = new TermList(left, right);
+                }
+            }
             else
+            {
                 right = new Operation(op, left, right);
+            }
         }
 
         private Term ParseCast()
@@ -165,7 +179,13 @@
         private Function ParseStaticFunction(string token)
         {
             Accept("(");
-            return new Function(token, ParseTerms().ToArray());
+            _operators.Push(Op.LParen);
+            Term term = null;
+            if (_tokens.Peek().Value != ")")
+                term = ParseCompoundTerm();
+            _operators.Pop();
+            Accept(")");
+            return new Function(token, term is TermList termList ? termList.Operands.ToArray() : new[] { term });
         }
 
         private IEnumerable<Term> ParseTerms()
@@ -189,7 +209,7 @@
             _tokens.Clear();
             _terms.Clear();
             _operators.Clear();
-            _operators.Push(Op.Comma);
+            _operators.Push(Op.LParen); ;
         }
 
         private static void SyntaxError(int index, string actual, string expected = "") =>
@@ -245,7 +265,7 @@
             return new TimeSpan(days, hours, minutes, seconds, (int)(ms * 1000));
         }
 
-        private const string TimePattern = @"(\d\d?)\:(\d\d?)(?:\:(\d\d?)(\.\d+))?";
+        private const string TimePattern = @"(\d\d?)\:(\d\d?)(?:\:(\d\d?)(\.\d+)?)?";
 
         #endregion
     }
