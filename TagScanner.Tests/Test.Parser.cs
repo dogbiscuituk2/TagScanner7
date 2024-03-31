@@ -62,7 +62,7 @@
         }
 
         [TestMethod]
-        public void ParseTestStaticFunctions()
+        public void TestParseStaticFunctions()
         {
             foreach (var key in Methods.Keys.Where(p => p.IsStatic()))
             {

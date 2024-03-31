@@ -12,8 +12,8 @@
     {
         #region Constructors
 
-        protected TermList(params Term[] operands) => AddOperands(operands);
-        protected TermList(Term firstOperand, params Term[] moreOperands) : this(new[] { firstOperand }) => AddOperands(moreOperands);
+        public TermList(params Term[] operands) => AddOperands(operands);
+        public TermList(Term firstOperand, params Term[] moreOperands) : this(new[] { firstOperand }) => AddOperands(moreOperands);
 
         #endregion
 
@@ -172,8 +172,12 @@
 
         private void AddOperands(IEnumerable<Term> operands)
         {
-            if (operands != null && operands.Any())
-                Operands.AddRange(operands);
+            if (operands == null || !operands.Any()) return;
+            foreach (var operand in operands)
+                if (operand is TermList termList)
+                    AddOperands(termList.Operands);
+                else
+                    Operands.Add(operand);
         }
 
         private static Type GetQualifiedType(string typeName, params string[] nameSpaces)
