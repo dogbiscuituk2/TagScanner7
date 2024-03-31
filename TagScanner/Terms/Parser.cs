@@ -13,7 +13,7 @@
         {
             Reset();
             foreach (var token in Tokens.GetTokens(text))
-                _tokens.Enqueue(token);
+                EnqueueToken(token);
             return ParseCompoundTerm();
         }
 
@@ -35,11 +35,9 @@
 
         #endregion
 
-        #region Private Fields
+        #region Private Properties
 
-        private readonly Stack<Op> _operators = new Stack<Op>();
-        private readonly Stack<Term> _terms = new Stack<Term>();
-        private readonly Queue<Token> _tokens = new Queue<Token>();
+        private readonly ParserState _parserState = new ParserState();
 
         #endregion
 
@@ -47,7 +45,7 @@
 
         private void Accept(string expected)
         {
-            var token = _tokens.Dequeue();
+            var token = DequeueToken();
             var actual = token.Value;
             if (expected != actual)
                 SyntaxError(token.Index, actual, expected);
@@ -55,8 +53,8 @@
 
         private void CombineTerms(ref Term right)
         {
-            var op = _operators.Pop();
-            var left = _terms.Pop();
+            var op = PopOperator();
+            var left = PopTerm();
             if (left is Operation operation && operation.Op == Op.Conditional && operation.Operands[2] is Parameter)
             {
                 operation.Operands[2] = right;
@@ -82,7 +80,7 @@
 
         private Term ParseCast()
         {
-            var type =  Cast.GetType(_tokens.Dequeue().Value);
+            var type =  Cast.GetType(DequeueToken().Value);
             Accept(")");
             return new Cast(type, ParseSimpleTerm());
         }
@@ -90,29 +88,29 @@
         private Term ParseCompoundTerm()
         {
             var term = ParseSimpleTerm();
-            while (_tokens.Any())
+            while (AnyMoreTokens)
             {
-                var token = _tokens.Dequeue().Value;
+                var token = DequeueToken().Value;
                 if (token == ")")
                     break;
                 var tokenRank = token.Rank();
                 while (true)
                 {
-                    var op = _operators.Peek();
+                    var op = PeekOperator();
                     var priorRank = op.GetRank();
                     if (priorRank >= tokenRank)
                         CombineTerms(ref term);
                     else
                         break;
                 }
-                _terms.Push(term);
-                _operators.Push(token.Operator());
+                PushTerm(term);
+                PushOperator(token.Operator());
                 term = ParseSimpleTerm();
             }
-            while (_terms.Any() && _operators.Peek() != Op.LParen)
+            while (AnyMoreTerms && PeekOperator() != Op.LParen)
                 CombineTerms(ref term);
-            if (_operators.Peek() != Op.LParen)
-                _operators.Pop();
+            if (PeekOperator() != Op.LParen)
+                PopOperator();
             return term;
         }
 
@@ -140,14 +138,14 @@
 
         private Term ParseSimpleTerm()
         {
-            var token = _tokens.Dequeue();
+            var token = DequeueToken();
             var match = token.Value;
             if (match == "(")
-                if (_tokens.Peek().Value.IsType())
+                if (PeekToken().Value.IsType())
                     return ParseCast();
                 else
                 {
-                    _operators.Push(Op.LParen);
+                    PushOperator(Op.LParen);
                     var term = ParseCompoundTerm();
                     Accept(")");
                     return term;
@@ -179,11 +177,11 @@
         private Function ParseStaticFunction(string token)
         {
             Accept("(");
-            _operators.Push(Op.LParen);
+            PushOperator(Op.LParen);
             Term term = null;
-            if (_tokens.Peek().Value != ")")
+            if (PeekToken().Value != ")")
                 term = ParseCompoundTerm();
-            _operators.Pop();
+            PopOperator();
             Accept(")");
             return new Function(token, term is TermList termList ? termList.Operands.ToArray() : new[] { term });
         }
@@ -191,7 +189,7 @@
         private IEnumerable<Term> ParseTerms()
         {
             while (true)
-                if (_tokens.Peek().Value == ")")
+                if (PeekToken().Value == ")")
                 {
                     Accept(")");
                     yield break;
@@ -199,17 +197,13 @@
                 else
                 {
                     yield return ParseCompoundTerm();
-                    if (_tokens.Peek().Value == ",")
+                    if (PeekToken().Value == ",")
                         Accept(",");
                 }
         }
 
         private void Reset()
         {
-            _tokens.Clear();
-            _terms.Clear();
-            _operators.Clear();
-            _operators.Push(Op.LParen); ;
         }
 
         private static void SyntaxError(int index, string actual, string expected = "") =>
@@ -268,5 +262,25 @@
         private const string TimePattern = @"(\d\d?)\:(\d\d?)(?:\:(\d\d?)(\.\d+)?)?";
 
         #endregion
+
+        #region Parser State
+
+        private bool AnyMoreTokens => _parserState.AnyMoreTokens;
+        private Token DequeueToken() => _parserState.DequeueToken();
+        private void EnqueueToken(Token token) => _parserState.EnqueueToken(token);
+        private Token PeekToken() => _parserState.PeekToken();
+
+        private bool AnyMoreOperators => _parserState.AnyMoreOperators;
+        private Op PeekOperator() => _parserState.PopOperator();
+        private Op PopOperator() => _parserState.PopOperator();
+        private void PushOperator(Op op) => _parserState.PushOperator(op);
+
+        private bool AnyMoreTerms => _parserState.AnyMoreTerms;
+        private Term PeekTerm() => _parserState.PopTerm();
+        private Term PopTerm() => _parserState.PopTerm();
+        private void PushTerm(Term term) => _parserState.PushTerm(term);
+
+        #endregion
+
     }
 }

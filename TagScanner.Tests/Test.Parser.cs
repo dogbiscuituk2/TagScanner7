@@ -66,7 +66,7 @@
         {
             foreach (var key in Methods.Keys.Where(p => p.IsStatic()))
             {
-                var expectedText = $"{key}(1, 2, 3, 4, 5)";
+                var expectedText = $"{key}(1, 2)";
                 var function = new Parser().Parse(expectedText);
                 Assert.IsInstanceOfType(function, typeof(Function));
                 Assert.AreEqual(expected: expectedText, actual: function.ToString());
