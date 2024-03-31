@@ -13,7 +13,7 @@
         {
             Reset();
             foreach (var token in Tokens.GetTokens(text))
-                _tokenQueue.Enqueue(token);
+                _tokens.Enqueue(token);
             return ParseCompoundTerm();
         }
 
@@ -35,9 +35,9 @@
 
         #region Private Fields
 
-        private readonly Stack<Op> _operatorStack = new Stack<Op>();
-        private readonly Stack<Term> _termStack = new Stack<Term>();
-        private readonly Queue<string> _tokenQueue = new Queue<string>();
+        private readonly Stack<Op> _operators = new Stack<Op>();
+        private readonly Stack<Term> _terms = new Stack<Term>();
+        private readonly Queue<string> _tokens = new Queue<string>();
 
         #endregion
 
@@ -45,14 +45,14 @@
 
         private void Accept(string expected)
         {
-            var actual = _tokenQueue.Dequeue();
+            var actual = _tokens.Dequeue();
             if (expected != actual)
                 throw new FormatException($"Invalid token: expected {{{expected}}}, actual {{{actual}}}.");
         }
 
         private Term ParseCast()
         {
-            var type =  Cast.GetType(_tokenQueue.Dequeue());
+            var type =  Cast.GetType(_tokens.Dequeue());
             Accept(")");
             return new Cast(type, ParseSimpleTerm());
         }
@@ -60,17 +60,39 @@
         private Term ParseCompoundTerm()
         {
             var term = ParseSimpleTerm();
-            while (_tokenQueue.Any())
+            while (_tokens.Any())
             {
-                var token = _tokenQueue.Dequeue();
-                while (_operatorStack.Peek().GetRank() >= token.Rank())
-                    term = new Operation(_operatorStack.Pop(), _termStack.Pop(), term);
-                _termStack.Push(term);
-                _operatorStack.Push(token.Operator());
+                var token = _tokens.Dequeue();
+                var tokenRank = token.Rank();
+                while (true)
+                {
+                    var op = _operators.Peek();
+                    var priorRank = op.GetRank();
+                    if (priorRank >= tokenRank)
+                        Combine(ref term);
+                    else
+                        break;
+                }
+                _terms.Push(term);
+                _operators.Push(token.Operator());
                 term = ParseSimpleTerm();
-                token = _tokenQueue.Dequeue();
             }
+            while (_terms.Any())
+                Combine(ref term);
             return term;
+        }
+
+        private void Combine(ref Term right)
+        {
+            var op = _operators.Pop();
+            var left = _terms.Pop();
+            if (left is Operation operation && operation.Op == Op.Conditional && operation.Operands[2] is Parameter)
+            {
+                operation.Operands[2] = right;
+                right = operation;
+            }
+            else
+                right = new Operation(op, left, right);
         }
 
         private Term ParseMonad(string token)
@@ -97,9 +119,9 @@
 
         private Term ParseSimpleTerm()
         {
-            var token = _tokenQueue.Dequeue();
+            var token = _tokens.Dequeue();
             if (token == "(")
-                if (_tokenQueue.Peek().IsType())
+                if (_tokens.Peek().IsType())
                     return ParseCast();
                 else
                 {
@@ -139,25 +161,25 @@
         private IEnumerable<Term> ParseTerms()
         {
             while (true)
-                if (_tokenQueue.Peek() == ")")
+                if (_tokens.Peek() == ")")
                 {
                     Accept(")");
                     yield break;
                 }
                 else
                 {
-                    yield return ParseSimpleTerm();
-                    if (_tokenQueue.Peek() == ",")
+                    yield return ParseCompoundTerm();
+                    if (_tokens.Peek() == ",")
                         Accept(",");
                 }
         }
 
         private void Reset()
         {
-            _tokenQueue.Clear();
-            _termStack.Clear();
-            _operatorStack.Clear();
-            _operatorStack.Push(Op.Comma);
+            _tokens.Clear();
+            _terms.Clear();
+            _operators.Clear();
+            _operators.Push(Op.Comma);
         }
 
         #endregion
