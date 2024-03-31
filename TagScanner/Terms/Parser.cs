@@ -88,7 +88,7 @@
         private Term ParseCompoundTerm()
         {
             var term = ParseSimpleTerm();
-            while (AnyMoreTokens)
+            while (AnyMoreTokens())
             {
                 var token = DequeueToken().Value;
                 if (token == ")")
@@ -107,7 +107,7 @@
                 PushOperator(token.Operator());
                 term = ParseSimpleTerm();
             }
-            while (AnyMoreTerms && PeekOperator() != Op.LParen)
+            while (AnyMoreTerms() && PeekOperator() != Op.LParen)
                 CombineTerms(ref term);
             if (PeekOperator() != Op.LParen)
                 PopOperator();
@@ -202,10 +202,6 @@
                 }
         }
 
-        private void Reset()
-        {
-        }
-
         private static void SyntaxError(int index, string actual, string expected = "") =>
             throw new FormatException(string.IsNullOrWhiteSpace(expected)
             ? $"Unexpected token at index {index}: {{{actual}}}."
@@ -265,22 +261,23 @@
 
         #region Parser State
 
-        private bool AnyMoreTokens => _parserState.AnyMoreTokens;
+        private void Reset() => _parserState.Reset();
+
+        private bool AnyMoreTokens() => _parserState.AnyMoreTokens();
         private Token DequeueToken() => _parserState.DequeueToken();
         private void EnqueueToken(Token token) => _parserState.EnqueueToken(token);
         private Token PeekToken() => _parserState.PeekToken();
 
-        private bool AnyMoreOperators => _parserState.AnyMoreOperators;
+        private bool AnyMoreOperators() => _parserState.AnyMoreOperators();
         private Op PeekOperator() => _parserState.PopOperator();
         private Op PopOperator() => _parserState.PopOperator();
         private void PushOperator(Op op) => _parserState.PushOperator(op);
 
-        private bool AnyMoreTerms => _parserState.AnyMoreTerms;
+        private bool AnyMoreTerms() => _parserState.AnyMoreTerms();
         private Term PeekTerm() => _parserState.PopTerm();
         private Term PopTerm() => _parserState.PopTerm();
         private void PushTerm(Term term) => _parserState.PushTerm(term);
 
         #endregion
-
     }
 }
