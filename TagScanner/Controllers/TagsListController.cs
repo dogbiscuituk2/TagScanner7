@@ -6,7 +6,7 @@
     using System.Linq;
     using System.Windows.Forms;
     using Models;
-    using TagScanner.Terms;
+    using Terms;
 
     public class TagsListController : TagsViewController, IComparer
     {

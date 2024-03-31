@@ -1,8 +1,7 @@
-﻿using TagScanner.Terms;
-
-namespace TagScanner.Tests
+﻿namespace TagScanner.Tests
 {
     using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using Terms;
 
     public partial class Test
     {

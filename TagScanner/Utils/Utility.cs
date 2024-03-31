@@ -2,6 +2,7 @@
 {
     using System;
     using System.Drawing;
+    using System.Windows.Forms;
     using Models;
 
     public static class Utility
@@ -86,6 +87,20 @@
         public static string Escape(this string s) => s.Replace("&", "&&");
         public static RectangleF Expand(this RectangleF r) => r.IsEmpty ? r : new RectangleF(r.X, r.Y, r.Width + 99, r.Height);
         public static string GetIndex(this string s) => string.IsNullOrWhiteSpace(s) ? " " : (s.ToUpper() + " ").Substring(0, 1);
+
+        public static void ShowDialog(this Exception exception, IWin32Window owner = null)
+        {
+            string
+                message = exception.Message,
+                exceptionType = exception.GetType().Name;
+            var innerException = exception.InnerException;
+            if (innerException != null)
+            {
+                message = $"{message}{Environment.NewLine}{innerException.Message}";
+                exceptionType = $"{exceptionType} ({innerException.GetType().Name})";
+            }
+            MessageBox.Show(owner, message, exceptionType, MessageBoxButtons.OK, MessageBoxIcon.Error);
+        }
 
         public static string Say(this Type type)
         {

@@ -17,16 +17,18 @@
             return ParseCompoundTerm();
         }
 
-        public bool TryParse(string text, out Term term)
+        public bool TryParse(string text, out Term term, out Exception exception)
         {
             try
             {
                 term = Parse(text);
+                exception = null;
                 return true;
             }
-            catch
+            catch (Exception ex)
             {
                 term = null;
+                exception = ex;
                 return false;
             }
         }
@@ -50,6 +52,19 @@
                 throw new FormatException($"Invalid token: expected {{{expected}}}, actual {{{actual}}}.");
         }
 
+        private void CombineTerms(ref Term right)
+        {
+            var op = _operators.Pop();
+            var left = _terms.Pop();
+            if (left is Operation operation && operation.Op == Op.Conditional && operation.Operands[2] is Parameter)
+            {
+                operation.Operands[2] = right;
+                right = operation;
+            }
+            else
+                right = new Operation(op, left, right);
+        }
+
         private Term ParseCast()
         {
             var type =  Cast.GetType(_tokens.Dequeue());
@@ -71,7 +86,7 @@
                     var op = _operators.Peek();
                     var priorRank = op.GetRank();
                     if (priorRank >= tokenRank)
-                        Combine(ref term);
+                        CombineTerms(ref term);
                     else
                         break;
                 }
@@ -80,23 +95,10 @@
                 term = ParseSimpleTerm();
             }
             while (_terms.Any() && _operators.Peek() != Op.LParen)
-                Combine(ref term);
+                CombineTerms(ref term);
             if (_operators.Peek() != Op.LParen)
                 _operators.Pop();
             return term;
-        }
-
-        private void Combine(ref Term right)
-        {
-            var op = _operators.Pop();
-            var left = _terms.Pop();
-            if (left is Operation operation && operation.Op == Op.Conditional && operation.Operands[2] is Parameter)
-            {
-                operation.Operands[2] = right;
-                right = operation;
-            }
-            else
-                right = new Operation(op, left, right);
         }
 
         private Term ParseMonad(string token)

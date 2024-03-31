@@ -3,7 +3,7 @@
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using System;
     using System.Linq;
-    using TagScanner.Utils;
+    using Utils;
     using Terms;
 
     public partial class Test

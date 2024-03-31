@@ -27,9 +27,9 @@
 
         #region Internal Properties
 
-        internal bool HasSelection => SelectedNode != null;
+        public bool HasSelection => SelectedNode != null;
 
-        internal TreeNode HotNode
+        public TreeNode HotNode
         {
             get => _hotNode;
             set
@@ -39,30 +39,31 @@
             }
         }
 
-        internal Inks Inks
+        public Inks Inks
         {
             get => _ink.Inks;
             set => _ink = new Ink(value);
         }
 
-        internal TreeNodeCollection Roots => TreeView.Nodes;
-        internal TreeNode SelectedNode => TreeView.SelectedNode;
-        internal TreeView TreeView { get; }
+        public TreeNodeCollection Roots => TreeView.Nodes;
+        public TreeNode SelectedNode => TreeView.SelectedNode;
+        public TreeView TreeView { get; }
 
         #endregion
 
         #region Internal Methods
 
-        internal int Add(Term term) => HasSelection ? AddChild(SelectedNode, term) : AddRoot(term);
-        internal void AddCast(Type type) => Add(new Cast(type));
-        internal int AddChild(TreeNode parent, Term term) => AddNode(parent != null ? parent.Nodes : Roots, term);
-        internal void AddConstant() => Add(new Constant());
-        internal void AddField(Tag tag) => Add(new Field(tag));
-        internal void AddFunction(string key) => Add(new Function(key));
-        internal void AddOperation(Op op) => Add(new Operation(op));
-        internal int AddRoot(Term term) => AddNode(Roots, term);
+        public int Add(Term term) => HasSelection ? AddChild(SelectedNode, term) : AddRoot(term);
+        public void AddCast(Type type) => Add(new Cast(type));
+        public int AddChild(TreeNode parent, Term term) => AddNode(parent != null ? parent.Nodes : Roots, term);
+        public void AddConstant() => Add(new Constant());
+        public void AddField(Tag tag) => Add(new Field(tag));
+        public void AddFunction(string key) => Add(new Function(key));
+        public void AddOperation(Op op) => Add(new Operation(op));
+        public int AddRoot(Term term) => AddNode(Roots, term);
+        public void Clear() => Roots.Clear();
 
-        internal void AddTestTerms()
+        public void AddTestTerms()
         {
             Term
                 band = new Operation(Tag.Artists, '=', "The Beatles"),
@@ -79,14 +80,14 @@
             Add(h);
         }
 
-        internal void CollapseAll()
+        public void CollapseAll()
         {
             TreeView.BeginUpdate();
             TreeView.CollapseAll();
             TreeView.EndUpdate();
         }
 
-        internal void ExpandAll()
+        public void ExpandAll()
         {
             TreeView.BeginUpdate();
             TreeView.ExpandAll();

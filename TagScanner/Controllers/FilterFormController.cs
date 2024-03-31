@@ -30,18 +30,20 @@
 
         #region Public Methods
 
-        public bool Execute(string text)
+        public bool Execute(string text = "")
         {
-            if (new Parser().TryParse(text, out Term term))
-                TermTreeController.AddRoot(term);
-            var result = View.ShowDialog(Form);
-            return result == DialogResult.OK;
-        }
-
-        public bool Execute()
-        {
-            var result = View.ShowDialog(Form);
-            return result == DialogResult.OK;
+            TermTreeController.Clear();
+            if (!string.IsNullOrWhiteSpace(text))
+            {
+                if (new Parser().TryParse(text, out var term, out var exception))
+                    TermTreeController.AddRoot(term);
+                else
+                {
+                    exception.ShowDialog(Form);
+                    return false;
+                }
+            }
+            return View.ShowDialog(Form) == DialogResult.OK;
         }
 
         #endregion
