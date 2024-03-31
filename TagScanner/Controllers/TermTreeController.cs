@@ -152,8 +152,8 @@
 
             void VisitNode()
             {
-                if (term is Umptad umptad)
-                    foreach (var operand in umptad.Operands)
+                if (term is TermList termList)
+                    foreach (var operand in termList.Operands)
                     {
                         font = font1;
                         VisitRegion(text.Range(termNode.CharacterRangesAll[range]), GetNextRegion());

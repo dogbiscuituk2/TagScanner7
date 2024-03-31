@@ -63,6 +63,8 @@
             while (_tokens.Any())
             {
                 var token = _tokens.Dequeue();
+                if (token == ")")
+                    break;
                 var tokenRank = token.Rank();
                 while (true)
                 {
@@ -77,8 +79,10 @@
                 _operators.Push(token.Operator());
                 term = ParseSimpleTerm();
             }
-            while (_terms.Any())
+            while (_terms.Any() && _operators.Peek() != Op.LParen)
                 Combine(ref term);
+            if (_operators.Peek() != Op.LParen)
+                _operators.Pop();
             return term;
         }
 
@@ -125,6 +129,7 @@
                     return ParseCast();
                 else
                 {
+                    _operators.Push(Op.LParen);
                     var term = ParseCompoundTerm();
                     Accept(")");
                     return term;

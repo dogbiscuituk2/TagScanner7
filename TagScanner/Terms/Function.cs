@@ -7,7 +7,7 @@
     using System.Reflection;
 
     [Serializable]
-    public class Function : Umptad
+    public class Function : TermList
     {
         #region Constructors
 

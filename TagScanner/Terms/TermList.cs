@@ -7,33 +7,34 @@
     using System.Linq.Expressions;
     using System.Text.RegularExpressions;
 
-    /// <summary>
-    /// By analogy with monadic, dyadic, triadic, tetradic etc. operators, which accept respectively
-    /// 1, 2, 3 or 4 operands, an "umptadic" operator accepts "umpteen" (i.e., any number of) operands.
-    /// The "Umptad" class therefore represents an expression built from such an operator.
-    /// It is used as the common functionality base for the Function and Operation term types.
-    /// </summary>
     [Serializable]
-    public abstract class Umptad : Term
+    public class TermList : Term
     {
         #region Constructors
 
-        protected Umptad(params Term[] operands) : base() => AddOperands(operands);
-        protected Umptad(Term firstOperand, params Term[] moreOperands) : this(new[] { firstOperand }) => AddOperands(moreOperands);
+        protected TermList(params Term[] operands) => AddOperands(operands);
+        protected TermList(Term firstOperand, params Term[] moreOperands) : this(new[] { firstOperand }) => AddOperands(moreOperands);
 
         #endregion
 
         #region Public Properties
 
-        public abstract int Arity { get; }
+        public virtual int Arity => -1;
+        public override Expression Expression => null;
+        public IEnumerable<Type> ParameterTypes => GetParameterTypes();
+        public override Type ResultType => null;
+
+        public virtual Op Op
+        {
+            get => Op.Comma;
+            set => _ = value;
+        }
 
         public List<Term> Operands
         {
             get => _operands;
             set => _operands = value;
         }
-
-        public IEnumerable<Type> ParameterTypes => GetParameterTypes();
 
         #endregion
 
@@ -94,15 +95,32 @@
 
         protected bool AddParameters(params Type[] types)
         {
-            for (int index = 0; index < types.Length; index++)
+            for (var index = 0; index < types.Length; index++)
                 if (Operands.Count <= index)
                     Operands.Add(new Parameter(types[index]));
             return true;
         }
 
-        protected abstract IEnumerable<Type> GetParameterTypes();
+        protected virtual IEnumerable<Type> GetParameterTypes() => new[] { typeof(object) };
 
-        protected abstract bool UseParens(int index);
+        public override string ToString()
+        {
+            var format = Op.GetFormat();
+            var count = Operands.Count;
+            if (count < 1)
+                return string.Empty;
+            var operands = new string[count];
+            for (var index = 0; index < Operands.Count; index++)
+                operands[index] = WrapTerm(index);
+            if (count == Op.Arity())
+                return string.Format(format, operands);
+            var result = operands[0];
+            for (var index = 1; index < count; index++)
+                result = string.Format(format, result, operands[index]);
+            return result;
+        }
+
+        protected virtual bool UseParens(int index) => false;
 
         protected string WrapTerm(int index)
         {

@@ -19,10 +19,10 @@ This document presents brief desciptions of the most important classes and other
   - <a href="#constant">Constant</a>
   - <a href="#field">Field</a>
   - <a href="#param">Parameter</a>
-  - <a href="#umptad">_Umptad (abstract)_</a>
-  - <a href="#cast">Cast</a>
-  - <a href="#function">Function</a>
-  - <a href="#operation">Operation</a>
+  - <a href="#termlist">TermList</a>
+    - <a href="#cast">Cast</a>
+    - <a href="#function">Function</a>
+    - <a href="#operation">Operation</a>
       - <a href="#monad">Monadic Operation ( + - !</a> )
       - <a href="#dyad">Dyadic Operation ( + - * / &amp; | \^ = != &lt; &lt;= &gt;= &gt; )</a>
       - <a href="#triad">Triadic Operation ( ? : )</a>
@@ -79,7 +79,7 @@ The __Term__ class is the abstract base of the following hierarchy:
   - <a href="#constant">__Constant__</a>
   - <a href="#field">__Field__</a>
   - <a href="#param">__Parameter__</a>
-  - <a href="#umptad">___Umptad__ (abstract)_</a>
+  - <a href="#termlist">__TermList__</a>
     - <a href="#cast">__Cast__</a>
     - <a href="#function">__Function__</a>
     - <a href="#operation">__Operation__</a>
@@ -110,28 +110,26 @@ The __Parameter__ class is used internally, to provide the default parameter val
 
 <a href="#term">\^Term</a> <a href="#contents">\^Contents</a>
 
-## Umptad (abstract) {#umptad}
+## TermList {#termlist}
 
-The oddly named __Umptad__ class is another abstract base, this time for multiterm collections. The name derives from the classification of operators into monadic, dyadic, triadic, tetradic etc. types, based on their number of operands. With some violence to terminology, we might refer to these as Monads, Dyads, Triads, Tetrads, etc.
+The __TermList__ class is represents multiterm collections.
 
-An operator accepting an indeterminate number of operands can then be said to accept _umpty_ or _umpteen_ of them; hence, an _umptadic_ operator, or _umptad_.
-
-- ___Umptad__ (abstract)_
+- __TermList__
   - <a href="#cast">__Cast__</a>
   - <a href="#function">__Function__</a>
   - <a href="#operation">__Operation__</a>
 
-<a href="#umptad">\^Umptad</a> <a href="#term">\^Term</a> <a href="#contents">\^Contents</a>
+<a href="#termlist">\^TermList</a> <a href="#term">\^Term</a> <a href="#contents">\^Contents</a>
 
 ## Cast {#cast}
 
-The __Cast__ class is the first and simplest __Umptad__ descendant. Taking a single operand, it recasts its ResultType to be some other, compatible new type. For example, the expression
+The __Cast__ class is the simplest __TermList__ descendant. Taking a single operand, it recasts its ResultType to be some other, compatible new type. For example, the expression
 
     # Album Artists.Cast(long)
 
 converts the _# Album Artists_ property from a normal integer (System.Int32) to a long one (System.Int64).
 
-<a href="#umptad">\^Umptad</a> <a href="#term">\^Term</a> <a href="#contents">\^Contents</a>
+<a href="#termlist">\^TermList</a> <a href="#term">\^Term</a> <a href="#contents">\^Contents</a>
 
 ## Function {#function}
 
@@ -151,7 +149,7 @@ which, in the case of a Beatles song, would return a __Constant Term__ with a _R
 
 The available roster of __Function__s is currently found in the _Methods.cs_ file, though the next stage of development will include moving these into readily available storage, free of recompilation requirements.
 
-<a href="#contents">\^Contents</a> <a href="#term">\^Term</a> <a href="#umptad">\^Umptad</a>
+<a href="#contents">\^Contents</a> <a href="#term">\^Term</a> <a href="#termlist">\^TermList</a>
 
 ## Operation {#operation}
 
@@ -159,7 +157,7 @@ The __Operation__ class represents a C# operator call, taking one or more __Term
 
 The available __Operator__ set is currently found in the _Operators.cs_ file, though the next stage of development will include moving these into readily available storage, free of recompilation requirements.
 
-<a href="#umptad">\^Umptad</a> <a href="#term">\^Term</a> <a href="#contents">\^Contents</a>
+<a href="#termlist">\^TermLiat</a> <a href="#term">\^Term</a> <a href="#contents">\^Contents</a>
 
 ## Monadic Operation ( + - ! ) {#monad}
 
@@ -172,7 +170,7 @@ The available __Monadic Operator__ set includes _unary plus (+)_, _negative (-)_
 
 Each of these has its own specialized __Operation__ subclass, __Positive__, __Negative__ and __Negation__ respectively, although they can equally be instantiated using just the __Operation__ base class and supplying the appropriate __Operator__ symbol.
 
-<a href="#operation">\^Operation</a> <a href="#umptad">\^Umptad</a> <a href="#term">\^Term</a> <a href="#contents">\^Contents</a>
+<a href="#operation">\^Operation</a> <a href="#termlist">\^TermList</a> <a href="#term">\^Term</a> <a href="#contents">\^Contents</a>
 
 ## Dyadic Operation ( + - * / &amp; | \^ = != &lt; &lt;= &gt;= &gt; ) {#dyad}
 
@@ -209,7 +207,7 @@ As another example, the removal of the 2-term restriction on these operators mak
 
 Under the hood, this is implemented as a __Conjunction__ of _1 &lt; 2_ and _2 &lt; 3_.
 
-<a href="#operation">\^Operation</a> <a href="#umptad">\^Umptad</a> <a href="#term">\^Term</a> <a href="#contents">\^Contents</a>
+<a href="#operation">\^Operation</a> <a href="#termlist">\^TermList</a> <a href="#term">\^Term</a> <a href="#contents">\^Contents</a>
 
 ## Triadic Operation ( ? : ) {#triad}
 
@@ -219,7 +217,7 @@ The single provided triadic operation is of course the __Conditional__, the expr
 
     Album Title.Contains("Pepper") ? 10 : 2
 
-<a href="#operation">\^Operation</a> <a href="#umptad">\^Umptad</a> <a href="#term">\^Term</a> <a href="#contents">\^Contents</a>
+<a href="#operation">\^Operation</a> <a href="#termlist">\^TermList</a> <a href="#term">\^Term</a> <a href="#contents">\^Contents</a>
 
 ## Grammar {#grammar}
 

@@ -21,14 +21,14 @@
                 filter = (Filter)StreamController.LoadFromStream(stream);
                 Assert.AreEqual(expected: text, actual: filter?.ToString());
             }
-            if (!(term is Umptad umptad)) return;
-            for (var index = 0; index < umptad.Operands.Count; index++)
+            if (!(term is TermList termList)) return;
+            for (var index = 0; index < termList.Operands.Count; index++)
             {
-                var start = umptad.Start(index);
-                var subTerm = umptad.Operands[index];
+                var start = termList.Start(index);
+                var subTerm = termList.Operands[index];
                 var length = subTerm.Length;
-                Assert.AreEqual(expected: subTerm.ToString(), actual: umptad.ToString().Substring(start, length));
-                var range = umptad.CharacterRanges[2 * index + 1];
+                Assert.AreEqual(expected: subTerm.ToString(), actual: termList.ToString().Substring(start, length));
+                var range = termList.CharacterRanges[2 * index + 1];
                 Assert.AreEqual(expected: start, actual: range.First);
                 Assert.AreEqual(expected: length, actual: range.Length);
                 TestTerm(subTerm);

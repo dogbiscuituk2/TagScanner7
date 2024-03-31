@@ -7,7 +7,7 @@
     using Utils;
 
     [Serializable]
-    public class Cast : Umptad
+    public class Cast : TermList
     {
         public Cast(Type newType) => SetNewType(newType);
         public Cast(Type newType, Term operand) : base(operand) => SetNewType(newType);

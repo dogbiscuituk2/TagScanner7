@@ -176,7 +176,7 @@
     <Compile Include="Models\Library.cs" />
     <Compile Include="Models\TagInfo.cs" />
     <Compile Include="Models\FileStatus.cs" />
-    <Compile Include="Terms\Umptad.cs" />
+    <Compile Include="Terms\TermList.cs" />
     <Compile Include="ValueConverters\DateTimeConverter.cs" />
     <Compile Include="ValueConverters\FileSizeConverter.cs" />
     <Compile Include="ValueConverters\StringsConverter.cs" />

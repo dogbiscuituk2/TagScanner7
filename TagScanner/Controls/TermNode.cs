@@ -31,8 +31,8 @@
                     case Field field:
                         ToolTipText = field.Tag.Details();
                         break;
-                    case Umptad umptad:
-                        AddTerms(umptad.Operands);
+                    case TermList termList:
+                        AddTerms(termList.Operands);
                         break;
                 }
             }

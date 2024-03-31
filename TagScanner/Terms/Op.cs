@@ -25,5 +25,6 @@
         Negative,
         Not,
         Dot,
+        LParen,
     }
 }

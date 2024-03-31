@@ -6,7 +6,7 @@
     using System.Linq.Expressions;
 
     [Serializable]
-    public class Operation : Umptad
+    public class Operation : TermList
     {
         #region Constructors
 
@@ -25,7 +25,7 @@
 
         public override int Arity => Op.Arity();
         public override Expression Expression => GetExpression();
-        public Op Op { get; set; }
+        public override Op Op { get; set; }
         public override Rank Rank => Op.GetRank();
         public override Type ResultType => Op.GetResultType() ?? GetCommonResultType(Operands.ToArray());
 
@@ -46,23 +46,6 @@
                    + (UseParens(index - 1) ? 1 : 0)
                    + delta
                    + (UseParens(index) ? 1 : 0);
-        }
-
-        public override string ToString()
-        {
-            var format = Op.GetFormat();
-            var count = Operands.Count;
-            if (count < 1)
-                return format;
-            var operands = new string[count];
-            for (var index = 0; index < Operands.Count; index++)
-                operands[index] = WrapTerm(index);
-            if (count == Op.Arity())
-                return string.Format(format, operands);
-            var result = operands[0];
-            for (var index = 1; index < count; index++)
-                result = string.Format(format, result, operands[index]);
-            return result;
         }
 
         #endregion
