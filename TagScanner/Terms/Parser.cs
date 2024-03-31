@@ -39,7 +39,7 @@
 
         private readonly Stack<Op> _operators = new Stack<Op>();
         private readonly Stack<Term> _terms = new Stack<Term>();
-        private readonly Queue<string> _tokens = new Queue<string>();
+        private readonly Queue<Token> _tokens = new Queue<Token>();
 
         #endregion
 
@@ -47,9 +47,10 @@
 
         private void Accept(string expected)
         {
-            var actual = _tokens.Dequeue();
+            var token = _tokens.Dequeue();
+            var actual = token.Value;
             if (expected != actual)
-                throw new FormatException($"Invalid token: expected {{{expected}}}, actual {{{actual}}}.");
+                SyntaxError(token.Index, actual, expected);
         }
 
         private void CombineTerms(ref Term right)
@@ -67,7 +68,7 @@
 
         private Term ParseCast()
         {
-            var type =  Cast.GetType(_tokens.Dequeue());
+            var type =  Cast.GetType(_tokens.Dequeue().Value);
             Accept(")");
             return new Cast(type, ParseSimpleTerm());
         }
@@ -77,7 +78,7 @@
             var term = ParseSimpleTerm();
             while (_tokens.Any())
             {
-                var token = _tokens.Dequeue();
+                var token = _tokens.Dequeue().Value;
                 if (token == ")")
                     break;
                 var tokenRank = token.Rank();
@@ -126,8 +127,9 @@
         private Term ParseSimpleTerm()
         {
             var token = _tokens.Dequeue();
-            if (token == "(")
-                if (_tokens.Peek().IsType())
+            var match = token.Value;
+            if (match == "(")
+                if (_tokens.Peek().Value.IsType())
                     return ParseCast();
                 else
                 {
@@ -136,27 +138,28 @@
                     Accept(")");
                     return term;
                 }
-            if (token.IsBoolean())
-                return token == "true" ? Constant.True : Constant.False;
-            if (token.IsChar())
-                return new Constant(char.Parse(token.Substring(1, token.Length - 2)));
-            if (token.IsString())
-                return new Constant(token.Substring(1, token.Length - 2));
-            if (token.IsField())
-                return new Field(Tags.Values.Single(p => p.DisplayName == token).Tag);
-            if (token.IsMonadicOperator())
-                return ParseMonad(token);
-            if (token.IsNumber())
-                return new Constant(ParseNumber(token.ToUpperInvariant()));
-            if (token.IsStaticFunction())
-                return ParseStaticFunction(token);
+            if (match.IsBoolean())
+                return match == "true" ? Constant.True : Constant.False;
+            if (match.IsChar())
+                return new Constant(char.Parse(match.Substring(1, match.Length - 2)));
+            if (match.IsString())
+                return new Constant(match.Substring(1, match.Length - 2));
+            if (match.IsField())
+                return new Field(Tags.Values.Single(p => p.DisplayName == match).Tag);
+            if (match.IsMonadicOperator())
+                return ParseMonad(match);
+            if (match.IsNumber())
+                return new Constant(ParseNumber(match.ToUpperInvariant()));
+            if (match.IsStaticFunction())
+                return ParseStaticFunction(match);
             // DateTime & TimeSpan constants involve expensive Regex pattern matching,
             // and in all probability, are relatively infrequent; hence these are checked last.
-            if (token.IsDateTime())
-                return new Constant(ParseDateTime(token));
-            if (token.IsTimeSpan())
-                return new Constant(ParseTimeSpan(token));
-            throw new FormatException("Whoooops!");
+            if (match.IsDateTime())
+                return new Constant(ParseDateTime(match));
+            if (match.IsTimeSpan())
+                return new Constant(ParseTimeSpan(match));
+            SyntaxError(token.Index, token.Value);
+            return null;
         }
 
         private Function ParseStaticFunction(string token)
@@ -168,7 +171,7 @@
         private IEnumerable<Term> ParseTerms()
         {
             while (true)
-                if (_tokens.Peek() == ")")
+                if (_tokens.Peek().Value == ")")
                 {
                     Accept(")");
                     yield break;
@@ -176,7 +179,7 @@
                 else
                 {
                     yield return ParseCompoundTerm();
-                    if (_tokens.Peek() == ",")
+                    if (_tokens.Peek().Value == ",")
                         Accept(",");
                 }
         }
@@ -189,13 +192,18 @@
             _operators.Push(Op.Comma);
         }
 
+        private static void SyntaxError(int index, string actual, string expected = "") =>
+            throw new FormatException(string.IsNullOrWhiteSpace(expected)
+            ? $"Unexpected token at index {index}: {{{actual}}}."
+            : $"Unexpected token at index {index}: expected {{{expected}}}, actual {{{actual}}}.");
+        
         #endregion
 
         #region Parse TimeSpan / DateTime
 
         public const string DateTimePattern = @"^\[(\d{4})-(\d\d?)\-(\d\d?)(?: " + TimePattern + @")?\]";
 
-        private DateTime ParseDateTime(string token)
+        private static DateTime ParseDateTime(string token)
         {
             // DateTimePattern captures 8 Groups.
             // [0] is the full DateTime (unused),
@@ -219,7 +227,7 @@
 
         public const string TimeSpanPattern = @"^\[(?:(\d+)\.)?" + TimePattern + @"\]";
 
-        private TimeSpan ParseTimeSpan(string token)
+        private static TimeSpan ParseTimeSpan(string token)
         {
             // TimeSpan pattern captures 6 Groups.
             // [0] is the full TimeSpan (unused),
@@ -230,14 +238,14 @@
             // [5] is fraction of a second, including a leading decimal point.
             var groups = Regex.Match(token, TimeSpanPattern).Groups;
             int.TryParse(groups[1].Value, out var days);
-            int.TryParse(groups[2].Value, out var hours);
-            int minutes = int.Parse(groups[3].Value),
-                seconds = int.Parse(groups[4].Value);
+            int hours = int.Parse(groups[2].Value),
+                minutes = int.Parse(groups[3].Value);
+            int.TryParse(groups[4].Value, out var seconds);
             double.TryParse(groups[5].Value, out var ms);
             return new TimeSpan(days, hours, minutes, seconds, (int)(ms * 1000));
         }
 
-        private const string TimePattern = @"(\d\d?)\:(\d\d?)\:(\d\d?)(\.\d+)?";
+        private const string TimePattern = @"(\d\d?)\:(\d\d?)(?:\:(\d\d?)(\.\d+))?";
 
         #endregion
     }

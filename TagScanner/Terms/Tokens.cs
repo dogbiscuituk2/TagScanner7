@@ -10,14 +10,18 @@
     {
         #region Public Methods
 
-        public static IEnumerable<string> GetTokens(string text)
+        public static IEnumerable<Token> GetTokens(string text)
         {
             int count = text.Length, index = 0;
             while (true)
             {
-                var token = ReadToken();
-                if (string.IsNullOrWhiteSpace(token))
+                while (index < count && text[index] <= ' ')
+                    index++;
+                var match = Match();
+                if (string.IsNullOrWhiteSpace(match))
                     break;
+                var token = new Token(index, match);
+                index += match.Length;
                 System.Diagnostics.Debug.WriteLine(token);
                 yield return token;
             }
@@ -26,7 +30,9 @@
             string MatchCharacter() => MatchRegex(@"^'.'");
             string MatchDateTime() => MatchRegex(Parser.DateTimePattern);
             string MatchNumber() => MatchRegex(@"^(\d+\.?\d*(UL|LU|D|F|L|M|U)?)", RegexOptions.IgnoreCase);
-            string MatchRegex(string pattern, RegexOptions options = RegexOptions.None) => Regex.Match(text.Substring(index), pattern, options).Value;
+
+            string MatchRegex(string pattern, RegexOptions options = RegexOptions.None) =>
+                Regex.Match(text.Substring(index), pattern, options).Value;
 
             string MatchString()
             {
@@ -42,35 +48,26 @@
 
             string MatchTimeSpan() => MatchRegex(Parser.TimeSpanPattern);
 
-            string ReadToken()
+            string Match()
             {
-                var token = PeekToken();
-                index += token.Length;
-                return token;
-
-                string PeekToken()
+                var result = AllTokens.FirstOrDefault(p => text.Substring(index).StartsWith(p));
+                if (!string.IsNullOrWhiteSpace(result))
+                    return result;
+                switch (index < count ? text[index] : Nul)
                 {
-                    while (index < count && text[index] <= ' ')
-                        index++;
-                    var result = AllTokens.FirstOrDefault(p => text.Substring(index).StartsWith(p));
-                    if (!string.IsNullOrWhiteSpace(result))
-                        return result;
-                    switch (index < count ? text[index] : Nul)
-                    {
-                        case SingleQuote:
-                            return MatchCharacter();
-                        case DoubleQuote:
-                            return MatchString();
-                        case char digit when char.IsDigit(digit):
-                            return MatchNumber();
-                        case LeftBracket:
-                            var dateTime = MatchDateTime();
-                            return !string.IsNullOrWhiteSpace(dateTime) ? dateTime : MatchTimeSpan();
-                        case Nul:
-                            return string.Empty;
-                    }
-                    throw new FormatException($"Unexpected character in input '{text}' at position {index}.");
+                    case SingleQuote:
+                        return MatchCharacter();
+                    case DoubleQuote:
+                        return MatchString();
+                    case char digit when char.IsDigit(digit):
+                        return MatchNumber();
+                    case LeftBracket:
+                        var dateTime = MatchDateTime();
+                        return !string.IsNullOrWhiteSpace(dateTime) ? dateTime : MatchTimeSpan();
+                    case Nul:
+                        return string.Empty;
                 }
+                throw new FormatException($"Unexpected character in input '{text}' at position {index}.");
             }
         }
 

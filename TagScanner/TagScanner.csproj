@@ -128,6 +128,7 @@
     <Compile Include="Terms\Cast.cs" />
     <Compile Include="Controllers\StreamController.cs" />
     <Compile Include="Terms\Parser.cs" />
+    <Compile Include="Terms\Token.cs" />
     <Compile Include="Terms\Tokens.cs" />
     <Compile Include="Utils\Ink.cs" />
     <Compile Include="Utils\Inks.cs" />

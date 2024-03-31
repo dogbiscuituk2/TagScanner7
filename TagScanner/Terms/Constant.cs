@@ -38,7 +38,7 @@
             }
         }
 
-        private string FormatDateTime(DateTime dateTime)
+        private static string FormatDateTime(DateTime dateTime)
         {
             var format = new StringBuilder("yyyy-MM-dd");
             var timeSpan = dateTime.TimeOfDay;
@@ -51,15 +51,11 @@
             return dateTime.ToString($"[{format}]");
         }
 
-            private string FormatTimeSpan(TimeSpan timeSpan)
+        private static string FormatTimeSpan(TimeSpan timeSpan)
         {
-            var format = new StringBuilder(@"mm\:ss");
-            if (timeSpan.Days > 0 || timeSpan.Hours > 0)
-            {
-                format.Insert(0, @"hh\:");
-                if (timeSpan.Days > 0)
-                    format.Insert(0, @"d\.");
-            }
+            var format = new StringBuilder(@"hh\:mm\:ss");
+            if (timeSpan.Days > 0)
+                format.Insert(0, @"d\.");
             if (timeSpan.Milliseconds > 0)
                 format.Append(@"\.fff");
             return string.Format($"[{{0:{format}}}]", timeSpan);

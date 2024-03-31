@@ -196,7 +196,8 @@
         [DataRow(Tag.TagTypes, TagLib.TagTypes.Id3v1 | TagLib.TagTypes.Id3v2)]
         public void TestFields_Enum(Tag tag, object expectedValue)
         {
-            var term = new Operation(new Cast(typeof(int), tag), "!=", 0);
+            var cast = new Cast(typeof(int), tag);
+            var term = new Operation(cast, "!=", 0);
             var works = Works.Where(p => term.Predicate(p));
             Assert.AreEqual(expected: 1, actual: works.Count());
             Assert.AreEqual(expected: expectedValue, actual: works.First().GetPropertyValue(tag));
