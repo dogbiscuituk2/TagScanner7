@@ -5,11 +5,11 @@
     using Models;
     using Terms;
 
-    internal class MenuRouter
+    public class MenuRouter
     {
         #region Constructor
 
-        internal MenuRouter(ToolStripDropDownItem termMenu, ToolStripDropDown popupMenu)
+        public MenuRouter(ToolStripDropDownItem termMenu, ToolStripDropDown popupMenu)
         {
             var items = popupMenu.Items;
             MenuMaker.AddAllTerms(items, MenuRouter_TermClick);
@@ -22,13 +22,13 @@
 
         #region Internal Events
 
-        internal event EventHandler<CastEventArgs> CastClick;
-        internal event EventHandler<ConstantEventArgs> ConstantClick;
-        internal event EventHandler<FieldEventArgs> FieldClick;
-        internal event EventHandler<FunctionEventArgs> FunctionClick;
-        internal event EventHandler<OperationEventArgs> OperationClick;
-        internal event EventHandler TermDeleteClick, TermModifyClick;
-        internal event EventHandler TestTermsClick;
+        public event EventHandler<CastEventArgs> CastClick;
+        public event EventHandler<ConstantEventArgs> ConstantClick;
+        public event EventHandler<FieldEventArgs> FieldClick;
+        public event EventHandler<FunctionEventArgs> FunctionClick;
+        public event EventHandler<OperationEventArgs> OperationClick;
+        public event EventHandler TermDeleteClick, TermModifyClick;
+        public event EventHandler TestTermsClick;
 
         #endregion
 

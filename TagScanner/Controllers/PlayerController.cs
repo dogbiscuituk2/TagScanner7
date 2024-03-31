@@ -23,7 +23,7 @@
             Player.CurrentItemChange += Player_CurrentItemChange;
         }
 
-        internal System.Windows.Controls.DataGrid PlaylistGrid => DataGrid;
+        public System.Windows.Controls.DataGrid PlaylistGrid => DataGrid;
 
         private LibraryFormController LibraryFormController => (LibraryFormController)Parent;
 
@@ -31,7 +31,7 @@
 
         private AxWindowsMediaPlayer Player => View.MediaPlayer;
 
-        internal override System.Windows.Controls.DataGrid DataGrid => ((GridElement)View.PlaylistElementHost.Child).DataGrid;
+        public override System.Windows.Controls.DataGrid DataGrid => ((GridElement)View.PlaylistElementHost.Child).DataGrid;
 
         private readonly ObservableCollection<Work> _currentPlaylist = new ObservableCollection<Work>();
 

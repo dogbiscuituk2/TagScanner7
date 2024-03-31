@@ -14,7 +14,7 @@ namespace TagScanner.Controllers
     {
         protected GridController(Controller parent) : base(parent) { }
 
-        internal abstract DataGrid DataGrid { get; }
+        public abstract DataGrid DataGrid { get; }
 
         protected virtual DataGridBoundColumn GetColumn(TagInfo tagInfo)
         {

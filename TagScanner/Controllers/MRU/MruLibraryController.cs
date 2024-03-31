@@ -9,13 +9,13 @@
         public MruLibraryController(Model model, ToolStripMenuItem recentMenuItem)
             : base(model, Properties.Settings.Default.LibraryFilter, "LibraryMRU", recentMenuItem) { }
 
-        internal new Model Model
+        public new Model Model
         {
             get => (Model)base.Model;
             set => base.Model = value;
         }
 
-        internal string WindowCaption
+        public string WindowCaption
         {
             get
             {

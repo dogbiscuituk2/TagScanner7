@@ -20,7 +20,7 @@
 
         protected IModel Model;
 
-        internal bool Clear()
+        public bool Clear()
         {
             if (!SaveIfModified())
                 return false;
@@ -30,11 +30,11 @@
             return true;
         }
 
-        internal bool Open() => SaveIfModified() && _openFileDialog.ShowDialog() == DialogResult.OK && LoadFromFile(_openFileDialog.FileName);
-        internal bool Save() => string.IsNullOrEmpty(FilePath) ? SaveAs() : SaveToFile(FilePath);
-        internal bool SaveAs() => _saveFileDialog.ShowDialog() == DialogResult.OK && SaveToFile(_saveFileDialog.FileName);
+        public bool Open() => SaveIfModified() && _openFileDialog.ShowDialog() == DialogResult.OK && LoadFromFile(_openFileDialog.FileName);
+        public bool Save() => string.IsNullOrEmpty(FilePath) ? SaveAs() : SaveToFile(FilePath);
+        public bool SaveAs() => _saveFileDialog.ShowDialog() == DialogResult.OK && SaveToFile(_saveFileDialog.FileName);
 
-        internal bool SaveIfModified()
+        public bool SaveIfModified()
         {
             if (!Model.Modified) return true;
             switch (MessageBox.Show(
@@ -50,10 +50,10 @@
             return true;
         }
 
-        internal event EventHandler FilePathChanged;
+        public event EventHandler FilePathChanged;
 
-        internal event EventHandler<CancelEventArgs> FileLoading;
-        internal event EventHandler<CancelEventArgs> FileSaving;
+        public event EventHandler<CancelEventArgs> FileLoading;
+        public event EventHandler<CancelEventArgs> FileSaving;
 
         private string _filePath = string.Empty;
         protected string FilePath

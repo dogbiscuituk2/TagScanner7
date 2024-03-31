@@ -6,8 +6,8 @@
     {
         protected Controller(Controller parent) => Parent = parent;
 
-        internal Controller Parent { get;  }
+        public Controller Parent { get;  }
 
-        internal virtual Form Form => Parent?.Form;
+        public virtual Form Form => Parent?.Form;
     }
 }

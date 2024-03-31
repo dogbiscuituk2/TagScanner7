@@ -11,9 +11,9 @@
 
         public TagsTreeController(Controller parent) : base(parent) { }
 
-        internal override Control Control => TreeView;
+        public override Control Control => TreeView;
 
-        internal void InitTreeView()
+        public void InitTreeView()
         {
             TreeView.Nodes.Clear();
             TreeView.Nodes.Add("All Tags");

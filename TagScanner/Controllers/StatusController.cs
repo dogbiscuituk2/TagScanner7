@@ -14,7 +14,7 @@
 
         private ToolStripItemCollection StatusBarItems => _statusBar.Items;
 
-        internal IProgress<ProgressEventArgs> CreateNewProgress()
+        public IProgress<ProgressEventArgs> CreateNewProgress()
         {
             var progressBar = new ToolStripProgressBar { Style = ProgressBarStyle.Continuous };
             var cancelButton = new ToolStripSplitButton { DropDownButtonWidth = 0, Text = "Cancel" };

@@ -21,13 +21,13 @@
 
         private readonly Model _model;
 
-        internal void AddFiles()
+        public void AddFiles()
         {
             if (_openFileDialog.ShowDialog(_libraryFormController.View) == DialogResult.OK)
                 AddFiles(_openFileDialog.FileNames);
         }
 
-        internal void AddFolder()
+        public void AddFolder()
         {
             if (_folderBrowserDialog.ShowDialog(_libraryFormController.View) == DialogResult.OK)
             {
@@ -38,7 +38,7 @@
             }
         }
 
-        internal void Rescan()
+        public void Rescan()
         {
             foreach (var folder in _model.Folders)
             {

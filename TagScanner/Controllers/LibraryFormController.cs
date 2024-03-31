@@ -42,7 +42,7 @@
         #region View
 
         private LibraryForm _view;
-        internal LibraryForm View
+        public LibraryForm View
         {
             get => _view;
             set
@@ -74,19 +74,19 @@
             }
         }
 
-        internal override Form Form => View;
+        public override Form Form => View;
 
         #endregion
 
         #region Fields
 
-        internal readonly Model Model;
-        internal readonly LibraryGridController LibraryGridController;
-        internal readonly MruMediaController MediaController;
-        internal readonly MruLibraryController PersistenceController;
-        internal readonly PlayerController PlayerController;
-        internal readonly FilterFormController FilterFormController;
-        internal readonly StatusController StatusController;
+        public readonly Model Model;
+        public readonly LibraryGridController LibraryGridController;
+        public readonly MruMediaController MediaController;
+        public readonly MruLibraryController PersistenceController;
+        public readonly PlayerController PlayerController;
+        public readonly FilterFormController FilterFormController;
+        public readonly StatusController StatusController;
 
         #endregion
 

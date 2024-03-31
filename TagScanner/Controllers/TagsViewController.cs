@@ -13,13 +13,13 @@
 
         protected TagsViewController(Controller parent) : base(parent) { }
 
-        internal abstract Control Control { get; }
-        internal TagVisibilityDialog Dialog => (TagVisibilityDialog)Form;
-        internal GroupTagsBy GroupTagsBy => ((TagsController)Parent).GroupTagsBy;
+        public abstract Control Control { get; }
+        public TagVisibilityDialog Dialog => (TagVisibilityDialog)Form;
+        public GroupTagsBy GroupTagsBy => ((TagsController)Parent).GroupTagsBy;
 
-        internal void HideView() => Control?.Hide();
+        public void HideView() => Control?.Hide();
 
-        internal void ShowView()
+        public void ShowView()
         {
             Control.Visible = true;
             Control.BringToFront();

@@ -18,12 +18,12 @@
 
         #region Internal Interface
 
-        internal TagsListController(Controller parent) : base(parent) { }
+        public TagsListController(Controller parent) : base(parent) { }
 
-        internal override Control Control => ListView;
-        internal ListView ListView => Dialog.ListView;
+        public override Control Control => ListView;
+        public ListView ListView => Dialog.ListView;
 
-        internal void InitListView()
+        public void InitListView()
         {
             Items.Clear();
             foreach (var tag in Tags.Keys)

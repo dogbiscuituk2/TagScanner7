@@ -28,7 +28,7 @@
         #region Model
 
         private Model _model;
-        internal Model Model
+        public Model Model
         {
             get => _model;
             set
@@ -58,7 +58,7 @@
             }
         }
 
-        internal override DataGrid DataGrid => ((GridElement)View.Child).DataGrid;
+        public override DataGrid DataGrid => ((GridElement)View.Child).DataGrid;
 
         private ListCollectionView ListCollectionView
         {
@@ -81,7 +81,7 @@
 
         #region Columns
 
-        internal void EditTagVisibility()
+        public void EditTagVisibility()
         {
             var visibleTags = VisibleTags.ToList();
             var ok = new TagsController(this).Execute("Select the Columns to display in the Media Table", visibleTags);
@@ -102,7 +102,7 @@
         }
 
         private List<Tag> _visibleTags = new List<Tag>{ Tag.FilePath };
-        internal List<Tag> VisibleTags
+        public List<Tag> VisibleTags
         {
             get => _visibleTags;
             set
@@ -132,7 +132,7 @@
         #region Sorting and Grouping
 
         private IEnumerable<SortDescription> _sortDescriptions = Array.Empty<SortDescription>();
-        internal IEnumerable<SortDescription> SortDescriptions
+        public IEnumerable<SortDescription> SortDescriptions
         {
             get => _sortDescriptions;
             set
@@ -146,7 +146,7 @@
         }
 
         private IEnumerable<Tag> _groupDescriptions = Array.Empty<Tag>();
-        internal IEnumerable<Tag> GroupDescriptions
+        public IEnumerable<Tag> GroupDescriptions
         {
             get => _groupDescriptions;
             set
@@ -177,9 +177,9 @@
         #region Selection
 
         private Selection _selection;
-        internal Selection Selection => _selection ?? (_selection = GetSelection());
+        public Selection Selection => _selection ?? (_selection = GetSelection());
 
-        internal event EventHandler SelectionChanged;
+        public event EventHandler SelectionChanged;
 
         private int UpdatingSelectionCount { get; set; }
 
@@ -200,14 +200,14 @@
             SelectionChanged?.Invoke(this, EventArgs.Empty);
         }
 
-        internal void SelectAll()
+        public void SelectAll()
         {
             BeginUpdateSelection();
             DataGrid.SelectAll();
             EndUpdateSelection();
         }
 
-        internal void InvertSelection()
+        public void InvertSelection()
         {
             var allItems = DataGrid.Items;
             var selectedItems = DataGrid.SelectedItems;
@@ -244,12 +244,12 @@
             VisibleTagsDefault = new[] { Tag.DiscTrack, Tag.Title, Tag.Duration, Tag.FileSize }.ToList(),
             VisibleTagsExtended = new[] { Tag.DiscTrack, Tag.Title, Tag.Duration, Tag.FileSize, Tag.JoinedPerformers, Tag.Album }.ToList();
         
-        internal void ViewByAlbum() => SetQuery(VisibleTagsDefault, new[] { Tag.Album }, new[] { Tag.DiscNumber, Tag.TrackNumber });
-        internal void ViewByArtist() => SetQuery(new[] { Tag.YearAlbum, Tag.DiscTrack, Tag.Title, Tag.Duration, Tag.FileSize }, new[] { Tag.JoinedPerformers }, new[] { Tag.DiscNumber, Tag.TrackNumber });
-        internal void ViewByArtistAlbum() => SetQuery(VisibleTagsDefault, new[] { Tag.JoinedPerformers, Tag.YearAlbum }, new[] { Tag.DiscNumber, Tag.TrackNumber });
-        internal void ViewByGenre() => SetQuery(VisibleTagsDefault, new[] { Tag.JoinedGenres, Tag.JoinedPerformers, Tag.YearAlbum }, new[] { Tag.DiscNumber, Tag.TrackNumber });
-        internal void ViewByNone() => SetQuery(VisibleTagsExtended, null, new[] { Tag.DiscNumber, Tag.TrackNumber });
-        internal void ViewByYear() => SetQuery(VisibleTagsExtended, new[] { Tag.DiscNumber, Tag.Decade, Tag.Year }, new[] { Tag.DiscNumber, Tag.TrackNumber });
+        public void ViewByAlbum() => SetQuery(VisibleTagsDefault, new[] { Tag.Album }, new[] { Tag.DiscNumber, Tag.TrackNumber });
+        public void ViewByArtist() => SetQuery(new[] { Tag.YearAlbum, Tag.DiscTrack, Tag.Title, Tag.Duration, Tag.FileSize }, new[] { Tag.JoinedPerformers }, new[] { Tag.DiscNumber, Tag.TrackNumber });
+        public void ViewByArtistAlbum() => SetQuery(VisibleTagsDefault, new[] { Tag.JoinedPerformers, Tag.YearAlbum }, new[] { Tag.DiscNumber, Tag.TrackNumber });
+        public void ViewByGenre() => SetQuery(VisibleTagsDefault, new[] { Tag.JoinedGenres, Tag.JoinedPerformers, Tag.YearAlbum }, new[] { Tag.DiscNumber, Tag.TrackNumber });
+        public void ViewByNone() => SetQuery(VisibleTagsExtended, null, new[] { Tag.DiscNumber, Tag.TrackNumber });
+        public void ViewByYear() => SetQuery(VisibleTagsExtended, new[] { Tag.DiscNumber, Tag.Decade, Tag.Year }, new[] { Tag.DiscNumber, Tag.TrackNumber });
 
         private void SetQuery(IEnumerable<Tag> visibleTags, IEnumerable<Tag> groupDescriptions, IEnumerable<Tag> sortDescriptions)
         {

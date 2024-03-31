@@ -15,11 +15,11 @@
             _tagsTreeController = new TagsTreeController(this);
         }
 
-        internal GroupTagsBy GroupTagsBy;
+        public GroupTagsBy GroupTagsBy;
 
-        internal override Form Form => Dialog;
+        public override Form Form => Dialog;
 
-        internal bool Execute(string caption, List<Tag> visibleTags)
+        public bool Execute(string caption, List<Tag> visibleTags)
         {
             Dialog.Text = caption;
             _tagsListController.SetVisibleTags(visibleTags);
