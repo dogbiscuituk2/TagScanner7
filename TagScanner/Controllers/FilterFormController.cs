@@ -67,7 +67,6 @@
 
         #region Private Event Handlers
 
-
         private void MenuRouter_CastClick(object sender, CastEventArgs e) => AddCast(e.Type);
         private void MenuRouter_ConstantClick(object sender, EventArgs e) => AddConstant();
         private void MenuRouter_FieldClick(object sender, FieldEventArgs e) => AddField(e.Tag);

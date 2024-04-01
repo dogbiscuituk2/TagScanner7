@@ -6,20 +6,6 @@
     using System.Linq.Expressions;
     using Models;
 
-    /// <summary>
-    /// 
-    /// Term - abstract base class
-    ///   \
-    ///     Constant
-    ///     Field
-    ///     Parameter
-    ///     Umptad - abstract base class
-    ///       \
-    ///         Cast
-    ///         Function
-    ///         Operation
-    ///
-    /// </summary>
     [Serializable]
     public abstract class Term
     {
@@ -36,7 +22,22 @@
         public List<CharacterRange> CharacterRangesAll => GetCharacterRangesAll();
         public abstract Expression Expression { get; }
         public int Length => ToString().Length;
-        public Func<Work, bool> Predicate => Expression.Lambda<Func<Work, bool>>(Expression, Work).Compile();
+
+        public Func<Work, bool> Predicate
+        {
+            get
+            {
+                try
+                {
+                    return Expression.Lambda<Func<Work, bool>>(Expression, Work).Compile();
+                }
+                catch
+                {
+                    return work => true;
+                }
+            }
+        }
+
         public virtual Rank Rank => Rank.Unary;
         public abstract Type ResultType { get; }
 

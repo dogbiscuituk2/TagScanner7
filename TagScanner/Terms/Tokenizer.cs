@@ -3,8 +3,10 @@
     using System;
     using System.Collections.Generic;
     using System.Linq;
+    using System.Reflection;
     using System.Text.RegularExpressions;
     using Utils;
+    using static System.Net.Mime.MediaTypeNames;
 
     public static class Tokenizer
     {
@@ -33,6 +35,8 @@
 #endif
                 yield return token;
             }
+            if (index < count)
+                SyntaxError();
             yield break;
 
             string MatchCharacter() => MatchRegex(@"^'.'");
@@ -75,8 +79,12 @@
                     case Nul:
                         return string.Empty;
                 }
-                throw new FormatException($"Unexpected input at position {index}: {text.Substring(index)}");
+                SyntaxError();
+                return string.Empty;
+
             }
+
+            void SyntaxError() => throw new FormatException($"Unrecognised term at character position {index}:\r\n{text.Substring(index)}");
         }
 
         public static bool IsBoolean(this string token) => Booleans.Contains(token, IgnoreCase);
@@ -122,7 +130,7 @@
                 case ".": return Op.Dot;
             }
             throw new FormatException();
-         }
+        }
 
         #endregion
 

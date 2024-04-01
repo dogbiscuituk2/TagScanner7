@@ -1,6 +1,4 @@
-﻿using System.ComponentModel;
-
-namespace TagScanner.Terms
+﻿namespace TagScanner.Terms
 {
     using System;
     using System.Collections.Generic;
@@ -46,28 +44,28 @@ namespace TagScanner.Terms
 
         public Term NewTerm(Term term, int line, string member)
         {
-            Dump(line, "New Term", $"{term} (in {member})", 0);
+            Dump(line, "New Term", $"{term} (in {member})", Options.None);
             return term;
         }
 
         public Op PeekOperator(int line)
         {
             var op = _operators.Peek();
-            Dump(line, "Peek Operator", op, 0);
+            Dump(line, "Peek Operator", op, Options.None);
             return op;
         }
 
         public Term PeekTerm(int line)
         {
             var term = _terms.Peek();
-            Dump(line, "Peek Term", term, 0);
+            Dump(line, "Peek Term", term, Options.None);
             return term;
         }
 
         public Token PeekToken(int line)
         {
             var token = _tokens.Peek();
-            Dump(line, "Peek Token", token.Value, 0);
+            Dump(line, "Peek Token", token.Value, Options.None);
             return token;
         }
 
@@ -119,7 +117,7 @@ namespace TagScanner.Terms
 #if DEBUG_PARSER
             var ruler = new string('-', 64);
             if ((options & Options.LineAbove) != 0)
-                Debug.WriteLine($"{ruler}\r\nLine      Activity: ParserState\r\n{ruler}");
+                Debug.WriteLine($"{ruler}\r\nLine    Activity    ParserState\r\n{ruler}");
             Debug.WriteLine("{0,4}{1,14}: {2}", line, step, value);
             if ((options & Options.AllState) != 0)
                 Debug.WriteLine(this);

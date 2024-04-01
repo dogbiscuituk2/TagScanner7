@@ -131,6 +131,7 @@
                     Accept(")");
                     return term;
                 }
+
             if (match.IsBoolean())
                 return NewTerm(match == "true" ? Constant.True : Constant.False);
             if (match.IsChar())
@@ -165,22 +166,6 @@
             PopOperator();
             Accept(")");
             return NewTerm(new Function(token, term is TermList termList ? termList.Operands.ToArray() : new[] { term }));
-        }
-
-        private IEnumerable<Term> ParseTerms()
-        {
-            while (true)
-                if (PeekToken().Value == ")")
-                {
-                    Accept(")");
-                    yield break;
-                }
-                else
-                {
-                    yield return NewTerm(ParseCompoundTerm());
-                    if (PeekToken().Value == ",")
-                        Accept(",");
-                }
         }
 
         private Term ParseUnaryOperation(string token)
