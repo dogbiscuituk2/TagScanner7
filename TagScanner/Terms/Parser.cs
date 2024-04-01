@@ -11,9 +11,7 @@
 
         public Term Parse(string text)
         {
-            Reset();
-            foreach (var token in Tokens.GetTokens(text))
-                EnqueueToken(token);
+            Reset(text);
             return ParseCompoundTerm();
         }
 
@@ -261,7 +259,7 @@
 
         #region Parser State
 
-        private void Reset() => _parserState.Reset();
+        private void Reset(string text) => _parserState.Reset(text);
 
         private bool AnyMoreTokens() => _parserState.AnyMoreTokens();
         private Token DequeueToken() => _parserState.DequeueToken();

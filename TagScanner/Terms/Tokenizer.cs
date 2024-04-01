@@ -6,7 +6,7 @@
     using System.Text.RegularExpressions;
     using Utils;
 
-    public static class Tokens
+    public static class Tokenizer
     {
         #region Public Methods
 
@@ -22,7 +22,9 @@
                     break;
                 var token = new Token(index, match);
                 index += match.Length;
+#if DEBUG_TOKENIZER
                 System.Diagnostics.Debug.WriteLine(token);
+#endif
                 yield return token;
             }
             yield break;
@@ -116,7 +118,7 @@
             throw new FormatException();
          }
 
-        #endregion
+#endregion
 
         #region Private Fields
 

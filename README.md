@@ -29,6 +29,7 @@ This document presents brief desciptions of the most important classes and other
 - <a href="#grammar">Grammar</a>
   - <a href="#tokens">Tokens</a>
   - <a href="#parser">Parser</a>
+  - <a href="#parserstate">ParserState</a>
 - <a href="#dcs">Development Cheat Sheet</a>
   - <a href="#cstags">Tags</a>
   - <a href="#csfields">Fields</a>
@@ -284,6 +285,18 @@ The __Tokens__ class performs the first stage of expression parsing, separating 
 ## Parser {#parser}
 
 The __Parser__ class, leaning heavily on the resources of the __Tokens__ class, implements a <a href="https://en.wikipedia.org/wiki/Recursive_descent_parser">recursive descent parser</a> to convert the input character stream into an executable expression.
+
+<a href="#contents">\^Contents</a>
+
+## ParserState {#parserstate}
+
+Class ParserState isolates the steps of the parsing process from the messy details of its mechanical implementation, allowing its major steps to be targeted with special debugging tools, and so followed much more easily.
+
+The essential operation of Recursive Descent Parsing is beautiful to watch. This class allows the capture of each Push, Pop, Enqueue and Dequeue action, and the display of the contents of the three chief dynamic data structures in play: the _Tokens_ queue, and the _Terms_ and _Operators_ stacks.
+
+In Visual Studio's _Output_ window, choose _Show output from: Debug_, then right-click in the window and deselect all _Messages_ except _Program Output_. Annoyingly, this has to be done for each available Message type individually!
+
+To get these internal state data dumps to appear at runtime, define the conditional compilation symbol _DEBUG_PARSER_.
 
 <a href="#contents">\^Contents</a>
 
