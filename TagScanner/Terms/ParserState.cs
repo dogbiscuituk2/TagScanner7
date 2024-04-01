@@ -2,12 +2,77 @@
 {
     using System.Collections.Generic;
     using System.Linq;
+    using System.Runtime.CompilerServices;
 
     public class ParserState
     {
-        public ParserState() => Reset(string.Empty);
+        #region Public Methods
 
-        public void Reset(string text)
+        public bool AnyMoreOperators() => _operators.Any();
+        public bool AnyMoreTerms() => _terms.Any();
+        public bool AnyMoreTokens() => _tokens.Any();
+
+        public Token DequeueToken([CallerLineNumber] int line = 0)
+        {
+            var token = _tokens.Dequeue();
+            Dump($"{line}  Use Token: '{token.Value}'");
+            return token;
+        }
+
+        public void EnqueueToken(Token token, [CallerLineNumber] int line = 0)
+        {
+            _tokens.Enqueue(token);
+            Dump($"{line}  Put Token: '{token.Value}'");
+        }
+
+        public Op PeekOperator([CallerLineNumber] int line = 0)
+        {
+            var op = _operators.Peek();
+            Dump($"{line}    Peek Op: ' {op} '", full: false);
+            return op;
+        }
+
+        public Term PeekTerm([CallerLineNumber] int line = 0)
+        {
+            var term = _terms.Peek();
+            Dump($"{line}  Peek Term: '{term}'", full: false);
+            return term;
+        }
+
+        public Token PeekToken([CallerLineNumber] int line = 0)
+        {
+            var token = _tokens.Peek();
+            Dump($"{line} Peek Token: '{token.Value}'", full: false);
+            return token;
+        }
+
+        public Op PopOperator([CallerLineNumber] int line = 0)
+        {
+            var op = _operators.Pop();
+            Dump($"{line}     Pop Op: ' {op} '");
+            return op;
+        }
+
+        public Term PopTerm([CallerLineNumber] int line = 0)
+        {
+            var term = _terms.Pop();
+            Dump($"{line}   Pop Term: '{term}'");
+            return term;
+        }
+
+        public void PushOperator(Op op, [CallerLineNumber] int line = 0)
+        {
+            _operators.Push(op);
+            Dump($"{line}    Push Op: ' {op} '");
+        }
+
+        public void PushTerm(Term term, [CallerLineNumber] int line = 0)
+        {
+            _terms.Push(term);
+            Dump($"{line}  Push Term: ' {term} '");
+        }
+
+        public void Reset(string text, [CallerLineNumber] int line = 0)
         {
             _tokens.Clear();
             foreach (var token in Tokenizer.GetTokens(text))
@@ -16,43 +81,40 @@
             _operators.Clear();
             _operators.Push(Op.LParen);
             if (!string.IsNullOrWhiteSpace(text))
-                Dump($"        Reset: '{text}'");
+                Dump($"{line}      Reset: '{text}'");
         }
 
-        public override string ToString() => $"       Tokens: {Tokens}\r\n        Terms: {Terms}\r\n    Operators: {Operators}\r\n";
+        public override string ToString() => $"        Tokens: {Tokens}\r\n         Terms: {Terms}\r\n     Operators: {Operators}\r\n";
 
-        private readonly Queue<Token> _tokens = new Queue<Token>();
+        #endregion
 
-        public bool AnyMoreTokens() => _tokens.Any();
-        public Token DequeueToken() { var token = _tokens.Dequeue(); Dump($"    Pop Token: '{token.Value}'"); return token; }
-        public void EnqueueToken(Token token) { _tokens.Enqueue(token); Dump($"   Push Token: '{token.Value}'"); }
-        public Token PeekToken() => _tokens.Peek();
+        #region Private Properties
 
-        private readonly Stack<Term> _terms = new Stack<Term>();
+        private object Operators => Say(_operators.Select(p => p.ToString()));
+        private object Terms => Say(_terms.Select(p => p));
+        private object Tokens => Say(_tokens.Select(p => p.Value));
 
-        public bool AnyMoreTerms() => _terms.Any();
-        public Term PeekTerm() => _terms.Peek();
-        public Term PopTerm() { var term = _terms.Pop(); Dump($"     Pop Term: '{term}'"); return term; }
-        public void PushTerm(Term term) { _terms.Push(term); Dump($"    Push Term: '{term}'"); }
+        #endregion
+
+        #region Private Fields
 
         private readonly Stack<Op> _operators = new Stack<Op>();
+        private readonly Stack<Term> _terms = new Stack<Term>();
+        private readonly Queue<Token> _tokens = new Queue<Token>();
 
-        public bool AnyMoreOperators() => _operators.Any();
-        public Op PeekOperator() => _operators.Peek();
-        public Op PopOperator() { var op = _operators.Pop(); Dump($" Pop Operator: '{op}'"); return op; }
-        public void PushOperator(Op op) { _operators.Push(op); Dump($"Push Operator: '{op}'"); }
+        #endregion
 
-        private string Operators => Say(_operators.Select(p => p.ToString()));
-        private string Terms => Say(_terms.Select(p => p.ToString()));
-        private string Tokens => Say(_tokens.Select(p => p.Value));
+        #region Private Methods
 
-        private void Dump(string step = "")
+        private void Dump(string step, bool full = true)
         {
 #if DEBUG_PARSER
-            System.Diagnostics.Debug.WriteLine($"{step}\r\n{this}");
+            System.Diagnostics.Debug.WriteLine($"{step}\r\n{(full ? ToString() : string.Empty)}");
 #endif
         }
 
-        private string Say(IEnumerable<string> strings) => strings.Any() ? strings.Aggregate((p, q) => $"{p} {q}") : "";
+        private static object Say(IEnumerable<object> s) => (s.Any() ? s.Aggregate((p, q) => $"{p} {q}") : string.Empty);
+
+        #endregion
     }
 }
