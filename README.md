@@ -2,7 +2,7 @@
 
 TagScanner gathers ID3 tags and other available metadata from suitable files, e.g. MP3s, and stores them in a library file. Loaded metadata are editable, and when the library file is re-saved, these edits can optionally be applied to the relevant media files.
 
-There is a query builder allowing the construction of complex filters based on all metadata properties, and a Find/Replace function which operates across multiple tags and optionally uses Regex. The app is WinForms based, but uses embedded WPF grids to take advantage of their (free) filtering, sorting & grouping operations.
+There is a query builder allowing the construction of complex filters based on all metadata properties, and a Find/Replace function which operates across multiple tags and optionally uses Regex. The app is WinForms based, but uses embedded WPF grids to take advantage of their (free!) filtering, sorting & grouping operations.
 
 This document presents brief desciptions of the most important classes and other design elements of the TagScanner application.
 
@@ -27,7 +27,7 @@ This document presents brief desciptions of the most important classes and other
       - <a href="#dyad">Dyadic Operation ( + - * / &amp; | \^ = != &lt; &lt;= &gt;= &gt; )</a>
       - <a href="#triad">Triadic Operation ( ? : )</a>
 - <a href="#grammar">Grammar</a>
-  - <a href="#tokens">Tokens</a>
+  - <a href="#tokenizer">Tokenizer</a>
   - <a href="#parser">Parser</a>
   - <a href="#parserstate">ParserState</a>
 - <a href="#dcs">Development Cheat Sheet</a>
@@ -276,15 +276,15 @@ The single provided triadic operation is of course the __Conditional__, the expr
 
 <a href="#contents">\^Contents</a>
 
-## Tokens {#tokens}
+## Tokenizer {#tokenizer}
 
-The __Tokens__ class performs the first stage of expression parsing, separating the input character stream into its various recognisable language tokens.
+The __Tokenizer__ class performs the first stage of expression parsing, separating the input character stream into its various recognisable language tokens.
 
 <a href="#contents">\^Contents</a>
 
 ## Parser {#parser}
 
-The __Parser__ class, leaning heavily on the resources of the __Tokens__ class, implements a <a href="https://en.wikipedia.org/wiki/Recursive_descent_parser">recursive descent parser</a> to convert the input character stream into an executable expression.
+The __Parser__ class, leaning heavily on the resources of the __Tokenizer__ class, implements a <a href="https://en.wikipedia.org/wiki/Recursive_descent_parser">recursive descent parser</a> to convert the input character stream into an executable expression.
 
 <a href="#contents">\^Contents</a>
 

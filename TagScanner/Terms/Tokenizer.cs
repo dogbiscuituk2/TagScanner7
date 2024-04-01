@@ -37,7 +37,7 @@
 
             string MatchCharacter() => MatchRegex(@"^'.'");
             string MatchDateTime() => MatchRegex(Parser.DateTimePattern);
-            string MatchNumber() => MatchRegex(@"^(\d+\.?\d*(UL|LU|D|F|L|M|U)?)", RegexOptions.IgnoreCase);
+            string MatchNumber() => MatchRegex(@"^(\d+\.?\d*(UL|LU|D|F|L|M|U)?)");
 
             string MatchRegex(string pattern, RegexOptions options = RegexOptions.IgnoreCase) =>
                 Regex.Match(text.Substring(index), pattern, options).Value;
