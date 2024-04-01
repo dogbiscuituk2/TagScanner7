@@ -8,6 +8,12 @@
 
     public static class Tokenizer
     {
+        #region Public Properties
+
+        public static EqualityComparer IgnoreCase = new EqualityComparer();
+
+        #endregion
+
         #region Public Methods
 
         public static IEnumerable<Token> GetTokens(string text)
@@ -33,7 +39,7 @@
             string MatchDateTime() => MatchRegex(Parser.DateTimePattern);
             string MatchNumber() => MatchRegex(@"^(\d+\.?\d*(UL|LU|D|F|L|M|U)?)", RegexOptions.IgnoreCase);
 
-            string MatchRegex(string pattern, RegexOptions options = RegexOptions.None) =>
+            string MatchRegex(string pattern, RegexOptions options = RegexOptions.IgnoreCase) =>
                 Regex.Match(text.Substring(index), pattern, options).Value;
 
             string MatchString()
@@ -52,7 +58,7 @@
 
             string Match()
             {
-                var result = AllTokens.FirstOrDefault(p => text.Substring(index).StartsWith(p));
+                var result = AllTokens.FirstOrDefault(p => text.Substring(index).StartsWith(p, StringComparison.OrdinalIgnoreCase));
                 if (!string.IsNullOrWhiteSpace(result))
                     return result;
                 switch (index < count ? text[index] : Nul)
@@ -73,23 +79,23 @@
             }
         }
 
-        public static bool IsBoolean(this string token) => Booleans.Contains(token);
+        public static bool IsBoolean(this string token) => Booleans.Contains(token, IgnoreCase);
         public static bool IsChar(this string token) => token[0] == SingleQuote;
         public static bool IsConstant(this string token) => token.IsBoolean() || token.IsChar() || token.IsNumber() || token.IsString();
         public static bool IsDateTime(this string token) => Regex.IsMatch(token, Parser.DateTimePattern);
         public static bool IsDyadicOperator(this string token) => DyadicOperators.Contains(token);
-        public static bool IsField(this string token) => Fields.Contains(token);
-        public static bool IsFunction(this string token) => Functions.Contains(token);
-        public static bool IsMemberFunction(this string token) => MemberFunctions.Contains(token);
-        public static bool IsMonadicOperator(this string token) => MonadicOperators.Contains(token);
+        public static bool IsField(this string token) => Fields.Contains(token, IgnoreCase);
+        public static bool IsFunction(this string token) => Functions.Contains(token, IgnoreCase);
+        public static bool IsMemberFunction(this string token) => MemberFunctions.Contains(token, IgnoreCase);
+        public static bool IsMonadicOperator(this string token) => MonadicOperators.Contains(token, IgnoreCase);
         public static bool IsNumber(this string token) => char.IsDigit(token[0]);
-        public static bool IsOperator(this string token) => Operators.Contains(token);
-        public static bool IsStaticFunction(this string token) => StaticFunctions.Contains(token);
+        public static bool IsOperator(this string token) => Operators.Contains(token, IgnoreCase);
+        public static bool IsStaticFunction(this string token) => StaticFunctions.Contains(token, IgnoreCase);
         public static bool IsString(this string token) => token[0] == DoubleQuote;
-        public static bool IsSymbol(this string token) => Symbols.Contains(token);
+        public static bool IsSymbol(this string token) => Symbols.Contains(token, IgnoreCase);
         public static bool IsTimeSpan(this string token) => Regex.IsMatch(token, Parser.TimeSpanPattern);
-        public static bool IsTriadicOperator(this string token) => TriadicOperators.Contains(token);
-        public static bool IsType(this string token) => Types.Contains(token);
+        public static bool IsTriadicOperator(this string token) => TriadicOperators.Contains(token, IgnoreCase);
+        public static bool IsType(this string token) => Types.Contains(token, IgnoreCase);
 
         public static Rank Rank(this string token) => token.Operator().GetRank();
 
@@ -118,7 +124,7 @@
             throw new FormatException();
          }
 
-#endregion
+        #endregion
 
         #region Private Fields
 
