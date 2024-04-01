@@ -1,5 +1,8 @@
-﻿namespace TagScanner.Terms
+﻿using System.ComponentModel;
+
+namespace TagScanner.Terms
 {
+    using System;
     using System.Collections.Generic;
     using System.Diagnostics;
     using System.Linq;
@@ -19,7 +22,7 @@
             _operators.Clear();
             foreach (var token in Tokenizer.GetTokens(text))
                 _tokens.Enqueue(token);
-            Dump(line, "Begin Parse", text);
+            Dump(line, "Begin Parse", text, Options.LineAbove);
         }
 
         public Token DequeueToken(int line)
@@ -31,7 +34,7 @@
 
         public Term EndParse(Term term, int line)
         {
-            Dump(line, "End Parse", term, full: false);
+            Dump(line, "End Parse", term, Options.LineBelow);
             return term;
         }
 
@@ -43,28 +46,28 @@
 
         public Term NewTerm(Term term, int line, string member)
         {
-            Dump(line, "New Term", $"{term} (in {member})", full: false);
+            Dump(line, "New Term", $"{term} (in {member})", 0);
             return term;
         }
 
         public Op PeekOperator(int line)
         {
             var op = _operators.Peek();
-            Dump(line, "Peek Operator", op, full: false);
+            Dump(line, "Peek Operator", op, 0);
             return op;
         }
 
         public Term PeekTerm(int line)
         {
             var term = _terms.Peek();
-            Dump(line, "Peek Term", term, full: false);
+            Dump(line, "Peek Term", term, 0);
             return term;
         }
 
         public Token PeekToken(int line)
         {
             var token = _tokens.Peek();
-            Dump(line, "Peek Token", token.Value, full: false);
+            Dump(line, "Peek Token", token.Value, 0);
             return token;
         }
 
@@ -111,16 +114,34 @@
 
         #region Private Methods
 
-        private void Dump(int line, string step, object value, bool full = true)
+        private void Dump(int line, string step, object value, Options options = Options.AllState)
         {
 #if DEBUG_PARSER
+            var ruler = new string('-', 64);
+            if ((options & Options.LineAbove) != 0)
+                Debug.WriteLine($"{ruler}\r\nLine      Activity: ParserState\r\n{ruler}");
             Debug.WriteLine("{0,4}{1,14}: {2}", line, step, value);
-            if (full)
+            if ((options & Options.AllState) != 0)
                 Debug.WriteLine(this);
+            if ((options & Options.LineBelow) != 0)
+                Debug.WriteLine(ruler);
 #endif
         }
 
         private static object Say(IEnumerable<object> s) => s.Any() ? s.Aggregate((p, q) => $"{p} {q}") : string.Empty;
+
+        #endregion
+
+        #region Private Types
+
+        [Flags]
+        private enum Options
+        {
+            None = 0,
+            LineAbove = 1,
+            LineBelow = 2,
+            AllState = 4,
+        }
 
         #endregion
     }
