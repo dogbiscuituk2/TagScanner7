@@ -3,7 +3,6 @@
     using System.Collections.Generic;
     using System.Diagnostics;
     using System.Linq;
-    using System.Runtime.CompilerServices;
 
     public class ParserState
     {
@@ -13,14 +12,30 @@
         public bool AnyTerms() => _terms.Any();
         public bool AnyTokens() => _tokens.Any();
 
-        public Token DequeueToken([CallerLineNumber] int line = 0)
+        public void BeginParse(string text, int line)
+        {
+            _tokens.Clear();
+            _terms.Clear();
+            _operators.Clear();
+            foreach (var token in Tokenizer.GetTokens(text))
+                _tokens.Enqueue(token);
+            Dump(line, "Begin Parse", text);
+        }
+
+        public Token DequeueToken(int line)
         {
             var token = _tokens.Dequeue();
             Dump(line, "Dequeue Token", token.Value);
             return token;
         }
 
-        public void EnqueueToken(Token token, [CallerLineNumber] int line = 0)
+        public Term EndParse(Term term, int line)
+        {
+            Dump(line, "End Parse", term, full: false);
+            return term;
+        }
+
+        public void EnqueueToken(Token token, int line)
         {
             _tokens.Enqueue(token);
             Dump(line, "Enqueue Token", token.Value);
@@ -28,78 +43,61 @@
 
         public Term NewTerm(Term term, int line, string member)
         {
-            DumpLine(line, "New Term", $"{term} (from {member})");
+            Dump(line, "New Term", $"{term} (in {member})", full: false);
             return term;
         }
 
-        public Op PeekOperator([CallerLineNumber] int line = 0)
+        public Op PeekOperator(int line)
         {
             var op = _operators.Peek();
-            DumpLine (line, "Peek Operator", op);
+            Dump(line, "Peek Operator", op, full: false);
             return op;
         }
 
-        public Term PeekTerm([CallerLineNumber] int line = 0)
+        public Term PeekTerm(int line)
         {
             var term = _terms.Peek();
-            DumpLine(line, "Peek Term", term);
+            Dump(line, "Peek Term", term, full: false);
             return term;
         }
 
-        public Token PeekToken([CallerLineNumber] int line = 0)
+        public Token PeekToken(int line)
         {
             var token = _tokens.Peek();
-            DumpLine(line, "Peek Token", token.Value);
+            Dump(line, "Peek Token", token.Value, full: false);
             return token;
         }
 
-        public Op PopOperator([CallerLineNumber] int line = 0)
+        public Op PopOperator(int line)
         {
             var op = _operators.Pop();
             Dump(line, "Pop Operator", op);
             return op;
         }
 
-        public Term PopTerm([CallerLineNumber] int line = 0)
+        public Term PopTerm(int line)
         {
             var term = _terms.Pop();
             Dump(line, "Pop Term", term);
             return term;
         }
 
-        public void PushOperator(Op op, [CallerLineNumber] int line = 0)
+        public void PushOperator(Op op, int line)
         {
             _operators.Push(op);
             Dump(line, "Push Operator", op);
         }
 
-        public void PushTerm(Term term, [CallerLineNumber] int line = 0)
+        public void PushTerm(Term term, int line)
         {
             _terms.Push(term);
             Dump(line, "Push Term", term);
         }
 
-        public void Reset(string text, [CallerLineNumber] int line = 0)
-        {
-            _tokens.Clear();
-            foreach (var token in Tokenizer.GetTokens(text))
-                _tokens.Enqueue(token);
-            _terms.Clear();
-            _operators.Clear();
-            _operators.Push(Op.LParen);
-            if (!string.IsNullOrWhiteSpace(text))
-                Dump(line, "Reset", text);
-        }
-
-        public override string ToString() => $"            Tokens: {Tokens}\r\n             Terms: {Terms}\r\n         Operators: {Operators}\r\n";
-
-        #endregion
-
-        #region Private Properties
-
-        private object Operators => Say(_operators.Select(p => p.ToString()));
-        private object Terms => Say(_terms.Select(p => p));
-        private object Tokens => Say(_tokens.Select(p => p.Value));
+        public override string ToString() => string.Format("{0,18}: {1}\r\n{2,18}: {3}\r\n{4,18}: {5}\r\n",
+            "Tokens", Say(_tokens.Select(p => p.Value)),
+            "Terms", Say(_terms),
+            "Operators", Say(_operators.Select(p => p.ToString())));
 
         #endregion
 
@@ -113,8 +111,15 @@
 
         #region Private Methods
 
-        private void Dump(int line, string step, object value) => Debug.WriteLine("{0,4}{1,14}: {2}\r\n{3}", line, step, value, this);
-        private void DumpLine(int line, string step, object value) => Debug.WriteLine("{0,4}{1,14}: {2}", line, step, value);
+        private void Dump(int line, string step, object value, bool full = true)
+        {
+#if DEBUG_PARSER
+            Debug.WriteLine("{0,4}{1,14}: {2}", line, step, value);
+            if (full)
+                Debug.WriteLine(this);
+#endif
+        }
+
         private static object Say(IEnumerable<object> s) => s.Any() ? s.Aggregate((p, q) => $"{p} {q}") : string.Empty;
 
         #endregion

@@ -75,7 +75,7 @@
                     case Nul:
                         return string.Empty;
                 }
-                throw new FormatException($"Unexpected character in input '{text}' at position {index}.");
+                throw new FormatException($"Unexpected input at position {index}: {text.Substring(index)}");
             }
         }
 
