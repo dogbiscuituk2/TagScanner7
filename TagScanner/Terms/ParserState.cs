@@ -1,6 +1,7 @@
 ﻿namespace TagScanner.Terms
 {
     using System.Collections.Generic;
+    using System.Diagnostics;
     using System.Linq;
     using System.Runtime.CompilerServices;
 
@@ -109,7 +110,9 @@
         private void Dump(string step, bool full = true)
         {
 #if DEBUG_PARSER
-            System.Diagnostics.Debug.WriteLine($"{step}\r\n{(full ? ToString() : string.Empty)}");
+            Debug.WriteLine(step);
+            if (full)
+                Debug.WriteLine(this);
 #endif
         }
 
