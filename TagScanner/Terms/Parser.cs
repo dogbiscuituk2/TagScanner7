@@ -3,6 +3,7 @@
     using System;
     using System.Collections.Generic;
     using System.Linq;
+    using System.Runtime.CompilerServices;
     using System.Text.RegularExpressions;
 
     public class Parser
@@ -74,19 +75,20 @@
             {
                 right = new Operation(op, left, right);
             }
+            NewTerm(right);
         }
 
         private Term ParseCast()
         {
             var type =  Cast.GetType(DequeueToken().Value);
             Accept(")");
-            return new Cast(type, ParseSimpleTerm());
+            return NewTerm(new Cast(type, ParseSimpleTerm()));
         }
 
         private Term ParseCompoundTerm()
         {
-            var term = ParseSimpleTerm();
-            while (AnyMoreTokens())
+            var term = NewTerm(ParseSimpleTerm());
+            while (AnyTokens())
             {
                 var token = DequeueToken().Value;
                 if (token == ")")
@@ -105,7 +107,7 @@
                 PushOperator(token.Operator());
                 term = ParseSimpleTerm();
             }
-            while (AnyMoreTerms() && PeekOperator() != Op.LParen)
+            while (AnyTerms() && PeekOperator() != Op.LParen)
                 CombineTerms(ref term);
             if (PeekOperator() != Op.LParen)
                 PopOperator();
@@ -117,9 +119,9 @@
             var term = ParseSimpleTerm();
             switch (token)
             {
-                case "+": return new Positive(term);
-                case "-": return new Negative(term);
-                case "!": return new Negation(term);
+                case "+": return NewTerm(new Positive(term));
+                case "-": return NewTerm(new Negative(term));
+                case "!": return NewTerm(new Negation(term));
             }
             return null;
         }
@@ -149,39 +151,39 @@
                     return term;
                 }
             if (match.IsBoolean())
-                return match == "true" ? Constant.True : Constant.False;
+                return NewTerm(match == "true" ? Constant.True : Constant.False);
             if (match.IsChar())
-                return new Constant(char.Parse(match.Substring(1, match.Length - 2)));
+                return NewTerm(new Constant(char.Parse(match.Substring(1, match.Length - 2))));
             if (match.IsString())
-                return new Constant(match.Substring(1, match.Length - 2));
+                return NewTerm(new Constant(match.Substring(1, match.Length - 2)));
             if (match.IsField())
-                return new Field(Tags.Values.Single(p => p.DisplayName == match).Tag);
+                return NewTerm(new Field(Tags.Values.Single(p => p.DisplayName == match).Tag));
             if (match.IsMonadicOperator())
                 return ParseMonad(match);
             if (match.IsNumber())
-                return new Constant(ParseNumber(match.ToUpperInvariant()));
+                return NewTerm(new Constant(ParseNumber(match.ToUpperInvariant())));
             if (match.IsStaticFunction())
                 return ParseStaticFunction(match);
             // DateTime & TimeSpan constants involve expensive Regex pattern matching,
             // and in all probability, are relatively infrequent; hence these are checked last.
             if (match.IsDateTime())
-                return new Constant(ParseDateTime(match));
+                return NewTerm(new Constant(ParseDateTime(match)));
             if (match.IsTimeSpan())
-                return new Constant(ParseTimeSpan(match));
+                return NewTerm(new Constant(ParseTimeSpan(match)));
             SyntaxError(token.Index, token.Value);
             return null;
         }
 
-        private Function ParseStaticFunction(string token)
+        private Term ParseStaticFunction(string token)
         {
             Accept("(");
             PushOperator(Op.LParen);
             Term term = null;
             if (PeekToken().Value != ")")
-                term = ParseCompoundTerm();
+                term = NewTerm(ParseCompoundTerm());
             PopOperator();
             Accept(")");
-            return new Function(token, term is TermList termList ? termList.Operands.ToArray() : new[] { term });
+            return NewTerm(new Function(token, term is TermList termList ? termList.Operands.ToArray() : new[] { term }));
         }
 
         private IEnumerable<Term> ParseTerms()
@@ -194,7 +196,7 @@
                 }
                 else
                 {
-                    yield return ParseCompoundTerm();
+                    yield return NewTerm(ParseCompoundTerm());
                     if (PeekToken().Value == ",")
                         Accept(",");
                 }
@@ -259,22 +261,34 @@
 
         #region Parser State
 
-        private void Reset(string text) => _parserState.Reset(text);
+        private Term NewTerm(Term term, [CallerLineNumber] int line = 0, [CallerMemberName] string member = "") => _parserState.NewTerm(term, line, member);
 
-        private bool AnyMoreTokens() => _parserState.AnyMoreTokens();
-        private Token DequeueToken() => _parserState.DequeueToken();
-        private void EnqueueToken(Token token) => _parserState.EnqueueToken(token);
-        private Token PeekToken() => _parserState.PeekToken();
+        private void Reset(string text, [CallerLineNumber] int line = 0) => _parserState.Reset(text, line);
 
-        private bool AnyMoreOperators() => _parserState.AnyMoreOperators();
-        private Op PeekOperator() => _parserState.PopOperator();
-        private Op PopOperator() => _parserState.PopOperator();
-        private void PushOperator(Op op) => _parserState.PushOperator(op);
+        #region Operators
 
-        private bool AnyMoreTerms() => _parserState.AnyMoreTerms();
-        private Term PeekTerm() => _parserState.PopTerm();
-        private Term PopTerm() => _parserState.PopTerm();
-        private void PushTerm(Term term) => _parserState.PushTerm(term);
+        private bool AnyOperators() => _parserState.AnyOperators();
+        private Op PeekOperator([CallerLineNumber] int line = 0) => _parserState.PopOperator(line);
+        private Op PopOperator([CallerLineNumber] int line = 0) => _parserState.PopOperator(line);
+        private void PushOperator(Op op, [CallerLineNumber] int line = 0) => _parserState.PushOperator(op, line);
+
+        #endregion
+        #region Terms
+
+        private bool AnyTerms() => _parserState.AnyTerms();
+        private Term PeekTerm([CallerLineNumber] int line = 0) => _parserState.PopTerm(line);
+        private Term PopTerm([CallerLineNumber] int line = 0) => _parserState.PopTerm(line);
+        private void PushTerm(Term term, [CallerLineNumber] int line = 0) => _parserState.PushTerm(term, line);
+
+        #endregion
+        #region Tokens
+
+        private bool AnyTokens() => _parserState.AnyTokens();
+        private Token DequeueToken([CallerLineNumber] int line = 0) => _parserState.DequeueToken(line);
+        private void EnqueueToken(Token token, [CallerLineNumber] int line = 0) => _parserState.EnqueueToken(token, line);
+        private Token PeekToken([CallerLineNumber] int line = 0) => _parserState.PeekToken(line);
+
+        #endregion
 
         #endregion
     }

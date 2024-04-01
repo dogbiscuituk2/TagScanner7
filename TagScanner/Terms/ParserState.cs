@@ -9,68 +9,74 @@
     {
         #region Public Methods
 
-        public bool AnyMoreOperators() => _operators.Any();
-        public bool AnyMoreTerms() => _terms.Any();
-        public bool AnyMoreTokens() => _tokens.Any();
+        public bool AnyOperators() => _operators.Any();
+        public bool AnyTerms() => _terms.Any();
+        public bool AnyTokens() => _tokens.Any();
 
         public Token DequeueToken([CallerLineNumber] int line = 0)
         {
             var token = _tokens.Dequeue();
-            Dump($"{line}  Use Token: '{token.Value}'");
+            Dump(line, "Dequeue Token", token.Value);
             return token;
         }
 
         public void EnqueueToken(Token token, [CallerLineNumber] int line = 0)
         {
             _tokens.Enqueue(token);
-            Dump($"{line}  Put Token: '{token.Value}'");
+            Dump(line, "Enqueue Token", token.Value);
+        }
+
+        public Term NewTerm(Term term, int line, string member)
+        {
+            DumpLine(line, "New Term", $"{term} (from {member})");
+            return term;
         }
 
         public Op PeekOperator([CallerLineNumber] int line = 0)
         {
             var op = _operators.Peek();
-            Dump($"{line}    Peek Op: ' {op} '", full: false);
+            DumpLine (line, "Peek Operator", op);
             return op;
         }
 
         public Term PeekTerm([CallerLineNumber] int line = 0)
         {
             var term = _terms.Peek();
-            Dump($"{line}  Peek Term: '{term}'", full: false);
+            DumpLine(line, "Peek Term", term);
             return term;
         }
 
         public Token PeekToken([CallerLineNumber] int line = 0)
         {
             var token = _tokens.Peek();
-            Dump($"{line} Peek Token: '{token.Value}'", full: false);
+            DumpLine(line, "Peek Token", token.Value);
             return token;
         }
 
         public Op PopOperator([CallerLineNumber] int line = 0)
         {
             var op = _operators.Pop();
-            Dump($"{line}     Pop Op: ' {op} '");
+            Dump(line, "Pop Operator", op);
             return op;
         }
 
         public Term PopTerm([CallerLineNumber] int line = 0)
         {
             var term = _terms.Pop();
-            Dump($"{line}   Pop Term: '{term}'");
+            Dump(line, "Pop Term", term);
             return term;
         }
 
         public void PushOperator(Op op, [CallerLineNumber] int line = 0)
         {
             _operators.Push(op);
-            Dump($"{line}    Push Op: ' {op} '");
+            Dump(line, "Push Operator", op);
         }
 
         public void PushTerm(Term term, [CallerLineNumber] int line = 0)
         {
             _terms.Push(term);
-            Dump($"{line}  Push Term: ' {term} '");
+            Dump(line, "Push Term", term);
         }
 
         public void Reset(string text, [CallerLineNumber] int line = 0)
@@ -82,10 +88,10 @@
             _operators.Clear();
             _operators.Push(Op.LParen);
             if (!string.IsNullOrWhiteSpace(text))
-                Dump($"{line}      Reset: '{text}'");
+                Dump(line, "Reset", text);
         }
 
-        public override string ToString() => $"        Tokens: {Tokens}\r\n         Terms: {Terms}\r\n     Operators: {Operators}\r\n";
+        public override string ToString() => $"            Tokens: {Tokens}\r\n             Terms: {Terms}\r\n         Operators: {Operators}\r\n";
 
         #endregion
 
@@ -107,16 +113,9 @@
 
         #region Private Methods
 
-        private void Dump(string step, bool full = true)
-        {
-#if DEBUG_PARSER
-            Debug.WriteLine(step);
-            if (full)
-                Debug.WriteLine(this);
-#endif
-        }
-
-        private static object Say(IEnumerable<object> s) => (s.Any() ? s.Aggregate((p, q) => $"{p} {q}") : string.Empty);
+        private void Dump(int line, string step, object value) => Debug.WriteLine("{0,4}{1,14}: {2}\r\n{3}", line, step, value, this);
+        private void DumpLine(int line, string step, object value) => Debug.WriteLine("{0,4}{1,14}: {2}", line, step, value);
+        private static object Say(IEnumerable<object> s) => s.Any() ? s.Aggregate((p, q) => $"{p} {q}") : string.Empty;
 
         #endregion
     }
