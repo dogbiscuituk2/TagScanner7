@@ -4,6 +4,7 @@
     using System.Collections.Generic;
     using System.Linq;
     using System.Xml.Serialization;
+    using Newtonsoft.Json;
     using Models;
 
     [Serializable]
@@ -38,8 +39,8 @@
             set => _terms = value;
         }
 
-        private bool _modified;
-        public bool Modified
+        [NonSerialized] private bool _modified;
+        [JsonIgnore, XmlIgnore] public bool Modified
         {
             get => _modified;
             set => _modified = value;

@@ -18,10 +18,10 @@ namespace TagScanner.Terms
 
         public Type NewType { get; set; }
 
-        [XmlIgnore] public override int Arity => 1;
-        [XmlIgnore] public override Expression Expression => Expression.Convert(FirstSubExpression, NewType);
-        [XmlIgnore] public override Rank Rank => Rank.Unary;
-        [XmlIgnore] public override Type ResultType => NewType;
+        [JsonIgnore, XmlIgnore] public override int Arity => 1;
+        [JsonIgnore, XmlIgnore] public override Expression Expression => Expression.Convert(FirstSubExpression, NewType);
+        [JsonIgnore, XmlIgnore] public override Rank Rank => Rank.Unary;
+        [JsonIgnore, XmlIgnore] public override Type ResultType => NewType;
 
         protected override IEnumerable<Type> GetParameterTypes() => new[] { typeof(object) };
         public override int Start(int index) => NewType.Say().Length + (UseParens(0) ? 3 : 2);
@@ -34,7 +34,7 @@ namespace TagScanner.Terms
             AddParameters(typeof(object));
         }
 
-        [NonSerialized, XmlIgnore]
+        [NonSerialized, JsonIgnore, XmlIgnore]
         private static Dictionary<string, Type> TypeDictionary = new Dictionary<string, Type>
         {
             { "bool",  typeof(bool) },

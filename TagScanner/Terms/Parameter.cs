@@ -2,6 +2,8 @@
 {
     using System;
     using System.Linq.Expressions;
+    using System.Xml.Serialization;
+    using Newtonsoft.Json;
     using Utils;
 
     [Serializable]
@@ -10,8 +12,9 @@
         public Parameter() { }
         public Parameter(Type type) { _resultType = type; }
 
-        public override Expression Expression => Expression.Default(ResultType);
-        public override Type ResultType => _resultType;
+        [JsonIgnore, XmlIgnore] public override Expression Expression => Expression.Default(ResultType);
+        [JsonIgnore, XmlIgnore] public override Type ResultType => _resultType;
+
         public override string ToString() => ResultType.Say();
 
         private readonly Type _resultType;

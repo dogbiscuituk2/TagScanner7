@@ -1,8 +1,10 @@
 ﻿namespace TagScanner.Terms
 {
+    using Newtonsoft.Json;
     using System;
     using System.Linq.Expressions;
     using System.Text;
+    using System.Xml.Serialization;
 
     [Serializable]
     public class Constant : Term
@@ -12,8 +14,8 @@
 
         public object Value { get; set; }
 
-        public override Expression Expression => Expression.Constant(Value);
-        public override Type ResultType => Value?.GetType();
+        [JsonIgnore, XmlIgnore] public override Expression Expression => Expression.Constant(Value);
+        [JsonIgnore, XmlIgnore] public override Type ResultType => Value?.GetType();
 
         public override string ToString()
         {
@@ -62,7 +64,7 @@
             return string.Format($"[{{0:{format}}}]", timeSpan);
         }
 
-        [NonSerialized]
+        [NonSerialized, JsonIgnore, XmlIgnore]
         public static readonly Constant
             Empty = new Constant(string.Empty),
             False = new Constant(false),

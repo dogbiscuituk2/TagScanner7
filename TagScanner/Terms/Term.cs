@@ -5,6 +5,7 @@
     using System.Drawing;
     using System.Linq.Expressions;
     using System.Xml.Serialization;
+    using Newtonsoft.Json;
     using Models;
 
     [Serializable]
@@ -19,12 +20,12 @@
 
         #region Public Properties
 
-        [XmlIgnore] public List<CharacterRange> CharacterRanges => GetCharacterRanges();
-        [XmlIgnore] public List<CharacterRange> CharacterRangesAll => GetCharacterRangesAll();
-        [XmlIgnore] public abstract Expression Expression { get; }
-        [XmlIgnore] public int Length => ToString().Length;
+        [JsonIgnore, XmlIgnore] public List<CharacterRange> CharacterRanges => GetCharacterRanges();
+        [JsonIgnore, XmlIgnore] public List<CharacterRange> CharacterRangesAll => GetCharacterRangesAll();
+        [JsonIgnore, XmlIgnore] public abstract Expression Expression { get; }
+        [JsonIgnore, XmlIgnore] public int Length => ToString().Length;
 
-        [XmlIgnore]
+        [JsonIgnore, XmlIgnore]
         public Func<Work, bool> Predicate
         {
             get
@@ -40,8 +41,8 @@
             }
         }
 
-        [XmlIgnore] public virtual Rank Rank => Rank.Unary;
-        [XmlIgnore] public abstract Type ResultType { get; }
+        [JsonIgnore, XmlIgnore] public virtual Rank Rank => Rank.Unary;
+        [JsonIgnore, XmlIgnore] public abstract Type ResultType { get; }
 
         #endregion
 
@@ -130,11 +131,8 @@
 
         #region Private Fields
 
-        [NonSerialized]
-        protected List<CharacterRange> _characterRanges = new List<CharacterRange>();
-
-        [NonSerialized]
-        private bool _characterRangesValid;
+        [NonSerialized] protected List<CharacterRange> _characterRanges = new List<CharacterRange>();
+        [NonSerialized] private bool _characterRangesValid;
 
         #endregion
     }

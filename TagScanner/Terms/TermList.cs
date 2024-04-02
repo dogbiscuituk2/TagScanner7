@@ -1,5 +1,6 @@
 ﻿namespace TagScanner.Terms
 {
+    using Newtonsoft.Json;
     using System;
     using System.Collections.Generic;
     using System.Drawing;
@@ -21,12 +22,12 @@
 
         #region Public Properties
 
-        [XmlIgnore] public virtual int Arity => -1;
-        [XmlIgnore] public override Expression Expression => null;
-        [XmlIgnore] public IEnumerable<Type> ParameterTypes => GetParameterTypes();
-        [XmlIgnore] public override Type ResultType => null;
+        [JsonIgnore, XmlIgnore] public virtual int Arity => -1;
+        [JsonIgnore, XmlIgnore] public override Expression Expression => null;
+        [JsonIgnore, XmlIgnore] public IEnumerable<Type> ParameterTypes => GetParameterTypes();
+        [JsonIgnore, XmlIgnore] public override Type ResultType => null;
 
-        [XmlIgnore]
+        [JsonIgnore, XmlIgnore]
         public virtual Op Op
         {
             get => Op.Comma;
@@ -88,9 +89,9 @@
 
         #region Protected Properties
 
-        [XmlIgnore] protected Expression FirstSubExpression => Operands?.First()?.Expression;
-        [XmlIgnore] protected Expression SecondSubExpression => Operands?.Skip(1)?.First()?.Expression;
-        [XmlIgnore] protected Expression ThirdSubExpression => Operands?.Skip(2)?.First()?.Expression;
+        [JsonIgnore, XmlIgnore] protected Expression FirstSubExpression => Operands?.First()?.Expression;
+        [JsonIgnore, XmlIgnore] protected Expression SecondSubExpression => Operands?.Skip(1)?.First()?.Expression;
+        [JsonIgnore, XmlIgnore] protected Expression ThirdSubExpression => Operands?.Skip(2)?.First()?.Expression;
 
         #endregion
 

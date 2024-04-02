@@ -108,8 +108,7 @@
 
         private string _name;
 
-        [NonSerialized]
-        private MethodInfo _method;
+        [NonSerialized] private MethodInfo _method;
 
         #endregion
 
