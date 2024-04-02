@@ -3,10 +3,10 @@
     using System;
     using System.ComponentModel;
     using System.IO;
-    using System.Runtime.Serialization.Formatters.Binary;
     using System.Windows.Forms;
     using Models;
     using Properties;
+    using Utils;
 
     public abstract class MruSdiController : MruController
     {
@@ -30,9 +30,25 @@
             return true;
         }
 
-        public bool Open() => SaveIfModified() && _openFileDialog.ShowDialog() == DialogResult.OK && LoadFromFile(_openFileDialog.FileName);
-        public bool Save() => string.IsNullOrEmpty(FilePath) ? SaveAs() : SaveToFile(FilePath);
-        public bool SaveAs() => _saveFileDialog.ShowDialog() == DialogResult.OK && SaveToFile(_saveFileDialog.FileName);
+        public bool Open()
+        {
+            if (!SaveIfModified() || _openFileDialog.ShowDialog() != DialogResult.OK)
+                return false;
+            var fileName = _openFileDialog.FileName;
+            var format = fileName.GetStreamFormat();
+            return LoadFromFile(fileName, format);
+        }
+
+        public bool Save() => string.IsNullOrEmpty(FilePath) ? SaveAs() : SaveToFile(FilePath, FilePath.GetStreamFormat());
+
+        public bool SaveAs()
+        {
+            if (_saveFileDialog.ShowDialog() != DialogResult.OK)
+                return false;
+            var fileName = _saveFileDialog.FileName;
+            var format = fileName.GetStreamFormat();
+            return SaveToFile(fileName, format);
+        }
 
         public bool SaveIfModified()
         {
@@ -99,7 +115,7 @@
             if (File.Exists(filePath))
             {
                 if (SaveIfModified())
-                    LoadFromFile(filePath);
+                    LoadFromFile(filePath, filePath.GetStreamFormat());
             }
             else if (MessageBox.Show(
                 $"File \"{filePath}\" no longer exists. Remove from menu?",
@@ -111,23 +127,23 @@
         private readonly OpenFileDialog _openFileDialog;
         private readonly SaveFileDialog _saveFileDialog;
 
-        private bool LoadFromFile(string filePath)
+        private bool LoadFromFile(string filePath, StreamFormat format)
         {
             if (!OnFileLoading()) return false;
             using (var stream = new FileStream(filePath, FileMode.Open, FileAccess.Read))
-                if (!LoadFromStream(stream))
+                if (!LoadFromStream(stream, format))
                     return false;
             FilePath = filePath;
             AddItem(filePath);
             return true;
         }
 
-        private bool SaveToFile(string filePath)
+        private bool SaveToFile(string filePath, StreamFormat format)
         {
             if (!OnFileSaving()) return false;
             using (var stream = new FileStream(filePath, FileMode.Create, FileAccess.Write))
             {
-                if (SaveToStream(stream))
+                if (SaveToStream(stream, format))
                 {
                     stream.Flush();
                     FilePath = filePath;
@@ -138,20 +154,20 @@
             return false;
         }
 
-        protected abstract bool LoadFromStream(Stream stream);
-        protected abstract bool SaveToStream(Stream stream);
+        protected abstract bool LoadFromStream(Stream stream, StreamFormat format);
+        protected abstract bool SaveToStream(Stream stream, StreamFormat format);
 
-        protected object LoadDocument(Stream stream)
+        protected object LoadDocument(Stream stream, Type documentType, StreamFormat format)
         {
-            var result = StreamController.LoadFromStream(stream);
+            var result = StreamController.LoadFromStream(stream, documentType, format);
             if (result != null)
                 Model.Modified = false;
             return result;
         }
 
-        protected bool SaveDocument(Stream stream, object document)
+        protected bool SaveDocument(Stream stream, object document, StreamFormat format)
         {
-            var result = StreamController.SaveToStream(stream, document);
+            var result = StreamController.SaveToStream(stream, document, format);
             if (result)
                 Model.Modified = false;
             return result;

@@ -6,12 +6,14 @@
     using System.Linq;
     using System.Linq.Expressions;
     using System.Text.RegularExpressions;
+    using System.Xml.Serialization;
 
     [Serializable]
     public class TermList : Term
     {
         #region Constructors
 
+        public TermList() { }
         public TermList(params Term[] operands) => AddOperands(operands);
         public TermList(Term firstOperand, params Term[] moreOperands) : this(new[] { firstOperand }) => AddOperands(moreOperands);
 
@@ -19,11 +21,12 @@
 
         #region Public Properties
 
-        public virtual int Arity => -1;
-        public override Expression Expression => null;
-        public IEnumerable<Type> ParameterTypes => GetParameterTypes();
-        public override Type ResultType => null;
+        [XmlIgnore] public virtual int Arity => -1;
+        [XmlIgnore] public override Expression Expression => null;
+        [XmlIgnore] public IEnumerable<Type> ParameterTypes => GetParameterTypes();
+        [XmlIgnore] public override Type ResultType => null;
 
+        [XmlIgnore]
         public virtual Op Op
         {
             get => Op.Comma;
@@ -85,9 +88,9 @@
 
         #region Protected Properties
 
-        protected Expression FirstSubExpression => Operands?.First()?.Expression;
-        protected Expression SecondSubExpression => Operands?.Skip(1)?.First()?.Expression;
-        protected Expression ThirdSubExpression => Operands?.Skip(2)?.First()?.Expression;
+        [XmlIgnore] protected Expression FirstSubExpression => Operands?.First()?.Expression;
+        [XmlIgnore] protected Expression SecondSubExpression => Operands?.Skip(1)?.First()?.Expression;
+        [XmlIgnore] protected Expression ThirdSubExpression => Operands?.Skip(2)?.First()?.Expression;
 
         #endregion
 

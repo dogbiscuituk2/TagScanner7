@@ -11,6 +11,7 @@
     {
         #region Constructors
 
+        public Function() { }
         public Function(string name, params Term[] operands) : base(operands) => SetName(name);
         public Function(Term self, string name, params Term[] operands) : base(self, operands) => SetName(name);
 

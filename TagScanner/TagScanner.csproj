@@ -121,6 +121,7 @@
     <Reference Include="WindowsFormsIntegration" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Controllers\StreamFormat.cs" />
     <Compile Include="Controls\TermNode.cs" />
     <Compile Include="Controls\TermTree.cs">
       <SubType>Component</SubType>

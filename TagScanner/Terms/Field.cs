@@ -7,6 +7,7 @@
     [Serializable]
     public class Field : Term
     {
+        public Field() { }
         public Field(Tag tag) { Tag = tag; }
 
         public override Expression Expression => Expression.Property(Work, Tag.ToString());

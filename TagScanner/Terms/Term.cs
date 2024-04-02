@@ -4,6 +4,7 @@
     using System.Collections.Generic;
     using System.Drawing;
     using System.Linq.Expressions;
+    using System.Xml.Serialization;
     using Models;
 
     [Serializable]
@@ -18,11 +19,12 @@
 
         #region Public Properties
 
-        public List<CharacterRange> CharacterRanges => GetCharacterRanges();
-        public List<CharacterRange> CharacterRangesAll => GetCharacterRangesAll();
-        public abstract Expression Expression { get; }
-        public int Length => ToString().Length;
+        [XmlIgnore] public List<CharacterRange> CharacterRanges => GetCharacterRanges();
+        [XmlIgnore] public List<CharacterRange> CharacterRangesAll => GetCharacterRangesAll();
+        [XmlIgnore] public abstract Expression Expression { get; }
+        [XmlIgnore] public int Length => ToString().Length;
 
+        [XmlIgnore]
         public Func<Work, bool> Predicate
         {
             get
@@ -38,8 +40,8 @@
             }
         }
 
-        public virtual Rank Rank => Rank.Unary;
-        public abstract Type ResultType { get; }
+        [XmlIgnore] public virtual Rank Rank => Rank.Unary;
+        [XmlIgnore] public abstract Type ResultType { get; }
 
         #endregion
 

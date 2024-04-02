@@ -6,6 +6,7 @@
     using System.IO;
     using System.Linq;
     using System.Reflection;
+    using System.Xml.Serialization;
     using Terms;
     using Utils;
 
@@ -31,10 +32,10 @@
 
         private bool FileExists => File.Exists(FilePath);
 
-        [NonSerialized]
+        [NonSerialized, XmlIgnore]
         public bool IsModified;
 
-        [NonSerialized]
+        [NonSerialized, XmlIgnore]
         public bool IsNew;
 
         #endregion

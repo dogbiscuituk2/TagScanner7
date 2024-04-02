@@ -9,18 +9,8 @@
     {
         public void TestTerm(Term term)
         {
-            var filter = new Filter();
-            filter.Terms.Add(term);
-            var text = filter.ToString();
-            using (var stream = new MemoryStream())
-            {
-                StreamController.SaveToStream(stream, filter);
-                filter = new Filter();
-                Assert.AreNotEqual(notExpected: text, actual: filter?.ToString());
-                stream.Seek(0, SeekOrigin.Begin);
-                filter = (Filter)StreamController.LoadFromStream(stream);
-                Assert.AreEqual(expected: text, actual: filter?.ToString());
-            }
+            TestTerm(term, StreamFormat.Binary);
+            TestTerm(term, StreamFormat.Xml);
             if (!(term is TermList termList)) return;
             for (var index = 0; index < termList.Operands.Count; index++)
             {
@@ -32,6 +22,22 @@
                 Assert.AreEqual(expected: start, actual: range.First);
                 Assert.AreEqual(expected: length, actual: range.Length);
                 TestTerm(subTerm);
+            }
+        }
+
+        public void TestTerm(Term term, StreamFormat format)
+        {
+            var filter = new Filter();
+            filter.Terms.Add(term);
+            var text = filter.ToString();
+            using (var stream = new MemoryStream())
+            {
+                StreamController.SaveToStream(stream, filter, format);
+                filter = new Filter();
+                Assert.AreNotEqual(notExpected: text, actual: filter?.ToString());
+                stream.Seek(0, SeekOrigin.Begin);
+                filter = (Filter)StreamController.LoadFromStream(stream, typeof(Filter), format);
+                Assert.AreEqual(expected: text, actual: filter?.ToString());
             }
         }
     }

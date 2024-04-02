@@ -1,4 +1,6 @@
-﻿namespace TagScanner.Utils
+﻿using TagScanner.Controllers;
+
+namespace TagScanner.Utils
 {
     using System;
     using System.Drawing;
@@ -87,6 +89,8 @@
         public static string Escape(this string s) => s.Replace("&", "&&");
         public static RectangleF Expand(this RectangleF r) => r.IsEmpty ? r : new RectangleF(r.X, r.Y, r.Width + 99, r.Height);
         public static string GetIndex(this string s) => string.IsNullOrWhiteSpace(s) ? " " : (s.ToUpper() + " ").Substring(0, 1);
+        public static StreamFormat GetStreamFormat(this string fileName) =>
+            fileName.EndsWith("x", StringComparison.OrdinalIgnoreCase) ? StreamFormat.Xml : StreamFormat.Binary;
 
         public static void ShowDialog(this Exception exception, IWin32Window owner = null)
         {

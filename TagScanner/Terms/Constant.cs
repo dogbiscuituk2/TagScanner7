@@ -7,6 +7,7 @@
     [Serializable]
     public class Constant : Term
     {
+        public Constant() { }
         public Constant(object value = null) { Value = value; }
 
         public object Value { get; set; }

@@ -32,10 +32,10 @@
 
         protected override void ClearDocument() => Model.Clear();
 
-        protected override bool LoadFromStream(Stream stream)
+        protected override bool LoadFromStream(Stream stream, StreamFormat format)
         {
             var result = false;
-            if (LoadDocument(stream) is Library library)
+            if (LoadDocument(stream, typeof(Library), format) is Library library)
             {
                 Model.Library = library;
                 foreach (var work in Model.Works)
@@ -45,6 +45,6 @@
             return result;
         }
 
-        protected override bool SaveToStream(Stream stream) => SaveDocument(stream, Model.Library);
+        protected override bool SaveToStream(Stream stream, StreamFormat format) => SaveDocument(stream, Model.Library, format);
     }
 }
