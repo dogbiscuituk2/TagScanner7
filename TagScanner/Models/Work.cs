@@ -6,6 +6,7 @@
     using System.IO;
     using System.Linq;
     using System.Reflection;
+    using System.Xml;
     using System.Xml.Serialization;
     using Terms;
     using Utils;
@@ -270,7 +271,19 @@
 
         public string DiscOf => NumberOfTotal(DiscNumber, DiscCount, 1);
         public string DiscTrack => $"{DiscOf} - {TrackOf}";
+
+        [XmlIgnore]
         public TimeSpan Duration { get; set; }
+
+        [Browsable(false)]
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        [XmlElement(DataType = "duration", ElementName = "Duration")]
+        public string DurationString
+        {
+            get => XmlConvert.ToString(Duration);
+            set => Duration = string.IsNullOrWhiteSpace(value) ? TimeSpan.Zero : XmlConvert.ToTimeSpan(value);
+        }
+
         public string FileAttributes { get; set; }
         public DateTime FileCreationTime { get; set; }
         public DateTime FileCreationTimeUtc { get; set; }
