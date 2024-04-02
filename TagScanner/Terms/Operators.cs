@@ -1,4 +1,6 @@
-﻿namespace TagScanner.Terms
+﻿using Newtonsoft.Json;
+
+namespace TagScanner.Terms
 {
     using System;
     using System.Collections.Generic;

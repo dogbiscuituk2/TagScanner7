@@ -4,6 +4,8 @@
     using System.Collections.Generic;
     using System.Linq;
     using System.Linq.Expressions;
+    using System.Xml.Serialization;
+    using Newtonsoft.Json;
 
     [Serializable]
     public class Operation : TermList
@@ -25,11 +27,12 @@
 
         #region Public Properties
 
-        public override int Arity => Op.Arity();
-        public override Expression Expression => GetExpression();
         public override Op Op { get; set; }
-        public override Rank Rank => Op.GetRank();
-        public override Type ResultType => Op.GetResultType() ?? GetCommonResultType(Operands.ToArray());
+
+        [JsonIgnore, XmlIgnore] public override int Arity => Op.Arity();
+        [JsonIgnore, XmlIgnore] public override Expression Expression => GetExpression();
+        [JsonIgnore, XmlIgnore] public override Rank Rank => Op.GetRank();
+        [JsonIgnore, XmlIgnore] public override Type ResultType => Op.GetResultType() ?? GetCommonResultType(Operands.ToArray());
 
         #endregion
 

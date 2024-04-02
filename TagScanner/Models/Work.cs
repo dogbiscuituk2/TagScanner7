@@ -287,6 +287,7 @@
 
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Never)]
+        [JsonIgnore]
         [XmlElement(DataType = "duration", ElementName = "Duration")]
         public string DurationString
         {

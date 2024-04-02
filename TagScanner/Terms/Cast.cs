@@ -1,4 +1,6 @@
-﻿namespace TagScanner.Terms
+﻿using Newtonsoft.Json;
+
+namespace TagScanner.Terms
 {
     using System;
     using System.Collections.Generic;
@@ -14,9 +16,10 @@
         public Cast(Type newType) => SetNewType(newType);
         public Cast(Type newType, Term operand) : base(operand) => SetNewType(newType);
 
+        public Type NewType { get; set; }
+
         [XmlIgnore] public override int Arity => 1;
         [XmlIgnore] public override Expression Expression => Expression.Convert(FirstSubExpression, NewType);
-        public Type NewType { get; set; }
         [XmlIgnore] public override Rank Rank => Rank.Unary;
         [XmlIgnore] public override Type ResultType => NewType;
 
@@ -53,8 +56,8 @@
             { "ushort",  typeof(ushort) },
         };
 
-        [XmlIgnore] public static string[] TypeNames => TypeDictionary.Keys.ToArray();
-        [XmlIgnore] public static Type[] Types => TypeDictionary.Values.ToArray();
+        [JsonIgnore, XmlIgnore] public static string[] TypeNames => TypeDictionary.Keys.ToArray();
+        [JsonIgnore, XmlIgnore] public static Type[] Types => TypeDictionary.Values.ToArray();
 
         public static Type GetType(string typeName) => TypeDictionary[typeName];
     }

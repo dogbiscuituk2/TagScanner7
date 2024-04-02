@@ -22,7 +22,18 @@ namespace TagScanner.Controllers
                     case StreamFormat.Binary:
                         return new BinaryFormatter().Deserialize(stream);
                     case StreamFormat.Json:
-                        return new JsonSerializer().Deserialize(new JsonTextReader(new StreamReader(stream)), documentType);
+                        var streamReader = new StreamReader(stream);
+                        var jsonTextReader = new JsonTextReader(streamReader);
+                        var jsonSerializer = new JsonSerializer
+                        {
+                            DefaultValueHandling = DefaultValueHandling.Ignore,
+                            Formatting = Formatting.Indented,
+                            TypeNameHandling = TypeNameHandling.Auto,
+                        };
+                        jsonSerializer.Error += JsonSerializer_Error;
+                        var result = jsonSerializer.Deserialize(jsonTextReader, documentType);
+                        jsonSerializer.Error -= JsonSerializer_Error;
+                        return result;
                     case StreamFormat.Xml:
                         return new XmlSerializer(documentType).Deserialize(stream);
                     default:
@@ -53,9 +64,13 @@ namespace TagScanner.Controllers
                         var jsonTextWriter = new JsonTextWriter(streamWriter);
                         var jsonSerializer = new JsonSerializer
                         {
+                            DefaultValueHandling = DefaultValueHandling.Ignore,
                             Formatting = Formatting.Indented,
+                            TypeNameHandling = TypeNameHandling.Auto,
                         };
-                        jsonSerializer.Serialize(jsonTextWriter, document);
+                        jsonSerializer.Error += JsonSerializer_Error;
+                        jsonSerializer.Serialize(jsonTextWriter, document,document.GetType());
+                        jsonSerializer.Error -= JsonSerializer_Error;
                         jsonTextWriter.Flush();
                         break;
                     case StreamFormat.Xml:
@@ -92,6 +107,9 @@ namespace TagScanner.Controllers
                 return false;
             }
         }
+
+        private static void JsonSerializer_Error(object sender, Newtonsoft.Json.Serialization.ErrorEventArgs e) =>
+            e.ErrorContext.Error.ShowDialog();
 
         private static void XmlSerializer_UnreferencedObject(object sender, UnreferencedObjectEventArgs e)
         {
