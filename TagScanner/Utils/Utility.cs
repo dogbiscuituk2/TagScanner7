@@ -1,11 +1,10 @@
-﻿using System.IO;
-using TagScanner.Controllers;
-
-namespace TagScanner.Utils
+﻿namespace TagScanner.Utils
 {
     using System;
     using System.Drawing;
+    using System.IO;
     using System.Windows.Forms;
+    using Controllers;
     using Models;
 
     public static class Utility

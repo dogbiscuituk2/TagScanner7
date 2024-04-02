@@ -1,4 +1,6 @@
-﻿namespace TagScanner.Controllers
+﻿using Newtonsoft.Json;
+
+namespace TagScanner.Controllers
 {
     using System;
     using System.IO;
@@ -19,6 +21,8 @@
                 {
                     case StreamFormat.Binary:
                         return new BinaryFormatter().Deserialize(stream);
+                    case StreamFormat.Json:
+                        return new JsonSerializer().Deserialize(new JsonTextReader(new StreamReader(stream)), documentType);
                     case StreamFormat.Xml:
                         return new XmlSerializer(documentType).Deserialize(stream);
                     default:
@@ -43,6 +47,16 @@
                 {
                     case StreamFormat.Binary:
                         new BinaryFormatter().Serialize(stream, document);
+                        break;
+                    case StreamFormat.Json:
+                        var streamWriter = new StreamWriter(stream);
+                        var jsonTextWriter = new JsonTextWriter(streamWriter);
+                        var jsonSerializer = new JsonSerializer
+                        {
+                            Formatting = Formatting.Indented,
+                        };
+                        jsonSerializer.Serialize(jsonTextWriter, document);
+                        jsonTextWriter.Flush();
                         break;
                     case StreamFormat.Xml:
                         var xmlSerializer = new XmlSerializer(document.GetType());

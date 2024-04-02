@@ -8,6 +8,7 @@
     using System.Reflection;
     using System.Xml;
     using System.Xml.Serialization;
+    using Newtonsoft.Json;
     using Terms;
     using Utils;
 
@@ -71,6 +72,7 @@
             }
         }
 
+        [JsonIgnore, XmlIgnore]
         public int AlbumArtistsCount => AlbumArtists.Length;
 
         private string[] _albumArtistsSort;
@@ -134,6 +136,7 @@
             }
         }
 
+        [JsonIgnore, XmlIgnore]
         public int ArtistsCount => Artists.Length;
 
         public int AudioBitrate { get; set; }
@@ -157,6 +160,7 @@
 
         public int BitsPerSample { get; set; }
 
+        [JsonIgnore, XmlIgnore]
         public string Century => Year > 0 ? ((long)(Year + 99) / 100).AsOrdinal() : string.Empty;
 
         public string Codecs { get; set; }
@@ -189,6 +193,7 @@
             }
         }
 
+        [JsonIgnore, XmlIgnore]
         public int ComposersCount => Composers.Length;
 
         private string[] _composersSort;
@@ -205,6 +210,7 @@
             }
         }
 
+        [JsonIgnore, XmlIgnore]
         public int ComposersSortCount => ComposersSort.Length;
 
         private string _conductor;
@@ -235,6 +241,7 @@
             }
         }
 
+        [JsonIgnore, XmlIgnore]
         public string Decade => Year > 0 ? $"{Year / 10}0s" : string.Empty;
 
         public string Description { get; set; }
@@ -269,7 +276,10 @@
             }
         }
 
+        [JsonIgnore, XmlIgnore]
         public string DiscOf => NumberOfTotal(DiscNumber, DiscCount, 1);
+
+        [JsonIgnore, XmlIgnore]
         public string DiscTrack => $"{DiscOf} - {TrackOf}";
 
         [XmlIgnore]
@@ -287,15 +297,25 @@
         public string FileAttributes { get; set; }
         public DateTime FileCreationTime { get; set; }
         public DateTime FileCreationTimeUtc { get; set; }
+
+        [JsonIgnore, XmlIgnore]
         public string FileExtension => Path.GetExtension(FilePath);
+
         public DateTime FileLastAccessTime { get; set; }
         public DateTime FileLastAccessTimeUtc { get; set; }
         public DateTime FileLastWriteTime { get; set; }
         public DateTime FileLastWriteTimeUtc { get; set; }
+
+        [JsonIgnore, XmlIgnore]
         public string FileName => Path.GetFileName(FilePath);
+
+        [JsonIgnore, XmlIgnore]
         public string FileNameWithoutExtension => Path.GetFileNameWithoutExtension(FilePath);
+
         public string FilePath { get; set; }
         public long FileSize { get; set; }
+
+        [JsonIgnore, XmlIgnore]
         public FileStatus FileStatus
         {
             get
@@ -318,6 +338,7 @@
                 return FileStatus.Current;
             }
         }
+
         public string FirstAlbumArtist { get; set; }
         public string FirstAlbumArtistSort { get; set; }
         public string FirstArtist { get; set; }
@@ -341,6 +362,7 @@
             }
         }
 
+        [JsonIgnore, XmlIgnore]
         public int GenresCount => Genres.Length;
 
         private string _grouping;
@@ -376,6 +398,8 @@
         public string ImageSoftware { get; set; }
         public long InvariantEndPosition { get; set; }
         public long InvariantStartPosition { get; set; }
+
+        [JsonIgnore, XmlIgnore]
         public Logical IsClassical => (FirstGenre == "Classical").AsLogical();
 
         private bool _isEmpty;
@@ -404,6 +428,7 @@
 
         public TagLib.MediaTypes MediaTypes { get; set; }
 
+        [JsonIgnore, XmlIgnore]
         public string Millennium => Year > 0 ? ((long)(Year + 999) / 1000).AsOrdinal() : string.Empty;
 
         public string MimeType { get; set; }
@@ -550,6 +575,7 @@
             }
         }
 
+        [JsonIgnore, XmlIgnore]
         public int PerformersCount => Performers.Length;
 
         private string[] _performersSort;
@@ -566,6 +592,7 @@
             }
         }
 
+        [JsonIgnore, XmlIgnore]
         public int PerformersSortCount => PerformersSort.Length;
 
         [DefaultValue(0)] public int PhotoHeight { get; set; }
@@ -574,7 +601,9 @@
 
         public Picture[] Pictures { get; set; }
 
+        [NonSerialized]
         private int _picturesCount;
+        [JsonIgnore, XmlIgnore]
         public int PicturesCount => _picturesCount;
 
         private bool _possiblyCorrupt;
@@ -643,6 +672,7 @@
             }
         }
 
+        [JsonIgnore, XmlIgnore]
         public string TrackOf => NumberOfTotal(TrackNumber, TrackCount, 2);
 
         public string TrackPeak { get; set; }
@@ -665,6 +695,7 @@
             }
         }
 
+        [JsonIgnore, XmlIgnore]
         public string YearAlbum => $"{Year} - {Album}";
 
         #endregion
@@ -711,7 +742,7 @@
 
         #endregion
 
-        #region Private Implementation
+        #region Private Methods
 
         private static PropertyInfo GetPropertyInfo(string propertyName) => typeof(Work).GetProperty(propertyName);
 
