@@ -88,7 +88,7 @@
                 if (token == ")")
                     break;
                 var tokenRank = token.Rank();
-                while (true)
+                while (AnyOperators())
                 {
                     var op = PeekOperator();
                     var priorRank = op.GetRank();
@@ -101,7 +101,7 @@
                 PushOperator(token.Operator());
                 term = ParseSimpleTerm();
             }
-            while (AnyTerms() && PeekOperator() != Op.LParen)
+            while (AnyTerms() && AnyOperators() && PeekOperator() != Op.LParen)
                 term = ConsolidateTerms(term);
             return term;
         }
