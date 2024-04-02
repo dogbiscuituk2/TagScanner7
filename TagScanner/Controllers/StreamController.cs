@@ -1,11 +1,10 @@
-﻿using Newtonsoft.Json;
-
-namespace TagScanner.Controllers
+﻿namespace TagScanner.Controllers
 {
     using System;
     using System.IO;
     using System.Runtime.Serialization.Formatters.Binary;
     using System.Xml.Serialization;
+    using Newtonsoft.Json;
     using Utils;
 
     public static class StreamController

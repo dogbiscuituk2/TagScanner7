@@ -27,7 +27,6 @@
         [JsonIgnore, XmlIgnore] public IEnumerable<Type> ParameterTypes => GetParameterTypes();
         [JsonIgnore, XmlIgnore] public override Type ResultType => null;
 
-        [JsonIgnore, XmlIgnore]
         public virtual Op Op
         {
             get => Op.Comma;
