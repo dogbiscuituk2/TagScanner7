@@ -16,21 +16,21 @@ namespace TagScanner.Terms
         public Cast(Type newType) => SetNewType(newType);
         public Cast(Type newType, Term operand) : base(operand) => SetNewType(newType);
 
-        public Type NewType { get; set; }
+        public string NewTypeName { get; set; }
 
         [JsonIgnore, XmlIgnore] public override int Arity => 1;
-        [JsonIgnore, XmlIgnore] public override Expression Expression => Expression.Convert(FirstSubExpression, NewType);
+        [JsonIgnore, XmlIgnore] public override Expression Expression => Expression.Convert(FirstSubExpression, ResultType);
         [JsonIgnore, XmlIgnore] public override Rank Rank => Rank.Unary;
-        [JsonIgnore, XmlIgnore] public override Type ResultType => NewType;
+        [JsonIgnore, XmlIgnore] public override Type ResultType => Type.GetType(NewTypeName);
 
         protected override IEnumerable<Type> GetParameterTypes() => new[] { typeof(object) };
-        public override int Start(int index) => NewType.Say().Length + (UseParens(0) ? 3 : 2);
-        public override string ToString() => $"({NewType.Say()}){WrapTerm(0)}";
+        public override int Start(int index) => ResultType.Say().Length + (UseParens(0) ? 3 : 2);
+        public override string ToString() => $"({ResultType.Say()}){WrapTerm(0)}";
         protected override bool UseParens(int index) => Operands.First().Rank < Rank.Unary;
 
         private void SetNewType(Type newType)
         {
-            NewType = newType;
+            NewTypeName = newType.FullName; ;
             AddParameters(typeof(object));
         }
 
