@@ -10,8 +10,8 @@
         public void TestTerm(Term term)
         {
             TestTerm(term, StreamFormat.Binary);
-            //TestTerm(term, StreamFormat.Json);
-            //TestTerm(term, StreamFormat.Xml);
+            TestTerm(term, StreamFormat.Json);
+            TestTerm(term, StreamFormat.Xml);
             if (!(term is TermList termList)) return;
             for (var index = 0; index < termList.Operands.Count; index++)
             {
