@@ -16,6 +16,12 @@
         [NonSerialized]
         public static readonly ParameterExpression Work = Expression.Parameter(typeof(Work), "Work");
 
+        public static readonly Constant<string> Empty = new Constant<string>(string.Empty);
+        public static readonly Constant<bool> False = new Constant<bool>(false);
+        public static readonly Constant<object> Nothing = new Constant<object>(null);
+        public static readonly Constant<bool> True = new Constant<bool>(true);
+        public static readonly Constant<int> Zero = new Constant<int>(0);
+
         #endregion
 
         #region Public Properties
@@ -42,7 +48,12 @@
         }
 
         [JsonIgnore, XmlIgnore] public virtual Rank Rank => Rank.Unary;
-        [JsonIgnore, XmlIgnore] public abstract Type ResultType { get; }
+
+        [JsonIgnore, XmlIgnore] public virtual Type ResultType
+        {
+            get => null;
+            set { }
+        }
 
         #endregion
 
@@ -105,15 +116,15 @@
 
         #region Public Operators
 
-        public static implicit operator Term(bool value) => new Constant(value);
-        public static implicit operator Term(char value) => new Constant(value);
-        public static implicit operator Term(DateTime value) => new Constant(value);
-        public static implicit operator Term(double value) => new Constant(value);
-        public static implicit operator Term(int value) => new Constant(value);
-        public static implicit operator Term(long value) => new Constant(value);
-        public static implicit operator Term(string value) => new Constant(value);
+        public static implicit operator Term(bool value) => new Constant<bool>(value);
+        public static implicit operator Term(char value) => new Constant<char>(value);
+        public static implicit operator Term(DateTime value) => new Constant<DateTime>(value);
+        public static implicit operator Term(double value) => new Constant<double>(value);
+        public static implicit operator Term(int value) => new Constant<int>(value);
+        public static implicit operator Term(long value) => new Constant<long>(value);
+        public static implicit operator Term(string value) => new Constant<string>(value);
         public static implicit operator Term(Tag tag) => new Field(tag);
-        public static implicit operator Term(TimeSpan value) => new Constant(value);
+        public static implicit operator Term(TimeSpan value) => new Constant<TimeSpan>(value);
 
         public static Term operator -(Term term) => Minus(term);
         public static Term operator !(Term term) => Not(term);

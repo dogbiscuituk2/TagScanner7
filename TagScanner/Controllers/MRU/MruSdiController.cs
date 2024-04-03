@@ -6,6 +6,7 @@
     using System.Windows.Forms;
     using Models;
     using Properties;
+    using Streaming;
     using Utils;
 
     public abstract class MruSdiController : MruController

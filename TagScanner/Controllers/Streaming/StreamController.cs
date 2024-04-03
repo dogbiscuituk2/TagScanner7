@@ -1,4 +1,4 @@
-﻿namespace TagScanner.Controllers
+﻿namespace TagScanner.Controllers.Streaming
 {
     using System;
     using System.IO;
@@ -23,12 +23,7 @@
                     case StreamFormat.Json:
                         var streamReader = new StreamReader(stream);
                         var jsonTextReader = new JsonTextReader(streamReader);
-                        var jsonSerializer = new JsonSerializer
-                        {
-                            DefaultValueHandling = DefaultValueHandling.Ignore,
-                            Formatting = Formatting.Indented,
-                            TypeNameHandling = TypeNameHandling.Auto,
-                        };
+                        var jsonSerializer = GetJsonSerializer();
                         jsonSerializer.Error += JsonSerializer_Error;
                         var result = jsonSerializer.Deserialize(jsonTextReader, documentType);
                         jsonSerializer.Error -= JsonSerializer_Error;
@@ -61,12 +56,7 @@
                     case StreamFormat.Json:
                         var streamWriter = new StreamWriter(stream);
                         var jsonTextWriter = new JsonTextWriter(streamWriter);
-                        var jsonSerializer = new JsonSerializer
-                        {
-                            DefaultValueHandling = DefaultValueHandling.Ignore,
-                            Formatting = Formatting.Indented,
-                            TypeNameHandling = TypeNameHandling.Auto,
-                        };
+                        var jsonSerializer = GetJsonSerializer();
                         jsonSerializer.Error += JsonSerializer_Error;
                         jsonSerializer.Serialize(jsonTextWriter, document,document.GetType());
                         jsonSerializer.Error -= JsonSerializer_Error;
@@ -105,6 +95,18 @@
                 exception.ShowDialog();
                 return false;
             }
+        }
+
+        private static JsonSerializer GetJsonSerializer()
+        {
+            var jsonSerializer = new JsonSerializer
+            {
+                DefaultValueHandling = DefaultValueHandling.Ignore,
+                Formatting = Formatting.Indented,
+                TypeNameHandling = TypeNameHandling.Auto,
+            };
+            //jsonSerializer.Converters.Add(new JsonNumberConverter());
+            return jsonSerializer;
         }
 
         private static void JsonSerializer_Error(object sender, Newtonsoft.Json.Serialization.ErrorEventArgs e) =>

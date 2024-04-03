@@ -24,7 +24,7 @@
         [DataRow(typeof(ushort), (ushort)0xFFFF, "65535")]
         public void TestConstant(Type type, object value, string expression)
         {
-            var constant = new Constant(value);
+            var constant = new Constant<int>(0);
             Assert.AreEqual(expected: expression, actual: constant.Expression.ToString());
             Assert.AreEqual(expected: Rank.Unary, actual: constant.Rank);
             Assert.AreEqual(expected: type, actual: constant.ResultType);
@@ -35,11 +35,11 @@
         [TestMethod]
         public void TestConstants()
         {
-            TestTerm(Constant.Empty);
-            TestTerm(Constant.False);
-            TestTerm(Constant.Nothing);
-            TestTerm(Constant.True);
-            TestTerm(Constant.Zero);
+            TestTerm(Term.Empty);
+            TestTerm(Term.False);
+            TestTerm(Term.Nothing);
+            TestTerm(Term.True);
+            TestTerm(Term.Zero);
         }
 
         [TestMethod]
@@ -54,6 +54,13 @@
         {
             const decimal money = 123.45M;
             TestConstant(typeof(decimal), money, "123.45");
+        }
+
+        [TestMethod]
+        public void TestInteger()
+        {
+            const int integer = 123;
+            TestConstant(typeof(int), integer, "123");
         }
 
         [TestMethod]

@@ -3,6 +3,7 @@
     using System.IO;
     using System.Windows.Forms;
     using Models;
+    using Streaming;
 
     public class MruLibraryController : MruSdiController
     {

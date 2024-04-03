@@ -2,7 +2,7 @@
 {
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using System.IO;
-    using Controllers;
+    using Controllers.Streaming;
     using Terms;
 
     public partial class Test

@@ -106,7 +106,7 @@
         [TestMethod]
         public void TestFields_Pictures()
         {
-            var term = new Operation(Tag.Pictures, "!=", Constant.Nothing);
+            var term = new Operation(Tag.Pictures, "!=", Term.Nothing);
             var works = Works.Where(p => term.Predicate(p));
             Assert.AreEqual(expected: 1, actual: works.Count());
             var pictures = works.First().Pictures;

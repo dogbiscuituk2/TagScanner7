@@ -107,14 +107,15 @@
         }
 
         private object ParseNumber(string token) =>
-            token.EndsWith("UL") || token.EndsWith("LU") ? ulong.Parse(token.TrimEnd('U', 'L')) :
-            token.EndsWith("U") ? uint.Parse(token.TrimEnd('U')) :
-            token.EndsWith("M") ? decimal.Parse(token.TrimEnd('M')) :
-            token.EndsWith("L") ? long.Parse(token.TrimEnd('L')) :
-            token.EndsWith("F") ? float.Parse(token.TrimEnd('F')) :
-            token.EndsWith("D") ? double.Parse(token.TrimEnd('D')) :
-            token.Contains(".") ? double.Parse(token) :
-            (object) int.Parse(token);
+            token.EndsWith("UL") || token.EndsWith("LU")
+                ? ulong.Parse(token.TrimEnd('U', 'L')) :
+                token.EndsWith("U") ? uint.Parse(token.TrimEnd('U')) :
+                token.EndsWith("M") ? decimal.Parse(token.TrimEnd('M')) :
+                token.EndsWith("L") ? long.Parse(token.TrimEnd('L')) :
+                token.EndsWith("F") ? float.Parse(token.TrimEnd('F')) :
+                token.EndsWith("D") ? double.Parse(token.TrimEnd('D')) :
+                token.Contains(".") ? double.Parse(token) :
+                (object)int.Parse(token);
 
         private Term ParseSimpleTerm()
         {
@@ -130,27 +131,34 @@
                     Accept(")");
                     return term;
                 }
-
             if (match.IsBoolean())
-                return NewTerm(match == "true" ? Constant.True : Constant.False);
+                return NewTerm(match == "true" ? Term.True : Term.False);
             if (match.IsChar())
-                return NewTerm(new Constant(char.Parse(match.Substring(1, match.Length - 2))));
+                return NewTerm(new Constant<char>(char.Parse(match.Substring(1, match.Length - 2))));
             if (match.IsString())
-                return NewTerm(new Constant(match.Substring(1, match.Length - 2)));
+                return NewTerm(new Constant<string>(match.Substring(1, match.Length - 2)));
             if (match.IsField())
                 return NewTerm(new Field(Tags.Values.Single(p => p.DisplayName == match).Tag));
             if (match.IsMonadicOperator())
                 return ParseUnaryOperation(match);
             if (match.IsNumber())
-                return NewTerm(new Constant(ParseNumber(match.ToUpperInvariant())));
+                switch (ParseNumber(match.ToUpperInvariant()))
+                {
+                    case decimal money: return new Constant<decimal>(money);
+                    case double d: return new Constant<double>(d);
+                    case float f: return new Constant<float>(f);
+                    case int i: return new Constant<int>(i);
+                    case long l: return new Constant<long>(l);
+                    case ulong ul: return new Constant<ulong>(ul);
+                }
             if (match.IsStaticFunction())
                 return ParseStaticFunction(match);
             // DateTime & TimeSpan constants involve expensive Regex pattern matching,
             // and in all probability, are relatively infrequent; hence these are checked last.
             if (match.IsDateTime())
-                return NewTerm(new Constant(ParseDateTime(match)));
+                return NewTerm(new Constant<DateTime>(ParseDateTime(match)));
             if (match.IsTimeSpan())
-                return NewTerm(new Constant(ParseTimeSpan(match)));
+                return NewTerm(new Constant<TimeSpan>(ParseTimeSpan(match)));
             SyntaxError(token.Index, token.Value);
             return null;
         }

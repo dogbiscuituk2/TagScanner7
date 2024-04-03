@@ -81,7 +81,7 @@
         #region Private Methods
 
         private void AddCast(Type type) => TermTreeController.AddCast(type);
-        private void AddConstant() => TermTreeController.AddConstant();
+        private void AddConstant() => TermTreeController.AddConstant<string>();
         private void AddField(Tag tag) => TermTreeController.AddField(tag);
         private void AddFunction(string key) => TermTreeController.AddFunction(key);
         private void AddOperation(Op op) => TermTreeController.AddOperation(op);

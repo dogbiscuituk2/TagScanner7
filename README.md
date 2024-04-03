@@ -46,7 +46,13 @@ The most important property of the __Model__ is its <a href="#library">Library</
 
 ## Library {#library}
 
-The __Library__ class is the receptacle for a collection of <a href="#work">Work</a> objects. These hold the ID3 Tag information and other metadata about your media files (music, pictures, videos).
+In the __Library__ class, the _Works_ property is the receptacle for a list of <a href="#work">Work</a> objects. These hold the ID3 Tag information and other metadata about your media files (music, pictures, videos). _Library_ also retains, in its _Folders__ property, a list of the filesystem folders from which these works were scanned.
+
+Finally, the Library has a property named <a href="#filter">Filter</a>, holding the current set of Term Filters for the media collection.
+
+The _Library_ class is the basis of persistence in the application. It can save its contents to file in various formats. Its native, _Binary_ format is the most space-efficient, but there are also _XML_ and _Json_ alternatives, provided for more human readable (or _data interchange friendly_) options.
+
+The Json implementation uses the Newtonsoft library, which tends to deserialize all integer types as _long_. This causes problems with the application's filter builder, which generally uses normal sized integers for media properties such as the number of artists on a recording, etc., with the only exception being filesystem-related metadata which use _long_ types.
 
 <a href="#contents">\^Contents</a>
 
