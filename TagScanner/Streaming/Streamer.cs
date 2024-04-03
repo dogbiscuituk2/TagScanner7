@@ -9,8 +9,18 @@
 
     public static class Streamer
     {
-        public static object LoadFromFile(string filePath, Type documentType) =>
-            LoadFromStream(new FileStream(filePath, FileMode.Open, FileAccess.Read), documentType, filePath.GetStreamFormat());
+        public static object LoadFromFile(string filePath, Type documentType, StreamFormat format = 0)
+        {
+            if (format == 0)
+                format = filePath.GetStreamFormat();
+            object result;
+            using (var fileStream = new FileStream(filePath, FileMode.Open, FileAccess.Read))
+            {
+                result = LoadFromStream(fileStream, documentType, format);
+                fileStream.Close();
+            }
+            return result;
+        }
 
         public static object LoadFromStream(Stream stream, Type documentType, StreamFormat format)
         {
@@ -41,8 +51,18 @@
             }
         }
 
-        public static bool SaveToFile(string filePath, object document) =>
-            SaveToStream(new FileStream(filePath, FileMode.Create, FileAccess.Write), document, filePath.GetStreamFormat());
+        public static bool SaveToFile(string filePath, object document, StreamFormat format = 0)
+        {
+            if (format == 0)
+                format = filePath.GetStreamFormat();
+            bool result;
+            using (var fileStream = new FileStream(filePath, FileMode.Create, FileAccess.Write))
+            {
+                result = SaveToStream(fileStream, document, format);
+                fileStream.Close();
+            }
+            return result;
+        }
 
         public static bool SaveToStream(Stream stream, object document, StreamFormat format)
         {
@@ -101,7 +121,7 @@
         {
             var jsonSerializer = new JsonSerializer
             {
-                DefaultValueHandling = DefaultValueHandling.Ignore,
+                DefaultValueHandling = DefaultValueHandling.Include,
                 Formatting = Formatting.Indented,
                 TypeNameHandling = TypeNameHandling.Auto,
             };

@@ -1,6 +1,7 @@
 ﻿namespace TagScanner.Tests
 {
     using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using System;
     using System.IO;
     using Streaming;
     using Terms;
@@ -31,6 +32,7 @@
             var filter = new Filter();
             filter.Terms.Add(term);
             var text = filter.ToString();
+            Streamer.SaveToFile($@"{DateTime.Now}.{format}".Replace('/', '-').Replace(':', '-'), filter, format);
             using (var stream = new MemoryStream())
             {
                 Streamer.SaveToStream(stream, filter, format);

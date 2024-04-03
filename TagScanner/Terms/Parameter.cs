@@ -13,7 +13,8 @@
         public Parameter(Type type) { _resultType = type; }
 
         [JsonIgnore, XmlIgnore] public override Expression Expression => Expression.Default(ResultType);
-        [JsonIgnore, XmlIgnore] public override Type ResultType => _resultType;
+
+        public override Type ResultType => _resultType;
 
         public override string ToString() => ResultType.Say();
 
