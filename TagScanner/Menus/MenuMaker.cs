@@ -25,20 +25,20 @@
             items.Add("&Value...", null, click).Tag = 0;
         }
 
-        public static bool FilterItems(this ToolStripItemCollection items, Filter action, params Type[] types)
+        public static bool FilterItems(this ToolStripItemCollection items, MenuFilter action, params Type[] types)
         {
             var result = false;
             foreach (var item in items.OfType<ToolStripMenuItem>())
             {
-                Filter
-                    target = action & Filter.Target,
-                    act = action & Filter.Action;
+                MenuFilter
+                    target = action & MenuFilter.Target,
+                    act = action & MenuFilter.Action;
                 var subItems = item.DropDownItems;
-                var ok = act == Filter.None || (subItems.Count > 0
+                var ok = act == MenuFilter.None || (subItems.Count > 0
                     ? subItems.FilterItems(action, types)
                     : item.IncludeTerm(target, types));
-                item.Enabled = ok || act != Filter.Disable;
-                item.Visible = ok || act != Filter.Hide;
+                item.Enabled = ok || act != MenuFilter.Disable;
+                item.Visible = ok || act != MenuFilter.Hide;
                 result |= ok;
             }
             return result;
@@ -102,7 +102,7 @@
             return item;
         }
 
-        private static bool IncludeTerm(this ToolStripItem item, Filter target, IEnumerable<Type> types)
+        private static bool IncludeTerm(this ToolStripItem item, MenuFilter target, IEnumerable<Type> types)
         {
             var key = item.Tag;
             if (key == null)

@@ -40,17 +40,19 @@ This document presents brief desciptions of the most important classes and other
 
 The __Model__ class represents the collection of _data items_ (also known as _business objects_) used by the application.
 
-Two important properties of the __Model__ are its __Library__ and __Filter__.
+The most important property of the __Model__ is its <a href="#library">Library</a>.
 
 <a href="#contents">\^Contents</a>
 
 ## Library {#library}
 
+The __Library__ class is the receptacle for a collection of <a href="#work">Work</a> objects. These hold the ID3 Tag information and other metadata about your media files (music, pictures, videos).
+
 <a href="#contents">\^Contents</a>
 
 ## Filter {#filter}
 
-The **Filter** class is the receptacle for a collection of **Term** objects, any _one_ of which may be selected to apply to the data. The _ResultType_ of a __Term__ in a __Filter__ must be _bool_.
+The __Filter__ class is the receptacle for a collection of __Term__ objects, any _one_ of which may be selected to apply to the data. The _ResultType_ of a __Term__ in a __Filter__ must be _bool_.
 
 At runtime, the selected __Term__ is converted to a _Predicate_ and applied to the list of data in the __Model__. If the selected __Term__ returns _true_ for any given item, then the item is displayed normally in the set presented to the user. If it returns _false_, then depending on the currently chosen _Filter Action_, that item will either be grayed out, or entirely hidden.
 

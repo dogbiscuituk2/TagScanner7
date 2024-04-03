@@ -22,7 +22,6 @@
         }
 
         public List<string> Folders => Library.Folders;
-        public List<Work> Works => Library.Works;
 
         private bool _modified;
         public bool Modified
@@ -38,14 +37,16 @@
             }
         }
 
+        public List<Work> Works => Library.Works;
+
         public int AddFiles(string[] filePaths, IProgress<ProgressEventArgs> progress) => ReadWorks(p => p.AddWorks(filePaths), progress);
 
-        public int AddFolder(string folderPath, string filter, IProgress<ProgressEventArgs> progress)
+        public int AddFolder(string folderPath, string fileFilter, IProgress<ProgressEventArgs> progress)
         {
-            var folder = string.Concat(folderPath, '|', filter);
+            var folder = string.Concat(folderPath, '|', fileFilter);
             if (!Folders.Contains(folder))
                 Folders.Add(folder);
-            return ReadWorks(p => p.AddFolder(folderPath, filter.Split(';')), progress);
+            return ReadWorks(p => p.AddFolder(folderPath, fileFilter.Split(';')), progress);
         }
 
         public void Clear()

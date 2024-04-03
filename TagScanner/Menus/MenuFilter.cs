@@ -3,7 +3,7 @@
     using System;
 
     [Flags]
-    public enum Filter
+    public enum MenuFilter
     {
         None,
         FirstArg = 1,

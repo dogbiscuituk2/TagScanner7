@@ -46,6 +46,12 @@
             set => _modified = value;
         }
 
+        public void Clear()
+        {
+            Terms.Clear();
+            Modified = false;
+        }
+
         public override string ToString() => Terms.Any()
             ? Terms.Select(p => p.ToString()).Aggregate((p, q) => $"{p}{Environment.NewLine}{q}")
             : string.Empty;
