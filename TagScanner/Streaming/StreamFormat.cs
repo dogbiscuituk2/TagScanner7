@@ -1,4 +1,4 @@
-﻿namespace TagScanner.Controllers.Streaming
+﻿namespace TagScanner.Streaming
 {
     using System;
 

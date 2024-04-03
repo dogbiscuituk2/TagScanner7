@@ -160,7 +160,7 @@
 
         protected object LoadDocument(Stream stream, Type documentType, StreamFormat format)
         {
-            var result = StreamController.LoadFromStream(stream, documentType, format);
+            var result = Streamer.LoadFromStream(stream, documentType, format);
             if (result != null)
                 Model.Modified = false;
             return result;
@@ -168,7 +168,7 @@
 
         protected bool SaveDocument(Stream stream, object document, StreamFormat format)
         {
-            var result = StreamController.SaveToStream(stream, document, format);
+            var result = Streamer.SaveToStream(stream, document, format);
             if (result)
                 Model.Modified = false;
             return result;

@@ -124,7 +124,7 @@
     <Reference Include="WindowsFormsIntegration" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Controllers\Streaming\StreamFormat.cs" />
+    <Compile Include="Streaming\StreamFormat.cs" />
     <Compile Include="Controls\TermNode.cs" />
     <Compile Include="Controls\TermTree.cs">
       <SubType>Component</SubType>
@@ -133,7 +133,7 @@
     <Compile Include="Terms\EqualityComparer.cs" />
     <Compile Include="Terms\Filter.cs" />
     <Compile Include="Terms\Cast.cs" />
-    <Compile Include="Controllers\Streaming\StreamController.cs" />
+    <Compile Include="Streaming\Streamer.cs" />
     <Compile Include="Terms\Parser.cs" />
     <Compile Include="Terms\ParserState.cs" />
     <Compile Include="Terms\Token.cs" />

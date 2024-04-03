@@ -4,8 +4,8 @@
     using System.Drawing;
     using System.IO;
     using System.Windows.Forms;
-    using Controllers.Streaming;
     using Models;
+    using Streaming;
 
     public static class Utility
     {
@@ -102,7 +102,10 @@
             }
         }
 
-        public static void ShowDialog(this Exception exception, IWin32Window owner = null)
+        public static void ShowDialog(this Exception exception, IWin32Window owner = null) => exception.ShowDialog(owner, string.Empty);
+        public static void ShowDialog(this Exception exception, string text) => exception.ShowDialog(null, text);
+
+        public static void ShowDialog(this Exception exception, IWin32Window owner, string text)
         {
             string
                 message = exception.Message,
@@ -110,9 +113,11 @@
             var innerException = exception.InnerException;
             if (innerException != null)
             {
-                message = $"{message}{Environment.NewLine}{innerException.Message}";
+                message = $"{message}\r\n{innerException.Message}";
                 exceptionType = $"{exceptionType} ({innerException.GetType().Name})";
             }
+            if (!string.IsNullOrWhiteSpace(text))
+                message = $"{message}\r\n{text}";
             MessageBox.Show(owner, message, exceptionType, MessageBoxButtons.OK, MessageBoxIcon.Error);
         }
 

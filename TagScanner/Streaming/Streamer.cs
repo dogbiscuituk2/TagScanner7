@@ -1,13 +1,14 @@
-﻿namespace TagScanner.Controllers.Streaming
+﻿namespace TagScanner.Streaming
 {
     using System;
     using System.IO;
     using System.Runtime.Serialization.Formatters.Binary;
+    using System.Xml.Linq;
     using System.Xml.Serialization;
     using Newtonsoft.Json;
     using Utils;
 
-    public static class StreamController
+    public static class Streamer
     {
         public static object LoadFromFile(string filePath, Type documentType) =>
             LoadFromStream(new FileStream(filePath, FileMode.Open, FileAccess.Read), documentType, filePath.GetStreamFormat());
@@ -36,7 +37,7 @@
             }
             catch (Exception exception)
             {
-                exception.ShowDialog();
+                exception.ShowDialog($"{nameof(documentType)}: {documentType}");
                 return false;
             }
         }
@@ -74,7 +75,7 @@
                         }
                         catch (Exception exception)
                         {
-                            exception.ShowDialog();
+                            exception.ShowDialog($"{nameof(document)}: {document}");
                         }
                         finally
                         {

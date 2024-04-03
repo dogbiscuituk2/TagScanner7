@@ -2,7 +2,7 @@
 {
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using System.IO;
-    using Controllers.Streaming;
+    using Streaming;
     using Terms;
 
     public partial class Test
@@ -33,11 +33,11 @@
             var text = filter.ToString();
             using (var stream = new MemoryStream())
             {
-                StreamController.SaveToStream(stream, filter, format);
+                Streamer.SaveToStream(stream, filter, format);
                 filter = new Filter();
                 Assert.AreNotEqual(notExpected: text, actual: filter?.ToString());
                 stream.Seek(0, SeekOrigin.Begin);
-                filter = (Filter)StreamController.LoadFromStream(stream, typeof(Filter), format);
+                filter = (Filter)Streamer.LoadFromStream(stream, typeof(Filter), format);
                 Assert.AreEqual(expected: text, actual: filter?.ToString());
             }
         }
