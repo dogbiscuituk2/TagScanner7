@@ -142,7 +142,6 @@
 #endif
         }
 
-
         private void Exception(Exception exception, int line, string caller, [CallerMemberName] string local = "") =>
             Dump(exception.GetAllInformation(), line, caller, local);
 
