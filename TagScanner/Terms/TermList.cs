@@ -1,20 +1,16 @@
 ﻿namespace TagScanner.Terms
 {
-    using Newtonsoft.Json;
     using System;
     using System.Collections.Generic;
     using System.Drawing;
     using System.Linq;
     using System.Linq.Expressions;
     using System.Text.RegularExpressions;
-    using System.Xml.Serialization;
 
-    [Serializable]
     public class TermList : Term
     {
         #region Constructors
 
-        public TermList() { }
         public TermList(params Term[] operands) => AddOperands(operands);
         public TermList(Term firstOperand, params Term[] moreOperands) : this(new[] { firstOperand }) => AddOperands(moreOperands);
 
@@ -22,24 +18,18 @@
 
         #region Public Properties
 
-        [JsonIgnore, XmlIgnore] public virtual int Arity => -1;
-        [JsonIgnore, XmlIgnore] public override Expression Expression => null;
-        [JsonIgnore, XmlIgnore] public IEnumerable<Type> ParameterTypes => GetParameterTypes();
-        [JsonIgnore, XmlIgnore] public override Type ResultType => null;
+        public virtual int Arity => -1;
+        public override Expression Expression => null;
+        public IEnumerable<Type> ParameterTypes => GetParameterTypes();
+        public override Type ResultType => null;
 
-        [JsonRequired, XmlElement]
         public virtual Op Op
         {
             get => Op.Comma;
             set => _ = value;
         }
 
-        [JsonRequired, XmlElement]
-        public List<Term> Operands
-        {
-            get => _operands;
-            set => _operands = value;
-        }
+        public List<Term> Operands { get; set; } = new List<Term>();
 
         #endregion
 
@@ -90,9 +80,9 @@
 
         #region Protected Properties
 
-        [JsonIgnore, XmlIgnore] protected Expression FirstSubExpression => Operands?.First()?.Expression;
-        [JsonIgnore, XmlIgnore] protected Expression SecondSubExpression => Operands?.Skip(1)?.First()?.Expression;
-        [JsonIgnore, XmlIgnore] protected Expression ThirdSubExpression => Operands?.Skip(2)?.First()?.Expression;
+        protected Expression FirstSubExpression => Operands?.First()?.Expression;
+        protected Expression SecondSubExpression => Operands?.Skip(1)?.First()?.Expression;
+        protected Expression ThirdSubExpression => Operands?.Skip(2)?.First()?.Expression;
 
         #endregion
 
@@ -166,10 +156,7 @@
 
         #region Private Fields
 
-        [NonSerialized]
         private List<CharacterRange> _characterRangesAll = new List<CharacterRange>();
-
-        private List<Term> _operands = new List<Term>();
 
         #endregion
 

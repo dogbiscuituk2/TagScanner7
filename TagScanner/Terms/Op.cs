@@ -1,8 +1,5 @@
 ﻿namespace TagScanner.Terms
 {
-    using System;
-
-    [Serializable]
     public enum Op
     {
         Comma,

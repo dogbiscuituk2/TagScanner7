@@ -4,14 +4,10 @@
     using System.Collections.Generic;
     using System.Linq;
     using System.Linq.Expressions;
-    using System.Xml.Serialization;
-    using Newtonsoft.Json;
 
-    [Serializable] public class Operation : TermList
+    public class Operation : TermList
     {
         #region Constructors
-
-        public Operation() { }
 
         public Operation(Op op, params Term[] operands) : base(operands) => SetOperator(op);
         public Operation(Term first, Op op, params Term[] more) : base(first, more) => SetOperator(op);
@@ -26,13 +22,12 @@
 
         #region Public Properties
 
-        [JsonRequired, XmlElement]
         public override Op Op { get; set; }
 
-        [JsonIgnore, XmlIgnore] public override int Arity => Op.Arity();
-        [JsonIgnore, XmlIgnore] public override Expression Expression => GetExpression();
-        [JsonIgnore, XmlIgnore] public override Rank Rank => Op.GetRank();
-        [JsonIgnore, XmlIgnore] public override Type ResultType => Op.GetResultType() ?? GetCommonResultType(Operands.ToArray());
+        public override int Arity => Op.Arity();
+        public override Expression Expression => GetExpression();
+        public override Rank Rank => Op.GetRank();
+        public override Type ResultType => Op.GetResultType() ?? GetCommonResultType(Operands.ToArray());
 
         #endregion
 

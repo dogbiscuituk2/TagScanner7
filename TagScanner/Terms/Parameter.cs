@@ -2,18 +2,13 @@
 {
     using System;
     using System.Linq.Expressions;
-    using System.Xml.Serialization;
-    using Newtonsoft.Json;
     using Utils;
 
-    [Serializable]
     public class Parameter : Term
     {
-        public Parameter() { }
         public Parameter(Type type) { _resultType = type; }
 
-        [JsonIgnore, XmlIgnore] public override Expression Expression => Expression.Default(ResultType);
-
+        public override Expression Expression => Expression.Default(ResultType);
         public override Type ResultType => _resultType;
 
         public override string ToString() => ResultType.Say();

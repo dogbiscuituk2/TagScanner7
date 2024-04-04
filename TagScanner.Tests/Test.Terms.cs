@@ -1,17 +1,13 @@
 ﻿namespace TagScanner.Tests
 {
     using Microsoft.VisualStudio.TestTools.UnitTesting;
-    using System.IO;
-    using Streaming;
     using Terms;
 
     public partial class Test
     {
         public void TestTerm(Term term)
         {
-            //TestTerm(term, StreamFormat.Binary);
-            //TestTerm(term, StreamFormat.Json);
-            TestTerm(term, StreamFormat.Xml);
+            TestRoundTrip(term);
             if (!(term is TermList termList)) return;
             for (var index = 0; index < termList.Operands.Count; index++)
             {
@@ -26,23 +22,12 @@
             }
         }
 
-        public void TestTerm(Term term, StreamFormat format)
+        public void TestRoundTrip(Term term)
         {
-            var filter = new Filter();
-            filter.Terms.Add(term);
-            var text = filter.ToString();
-#if DEBUG_STREAMER
-            filter.SaveToTemporaryFile(format);
-#endif
-            using (var stream = new MemoryStream())
-            {
-                Streamer.SaveToStream(stream, filter, format);
-                filter = new Filter();
-                Assert.AreNotEqual(notExpected: text, actual: filter?.ToString());
-                stream.Seek(0, SeekOrigin.Begin);
-                filter = (Filter)Streamer.LoadFromStream(stream, typeof(Filter), format);
-                Assert.AreEqual(expected: text, actual: filter?.ToString());
-            }
+            var before = term?.ToString();
+            term = new Parser().Parse(before);
+            var after = term?.ToString();
+            Assert.AreEqual(expected: before, actual: after);
         }
     }
 }

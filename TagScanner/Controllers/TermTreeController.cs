@@ -58,7 +58,7 @@ namespace TagScanner.Controllers
         public int Add(Term term) => HasSelection ? AddChild(SelectedNode, term) : AddRoot(term);
         public void AddCast(Type type) => Add(new Cast(type));
         public int AddChild(TreeNode parent, Term term) => AddNode(parent != null ? parent.Nodes : Roots, term);
-        public void AddConstant<T>() => Add(new Constant<T>());
+        public void AddConstant<T>() => Add(new Constant<T>(default(T)));
         public void AddField(Tag tag) => Add(new Field(tag));
         public void AddFunction(string key) => Add(new Function(key));
         public void AddOperation(Op op) => Add(new Operation(op));

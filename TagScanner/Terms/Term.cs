@@ -4,16 +4,12 @@
     using System.Collections.Generic;
     using System.Drawing;
     using System.Linq.Expressions;
-    using System.Xml.Serialization;
-    using Newtonsoft.Json;
     using Models;
 
-    [Serializable]
     public abstract class Term
     {
         #region Public Fields
 
-        [NonSerialized]
         public static readonly ParameterExpression Work = Expression.Parameter(typeof(Work), "Work");
 
         public static readonly Constant<string> Empty = new Constant<string>(string.Empty);
@@ -26,12 +22,11 @@
 
         #region Public Properties
 
-        [JsonIgnore, XmlIgnore] public List<CharacterRange> CharacterRanges => GetCharacterRanges();
-        [JsonIgnore, XmlIgnore] public List<CharacterRange> CharacterRangesAll => GetCharacterRangesAll();
-        [JsonIgnore, XmlIgnore] public abstract Expression Expression { get; }
-        [JsonIgnore, XmlIgnore] public int Length => ToString().Length;
+        public List<CharacterRange> CharacterRanges => GetCharacterRanges();
+        public List<CharacterRange> CharacterRangesAll => GetCharacterRangesAll();
+        public abstract Expression Expression { get; }
+        public int Length => ToString().Length;
 
-        [JsonIgnore, XmlIgnore]
         public Func<Work, bool> Predicate
         {
             get
@@ -47,9 +42,9 @@
             }
         }
 
-        [JsonIgnore, XmlIgnore] public virtual Rank Rank => Rank.Unary;
+        public virtual Rank Rank => Rank.Unary;
 
-        [JsonIgnore, XmlIgnore] public virtual Type ResultType
+        public virtual Type ResultType
         {
             get => null;
             set { }

@@ -149,6 +149,7 @@
                     case float f: return new Constant<float>(f);
                     case int i: return new Constant<int>(i);
                     case long l: return new Constant<long>(l);
+                    case uint u: return new Constant<uint>(u);
                     case ulong ul: return new Constant<ulong>(ul);
                 }
             if (match.IsStaticFunction())
@@ -159,6 +160,8 @@
                 return NewTerm(new Constant<DateTime>(ParseDateTime(match)));
             if (match.IsTimeSpan())
                 return NewTerm(new Constant<TimeSpan>(ParseTimeSpan(match)));
+            if (match == "?")
+                return Term.Nothing;
             SyntaxError(token.Index, token.Value);
             return null;
         }

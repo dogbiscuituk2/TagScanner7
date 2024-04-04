@@ -5,15 +5,11 @@
     using System.Linq;
     using System.Linq.Expressions;
     using System.Reflection;
-    using System.Xml.Serialization;
-    using Newtonsoft.Json;
 
-    [Serializable]
     public class Function : TermList
     {
         #region Constructors
 
-        public Function() { }
         public Function(string name, params Term[] operands) : base(operands) => SetName(name);
         public Function(Term self, string name, params Term[] operands) : base(self, operands) => SetName(name);
 
@@ -21,7 +17,6 @@
 
         #region Public Properties
 
-        [JsonIgnore, XmlIgnore]
         public MethodInfo Method
         {
             get => _method ?? (_method = Name.MethodInfo());
@@ -43,10 +38,10 @@
             }
         }
 
-        [JsonIgnore, XmlIgnore] public override int Arity => Method.GetParameters().Length + (IsStatic ? 0 : 1);
-        [JsonIgnore, XmlIgnore] public override Expression Expression => GetExpression();
-        [JsonIgnore, XmlIgnore] public bool IsStatic => Method.IsStatic;
-        [JsonIgnore, XmlIgnore] public override Type ResultType => Method.ReturnType;
+        public override int Arity => Method.GetParameters().Length + (IsStatic ? 0 : 1);
+        public override Expression Expression => GetExpression();
+        public bool IsStatic => Method.IsStatic;
+        public override Type ResultType => Method.ReturnType;
 
         #endregion
 
@@ -106,9 +101,8 @@
 
         #region Private Fields
 
+        private MethodInfo _method;
         private string _name;
-
-        [NonSerialized] private MethodInfo _method;
 
         #endregion
 

@@ -1,6 +1,4 @@
-﻿using Newtonsoft.Json;
-
-namespace TagScanner.Terms
+﻿namespace TagScanner.Terms
 {
     using System;
     using System.Collections.Generic;
@@ -24,19 +22,19 @@ namespace TagScanner.Terms
                 { Op.Or, new OpInfo("or", ExpressionType.OrElse, Rank.ConditionalOr, typeof(bool), "{0} | {1}", Icons.Op_Or) },
                 { Op.Xor, new OpInfo("exclusive or", ExpressionType.ExclusiveOr, Rank.BitwiseXor, typeof(bool), "{0} ^ {1}", Icons.Op_Xor) },
                 { Op.EqualTo, new OpInfo("=", ExpressionType.Equal, Rank.Equality, typeof(bool), "{0} = {1}", Icons.Op_EqualTo, typeof(object)) },
-                { Op.NotEqualTo, new OpInfo("≠", ExpressionType.NotEqual, Rank.Equality, typeof(bool), "{0} ≠ {1}", Icons.Op_NotEqualTo, typeof(object)) },
+                { Op.NotEqualTo, new OpInfo("≠", ExpressionType.NotEqual, Rank.Equality, typeof(bool), "{0} != {1}", Icons.Op_NotEqualTo, typeof(object)) },
                 { Op.LessThan, new OpInfo("<", ExpressionType.LessThan, Rank.Relational, typeof(bool), "{0} < {1}", Icons.Op_LessThan, typeof(double)) },
-                { Op.NotLessThan, new OpInfo("≥", ExpressionType.GreaterThanOrEqual, Rank.Relational, typeof(bool), "{0} ≥ {1}", Icons.Op_NotLessThan, typeof(double)) },
+                { Op.NotLessThan, new OpInfo("≥", ExpressionType.GreaterThanOrEqual, Rank.Relational, typeof(bool), "{0} >= {1}", Icons.Op_NotLessThan, typeof(double)) },
                 { Op.GreaterThan, new OpInfo(">", ExpressionType.GreaterThan, Rank.Relational, typeof(bool), "{0} > {1}", Icons.Op_GreaterThan, typeof(double)) },
-                { Op.NotGreaterThan, new OpInfo("≤", ExpressionType.LessThanOrEqual, Rank.Relational, typeof(bool), "{0} ≤ {1}", Icons.Op_NotGreaterThan, typeof(double)) },
-                { Op.Concatenate, new OpInfo("＋", ExpressionType.Add, Rank.Additive, typeof(string), "{0} ＋ {1}", Icons.Op_Concatenate) },
-                { Op.Add, new OpInfo("＋", ExpressionType.Add, Rank.Additive, typeof(double), "{0} ＋ {1}", Icons.Op_Add) },
-                { Op.Subtract, new OpInfo("－", ExpressionType.Subtract, Rank.Additive, typeof(double), "{0} － {1}", Icons.Op_Subtract) },
-                { Op.Multiply, new OpInfo("✕", ExpressionType.Multiply, Rank.Multiplicative, typeof(double), "{0} ✕ {1}", Icons.Op_Multiply) },
-                { Op.Divide, new OpInfo("／", ExpressionType.Divide, Rank.Multiplicative, typeof(double), "{0} ／ {1}", Icons.Op_Divide) },
-                { Op.Positive, new OpInfo("＋", ExpressionType.UnaryPlus, Rank.Unary, typeof(double), "＋{0}", Icons.Op_Add) },
-                { Op.Negative, new OpInfo("－", ExpressionType.Negate, Rank.Unary, typeof(double), "－{0}", Icons.Op_Subtract) },
-                { Op.Not, new OpInfo("not", ExpressionType.Not, Rank.Unary, typeof(bool), "! {0}", Icons.Op_Not) },
+                { Op.NotGreaterThan, new OpInfo("≤", ExpressionType.LessThanOrEqual, Rank.Relational, typeof(bool), "{0} <= {1}", Icons.Op_NotGreaterThan, typeof(double)) },
+                { Op.Concatenate, new OpInfo("＋", ExpressionType.Add, Rank.Additive, typeof(string), "{0} + {1}", Icons.Op_Concatenate) },
+                { Op.Add, new OpInfo("＋", ExpressionType.Add, Rank.Additive, typeof(double), "{0} + {1}", Icons.Op_Add) },
+                { Op.Subtract, new OpInfo("－", ExpressionType.Subtract, Rank.Additive, typeof(double), "{0} - {1}", Icons.Op_Subtract) },
+                { Op.Multiply, new OpInfo("✕", ExpressionType.Multiply, Rank.Multiplicative, typeof(double), "{0} * {1}", Icons.Op_Multiply) },
+                { Op.Divide, new OpInfo("／", ExpressionType.Divide, Rank.Multiplicative, typeof(double), "{0} / {1}", Icons.Op_Divide) },
+                { Op.Positive, new OpInfo("＋", ExpressionType.UnaryPlus, Rank.Unary, typeof(double), "+{0}", Icons.Op_Add) },
+                { Op.Negative, new OpInfo("－", ExpressionType.Negate, Rank.Unary, typeof(double), "-{0}", Icons.Op_Subtract) },
+                { Op.Not, new OpInfo("not", ExpressionType.Not, Rank.Unary, typeof(bool), "!{0}", Icons.Op_Not) },
                 { Op.Dot, new OpInfo(".", ExpressionType.MemberAccess, Rank.Primary, typeof(object), "{0}.{1}", null) },
             };
             Keys = OperatorDictionary.Keys.ToArray();

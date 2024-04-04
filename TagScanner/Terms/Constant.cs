@@ -1,20 +1,16 @@
 ﻿namespace TagScanner.Terms
 {
-    using Newtonsoft.Json;
     using System;
     using System.Linq.Expressions;
     using System.Text;
-    using System.Xml.Serialization;
 
-    [Serializable]
     public class Constant<T> : Term
     {
-        public Constant() { }
         public Constant(T value) { Value = value; }
 
         public T Value { get; set; }
 
-        [JsonIgnore, XmlIgnore] public override Expression Expression => Expression.Constant(Value);
+        public override Expression Expression => Expression.Constant(Value);
 
         public override Type ResultType => typeof(T);
 
