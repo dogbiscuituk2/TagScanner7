@@ -8,7 +8,7 @@
         [TestMethod]
         public void TestCasts()
         {
-            foreach (var type in Cast.Types)
+            foreach (var type in Types.TypeValues)
             {
                 var cast = new Cast(type, 0);
                 Assert.IsNotNull(cast);

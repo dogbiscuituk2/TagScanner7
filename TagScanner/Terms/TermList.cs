@@ -1,4 +1,6 @@
-﻿namespace TagScanner.Terms
+﻿using TagScanner.Utils;
+
+namespace TagScanner.Terms
 {
     using System;
     using System.Collections.Generic;
@@ -95,6 +97,51 @@
                     Operands.Add(new Parameter(types[index]));
             return true;
         }
+
+        /*
+        private Term NewArrayParameter(Type elementType) =>
+            elementType == null ? new Parameter<object[]>() :
+            elementType == typeof(bool) ? new Parameter<bool[]>() :
+            elementType == typeof(byte) ? new Parameter<byte[]>() :
+            elementType == typeof(char) ? new Parameter<char[]>() :
+            elementType == typeof(DateTime) ? new Parameter<DateTime[]>() :
+            elementType == typeof(decimal) ? new Parameter<decimal[]>() :
+            elementType == typeof(double) ? new Parameter<double[]>() :
+            elementType == typeof(float) ? new Parameter<float[]>() :
+            elementType == typeof(int) ? new Parameter<int[]>() :
+            elementType == typeof(long) ? new Parameter<long[]>() :
+            elementType == typeof(object) ? new Parameter<object[]>() :
+            elementType == typeof(sbyte) ? new Parameter<sbyte[]>() :
+            elementType == typeof(short) ? new Parameter<short[]>() :
+            elementType == typeof(string) ? new Parameter<string[]>() :
+            elementType == typeof(TimeSpan) ? new Parameter<TimeSpan[]>() :
+            elementType == typeof(uint) ? new Parameter<uint[]>() :
+            elementType == typeof(ulong) ? new Parameter<ulong[]>() :
+            elementType == typeof(ushort) ? new Parameter<ushort[]>() :
+            (Term)new Parameter<object[]>();
+
+        private Term NewParameter(Type type) =>
+            type == null ? new Parameter<object>() :
+            type.IsArray ? NewArrayParameter(type.GetElementType()) :
+            type == typeof(bool) ? new Parameter<bool>() :
+            type == typeof(byte) ? new Parameter<byte>() :
+            type == typeof(char) ? new Parameter<char>() :
+            type == typeof(DateTime) ? new Parameter<DateTime>() :
+            type == typeof(decimal) ? new Parameter<decimal>() :
+            type == typeof(double) ? new Parameter<double>() :
+            type == typeof(float) ? new Parameter<float>() :
+            type == typeof(int) ? new Parameter<int>() :
+            type == typeof(long) ? new Parameter<long>() :
+            type == typeof(object) ? new Parameter<object>() :
+            type == typeof(sbyte) ? new Parameter<sbyte>() :
+            type == typeof(short) ? new Parameter<short>() :
+            type == typeof(string) ? new Parameter<string>() :
+            type == typeof(TimeSpan) ? new Parameter<TimeSpan>() :
+            type == typeof(uint) ? new Parameter<uint>() :
+            type == typeof(ulong) ? new Parameter<ulong>() :
+            type == typeof(ushort) ? new Parameter<ushort>() :
+            (Term)new Parameter<object>();
+        */
 
         protected virtual IEnumerable<Type> GetParameterTypes() => new[] { typeof(object) };
 

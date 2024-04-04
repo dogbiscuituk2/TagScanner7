@@ -4,7 +4,6 @@
     using System.Collections.Generic;
     using System.Linq;
     using System.Text.RegularExpressions;
-    using Utils;
 
     public static class Tokenizer
     {
@@ -37,27 +36,6 @@
                 SyntaxError();
             yield break;
 
-            string MatchCharacter() => MatchRegex(@"^'.'");
-            string MatchDateTime() => MatchRegex(Parser.DateTimePattern);
-            string MatchNumber() => MatchRegex(@"^(\d+\.?\d*(UL|LU|D|F|L|M|U)?)");
-
-            string MatchRegex(string pattern, RegexOptions options = RegexOptions.IgnoreCase) =>
-                Regex.Match(text.Substring(index), pattern, options).Value;
-
-            string MatchString()
-            {
-                var p = index;
-                while (p >= 0)
-                {
-                    p = text.IndexOf('"', p + 1);
-                    if (p > 0 && text[p - 1] != '\\')
-                        return text.Substring(index, p - index + 1);
-                }
-                return string.Empty;
-            }
-
-            string MatchTimeSpan() => MatchRegex(Parser.TimeSpanPattern);
-
             string Match()
             {
                 var result = AllTokens.FirstOrDefault(p => text.Substring(index).StartsWith(p, StringComparison.OrdinalIgnoreCase));
@@ -74,13 +52,36 @@
                     case LeftBracket:
                         var dateTime = MatchDateTime();
                         return !string.IsNullOrWhiteSpace(dateTime) ? dateTime : MatchTimeSpan();
+                    case LeftBrace:
+                        return MatchParameter();
                     case Nul:
                         return string.Empty;
                 }
                 SyntaxError();
                 return string.Empty;
-
             }
+
+            string MatchCharacter() => MatchRegex(@"^'.'");
+            string MatchDateTime() => MatchRegex(Parser.DateTimePattern);
+            string MatchNumber() => MatchRegex(@"^(\d+\.?\d*(UL|LU|D|F|L|M|U)?)");
+            string MatchParameter() => MatchRegex(@"^\{\w+\}");
+            string MatchTimeSpan() => MatchRegex(Parser.TimeSpanPattern);
+
+            string MatchRegex(string pattern, RegexOptions options = RegexOptions.IgnoreCase) =>
+                Regex.Match(text.Substring(index), pattern, options).Value;
+
+            string MatchString()
+            {
+                var p = index;
+                while (p >= 0)
+                {
+                    p = text.IndexOf('"', p + 1);
+                    if (p > 0 && text[p - 1] != '\\')
+                        return text.Substring(index, p - index + 1);
+                }
+                return string.Empty;
+            }
+
 
             void SyntaxError() => throw new FormatException($"Unrecognised term at character position {index}:\r\n{text.Substring(index)}");
         }
@@ -96,12 +97,13 @@
         public static bool IsMonadicOperator(this string token) => MonadicOperators.Contains(token, IgnoreCase);
         public static bool IsNumber(this string token) => char.IsDigit(token[0]);
         public static bool IsOperator(this string token) => Operators.Contains(token, IgnoreCase);
+        public static bool IsParameter(this string token) => token[0] == '{';
         public static bool IsStaticFunction(this string token) => StaticFunctions.Contains(token, IgnoreCase);
         public static bool IsString(this string token) => token[0] == DoubleQuote;
         public static bool IsSymbol(this string token) => Symbols.Contains(token, IgnoreCase);
         public static bool IsTimeSpan(this string token) => Regex.IsMatch(token, Parser.TimeSpanPattern);
         public static bool IsTriadicOperator(this string token) => TriadicOperators.Contains(token, IgnoreCase);
-        public static bool IsType(this string token) => Types.Contains(token, IgnoreCase);
+        public static bool IsType(this string token) => TypeNames.Contains(token, IgnoreCase);
 
         public static Rank Rank(this string token) => token.Operator().GetRank();
 
@@ -138,29 +140,36 @@
             Nul = (char)0,
             SingleQuote = '\'',
             DoubleQuote = '"',
-            LeftBracket = '[';
+            LeftAngle = '<',
+            LeftBrace = '{',
+            LeftBracket = '[',
+            LeftParen = '(',
+            RightAngle = '>',
+            RightBrace = '}',
+            RightBracket = ']',
+            RightParen = ')';
 
         /// <summary>
         /// Names are ordered descending to that, for example, "Album Artists" is matched before "Artists".
         /// If these were sorted in ascending or other order, "Album Artists" might never be matched.
         /// </summary>
-        private static readonly string[] AllTokens = Booleans.Union(Fields).Union(Functions).Union(Symbols).Union(Types).OrderByDescending(p => p).ToArray();
+        private static readonly string[] AllTokens = Booleans.Union(Fields).Union(Functions).Union(Symbols).Union(TypeNames).OrderByDescending(p => p).ToArray();
 
         #endregion
 
         #region Private Properties
 
         private static IEnumerable<string> Booleans => new[] { "false", "true" };
-        private static IEnumerable<string> DyadicOperators => new[] { "&", "|", "^", "=", "!=", "<", ">=", ">", "<=", "+", "-", "*", "/", "." };
+        private static IEnumerable<string> DyadicOperators => new[] { ",", "&", "|", "^", "=", "!=", "<", ">=", ">", "<=", "+", "-", "*", "/", "." };
         private static IEnumerable<string> Fields => Tags.Keys.Select(p => p.DisplayName());
         private static IEnumerable<string> Functions => Methods.Keys;
         private static IEnumerable<string> MemberFunctions => Methods.Keys.Where(p => !p.IsStatic());
         private static IEnumerable<string> MonadicOperators => new[] { "+", "-", "!" };
         private static IEnumerable<string> Operators => MonadicOperators.Union(DyadicOperators).Union(TriadicOperators);
         private static IEnumerable<string> StaticFunctions => Methods.Keys.Where(p => p.IsStatic());
-        private static IEnumerable<string> Symbols => Operators.Union(new[] { "(", ")", ",", "." });
+        private static IEnumerable<string> Symbols => Operators.Union(new[] { "(", ")" });
         private static IEnumerable<string> TriadicOperators => new[] { "?", ":" };
-        private static IEnumerable<string> Types => Cast.Types.Select(p => p.Say());
+        private static IEnumerable<string> TypeNames => Types.TypeNames;
 
         #endregion
     }

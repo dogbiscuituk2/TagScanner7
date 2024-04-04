@@ -9,10 +9,15 @@
         public Parameter(Type type) { _resultType = type; }
 
         public override Expression Expression => Expression.Default(ResultType);
-        public override Type ResultType => _resultType;
 
-        public override string ToString() => ResultType.Say();
+        public override Type ResultType
+        {
+            get => _resultType;
+            set => _resultType = value;
+        }
 
-        private readonly Type _resultType;
+        public override string ToString() => $"{{{ResultType.Say()}}}";
+
+        private Type _resultType;
     }
 }

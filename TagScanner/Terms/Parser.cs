@@ -74,7 +74,7 @@
 
         private Term ParseCast()
         {
-            var type =  Cast.GetType(DequeueToken().Value);
+            var type = DequeueToken().Value.ToType();
             Accept(")");
             return NewTerm(new Cast(type, ParseSimpleTerm()));
         }
@@ -152,6 +152,8 @@
                     case uint u: return new Constant<uint>(u);
                     case ulong ul: return new Constant<ulong>(ul);
                 }
+            if (match.IsParameter())
+                return new Parameter(match.Substring(1, match.Length - 2).ToType());
             if (match.IsStaticFunction())
                 return ParseStaticFunction(match);
             // DateTime & TimeSpan constants involve expensive Regex pattern matching,

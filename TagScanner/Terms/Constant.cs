@@ -8,11 +8,9 @@
     {
         public Constant(T value) { Value = value; }
 
-        public T Value { get; set; }
-
         public override Expression Expression => Expression.Constant(Value);
-
         public override Type ResultType => typeof(T);
+        public T Value { get; set; }
 
         private static string FormatDateTime(DateTime dateTime)
         {

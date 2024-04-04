@@ -51,7 +51,7 @@
         private static void AddCasts(this ToolStripItemCollection items, EventHandler click)
         {
             items = items.Append("&Cast");
-            foreach (var type in Cast.Types)
+            foreach (var type in Types.TypeValues)
                 items.Append(type.Say(), type, click);
         }
 

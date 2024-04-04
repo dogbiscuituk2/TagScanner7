@@ -3,7 +3,6 @@
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using System;
     using System.Linq;
-    using Utils;
     using Terms;
 
     public partial class Test
@@ -11,7 +10,7 @@
         [TestMethod]
         public void TestParseCasts()
         {
-            foreach (var type in Cast.Types)
+            foreach (var type in Types.TypeValues)
             {
                 var expectedText = $"({type.Say()})123";
                 var cast = new Parser().Parse(expectedText);

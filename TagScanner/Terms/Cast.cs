@@ -4,7 +4,6 @@
     using System.Collections.Generic;
     using System.Linq;
     using System.Linq.Expressions;
-    using Utils;
 
     public class Cast : TermList
     {
@@ -28,32 +27,5 @@
             NewTypeName = newType.FullName; ;
             AddParameters(typeof(object));
         }
-
-        [NonSerialized]
-        private static Dictionary<string, Type> TypeDictionary = new Dictionary<string, Type>
-        {
-            { "bool",  typeof(bool) },
-            { "byte",  typeof(byte) },
-            { "char",  typeof(char) },
-            { "DateTime",  typeof(DateTime) },
-            { "decimal",  typeof(decimal) },
-            { "double",  typeof(double) },
-            { "float",  typeof(float) },
-            { "int",  typeof(int) },
-            { "long",  typeof(long) },
-            { "object",  typeof(object) },
-            { "sbyte",  typeof(sbyte) },
-            { "short",  typeof(short) },
-            { "string",  typeof(string) },
-            { "TimeSpan",  typeof(TimeSpan) },
-            { "uint",  typeof(uint) },
-            { "ulong",  typeof(ulong) },
-            { "ushort",  typeof(ushort) },
-        };
-
-        public static string[] TypeNames => TypeDictionary.Keys.ToArray();
-        public static Type[] Types => TypeDictionary.Values.ToArray();
-
-        public static Type GetType(string typeName) => TypeDictionary[typeName];
     }
 }

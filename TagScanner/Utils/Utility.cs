@@ -90,45 +90,44 @@
         public static void ShowDialog(this Exception exception, IWin32Window owner = null) => exception.ShowDialog(owner, string.Empty);
         public static void ShowDialog(this Exception exception, string text) => exception.ShowDialog(null, text);
 
-        public static void ShowDialog(this Exception exception, IWin32Window owner, string text)
+        public static void ShowDialog(this Exception exception, IWin32Window owner, string text) =>
+            MessageBox.Show(owner,
+                $"{exception.GetAllMessages()}. {text}",
+                exception.GetAllExceptionTypes(),
+                MessageBoxButtons.OK,
+                MessageBoxIcon.Error);
+
+        public static string GetAllExceptionTypes(this Exception exception)
         {
-            string
-                message = exception.Message,
-                exceptionType = exception.GetType().Name;
-            var innerException = exception.InnerException;
-            if (innerException != null)
+            var result = exception.GetType().Name;
+            while (exception.InnerException != null)
             {
-                message = $"{message}\r\n{innerException.Message}";
-                exceptionType = $"{exceptionType} ({innerException.GetType().Name})";
+                exception = exception.InnerException;
+                result = $"{result} ({exception.GetType().Name})";
             }
-            if (!string.IsNullOrWhiteSpace(text))
-                message = $"{message}\r\n{text}";
-            MessageBox.Show(owner, message, exceptionType, MessageBoxButtons.OK, MessageBoxIcon.Error);
+            return result;
         }
 
-        public static string Say(this Type type)
+        public static string GetAllInformation(this Exception exception)
         {
-            if (type == null) return "null";
-            if (type.IsArray)
-                return $"{type.GetElementType().Say()}[]";
-            if (type == typeof(bool)) return "bool";
-            if (type == typeof(byte)) return "byte";
-            if (type == typeof(char)) return "char";
-            if (type == typeof(DateTime)) return "DateTime";
-            if (type == typeof(decimal)) return "decimal";
-            if (type == typeof(double)) return "double";
-            if (type == typeof(float)) return "float";
-            if (type == typeof(int)) return "int";
-            if (type == typeof(long)) return "long";
-            if (type == typeof(object)) return "object";
-            if (type == typeof(sbyte)) return "sbyte";
-            if (type == typeof(short)) return "short";
-            if (type == typeof(string)) return "string";
-            if (type == typeof(TimeSpan)) return "TimeSpan";
-            if (type == typeof(uint)) return "uint";
-            if (type == typeof(ulong)) return "ulong";
-            if (type == typeof(ushort)) return "ushort";
-            return type.Name;
+            var result = $"{exception.GetType().Name}: {exception.Message}";
+            while (exception.InnerException != null)
+            {
+                exception = exception.InnerException;
+                result = $"{result} ({exception.GetType().Name}: {exception.Message})";
+            }
+            return result;
+        }
+
+        public static string GetAllMessages(this Exception exception)
+        {
+            var result = exception.Message;
+            while (exception.InnerException != null)
+            {
+                exception = exception.InnerException;
+                result = $"{result} ({exception.Message})";
+            }
+            return result;
         }
 
         public static string Range(this string s, CharacterRange range) => s.Substring(range.First, range.Length);

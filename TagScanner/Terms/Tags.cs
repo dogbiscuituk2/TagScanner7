@@ -51,7 +51,6 @@
         public static List<Tag> BrowsableTags => Keys.Where(p => p.Browsable()).ToList();
         public static Tag[] Keys { get; }
         public static TagInfo[] Values { get; }
-
         #endregion
 
         #region Public Methods
@@ -65,9 +64,6 @@
         }
 
         public static IEnumerable<string> GetDependencyNames(this string name) => name.ToTag().GetDependencies().Select(p => p.ToString());
-
-        public static TagInfo TagInfo(this Tag tag) => TagDictionary[tag];
-
         public static Tag ToTag(this string tagName) => (Tag)Enum.Parse(typeof(Tag), tagName);
 
         public static bool Uses(this Tag user, Tag used)
