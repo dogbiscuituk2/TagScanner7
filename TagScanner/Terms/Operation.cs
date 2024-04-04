@@ -26,6 +26,7 @@
 
         #region Public Properties
 
+        [JsonRequired, XmlElement]
         public override Op Op { get; set; }
 
         [JsonIgnore, XmlIgnore] public override int Arity => Op.Arity();

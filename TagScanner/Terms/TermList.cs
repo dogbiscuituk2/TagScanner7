@@ -27,12 +27,14 @@
         [JsonIgnore, XmlIgnore] public IEnumerable<Type> ParameterTypes => GetParameterTypes();
         [JsonIgnore, XmlIgnore] public override Type ResultType => null;
 
+        [JsonRequired, XmlElement]
         public virtual Op Op
         {
             get => Op.Comma;
             set => _ = value;
         }
 
+        [JsonRequired, XmlElement]
         public List<Term> Operands
         {
             get => _operands;

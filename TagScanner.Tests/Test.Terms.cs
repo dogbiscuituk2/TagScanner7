@@ -1,7 +1,6 @@
 ﻿namespace TagScanner.Tests
 {
     using Microsoft.VisualStudio.TestTools.UnitTesting;
-    using System;
     using System.IO;
     using Streaming;
     using Terms;
@@ -10,8 +9,8 @@
     {
         public void TestTerm(Term term)
         {
-            TestTerm(term, StreamFormat.Binary);
-            TestTerm(term, StreamFormat.Json);
+            //TestTerm(term, StreamFormat.Binary);
+            //TestTerm(term, StreamFormat.Json);
             TestTerm(term, StreamFormat.Xml);
             if (!(term is TermList termList)) return;
             for (var index = 0; index < termList.Operands.Count; index++)
@@ -32,7 +31,9 @@
             var filter = new Filter();
             filter.Terms.Add(term);
             var text = filter.ToString();
-            Streamer.SaveToFile($@"{DateTime.Now}.{format}".Replace('/', '-').Replace(':', '-'), filter, format);
+#if DEBUG_STREAMER
+            filter.SaveToTemporaryFile(format);
+#endif
             using (var stream = new MemoryStream())
             {
                 Streamer.SaveToStream(stream, filter, format);

@@ -9,6 +9,18 @@
 
     public static class Streamer
     {
+        public static StreamFormat GetStreamFormat(this string fileName)
+        {
+            var ext = Path.GetExtension(fileName);
+            switch (ext.ToLowerInvariant())
+            {
+                case ".binary": return StreamFormat.Binary;
+                case ".xml": return StreamFormat.Xml;
+                case ".json": return StreamFormat.Json;
+                default: throw new NotImplementedException($"Unrecognised file type '{ext}'.");
+            }
+        }
+
         public static object LoadFromFile(string filePath, Type documentType, StreamFormat format = 0)
         {
             if (format == 0)
@@ -115,6 +127,15 @@
                 exception.ShowDialog();
                 return false;
             }
+        }
+
+        public static bool SaveToTemporaryFile(this object document, StreamFormat format = 0)
+        {
+            if (format == 0)
+                format = StreamFormat.Binary;
+            var now = DateTime.Now.ToString("[yyyy-MM-dd HH.mm.ss.fffffff]");
+            var filePath = $@"{now}.{format}";
+            return SaveToFile(filePath, document, format);
         }
 
         private static JsonSerializer GetJsonSerializer()

@@ -10,7 +10,7 @@
         {
             foreach (var type in Cast.Types)
             {
-                var cast = new Cast(type);
+                var cast = new Cast(type, 0);
                 Assert.IsNotNull(cast);
                 Assert.AreEqual(expected: 1, actual: cast.Arity);
                 Assert.AreEqual(expected: type, actual: cast.ResultType);

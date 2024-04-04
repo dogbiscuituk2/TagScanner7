@@ -1,6 +1,4 @@
-﻿using System.Windows.Forms.VisualStyles;
-
-namespace TagScanner.Terms
+﻿namespace TagScanner.Terms
 {
     using Newtonsoft.Json;
     using System;
