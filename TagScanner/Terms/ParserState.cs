@@ -43,7 +43,7 @@
 
         public Term EndParse(Term term, int line)
         {
-            Dump(line, term, options: Options.LineBelow);
+            Dump(line, term, options: Options.AllState | Options.LineBelow);
             return term;
         }
 

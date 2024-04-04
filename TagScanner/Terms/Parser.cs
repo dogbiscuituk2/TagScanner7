@@ -84,9 +84,9 @@
             var term = ParseSimpleTerm();
             while (AnyTokens())
             {
-                var token = DequeueToken().Value;
-                if (token == ")")
+                if (PeekToken().Value == ")")
                     break;
+                var token = DequeueToken().Value;
                 var tokenRank = token.Rank();
                 while (AnyOperators())
                 {
@@ -101,21 +101,21 @@
                 PushOperator(token.Operator());
                 term = ParseSimpleTerm();
             }
-            while (AnyTerms() && AnyOperators() && PeekOperator() != Op.LParen)
+            while (AnyTerms())
                 term = ConsolidateTerms(term);
             return term;
         }
 
         private object ParseNumber(string token) =>
             token.EndsWith("UL") || token.EndsWith("LU")
-                ? ulong.Parse(token.TrimEnd('U', 'L')) :
-                token.EndsWith("U") ? uint.Parse(token.TrimEnd('U')) :
-                token.EndsWith("M") ? decimal.Parse(token.TrimEnd('M')) :
-                token.EndsWith("L") ? long.Parse(token.TrimEnd('L')) :
-                token.EndsWith("F") ? float.Parse(token.TrimEnd('F')) :
-                token.EndsWith("D") ? double.Parse(token.TrimEnd('D')) :
-                token.Contains(".") ? double.Parse(token) :
-                (object)int.Parse(token);
+            ? ulong.Parse(token.TrimEnd('U', 'L')) :
+            token.EndsWith("U") ? uint.Parse(token.TrimEnd('U')) :
+            token.EndsWith("M") ? decimal.Parse(token.TrimEnd('M')) :
+            token.EndsWith("L") ? long.Parse(token.TrimEnd('L')) :
+            token.EndsWith("F") ? float.Parse(token.TrimEnd('F')) :
+            token.EndsWith("D") ? double.Parse(token.TrimEnd('D')) :
+            token.Contains(".") ? double.Parse(token) :
+            (object)int.Parse(token);
 
         private Term ParseSimpleTerm()
         {

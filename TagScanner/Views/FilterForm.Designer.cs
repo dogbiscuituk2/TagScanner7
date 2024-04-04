@@ -292,8 +292,10 @@
             // 
             // FilterForm
             // 
+            this.AcceptButton = this.btnOK;
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 17F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.CancelButton = this.btnCancel;
             this.ClientSize = new System.Drawing.Size(624, 441);
             this.Controls.Add(this.TreeView);
             this.Controls.Add(this.panel1);
