@@ -81,8 +81,6 @@
                 }
                 return string.Empty;
             }
-
-
             void SyntaxError() => throw new FormatException($"Unrecognised term at character position {index}:\r\n{text.Substring(index)}");
         }
 
@@ -105,32 +103,7 @@
         public static bool IsTriadicOperator(this string token) => TriadicOperators.Contains(token, IgnoreCase);
         public static bool IsType(this string token) => TypeNames.Contains(token, IgnoreCase);
 
-        public static Rank Rank(this string token) => token.Operator().GetRank();
-
-        public static Op Operator(this string token)
-        {
-            switch (token)
-            {
-                case ",": return Op.Comma;
-                case "?": goto case ":";
-                case ":": return Op.Conditional;
-                case "&": return Op.And;
-                case "|": return Op.Or;
-                case "^": return Op.Xor;
-                case "=": return Op.EqualTo;
-                case "!=": return Op.NotEqualTo;
-                case "<": return Op.LessThan;
-                case ">=": return Op.NotLessThan;
-                case ">": return Op.GreaterThan;
-                case "<=": return Op.NotGreaterThan;
-                case "+": return Op.Add;
-                case "-": return Op.Subtract;
-                case "*": return Op.Multiply;
-                case "/": return Op.Divide;
-                case ".": return Op.Dot;
-            }
-            throw new FormatException();
-        }
+        public static Rank Rank(this string token, bool unary) => token.ToOperator(unary).GetRank();
 
         #endregion
 
@@ -176,21 +149,21 @@
             "^", "xor",
             "==", "=",
             "!=", "<>", "≠",
-            "<=", "≤", "≯",
-            ">=", "≥", "≮",
             "<",
             ">",
+            "<=", "≤", "≯",
+            ">=", "≥", "≮",
             "+", "＋",
             "-", "－",
             "*", "×", "✕",
             "/", "÷", "／",
+            "%",
             "."
         };
 
         private static IEnumerable<string> TriadicOperators => new[]
         {
-            "?",
-            ":"
+            "?", ":"
         };
 
         private static IEnumerable<string> Fields => Tags.Keys.Select(p => p.DisplayName());

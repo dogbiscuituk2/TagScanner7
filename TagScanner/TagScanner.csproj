@@ -268,6 +268,7 @@
   <ItemGroup>
     <Content Include="Resources\arrow_Down_16xLG.png" />
     <Content Include="Resources\arrow_Up_16xLG.png" />
+    <Content Include="Resources\CandyStripe_02 %28White%29.bmp" />
     <Content Include="Resources\Collapse.bmp" />
     <Content Include="Resources\Expand.bmp" />
     <Content Include="Resources\Expand_32.bmp" />

@@ -67,9 +67,13 @@
             items = items.Append("&Operation");
             foreach (var op in Operators.Keys)
             {
-                var image = op.GetOpInfo().Image;
+                var text = op.ToString();
+                var opInfo = op.GetOpInfo();
+                var image = opInfo.Image;
                 if (image != null)
-                    items.Append(op.ToString(), op, click, image);
+                    items.Append(text, op, click, image);
+                else
+                    items.Append(text, op, click, opInfo.ImageIndex);
             }
         }
 
@@ -94,10 +98,16 @@
             return item.DropDownItems;
         }
 
-        private static ToolStripMenuItem Append(this ToolStripItemCollection items, string text, object info, EventHandler click,
-            Image image = null)
+        private static ToolStripMenuItem Append(this ToolStripItemCollection items, string text, object info, EventHandler click, Image image = null)
         {
             var item = new ToolStripMenuItem(text, image, click) { ImageTransparentColor = Color.White, Tag = info };
+            items.Add(item);
+            return item;
+        }
+
+        private static ToolStripMenuItem Append(this ToolStripItemCollection items, string text, object info, EventHandler click, int imageIndex)
+        {
+            var item = new ToolStripMenuItem(text, null, click) { ImageIndex = imageIndex, Tag = info };
             items.Add(item);
             return item;
         }

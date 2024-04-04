@@ -22,21 +22,21 @@ namespace TagScanner.Properties {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "17.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    public class Resources {
+    internal class Resources {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
         private static global::System.Globalization.CultureInfo resourceCulture;
         
         [global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        public Resources() {
+        internal Resources() {
         }
         
         /// <summary>
         ///   Returns the cached ResourceManager instance used by this class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        public static global::System.Resources.ResourceManager ResourceManager {
+        internal static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
                     global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("TagScanner.Properties.Resources", typeof(Resources).Assembly);
@@ -51,7 +51,7 @@ namespace TagScanner.Properties {
         ///   resource lookups using this strongly typed resource class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        public static global::System.Globalization.CultureInfo Culture {
+        internal static global::System.Globalization.CultureInfo Culture {
             get {
                 return resourceCulture;
             }
@@ -63,7 +63,7 @@ namespace TagScanner.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Add Recent Folder.
         /// </summary>
-        public static string Add_Recent_Folder {
+        internal static string Add_Recent_Folder {
             get {
                 return ResourceManager.GetString("Add_Recent_Folder", resourceCulture);
             }
@@ -72,7 +72,7 @@ namespace TagScanner.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        public static System.Drawing.Bitmap arrow_Down_16xLG {
+        internal static System.Drawing.Bitmap arrow_Down_16xLG {
             get {
                 object obj = ResourceManager.GetObject("arrow_Down_16xLG", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -82,7 +82,7 @@ namespace TagScanner.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        public static System.Drawing.Bitmap arrow_Up_16xLG {
+        internal static System.Drawing.Bitmap arrow_Up_16xLG {
             get {
                 object obj = ResourceManager.GetObject("arrow_Up_16xLG", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -92,7 +92,17 @@ namespace TagScanner.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        public static System.Drawing.Bitmap Collapse {
+        internal static System.Drawing.Bitmap CandyStripe_02__White_ {
+            get {
+                object obj = ResourceManager.GetObject("CandyStripe_02__White_", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Collapse {
             get {
                 object obj = ResourceManager.GetObject("Collapse", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -103,7 +113,7 @@ namespace TagScanner.Properties {
         ///   Looks up a localized string similar to 
         ///Continue to synchronize and save?.
         /// </summary>
-        public static string ConfirmSync {
+        internal static string ConfirmSync {
             get {
                 return ResourceManager.GetString("ConfirmSync", resourceCulture);
             }
@@ -112,7 +122,7 @@ namespace TagScanner.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Synchronise library file.
         /// </summary>
-        public static string ConfirmSyncCaption {
+        internal static string ConfirmSyncCaption {
             get {
                 return ResourceManager.GetString("ConfirmSyncCaption", resourceCulture);
             }
@@ -121,7 +131,7 @@ namespace TagScanner.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        public static System.Drawing.Bitmap Expand {
+        internal static System.Drawing.Bitmap Expand {
             get {
                 object obj = ResourceManager.GetObject("Expand", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -131,7 +141,7 @@ namespace TagScanner.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        public static System.Drawing.Bitmap Expand_32 {
+        internal static System.Drawing.Bitmap Expand_32 {
             get {
                 object obj = ResourceManager.GetObject("Expand_32", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -141,7 +151,7 @@ namespace TagScanner.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Folder &quot;{0}&quot; no longer exists. Remove from menu?.
         /// </summary>
-        public static string Folder___0___no_longer_exists__Remove_from_menu_ {
+        internal static string Folder___0___no_longer_exists__Remove_from_menu_ {
             get {
                 return ResourceManager.GetString("Folder___0___no_longer_exists__Remove_from_menu_", resourceCulture);
             }
@@ -150,7 +160,7 @@ namespace TagScanner.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        public static System.Drawing.Bitmap folder_Open_16xLG {
+        internal static System.Drawing.Bitmap folder_Open_16xLG {
             get {
                 object obj = ResourceManager.GetObject("folder_Open_16xLG", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -160,7 +170,7 @@ namespace TagScanner.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        public static System.Drawing.Bitmap Op_Add {
+        internal static System.Drawing.Bitmap Op_Add {
             get {
                 object obj = ResourceManager.GetObject("Op_Add", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -170,7 +180,7 @@ namespace TagScanner.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        public static System.Drawing.Bitmap Op_And {
+        internal static System.Drawing.Bitmap Op_And {
             get {
                 object obj = ResourceManager.GetObject("Op_And", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -180,7 +190,7 @@ namespace TagScanner.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        public static System.Drawing.Bitmap Op_Concatenate {
+        internal static System.Drawing.Bitmap Op_Concatenate {
             get {
                 object obj = ResourceManager.GetObject("Op_Concatenate", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -190,7 +200,7 @@ namespace TagScanner.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        public static System.Drawing.Bitmap Op_Conditional {
+        internal static System.Drawing.Bitmap Op_Conditional {
             get {
                 object obj = ResourceManager.GetObject("Op_Conditional", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -200,7 +210,7 @@ namespace TagScanner.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        public static System.Drawing.Bitmap Op_Divide {
+        internal static System.Drawing.Bitmap Op_Divide {
             get {
                 object obj = ResourceManager.GetObject("Op_Divide", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -210,7 +220,7 @@ namespace TagScanner.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        public static System.Drawing.Bitmap Op_EqualTo {
+        internal static System.Drawing.Bitmap Op_EqualTo {
             get {
                 object obj = ResourceManager.GetObject("Op_EqualTo", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -220,7 +230,7 @@ namespace TagScanner.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        public static System.Drawing.Bitmap Op_GreaterThan {
+        internal static System.Drawing.Bitmap Op_GreaterThan {
             get {
                 object obj = ResourceManager.GetObject("Op_GreaterThan", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -230,7 +240,7 @@ namespace TagScanner.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        public static System.Drawing.Bitmap Op_LessThan {
+        internal static System.Drawing.Bitmap Op_LessThan {
             get {
                 object obj = ResourceManager.GetObject("Op_LessThan", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -240,7 +250,7 @@ namespace TagScanner.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        public static System.Drawing.Bitmap Op_Multiply {
+        internal static System.Drawing.Bitmap Op_Multiply {
             get {
                 object obj = ResourceManager.GetObject("Op_Multiply", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -250,7 +260,7 @@ namespace TagScanner.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        public static System.Drawing.Bitmap Op_Not {
+        internal static System.Drawing.Bitmap Op_Not {
             get {
                 object obj = ResourceManager.GetObject("Op_Not", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -260,7 +270,7 @@ namespace TagScanner.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        public static System.Drawing.Bitmap Op_NotEqualTo {
+        internal static System.Drawing.Bitmap Op_NotEqualTo {
             get {
                 object obj = ResourceManager.GetObject("Op_NotEqualTo", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -270,7 +280,7 @@ namespace TagScanner.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        public static System.Drawing.Bitmap Op_NotGreaterThan {
+        internal static System.Drawing.Bitmap Op_NotGreaterThan {
             get {
                 object obj = ResourceManager.GetObject("Op_NotGreaterThan", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -280,7 +290,7 @@ namespace TagScanner.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        public static System.Drawing.Bitmap Op_NotLessThan {
+        internal static System.Drawing.Bitmap Op_NotLessThan {
             get {
                 object obj = ResourceManager.GetObject("Op_NotLessThan", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -290,7 +300,7 @@ namespace TagScanner.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        public static System.Drawing.Bitmap Op_Or {
+        internal static System.Drawing.Bitmap Op_Or {
             get {
                 object obj = ResourceManager.GetObject("Op_Or", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -300,7 +310,7 @@ namespace TagScanner.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        public static System.Drawing.Bitmap Op_Subtract {
+        internal static System.Drawing.Bitmap Op_Subtract {
             get {
                 object obj = ResourceManager.GetObject("Op_Subtract", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -310,7 +320,7 @@ namespace TagScanner.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        public static System.Drawing.Bitmap Op_Xor {
+        internal static System.Drawing.Bitmap Op_Xor {
             get {
                 object obj = ResourceManager.GetObject("Op_Xor", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -320,7 +330,7 @@ namespace TagScanner.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        public static System.Drawing.Bitmap Open_6296 {
+        internal static System.Drawing.Bitmap Open_6296 {
             get {
                 object obj = ResourceManager.GetObject("Open_6296", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -330,7 +340,7 @@ namespace TagScanner.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        public static System.Drawing.Bitmap refresh_16xLG {
+        internal static System.Drawing.Bitmap refresh_16xLG {
             get {
                 object obj = ResourceManager.GetObject("refresh_16xLG", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -340,7 +350,7 @@ namespace TagScanner.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Save file.
         /// </summary>
-        public static string Save_file {
+        internal static string Save_file {
             get {
                 return ResourceManager.GetString("Save_file", resourceCulture);
             }
@@ -349,7 +359,7 @@ namespace TagScanner.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Select the file to open.
         /// </summary>
-        public static string Select_the_file_to_open {
+        internal static string Select_the_file_to_open {
             get {
                 return ResourceManager.GetString("Select_the_file_to_open", resourceCulture);
             }
@@ -358,7 +368,7 @@ namespace TagScanner.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Select the media file(s) to add.
         /// </summary>
-        public static string Select_the_media_file_s__to_add {
+        internal static string Select_the_media_file_s__to_add {
             get {
                 return ResourceManager.GetString("Select_the_media_file_s__to_add", resourceCulture);
             }
@@ -367,7 +377,7 @@ namespace TagScanner.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Select the media folder to add.
         /// </summary>
-        public static string Select_the_media_folder_to_add {
+        internal static string Select_the_media_folder_to_add {
             get {
                 return ResourceManager.GetString("Select_the_media_folder_to_add", resourceCulture);
             }
@@ -376,7 +386,7 @@ namespace TagScanner.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        public static System.Drawing.Bitmap Views_7953_32 {
+        internal static System.Drawing.Bitmap Views_7953_32 {
             get {
                 object obj = ResourceManager.GetObject("Views_7953_32", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -387,7 +397,7 @@ namespace TagScanner.Properties {
         ///   Looks up a localized string similar to -- {0:n0} new work(s) will be added to the library file.
         ///.
         /// </summary>
-        public static string WorksAdded {
+        internal static string WorksAdded {
             get {
                 return ResourceManager.GetString("WorksAdded", resourceCulture);
             }
@@ -398,7 +408,7 @@ namespace TagScanner.Properties {
         ///
         ///.
         /// </summary>
-        public static string WorksChanged {
+        internal static string WorksChanged {
             get {
                 return ResourceManager.GetString("WorksChanged", resourceCulture);
             }
@@ -408,7 +418,7 @@ namespace TagScanner.Properties {
         ///   Looks up a localized string similar to -- The previously loaded ID3 tag data of {0:n0} missing work(s) will be removed from the library file.
         ///.
         /// </summary>
-        public static string WorksDeleted {
+        internal static string WorksDeleted {
             get {
                 return ResourceManager.GetString("WorksDeleted", resourceCulture);
             }
@@ -418,7 +428,7 @@ namespace TagScanner.Properties {
         ///   Looks up a localized string similar to -- The embedded ID3 tag data of {0:n0} work(s) will be overwritten to match the current contents of the library file.
         ///.
         /// </summary>
-        public static string WorksPending {
+        internal static string WorksPending {
             get {
                 return ResourceManager.GetString("WorksPending", resourceCulture);
             }
@@ -428,7 +438,7 @@ namespace TagScanner.Properties {
         ///   Looks up a localized string similar to -- The contents of the library file will be updated to match the currently embedded ID3 tag data of {0:n0} work(s).
         ///.
         /// </summary>
-        public static string WorksUpdated {
+        internal static string WorksUpdated {
             get {
                 return ResourceManager.GetString("WorksUpdated", resourceCulture);
             }

@@ -18,6 +18,7 @@
         Subtract,
         Multiply,
         Divide,
+        Modulo,
         Positive,
         Negative,
         Not,

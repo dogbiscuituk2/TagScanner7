@@ -29,7 +29,6 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            this.TreeView = new TagScanner.Controls.TermTree();
             this.PopupMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.MainMenu = new System.Windows.Forms.MenuStrip();
             this.FileMenu = new System.Windows.Forms.ToolStripMenuItem();
@@ -57,23 +56,13 @@
             this.btnApply = new System.Windows.Forms.Button();
             this.btnCancel = new System.Windows.Forms.Button();
             this.btnOK = new System.Windows.Forms.Button();
+            this.ImageList = new System.Windows.Forms.ImageList(this.components);
+            this.TreeView = new TagScanner.Controls.TermTree();
+            this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.MainMenu.SuspendLayout();
             this.panel1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
-            // 
-            // TreeView
-            // 
-            this.TreeView.ContextMenuStrip = this.PopupMenu;
-            this.TreeView.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.TreeView.DrawMode = System.Windows.Forms.TreeViewDrawMode.OwnerDrawText;
-            this.TreeView.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.TreeView.HideSelection = false;
-            this.TreeView.Location = new System.Drawing.Point(0, 24);
-            this.TreeView.Margin = new System.Windows.Forms.Padding(4);
-            this.TreeView.Name = "TreeView";
-            this.TreeView.ShowNodeToolTips = true;
-            this.TreeView.Size = new System.Drawing.Size(624, 373);
-            this.TreeView.TabIndex = 0;
             // 
             // PopupMenu
             // 
@@ -245,6 +234,7 @@
             // 
             // panel1
             // 
+            this.panel1.Controls.Add(this.pictureBox1);
             this.panel1.Controls.Add(this.btnApply);
             this.panel1.Controls.Add(this.btnCancel);
             this.panel1.Controls.Add(this.btnOK);
@@ -290,6 +280,34 @@
             this.btnOK.Text = "OK";
             this.btnOK.UseVisualStyleBackColor = true;
             // 
+            // ImageList
+            // 
+            this.ImageList.ColorDepth = System.Windows.Forms.ColorDepth.Depth24Bit;
+            this.ImageList.ImageSize = new System.Drawing.Size(32, 32);
+            this.ImageList.TransparentColor = System.Drawing.Color.White;
+            // 
+            // TreeView
+            // 
+            this.TreeView.ContextMenuStrip = this.PopupMenu;
+            this.TreeView.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.TreeView.DrawMode = System.Windows.Forms.TreeViewDrawMode.OwnerDrawText;
+            this.TreeView.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.TreeView.HideSelection = false;
+            this.TreeView.Location = new System.Drawing.Point(0, 24);
+            this.TreeView.Margin = new System.Windows.Forms.Padding(4);
+            this.TreeView.Name = "TreeView";
+            this.TreeView.ShowNodeToolTips = true;
+            this.TreeView.Size = new System.Drawing.Size(624, 373);
+            this.TreeView.TabIndex = 0;
+            // 
+            // pictureBox1
+            // 
+            this.pictureBox1.Location = new System.Drawing.Point(3, 0);
+            this.pictureBox1.Name = "pictureBox1";
+            this.pictureBox1.Size = new System.Drawing.Size(304, 50);
+            this.pictureBox1.TabIndex = 22;
+            this.pictureBox1.TabStop = false;
+            // 
             // FilterForm
             // 
             this.AcceptButton = this.btnOK;
@@ -309,6 +327,7 @@
             this.MainMenu.ResumeLayout(false);
             this.MainMenu.PerformLayout();
             this.panel1.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -343,5 +362,7 @@
         public System.Windows.Forms.ToolStripMenuItem ViewMenu;
         public System.Windows.Forms.ToolStripMenuItem ViewExpandAll;
         public System.Windows.Forms.ToolStripMenuItem ViewCollapseAll;
+        public System.Windows.Forms.ImageList ImageList;
+        public System.Windows.Forms.PictureBox pictureBox1;
     }
 }

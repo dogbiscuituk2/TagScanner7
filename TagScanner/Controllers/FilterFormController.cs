@@ -1,12 +1,14 @@
 ﻿namespace TagScanner.Controllers
 {
     using System;
+    using System.Drawing;
     using System.Windows.Forms;
     using Menus;
     using Models;
     using Terms;
     using Utils;
     using Views;
+    using Icons = Properties.Resources;
 
     public class FilterFormController : Controller
     {
@@ -86,8 +88,24 @@
         private void AddFunction(string key) => TermTreeController.AddFunction(key);
         private void AddOperation(Op op) => TermTreeController.AddOperation(op);
         private void AddTestTerms() => TermTreeController.AddTestTerms();
-        private FilterForm CreateFilterForm() => _view = new FilterForm();
-        
+
+        private FilterForm CreateFilterForm()
+        {
+            _view = new FilterForm();
+            var imageList = _view.ImageList;
+            var bitmaps = new Bitmap(Icons.CandyStripe_02__White_);
+            {
+                _view.pictureBox1.Image = bitmaps;
+                imageList.Images.AddStrip(bitmaps);
+            }
+
+            _view.MainMenu.ImageList = _view.PopupMenu.ImageList = imageList;
+
+            _view.TermMenu.ImageIndex = 5;
+
+            return _view;
+        }
+
         #endregion
     }
 }

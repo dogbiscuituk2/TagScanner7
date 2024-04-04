@@ -87,7 +87,7 @@
                 if (PeekToken().Value == ")")
                     break;
                 var token = DequeueToken().Value;
-                var tokenRank = token.Rank();
+                var tokenRank = token.Rank(unary: false);
                 while (AnyOperators())
                 {
                     var op = PeekOperator();
@@ -98,7 +98,7 @@
                         break;
                 }
                 PushTerm(term);
-                PushOperator(token.Operator());
+                PushOperator(token.ToOperator(unary: false));
                 term = ParseSimpleTerm();
             }
             while (AnyTerms())
