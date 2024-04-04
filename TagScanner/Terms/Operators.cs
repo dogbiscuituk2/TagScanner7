@@ -81,6 +81,63 @@
         public static Rank GetRank(this Op op) => OperatorDictionary[op].Rank;
         public static Type GetResultType(this Op op) => OperatorDictionary[op].ResultType;
 
+        public static Op ToOperator(this string symbol, bool unary)
+        {
+            switch (symbol.ToLower())
+            {
+                case "?:":
+                    return Op.Conditional;
+                case "&":
+                case "&&":
+                case "and":
+                    return Op.And;
+                case "|":
+                case "||":
+                case "or":
+                    return Op.Or;
+                case "^":
+                case "xor":
+                    return Op.Xor;
+                case "=":
+                case "==":
+                    return Op.EqualTo;
+                case "!=":
+                case "<>":
+                case "≠":
+                    return Op.NotEqualTo;
+                case "<":
+                    return Op.LessThan;
+                case ">=":
+                case "≥":
+                case "≮":
+                    return Op.NotLessThan;
+                case ">":
+                    return Op.GreaterThan;
+                case "<=":
+                case "≤":
+                case "≯":
+                    return Op.NotGreaterThan;
+                case "+":
+                case "＋":
+                    return unary ? Op.Positive : Op.Add;
+                case "-":
+                case "－":
+                    return unary ? Op.Negative : Op.Subtract;
+                case "*":
+                case "×":
+                case "✕":
+                    return Op.Multiply;
+                case "/":
+                case "÷":
+                case "／":
+                    return Op.Divide;
+                case "!":
+                case "not":
+                    return Op.Not;
+            }
+            throw new ArgumentException($"The symbol \"{symbol}\" does not represent a known operator.");
+        }
+
         #endregion
 
         #region Private Fields

@@ -160,15 +160,45 @@
         #region Private Properties
 
         private static IEnumerable<string> Booleans => new[] { "false", "true" };
-        private static IEnumerable<string> DyadicOperators => new[] { ",", "&", "|", "^", "=", "!=", "<", ">=", ">", "<=", "+", "-", "*", "/", "." };
+
+        private static IEnumerable<string> MonadicOperators => new[]
+        {
+            "+",
+            "-",
+            "!", "not",
+        };
+
+        private static IEnumerable<string> DyadicOperators => new[]
+        {
+            ",",
+            "&&", "&", "and",
+            "||", "|", "or",
+            "^", "xor",
+            "==", "=",
+            "!=", "<>", "≠",
+            "<=", "≤", "≯",
+            ">=", "≥", "≮",
+            "<",
+            ">",
+            "+", "＋",
+            "-", "－",
+            "*", "×", "✕",
+            "/", "÷", "／",
+            "."
+        };
+
+        private static IEnumerable<string> TriadicOperators => new[]
+        {
+            "?",
+            ":"
+        };
+
         private static IEnumerable<string> Fields => Tags.Keys.Select(p => p.DisplayName());
         private static IEnumerable<string> Functions => Methods.Keys;
         private static IEnumerable<string> MemberFunctions => Methods.Keys.Where(p => !p.IsStatic());
-        private static IEnumerable<string> MonadicOperators => new[] { "+", "-", "!" };
         private static IEnumerable<string> Operators => MonadicOperators.Union(DyadicOperators).Union(TriadicOperators);
         private static IEnumerable<string> StaticFunctions => Methods.Keys.Where(p => p.IsStatic());
         private static IEnumerable<string> Symbols => Operators.Union(new[] { "(", ")" });
-        private static IEnumerable<string> TriadicOperators => new[] { "?", ":" };
         private static IEnumerable<string> TypeNames => Types.TypeNames;
 
         #endregion
