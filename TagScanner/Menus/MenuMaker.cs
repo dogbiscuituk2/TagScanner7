@@ -72,8 +72,6 @@
                 var image = opInfo.Image;
                 if (image != null)
                     items.Append(text, op, click, image);
-                else
-                    items.Append(text, op, click, opInfo.ImageIndex);
             }
         }
 

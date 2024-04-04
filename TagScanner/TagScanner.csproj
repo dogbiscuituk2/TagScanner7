@@ -268,6 +268,8 @@
   <ItemGroup>
     <Content Include="Resources\arrow_Down_16xLG.png" />
     <Content Include="Resources\arrow_Up_16xLG.png" />
+    <Content Include="Resources\CandyStripe_00.bmp" />
+    <Content Include="Resources\CandyStripe_01 %28Segoe UI 24%29.bmp" />
     <Content Include="Resources\CandyStripe_02 %28White%29.bmp" />
     <Content Include="Resources\Collapse.bmp" />
     <Content Include="Resources\Expand.bmp" />
@@ -277,6 +279,24 @@
     <Content Include="Resources\Level_1.png" />
     <Content Include="Resources\Level_2.png" />
     <Content Include="Resources\Level_3.png" />
+    <Content Include="Resources\Op2_Add.bmp" />
+    <Content Include="Resources\Op2_And.bmp" />
+    <Content Include="Resources\Op2_Comma.bmp" />
+    <Content Include="Resources\Op2_Conditional.bmp" />
+    <Content Include="Resources\Op2_Divide.bmp" />
+    <Content Include="Resources\Op2_Dot.bmp" />
+    <Content Include="Resources\Op2_EqualTo.bmp" />
+    <Content Include="Resources\Op2_GreaterThan.bmp" />
+    <Content Include="Resources\Op2_LessThan.bmp" />
+    <Content Include="Resources\Op2_Modulo.bmp" />
+    <Content Include="Resources\Op2_Multiply.bmp" />
+    <Content Include="Resources\Op2_Not.bmp" />
+    <Content Include="Resources\Op2_NotEqualTo.bmp" />
+    <Content Include="Resources\Op2_NotGreaterThan.bmp" />
+    <Content Include="Resources\Op2_NotLessThan.bmp" />
+    <Content Include="Resources\Op2_Or.bmp" />
+    <Content Include="Resources\Op2_Subtract.bmp" />
+    <Content Include="Resources\Op2_Xor.bmp" />
     <Content Include="Resources\Open_6296.png" />
     <Content Include="Resources\Op_Add.bmp" />
     <Content Include="Resources\Op_And.bmp" />

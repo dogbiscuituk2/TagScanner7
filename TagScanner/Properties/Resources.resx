@@ -242,4 +242,58 @@ Continue to synchronize and save?</value>
   <data name="CandyStripe_02__White_" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\CandyStripe_02 (White).bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="Op2_Add" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Op2_Add.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Op2_And" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Op2_And.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Op2_Comma" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Op2_Comma.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Op2_Conditional" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Op2_Conditional.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Op2_Divide" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Op2_Divide.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Op2_Dot" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Op2_Dot.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Op2_EqualTo" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Op2_EqualTo.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Op2_GreaterThan" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Op2_GreaterThan.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Op2_LessThan" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Op2_LessThan.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Op2_Modulo" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Op2_Modulo.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Op2_Multiply" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Op2_Multiply.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Op2_Not" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Op2_Not.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Op2_NotEqualTo" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Op2_NotEqualTo.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Op2_NotGreaterThan" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Op2_NotGreaterThan.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Op2_NotLessThan" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Op2_NotLessThan.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Op2_Or" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Op2_Or.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Op2_Subtract" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Op2_Subtract.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Op2_Xor" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Op2_Xor.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
 </root>

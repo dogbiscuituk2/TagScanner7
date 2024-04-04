@@ -53,12 +53,11 @@
             this.ViewCollapseAll = new System.Windows.Forms.ToolStripMenuItem();
             this.TermMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.btnApply = new System.Windows.Forms.Button();
             this.btnCancel = new System.Windows.Forms.Button();
             this.btnOK = new System.Windows.Forms.Button();
-            this.ImageList = new System.Windows.Forms.ImageList(this.components);
             this.TreeView = new TagScanner.Controls.TermTree();
-            this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.MainMenu.SuspendLayout();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
@@ -245,6 +244,14 @@
             this.panel1.Size = new System.Drawing.Size(624, 44);
             this.panel1.TabIndex = 5;
             // 
+            // pictureBox1
+            // 
+            this.pictureBox1.Location = new System.Drawing.Point(3, 0);
+            this.pictureBox1.Name = "pictureBox1";
+            this.pictureBox1.Size = new System.Drawing.Size(304, 50);
+            this.pictureBox1.TabIndex = 22;
+            this.pictureBox1.TabStop = false;
+            // 
             // btnApply
             // 
             this.btnApply.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
@@ -280,12 +287,6 @@
             this.btnOK.Text = "OK";
             this.btnOK.UseVisualStyleBackColor = true;
             // 
-            // ImageList
-            // 
-            this.ImageList.ColorDepth = System.Windows.Forms.ColorDepth.Depth24Bit;
-            this.ImageList.ImageSize = new System.Drawing.Size(32, 32);
-            this.ImageList.TransparentColor = System.Drawing.Color.White;
-            // 
             // TreeView
             // 
             this.TreeView.ContextMenuStrip = this.PopupMenu;
@@ -299,14 +300,6 @@
             this.TreeView.ShowNodeToolTips = true;
             this.TreeView.Size = new System.Drawing.Size(624, 373);
             this.TreeView.TabIndex = 0;
-            // 
-            // pictureBox1
-            // 
-            this.pictureBox1.Location = new System.Drawing.Point(3, 0);
-            this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(304, 50);
-            this.pictureBox1.TabIndex = 22;
-            this.pictureBox1.TabStop = false;
             // 
             // FilterForm
             // 
@@ -362,7 +355,6 @@
         public System.Windows.Forms.ToolStripMenuItem ViewMenu;
         public System.Windows.Forms.ToolStripMenuItem ViewExpandAll;
         public System.Windows.Forms.ToolStripMenuItem ViewCollapseAll;
-        public System.Windows.Forms.ImageList ImageList;
         public System.Windows.Forms.PictureBox pictureBox1;
     }
 }
