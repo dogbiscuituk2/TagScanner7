@@ -251,32 +251,32 @@
 
         #region Parser State
 
-        private void BeginParse(string text, [CallerLineNumber] int line = 0) => _state.BeginParse(text, line);
-        private void EndParse(Term term, [CallerLineNumber] int line = 0) => _state.EndParse(term, line);
+        private void BeginParse(string text, [CallerLineNumber] int line = 0, [CallerMemberName] string member = "") => _state.BeginParse(text, line, member);
+        private void EndParse(Term term, [CallerLineNumber] int line = 0, [CallerMemberName] string member = "") => _state.EndParse(term, line, member);
         private Term NewTerm(Term term, [CallerLineNumber] int line = 0, [CallerMemberName] string member = "") => _state.NewTerm(term, line, member);
 
         #region Operators
 
         private bool AnyOperators() => _state.AnyOperators();
-        private Op PeekOperator([CallerLineNumber] int line = 0) => _state.PeekOperator(line);
-        private Op PopOperator([CallerLineNumber] int line = 0) => _state.PopOperator(line);
-        private void PushOperator(Op op, [CallerLineNumber] int line = 0) => _state.PushOperator(op, line);
+        private Op PeekOperator([CallerLineNumber] int line = 0, [CallerMemberName] string member = "") => _state.PeekOperator(line, member);
+        private Op PopOperator([CallerLineNumber] int line = 0, [CallerMemberName] string member = "") => _state.PopOperator(line, member);
+        private void PushOperator(Op op, [CallerLineNumber] int line = 0, [CallerMemberName] string member = "") => _state.PushOperator(op, line, member);
 
         #endregion
         #region Terms
 
         private bool AnyTerms() => _state.AnyTerms();
-        private Term PeekTerm([CallerLineNumber] int line = 0) => _state.PeekTerm(line);
-        private Term PopTerm([CallerLineNumber] int line = 0) => _state.PopTerm(line);
-        private void PushTerm(Term term, [CallerLineNumber] int line = 0) => _state.PushTerm(term, line);
+        private Term PeekTerm([CallerLineNumber] int line = 0, [CallerMemberName] string member = "") => _state.PeekTerm(line, member);
+        private Term PopTerm([CallerLineNumber] int line = 0, [CallerMemberName] string member = "") => _state.PopTerm(line, member);
+        private void PushTerm(Term term, [CallerLineNumber] int line = 0, [CallerMemberName] string member = "") => _state.PushTerm(term, line, member);
 
         #endregion
         #region Tokens
 
         private bool AnyTokens() => _state.AnyTokens();
-        private Token DequeueToken([CallerLineNumber] int line = 0) => _state.DequeueToken(line);
-        private void EnqueueToken(Token token, [CallerLineNumber] int line = 0) => _state.EnqueueToken(token, line);
-        private Token PeekToken([CallerLineNumber] int line = 0) => _state.PeekToken(line);
+        private Token DequeueToken([CallerLineNumber] int line = 0, [CallerMemberName] string member = "") => _state.DequeueToken(line, member);
+        private void EnqueueToken(Token token, [CallerLineNumber] int line = 0, [CallerMemberName] string member = "") => _state.EnqueueToken(token, line, member);
+        private Token PeekToken([CallerLineNumber] int line = 0, [CallerMemberName] string member = "") => _state.PeekToken(line, member);
 
         #endregion
 

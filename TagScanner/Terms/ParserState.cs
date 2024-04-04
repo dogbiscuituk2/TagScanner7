@@ -15,17 +15,17 @@
         public bool AnyTerms() => _terms.Any();
         public bool AnyTokens() => _tokens.Any();
 
-        public void BeginParse(string text, int line)
+        public void BeginParse(string text, int line, string caller)
         {
             _tokens.Clear();
             _terms.Clear();
             _operators.Clear();
             foreach (var token in Tokenizer.GetTokens(text))
                 _tokens.Enqueue(token);
-            Dump(line, text, options: Options.LineAbove);
+            Dump(text, line, caller, options: Options.LineAbove);
         }
 
-        public Token DequeueToken(int line)
+        public Token DequeueToken(int line, string caller)
         {
             Token token;
             try
@@ -34,79 +34,79 @@
             }
             catch (Exception exception)
             {
-                Exception(line, exception);
+                Exception(exception, line, caller);
                 throw;
             }
-            Dump(line, token.Value);
+            Dump(token.Value, line, caller);
             return token;
         }
 
-        public Term EndParse(Term term, int line)
+        public Term EndParse(Term term, int line, string caller)
         {
-            Dump(line, term, options: Options.AllState | Options.LineBelow);
+            Dump(term, line, caller, options: Options.AllState | Options.LineBelow);
             return term;
         }
 
-        public void EnqueueToken(Token token, int line)
+        public void EnqueueToken(Token token, int line, string caller)
         {
             _tokens.Enqueue(token);
-            Dump(line, token.Value);
+            Dump(token.Value, line, caller);
         }
 
-        public Term NewTerm(Term term, int line, string member)
+        public Term NewTerm(Term term, int line, string caller)
         {
-            Dump(line, $"{term} (in {member})", options: Options.None);
+            Dump(term, line, caller, options: Options.None);
             return term;
         }
 
-        public Op PeekOperator(int line)
+        public Op PeekOperator(int line, string caller)
         {
             var op = _operators.Peek();
-            Dump(line, op, options: Options.None);
+            Dump(op, line, caller, options: Options.None);
             return op;
         }
 
-        public Term PeekTerm(int line)
+        public Term PeekTerm(int line, string caller)
         {
             var term = _terms.Peek();
-            Dump(line, term, options: Options.None);
+            Dump(term, line, caller, options: Options.None);
             return term;
         }
 
-        public Token PeekToken(int line)
+        public Token PeekToken(int line, string caller)
         {
             var token = _tokens.Peek();
-            Dump(line, token.Value, options: Options.None);
+            Dump(token.Value, line, caller, options: Options.None);
             return token;
         }
 
-        public Op PopOperator(int line)
+        public Op PopOperator(int line, string caller)
         {
             var op = _operators.Pop();
-            Dump(line, op);
+            Dump(op, line, caller);
             return op;
         }
 
-        public Term PopTerm(int line)
+        public Term PopTerm(int line, string caller)
         {
             var term = _terms.Pop();
-            Dump(line, term);
+            Dump(term, line, caller);
             return term;
         }
 
-        public void PushOperator(Op op, int line)
+        public void PushOperator(Op op, int line, string caller)
         {
             _operators.Push(op);
-            Dump(line, op);
+            Dump(op, line, caller);
         }
 
-        public void PushTerm(Term term, int line)
+        public void PushTerm(Term term, int line, string caller)
         {
             _terms.Push(term);
-            Dump(line, term);
+            Dump(term, line, caller);
         }
 
-        public override string ToString() => string.Format("{0,18}: {1}\r\n{2,18}: {3}\r\n{4,18}: {5}\r\n",
+        public override string ToString() => string.Format("{0,12}  {1}\r\n{2,12}  {3}\r\n{4,12}  {5}\r\n",
             "Tokens", Say(_tokens.Select(p => p.Value)),
             "Terms", Say(_terms),
             "Operators", Say(_operators.Select(p => p.ToString())));
@@ -123,13 +123,18 @@
 
         #region Private Methods
 
-        private void Dump(int line, object value, [CallerMemberName] string member = "", Options options = Options.AllState)
+        private void Dump(object value, int line, string caller, [CallerMemberName] string action = "", Options options = Options.AllState)
         {
 #if DEBUG_PARSER
-            var ruler = new string('-', 64);
+            var ruler = new string('-', 58);
+            const string format = "{1,12}  {2,-18}  {3,18}{0,6}";
             if ((options & Options.LineAbove) != 0)
-                Debug.WriteLine($"{ruler}\r\nLine    Activity    ParserState\r\n{ruler}");
-            Debug.WriteLine("{0,5}{1,13}: {2}", line, member, value);
+            {
+                Debug.WriteLine(ruler);
+                Debug.WriteLine(format, "Line", "Action", "State", "Caller");
+                Debug.WriteLine(ruler);
+            }
+            Debug.WriteLine(format, line, action, value, caller);
             if ((options & Options.AllState) != 0)
                 Debug.WriteLine(this);
             if ((options & Options.LineBelow) != 0)
@@ -138,8 +143,8 @@
         }
 
 
-        private void Exception(int line, Exception exception, [CallerMemberName] string member = "") =>
-            Dump(line, exception.GetAllInformation(), member);
+        private void Exception(Exception exception, int line, string caller, [CallerMemberName] string local = "") =>
+            Dump(exception.GetAllInformation(), line, caller, local);
 
         private static object Say(IEnumerable<object> s) => s.Any() ? s.Aggregate((p, q) => $"{p} {q}") : string.Empty;
 
