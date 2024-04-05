@@ -70,6 +70,7 @@
                 View.HelpAbout.Click += HelpAbout_Click;
                 View.GridPopupTags.Click += PopupTags_Click;
                 View.PropertyGridPopupTagVisibility.Click += PropertyGridPopupTagVisibility_Click;
+                View.Shown += View_Shown;
                 View.FormClosing += FormClosing;
             }
         }
@@ -109,7 +110,6 @@
         private void EditInvertSelection_Click(object sender, EventArgs e) => LibraryGridController.InvertSelection();
         private void ViewFilter_Click(object sender, EventArgs e) => FilterFormController.Execute();
         private void BtnFilterBuild_Click(object sender, EventArgs e) => FilterFormController.Execute(View.FilterComboBox.Text);
-
 
         #endregion
 
@@ -157,8 +157,8 @@
         private void FormClosing(object sender, FormClosingEventArgs e) => e.Cancel = !PersistenceController.SaveIfModified();
         private void LibraryGridController_SelectionChanged(object sender, EventArgs e) => UpdatePropertyGrid();
         private void Model_ModifiedChanged(object sender, EventArgs e) => ModifiedChanged();
-
         private void PersistenceController_FileSaving(object sender, CancelEventArgs e) => e.Cancel = !ContinueSaving();
+        private void View_Shown(object sender, EventArgs e) => View.ActiveControl = View.FilterComboBox;
 
         private void ModifiedChanged() => View.Text = PersistenceController.WindowCaption;
 

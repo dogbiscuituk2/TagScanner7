@@ -107,8 +107,8 @@
         }
 
         private object ParseNumber(string token) =>
-            token.EndsWith("UL") || token.EndsWith("LU")
-            ? ulong.Parse(token.TrimEnd('U', 'L')) :
+            token.EndsWith("UL") ||
+            token.EndsWith("LU") ? ulong.Parse(token.TrimEnd('U', 'L')) :
             token.EndsWith("U") ? uint.Parse(token.TrimEnd('U')) :
             token.EndsWith("M") ? decimal.Parse(token.TrimEnd('M')) :
             token.EndsWith("L") ? long.Parse(token.TrimEnd('L')) :
@@ -144,16 +144,16 @@
             if (match.IsNumber())
                 switch (ParseNumber(match.ToUpperInvariant()))
                 {
-                    case decimal money: return new Constant<decimal>(money);
-                    case double d: return new Constant<double>(d);
-                    case float f: return new Constant<float>(f);
-                    case int i: return new Constant<int>(i);
-                    case long l: return new Constant<long>(l);
-                    case uint u: return new Constant<uint>(u);
-                    case ulong ul: return new Constant<ulong>(ul);
+                    case decimal money: return NewTerm(new Constant<decimal>(money));
+                    case double d: return NewTerm(new Constant<double>(d));
+                    case float f: return NewTerm(new Constant<float>(f));
+                    case int i: return NewTerm(new Constant<int>(i));
+                    case long l: return NewTerm(new Constant<long>(l));
+                    case uint u: return NewTerm(new Constant<uint>(u));
+                    case ulong ul: return NewTerm(new Constant<ulong>(ul));
                 }
             if (match.IsParameter())
-                return new Parameter(match.Substring(1, match.Length - 2).ToType());
+                return NewTerm(new Parameter(match.Substring(1, match.Length - 2).ToType()));
             if (match.IsStaticFunction())
                 return ParseStaticFunction(match);
             // DateTime & TimeSpan constants involve expensive Regex pattern matching,
@@ -163,7 +163,7 @@
             if (match.IsTimeSpan())
                 return NewTerm(new Constant<TimeSpan>(ParseTimeSpan(match)));
             if (match == "?")
-                return Term.Nothing;
+                return NewTerm(Term.Nothing);
             SyntaxError(token.Index, token.Value);
             return null;
         }
@@ -251,32 +251,32 @@
 
         #region Parser State
 
-        private void BeginParse(string text, [CallerLineNumber] int line = 0, [CallerMemberName] string member = "") => _state.BeginParse(text, line, member);
-        private void EndParse(Term term, [CallerLineNumber] int line = 0, [CallerMemberName] string member = "") => _state.EndParse(term, line, member);
-        private Term NewTerm(Term term, [CallerLineNumber] int line = 0, [CallerMemberName] string member = "") => _state.NewTerm(term, line, member);
+        private void BeginParse(string text, [CallerMemberName] string caller = "", [CallerLineNumber] int line = 0) => _state.BeginParse(caller, line, text);
+        private void EndParse(Term term, [CallerMemberName] string caller = "", [CallerLineNumber] int line = 0) => _state.EndParse(caller, line, term);
+        private Term NewTerm(Term term, [CallerMemberName] string caller = "", [CallerLineNumber] int line = 0) => _state.NewTerm(caller, line, term);
 
         #region Operators
 
         private bool AnyOperators() => _state.AnyOperators();
-        private Op PeekOperator([CallerLineNumber] int line = 0, [CallerMemberName] string member = "") => _state.PeekOperator(line, member);
-        private Op PopOperator([CallerLineNumber] int line = 0, [CallerMemberName] string member = "") => _state.PopOperator(line, member);
-        private void PushOperator(Op op, [CallerLineNumber] int line = 0, [CallerMemberName] string member = "") => _state.PushOperator(op, line, member);
+        private Op PeekOperator([CallerMemberName] string caller = "", [CallerLineNumber] int line = 0) => _state.PeekOperator(caller, line);
+        private Op PopOperator([CallerMemberName] string caller = "", [CallerLineNumber] int line = 0) => _state.PopOperator(caller, line);
+        private void PushOperator(Op op, [CallerMemberName] string caller = "", [CallerLineNumber] int line = 0) => _state.PushOperator(caller, line, op);
 
         #endregion
         #region Terms
 
         private bool AnyTerms() => _state.AnyTerms();
-        private Term PeekTerm([CallerLineNumber] int line = 0, [CallerMemberName] string member = "") => _state.PeekTerm(line, member);
-        private Term PopTerm([CallerLineNumber] int line = 0, [CallerMemberName] string member = "") => _state.PopTerm(line, member);
-        private void PushTerm(Term term, [CallerLineNumber] int line = 0, [CallerMemberName] string member = "") => _state.PushTerm(term, line, member);
+        private Term PeekTerm([CallerMemberName] string caller = "", [CallerLineNumber] int line = 0) => _state.PeekTerm(caller, line);
+        private Term PopTerm([CallerMemberName] string caller = "", [CallerLineNumber] int line = 0) => _state.PopTerm(caller, line);
+        private void PushTerm(Term term, [CallerMemberName] string caller = "", [CallerLineNumber] int line = 0) => _state.PushTerm(caller, line, term);
 
         #endregion
         #region Tokens
 
         private bool AnyTokens() => _state.AnyTokens();
-        private Token DequeueToken([CallerLineNumber] int line = 0, [CallerMemberName] string member = "") => _state.DequeueToken(line, member);
-        private void EnqueueToken(Token token, [CallerLineNumber] int line = 0, [CallerMemberName] string member = "") => _state.EnqueueToken(token, line, member);
-        private Token PeekToken([CallerLineNumber] int line = 0, [CallerMemberName] string member = "") => _state.PeekToken(line, member);
+        private Token DequeueToken([CallerMemberName] string caller = "", [CallerLineNumber] int line = 0) => _state.DequeueToken(caller, line);
+        private void EnqueueToken(Token token, [CallerMemberName] string caller = "", [CallerLineNumber] int line = 0) => _state.EnqueueToken(caller, line, token);
+        private Token PeekToken([CallerMemberName] string caller = "", [CallerLineNumber] int line = 0) => _state.PeekToken(caller, line);
 
         #endregion
 

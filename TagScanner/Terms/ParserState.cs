@@ -15,96 +15,18 @@
         public bool AnyTerms() => _terms.Any();
         public bool AnyTokens() => _tokens.Any();
 
-        public void BeginParse(string text, int line, string caller)
-        {
-            _tokens.Clear();
-            _terms.Clear();
-            _operators.Clear();
-            foreach (var token in Tokenizer.GetTokens(text))
-                _tokens.Enqueue(token);
-            Dump(text, line, caller, options: Options.LineAbove);
-        }
-
-        public Token DequeueToken(int line, string caller)
-        {
-            Token token;
-            try
-            {
-                token = _tokens.Dequeue();
-            }
-            catch (Exception exception)
-            {
-                Exception(exception, line, caller);
-                throw;
-            }
-            Dump(token.Value, line, caller);
-            return token;
-        }
-
-        public Term EndParse(Term term, int line, string caller)
-        {
-            Dump(term, line, caller, options: Options.AllState | Options.LineBelow);
-            return term;
-        }
-
-        public void EnqueueToken(Token token, int line, string caller)
-        {
-            _tokens.Enqueue(token);
-            Dump(token.Value, line, caller);
-        }
-
-        public Term NewTerm(Term term, int line, string caller)
-        {
-            Dump(term, line, caller, options: Options.None);
-            return term;
-        }
-
-        public Op PeekOperator(int line, string caller)
-        {
-            var op = _operators.Peek();
-            Dump(op, line, caller, options: Options.None);
-            return op;
-        }
-
-        public Term PeekTerm(int line, string caller)
-        {
-            var term = _terms.Peek();
-            Dump(term, line, caller, options: Options.None);
-            return term;
-        }
-
-        public Token PeekToken(int line, string caller)
-        {
-            var token = _tokens.Peek();
-            Dump(token.Value, line, caller, options: Options.None);
-            return token;
-        }
-
-        public Op PopOperator(int line, string caller)
-        {
-            var op = _operators.Pop();
-            Dump(op, line, caller);
-            return op;
-        }
-
-        public Term PopTerm(int line, string caller)
-        {
-            var term = _terms.Pop();
-            Dump(term, line, caller);
-            return term;
-        }
-
-        public void PushOperator(Op op, int line, string caller)
-        {
-            _operators.Push(op);
-            Dump(op, line, caller);
-        }
-
-        public void PushTerm(Term term, int line, string caller)
-        {
-            _terms.Push(term);
-            Dump(term, line, caller);
-        }
+        public void BeginParse(string caller, int line, string text) => Process(caller, line, p => Reset(text), null, Options.Heading);
+        public Term EndParse(string caller, int line, Term term) { Process(caller, line, p => null); return term; }
+        public Term NewTerm(string caller, int line, Term term) { Process(caller, line, p => term, Options.Heading); return term; }
+        public Token DequeueToken(string caller, int line) => (Token)Process(caller, line, p => _tokens.Dequeue());
+        public void EnqueueToken(string caller, int line, Token token) => Process(caller, line, p => { _tokens.Enqueue((Token)p); return p; });
+        public Op PeekOperator(string caller, int line) => (Op)Process(caller, line, p => _operators.Peek(), 0);
+        public Term PeekTerm(string caller, int line) => (Term)Process(caller, line, p => _terms.Peek(), 0);
+        public Token PeekToken(string caller, int line) => (Token)Process(caller, line, p => _tokens.Peek(), 0);
+        public Op PopOperator(string caller, int line) => (Op)Process(caller, line, p => _operators.Pop());
+        public Term PopTerm(string caller, int line) => (Term)Process(caller, line, p => _terms.Pop());
+        public void PushOperator(string caller, int line, Op op) => Process(caller, line, p => { _operators.Push((Op)p); return p; });
+        public void PushTerm(string caller, int line, Term term) => Process(caller, line, p => { _terms.Push((Term)p); return p; });
 
         public override string ToString() => string.Format("{0,38}  {1}\r\n{2,38}  {3}\r\n{4,38}  {5}",
             "Tokens", Say(_tokens.Select(p => p.Value)),
@@ -123,31 +45,57 @@
 
         #region Private Methods
 
-        private void Dump(object value, int line, string caller, [CallerMemberName] string action = "", Options options = Options.AllState)
+        private void Dump(string caller, int line, object value, Options options = Options.State, [CallerMemberName] string action = "")
         {
 #if DEBUG_PARSER
-            const string format = "{3,18}{0,6}  {1,12}  {2,-18}";
-            if ((options & Options.LineAbove) != 0)
+            const string format = "{0,17}{1,6}  {2,12}  {3}";
+            if (options == Options.Heading)
             {
                 DrawRuler();
-                Debug.WriteLine(format, "Line", "Action", "State", "Caller");
+                Debug.WriteLine(format, "Caller", "Line", "Action", "Value");
                 DrawRuler();
             }
-            Debug.WriteLine(format, line, action, value, caller);
-            if ((options & Options.AllState) != 0)
+            Debug.WriteLine(format, caller, line, action, value);
+            if (options == Options.State)
             {
-                Debug.WriteLine(format, "", "Tokens", Say(_tokens.Select(p => p.Value)), "");
-                Debug.WriteLine(format, "", "Terms", Say(_terms), "");
-                Debug.WriteLine(format, "", "Operators", Say(_operators.Select(p => p.ToString())), "");
+                Debug.WriteLine(format, "", "", "Tokens", Say(_tokens.Select(p => p.Value)));
+                Debug.WriteLine(format, "", "", "Terms", Say(_terms));
+                Debug.WriteLine(format, "", "", "Operators", Say(_operators.Select(p => p.ToString())));
                 DrawRuler();
             }
 
-            void DrawRuler() => Debug.WriteLine(new string('_', 64) + "\r\n");
+            void DrawRuler() => Debug.WriteLine(new string('_', 55) + "\r\n");
 #endif
         }
 
-        private void Exception(Exception exception, int line, string caller, [CallerMemberName] string local = "") =>
-            Dump(exception.GetAllInformation(), line, caller, local);
+        private void Exception(string caller, int line, Exception exception, [CallerMemberName] string action = "") =>
+            Dump(caller, line, exception.GetAllInformation(), Options.State, action);
+
+        private object Process(string caller, int line, Func<object, object> process, object value = null,
+            Options options = Options.State, [CallerMemberName] string action = "")
+        {
+            try
+            {
+                value = process(value);
+            }
+            catch (Exception exception)
+            {
+                Exception(caller, line, exception, action);
+                throw;
+            }
+            Dump(caller, line, value, options, action);
+            return value;
+        }
+
+        private string Reset(string text)
+        {
+            _tokens.Clear();
+            _terms.Clear();
+            _operators.Clear();
+            foreach (var token in Tokenizer.GetTokens(text))
+                _tokens.Enqueue(token);
+            return text;
+        }
 
         private static object Say(IEnumerable<object> s) => s.Any() ? s.Aggregate((p, q) => $"{p} {q}") : string.Empty;
 
@@ -155,14 +103,7 @@
 
         #region Private Types
 
-        [Flags]
-        private enum Options
-        {
-            None = 0,
-            LineAbove = 1,
-            LineBelow = 2,
-            AllState = 4,
-        }
+        private enum Options { None, State, Heading }
 
         #endregion
     }

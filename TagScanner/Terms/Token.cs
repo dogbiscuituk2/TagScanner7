@@ -11,6 +11,6 @@
         public int Index { get; set; }
         public string Value { get; set; }
 
-        public override string ToString() => $"Index: {Index} Value: {Value}";
+        public override string ToString() => Value;
     }
 }

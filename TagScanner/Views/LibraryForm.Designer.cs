@@ -52,7 +52,6 @@
             this.tabPlayer = new System.Windows.Forms.TabPage();
             this.splitContainer3 = new System.Windows.Forms.SplitContainer();
             this.PlaylistElementHost = new System.Windows.Forms.Integration.ElementHost();
-            this.MediaPlayer = new AxWMPLib.AxWindowsMediaPlayer();
             this.FilterPopupMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.MainMenu = new System.Windows.Forms.MenuStrip();
             this.FileMenu = new System.Windows.Forms.ToolStripMenuItem();
@@ -92,6 +91,7 @@
             this.AddFolderDialog = new System.Windows.Forms.FolderBrowserDialog();
             this.AddFileDialog = new System.Windows.Forms.OpenFileDialog();
             this.StatusBar = new System.Windows.Forms.StatusStrip();
+            this.MediaPlayer = new AxWMPLib.AxWindowsMediaPlayer();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -111,8 +111,8 @@
             this.splitContainer3.Panel1.SuspendLayout();
             this.splitContainer3.Panel2.SuspendLayout();
             this.splitContainer3.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.MediaPlayer)).BeginInit();
             this.MainMenu.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.MediaPlayer)).BeginInit();
             this.SuspendLayout();
             // 
             // splitContainer1
@@ -144,7 +144,7 @@
             this.GridElementHost.Margin = new System.Windows.Forms.Padding(0);
             this.GridElementHost.Name = "GridElementHost";
             this.GridElementHost.Size = new System.Drawing.Size(634, 640);
-            this.GridElementHost.TabIndex = 3;
+            this.GridElementHost.TabIndex = 0;
             this.GridElementHost.Text = "GridContainerHost";
             this.GridElementHost.Child = null;
             // 
@@ -199,7 +199,7 @@
             this.FilterGroupBox.Name = "FilterGroupBox";
             this.FilterGroupBox.Padding = new System.Windows.Forms.Padding(0, 0, 0, 4);
             this.FilterGroupBox.Size = new System.Drawing.Size(634, 48);
-            this.FilterGroupBox.TabIndex = 4;
+            this.FilterGroupBox.TabIndex = 1;
             this.FilterGroupBox.TabStop = false;
             this.FilterGroupBox.Text = "Filter";
             // 
@@ -220,7 +220,7 @@
             this.btnFilterBuild.Name = "btnFilterBuild";
             this.btnFilterBuild.Padding = new System.Windows.Forms.Padding(3, 0, 3, 3);
             this.btnFilterBuild.Size = new System.Drawing.Size(71, 26);
-            this.btnFilterBuild.TabIndex = 2;
+            this.btnFilterBuild.TabIndex = 1;
             this.btnFilterBuild.Text = "Build...";
             this.btnFilterBuild.UseVisualStyleBackColor = true;
             // 
@@ -232,7 +232,7 @@
             this.cbFilterApply.Name = "cbFilterApply";
             this.cbFilterApply.Padding = new System.Windows.Forms.Padding(3);
             this.cbFilterApply.Size = new System.Drawing.Size(66, 26);
-            this.cbFilterApply.TabIndex = 1;
+            this.cbFilterApply.TabIndex = 2;
             this.cbFilterApply.Text = "Apply";
             this.cbFilterApply.UseVisualStyleBackColor = true;
             // 
@@ -254,7 +254,7 @@
             this.splitContainer2.Size = new System.Drawing.Size(272, 688);
             this.splitContainer2.SplitterDistance = 178;
             this.splitContainer2.SplitterWidth = 5;
-            this.splitContainer2.TabIndex = 1;
+            this.splitContainer2.TabIndex = 0;
             // 
             // PictureBox
             // 
@@ -278,7 +278,7 @@
             this.TabControl.Padding = new System.Drawing.Point(0, 0);
             this.TabControl.SelectedIndex = 0;
             this.TabControl.Size = new System.Drawing.Size(272, 505);
-            this.TabControl.TabIndex = 1;
+            this.TabControl.TabIndex = 0;
             // 
             // tabTags
             // 
@@ -318,11 +318,11 @@
             // tabPlayer
             // 
             this.tabPlayer.Controls.Add(this.splitContainer3);
-            this.tabPlayer.Location = new System.Drawing.Point(4, 22);
+            this.tabPlayer.Location = new System.Drawing.Point(4, 26);
             this.tabPlayer.Margin = new System.Windows.Forms.Padding(4);
             this.tabPlayer.Name = "tabPlayer";
             this.tabPlayer.Padding = new System.Windows.Forms.Padding(4);
-            this.tabPlayer.Size = new System.Drawing.Size(264, 479);
+            this.tabPlayer.Size = new System.Drawing.Size(264, 475);
             this.tabPlayer.TabIndex = 4;
             this.tabPlayer.Text = "Player";
             this.tabPlayer.UseVisualStyleBackColor = true;
@@ -358,17 +358,6 @@
             this.PlaylistElementHost.Text = "elementHost1";
             this.PlaylistElementHost.Child = null;
             // 
-            // MediaPlayer
-            // 
-            this.MediaPlayer.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.MediaPlayer.Enabled = true;
-            this.MediaPlayer.Location = new System.Drawing.Point(0, 0);
-            this.MediaPlayer.Margin = new System.Windows.Forms.Padding(4);
-            this.MediaPlayer.Name = "MediaPlayer";
-            this.MediaPlayer.OcxState = ((System.Windows.Forms.AxHost.State)(resources.GetObject("MediaPlayer.OcxState")));
-            this.MediaPlayer.Size = new System.Drawing.Size(256, 338);
-            this.MediaPlayer.TabIndex = 0;
-            // 
             // FilterPopupMenu
             // 
             this.FilterPopupMenu.Name = "FilterPopupMenu";
@@ -386,7 +375,7 @@
             this.MainMenu.Name = "MainMenu";
             this.MainMenu.Padding = new System.Windows.Forms.Padding(7, 3, 0, 3);
             this.MainMenu.Size = new System.Drawing.Size(915, 25);
-            this.MainMenu.TabIndex = 8;
+            this.MainMenu.TabIndex = 0;
             this.MainMenu.Text = "menuStrip1";
             // 
             // FileMenu
@@ -656,6 +645,17 @@
             this.StatusBar.TabIndex = 9;
             this.StatusBar.Text = "Status";
             // 
+            // MediaPlayer
+            // 
+            this.MediaPlayer.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.MediaPlayer.Enabled = true;
+            this.MediaPlayer.Location = new System.Drawing.Point(0, 0);
+            this.MediaPlayer.Margin = new System.Windows.Forms.Padding(4);
+            this.MediaPlayer.Name = "MediaPlayer";
+            this.MediaPlayer.OcxState = ((System.Windows.Forms.AxHost.State)(resources.GetObject("MediaPlayer.OcxState")));
+            this.MediaPlayer.Size = new System.Drawing.Size(256, 338);
+            this.MediaPlayer.TabIndex = 0;
+            // 
             // LibraryForm
             // 
             this.AcceptButton = this.btnFilterBuild;
@@ -666,6 +666,7 @@
             this.Controls.Add(this.MainMenu);
             this.Controls.Add(this.StatusBar);
             this.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.MainMenuStrip = this.MainMenu;
             this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "LibraryForm";
             this.Text = "ID3 Tag Explorer";
@@ -689,9 +690,9 @@
             this.splitContainer3.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer3)).EndInit();
             this.splitContainer3.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.MediaPlayer)).EndInit();
             this.MainMenu.ResumeLayout(false);
             this.MainMenu.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.MediaPlayer)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
