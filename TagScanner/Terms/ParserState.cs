@@ -106,7 +106,7 @@
             Dump(term, line, caller);
         }
 
-        public override string ToString() => string.Format("{0,12}  {1}\r\n{2,12}  {3}\r\n{4,12}  {5}\r\n",
+        public override string ToString() => string.Format("{0,38}  {1}\r\n{2,38}  {3}\r\n{4,38}  {5}",
             "Tokens", Say(_tokens.Select(p => p.Value)),
             "Terms", Say(_terms),
             "Operators", Say(_operators.Select(p => p.ToString())));
@@ -126,19 +126,23 @@
         private void Dump(object value, int line, string caller, [CallerMemberName] string action = "", Options options = Options.AllState)
         {
 #if DEBUG_PARSER
-            var ruler = new string('-', 58);
-            const string format = "{1,12}  {2,-18}  {3,18}{0,6}";
+            const string format = "{3,18}{0,6}  {1,12}  {2,-18}";
             if ((options & Options.LineAbove) != 0)
             {
-                Debug.WriteLine(ruler);
+                DrawRuler();
                 Debug.WriteLine(format, "Line", "Action", "State", "Caller");
-                Debug.WriteLine(ruler);
+                DrawRuler();
             }
             Debug.WriteLine(format, line, action, value, caller);
             if ((options & Options.AllState) != 0)
-                Debug.WriteLine(this);
-            if ((options & Options.LineBelow) != 0)
-                Debug.WriteLine(ruler);
+            {
+                Debug.WriteLine(format, "", "Tokens", Say(_tokens.Select(p => p.Value)), "");
+                Debug.WriteLine(format, "", "Terms", Say(_terms), "");
+                Debug.WriteLine(format, "", "Operators", Say(_operators.Select(p => p.ToString())), "");
+                DrawRuler();
+            }
+
+            void DrawRuler() => Debug.WriteLine(new string('_', 64) + "\r\n");
 #endif
         }
 
