@@ -3,7 +3,6 @@
     using System;
     using System.Linq;
     using System.Runtime.CompilerServices;
-    using System.Text.RegularExpressions;
 
     public class Parser
     {
@@ -91,6 +90,8 @@
                 while (AnyOperators())
                 {
                     var op = PeekOperator();
+                    if (op == Op.LParen)
+                        break;
                     var priorRank = op.GetRank();
                     if (priorRank >= tokenRank)
                         term = ConsolidateTerms(term);
@@ -101,8 +102,13 @@
                 PushOperator(token.ToOperator(unary: false));
                 term = ParseSimpleTerm();
             }
-            while (AnyTerms())
+            while (AnyOperators())
+            {
+                var op = PeekOperator();
+                if (op == Op.LParen)
+                    break;
                 term = ConsolidateTerms(term);
+            }
             return term;
         }
 
@@ -128,6 +134,7 @@
                 {
                     PushOperator(Op.LParen);
                     var term = ParseCompoundTerm();
+                    PopOperator();
                     Accept(")");
                     return term;
                 }

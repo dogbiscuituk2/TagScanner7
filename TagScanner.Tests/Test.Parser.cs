@@ -70,5 +70,14 @@
                 Assert.AreEqual(expected: expectedText, actual: function.ToString());
             }
         }
+
+        [TestMethod]
+        public void TestPrecedence()
+        {
+            //var term = new Parser().Parse("2*(3+4)*5");
+            //var term = new Parser().Parse("1 ? 2 : 3 | 4 & 5 ^ 6 + 7 * 8");
+            var term = new Parser().Parse("1 * (2 + (3 ^ (4 & (5 | (6 ? 7 : 8)))))");
+            //var term = new Parser().Parse("(2+3)");
+        }
     }
 }

@@ -1,4 +1,6 @@
-﻿namespace TagScanner.Terms
+﻿using System.Runtime.InteropServices;
+
+namespace TagScanner.Terms
 {
     using System;
     using System.Collections.Generic;
@@ -22,7 +24,8 @@
 
         #region Public Properties
 
-        public override Op Op { get; set; }
+        private Op _op;
+        public override Op Op => _op;
 
         public override int Arity => Op.Arity();
         public override Expression Expression => GetExpression();
@@ -176,7 +179,7 @@
 
         private bool SetOperator(Op op)
         {
-            Op = op;
+            _op = op;
             switch (Op)
             {
                 case Op.Conditional:
