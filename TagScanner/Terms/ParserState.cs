@@ -64,7 +64,7 @@
                 DrawRuler();
             }
 
-            void DrawRuler() => Debug.WriteLine(new string('_', 55) + "\r\n");
+            void DrawRuler() => Debug.WriteLine(new string('_', 80) + "\r\n");
 #endif
         }
 
