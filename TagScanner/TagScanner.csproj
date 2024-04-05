@@ -130,6 +130,7 @@
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Menus\CastEventArgs.cs" />
+    <Compile Include="Terms\DateTimeParser.cs" />
     <Compile Include="Terms\EqualityComparer.cs" />
     <Compile Include="Terms\Filter.cs" />
     <Compile Include="Terms\Cast.cs" />

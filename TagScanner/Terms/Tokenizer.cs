@@ -62,10 +62,10 @@
             }
 
             string MatchCharacter() => MatchRegex(@"^'.'");
-            string MatchDateTime() => MatchRegex(Parser.DateTimePattern);
+            string MatchDateTime() => MatchRegex(DateTimeParser.DateTimePattern);
             string MatchNumber() => MatchRegex(@"^(\d+\.?\d*(UL|LU|D|F|L|M|U)?)");
             string MatchParameter() => MatchRegex(@"^\{\w+\}");
-            string MatchTimeSpan() => MatchRegex(Parser.TimeSpanPattern);
+            string MatchTimeSpan() => MatchRegex(DateTimeParser.TimeSpanPattern);
 
             string MatchRegex(string pattern, RegexOptions options = RegexOptions.IgnoreCase) =>
                 Regex.Match(text.Substring(index), pattern, options).Value;
@@ -87,7 +87,7 @@
         public static bool IsBoolean(this string token) => Booleans.Contains(token, IgnoreCase);
         public static bool IsChar(this string token) => token[0] == SingleQuote;
         public static bool IsConstant(this string token) => token.IsBoolean() || token.IsChar() || token.IsNumber() || token.IsString();
-        public static bool IsDateTime(this string token) => Regex.IsMatch(token, Parser.DateTimePattern);
+        public static bool IsDateTime(this string token) => Regex.IsMatch(token, DateTimeParser.DateTimePattern);
         public static bool IsDyadicOperator(this string token) => DyadicOperators.Contains(token);
         public static bool IsField(this string token) => Fields.Contains(token, IgnoreCase);
         public static bool IsFunction(this string token) => Functions.Contains(token, IgnoreCase);
@@ -99,7 +99,7 @@
         public static bool IsStaticFunction(this string token) => StaticFunctions.Contains(token, IgnoreCase);
         public static bool IsString(this string token) => token[0] == DoubleQuote;
         public static bool IsSymbol(this string token) => Symbols.Contains(token, IgnoreCase);
-        public static bool IsTimeSpan(this string token) => Regex.IsMatch(token, Parser.TimeSpanPattern);
+        public static bool IsTimeSpan(this string token) => Regex.IsMatch(token, DateTimeParser.TimeSpanPattern);
         public static bool IsTriadicOperator(this string token) => TriadicOperators.Contains(token, IgnoreCase);
         public static bool IsType(this string token) => TypeNames.Contains(token, IgnoreCase);
 

@@ -106,16 +106,16 @@
             return term;
         }
 
-        private object ParseNumber(string token) =>
+        private Term ParseNumber(string token) =>
             token.EndsWith("UL") ||
-            token.EndsWith("LU") ? ulong.Parse(token.TrimEnd('U', 'L')) :
-            token.EndsWith("U") ? uint.Parse(token.TrimEnd('U')) :
-            token.EndsWith("M") ? decimal.Parse(token.TrimEnd('M')) :
-            token.EndsWith("L") ? long.Parse(token.TrimEnd('L')) :
-            token.EndsWith("F") ? float.Parse(token.TrimEnd('F')) :
-            token.EndsWith("D") ? double.Parse(token.TrimEnd('D')) :
-            token.Contains(".") ? double.Parse(token) :
-            (object)int.Parse(token);
+            token.EndsWith("LU") ? new Constant<ulong>(ulong.Parse(token.TrimEnd('U', 'L'))) :
+            token.EndsWith("U") ? new Constant<uint>(uint.Parse(token.TrimEnd('U'))) :
+            token.EndsWith("M") ? new Constant<decimal>(decimal.Parse(token.TrimEnd('M'))) :
+            token.EndsWith("L") ? new Constant<long>(long.Parse(token.TrimEnd('L'))) :
+            token.EndsWith("F") ? new Constant<float>(float.Parse(token.TrimEnd('F'))) :
+            token.EndsWith("D") ? new Constant<double>(double.Parse(token.TrimEnd('D'))) :
+            token.Contains(".") ? new Constant<double>(double.Parse(token)) :
+            (Term)new Constant<int>(int.Parse(token));
 
         private Term ParseSimpleTerm()
         {
@@ -131,41 +131,19 @@
                     Accept(")");
                     return term;
                 }
-            if (match.IsBoolean())
-                return NewTerm(match == "true" ? Term.True : Term.False);
-            if (match.IsChar())
-                return NewTerm(new Constant<char>(char.Parse(match.Substring(1, match.Length - 2))));
-            if (match.IsString())
-                return NewTerm(new Constant<string>(match.Substring(1, match.Length - 2)));
-            if (match.IsField())
-                return NewTerm(new Field(Tags.Values.Single(p => p.DisplayName == match).Tag));
-            if (match.IsMonadicOperator())
-                return ParseUnaryOperation(match);
-            if (match.IsNumber())
-                switch (ParseNumber(match.ToUpperInvariant()))
-                {
-                    case decimal money: return NewTerm(new Constant<decimal>(money));
-                    case double d: return NewTerm(new Constant<double>(d));
-                    case float f: return NewTerm(new Constant<float>(f));
-                    case int i: return NewTerm(new Constant<int>(i));
-                    case long l: return NewTerm(new Constant<long>(l));
-                    case uint u: return NewTerm(new Constant<uint>(u));
-                    case ulong ul: return NewTerm(new Constant<ulong>(ul));
-                }
-            if (match.IsParameter())
-                return NewTerm(new Parameter(match.Substring(1, match.Length - 2).ToType()));
-            if (match.IsStaticFunction())
-                return ParseStaticFunction(match);
-            // DateTime & TimeSpan constants involve expensive Regex pattern matching,
-            // and in all probability, are relatively infrequent; hence these are checked last.
-            if (match.IsDateTime())
-                return NewTerm(new Constant<DateTime>(ParseDateTime(match)));
-            if (match.IsTimeSpan())
-                return NewTerm(new Constant<TimeSpan>(ParseTimeSpan(match)));
-            if (match == "?")
-                return NewTerm(Term.Nothing);
-            SyntaxError(token.Index, token.Value);
-            return null;
+            return
+                match.IsBoolean() ? NewTerm(match == "true" ? Term.True : Term.False) :
+                match.IsChar() ? NewTerm(new Constant<char>(char.Parse(match.Substring(1, match.Length - 2)))) :
+                match.IsString() ? NewTerm(new Constant<string>(match.Substring(1, match.Length - 2))) :
+                match.IsField() ? NewTerm(new Field(Tags.Values.Single(p => p.DisplayName == match).Tag)) :
+                match.IsMonadicOperator() ? ParseUnaryOperation(match) :
+                match.IsNumber() ? NewTerm(ParseNumber(match.ToUpperInvariant())) :
+                match.IsParameter() ? NewTerm(new Parameter(match.Substring(1, match.Length - 2).ToType())) :
+                match.IsStaticFunction() ? ParseStaticFunction(match) :
+                match.IsDateTime() ? NewTerm(new Constant<DateTime>(DateTimeParser.ParseDateTime(match))) :
+                match.IsTimeSpan() ? NewTerm(new Constant<TimeSpan>(DateTimeParser.ParseTimeSpan(match))) :
+                match == "?" ? NewTerm(Term.Nothing) :
+                (Term)SyntaxError(token.Index, token.Value);
         }
 
         private Term ParseStaticFunction(string token)
@@ -192,60 +170,12 @@
             return null;
         }
 
-        private static void SyntaxError(int index, string actual, string expected = "") =>
+        private static object SyntaxError(int index, string actual, string expected = "")
+        {
             throw new FormatException(string.IsNullOrWhiteSpace(expected)
             ? $"Unexpected token at index {index}: {{{actual}}}."
             : $"Unexpected token at index {index}: expected {{{expected}}}, actual {{{actual}}}.");
-        
-        #endregion
-
-        #region Parse TimeSpan / DateTime
-
-        public const string DateTimePattern = @"^\[(\d{4})-(\d\d?)\-(\d\d?)(?: " + TimePattern + @")?\]";
-
-        private static DateTime ParseDateTime(string token)
-        {
-            // DateTimePattern captures 8 Groups.
-            // [0] is the full DateTime (unused),
-            // [1] is year,
-            // [2] is month,
-            // [3] is day (),
-            // [4] is hours,
-            // [5] is minutes,
-            // [6] is seconds,
-            // [7] is fraction of a second, including a leading decimal point.
-            var groups = Regex.Match(token, DateTimePattern).Groups;
-            int year = int.Parse(groups[1].Value),
-                month = int.Parse(groups[2].Value),
-                day = int.Parse(groups[3].Value);
-            int.TryParse(groups[4].Value, out var hours);
-            int.TryParse(groups[5].Value, out var minutes);
-            int.TryParse(groups[6].Value, out var seconds);
-            double.TryParse(groups[7].Value, out var ms);
-            return new DateTime(year, month, day, hours, minutes, seconds, (int)(ms * 1000));
         }
-
-        public const string TimeSpanPattern = @"^\[(?:(\d+)\.)?" + TimePattern + @"\]";
-
-        private static TimeSpan ParseTimeSpan(string token)
-        {
-            // TimeSpan pattern captures 6 Groups.
-            // [0] is the full TimeSpan (unused),
-            // [1] is days,
-            // [2] is hours,
-            // [3] is minutes,
-            // [4] is seconds,
-            // [5] is fraction of a second, including a leading decimal point.
-            var groups = Regex.Match(token, TimeSpanPattern).Groups;
-            int.TryParse(groups[1].Value, out var days);
-            int hours = int.Parse(groups[2].Value),
-                minutes = int.Parse(groups[3].Value);
-            int.TryParse(groups[4].Value, out var seconds);
-            double.TryParse(groups[5].Value, out var ms);
-            return new TimeSpan(days, hours, minutes, seconds, (int)(ms * 1000));
-        }
-
-        private const string TimePattern = @"(\d\d?)\:(\d\d?)(?:\:(\d\d?)(\.\d+)?)?";
 
         #endregion
 
