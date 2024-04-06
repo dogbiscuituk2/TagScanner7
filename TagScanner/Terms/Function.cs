@@ -17,9 +17,9 @@
 
         #region Public Properties
 
-        public MethodInfo Method
+        public FunctionInfo Method
         {
-            get => _method ?? (_method = Name.MethodInfo());
+            get => _method ?? (_method = Name.FunctionInfo());
             set
             {
                 _method = value;
@@ -33,12 +33,12 @@
             set
             {
                 _name = value;
-                Method = Name.MethodInfo();
+                Method = Name.FunctionInfo();
                 AddParameters(GetParameterTypes().ToArray());
             }
         }
 
-        public override int Arity => Method.GetParameters().Length + (IsStatic ? 0 : 1);
+        public override int Arity => Method.ParamCount + (IsStatic ? 0 : 1);
         public override Expression Expression => GetExpression();
         public bool IsStatic => Method.IsStatic;
         public override Type ResultType => Method.ReturnType;
@@ -91,8 +91,8 @@
         {
             if (!IsStatic)
                 yield return Method.DeclaringType;
-            foreach (var foo in Method.GetParameters())
-                yield return foo.ParameterType;
+            foreach (var paramType in Method.ParamTypes)
+                yield return paramType;
         }
 
         protected override bool UseParens(int index) => !IsStatic && index == 0 && Operands.First().Rank < Rank.Unary;
@@ -101,7 +101,7 @@
 
         #region Private Fields
 
-        private MethodInfo _method;
+        private FunctionInfo _method;
         private string _name;
 
         #endregion
@@ -110,10 +110,15 @@
 
         private Expression GetExpression()
         {
+            var methodInfo = Method.MethodInfo;
             var expressions = (IsStatic ? Operands : Operands.Skip(1)).Select(p => p.Expression).ToArray();
-            return IsStatic
-                ? Expression.Call(Method, expressions)
-                : Expression.Call(FirstSubExpression, Method, expressions);
+            if (methodInfo != null)
+            {
+                return IsStatic
+                    ? Expression.Call(Method.MethodInfo, expressions)
+                    : Expression.Call(expressions[0], methodInfo, expressions.Skip(1));
+            }
+            return Method.GetExpression(expressions);
         }
 
         private void SetName(string name)
