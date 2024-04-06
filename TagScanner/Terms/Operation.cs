@@ -1,6 +1,4 @@
-﻿using System.Runtime.InteropServices;
-
-namespace TagScanner.Terms
+﻿namespace TagScanner.Terms
 {
     using System;
     using System.Collections.Generic;
