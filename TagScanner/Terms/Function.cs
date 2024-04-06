@@ -4,7 +4,6 @@
     using System.Collections.Generic;
     using System.Linq;
     using System.Linq.Expressions;
-    using System.Reflection;
 
     public class Function : TermList
     {
@@ -17,12 +16,12 @@
 
         #region Public Properties
 
-        public FunctionInfo Method
+        public FuncInfo FuncInfo
         {
-            get => _method ?? (_method = Name.FunctionInfo());
+            get => _funcInfo ?? (_funcInfo = Name.FuncInfo());
             set
             {
-                _method = value;
+                _funcInfo = value;
                 AddParameters(ParameterTypes.ToArray());
             }
         }
@@ -33,15 +32,15 @@
             set
             {
                 _name = value;
-                Method = Name.FunctionInfo();
+                FuncInfo = Name.FuncInfo();
                 AddParameters(GetParameterTypes().ToArray());
             }
         }
 
-        public override int Arity => Method.ParamCount + (IsStatic ? 0 : 1);
+        public override int Arity => FuncInfo.ParamCount + (IsStatic ? 0 : 1);
         public override Expression Expression => GetExpression();
-        public bool IsStatic => Method.IsStatic;
-        public override Type ResultType => Method.ReturnType;
+        public bool IsStatic => FuncInfo.IsStatic;
+        public override Type ResultType => FuncInfo.ReturnType;
 
         #endregion
 
@@ -90,8 +89,8 @@
         protected override IEnumerable<Type> GetParameterTypes()
         {
             if (!IsStatic)
-                yield return Method.DeclaringType;
-            foreach (var paramType in Method.ParamTypes)
+                yield return FuncInfo.DeclaringType;
+            foreach (var paramType in FuncInfo.ParamTypes)
                 yield return paramType;
         }
 
@@ -101,32 +100,31 @@
 
         #region Private Fields
 
-        private FunctionInfo _method;
+        private FuncInfo _funcInfo;
         private string _name;
 
         #endregion
 
         #region Private Methods
 
-        private Expression GetExpression()
-        {
-            var methodInfo = Method.MethodInfo;
-            var expressions = (IsStatic ? Operands : Operands.Skip(1)).Select(p => p.Expression).ToArray();
-            if (methodInfo != null)
-            {
-                return IsStatic
-                    ? Expression.Call(Method.MethodInfo, expressions)
-                    : Expression.Call(expressions[0], methodInfo, expressions.Skip(1));
-            }
-            return Method.GetExpression(expressions);
-        }
+        private Expression GetExpression() => FuncInfo.GetExpression(Operands);
 
         private void SetName(string name)
         {
             _name = name;
-            Method = Name.MethodInfo();
+            FuncInfo = Name.FuncInfo();
         }
 
         #endregion
     }
+
+    #region Derived Function Classes
+
+    public class Conditional : Function
+    {
+        public Conditional(Term condition, Term consequent, Term alternative)
+            : base("If", condition, consequent, alternative) { }
+    }
+
+    #endregion
 }

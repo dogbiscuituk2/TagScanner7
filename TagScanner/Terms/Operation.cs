@@ -37,12 +37,6 @@
         protected override IEnumerable<Type> GetParameterTypes()
         {
             var type = GetCommonResultType();
-            if (Op == Op.Conditional)
-            {
-                yield return typeof(bool);
-                yield return type;
-                yield return type;
-            }
             for (var index = 0; index < Operands.Count(); index++)
                 yield return type;
         }
@@ -86,12 +80,8 @@
             }
         }
 
-        private Type GetCommonResultType(params Term[] operands)
-        {
-            return Op == Op.Conditional
-                ? GetCommonType(Operands[1]?.ResultType, Operands[2]?.ResultType)
-                : operands.Aggregate<Term, Type>(null, (current, t) => GetCommonType(current, t?.ResultType));
-        }
+        private Type GetCommonResultType(params Term[] operands) =>
+            operands.Aggregate<Term, Type>(null, (current, t) => GetCommonType(current, t?.ResultType));
 
         private Expression GetExpression()
         {
@@ -104,7 +94,6 @@
             switch (Op.Arity())
             {
                 case 1: return Expression.MakeUnary(Op.GetExpType(), FirstSubExpression, null);
-                case 3: return Expression.Condition(FirstSubExpression, SecondSubExpression, ThirdSubExpression);
                 default: return Expression.MakeBinary(Op.GetExpType(), FirstSubExpression, SecondSubExpression);
             }
         }
@@ -161,8 +150,6 @@
             _op = op;
             switch (Op)
             {
-                case Op.Conditional:
-                    return AddParameters(typeof(bool), typeof(object), typeof(object));
                 case Op.And:
                 case Op.Or:
                 case Op.Xor:
@@ -209,55 +196,49 @@
 
     #region Derived Dyadic Operation Classes
 
-    [Serializable] public class Concatenation : Operation
+    public class Concatenation : Operation
     {
         public Concatenation() : base(Op.Add) { }
         public Concatenation(params Term[] operands) : base(Op.Add, operands) { }
     }
 
-    [Serializable] public class Conditional : Operation
-    {
-        public Conditional() : base(Op.Conditional) { }
-        public Conditional(params Term[] operands) : base(Op.Conditional, operands) { }
-    }
-
-    [Serializable] public class Conjunction : Operation
+    public class Conjunction : Operation
     {
         public Conjunction() : base(Op.And) { }
         public Conjunction(params Term[] operands) : base(Op.And, operands) { }
     }
 
-    [Serializable] public class Disjunction : Operation
+    public class Disjunction : Operation
     {
         public Disjunction() : base(Op.Or) { }
         public Disjunction(params Term[] operands) : base(Op.Or, operands) { }
     }
 
-    [Serializable] public class Difference : Operation
+    public class Difference : Operation
     {
         public Difference() : base(Op.Subtract) { }
         public Difference(params Term[] operands) : base(Op.Subtract, operands) { }
     }
 
-    [Serializable] public class ParityOdd : Operation
+    public class ParityOdd : Operation
     {
         public ParityOdd() : base(Op.Xor) { }
         public ParityOdd(params Term[] operands) : base(Op.Xor, operands) { }
     }
 
-    [Serializable] public class Product : Operation
+    public class Product : Operation
     {
         public Product() : base(Op.Multiply) { }
         public Product(params Term[] operands) : base(Op.Multiply, operands) { }
     }
 
-    [Serializable] public class Quotient : Operation
+    public class Quotient : Operation
     {
         public Quotient() : base(Op.Divide) { }
         public Quotient(params Term[] operands) : base(Op.Divide, operands) { }
     }
 
-    [Serializable] public class Sum : Operation
+    public class Sum : Operation
     {
         public Sum() : base(Op.Add) { }
         public Sum(params Term[] operands) : base(Op.Add, operands) { }

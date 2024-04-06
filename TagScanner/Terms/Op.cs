@@ -3,7 +3,6 @@
     public enum Op
     {
         Comma,
-        Conditional,
         And,
         Or,
         Xor,

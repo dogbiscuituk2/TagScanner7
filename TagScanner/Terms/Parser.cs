@@ -46,11 +46,6 @@
         {
             var op = PopOperator();
             var left = PopTerm();
-            if (left is Operation operation && operation.Op == Op.Conditional && operation.Operands[2] is Parameter)
-            {
-                operation.Operands[2] = right;
-                return NewTerm(operation);
-            }
             if (op != Op.Comma)
                 return NewTerm(new Operation(op, left, right));
             if (!(left is TermList termList))

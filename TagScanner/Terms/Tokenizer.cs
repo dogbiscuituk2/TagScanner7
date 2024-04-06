@@ -168,10 +168,10 @@
         };
 
         private static IEnumerable<string> Fields => Tags.Keys.Select(p => p.DisplayName());
-        private static IEnumerable<string> Functions => Methods.Keys;
-        private static IEnumerable<string> MemberFunctions => Methods.Keys.Where(p => !p.IsStatic());
+        private static IEnumerable<string> Functions => Terms.Functions.Keys;
+        private static IEnumerable<string> MemberFunctions => Terms.Functions.Keys.Where(p => !p.IsStatic());
         private static IEnumerable<string> Operators => MonadicOperators.Union(DyadicOperators).Union(TriadicOperators);
-        private static IEnumerable<string> StaticFunctions => Methods.Keys.Where(p => p.IsStatic());
+        private static IEnumerable<string> StaticFunctions => Terms.Functions.Keys.Where(p => p.IsStatic());
         private static IEnumerable<string> Symbols => Operators.Union(new[] { "(", ")" });
         private static IEnumerable<string> TypeNames => Types.TypeNames;
 

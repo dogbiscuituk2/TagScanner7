@@ -17,7 +17,6 @@
             {
                 { Op.LParen, new OpInfo('(', 0, 0, null, null, null ) },
                 { Op.Comma, new OpInfo(',', ExpressionType.MemberAccess, Rank.Comma, typeof(object), "{0}, {1}", Icons.Op2_Comma) },
-                { Op.Conditional, new OpInfo('?', ExpressionType.Conditional, Rank.Conditional, typeof(object), "{0} ? {1} : {2}", Icons.Op2_Conditional, typeof(bool), typeof(object)) },
                 { Op.And, new OpInfo('&', ExpressionType.AndAlso, Rank.ConditionalAnd, typeof(bool), "{0} & {1}", Icons.Op2_And) },
                 { Op.Or, new OpInfo('|', ExpressionType.OrElse, Rank.ConditionalOr, typeof(bool), "{0} | {1}", Icons.Op2_Or) },
                 { Op.Xor, new OpInfo('^', ExpressionType.ExclusiveOr, Rank.BitwiseXor, typeof(bool), "{0} ^ {1}", Icons.Op2_Xor) },
@@ -89,9 +88,6 @@
             {
                 case ",":
                     return Op.Comma;
-                case "?":
-                case  ":":
-                    return Op.Conditional;
                 case "&":
                 case "&&":
                 case "and":
