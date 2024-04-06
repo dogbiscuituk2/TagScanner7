@@ -42,14 +42,6 @@
 
         #region Private Methods
 
-        private void Accept(string expected)
-        {
-            var token = DequeueToken();
-            var actual = token.Value;
-            if (expected != actual)
-                SyntaxError(token.Index, actual, expected);
-        }
-
         private Term ConsolidateTerms(Term right)
         {
             var op = PopOperator();
@@ -74,7 +66,7 @@
         private Term ParseCast()
         {
             var type = DequeueToken().Value.ToType();
-            Accept(")");
+            AcceptToken(")");
             return NewTerm(new Cast(type, ParseSimpleTerm()));
         }
 
@@ -135,7 +127,7 @@
                     PushOperator(Op.LParen);
                     var term = ParseCompoundTerm();
                     PopOperator();
-                    Accept(")");
+                    AcceptToken(")");
                     return term;
                 }
             return
@@ -150,18 +142,18 @@
                 match.IsDateTime() ? NewTerm(new Constant<DateTime>(DateTimeParser.ParseDateTime(match))) :
                 match.IsTimeSpan() ? NewTerm(new Constant<TimeSpan>(DateTimeParser.ParseTimeSpan(match))) :
                 match == "?" ? NewTerm(Term.Nothing) :
-                (Term)SyntaxError(token.Index, token.Value);
+                (Term)SyntaxError(token);
         }
 
         private Term ParseStaticFunction(string token)
         {
-            Accept("(");
+            AcceptToken("(");
             PushOperator(Op.LParen);
             Term term = null;
             if (PeekToken().Value != ")")
                 term = NewTerm(ParseCompoundTerm());
             PopOperator();
-            Accept(")");
+            AcceptToken(")");
             return NewTerm(new Function(token, term is TermList termList ? termList.Operands.ToArray() : new[] { term }));
         }
 
@@ -177,13 +169,6 @@
             return null;
         }
 
-        private static object SyntaxError(int index, string actual, string expected = "")
-        {
-            throw new FormatException(string.IsNullOrWhiteSpace(expected)
-            ? $"Unexpected token at index {index}: {{{actual}}}."
-            : $"Unexpected token at index {index}: expected {{{expected}}}, actual {{{actual}}}.");
-        }
-
         #endregion
 
         #region Parser State
@@ -191,6 +176,7 @@
         private void BeginParse(string text, [CallerMemberName] string caller = "", [CallerLineNumber] int line = 0) => _state.BeginParse(caller, line, text);
         private void EndParse(Term term, [CallerMemberName] string caller = "", [CallerLineNumber] int line = 0) => _state.EndParse(caller, line, term);
         private Term NewTerm(Term term, [CallerMemberName] string caller = "", [CallerLineNumber] int line = 0) => _state.NewTerm(caller, line, term);
+        private object SyntaxError(Token token, [CallerMemberName] string caller = "", [CallerLineNumber] int line = 0) => _state.SyntaxError(caller, line, token);
 
         #region Operators
 
@@ -210,6 +196,7 @@
         #endregion
         #region Tokens
 
+        private void AcceptToken(string expected, [CallerMemberName] string caller = "", [CallerLineNumber] int line = 0) => _state.AcceptToken(caller, line, expected);
         private bool AnyTokens() => _state.AnyTokens();
         private Token DequeueToken([CallerMemberName] string caller = "", [CallerLineNumber] int line = 0) => _state.DequeueToken(caller, line);
         private void EnqueueToken(Token token, [CallerMemberName] string caller = "", [CallerLineNumber] int line = 0) => _state.EnqueueToken(caller, line, token);

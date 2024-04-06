@@ -81,7 +81,8 @@
                 }
                 return string.Empty;
             }
-            void SyntaxError() => throw new FormatException($"Unrecognised term at character position {index}:\r\n{text.Substring(index)}");
+
+            void SyntaxError() => throw new FormatException($"Unrecognised term at character position {index}: {text.Substring(index)}");
         }
 
         public static bool IsBoolean(this string token) => Booleans.Contains(token, IgnoreCase);
