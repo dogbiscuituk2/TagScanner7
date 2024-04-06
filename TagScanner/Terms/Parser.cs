@@ -1,6 +1,7 @@
 ﻿namespace TagScanner.Terms
 {
     using System;
+    using System.Collections.Generic;
     using System.Linq;
     using System.Runtime.CompilerServices;
 
@@ -34,7 +35,7 @@
 
         #endregion
 
-        #region Private Properties
+        #region Private Fields
 
         private readonly ParserState _state = new ParserState();
 
@@ -62,6 +63,10 @@
             }
             return NewTerm(new Operation(op, left, right));
         }
+
+        private static Term[] MakeArray(Term terms) => terms is TermList termList ? termList.Operands.ToArray() :
+            terms is Term term ? new[] { term } :
+            Array.Empty<Term>();
 
         private Term ParseCast()
         {
@@ -104,7 +109,7 @@
             return term;
         }
 
-        private Term ParseNumber(string token) =>
+        private static Term ParseNumber(string token) =>
             token.EndsWith("UL") ||
             token.EndsWith("LU") ? new Constant<ulong>(ulong.Parse(token.TrimEnd('U', 'L'))) :
             token.EndsWith("U") ? new Constant<uint>(uint.Parse(token.TrimEnd('U'))) :
@@ -135,6 +140,7 @@
                 match.IsChar() ? NewTerm(new Constant<char>(char.Parse(match.Substring(1, match.Length - 2)))) :
                 match.IsString() ? NewTerm(new Constant<string>(match.Substring(1, match.Length - 2))) :
                 match.IsField() ? NewTerm(new Field(Tags.Values.Single(p => p.DisplayName == match).Tag)) :
+                match.IsMemberFunction() ? ParseMemberFunction(token) :
                 match.IsMonadicOperator() ? ParseUnaryOperation(match) :
                 match.IsNumber() ? NewTerm(ParseNumber(match.ToUpperInvariant())) :
                 match.IsParameter() ? NewTerm(new Parameter(match.Substring(1, match.Length - 2).ToType())) :
@@ -145,17 +151,27 @@
                 (Term)SyntaxError(token);
         }
 
-        private Term ParseStaticFunction(string token)
+        private Term ParseMemberFunction(Token token)
+        {
+            if (PeekOperator() != Op.Dot)
+                SyntaxError(token);
+            PopOperator();
+            return NewTerm(new Function(PopTerm(), token.Value, ParseParameters()));
+        }
+
+        private Term[] ParseParameters()
         {
             AcceptToken("(");
             PushOperator(Op.LParen);
-            Term term = null;
+            Term terms = null;
             if (PeekToken().Value != ")")
-                term = NewTerm(ParseCompoundTerm());
+                terms = NewTerm(ParseCompoundTerm());
             PopOperator();
             AcceptToken(")");
-            return NewTerm(new Function(token, term is TermList termList ? termList.Operands.ToArray() : new[] { term }));
+            return MakeArray(terms);
         }
+
+        private Term ParseStaticFunction(string token) => NewTerm(new Function(token, ParseParameters()));
 
         private Term ParseUnaryOperation(string token)
         {
@@ -171,7 +187,7 @@
 
         #endregion
 
-        #region Parser State
+        #region ParserState Calls
 
         private void BeginParse(string text, [CallerMemberName] string caller = "", [CallerLineNumber] int line = 0) => _state.BeginParse(caller, line, text);
         private void EndParse(Term term, [CallerMemberName] string caller = "", [CallerLineNumber] int line = 0) => _state.EndParse(caller, line, term);
@@ -188,8 +204,8 @@
         #endregion
         #region Terms
 
-        private bool AnyTerms() => _state.AnyTerms();
-        private Term PeekTerm([CallerMemberName] string caller = "", [CallerLineNumber] int line = 0) => _state.PeekTerm(caller, line);
+    //  private bool AnyTerms() => _state.AnyTerms();
+    //  private Term PeekTerm([CallerMemberName] string caller = "", [CallerLineNumber] int line = 0) => _state.PeekTerm(caller, line);
         private Term PopTerm([CallerMemberName] string caller = "", [CallerLineNumber] int line = 0) => _state.PopTerm(caller, line);
         private void PushTerm(Term term, [CallerMemberName] string caller = "", [CallerLineNumber] int line = 0) => _state.PushTerm(caller, line, term);
 
@@ -199,7 +215,7 @@
         private void AcceptToken(string expected, [CallerMemberName] string caller = "", [CallerLineNumber] int line = 0) => _state.AcceptToken(caller, line, expected);
         private bool AnyTokens() => _state.AnyTokens();
         private Token DequeueToken([CallerMemberName] string caller = "", [CallerLineNumber] int line = 0) => _state.DequeueToken(caller, line);
-        private void EnqueueToken(Token token, [CallerMemberName] string caller = "", [CallerLineNumber] int line = 0) => _state.EnqueueToken(caller, line, token);
+    //  private void EnqueueToken(Token token, [CallerMemberName] string caller = "", [CallerLineNumber] int line = 0) => _state.EnqueueToken(caller, line, token);
         private Token PeekToken([CallerMemberName] string caller = "", [CallerLineNumber] int line = 0) => _state.PeekToken(caller, line);
 
         #endregion

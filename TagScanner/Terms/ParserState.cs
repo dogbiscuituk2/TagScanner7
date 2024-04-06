@@ -12,17 +12,17 @@
         #region Public Methods
 
         public bool AnyOperators() => _operators.Any();
-        public bool AnyTerms() => _terms.Any();
+    //  public bool AnyTerms() => _terms.Any();
         public bool AnyTokens() => _tokens.Any();
 
         public void AcceptToken(string caller, int line, string expected) => Process(caller, line, p => AcceptToken(expected));
         public void BeginParse(string caller, int line, string text) => Process(caller, line, p => Reset(text));
         public Token DequeueToken(string caller, int line) => (Token)Process(caller, line, p => _tokens.Dequeue());
         public Term EndParse(string caller, int line, Term term) => (Term)Process(caller, line, p => EndParse(term));
-        public void EnqueueToken(string caller, int line, Token token) => Process(caller, line, p => { _tokens.Enqueue(token); return token; });
+    //  public void EnqueueToken(string caller, int line, Token token) => Process(caller, line, p => { _tokens.Enqueue(token); return token; });
         public Term NewTerm(string caller, int line, Term term) { Process(caller, line, p => term); return term; }
         public Op PeekOperator(string caller, int line) => (Op)Process(caller, line, p => _operators.Peek());
-        public Term PeekTerm(string caller, int line) => (Term)Process(caller, line, p => _terms.Peek());
+    //  public Term PeekTerm(string caller, int line) => (Term)Process(caller, line, p => _terms.Peek());
         public Token PeekToken(string caller, int line) => (Token)Process(caller, line, p => _tokens.Peek());
         public Op PopOperator(string caller, int line) => (Op)Process(caller, line, p => _operators.Pop());
         public Term PopTerm(string caller, int line) => (Term)Process(caller, line, p => _terms.Pop());
@@ -52,10 +52,12 @@
         private void Dump(string caller, int line, object value, [CallerMemberName] string action = "")
         {
 #if DEBUG_PARSER
-            const string format = "{0,17}{1,6}  {2,12}  {3}";
+            const string format = "{0,19}{1,6}  {2,12}  {3}";
             if (!_headerShown)
             {
-                Debug.WriteLine(format, "CALLER", "LINE", "ACTION", "VALUE\r\n");
+                DrawLine();
+                Debug.WriteLine(format, "CALLER", "LINE", "ACTION", "VALUE");
+                DrawLine();
                 _headerShown = true;
             }
             Debug.WriteLine(format, caller, line, action, value);
@@ -64,7 +66,8 @@
             Debug.WriteLine(format, string.Empty, string.Empty, "Tokens", Say(_tokens.Select(p => p.Value)));
             Debug.WriteLine(format, string.Empty, string.Empty, "Terms", Say(_terms));
             Debug.WriteLine(format, string.Empty, string.Empty, "Operators", Say(_operators.Select(p => p.ToString())));
-            Debug.WriteLine(string.Empty);
+
+            void DrawLine() => Debug.WriteLine(new string('_', 80) + "\r\n");
 #endif
         }
 
