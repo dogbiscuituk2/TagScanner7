@@ -2,18 +2,17 @@
 {
     using System;
     using System.Collections.Generic;
-    using Terms;
 
     [Serializable]
     public class Library
     {
-
-        private Filter _filter = new Filter();
-        public Filter Filter
+        private List<string> _filters = new List<string>();
+        public List<string> Filters
         {
-            get => _filter;
-            set => _filter = value;
+            get => _filters;
+            set => _filters = value;
         }
+
         private List<string> _folders = new List<string>();
         public List<string> Folders
         {
@@ -30,7 +29,6 @@
 
         public void Clear()
         {
-            Filter.Clear();
             Folders.Clear();
             Works.Clear();
         }

@@ -38,6 +38,7 @@
         private readonly Stack<Term> _terms = new Stack<Term>();
         private readonly Queue<Token> _tokens = new Queue<Token>();
         private bool _headerShown;
+        private static readonly string _ = string.Empty;
 
         #endregion
 
@@ -63,9 +64,10 @@
             Debug.WriteLine(format, caller, line, action, value);
             if (action.StartsWith("New") || action.StartsWith("Peek"))
                 return;
-            Debug.WriteLine(format, string.Empty, string.Empty, "Tokens", Say(_tokens.Select(p => p.Value)));
-            Debug.WriteLine(format, string.Empty, string.Empty, "Terms", Say(_terms));
-            Debug.WriteLine(format, string.Empty, string.Empty, "Operators", Say(_operators.Select(p => p.ToString())));
+            Debug.WriteLine(format, _, _, "Tokens", Say(_tokens.Select(p => p.Value)));
+            Debug.WriteLine(format, _, _, "Terms", Say(_terms));
+            Debug.WriteLine(format, _, _, "Operators", Say(_operators.Select(p => p.GetLabel().ToString())));
+            Debug.WriteLine(_);
 
             void DrawLine() => Debug.WriteLine(new string('_', 80) + "\r\n");
 #endif
@@ -107,13 +109,14 @@
             return text;
         }
 
-        private static object Say(IEnumerable<object> s) => s.Any() ? s.Aggregate((p, q) => $"{p} {q}") : string.Empty;
+        private static object Say(IEnumerable<object> s) => s.Any() ? s.Aggregate((p, q) => $"{p} {q}") : _;
 
         private static object SyntaxError(Token token, string expected = "")
         {
+            var error = $"Unexpected token at index {token.Index}:";
             throw new FormatException(string.IsNullOrWhiteSpace(expected)
-                ? $"Unexpected token at index {token.Index}: {token}."
-                : $"Unexpected token at index {token.Index}: expected {expected}, actual {token}.");
+                ? $"{error} {token}."
+                : $"{error} expected {expected}, actual {token}.");
         }
 
         #endregion

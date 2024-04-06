@@ -71,6 +71,27 @@
             }
         }
 
+        public override int Start(int index)
+        {
+            int result;
+            var format = Op.GetFormat();
+            var delta = format.IndexOf("{0}");
+            var up = UseParens(0);
+            if (index == 0)
+                result = delta + (up ? 1 : 0);
+            else
+            {
+                delta = format.IndexOf("{1}") - delta - 3;
+                result =
+                    Start(index - 1)
+                    + Operands[index - 1].Length
+                    + (UseParens(index - 1) ? 1 : 0)
+                    + delta
+                    + (UseParens(index) ? 1 : 0);
+            }
+            return result;
+        }
+
         #endregion
 
         #region Protected Properties

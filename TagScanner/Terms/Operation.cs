@@ -34,25 +34,6 @@ namespace TagScanner.Terms
 
         #endregion
 
-        #region Public Methods
-
-        public override int Start(int index)
-        {
-            var format = Op.GetFormat();
-            var delta = format.IndexOf("{0}");
-            var up = UseParens(0);
-            if (index == 0)
-                return delta + (up ? 1 : 0);
-            delta = format.IndexOf("{1}") - delta - 3;
-            return Start(index - 1)
-                   + Operands[index - 1].Length
-                   + (UseParens(index - 1) ? 1 : 0)
-                   + delta
-                   + (UseParens(index) ? 1 : 0);
-        }
-
-        #endregion
-
         #region Protected Methods
 
         protected override IEnumerable<Type> GetParameterTypes()

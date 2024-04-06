@@ -1,6 +1,4 @@
-﻿using System.Runtime.CompilerServices;
-
-namespace TagScanner.Controllers
+﻿namespace TagScanner.Controllers
 {
     using System;
     using System.Collections.Generic;

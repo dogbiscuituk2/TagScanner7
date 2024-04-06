@@ -12,23 +12,14 @@ namespace TagScanner.Properties {
     
     
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "17.7.0.0")]
-    public sealed partial class Settings : global::System.Configuration.ApplicationSettingsBase {
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "17.9.0.0")]
+    internal sealed partial class Settings : global::System.Configuration.ApplicationSettingsBase {
         
         private static Settings defaultInstance = ((Settings)(global::System.Configuration.ApplicationSettingsBase.Synchronized(new Settings())));
         
         public static Settings Default {
             get {
                 return defaultInstance;
-            }
-        }
-        
-        [global::System.Configuration.ApplicationScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("ID3 Media Library Files|*.id3lib|All Files (*.*)|*.*")]
-        public string LibraryFilter {
-            get {
-                return ((string)(this["LibraryFilter"]));
             }
         }
         
@@ -52,10 +43,19 @@ namespace TagScanner.Properties {
         
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("ID3 Media Library Search Filters|*.id3filter|All Files (*.*)|*.*")]
+        [global::System.Configuration.DefaultSettingValueAttribute("Text Files|*.txt|All Files (*.*)|*.*")]
         public string SearchFilter {
             get {
                 return ((string)(this["SearchFilter"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("ID3 Library Files|*.Binary|Json files|*.Json|XML Files|*.XML|All Files (*.*)|*.*")]
+        public string LibraryFilter {
+            get {
+                return ((string)(this["LibraryFilter"]));
             }
         }
     }

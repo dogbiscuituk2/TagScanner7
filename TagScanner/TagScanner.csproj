@@ -132,7 +132,6 @@
     <Compile Include="Menus\CastEventArgs.cs" />
     <Compile Include="Terms\DateTimeParser.cs" />
     <Compile Include="Terms\EqualityComparer.cs" />
-    <Compile Include="Terms\Filter.cs" />
     <Compile Include="Terms\Cast.cs" />
     <Compile Include="Streaming\Streamer.cs" />
     <Compile Include="Terms\Parser.cs" />

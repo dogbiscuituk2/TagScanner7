@@ -1,7 +1,6 @@
 ﻿namespace TagScanner.Terms
 {
     using System;
-    using System.Collections.Generic;
     using System.Linq;
     using System.Runtime.CompilerServices;
 
@@ -52,21 +51,20 @@
                 operation.Operands[2] = right;
                 return NewTerm(operation);
             }
-            if (op == Op.Comma)
-            {
-                if (left is TermList termList)
-                {
-                    termList.Operands.Add(right);
-                    return NewTerm(termList);
-                }
+            if (op != Op.Comma)
+                return NewTerm(new Operation(op, left, right));
+            if (!(left is TermList termList))
                 return NewTerm(new TermList(left, right));
-            }
-            return NewTerm(new Operation(op, left, right));
+            termList.Operands.Add(right);
+            return NewTerm(termList);
         }
 
-        private static Term[] MakeArray(Term terms) => terms is TermList termList ? termList.Operands.ToArray() :
-            terms is Term term ? new[] { term } :
-            Array.Empty<Term>();
+        private static Term[] MakeArray(Term terms) =>
+            terms is TermList termList
+                ? termList.Operands.ToArray()
+                : terms is Term term
+                    ? new[] { term }
+                    : Array.Empty<Term>();
 
         private Term ParseCast()
         {

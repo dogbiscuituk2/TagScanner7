@@ -2,6 +2,7 @@
 {
     using System;
     using System.IO;
+    using System.Linq;
     using System.Threading.Tasks;
     using System.Windows.Forms;
     using Models;
@@ -29,22 +30,17 @@
 
         public void AddFolder()
         {
-            if (_folderBrowserDialog.ShowDialog(_libraryFormController.View) == DialogResult.OK)
-            {
-                var folderPath = _folderBrowserDialog.SelectedPath;
-                var filter = _openFileDialog.Filter.Split('|')[2 * _openFileDialog.FilterIndex - 1];
-                AddItem(MakeItem(folderPath, filter));
-                AddFolder(folderPath, filter);
-            }
+            if (_folderBrowserDialog.ShowDialog(_libraryFormController.View) != DialogResult.OK) return;
+            var folderPath = _folderBrowserDialog.SelectedPath;
+            var filter = _openFileDialog.Filter.Split('|')[2 * _openFileDialog.FilterIndex - 1];
+            AddItem(MakeItem(folderPath, filter));
+            AddFolder(folderPath, filter);
         }
 
         public void Rescan()
         {
-            foreach (var folder in _model.Folders)
-            {
-                var folderParts = folder.Split('|');
+            foreach (var folderParts in _model.Folders.Select(folder => folder.Split('|')))
                 AddFolder(folderParts[0], folderParts[1]);
-            }
         }
 
         protected override void Reopen(ToolStripItem menuItem)
