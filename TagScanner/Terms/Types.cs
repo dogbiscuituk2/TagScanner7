@@ -31,7 +31,10 @@
         public static IEnumerable<Type> TypeValues => TypeDictionary.Values;
 
         public static string Say(this Type type) => type.ToTypeName();
-        public static Type ToType(this string typeName) => TypeDictionary[typeName];
+
+        public static Type ToType(this string typeName) => !typeName.EndsWith("[]")
+            ? TypeDictionary[typeName]
+            : typeName.Substring(0, typeName.Length - 2).ToType().MakeArrayType();
 
         public static string ToTypeName(this Type type) => type.IsArray
             ? $"{type.GetElementType().ToTypeName()}[]"

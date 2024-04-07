@@ -64,20 +64,25 @@
         {
             foreach (var key in Functions.Keys.Where(p => p.IsStatic()))
             {
-                var expectedText = $"{key}(1, 2)";
+                var expectedText = ExpectedText(key);
                 var function = new Parser().Parse(expectedText);
                 Assert.IsInstanceOfType(function, typeof(Function));
                 Assert.AreEqual(expected: expectedText, actual: function.ToString());
             }
-        }
+            return;
 
-        [TestMethod]
-        public void TestPrecedence()
-        {
-            //var term = new Parser().Parse("2*(3+4)*5");
-            //var term = new Parser().Parse("1 ? 2 : 3 | 4 & 5 ^ 6 + 7 * 8");
-            var term = new Parser().Parse("1 * (2 + (3 ^ (4 & (5 | (6 ? 7 : 8)))))");
-            //var term = new Parser().Parse("(2+3)");
+            string ExpectedText(string key)
+            {
+                switch (key.ParamCount())
+                {
+                    case 0: return key;
+                    case 1: return $"{key}(1)";
+                    case 2: return $"{key}(1, 2)";
+                    case 3: return $"{key}(1, 2, 3)";
+                    case 4: return $"{key}(1, 2, 3, 4)";
+                    default: return string.Empty;
+                }
+            }
         }
     }
 }

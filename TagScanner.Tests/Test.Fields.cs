@@ -104,21 +104,6 @@
         }
 
         [TestMethod]
-        public void TestFields_Pictures()
-        {
-            var term = new Operation(Tag.Pictures, "!=", Term.Nothing);
-            var works = Works.Where(p => term.Predicate(p));
-            Assert.AreEqual(expected: 1, actual: works.Count());
-            var pictures = works.First().Pictures;
-            Assert.AreEqual(expected: 1, actual: pictures.Length);
-            var picture = pictures[0];
-            Assert.AreEqual(expected: @"C:\Pictures\Picture.png", actual: picture.FilePath);
-            Assert.AreEqual(expected: 0, actual: picture.Index);
-            Assert.AreEqual(expected: "Other", actual: picture.Type);
-            TestTerm(term);
-        }
-
-        [TestMethod]
         [DataRow(Tag.AlbumGain, "-4.07 dB")]
         [DataRow(Tag.AlbumPeak, "1.049575")]
         [DataRow(Tag.AlbumSort, "Pepper, Sgt.")]

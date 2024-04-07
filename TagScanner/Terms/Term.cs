@@ -14,7 +14,6 @@
 
         public static readonly Constant<string> Empty = new Constant<string>(string.Empty);
         public static readonly Constant<bool> False = new Constant<bool>(false);
-        public static readonly Constant<object> Nothing = new Constant<object>(null);
         public static readonly Constant<bool> True = new Constant<bool>(true);
         public static readonly Constant<int> Zero = new Constant<int>(0);
 

@@ -71,6 +71,8 @@
 
         public static bool IsStatic(this string key) => key.FuncInfo().IsStatic;
 
+        public static int ParamCount(this string key) => key.FuncInfo().ParamCount;
+
         #endregion
 
         #region Private Fields

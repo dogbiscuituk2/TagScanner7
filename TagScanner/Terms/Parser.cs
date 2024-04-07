@@ -102,6 +102,14 @@
             return term;
         }
 
+        private Term ParseMemberFunction(Token token)
+        {
+            if (PeekOperator() != Op.Dot)
+                SyntaxError(token);
+            PopOperator();
+            return NewTerm(new Function(PopTerm(), token.Value, ParseParameters()));
+        }
+
         private static Term ParseNumber(string token) =>
             token.EndsWith("UL") ||
             token.EndsWith("LU") ? new Constant<ulong>(ulong.Parse(token.TrimEnd('U', 'L'))) :
@@ -112,6 +120,20 @@
             token.EndsWith("D") ? new Constant<double>(double.Parse(token.TrimEnd('D'))) :
             token.Contains(".") ? new Constant<double>(double.Parse(token)) :
             (Term)new Constant<int>(int.Parse(token));
+
+        private Term[] ParseParameters()
+        {
+            if (!AnyTokens() || PeekToken().Value != "(")
+                return Array.Empty<Term>();
+            AcceptToken("(");
+            PushOperator(Op.LParen);
+            Term terms = null;
+            if (PeekToken().Value != ")")
+                terms = NewTerm(ParseCompoundTerm());
+            PopOperator();
+            AcceptToken(")");
+            return MakeArray(terms);
+        }
 
         private Term ParseSimpleTerm()
         {
@@ -140,28 +162,7 @@
                 match.IsStaticFunction() ? ParseStaticFunction(match) :
                 match.IsDateTime() ? NewTerm(new Constant<DateTime>(DateTimeParser.ParseDateTime(match))) :
                 match.IsTimeSpan() ? NewTerm(new Constant<TimeSpan>(DateTimeParser.ParseTimeSpan(match))) :
-                match == "?" ? NewTerm(Term.Nothing) :
                 (Term)SyntaxError(token);
-        }
-
-        private Term ParseMemberFunction(Token token)
-        {
-            if (PeekOperator() != Op.Dot)
-                SyntaxError(token);
-            PopOperator();
-            return NewTerm(new Function(PopTerm(), token.Value, ParseParameters()));
-        }
-
-        private Term[] ParseParameters()
-        {
-            AcceptToken("(");
-            PushOperator(Op.LParen);
-            Term terms = null;
-            if (PeekToken().Value != ")")
-                terms = NewTerm(ParseCompoundTerm());
-            PopOperator();
-            AcceptToken(")");
-            return MakeArray(terms);
         }
 
         private Term ParseStaticFunction(string token) => NewTerm(new Function(token, ParseParameters()));
@@ -171,9 +172,15 @@
             var term = ParseSimpleTerm();
             switch (token)
             {
-                case "+": return NewTerm(new Positive(term));
-                case "-": return NewTerm(new Negative(term));
-                case "!": return NewTerm(new Negation(term));
+                case "+":
+                case "＋":
+                    return NewTerm(new Positive(term));
+                case "-":
+                case "－":
+                    return NewTerm(new Negative(term));
+                case "!":
+                case "not":
+                    return NewTerm(new Negation(term));
             }
             return null;
         }

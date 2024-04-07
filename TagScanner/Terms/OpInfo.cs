@@ -6,22 +6,31 @@
 
     public class OpInfo
     {
-        public OpInfo(char label, ExpressionType expressionType, Rank rank, Type resultType, string format, Image image, params Type[] paramTypes)
+        public OpInfo(char label, string format, ExpressionType expressionType, Rank rank, Type paramType)
+            : this(label, format, expressionType, rank, paramType, null, null) { }
+
+        public OpInfo(char label, string format, ExpressionType expressionType, Rank rank, Type paramType, Type resultType)
+            : this(label, format, expressionType, rank, paramType, resultType, null) { }
+
+        public OpInfo(char label, string format, ExpressionType expressionType, Rank rank, Type paramType, Image image)
+            : this(label, format, expressionType, rank, paramType, null, image) { }
+
+        public OpInfo(char label, string format, ExpressionType expressionType, Rank rank, Type paramType, Type resultType, Image image)
         {
             ExpressionType = expressionType;
             Format = format;
             Image = image;
             Label = label;
-            ParamTypes = paramTypes ?? new[] { resultType };
+            ParamType = paramType;
             Rank = rank;
-            ResultType = resultType;
+            ResultType = resultType ?? paramType;
         }
 
         public ExpressionType ExpressionType;
         public string Format;
         public Image Image;
         public char Label;
-        public Type[] ParamTypes;
+        public Type ParamType;
         public Rank Rank;
         public Type ResultType;
     }

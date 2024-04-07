@@ -20,7 +20,7 @@
 
         public Type DeclaringType => _methodInfo?.DeclaringType ?? typeof(object);
         public bool IsStatic => _methodInfo?.IsStatic ?? _isStatic;
-        public int ParamCount => _paramTypes.Length;
+        public int ParamCount => _methodInfo?.GetParameters()?.Length ?? _paramTypes.Length;
         public IEnumerable<Type> ParamTypes => _methodInfo != null ? _methodInfo.GetParameters().Select(p => p.ParameterType) : _paramTypes;
         public Type ReturnType => _methodInfo?.ReturnType ?? typeof(object);
 
@@ -28,7 +28,7 @@
         {
             var expressions = operands.Select(p => p.Expression).ToList();
             if (_methodInfo != null)
-                return _isStatic
+                return IsStatic
                     ? Expression.Call(_methodInfo, expressions)
                     : Expression.Call(expressions[0], _methodInfo, expressions.Skip(1));
             switch (_name)

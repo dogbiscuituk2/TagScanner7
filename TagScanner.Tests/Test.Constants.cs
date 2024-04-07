@@ -19,7 +19,6 @@
         {
             TestConstant(Term.Empty, "\"\"");
             TestConstant(Term.False, "False");
-            TestConstant(Term.Nothing, "null");
             TestConstant(Term.True, "True");
             TestConstant(Term.Zero, "0");
             TestConstant(new Constant<bool>(false), "False");
