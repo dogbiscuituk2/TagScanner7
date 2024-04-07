@@ -235,8 +235,8 @@
 
         public void PopupShellContextMenu()
         {
-            var scpm = new ShellContextMenu();
-            scpm.ShowContextMenu(GetSelectedFileInfos(), new System.Drawing.Point(100, 100));
+            var menu = new ShellContextMenu();
+            menu.ShowContextMenu(GetSelectedFileInfos(), new System.Drawing.Point(100, 100));
         }
 
         private FileInfo[] GetSelectedFileInfos() => Selection.Works.Select(p => new FileInfo(p.FilePath)).ToArray();

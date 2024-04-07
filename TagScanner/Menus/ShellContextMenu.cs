@@ -274,6 +274,7 @@ namespace TagScanner.Menus
         #endregion
 
         #region GetPIDLs()
+
         /// <summary>
         /// Get the PIDLs
         /// </summary>
@@ -281,21 +282,19 @@ namespace TagScanner.Menus
         /// <returns>Array of PIDLs</returns>
         protected IntPtr[] GetPIDLs(FileInfo[] arrFI)
         {
-            if (null == arrFI || 0 == arrFI.Length)
-            {
-                return null;
-            }
-
-            IShellFolder oParentFolder = GetParentFolder(arrFI[0].DirectoryName);
-            if (null == oParentFolder)
-            {
-                return null;
-            }
-
-            IntPtr[] arrPIDLs = new IntPtr[arrFI.Length];
+            if (null == arrFI || 0 == arrFI.Length) return null;
+            var directoryName = string.Empty;
+            IShellFolder oParentFolder = null;
+            var arrPIDLs = new IntPtr[arrFI.Length];
             int n = 0;
             foreach (FileInfo fi in arrFI)
             {
+                if (directoryName != fi.DirectoryName)
+                {
+                    directoryName = fi.DirectoryName;
+                    oParentFolder = GetParentFolder(directoryName);
+                    if (oParentFolder == null) return null;
+                }
                 // Get the file relative to folder
                 uint pchEaten = 0;
                 SFGAO pdwAttributes = 0;
@@ -309,7 +308,6 @@ namespace TagScanner.Menus
                 arrPIDLs[n] = pPIDL;
                 n++;
             }
-
             return arrPIDLs;
         }
 
@@ -320,21 +318,19 @@ namespace TagScanner.Menus
         /// <returns>Array of PIDLs</returns>
         protected IntPtr[] GetPIDLs(DirectoryInfo[] arrFI)
         {
-            if (null == arrFI || 0 == arrFI.Length)
-            {
-                return null;
-            }
-
-            IShellFolder oParentFolder = GetParentFolder(arrFI[0].Parent.FullName);
-            if (null == oParentFolder)
-            {
-                return null;
-            }
-
-            IntPtr[] arrPIDLs = new IntPtr[arrFI.Length];
+            if (null == arrFI || 0 == arrFI.Length) return null;
+            var directoryName = string.Empty;
+            IShellFolder oParentFolder = null;
+            var arrPIDLs = new IntPtr[arrFI.Length];
             int n = 0;
             foreach (DirectoryInfo fi in arrFI)
             {
+                if (directoryName != fi.Parent.FullName)
+                {
+                    directoryName = fi.Parent.FullName;
+                    oParentFolder = GetParentFolder(directoryName);
+                    if (oParentFolder == null) return null;
+                }
                 // Get the file relative to folder
                 uint pchEaten = 0;
                 SFGAO pdwAttributes = 0;
@@ -348,9 +344,9 @@ namespace TagScanner.Menus
                 arrPIDLs[n] = pPIDL;
                 n++;
             }
-
             return arrPIDLs;
         }
+
         #endregion
 
         #region FreePIDLs()
@@ -360,18 +356,15 @@ namespace TagScanner.Menus
         /// <param name="arrPIDLs">Array of PIDLs (IntPtr)</param>
         protected void FreePIDLs(IntPtr[] arrPIDLs)
         {
-            if (null != arrPIDLs)
-            {
-                for (int n = 0; n < arrPIDLs.Length; n++)
+            if (null == arrPIDLs) return;
+            for (int n = 0; n < arrPIDLs.Length; n++)
+                if (arrPIDLs[n] != IntPtr.Zero)
                 {
-                    if (arrPIDLs[n] != IntPtr.Zero)
-                    {
-                        Marshal.FreeCoTaskMem(arrPIDLs[n]);
-                        arrPIDLs[n] = IntPtr.Zero;
-                    }
+                    Marshal.FreeCoTaskMem(arrPIDLs[n]);
+                    arrPIDLs[n] = IntPtr.Zero;
                 }
-            }
         }
+
         #endregion
 
         #region InvokeContextMenuDefault
