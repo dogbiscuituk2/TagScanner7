@@ -62,12 +62,12 @@
         [TestMethod]
         public void TestParsePrecedence()
         {
-            TestParse("2 * (3 + 4) * 5", "2 ✕ (3 ＋ 4) ✕ 5");
+            TestParse("2 * (3 + 4) * 5", "2 × (3 + 4) × 5");
             TestParse("compare(album artists, \"The Beatles\") <= 0", "Compare(Album Artists, \"The Beatles\") ≤ 0");
             TestParse("album artists.length >= 10", "Album Artists.Length ≥ 10");
             TestParse("album artists.length() >= 10", "Album Artists.Length ≥ 10");
-            TestParse("1, 2 | 3 & 4 ^ 5 != 6 >= 7 - 8 / -9", "1, 2 | 3 & 4 ^ 5 ≠ 6 ≥ 7 － 8 ／ －9");
-            TestParse("(1, 2) | 3 & 4 ^ 5 != 6 >= 7 - 8 / -9", "(1, 2) | 3 & 4 ^ 5 ≠ 6 ≥ 7 － 8 ／ －9");
+            TestParse("1, 2 | 3 & 4 ^ 5 != 6 >= 7 - 8 / -9", "1, 2 | 3 & 4 ^ 5 ≠ 6 ≥ 7 - 8 ÷ -9");
+            TestParse("(1, 2) | 3 & 4 ^ 5 != 6 >= 7 - 8 / -9", "(1, 2) | 3 & 4 ^ 5 ≠ 6 ≥ 7 - 8 ÷ -9");
         }
 
         [TestMethod]

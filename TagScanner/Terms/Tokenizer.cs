@@ -101,7 +101,6 @@
         public static bool IsString(this string token) => token[0] == DoubleQuote;
         public static bool IsSymbol(this string token) => Symbols.Contains(token, IgnoreCase);
         public static bool IsTimeSpan(this string token) => Regex.IsMatch(token, DateTimeParser.TimeSpanPattern);
-    //  public static bool IsTriadicOperator(this string token) => TriadicOperators.Contains(token, IgnoreCase);
         public static bool IsType(this string token) => TypeNames.Contains(token, IgnoreCase);
 
         public static Rank Rank(this string token, bool unary) => token.ToOperator(unary).GetRank();
@@ -161,11 +160,6 @@
             "%",
             "."
         };
-
-    //  private static IEnumerable<string> TriadicOperators => new[]
-    //  {
-    //      "?", ":"
-    //  };
 
         private static IEnumerable<string> Fields => Tags.Keys.Select(p => p.DisplayName());
         private static IEnumerable<string> Functions => Terms.Functions.Keys;

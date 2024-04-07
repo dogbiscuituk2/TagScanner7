@@ -29,7 +29,7 @@
         public Term PopTerm(string caller, int line) => (Term)Process(caller, line, p => _terms.Pop());
         public void PushOperator(string caller, int line, Op op) => Process(caller, line, p => { _operators.Push(op); return op; });
         public void PushTerm(string caller, int line, Term term) => Process(caller, line, p => { _terms.Push(term); return term; });
-        public object SyntaxError(string caller, int line, Token token) => Process(caller, line, p => SyntaxError(token));
+        public object UnexpectedToken(string caller, int line, Token token) => Process(caller, line, p => UnexpectedToken(token));
 
         #endregion
 
@@ -48,7 +48,7 @@
         private object AcceptToken(string expected)
         {
             var token = _tokens.Dequeue();
-            return token.Value == expected ? token : SyntaxError(token, expected);
+            return token.Value == expected ? token : UnexpectedToken(token, expected);
         }
 
         private Operation Consolidate(Term right)
@@ -91,7 +91,7 @@
         private Term EndParse(Term term)
         {
             if (AnyTokens())
-                SyntaxError(_tokens.Peek());
+                UnexpectedToken(_tokens.Peek());
             return term;
         }
 
@@ -126,9 +126,9 @@
 
         private static object Say(IEnumerable<object> s) => s.Any() ? s.Aggregate((p, q) => $"{p} {q}") : _;
 
-        private static object SyntaxError(Token token, string expected = "")
+        private static object UnexpectedToken(Token token, string expected = "")
         {
-            var error = $"Unexpected token at index {token.Index}:";
+            var error = $"Unexpected input at index {token.Index}:";
             throw new FormatException(string.IsNullOrWhiteSpace(expected)
                 ? $"{error} {token}."
                 : $"{error} expected {expected}, actual {token}.");

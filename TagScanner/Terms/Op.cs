@@ -2,6 +2,7 @@
 {
     public enum Op
     {
+        None = 0,
         Comma,
         And,
         Or,
@@ -22,6 +23,5 @@
         Negative,
         Not,
         Dot,
-        LParen,
     }
 }

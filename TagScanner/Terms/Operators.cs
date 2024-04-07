@@ -15,7 +15,7 @@
         {
             OperatorDictionary = new Dictionary<Op, OpInfo>
             {
-                { Op.LParen, new OpInfo('(', null, 0, 0, null) },
+                { 0, new OpInfo('(', null, 0, 0, null) },
                 { Op.Comma, new OpInfo(',', "{0}, {1}", ExpressionType.MemberAccess, Rank.Comma, typeof(object)) },
                 { Op.And, new OpInfo('&', "{0} & {1}", ExpressionType.AndAlso, Rank.ConditionalAnd, typeof(bool)) },
                 { Op.Or, new OpInfo('|', "{0} | {1}", ExpressionType.OrElse, Rank.ConditionalOr, typeof(bool), Icons.Op2_Or) },
@@ -26,14 +26,14 @@
                 { Op.NotLessThan, new OpInfo('≥', "{0} ≥ {1}", ExpressionType.GreaterThanOrEqual, Rank.Relational, typeof(double), typeof(bool), Icons.Op2_NotLessThan) },
                 { Op.GreaterThan, new OpInfo('>', "{0} > {1}", ExpressionType.GreaterThan, Rank.Relational, typeof(double), typeof(bool), Icons.Op2_GreaterThan) },
                 { Op.NotGreaterThan, new OpInfo('≤', "{0} ≤ {1}", ExpressionType.LessThanOrEqual, Rank.Relational, typeof(double), typeof(bool), Icons.Op2_NotGreaterThan) },
-                { Op.Concatenate, new OpInfo('＋', "{0} ＋ {1}", ExpressionType.Add, Rank.Additive, typeof(string), Icons.Op2_Add) },
-                { Op.Add, new OpInfo('＋', "{0} ＋ {1}", ExpressionType.Add, Rank.Additive, typeof(double), Icons.Op2_Add) },
-                { Op.Subtract, new OpInfo('－', "{0} － {1}", ExpressionType.Subtract, Rank.Additive, typeof(double), Icons.Op2_Subtract) },
-                { Op.Multiply, new OpInfo('✕', "{0} ✕ {1}", ExpressionType.Multiply, Rank.Multiplicative, typeof(double), Icons.Op2_Multiply) },
-                { Op.Divide, new OpInfo('／', "{0} ／ {1}", ExpressionType.Divide, Rank.Multiplicative, typeof(double), Icons.Op2_Divide) },
+                { Op.Concatenate, new OpInfo('+', "{0} + {1}", ExpressionType.Add, Rank.Additive, typeof(string), Icons.Op2_Add) },
+                { Op.Add, new OpInfo('+', "{0} + {1}", ExpressionType.Add, Rank.Additive, typeof(double), Icons.Op2_Add) },
+                { Op.Subtract, new OpInfo('-', "{0} - {1}", ExpressionType.Subtract, Rank.Additive, typeof(double), Icons.Op2_Subtract) },
+                { Op.Multiply, new OpInfo('×', "{0} × {1}", ExpressionType.Multiply, Rank.Multiplicative, typeof(double), Icons.Op2_Multiply) },
+                { Op.Divide, new OpInfo('÷', "{0} ÷ {1}", ExpressionType.Divide, Rank.Multiplicative, typeof(double), Icons.Op2_Divide) },
                 { Op.Modulo, new OpInfo('%', "{0} % {1}", ExpressionType.Modulo, Rank.Multiplicative, typeof(double), Icons.Op2_Modulo) },
-                { Op.Positive, new OpInfo('＋', "＋{0}", ExpressionType.UnaryPlus, Rank.Unary, typeof(double), Icons.Op2_Add) },
-                { Op.Negative, new OpInfo('－', "－{0}", ExpressionType.Negate, Rank.Unary, typeof(double), Icons.Op2_Subtract) },
+                { Op.Positive, new OpInfo('+', "+{0}", ExpressionType.UnaryPlus, Rank.Unary, typeof(double), Icons.Op2_Add) },
+                { Op.Negative, new OpInfo('-', "-{0}", ExpressionType.Negate, Rank.Unary, typeof(double), Icons.Op2_Subtract) },
                 { Op.Not, new OpInfo('!', "!{0}", ExpressionType.Not, Rank.Unary, typeof(bool), Icons.Op2_Not) },
                 { Op.Dot, new OpInfo('.', "{0}.{1}", ExpressionType.MemberAccess, Rank.Primary, typeof(object)) },
             };
@@ -41,7 +41,7 @@
             Values = OperatorDictionary.Values.ToArray();
             AssociativeOperators = new[] { Op.Comma, Op.And, Op.Or, Op.Concatenate, Op.Add, Op.Multiply };
             UnaryOperators = new[] { Op.Positive, Op.Negative, Op.Not };
-            BinaryOperators = Keys.Except(UnaryOperators).Except(new[] { Op.LParen }).ToArray();
+            BinaryOperators = Keys.Except(UnaryOperators).Except(new[] { Op.None }).ToArray();
         }
 
     #endregion

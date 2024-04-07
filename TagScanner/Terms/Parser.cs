@@ -45,8 +45,8 @@
         private static Term[] MakeArray(Term terms) =>
             terms is TermList termList
                 ? termList.Operands.ToArray()
-                : terms is Term term
-                    ? new[] { term }
+                : terms != null
+                    ? new[] { terms }
                     : Array.Empty<Term>();
 
         private Term ParseCast()
@@ -68,7 +68,7 @@
                 while (AnyOperators())
                 {
                     var op = PeekOperator();
-                    if (op == Op.LParen)
+                    if (op == 0)
                         break;
                     var priorRank = op.GetRank();
                     if (priorRank >= tokenRank)
@@ -83,7 +83,7 @@
             while (AnyOperators())
             {
                 var op = PeekOperator();
-                if (op == Op.LParen)
+                if (op == 0)
                     break;
                 term = Consolidate(term);
             }
@@ -93,7 +93,7 @@
         private Term ParseMemberFunction(Token token)
         {
             if (PeekOperator() != Op.Dot)
-                SyntaxError(token);
+                UnexpectedToken(token);
             PopOperator();
             return NewTerm(new Function(PopTerm(), token.Value, ParseParameters()));
         }
@@ -114,13 +114,11 @@
             if (!AnyTokens() || PeekToken().Value != "(")
                 return Array.Empty<Term>();
             AcceptToken("(");
-            PushOperator(Op.LParen);
-            Term terms = null;
-            if (PeekToken().Value != ")")
-                terms = NewTerm(ParseCompoundTerm());
+            PushOperator();
+            var term = PeekToken().Value != ")" ? NewTerm(ParseCompoundTerm()) : null;
             PopOperator();
             AcceptToken(")");
-            return MakeArray(terms);
+            return MakeArray(term);
         }
 
         private Term ParseSimpleTerm()
@@ -132,8 +130,8 @@
                     return ParseCast();
                 else
                 {
-                    PushOperator(Op.LParen);
-                    var term = ParseCompoundTerm();
+                    PushOperator();
+                    var term = NewTerm(ParseCompoundTerm());
                     PopOperator();
                     AcceptToken(")");
                     return term;
@@ -150,7 +148,7 @@
                 match.IsStaticFunction() ? ParseStaticFunction(match) :
                 match.IsDateTime() ? NewTerm(new Constant<DateTime>(DateTimeParser.ParseDateTime(match))) :
                 match.IsTimeSpan() ? NewTerm(new Constant<TimeSpan>(DateTimeParser.ParseTimeSpan(match))) :
-                (Term)SyntaxError(token);
+                (Term)UnexpectedToken(token);
         }
 
         private Term ParseStaticFunction(string token) => NewTerm(new Function(token, ParseParameters()));
@@ -180,14 +178,14 @@
         private void BeginParse(string text, [CallerMemberName] string caller = "", [CallerLineNumber] int line = 0) => _state.BeginParse(caller, line, text);
         private void EndParse(Term term, [CallerMemberName] string caller = "", [CallerLineNumber] int line = 0) => _state.EndParse(caller, line, term);
         private Term NewTerm(Term term, [CallerMemberName] string caller = "", [CallerLineNumber] int line = 0) => _state.NewTerm(caller, line, term);
-        private object SyntaxError(Token token, [CallerMemberName] string caller = "", [CallerLineNumber] int line = 0) => _state.SyntaxError(caller, line, token);
+        private object UnexpectedToken(Token token, [CallerMemberName] string caller = "", [CallerLineNumber] int line = 0) => _state.UnexpectedToken(caller, line, token);
 
         #region Operators
 
         private bool AnyOperators() => _state.AnyOperators();
         private Op PeekOperator([CallerMemberName] string caller = "", [CallerLineNumber] int line = 0) => _state.PeekOperator(caller, line);
         private Op PopOperator([CallerMemberName] string caller = "", [CallerLineNumber] int line = 0) => _state.PopOperator(caller, line);
-        private void PushOperator(Op op, [CallerMemberName] string caller = "", [CallerLineNumber] int line = 0) => _state.PushOperator(caller, line, op);
+        private void PushOperator(Op op = 0, [CallerMemberName] string caller = "", [CallerLineNumber] int line = 0) => _state.PushOperator(caller, line, op);
 
         #endregion
         #region Terms
