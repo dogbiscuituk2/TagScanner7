@@ -36,6 +36,7 @@
             this.GridPopupPlay = new System.Windows.Forms.ToolStripMenuItem();
             this.GridPopupPlayAddToQueue = new System.Windows.Forms.ToolStripMenuItem();
             this.GridPopupPlayNewPlaylist = new System.Windows.Forms.ToolStripMenuItem();
+            this.GridPopupMoreActions = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem6 = new System.Windows.Forms.ToolStripSeparator();
             this.GridPopupTags = new System.Windows.Forms.ToolStripMenuItem();
             this.FilterGroupBox = new System.Windows.Forms.GroupBox();
@@ -52,7 +53,6 @@
             this.tabPlayer = new System.Windows.Forms.TabPage();
             this.splitContainer3 = new System.Windows.Forms.SplitContainer();
             this.PlaylistElementHost = new System.Windows.Forms.Integration.ElementHost();
-            this.MediaPlayer = new AxWMPLib.AxWindowsMediaPlayer();
             this.FilterPopupMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.MainMenu = new System.Windows.Forms.MenuStrip();
             this.FileMenu = new System.Windows.Forms.ToolStripMenuItem();
@@ -92,7 +92,7 @@
             this.AddFolderDialog = new System.Windows.Forms.FolderBrowserDialog();
             this.AddFileDialog = new System.Windows.Forms.OpenFileDialog();
             this.StatusBar = new System.Windows.Forms.StatusStrip();
-            this.GridPopupMoreActions = new System.Windows.Forms.ToolStripMenuItem();
+            this.MediaPlayer = new AxWMPLib.AxWindowsMediaPlayer();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -112,8 +112,8 @@
             this.splitContainer3.Panel1.SuspendLayout();
             this.splitContainer3.Panel2.SuspendLayout();
             this.splitContainer3.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.MediaPlayer)).BeginInit();
             this.MainMenu.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.MediaPlayer)).BeginInit();
             this.SuspendLayout();
             // 
             // splitContainer1
@@ -171,14 +171,20 @@
             // GridPopupPlayAddToQueue
             // 
             this.GridPopupPlayAddToQueue.Name = "GridPopupPlayAddToQueue";
-            this.GridPopupPlayAddToQueue.Size = new System.Drawing.Size(180, 22);
+            this.GridPopupPlayAddToQueue.Size = new System.Drawing.Size(148, 22);
             this.GridPopupPlayAddToQueue.Text = "Add to &Queue";
             // 
             // GridPopupPlayNewPlaylist
             // 
             this.GridPopupPlayNewPlaylist.Name = "GridPopupPlayNewPlaylist";
-            this.GridPopupPlayNewPlaylist.Size = new System.Drawing.Size(180, 22);
+            this.GridPopupPlayNewPlaylist.Size = new System.Drawing.Size(148, 22);
             this.GridPopupPlayNewPlaylist.Text = "&New Playlist";
+            // 
+            // GridPopupMoreActions
+            // 
+            this.GridPopupMoreActions.Name = "GridPopupMoreActions";
+            this.GridPopupMoreActions.Size = new System.Drawing.Size(180, 22);
+            this.GridPopupMoreActions.Text = "&More Actions...";
             // 
             // toolStripMenuItem6
             // 
@@ -320,11 +326,11 @@
             // tabPlayer
             // 
             this.tabPlayer.Controls.Add(this.splitContainer3);
-            this.tabPlayer.Location = new System.Drawing.Point(4, 22);
+            this.tabPlayer.Location = new System.Drawing.Point(4, 26);
             this.tabPlayer.Margin = new System.Windows.Forms.Padding(4);
             this.tabPlayer.Name = "tabPlayer";
             this.tabPlayer.Padding = new System.Windows.Forms.Padding(4);
-            this.tabPlayer.Size = new System.Drawing.Size(264, 479);
+            this.tabPlayer.Size = new System.Drawing.Size(264, 475);
             this.tabPlayer.TabIndex = 4;
             this.tabPlayer.Text = "Player";
             this.tabPlayer.UseVisualStyleBackColor = true;
@@ -359,17 +365,6 @@
             this.PlaylistElementHost.TabIndex = 0;
             this.PlaylistElementHost.Text = "elementHost1";
             this.PlaylistElementHost.Child = null;
-            // 
-            // MediaPlayer
-            // 
-            this.MediaPlayer.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.MediaPlayer.Enabled = true;
-            this.MediaPlayer.Location = new System.Drawing.Point(0, 0);
-            this.MediaPlayer.Margin = new System.Windows.Forms.Padding(4);
-            this.MediaPlayer.Name = "MediaPlayer";
-            this.MediaPlayer.OcxState = ((System.Windows.Forms.AxHost.State)(resources.GetObject("MediaPlayer.OcxState")));
-            this.MediaPlayer.Size = new System.Drawing.Size(256, 338);
-            this.MediaPlayer.TabIndex = 0;
             // 
             // FilterPopupMenu
             // 
@@ -658,11 +653,16 @@
             this.StatusBar.TabIndex = 9;
             this.StatusBar.Text = "Status";
             // 
-            // GridPopupMoreActions
+            // MediaPlayer
             // 
-            this.GridPopupMoreActions.Name = "GridPopupMoreActions";
-            this.GridPopupMoreActions.Size = new System.Drawing.Size(180, 22);
-            this.GridPopupMoreActions.Text = "&More Actions...";
+            this.MediaPlayer.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.MediaPlayer.Enabled = true;
+            this.MediaPlayer.Location = new System.Drawing.Point(0, 0);
+            this.MediaPlayer.Margin = new System.Windows.Forms.Padding(4);
+            this.MediaPlayer.Name = "MediaPlayer";
+            this.MediaPlayer.OcxState = ((System.Windows.Forms.AxHost.State)(resources.GetObject("MediaPlayer.OcxState")));
+            this.MediaPlayer.Size = new System.Drawing.Size(256, 338);
+            this.MediaPlayer.TabIndex = 0;
             // 
             // LibraryForm
             // 
@@ -698,9 +698,9 @@
             this.splitContainer3.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer3)).EndInit();
             this.splitContainer3.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.MediaPlayer)).EndInit();
             this.MainMenu.ResumeLayout(false);
             this.MainMenu.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.MediaPlayer)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
