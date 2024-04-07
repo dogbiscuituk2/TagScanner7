@@ -104,12 +104,11 @@
 
         #region Protected Methods
 
-        protected bool AddParameters(params Type[] types)
+        protected void AddParameters(params Type[] types)
         {
             for (var index = 0; index < types.Length; index++)
                 if (Operands.Count <= index)
                     Operands.Add(new Parameter(types[index]));
-            return true;
         }
 
         protected virtual IEnumerable<Type> GetParameterTypes() => new[] { typeof(object) };

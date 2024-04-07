@@ -146,9 +146,16 @@
         private void SetOperator(char c, bool unary) => SetOperator(c.ToString(), unary);
         private void SetOperator(string symbol, bool unary) => SetOperator(symbol.ToOperator(unary));
 
-        private bool SetOperator(Op op)
+        private void SetOperator(Op op)
         {
             _op = op;
+            var paramType = op.GetParamType();
+            if (paramType == null)
+                return;
+            AddParameters(paramType);
+            if (op.IsBinary())
+                AddParameters(paramType);
+            /*
             switch (Op)
             {
                 case Op.And:
@@ -168,6 +175,7 @@
                 default:
                     return AddParameters(typeof(double), typeof(double));
             }
+            */
         }
 
         #endregion
@@ -199,8 +207,8 @@
 
     public class Concatenation : Operation
     {
-        public Concatenation() : base(Op.Add) { }
-        public Concatenation(params Term[] operands) : base(Op.Add, operands) { }
+        public Concatenation() : base(Op.Concatenate) { }
+        public Concatenation(params Term[] operands) : base(Op.Concatenate, operands) { }
     }
 
     public class Conjunction : Operation

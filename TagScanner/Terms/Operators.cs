@@ -17,7 +17,7 @@
             {
                 { 0, new OpInfo('(', null, 0, 0, null) },
                 { Op.Comma, new OpInfo(',', "{0}, {1}", ExpressionType.MemberAccess, Rank.Comma, typeof(object)) },
-                { Op.And, new OpInfo('&', "{0} & {1}", ExpressionType.AndAlso, Rank.ConditionalAnd, typeof(bool)) },
+                { Op.And, new OpInfo('&', "{0} & {1}", ExpressionType.AndAlso, Rank.ConditionalAnd, typeof(bool), Icons.Op2_And) },
                 { Op.Or, new OpInfo('|', "{0} | {1}", ExpressionType.OrElse, Rank.ConditionalOr, typeof(bool), Icons.Op2_Or) },
                 { Op.Xor, new OpInfo('^', "{0} ^ {1}", ExpressionType.ExclusiveOr, Rank.BitwiseXor, typeof(bool), Icons.Op2_Xor) },
                 { Op.EqualTo, new OpInfo('=', "{0} = {1}", ExpressionType.Equal, Rank.Equality, typeof(object), typeof(bool), Icons.Op2_EqualTo) },
@@ -41,9 +41,9 @@
             Values = OperatorDictionary.Values.ToArray();
         }
 
-    #endregion
+        #endregion
 
-    #region Public Properties
+        #region Public Properties
 
         public static Op[] Keys { get; }
         public static OpInfo[] Values { get; }
@@ -64,6 +64,7 @@
         public static Type GetResultType(this Op op) => OperatorDictionary[op].ResultType;
         public static bool IsBinary(this Op op) => (op & Op.Binary) != 0;
         public static bool IsUnary(this Op op) => (op & Op.Unary) != 0;
+        public static Type GetParamType(this Op op) => OperatorDictionary[op].ParamType;
 
         public static Op ToOperator(this string symbol, bool unary)
         {
