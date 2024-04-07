@@ -7,7 +7,7 @@ namespace TagScanner.Menus
     using System.Text;
     using System.Windows.Forms;
     
-    // <summary>
+    /// <summary>
     /// "Stand-alone" shell context menu
     /// 
     /// It isn't really debugged but is mostly working.
@@ -90,26 +90,13 @@ namespace TagScanner.Menus
         /// <returns>true if the message has been handled, false otherwise</returns>
         protected override void WndProc(ref Message m)
         {
-            #region IContextMenu
-
             if (_oContextMenu != null &&
                 m.Msg == (int)WM.MENUSELECT &&
                 ((int)ShellHelper.HiWord(m.WParam) & (int)MFT.SEPARATOR) == 0 &&
                 ((int)ShellHelper.HiWord(m.WParam) & (int)MFT.POPUP) == 0)
             {
-                string info = string.Empty;
-
-                if (ShellHelper.LoWord(m.WParam) == (int)CMD_CUSTOM.ExpandCollapse)
-                    info = "Expands or collapses the current selected item";
-                else
-                {
-                    info = "";
-                }
+                var info = ShellHelper.LoWord(m.WParam) == (int)CMD_CUSTOM.ExpandCollapse ? "Expands or collapses the current selected item" : string.Empty;
             }
-
-            #endregion
-
-            #region IContextMenu2
 
             if (_oContextMenu2 != null &&
                 (m.Msg == (int)WM.INITMENUPOPUP ||
@@ -121,10 +108,6 @@ namespace TagScanner.Menus
                     return;
             }
 
-            #endregion
-
-            #region IContextMenu3
-
             if (_oContextMenu3 != null &&
                 m.Msg == (int)WM.MENUCHAR)
             {
@@ -132,8 +115,6 @@ namespace TagScanner.Menus
                     (uint)m.Msg, m.WParam, m.LParam, IntPtr.Zero) == S_OK)
                     return;
             }
-
-            #endregion
 
             base.WndProc(ref m);
         }
@@ -1381,7 +1362,6 @@ namespace TagScanner.Menus
         #endregion
     }
 
-    #region ShellContextMenuException
     public class ShellContextMenuException : Exception
     {
         /// <summary>Default contructor</summary>
@@ -1396,19 +1376,14 @@ namespace TagScanner.Menus
         {
         }
     }
-    #endregion
 
-    #region Class HookEventArgs
     public class HookEventArgs : EventArgs
     {
         public int HookCode;	// Hook code
         public IntPtr wParam;	// WPARAM argument
         public IntPtr lParam;	// LPARAM argument
     }
-    #endregion
 
-    #region Enum HookType
-    // Hook Types
     public enum HookType : int
     {
         WH_JOURNALRECORD = 0,
@@ -1427,9 +1402,7 @@ namespace TagScanner.Menus
         WH_KEYBOARD_LL = 13,
         WH_MOUSE_LL = 14
     }
-    #endregion
 
-    #region Class LocalWindowsHook
     public class LocalWindowsHook
     {
         // ************************************************************************
@@ -1512,7 +1485,6 @@ namespace TagScanner.Menus
         }
         // ************************************************************************
 
-
         #region Win32 Imports
         // ************************************************************************
         // Win32: SetWindowsHookEx()
@@ -1537,14 +1509,9 @@ namespace TagScanner.Menus
         // ************************************************************************
         #endregion
     }
-    #endregion
-
-    #region ShellHelper
 
     internal static class ShellHelper
     {
-        #region Low/High Word
-
         /// <summary>
         /// Retrieves the High Word of a WParam of a WindowMessage
         /// </summary>
@@ -1553,10 +1520,7 @@ namespace TagScanner.Menus
         public static uint HiWord(IntPtr ptr)
         {
             uint param32 = (uint)(ptr.ToInt64() & 0xffffffffL);
-            if ((param32 & 0x80000000) == 0x80000000)
-                return (param32 >> 16);
-            else
-                return (param32 >> 16) & 0xffff;
+            return (param32 & 0x80000000) == 0x80000000 ? param32 >> 16 : (param32 >> 16) & 0xffff;
         }
 
         /// <summary>
@@ -1569,9 +1533,5 @@ namespace TagScanner.Menus
             uint param32 = (uint)(ptr.ToInt64() & 0xffffffffL);
             return (param32 & 0xffff);
         }
-
-        #endregion
     }
-
-    #endregion
 }
