@@ -92,7 +92,7 @@
             this.AddFolderDialog = new System.Windows.Forms.FolderBrowserDialog();
             this.AddFileDialog = new System.Windows.Forms.OpenFileDialog();
             this.StatusBar = new System.Windows.Forms.StatusStrip();
-            this.GridPopupMoreOptions = new System.Windows.Forms.ToolStripMenuItem();
+            this.GridPopupMoreActions = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -153,7 +153,7 @@
             // 
             this.GridPopupMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.GridPopupPlay,
-            this.GridPopupMoreOptions,
+            this.GridPopupMoreActions,
             this.toolStripMenuItem6,
             this.GridPopupTags});
             this.GridPopupMenu.Name = "PopupMenu";
@@ -658,11 +658,11 @@
             this.StatusBar.TabIndex = 9;
             this.StatusBar.Text = "Status";
             // 
-            // GridPopupMoreOptions
+            // GridPopupMoreActions
             // 
-            this.GridPopupMoreOptions.Name = "GridPopupMoreOptions";
-            this.GridPopupMoreOptions.Size = new System.Drawing.Size(180, 22);
-            this.GridPopupMoreOptions.Text = "&More Options...";
+            this.GridPopupMoreActions.Name = "GridPopupMoreActions";
+            this.GridPopupMoreActions.Size = new System.Drawing.Size(180, 22);
+            this.GridPopupMoreActions.Text = "&More Actions...";
             // 
             // LibraryForm
             // 
@@ -770,7 +770,7 @@
         public System.Windows.Forms.ComboBox FilterComboBox;
         public System.Windows.Forms.CheckBox cbFilterApply;
         public System.Windows.Forms.Button btnFilterBuild;
-        public System.Windows.Forms.ToolStripMenuItem GridPopupMoreOptions;
+        public System.Windows.Forms.ToolStripMenuItem GridPopupMoreActions;
     }
 }
 

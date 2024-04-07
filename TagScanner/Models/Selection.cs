@@ -3,6 +3,7 @@
     using System;
     using System.Collections.Generic;
     using System.ComponentModel;
+    using System.IO;
     using System.Linq;
 
     [DefaultProperty("Title")]
@@ -1667,6 +1668,17 @@
         [DisplayName("# Selected Artists")]
         [ReadOnly(true)]
         public int SelectedArtistsCount => Works.SelectMany(f => f.Performers).Distinct().Count();
+
+        #endregion
+        #region SelectedFolders
+
+        [Browsable(true)]
+        [Category(Selected)]
+        [Column(50)]
+        [Description("The number of distinct folders containing one or more items from the selection.")]
+        [DisplayName("# Selected Folders")]
+        [ReadOnly(true)]
+        public int SelectedFolders => Works.Select(p => Path.GetDirectoryName(p.FilePath)).Distinct().Count();
 
         #endregion
         #region SelectedGenresCount

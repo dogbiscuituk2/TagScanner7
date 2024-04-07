@@ -6,11 +6,12 @@
     using System.IO;
     using System.Linq;
     using System.Windows;
-    using System.Windows.Controls;
     using System.Windows.Data;
+    using System.Windows.Controls;
     using System.Windows.Forms.Integration;
+    using System.Windows.Input;
+    using Menus;
     using Models;
-    using TagScanner.Menus;
     using ValueConverters;
     using Views;
 
@@ -236,7 +237,7 @@
         public void PopupShellContextMenu()
         {
             var menu = new ShellContextMenu();
-            menu.ShowContextMenu(GetSelectedFileInfos(), new System.Drawing.Point(100, 100));
+            menu.ShowContextMenu(GetSelectedFileInfos(), System.Windows.Forms.Cursor.Position);
         }
 
         private FileInfo[] GetSelectedFileInfos() => Selection.Works.Select(p => new FileInfo(p.FilePath)).ToArray();
