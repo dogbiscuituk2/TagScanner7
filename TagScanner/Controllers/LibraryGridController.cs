@@ -3,13 +3,14 @@
     using System;
     using System.Collections.Generic;
     using System.ComponentModel;
+    using System.IO;
     using System.Linq;
     using System.Windows;
     using System.Windows.Controls;
     using System.Windows.Data;
     using System.Windows.Forms.Integration;
     using Models;
-    using Terms;
+    using TagScanner.Menus;
     using ValueConverters;
     using Views;
 
@@ -231,6 +232,14 @@
             }
             EndUpdateSelection();
         }
+
+        public void PopupShellContextMenu()
+        {
+            var scpm = new ShellContextMenu();
+            scpm.ShowContextMenu(GetSelectedFileInfos(), new System.Drawing.Point(100, 100));
+        }
+
+        private FileInfo[] GetSelectedFileInfos() => Selection.Works.Select(p => new FileInfo(p.FilePath)).ToArray();
 
         private void Grid_SelectionChanged(object sender, SelectionChangedEventArgs e) => OnSelectionChanged();
 

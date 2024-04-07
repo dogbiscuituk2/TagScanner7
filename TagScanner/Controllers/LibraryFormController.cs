@@ -10,6 +10,7 @@
     using Models;
     using Mru;
     using Properties;
+    using TagScanner.Menus;
     using Terms;
     using Views;
 
@@ -69,6 +70,7 @@
                 View.AddFolder.Click += AddFolder_Click;
                 View.HelpAbout.Click += HelpAbout_Click;
                 View.GridPopupTags.Click += PopupTags_Click;
+                View.GridPopupMoreOptions.Click += GridPopupMoreOptions_Click;
                 View.PropertyGridPopupTagVisibility.Click += PropertyGridPopupTagVisibility_Click;
                 View.Shown += View_Shown;
                 View.FormClosing += FormClosing;
@@ -148,6 +150,7 @@
         #region Popup Menus
 
         private void PopupTags_Click(object sender, EventArgs e) => LibraryGridController.EditTagVisibility();
+        private void GridPopupMoreOptions_Click(object sender, EventArgs e) => LibraryGridController.PopupShellContextMenu();
         private void PropertyGridPopupTagVisibility_Click(object sender, EventArgs e) => SelectPropertyGridTags();
 
         #endregion

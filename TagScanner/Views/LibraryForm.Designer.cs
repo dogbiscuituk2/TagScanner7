@@ -52,6 +52,7 @@
             this.tabPlayer = new System.Windows.Forms.TabPage();
             this.splitContainer3 = new System.Windows.Forms.SplitContainer();
             this.PlaylistElementHost = new System.Windows.Forms.Integration.ElementHost();
+            this.MediaPlayer = new AxWMPLib.AxWindowsMediaPlayer();
             this.FilterPopupMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.MainMenu = new System.Windows.Forms.MenuStrip();
             this.FileMenu = new System.Windows.Forms.ToolStripMenuItem();
@@ -91,7 +92,7 @@
             this.AddFolderDialog = new System.Windows.Forms.FolderBrowserDialog();
             this.AddFileDialog = new System.Windows.Forms.OpenFileDialog();
             this.StatusBar = new System.Windows.Forms.StatusStrip();
-            this.MediaPlayer = new AxWMPLib.AxWindowsMediaPlayer();
+            this.GridPopupMoreOptions = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -111,8 +112,8 @@
             this.splitContainer3.Panel1.SuspendLayout();
             this.splitContainer3.Panel2.SuspendLayout();
             this.splitContainer3.SuspendLayout();
-            this.MainMenu.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.MediaPlayer)).BeginInit();
+            this.MainMenu.SuspendLayout();
             this.SuspendLayout();
             // 
             // splitContainer1
@@ -152,10 +153,11 @@
             // 
             this.GridPopupMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.GridPopupPlay,
+            this.GridPopupMoreOptions,
             this.toolStripMenuItem6,
             this.GridPopupTags});
             this.GridPopupMenu.Name = "PopupMenu";
-            this.GridPopupMenu.Size = new System.Drawing.Size(166, 54);
+            this.GridPopupMenu.Size = new System.Drawing.Size(181, 98);
             // 
             // GridPopupPlay
             // 
@@ -163,30 +165,30 @@
             this.GridPopupPlayAddToQueue,
             this.GridPopupPlayNewPlaylist});
             this.GridPopupPlay.Name = "GridPopupPlay";
-            this.GridPopupPlay.Size = new System.Drawing.Size(165, 22);
+            this.GridPopupPlay.Size = new System.Drawing.Size(180, 22);
             this.GridPopupPlay.Text = "&Play";
             // 
             // GridPopupPlayAddToQueue
             // 
             this.GridPopupPlayAddToQueue.Name = "GridPopupPlayAddToQueue";
-            this.GridPopupPlayAddToQueue.Size = new System.Drawing.Size(148, 22);
+            this.GridPopupPlayAddToQueue.Size = new System.Drawing.Size(180, 22);
             this.GridPopupPlayAddToQueue.Text = "Add to &Queue";
             // 
             // GridPopupPlayNewPlaylist
             // 
             this.GridPopupPlayNewPlaylist.Name = "GridPopupPlayNewPlaylist";
-            this.GridPopupPlayNewPlaylist.Size = new System.Drawing.Size(148, 22);
+            this.GridPopupPlayNewPlaylist.Size = new System.Drawing.Size(180, 22);
             this.GridPopupPlayNewPlaylist.Text = "&New Playlist";
             // 
             // toolStripMenuItem6
             // 
             this.toolStripMenuItem6.Name = "toolStripMenuItem6";
-            this.toolStripMenuItem6.Size = new System.Drawing.Size(162, 6);
+            this.toolStripMenuItem6.Size = new System.Drawing.Size(177, 6);
             // 
             // GridPopupTags
             // 
             this.GridPopupTags.Name = "GridPopupTags";
-            this.GridPopupTags.Size = new System.Drawing.Size(165, 22);
+            this.GridPopupTags.Size = new System.Drawing.Size(180, 22);
             this.GridPopupTags.Text = "Select &Columns...";
             // 
             // FilterGroupBox
@@ -318,11 +320,11 @@
             // tabPlayer
             // 
             this.tabPlayer.Controls.Add(this.splitContainer3);
-            this.tabPlayer.Location = new System.Drawing.Point(4, 26);
+            this.tabPlayer.Location = new System.Drawing.Point(4, 22);
             this.tabPlayer.Margin = new System.Windows.Forms.Padding(4);
             this.tabPlayer.Name = "tabPlayer";
             this.tabPlayer.Padding = new System.Windows.Forms.Padding(4);
-            this.tabPlayer.Size = new System.Drawing.Size(264, 475);
+            this.tabPlayer.Size = new System.Drawing.Size(264, 479);
             this.tabPlayer.TabIndex = 4;
             this.tabPlayer.Text = "Player";
             this.tabPlayer.UseVisualStyleBackColor = true;
@@ -357,6 +359,17 @@
             this.PlaylistElementHost.TabIndex = 0;
             this.PlaylistElementHost.Text = "elementHost1";
             this.PlaylistElementHost.Child = null;
+            // 
+            // MediaPlayer
+            // 
+            this.MediaPlayer.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.MediaPlayer.Enabled = true;
+            this.MediaPlayer.Location = new System.Drawing.Point(0, 0);
+            this.MediaPlayer.Margin = new System.Windows.Forms.Padding(4);
+            this.MediaPlayer.Name = "MediaPlayer";
+            this.MediaPlayer.OcxState = ((System.Windows.Forms.AxHost.State)(resources.GetObject("MediaPlayer.OcxState")));
+            this.MediaPlayer.Size = new System.Drawing.Size(256, 338);
+            this.MediaPlayer.TabIndex = 0;
             // 
             // FilterPopupMenu
             // 
@@ -645,16 +658,11 @@
             this.StatusBar.TabIndex = 9;
             this.StatusBar.Text = "Status";
             // 
-            // MediaPlayer
+            // GridPopupMoreOptions
             // 
-            this.MediaPlayer.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.MediaPlayer.Enabled = true;
-            this.MediaPlayer.Location = new System.Drawing.Point(0, 0);
-            this.MediaPlayer.Margin = new System.Windows.Forms.Padding(4);
-            this.MediaPlayer.Name = "MediaPlayer";
-            this.MediaPlayer.OcxState = ((System.Windows.Forms.AxHost.State)(resources.GetObject("MediaPlayer.OcxState")));
-            this.MediaPlayer.Size = new System.Drawing.Size(256, 338);
-            this.MediaPlayer.TabIndex = 0;
+            this.GridPopupMoreOptions.Name = "GridPopupMoreOptions";
+            this.GridPopupMoreOptions.Size = new System.Drawing.Size(180, 22);
+            this.GridPopupMoreOptions.Text = "&More Options...";
             // 
             // LibraryForm
             // 
@@ -690,9 +698,9 @@
             this.splitContainer3.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer3)).EndInit();
             this.splitContainer3.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.MediaPlayer)).EndInit();
             this.MainMenu.ResumeLayout(false);
             this.MainMenu.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.MediaPlayer)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -762,6 +770,7 @@
         public System.Windows.Forms.ComboBox FilterComboBox;
         public System.Windows.Forms.CheckBox cbFilterApply;
         public System.Windows.Forms.Button btnFilterBuild;
+        public System.Windows.Forms.ToolStripMenuItem GridPopupMoreOptions;
     }
 }
 

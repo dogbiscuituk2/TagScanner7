@@ -124,6 +124,7 @@
     <Reference Include="WindowsFormsIntegration" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Menus\ShellContextMenu.cs" />
     <Compile Include="Streaming\StreamFormat.cs" />
     <Compile Include="Controls\TermNode.cs" />
     <Compile Include="Controls\TermTree.cs">
