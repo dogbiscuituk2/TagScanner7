@@ -27,6 +27,7 @@
 
         public override int Arity => Op.Arity();
         public override Expression Expression => GetExpression();
+        public bool IsAssociative => Op.Associates();
         public override Rank Rank => Op.GetRank();
         public override Type ResultType => Op.GetResultType() ?? GetCommonResultType(Operands.ToArray());
 
@@ -87,7 +88,7 @@
         {
             if (Op == Op.Add && ResultType == typeof(string))
                 return Concatenate(Operands.ToArray()).Expression;
-            if (Op.Associates())
+            if (IsAssociative)
                 return MakeAssociation(Operands);
             if (Op.CanChain())
                 return MakeChain();

@@ -42,18 +42,6 @@
 
         #region Private Methods
 
-        private Term ConsolidateTerms(Term right)
-        {
-            var op = PopOperator();
-            var left = PopTerm();
-            if (op != Op.Comma)
-                return NewTerm(new Operation(op, left, right));
-            if (!(left is TermList termList))
-                return NewTerm(new TermList(left, right));
-            termList.Operands.Add(right);
-            return NewTerm(termList);
-        }
-
         private static Term[] MakeArray(Term terms) =>
             terms is TermList termList
                 ? termList.Operands.ToArray()
@@ -84,7 +72,7 @@
                         break;
                     var priorRank = op.GetRank();
                     if (priorRank >= tokenRank)
-                        term = ConsolidateTerms(term);
+                        term = Consolidate(term);
                     else
                         break;
                 }
@@ -97,7 +85,7 @@
                 var op = PeekOperator();
                 if (op == Op.LParen)
                     break;
-                term = ConsolidateTerms(term);
+                term = Consolidate(term);
             }
             return term;
         }
@@ -204,7 +192,8 @@
         #endregion
         #region Terms
 
-    //  private bool AnyTerms() => _state.AnyTerms();
+        //  private bool AnyTerms() => _state.AnyTerms();
+        private Operation Consolidate(Term right, [CallerMemberName] string caller = "", [CallerLineNumber] int line = 0) => _state.Consolidate(caller, line, right);
     //  private Term PeekTerm([CallerMemberName] string caller = "", [CallerLineNumber] int line = 0) => _state.PeekTerm(caller, line);
         private Term PopTerm([CallerMemberName] string caller = "", [CallerLineNumber] int line = 0) => _state.PopTerm(caller, line);
         private void PushTerm(Term term, [CallerMemberName] string caller = "", [CallerLineNumber] int line = 0) => _state.PushTerm(caller, line, term);

@@ -31,7 +31,7 @@
                 { Op.Subtract, new OpInfo('－', "{0} － {1}", ExpressionType.Subtract, Rank.Additive, typeof(double), Icons.Op2_Subtract) },
                 { Op.Multiply, new OpInfo('✕', "{0} ✕ {1}", ExpressionType.Multiply, Rank.Multiplicative, typeof(double), Icons.Op2_Multiply) },
                 { Op.Divide, new OpInfo('／', "{0} ／ {1}", ExpressionType.Divide, Rank.Multiplicative, typeof(double), Icons.Op2_Divide) },
-                { Op.Modulo, new OpInfo('%', "{0} % {1}", ExpressionType.Modulo, Rank.Multiplicative, typeof(double), Icons.Op2_Modulo ) },
+                { Op.Modulo, new OpInfo('%', "{0} % {1}", ExpressionType.Modulo, Rank.Multiplicative, typeof(double), Icons.Op2_Modulo) },
                 { Op.Positive, new OpInfo('＋', "＋{0}", ExpressionType.UnaryPlus, Rank.Unary, typeof(double), Icons.Op2_Add) },
                 { Op.Negative, new OpInfo('－', "－{0}", ExpressionType.Negate, Rank.Unary, typeof(double), Icons.Op2_Subtract) },
                 { Op.Not, new OpInfo('!', "!{0}", ExpressionType.Not, Rank.Unary, typeof(bool), Icons.Op2_Not) },
@@ -39,40 +39,27 @@
             };
             Keys = OperatorDictionary.Keys.ToArray();
             Values = OperatorDictionary.Values.ToArray();
+            AssociativeOperators = new[] { Op.Comma, Op.And, Op.Or, Op.Concatenate, Op.Add, Op.Multiply };
+            UnaryOperators = new[] { Op.Positive, Op.Negative, Op.Not };
+            BinaryOperators = Keys.Except(UnaryOperators).Except(new[] { Op.LParen }).ToArray();
         }
 
-        #endregion
+    #endregion
 
-        #region Public Properties
+    #region Public Properties
 
         public static Op[] Keys { get; }
         public static OpInfo[] Values { get; }
+        public static Op[] AssociativeOperators { get; }
+        public static Op[] UnaryOperators { get; }
+        public static Op[] BinaryOperators { get; }
 
         #endregion
 
         #region Public Extension Methods
 
-        public static int Arity(this Op op)
-        {
-            switch (op)
-            {
-                case Op.And:
-                case Op.Or:
-                case Op.Concatenate:
-                case Op.Add:
-                case Op.Subtract:
-                case Op.Multiply:
-                case Op.Divide:
-                    return int.MaxValue;
-            }
-            // Otherwise, the Arity value is simply the number of {#} placeholders in the relevant Format string.
-            var format = op.GetFormat();
-            for (var result = 0; ; result++)
-                if (format.IndexOf($"{{{result}}}") < 0)
-                    return result;
-        }
-
-        public static bool Associates(this Op op) => op.Arity() == int.MaxValue;
+        public static int Arity(this Op op) => op.Associates() ? int.MaxValue : op.IsBinary() ? 2 : op.IsUnary() ? 1 : 0;
+        public static bool Associates(this Op op) => AssociativeOperators.Contains(op);
         public static bool CanChain(this Op op) => op == Op.EqualTo || op.GetRank() == Terms.Rank.Relational;
         public static ExpressionType GetExpType(this Op op) => OperatorDictionary[op].ExpressionType;
         public static string GetFormat(this Op op) => OperatorDictionary[op].Format;
@@ -81,6 +68,8 @@
         public static OpInfo GetOpInfo(this Op op) => OperatorDictionary[op];
         public static Rank GetRank(this Op op) => OperatorDictionary[op].Rank;
         public static Type GetResultType(this Op op) => OperatorDictionary[op].ResultType;
+        public static bool IsBinary(this Op op) => BinaryOperators.Contains(op);
+        public static bool IsUnary(this Op op) => UnaryOperators.Contains(op);
 
         public static Op ToOperator(this string symbol, bool unary)
         {

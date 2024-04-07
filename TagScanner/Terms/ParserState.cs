@@ -17,6 +17,7 @@
 
         public void AcceptToken(string caller, int line, string expected) => Process(caller, line, p => AcceptToken(expected));
         public void BeginParse(string caller, int line, string text) => Process(caller, line, p => Reset(text));
+        public Operation Consolidate(string caller, int line, Term right) => (Operation)Process(caller, line, p => Consolidate(right));
         public Token DequeueToken(string caller, int line) => (Token)Process(caller, line, p => _tokens.Dequeue());
         public Term EndParse(string caller, int line, Term term) => (Term)Process(caller, line, p => EndParse(term));
     //  public void EnqueueToken(string caller, int line, Token token) => Process(caller, line, p => { _tokens.Enqueue(token); return token; });
@@ -48,6 +49,20 @@
         {
             var token = _tokens.Dequeue();
             return token.Value == expected ? token : SyntaxError(token, expected);
+        }
+
+        private Operation Consolidate(Term right)
+        {
+            var left = _terms.Pop();
+            var op = _operators.Pop();
+            bool
+                ass = op.Associates(),
+                lop = ass && left is Operation leftOp && leftOp.Op == op,
+                rop = ass && right is Operation rightOp && rightOp.Op == op;
+            IEnumerable<Term>
+                leftOps = lop ? ((Operation)left).Operands.ToArray() : new[] { left },
+                rightOps = rop ? ((Operation)right).Operands.ToArray() : new[] { right };
+            return new Operation(op, leftOps.Union(rightOps).ToArray());
         }
 
         private void Dump(string caller, int line, object value, [CallerMemberName] string action = "")
