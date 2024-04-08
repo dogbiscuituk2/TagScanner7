@@ -10,6 +10,7 @@
         #region Constructors
 
         public Function(Fn fn, params Term[] operands) : base(operands) => SetFn(fn);
+        public Function(Term self, Fn fn, params Term[] operands) : this(fn, new[] { self }.Union(operands).ToArray()) { }
 
         #endregion
 

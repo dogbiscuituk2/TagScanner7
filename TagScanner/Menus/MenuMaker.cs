@@ -58,8 +58,8 @@
         private static void AddFunctions(this ToolStripItemCollection items, EventHandler click)
         {
             items = items.Append("&Function");
-            foreach (var key in Functions.Keys)
-                items.Append(key.ToString(), key, click).ToolTipText = key.GetPrototype();
+            foreach (var fn in Functions.Keys)
+                items.Append($"{fn}", fn, click).ToolTipText = fn.GetPrototype();
         }
 
         private static void AddOperations(this ToolStripItemCollection items, EventHandler click)
@@ -120,7 +120,7 @@
                 case Tag tag:
                     return types.Contains(tag.Type());
                 case Op _:
-                case string _:
+                case Fn _:
                     return true;
                 default:
                     return false;

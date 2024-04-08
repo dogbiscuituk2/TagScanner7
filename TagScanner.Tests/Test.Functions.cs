@@ -24,7 +24,6 @@
             var function = new Function(fn);
             Assert.IsNotNull(function);
             Assert.AreEqual(expected: Rank.Unary, actual: function.Rank);
-            if (function.IsStatic)
             TestTerm(function);
         }
 

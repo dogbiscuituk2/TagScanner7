@@ -8,22 +8,30 @@
 
     public class FuncInfo
     {
-        public FuncInfo(MethodInfo methodInfo) { _methodInfo = methodInfo; }
+        #region Constructors
 
-        public FuncInfo(string name, bool isStatic, params Type[] paramTypes)
+        public FuncInfo(Fn fn, MethodInfo methodInfo) : this(fn) => _methodInfo = methodInfo;
+
+        public FuncInfo(Fn fn, bool isStatic, params Type[] paramTypes) : this(fn)
         {
             _isStatic = isStatic;
             _methodInfo = null;
-            _name = name;
             _paramTypes = paramTypes;
         }
 
+        private FuncInfo(Fn fn) => _fn = fn;
+
+        #endregion
+
+        #region Public Properties
+
         public Type DeclaringType => _methodInfo?.DeclaringType ?? typeof(object);
         public bool IsStatic => _methodInfo?.IsStatic ?? _isStatic;
-        public string Name => _methodInfo?.Name ?? _name;
         public int ParamCount => _methodInfo?.GetParameters()?.Length ?? _paramTypes.Length;
         public IEnumerable<Type> ParamTypes => _methodInfo?.GetParameters().Select(p => p.ParameterType) ?? _paramTypes;
         public Type ReturnType => _methodInfo?.ReturnType ?? typeof(object);
+
+        #endregion
 
         public Expression GetExpression(List<Term> operands)
         {
@@ -32,11 +40,11 @@
                 return IsStatic
                     ? Expression.Call(_methodInfo, expressions)
                     : Expression.Call(expressions[0], _methodInfo, expressions.Skip(1));
-            switch (_name)
+            switch (_fn)
             {
-                case nameof(Fn.If):
+                case (Fn.If):
                     return Expression.Condition(expressions[0], expressions[1], expressions[2]);
-                case nameof(Fn.ToText):
+                case (Fn.ToText):
                     var newOperands = new List<Term>();
                     var newLine = new Constant<string>(Environment.NewLine);
                     for (var index = 0; index < operands.Count; index++)
@@ -56,9 +64,13 @@
             return null;
         }
 
+        #region Private Fields
+
+        private readonly Fn _fn;
         private readonly bool _isStatic;
         private readonly MethodInfo _methodInfo;
-        private readonly string _name;
         private readonly Type[] _paramTypes;
+
+        #endregion
     }
 }

@@ -62,7 +62,7 @@
         public static string GetPrototype(this Fn fn)
         {
             var funcInfo = fn.FuncInfo();
-            var fullName = funcInfo.IsStatic ? fn.ToString() : $"({funcInfo.DeclaringType.Say()}).{fn}";
+            var fullName = funcInfo.IsStatic ? $"{fn}" : $"({funcInfo.DeclaringType.Say()}).{fn}";
             return $"{funcInfo.ReturnType.Say()} {fullName}({funcInfo.SayParamTypes()})";
         }
 
@@ -72,7 +72,7 @@
 
         public static int ParamCount(this Fn fn) => fn.FuncInfo().ParamCount;
 
-        public static Fn ToFunction(this string name) => Keys.Single(p => p.FuncInfo().Name == name);
+        public static Fn ToFunction(this string name) => Keys.Single(p => $"{p}" == name);
 
         #endregion
 
@@ -85,15 +85,15 @@
         #region Private Methods
 
         private static void AddFn(Fn fn, Type declaringType, bool isStatic, params Type[] paramTypes) =>
-            AddFn(fn, fn.ToString(), declaringType, isStatic, paramTypes);
+            AddFn(fn, $"{fn}", declaringType, isStatic, paramTypes);
 
         private static void AddFn(Fn fn, string name, Type declaringType, bool isStatic, params Type[] paramTypes) =>
-            FunctionDictionary.Add(fn, GetFn(name, declaringType, isStatic, paramTypes));
+            FunctionDictionary.Add(fn, GetFn(fn, name, declaringType, isStatic, paramTypes));
 
-        private static FuncInfo GetFn(string name, Type declaringType, bool isStatic, params Type[] paramTypes) =>
+        private static FuncInfo GetFn(Fn fn, string name, Type declaringType, bool isStatic, params Type[] paramTypes) =>
             declaringType == null
-                ? new FuncInfo(name, isStatic, paramTypes)
-                : new FuncInfo(
+                ? new FuncInfo(fn, isStatic, paramTypes)
+                : new FuncInfo(fn,
                     declaringType
                         .GetMethods(BindingFlags.Public | (isStatic ? BindingFlags.Static : BindingFlags.Instance))
                         .Single(p => p.Name == name && p.GetParamTypes().SequenceEqual(paramTypes)));
