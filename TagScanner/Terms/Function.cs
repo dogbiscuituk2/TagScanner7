@@ -22,7 +22,7 @@
             set
             {
                 _funcInfo = value;
-                AddParameters(ParameterTypes.ToArray());
+                InitParameters(ParameterTypes.ToArray());
             }
         }
 
@@ -33,7 +33,7 @@
             {
                 _name = value;
                 FuncInfo = Name.FuncInfo();
-                AddParameters(GetParameterTypes().ToArray());
+                InitParameters(GetParameterTypes().ToArray());
             }
         }
 

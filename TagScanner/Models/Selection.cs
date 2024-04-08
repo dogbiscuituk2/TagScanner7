@@ -670,19 +670,19 @@
         [Browsable(true)]
         [Category(File)]
         [Column(50)]
-        [Description("An enumeration value containing the combined FileStatus values of all items in the selection. Possible values are:\n\n"
-            + "-- Unknown: the item has no recognised FileStatus value.\n"
-            + "-- Current: the item's library entry exactly matches its media file.\n"
-            + "-- New: the item's media file does not yet have a corresponding saved library entry.\n"
-            + "-- Pending: the item's library entry contains more recent edits than its media file.\n"
-            + "-- Updated: the item's media file contains more recent edits than its library entry.\n"
-            + "-- Deleted: the item's media file no longer exists; its library entry is orphaned.\n"
-            + "-- Changed: the item's status is a combination of New, Pending, Updated and/or Deleted.\n\n"
-            + "During the synchronization process, Changed items are processed as follows:\n\n"
-            + "-- New items are added to the library.\n"
-            + "-- Pending edits are applied to the corresponding media files.\n"
-            + "-- Updated items have their library entries brought up to date.\n"
-            + "-- Deleted items are removed from the library.")]
+        [Description("An enumeration value containing the combined FileStatus values of all items in the selection. Possible values are:\r\n\r\n"
+                     + "-- Unknown: the item has no recognised FileStatus value.\r\n"
+                     + "-- Current: the item's library entry exactly matches its media file.\r\n"
+                     + "-- New: the item's media file does not yet have a corresponding saved library entry.\r\n"
+                     + "-- Pending: the item's library entry contains more recent edits than its media file.\r\n"
+                     + "-- Updated: the item's media file contains more recent edits than its library entry.\r\n"
+                     + "-- Deleted: the item's media file no longer exists; its library entry is orphaned.\r\n"
+                     + "-- Changed: the item's status is a combination of New, Pending, Updated and/or Deleted.\r\n\r\n"
+                     + "During the synchronization process, Changed items are processed as follows:\r\n\r\n"
+                     + "-- New items are added to the library.\r\n"
+                     + "-- Pending edits are applied to the corresponding media files.\r\n"
+                     + "-- Updated items have their library entries brought up to date.\r\n"
+                     + "-- Deleted items are removed from the library.")]
         [DisplayName("File Status")]
         [ReadOnly(true)]
         public FileStatus FileStatus => GetFileStatus(p => p.FileStatus, ref _fileStatus);

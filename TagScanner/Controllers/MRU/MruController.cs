@@ -117,7 +117,7 @@
                         var text = CompactMenuText(value.Split('|')[0]);
                         var item = _recentItems.Add(text, null, OnItemClick);
                         item.Tag = value;
-                        item.ToolTipText = value.Replace('|', '\n');
+                        item.ToolTipText = value.Replace("|", Environment.NewLine);
                     }
                     catch (Exception ex) { Console.WriteLine(ex); }
                 }

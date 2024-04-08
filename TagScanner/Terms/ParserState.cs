@@ -84,7 +84,7 @@
             Debug.WriteLine(format, _, _, "Operators", Say(_operators.Select(p => p.GetLabel().ToString())));
             Debug.WriteLine(_);
 
-            void DrawLine() => Debug.WriteLine(new string('_', 80) + "\r\n");
+            void DrawLine() => Debug.WriteLine(new string('_', 80) + Environment.NewLine);
 #endif
         }
 

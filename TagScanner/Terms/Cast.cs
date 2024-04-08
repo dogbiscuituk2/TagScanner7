@@ -25,7 +25,7 @@
         private void SetNewType(Type newType)
         {
             NewTypeName = newType.FullName; ;
-            AddParameters(typeof(object));
+            InitParameters(typeof(object));
         }
     }
 }

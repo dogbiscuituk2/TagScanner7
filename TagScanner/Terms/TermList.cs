@@ -104,14 +104,14 @@
 
         #region Protected Methods
 
-        protected void AddParameters(params Type[] types)
+        protected virtual IEnumerable<Type> GetParameterTypes() => new[] { typeof(object) };
+
+        protected void InitParameters(params Type[] types)
         {
             for (var index = 0; index < types.Length; index++)
                 if (Operands.Count <= index)
                     Operands.Add(new Parameter(types[index]));
         }
-
-        protected virtual IEnumerable<Type> GetParameterTypes() => new[] { typeof(object) };
 
         public override string ToString()
         {

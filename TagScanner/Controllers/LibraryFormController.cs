@@ -139,7 +139,7 @@
         private void HelpAbout_Click(object sender, EventArgs e)
         {
             MessageBox.Show(
-                $"{Application.CompanyName}\n{Application.ProductName}\nVersion {Application.ProductVersion}",
+                $"{Application.CompanyName}{Environment.NewLine}{Application.ProductName}{Environment.NewLine}Version {Application.ProductVersion}",
                 string.Concat("About ", Application.ProductName));
         }
 

@@ -81,7 +81,7 @@
             }
         }
 
-        private Type GetCommonResultType(params Term[] operands) =>
+        private static Type GetCommonResultType(params Term[] operands) =>
             operands.Aggregate<Term, Type>(null, (current, t) => GetCommonType(current, t?.ResultType));
 
         private Expression GetExpression()
@@ -122,7 +122,6 @@
         }
 
         private BinaryExpression MakeBinaryExpression(Expression left, Expression right) => MakeBinaryExpression(Op, left, right);
-
         private static BinaryExpression MakeBinaryExpression(Op op, Expression left, Expression right) => Expression.MakeBinary(op.GetExpType(), left, right);
 
         private Expression MakeChain()
@@ -152,30 +151,10 @@
             var paramType = op.GetParamType();
             if (paramType == null)
                 return;
-            AddParameters(paramType);
-            if (op.IsBinary())
-                AddParameters(paramType);
-            /*
-            switch (Op)
-            {
-                case Op.And:
-                case Op.Or:
-                case Op.Xor:
-                    return AddParameters(typeof(bool), typeof(bool));
-                case Op.EqualTo:
-                case Op.NotEqualTo:
-                    return AddParameters(typeof(object), typeof(object));
-                case Op.Concatenate:
-                    return AddParameters(typeof(string), typeof(string));
-                case Op.Positive:
-                case Op.Negative:
-                    return AddParameters(typeof(double));
-                case Op.Not:
-                    return AddParameters(typeof(bool));
-                default:
-                    return AddParameters(typeof(double), typeof(double));
-            }
-            */
+            if (op.IsUnary())
+                InitParameters(paramType);
+            else if (op.IsBinary())
+                InitParameters(paramType, paramType);
         }
 
         #endregion
