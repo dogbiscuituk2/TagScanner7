@@ -13,30 +13,37 @@
 
         static Operators()
         {
+            Type
+                b = typeof(bool),
+                d = typeof(double),
+                o = typeof(object),
+                s = typeof(string);
+
             OperatorDictionary = new Dictionary<Op, OpInfo>
             {
                 { 0, new OpInfo('(', null, 0, 0, null) },
-                { Op.Comma, new OpInfo(',', "{0}, {1}", ExpressionType.MemberAccess, Rank.Comma, typeof(object)) },
-                { Op.And, new OpInfo('&', "{0} & {1}", ExpressionType.AndAlso, Rank.ConditionalAnd, typeof(bool), Icons.Op2_And) },
-                { Op.Or, new OpInfo('|', "{0} | {1}", ExpressionType.OrElse, Rank.ConditionalOr, typeof(bool), Icons.Op2_Or) },
-                { Op.Xor, new OpInfo('^', "{0} ^ {1}", ExpressionType.ExclusiveOr, Rank.BitwiseXor, typeof(bool), Icons.Op2_Xor) },
-                { Op.EqualTo, new OpInfo('=', "{0} = {1}", ExpressionType.Equal, Rank.Equality, typeof(object), typeof(bool), Icons.Op2_EqualTo) },
-                { Op.NotEqualTo, new OpInfo('≠', "{0} ≠ {1}", ExpressionType.NotEqual, Rank.Equality, typeof(object), typeof(bool), Icons.Op2_NotEqualTo) },
-                { Op.LessThan, new OpInfo('<', "{0} < {1}", ExpressionType.LessThan, Rank.Relational, typeof(double), typeof(bool), Icons.Op2_LessThan) },
-                { Op.NotLessThan, new OpInfo('≥', "{0} ≥ {1}", ExpressionType.GreaterThanOrEqual, Rank.Relational, typeof(double), typeof(bool), Icons.Op2_NotLessThan) },
-                { Op.GreaterThan, new OpInfo('>', "{0} > {1}", ExpressionType.GreaterThan, Rank.Relational, typeof(double), typeof(bool), Icons.Op2_GreaterThan) },
-                { Op.NotGreaterThan, new OpInfo('≤', "{0} ≤ {1}", ExpressionType.LessThanOrEqual, Rank.Relational, typeof(double), typeof(bool), Icons.Op2_NotGreaterThan) },
-                { Op.Concatenate, new OpInfo('+', "{0} + {1}", ExpressionType.Add, Rank.Additive, typeof(string), Icons.Op2_Add) },
-                { Op.Add, new OpInfo('+', "{0} + {1}", ExpressionType.Add, Rank.Additive, typeof(double), Icons.Op2_Add) },
-                { Op.Subtract, new OpInfo('-', "{0} - {1}", ExpressionType.Subtract, Rank.Additive, typeof(double), Icons.Op2_Subtract) },
-                { Op.Multiply, new OpInfo('×', "{0} × {1}", ExpressionType.Multiply, Rank.Multiplicative, typeof(double), Icons.Op2_Multiply) },
-                { Op.Divide, new OpInfo('÷', "{0} ÷ {1}", ExpressionType.Divide, Rank.Multiplicative, typeof(double), Icons.Op2_Divide) },
-                { Op.Modulo, new OpInfo('%', "{0} % {1}", ExpressionType.Modulo, Rank.Multiplicative, typeof(double), Icons.Op2_Modulo) },
-                { Op.Positive, new OpInfo('+', "+{0}", ExpressionType.UnaryPlus, Rank.Unary, typeof(double), Icons.Op2_Add) },
-                { Op.Negative, new OpInfo('-', "-{0}", ExpressionType.Negate, Rank.Unary, typeof(double), Icons.Op2_Subtract) },
-                { Op.Not, new OpInfo('!', "!{0}", ExpressionType.Not, Rank.Unary, typeof(bool), Icons.Op2_Not) },
-                { Op.Dot, new OpInfo('.', "{0}.{1}", ExpressionType.MemberAccess, Rank.Primary, typeof(object)) },
+                { Op.Comma, new OpInfo(',', "{0}, {1}", ExpressionType.MemberAccess, Rank.Comma, o) },
+                { Op.And, new OpInfo('&', "{0} & {1}", ExpressionType.AndAlso, Rank.ConditionalAnd, b, Icons.Op2_And) },
+                { Op.Or, new OpInfo('|', "{0} | {1}", ExpressionType.OrElse, Rank.ConditionalOr, b, Icons.Op2_Or) },
+                { Op.Xor, new OpInfo('^', "{0} ^ {1}", ExpressionType.ExclusiveOr, Rank.BitwiseXor, b, Icons.Op2_Xor) },
+                { Op.EqualTo, new OpInfo('=', "{0} = {1}", ExpressionType.Equal, Rank.Equality, o, b, Icons.Op2_EqualTo) },
+                { Op.NotEqualTo, new OpInfo('≠', "{0} ≠ {1}", ExpressionType.NotEqual, Rank.Equality, o, b, Icons.Op2_NotEqualTo) },
+                { Op.LessThan, new OpInfo('<', "{0} < {1}", ExpressionType.LessThan, Rank.Relational, d, b, Icons.Op2_LessThan) },
+                { Op.NotLessThan, new OpInfo('≥', "{0} ≥ {1}", ExpressionType.GreaterThanOrEqual, Rank.Relational, d, b, Icons.Op2_NotLessThan) },
+                { Op.GreaterThan, new OpInfo('>', "{0} > {1}", ExpressionType.GreaterThan, Rank.Relational, d, b, Icons.Op2_GreaterThan) },
+                { Op.NotGreaterThan, new OpInfo('≤', "{0} ≤ {1}", ExpressionType.LessThanOrEqual, Rank.Relational, d, b, Icons.Op2_NotGreaterThan) },
+                { Op.Concatenate, new OpInfo('+', "{0} + {1}", ExpressionType.Add, Rank.Additive, s, Icons.Op2_Add) },
+                { Op.Add, new OpInfo('+', "{0} + {1}", ExpressionType.Add, Rank.Additive, d, Icons.Op2_Add) },
+                { Op.Subtract, new OpInfo('-', "{0} - {1}", ExpressionType.Subtract, Rank.Additive, d, Icons.Op2_Subtract) },
+                { Op.Multiply, new OpInfo('×', "{0} × {1}", ExpressionType.Multiply, Rank.Multiplicative, d, Icons.Op2_Multiply) },
+                { Op.Divide, new OpInfo('÷', "{0} ÷ {1}", ExpressionType.Divide, Rank.Multiplicative, d, Icons.Op2_Divide) },
+                { Op.Modulo, new OpInfo('%', "{0} % {1}", ExpressionType.Modulo, Rank.Multiplicative, d, Icons.Op2_Modulo) },
+                { Op.Positive, new OpInfo('+', "+{0}", ExpressionType.UnaryPlus, Rank.Unary, d, Icons.Op2_Add) },
+                { Op.Negative, new OpInfo('-', "-{0}", ExpressionType.Negate, Rank.Unary, d, Icons.Op2_Subtract) },
+                { Op.Not, new OpInfo('!', "!{0}", ExpressionType.Not, Rank.Unary, b, Icons.Op2_Not) },
+                { Op.Dot, new OpInfo('.', "{0}.{1}", ExpressionType.MemberAccess, Rank.Primary, o) },
             };
+
             Keys = OperatorDictionary.Keys.ToArray();
             Values = OperatorDictionary.Values.ToArray();
         }
@@ -58,7 +65,7 @@
         public static ExpressionType GetExpType(this Op op) => OperatorDictionary[op].ExpressionType;
         public static string GetFormat(this Op op) => OperatorDictionary[op].Format;
         public static Image GetImage(this Op op) => OperatorDictionary[op].Image;
-        public static char GetLabel(this Op op) => OperatorDictionary[op].Label;
+        public static string GetLabel(this Op op) => OperatorDictionary[op].Label;
         public static OpInfo GetOpInfo(this Op op) => OperatorDictionary[op];
         public static Rank GetRank(this Op op) => OperatorDictionary[op].Rank;
         public static Type GetResultType(this Op op) => OperatorDictionary[op].ResultType;

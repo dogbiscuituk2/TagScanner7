@@ -162,10 +162,10 @@
         };
 
         private static IEnumerable<string> Fields => Tags.Keys.Select(p => p.DisplayName());
-        private static IEnumerable<string> FunctionNames => Functions.Keys.Select(fn => $"{fn}");
-        private static IEnumerable<string> MemberFunctionNames => Functions.Keys.Where(p => !p.IsStatic()).Select(p => p.ToString());
+        private static IEnumerable<string> FunctionNames => Functors.Keys.Select(fn => $"{fn}");
+        private static IEnumerable<string> MemberFunctionNames => Functors.Keys.Where(p => !p.IsStatic()).Select(p => p.ToString());
         private static IEnumerable<string> Operators => MonadicOperators.Union(DyadicOperators);
-        private static IEnumerable<string> StaticFunctionNames => Functions.Keys.Where(p => p.IsStatic()).Select(p => p.ToString());
+        private static IEnumerable<string> StaticFunctionNames => Functors.Keys.Where(p => p.IsStatic()).Select(p => p.ToString());
         private static IEnumerable<string> Symbols => Operators.Union(new[] { "(", ")" });
         private static IEnumerable<string> TypeNames => Types.TypeNames;
 

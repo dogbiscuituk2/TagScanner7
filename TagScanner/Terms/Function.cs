@@ -16,12 +16,12 @@
 
         #region Public Properties
 
-        public FuncInfo FuncInfo
+        public FnInfo FnInfo
         {
-            get => _funcInfo ?? (_funcInfo = Fn.FuncInfo());
+            get => _fnInfo ?? (_fnInfo = Fn.FnInfo());
             set
             {
-                _funcInfo = value;
+                _fnInfo = value;
                 InitParameters(ParameterTypes.ToArray());
             }
         }
@@ -32,16 +32,16 @@
             set
             {
                 _fn = value;
-                FuncInfo = Fn.FuncInfo();
+                FnInfo = Fn.FnInfo();
                 InitParameters(GetParameterTypes().ToArray());
             }
         }
 
-        public override int Arity => FuncInfo.ParamCount + (IsStatic ? 0 : 1);
+        public override int Arity => FnInfo.ParamCount + (IsStatic ? 0 : 1);
         public override Expression Expression => GetExpression();
-        public bool IsStatic => FuncInfo.IsStatic;
+        public bool IsStatic => FnInfo.IsStatic;
         public string Name => $"{Fn}";
-        public override Type ResultType => FuncInfo.ReturnType;
+        public override Type ResultType => FnInfo.ReturnType;
 
         #endregion
 
@@ -90,8 +90,8 @@
         protected override IEnumerable<Type> GetParameterTypes()
         {
             if (!IsStatic)
-                yield return FuncInfo.DeclaringType;
-            foreach (var paramType in FuncInfo.ParamTypes)
+                yield return FnInfo.DeclaringType;
+            foreach (var paramType in FnInfo.ParamTypes)
                 yield return paramType;
         }
 
@@ -102,18 +102,18 @@
         #region Private Fields
 
         private Fn _fn;
-        private FuncInfo _funcInfo;
+        private FnInfo _fnInfo;
 
         #endregion
 
         #region Private Methods
 
-        private Expression GetExpression() => FuncInfo.GetExpression(Operands);
+        private Expression GetExpression() => FnInfo.GetExpression(Operands);
 
         private void SetFn(Fn fn)
         {
             _fn = fn;
-            FuncInfo = Fn.FuncInfo();
+            FnInfo = Fn.FnInfo();
         }
 
         #endregion

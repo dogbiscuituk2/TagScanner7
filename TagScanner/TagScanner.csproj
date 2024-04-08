@@ -136,7 +136,7 @@
     <Compile Include="Terms\Cast.cs" />
     <Compile Include="Streaming\Streamer.cs" />
     <Compile Include="Terms\Fn.cs" />
-    <Compile Include="Terms\FuncInfo.cs" />
+    <Compile Include="Terms\FnInfo.cs" />
     <Compile Include="Terms\Parser.cs" />
     <Compile Include="Terms\ParserState.cs" />
     <Compile Include="Terms\Token.cs" />
@@ -167,7 +167,7 @@
     <Compile Include="Models\IModel.cs" />
     <Compile Include="Models\Tag.cs" />
     <Compile Include="Terms\Constant.cs" />
-    <Compile Include="Terms\Functions.cs" />
+    <Compile Include="Terms\Functors.cs" />
     <Compile Include="Terms\Operators.cs" />
     <Compile Include="Terms\Field.cs" />
     <Compile Include="Menus\MenuFilter.cs" />

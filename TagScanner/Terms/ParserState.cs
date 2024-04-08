@@ -81,7 +81,7 @@
                 return;
             Debug.WriteLine(format, _, _, "Tokens", Say(_tokens.Select(p => p.Value)));
             Debug.WriteLine(format, _, _, "Terms", Say(_terms));
-            Debug.WriteLine(format, _, _, "Operators", Say(_operators.Select(p => p.GetLabel().ToString())));
+            Debug.WriteLine(format, _, _, "Operators", Say(_operators.Select(p => p.GetLabel())));
             Debug.WriteLine(_);
 
             void DrawLine() => Debug.WriteLine(new string('_', 80) + Environment.NewLine);
@@ -109,7 +109,7 @@
                 Exception(caller, line, exception, action);
                 throw;
             }
-            Dump(caller, line, value, action);
+            Dump(caller, line, value is Op ? ((Op)value).GetLabel() : value, action);
             return value;
         }
 

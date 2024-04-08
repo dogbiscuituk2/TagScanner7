@@ -6,20 +6,20 @@
     using System.Linq.Expressions;
     using System.Reflection;
 
-    public class FuncInfo
+    public class FnInfo
     {
         #region Constructors
 
-        public FuncInfo(Fn fn, MethodInfo methodInfo) : this(fn) => _methodInfo = methodInfo;
+        public FnInfo(Fn fn, MethodInfo methodInfo) : this(fn) => _methodInfo = methodInfo;
 
-        public FuncInfo(Fn fn, bool isStatic, params Type[] paramTypes) : this(fn)
+        public FnInfo(Fn fn, bool isStatic, params Type[] paramTypes) : this(fn)
         {
             _isStatic = isStatic;
             _methodInfo = null;
             _paramTypes = paramTypes;
         }
 
-        private FuncInfo(Fn fn) => _fn = fn;
+        private FnInfo(Fn fn) => _fn = fn;
 
         #endregion
 

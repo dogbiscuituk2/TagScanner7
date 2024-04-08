@@ -73,7 +73,7 @@
         [TestMethod]
         public void TestParseStaticFunctions()
         {
-            foreach (var fn in Functions.Keys.Where(p => p.IsStatic()))
+            foreach (var fn in Functors.Keys.Where(p => p.IsStatic()))
             {
                 var expectedText = ExpectedText(fn);
                 var function = new Parser().Parse(expectedText);

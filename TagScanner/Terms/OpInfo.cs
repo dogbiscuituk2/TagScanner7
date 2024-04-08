@@ -20,7 +20,7 @@
             ExpressionType = expressionType;
             Format = format;
             Image = image;
-            Label = label;
+            Label = label.ToString();
             ParamType = paramType;
             Rank = rank;
             ResultType = resultType ?? paramType;
@@ -29,7 +29,7 @@
         public ExpressionType ExpressionType;
         public string Format;
         public Image Image;
-        public char Label;
+        public string Label;
         public Type ParamType;
         public Rank Rank;
         public Type ResultType;

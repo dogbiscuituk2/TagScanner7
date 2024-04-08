@@ -58,7 +58,7 @@
         private static void AddFunctions(this ToolStripItemCollection items, EventHandler click)
         {
             items = items.Append("&Function");
-            foreach (var fn in Functions.Keys)
+            foreach (var fn in Functors.Keys)
                 items.Append($"{fn}", fn, click).ToolTipText = fn.GetPrototype();
         }
 
