@@ -1,6 +1,4 @@
-﻿using Microsoft.CodeAnalysis.CSharp.Syntax;
-
-namespace TagScanner.Controllers
+﻿namespace TagScanner.Controllers
 {
     using System.Linq;
     using System.Windows;

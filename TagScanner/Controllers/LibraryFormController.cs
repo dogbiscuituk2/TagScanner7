@@ -11,6 +11,7 @@
     using Mru;
     using Properties;
     using Terms;
+    using Utils;
     using Views;
 
     public class LibraryFormController : Controller
@@ -57,6 +58,8 @@
                 View.EditSelectAll.Click += EditSelectAll_Click;
                 View.EditInvertSelection.Click += EditInvertSelection_Click;
                 View.ViewFilter.Click += ViewFilter_Click;
+                View.cbFilterApply.CheckStateChanged += CbFilterApply_CheckStateChanged;
+                View.FilterComboBox.TextChanged += FilterComboBox_TextChanged;
                 View.btnFilterBuild.Click += BtnFilterBuild_Click;
                 View.ViewByArtistAlbum.Click += ViewByArtistAlbum_Click;
                 View.ViewByArtist.Click += ViewByArtist_Click;
@@ -112,6 +115,8 @@
         private void EditInvertSelection_Click(object sender, EventArgs e) => LibraryGridController.InvertSelection();
         private void ViewFilter_Click(object sender, EventArgs e) => FilterFormController.Execute();
         private void BtnFilterBuild_Click(object sender, EventArgs e) => FilterFormController.Execute(View.FilterComboBox.Text);
+        private void CbFilterApply_CheckStateChanged(object sender, EventArgs e) => UpdateFilter();
+        private void FilterComboBox_TextChanged(object sender, EventArgs e) => UpdateFilter();
 
         #endregion
 
@@ -226,5 +231,19 @@
         }
 
         private void UpdatePropertyGrid() => View.PropertyGrid.SelectedObject = LibraryGridController.Selection;
+
+        private void UpdateFilter()
+        {
+            if (View.cbFilterApply.Checked)
+            {
+                var ok = new Parser().TryParse(View.FilterComboBox.Text, out var term, out var exception);
+                if (ok)
+                    LibraryGridController.SetFilter(term);
+                else
+                    exception.ShowDialog();
+            }
+            else
+                LibraryGridController.ClearFilter();
+        }
     }
 }

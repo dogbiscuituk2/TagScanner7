@@ -1,4 +1,6 @@
-﻿namespace TagScanner.Controllers
+﻿using TagScanner.Terms;
+
+namespace TagScanner.Controllers
 {
     using System;
     using System.Collections.Generic;
@@ -6,10 +8,9 @@
     using System.IO;
     using System.Linq;
     using System.Windows;
-    using System.Windows.Data;
     using System.Windows.Controls;
+    using System.Windows.Data;
     using System.Windows.Forms.Integration;
-    using System.Windows.Input;
     using Menus;
     using Models;
     using ValueConverters;
@@ -75,6 +76,7 @@
             else
             {
                 ListCollectionView = new ListCollectionView(Model.Works);
+                ClearFilter();
                 InitGroups();
             }
         }
@@ -128,6 +130,13 @@
                 column.Visibility = Visibility.Visible;
             }
         }
+
+        #endregion
+
+        #region Filtering
+
+        public void ClearFilter() => ListCollectionView.Filter = null;
+        public void SetFilter(Term term) => ListCollectionView.Filter = p => term.Predicate((Work)p);
 
         #endregion
 
