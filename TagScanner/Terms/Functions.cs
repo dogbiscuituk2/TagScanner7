@@ -12,45 +12,42 @@
 
         static Functions()
         {
-            FunctionDictionary = new Dictionary<fn, FuncInfo>();
+            FunctionDictionary = new Dictionary<Fn, FuncInfo>();
+
             AddFn(Fn.Compare, typeof(string), true, typeof(string), typeof(string));
             AddFn(Fn.Concat_2, "Concat", typeof(string), true, typeof(string), typeof(string));
             AddFn(Fn.Concat_3, "Concat", typeof(string), true, typeof(string), typeof(string), typeof(string));
-            AddFn(Fn.Concat_4, "Concat", typeof(string), true, typeof(string), typeof(string), typeof(string), typeof(string));
+            AddFn(Fn.Concat_4, "Concat", typeof(string), true, typeof(string), typeof(string), typeof(string),
+                typeof(string));
+            AddFn(Fn.Contains, typeof(string), false, typeof(string));
+            AddFn(Fn.EndsWith, typeof(string), false, typeof(string));
+            AddFn(Fn.Equals, typeof(object), false, typeof(object));
+            AddFn(Fn.Format, typeof(string), true, typeof(string), typeof(object[]));
+            AddFn(Fn.Length, "get_Length", typeof(string), false);
+            AddFn(Fn.If, null, true, typeof(bool), typeof(string), typeof(string));
+            AddFn(Fn.IndexOf, typeof(string), false, typeof(char));
+            AddFn(Fn.Insert, typeof(string), false, typeof(int), typeof(string));
+            AddFn(Fn.IsNull, "IsNullOrWhiteSpace", typeof(string), true,
+                typeof(string)); // "IsEmpty" already used as a Tag :-(
+            AddFn(Fn.Match_, "IsMatch", typeof(Regex), true, typeof(string), typeof(string));
+            AddFn(Fn.LastIndexOf, typeof(string), false, typeof(char));
+            AddFn(Fn.Lowercase, "ToLowerInvariant", typeof(string), false);
+            AddFn(Fn.Max, typeof(Math), true, typeof(double), typeof(double));
+            AddFn(Fn.Min, typeof(Math), true, typeof(double), typeof(double));
+            AddFn(Fn.Pow, typeof(Math), true, typeof(double), typeof(double));
+            AddFn(Fn.Remove, typeof(string), false, typeof(int), typeof(int));
+            AddFn(Fn.Replace, typeof(string), false, typeof(string), typeof(string));
+            AddFn(Fn.Replace_, "Replace", typeof(Regex), true, typeof(string), typeof(string), typeof(string));
+            AddFn(Fn.Round, typeof(Math), true, typeof(double));
+            AddFn(Fn.Sign, typeof(Math), true, typeof(double));
+            AddFn(Fn.StartsWith, typeof(string), false, typeof(string));
+            AddFn(Fn.Substring, typeof(string), false, typeof(int), typeof(int));
+            AddFn(Fn.ToString, typeof(object), false);
+            AddFn(Fn.ToText, null, true, typeof(string));
+            AddFn(Fn.Trim, typeof(string), false);
+            AddFn(Fn.Truncate, typeof(Math), true, typeof(double));
+            AddFn(Fn.Uppercase, "ToUpperInvariant", typeof(string), false);
 
-            {
-                { Fn.Compare, GetFuncInfo(typeof(string), true, typeof(string), typeof(string)) },
-                { Fn.Concat_2, GetFuncInfo(typeof(string), true, "Concat", typeof(string), typeof(string)) },
-                { Fn.Concat_3, GetFuncInfo(typeof(string), true, "Concat", typeof(string), typeof(string), typeof(string)) },
-                { Fn.Concat_4, GetFuncInfo(typeof(string), true, "Concat", typeof(string), typeof(string), typeof(string), typeof(string)) },
-                { Fn.Contains, GetFuncInfo(typeof(string), false, typeof(string)) },
-                { Fn.EndsWith, GetFuncInfo(typeof(string), false, typeof(string)) },
-                { Fn.Equals, GetFuncInfo(typeof(object), false, typeof(object)) },
-                { Fn.Format, GetFuncInfo(typeof(string), true, typeof(string), typeof(object[])) },
-                { Fn.Length, GetFuncInfo(typeof(string), false, "get_Length") },
-                { Fn.If, new FuncInfo(Fn.If, true, typeof(bool), typeof(object), typeof(object)) },
-                { Fn.IndexOf, GetFuncInfo(typeof(string), false, typeof(char)) },
-                { Fn.Insert, GetFuncInfo(typeof(string), false, typeof(int), typeof(string)) },
-                { Fn.IsNull, GetFuncInfo(typeof(string), true, "IsNullOrWhiteSpace", typeof(string)) }, // "IsEmpty" already used as a Tag :-(
-                { Fn.Match_, GetFuncInfo(typeof(Regex), true, "IsMatch", typeof(string), typeof(string)) },
-                { Fn.LastIndexOf, GetFuncInfo(typeof(string), false, typeof(char)) },
-                { Fn.Lowercase, GetFuncInfo(typeof(string), false, "ToLowerInvariant") },
-                { Fn.Max, GetFuncInfo(typeof(Math), true, typeof(double), typeof(double)) },
-                { "Min", GetFuncInfo(typeof(Math), true, typeof(double), typeof(double)) },
-                { Fn.Pow, GetFuncInfo(typeof(Math), true,  typeof(double), typeof(double)) },
-                { Fn.Remove, GetFuncInfo(typeof(string), false, typeof(int), typeof(int)) },
-                { Fn.Replace, GetFuncInfo(typeof(string), false, typeof(string), typeof(string)) },
-                { Fn.Replace_, GetFuncInfo(typeof(Regex), true, "Replace", typeof(string), typeof(string), typeof(string)) },
-                { Fn.Round, GetFuncInfo(typeof(Math), true, typeof(double)) },
-                { Fn.Sign, GetFuncInfo(typeof(Math), true, typeof(double)) },
-                { Fn.StartsWith, GetFuncInfo(typeof(string), false, typeof(string)) },
-                { Fn.Substring, GetFuncInfo(typeof(string), false, typeof(int), typeof(int)) },
-                { Fn.ToString, GetFuncInfo(typeof(object), false) },
-                { Fn.ToText, new FuncInfo(Fn.ToText, true, typeof(string)) },
-                { Fn.Trim, GetFuncInfo(typeof(string), false) },
-                { Fn.Truncate, GetFuncInfo(typeof(Math), true, typeof(double)) },
-                { Fn.Uppercase, GetFuncInfo(typeof(string), false, "ToUpperInvariant") },
-            };
             Keys = FunctionDictionary.Keys.ToArray();
             Values = FunctionDictionary.Values.ToArray();
         }
@@ -59,7 +56,7 @@
 
         #region Public Properties
 
-        public static string[] Keys { get; }
+        public static Fn[] Keys { get; }
         public static FuncInfo[] Values { get; }
 
         #endregion
@@ -93,11 +90,18 @@
             AddFn(fn, fn.ToString(), declaringType, isStatic, paramTypes);
 
         private static void AddFn(Fn fn, string name, Type declaringType, bool isStatic, params Type[] paramTypes) =>
-            FunctionDictionary.Add(fn, new FuncInfo(declaringType
-                .GetMethods(BindingFlags.Public | (isStatic ? BindingFlags.Static : BindingFlags.Instance))
-                .Single(p => p.Name == name && p.GetParamTypes().SequenceEqual(paramTypes))));
+            FunctionDictionary.Add(fn, GetFn(name, declaringType, isStatic, paramTypes));
 
-        private static IEnumerable<Type> GetParamTypes(this MethodInfo methodInfo) => methodInfo.GetParameters().Select(p => p.ParameterType);
+        private static FuncInfo GetFn(string name, Type declaringType, bool isStatic, params Type[] paramTypes) =>
+            declaringType == null
+                ? new FuncInfo(name, isStatic, paramTypes)
+                : new FuncInfo(
+                    declaringType
+                        .GetMethods(BindingFlags.Public | (isStatic ? BindingFlags.Static : BindingFlags.Instance))
+                        .Single(p => p.Name == name && p.GetParamTypes().SequenceEqual(paramTypes)));
+
+        private static IEnumerable<Type> GetParamTypes(this MethodInfo methodInfo) =>
+            methodInfo.GetParameters().Select(p => p.ParameterType);
 
         private static string SayParamTypes(this FuncInfo funcInfo)
         {
