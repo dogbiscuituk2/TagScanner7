@@ -58,7 +58,7 @@
         public int AddChild(TreeNode parent, Term term) => AddNode(parent != null ? parent.Nodes : Roots, term);
         public void AddConstant<T>() => Add(new Constant<T>(default(T)));
         public void AddField(Tag tag) => Add(new Field(tag));
-        public void AddFunction(string key) => Add(new Function(key));
+        public void AddFunction(Fn fn) => Add(new Function(fn));
         public void AddOperation(Op op) => Add(new Operation(op));
         public int AddRoot(Term term) => AddNode(Roots, term);
         public void Clear() => Roots.Clear();
@@ -70,7 +70,7 @@
                 song = new Operation(Tag.Title, "!=", "Get Back"),
                 album = new Operation(Tag.Album, '=', "Let It Be"),
                 duration = new Operation(Tag.Duration, ">=", "00:03:30"),
-                lyrics = !new Function("IsNull", Tag.Lyrics),
+                lyrics = !new Function(Fn.IsNull, Tag.Lyrics),
                 tree = new Conditional(band, song, album | duration & lyrics),
                 tree2 = new Conditional(band, song, album | duration & lyrics & tree);
             Add(new Conditional(band, song, album | duration & tree2));

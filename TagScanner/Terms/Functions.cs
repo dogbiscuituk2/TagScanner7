@@ -13,12 +13,10 @@
         static Functions()
         {
             FunctionDictionary = new Dictionary<Fn, FuncInfo>();
-
             AddFn(Fn.Compare, typeof(string), true, typeof(string), typeof(string));
             AddFn(Fn.Concat_2, "Concat", typeof(string), true, typeof(string), typeof(string));
             AddFn(Fn.Concat_3, "Concat", typeof(string), true, typeof(string), typeof(string), typeof(string));
-            AddFn(Fn.Concat_4, "Concat", typeof(string), true, typeof(string), typeof(string), typeof(string),
-                typeof(string));
+            AddFn(Fn.Concat_4, "Concat", typeof(string), true, typeof(string), typeof(string), typeof(string), typeof(string));
             AddFn(Fn.Contains, typeof(string), false, typeof(string));
             AddFn(Fn.EndsWith, typeof(string), false, typeof(string));
             AddFn(Fn.Equals, typeof(object), false, typeof(object));
@@ -27,8 +25,7 @@
             AddFn(Fn.If, null, true, typeof(bool), typeof(string), typeof(string));
             AddFn(Fn.IndexOf, typeof(string), false, typeof(char));
             AddFn(Fn.Insert, typeof(string), false, typeof(int), typeof(string));
-            AddFn(Fn.IsNull, "IsNullOrWhiteSpace", typeof(string), true,
-                typeof(string)); // "IsEmpty" already used as a Tag :-(
+            AddFn(Fn.IsNull, "IsNullOrWhiteSpace", typeof(string), true, typeof(string)); // "IsEmpty" already used as a Tag :-(
             AddFn(Fn.Match_, "IsMatch", typeof(Regex), true, typeof(string), typeof(string));
             AddFn(Fn.LastIndexOf, typeof(string), false, typeof(char));
             AddFn(Fn.Lowercase, "ToLowerInvariant", typeof(string), false);
@@ -47,7 +44,6 @@
             AddFn(Fn.Trim, typeof(string), false);
             AddFn(Fn.Truncate, typeof(Math), true, typeof(double));
             AddFn(Fn.Uppercase, "ToUpperInvariant", typeof(string), false);
-
             Keys = FunctionDictionary.Keys.ToArray();
             Values = FunctionDictionary.Values.ToArray();
         }
@@ -63,18 +59,20 @@
 
         #region Public Methods
 
-        public static string GetPrototype(this string key)
+        public static string GetPrototype(this Fn fn)
         {
-            var funcInfo = key.FuncInfo();
-            var fullName = funcInfo.IsStatic ? key : $"({funcInfo.DeclaringType.Say()}).{key}";
+            var funcInfo = fn.FuncInfo();
+            var fullName = funcInfo.IsStatic ? fn.ToString() : $"({funcInfo.DeclaringType.Say()}).{fn}";
             return $"{funcInfo.ReturnType.Say()} {fullName}({funcInfo.SayParamTypes()})";
         }
 
-        public static FuncInfo FuncInfo(this string key) => FunctionDictionary[key];
+        public static FuncInfo FuncInfo(this Fn fn) => FunctionDictionary[fn];
 
-        public static bool IsStatic(this string key) => key.FuncInfo().IsStatic;
+        public static bool IsStatic(this Fn fn) => fn.FuncInfo().IsStatic;
 
-        public static int ParamCount(this string key) => key.FuncInfo().ParamCount;
+        public static int ParamCount(this Fn fn) => fn.FuncInfo().ParamCount;
+
+        public static Fn ToFunction(this string name) => Keys.Single(p => p.FuncInfo().Name == name);
 
         #endregion
 

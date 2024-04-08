@@ -73,24 +73,24 @@
         [TestMethod]
         public void TestParseStaticFunctions()
         {
-            foreach (var key in Functions.Keys.Where(p => p.IsStatic()))
+            foreach (var fn in Functions.Keys.Where(p => p.IsStatic()))
             {
-                var expectedText = ExpectedText(key);
+                var expectedText = ExpectedText(fn);
                 var function = new Parser().Parse(expectedText);
                 Assert.IsInstanceOfType(function, typeof(Function));
                 Assert.AreEqual(expected: expectedText, actual: function.ToString());
             }
             return;
 
-            string ExpectedText(string key)
+            string ExpectedText(Fn fn)
             {
-                switch (key.ParamCount())
+                switch (fn.ParamCount())
                 {
-                    case 0: return key;
-                    case 1: return $"{key}(1)";
-                    case 2: return $"{key}(1, 2)";
-                    case 3: return $"{key}(1, 2, 3)";
-                    case 4: return $"{key}(1, 2, 3, 4)";
+                    case 0: return $"{fn}";
+                    case 1: return $"{fn}(1)";
+                    case 2: return $"{fn}(1, 2)";
+                    case 3: return $"{fn}(1, 2, 3)";
+                    case 4: return $"{fn}(1, 2, 3, 4)";
                     default: return string.Empty;
                 }
             }

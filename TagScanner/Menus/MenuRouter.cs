@@ -37,7 +37,7 @@
         private void OnConstantClick(int value) => ConstantClick?.Invoke(this, new ConstantEventArgs(value));
         private void OnFieldClick(Tag tag) => FieldClick?.Invoke(this, new FieldEventArgs(tag));
         private void OnOperationClick(Op op) => OperationClick?.Invoke(this, new OperationEventArgs(op));
-        private void OnFunctionClick(string key) => FunctionClick?.Invoke(this, new FunctionEventArgs(key));
+        private void OnFunctionClick(Fn fn) => FunctionClick?.Invoke(this, new FunctionEventArgs(fn));
         private void OnCastClick(Type type) => CastClick?.Invoke(this, new CastEventArgs(type));
         private void OnTestTermsClick() => TestTermsClick?.Invoke(this, EventArgs.Empty);
         private void MenuRouter_TermDeleteClick(object sender, EventArgs e) => TermDeleteClick?.Invoke(this, e);
@@ -56,8 +56,8 @@
                 case Op op:
                     OnOperationClick(op);
                     break;
-                case string key:
-                    OnFunctionClick(key);
+                case Fn fn:
+                    OnFunctionClick(fn);
                     break;
                 case Type type:
                     OnCastClick(type);

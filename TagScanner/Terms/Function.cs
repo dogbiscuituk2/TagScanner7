@@ -9,7 +9,7 @@
     {
         #region Constructors
 
-        public Function(string name, params Term[] operands) : base(operands) => SetName(name);
+        public Function(Fn fn, params Term[] operands) : base(operands) => SetFn(fn);
 
         #endregion
 
@@ -17,7 +17,7 @@
 
         public FuncInfo FuncInfo
         {
-            get => _funcInfo ?? (_funcInfo = Name.FuncInfo());
+            get => _funcInfo ?? (_funcInfo = Fn.FuncInfo());
             set
             {
                 _funcInfo = value;
@@ -25,13 +25,13 @@
             }
         }
 
-        public string Name
+        public Fn Fn
         {
-            get => _name;
+            get => _fn;
             set
             {
-                _name = value;
-                FuncInfo = Name.FuncInfo();
+                _fn = value;
+                FuncInfo = Fn.FuncInfo();
                 InitParameters(GetParameterTypes().ToArray());
             }
         }
@@ -39,6 +39,7 @@
         public override int Arity => FuncInfo.ParamCount + (IsStatic ? 0 : 1);
         public override Expression Expression => GetExpression();
         public bool IsStatic => FuncInfo.IsStatic;
+        public string Name => $"{Fn}";
         public override Type ResultType => FuncInfo.ReturnType;
 
         #endregion
@@ -99,8 +100,8 @@
 
         #region Private Fields
 
+        private Fn _fn;
         private FuncInfo _funcInfo;
-        private string _name;
 
         #endregion
 
@@ -108,10 +109,10 @@
 
         private Expression GetExpression() => FuncInfo.GetExpression(Operands);
 
-        private void SetName(string name)
+        private void SetFn(Fn fn)
         {
-            _name = name;
-            FuncInfo = Name.FuncInfo();
+            _fn = fn;
+            FuncInfo = Fn.FuncInfo();
         }
 
         #endregion
@@ -122,7 +123,7 @@
     public class Conditional : Function
     {
         public Conditional(Term condition, Term consequent, Term alternative)
-            : base("If", condition, consequent, alternative) { }
+            : base(Fn.If, condition, consequent, alternative) { }
     }
 
     #endregion

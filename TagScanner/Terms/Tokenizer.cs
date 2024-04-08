@@ -91,13 +91,13 @@
         public static bool IsDateTime(this string token) => Regex.IsMatch(token, DateTimeParser.DateTimePattern);
         public static bool IsDyadicOperator(this string token) => DyadicOperators.Contains(token);
         public static bool IsField(this string token) => Fields.Contains(token, IgnoreCase);
-        public static bool IsFunction(this string token) => Functions.Contains(token, IgnoreCase);
-        public static bool IsMemberFunction(this string token) => MemberFunctions.Contains(token, IgnoreCase);
+        public static bool IsFunction(this string token) => FunctionNames.Contains(token, IgnoreCase);
+        public static bool IsMemberFunction(this string token) => MemberFunctionNames.Contains(token, IgnoreCase);
         public static bool IsMonadicOperator(this string token) => MonadicOperators.Contains(token, IgnoreCase);
         public static bool IsNumber(this string token) => char.IsDigit(token[0]);
         public static bool IsOperator(this string token) => Operators.Contains(token, IgnoreCase);
         public static bool IsParameter(this string token) => token[0] == '{';
-        public static bool IsStaticFunction(this string token) => StaticFunctions.Contains(token, IgnoreCase);
+        public static bool IsStaticFunction(this string token) => StaticFunctionNames.Contains(token, IgnoreCase);
         public static bool IsString(this string token) => token[0] == DoubleQuote;
         public static bool IsSymbol(this string token) => Symbols.Contains(token, IgnoreCase);
         public static bool IsTimeSpan(this string token) => Regex.IsMatch(token, DateTimeParser.TimeSpanPattern);
@@ -126,7 +126,7 @@
         /// Names are ordered descending to that, for example, "Album Artists" is matched before "Artists".
         /// If these were sorted in ascending or other order, "Album Artists" might never be matched.
         /// </summary>
-        private static readonly string[] AllTokens = Booleans.Union(Fields).Union(Functions).Union(Symbols).Union(TypeNames).OrderByDescending(p => p).ToArray();
+        private static readonly string[] AllTokens = Booleans.Union(Fields).Union(FunctionNames).Union(Symbols).Union(TypeNames).OrderByDescending(p => p).ToArray();
 
         #endregion
 
@@ -162,10 +162,10 @@
         };
 
         private static IEnumerable<string> Fields => Tags.Keys.Select(p => p.DisplayName());
-        private static IEnumerable<string> Functions => Terms.Functions.Keys;
-        private static IEnumerable<string> MemberFunctions => Terms.Functions.Keys.Where(p => !p.IsStatic());
-        private static IEnumerable<string> Operators => MonadicOperators.Union(DyadicOperators); // .Union(TriadicOperators);
-        private static IEnumerable<string> StaticFunctions => Terms.Functions.Keys.Where(p => p.IsStatic());
+        private static IEnumerable<string> FunctionNames => Functions.Keys.Select(fn => fn.ToString());
+        private static IEnumerable<string> MemberFunctionNames => Functions.Keys.Where(p => !p.IsStatic()).Select(p => p.ToString());
+        private static IEnumerable<string> Operators => MonadicOperators.Union(DyadicOperators);
+        private static IEnumerable<string> StaticFunctionNames => Functions.Keys.Where(p => p.IsStatic()).Select(p => p.ToString());
         private static IEnumerable<string> Symbols => Operators.Union(new[] { "(", ")" });
         private static IEnumerable<string> TypeNames => Types.TypeNames;
 

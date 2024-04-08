@@ -70,7 +70,7 @@
         private void MenuRouter_CastClick(object sender, CastEventArgs e) => AddCast(e.Type);
         private void MenuRouter_ConstantClick(object sender, EventArgs e) => AddConstant();
         private void MenuRouter_FieldClick(object sender, FieldEventArgs e) => AddField(e.Tag);
-        private void MenuRouter_FunctionClick(object sender, FunctionEventArgs e) => AddFunction(e.Key);
+        private void MenuRouter_FunctionClick(object sender, FunctionEventArgs e) => AddFunction(e.Fn);
         private void MenuRouter_OperationClick(object sender, OperationEventArgs e) => AddOperation(e.Op);
         private void MenuRouter_TestTermsClick(object sender, EventArgs e) => AddTestTerms();
         private void ViewCollapseAll_Click(object sender, EventArgs e) => TermTreeController.CollapseAll();
@@ -83,7 +83,7 @@
         private void AddCast(Type type) => TermTreeController.AddCast(type);
         private void AddConstant() => TermTreeController.AddConstant<string>();
         private void AddField(Tag tag) => TermTreeController.AddField(tag);
-        private void AddFunction(string key) => TermTreeController.AddFunction(key);
+        private void AddFunction(Fn fn) => TermTreeController.AddFunction(fn);
         private void AddOperation(Op op) => TermTreeController.AddOperation(op);
         private void AddTestTerms() => TermTreeController.AddTestTerms();
 

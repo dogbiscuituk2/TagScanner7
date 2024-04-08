@@ -20,9 +20,9 @@
 
         public Type DeclaringType => _methodInfo?.DeclaringType ?? typeof(object);
         public bool IsStatic => _methodInfo?.IsStatic ?? _isStatic;
-        public string Name => _name;
+        public string Name => _methodInfo?.Name ?? _name;
         public int ParamCount => _methodInfo?.GetParameters()?.Length ?? _paramTypes.Length;
-        public IEnumerable<Type> ParamTypes => _methodInfo != null ? _methodInfo.GetParameters().Select(p => p.ParameterType) : _paramTypes;
+        public IEnumerable<Type> ParamTypes => _methodInfo?.GetParameters().Select(p => p.ParameterType) ?? _paramTypes;
         public Type ReturnType => _methodInfo?.ReturnType ?? typeof(object);
 
         public Expression GetExpression(List<Term> operands)
@@ -44,7 +44,7 @@
                         var operand = operands[index];
                         if (operand.ResultType != typeof(string))
                         {
-                            operand = new Function("ToString", operand);
+                            operand = new Function(Fn.ToString, operand);
                             expressions[index] = operand.Expression;
                         }
                         if (index > 0)

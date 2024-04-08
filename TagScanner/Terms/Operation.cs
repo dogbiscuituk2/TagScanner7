@@ -56,9 +56,9 @@
                 {
                     case 0: return null;
                     case 1: return operands[0];
-                    case 2: return new Function("Concat_2", operands[0], operands[1]);
-                    case 3: return new Function("Concat_3", operands[0], operands[1], operands[2]);
-                    case 4: return new Function("Concat_4", operands[0], operands[1], operands[2], operands[3]);
+                    case 2: return new Function(Fn.Concat_2, operands[0], operands[1]);
+                    case 3: return new Function(Fn.Concat_3, operands[0], operands[1], operands[2]);
+                    case 4: return new Function(Fn.Concat_4, operands[0], operands[1], operands[2], operands[3]);
                     default: operands = new[] { Concatenate(operands.Take(4).ToArray()), Concatenate(operands.Skip(4).ToArray()) };
                         continue;
                 }
