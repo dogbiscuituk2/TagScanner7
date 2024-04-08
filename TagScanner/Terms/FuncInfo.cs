@@ -36,6 +36,8 @@
                 case "If":
                     return Expression.Condition(expressions[0], expressions[1], expressions[2]);
                 case "ToText":
+                    var newOperands = new List<Term>();
+                    var newLine = new Constant<string>(Environment.NewLine);
                     for (var index = 0; index < operands.Count; index++)
                     {
                         var operand = operands[index];
@@ -44,11 +46,13 @@
                             operand = new Function("ToString", operand);
                             expressions[index] = operand.Expression;
                         }
-                        return 
-                        return null;
+                        if (index > 0)
+                            newOperands.Add(newLine);
+                        newOperands.Add(operand);
                     }
-                    return null;
+                    return new Concatenation(newOperands.ToArray()).Expression;
             }
+            return null;
         }
 
         private readonly bool _isStatic;
