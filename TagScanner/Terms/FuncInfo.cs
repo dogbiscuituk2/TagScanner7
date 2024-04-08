@@ -24,7 +24,7 @@
         public IEnumerable<Type> ParamTypes => _methodInfo != null ? _methodInfo.GetParameters().Select(p => p.ParameterType) : _paramTypes;
         public Type ReturnType => _methodInfo?.ReturnType ?? typeof(object);
 
-        public Expression GetExpression(IEnumerable<Term> operands)
+        public Expression GetExpression(List<Term> operands)
         {
             var expressions = operands.Select(p => p.Expression).ToList();
             if (_methodInfo != null)
@@ -33,9 +33,22 @@
                     : Expression.Call(expressions[0], _methodInfo, expressions.Skip(1));
             switch (_name)
             {
-                case "If": return Expression.Condition(expressions[0], expressions[1], expressions[2]);
+                case "If":
+                    return Expression.Condition(expressions[0], expressions[1], expressions[2]);
+                case "ToText":
+                    for (var index = 0; index < operands.Count; index++)
+                    {
+                        var operand = operands[index];
+                        if (operand.ResultType != typeof(string))
+                        {
+                            operand = new Function("ToString", operand);
+                            expressions[index] = operand.Expression;
+                        }
+                        return 
+                        return null;
+                    }
+                    return null;
             }
-            return null;
         }
 
         private readonly bool _isStatic;

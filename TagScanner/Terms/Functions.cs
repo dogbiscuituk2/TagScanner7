@@ -41,6 +41,7 @@
                 { "StartsWith", GetFuncInfo(typeof(string), false, "StartsWith", typeof(string)) },
                 { "Substring", GetFuncInfo(typeof(string), false, "Substring", typeof(int), typeof(int)) },
                 { "ToString", GetFuncInfo(typeof(object), false, "ToString") },
+                { "ToText", new FuncInfo("ToText", true, typeof(string)) },
                 { "Trim", GetFuncInfo(typeof(string), false, "Trim") },
                 { "Truncate", GetFuncInfo(typeof(Math), true, "Truncate", typeof(double)) },
                 { "Uppercase", GetFuncInfo(typeof(string), false, "ToUpperInvariant") },
