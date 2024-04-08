@@ -95,7 +95,7 @@
             if (PeekOperator() != Op.Dot)
                 UnexpectedToken(token);
             PopOperator();
-            return NewTerm(new Function(PopTerm(), token.Value, ParseParameters()));
+            return NewTerm(new Function(token.Value, (new[] { PopTerm() }).Union(ParseParameters()).ToArray()));
         }
 
         private static Term ParseNumber(string token) =>

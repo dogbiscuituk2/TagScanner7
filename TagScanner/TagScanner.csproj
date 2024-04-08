@@ -135,6 +135,7 @@
     <Compile Include="Terms\EqualityComparer.cs" />
     <Compile Include="Terms\Cast.cs" />
     <Compile Include="Streaming\Streamer.cs" />
+    <Compile Include="Terms\Fn.cs" />
     <Compile Include="Terms\FuncInfo.cs" />
     <Compile Include="Terms\Parser.cs" />
     <Compile Include="Terms\ParserState.cs" />

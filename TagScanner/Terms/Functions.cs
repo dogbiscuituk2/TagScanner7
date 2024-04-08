@@ -12,39 +12,44 @@
 
         static Functions()
         {
-            FunctionDictionary = new Dictionary<string, FuncInfo>
+            FunctionDictionary = new Dictionary<fn, FuncInfo>();
+            AddFn(Fn.Compare, typeof(string), true, typeof(string), typeof(string));
+            AddFn(Fn.Concat_2, "Concat", typeof(string), true, typeof(string), typeof(string));
+            AddFn(Fn.Concat_3, "Concat", typeof(string), true, typeof(string), typeof(string), typeof(string));
+            AddFn(Fn.Concat_4, "Concat", typeof(string), true, typeof(string), typeof(string), typeof(string), typeof(string));
+
             {
-                { "Compare", GetFuncInfo(typeof(string), true, "Compare", typeof(string), typeof(string)) },
-                { "Concat_2", GetFuncInfo(typeof(string), true, "Concat", typeof(string), typeof(string)) },
-                { "Concat_3", GetFuncInfo(typeof(string), true, "Concat", typeof(string), typeof(string), typeof(string)) },
-                { "Concat_4", GetFuncInfo(typeof(string), true, "Concat", typeof(string), typeof(string), typeof(string), typeof(string)) },
-                { "Contains", GetFuncInfo(typeof(string), false, "Contains", typeof(string)) },
-                { "EndsWith", GetFuncInfo(typeof(string), false, "EndsWith", typeof(string)) },
-                { "Equals", GetFuncInfo(typeof(object), false, "Equals", typeof(object)) },
-                { "Format", GetFuncInfo(typeof(string), true, "Format", typeof(string), typeof(object[])) },
-                { "Length", GetFuncInfo(typeof(string), false, "get_Length") },
-                { "If", new FuncInfo("If", true, typeof(bool), typeof(object), typeof(object)) },
-                { "IndexOf", GetFuncInfo(typeof(string), false, "IndexOf", typeof(char)) },
-                { "Insert", GetFuncInfo(typeof(string), false, "Insert", typeof(int), typeof(string)) },
-                { "IsNull", GetFuncInfo(typeof(string), true, "IsNullOrWhiteSpace", typeof(string)) }, // "IsEmpty" already used as a Tag :-(
-                { "Match$", GetFuncInfo(typeof(Regex), true, "IsMatch", typeof(string), typeof(string)) },
-                { "LastIndexOf", GetFuncInfo(typeof(string), false, "LastIndexOf", typeof(char)) },
-                { "Lowercase", GetFuncInfo(typeof(string), false, "ToLowerInvariant") },
-                { "Max", GetFuncInfo(typeof(Math), true, "Max", typeof(double), typeof(double)) },
-                { "Min", GetFuncInfo(typeof(Math), true, "Min", typeof(double), typeof(double)) },
-                { "Power", GetFuncInfo(typeof(Math), true, "Pow", typeof(double), typeof(double)) },
-                { "Remove", GetFuncInfo(typeof(string), false, "Remove", typeof(int), typeof(int)) },
-                { "Replace", GetFuncInfo(typeof(string), false, "Replace", typeof(string), typeof(string)) },
-                { "Replace$", GetFuncInfo(typeof(Regex), true, "Replace", typeof(string), typeof(string), typeof(string)) },
-                { "Round", GetFuncInfo(typeof(Math), true, "Round", typeof(double)) },
-                { "Sign", GetFuncInfo(typeof(Math), true, "Sign", typeof(double)) },
-                { "StartsWith", GetFuncInfo(typeof(string), false, "StartsWith", typeof(string)) },
-                { "Substring", GetFuncInfo(typeof(string), false, "Substring", typeof(int), typeof(int)) },
-                { "ToString", GetFuncInfo(typeof(object), false, "ToString") },
-                { "ToText", new FuncInfo("ToText", true, typeof(string)) },
-                { "Trim", GetFuncInfo(typeof(string), false, "Trim") },
-                { "Truncate", GetFuncInfo(typeof(Math), true, "Truncate", typeof(double)) },
-                { "Uppercase", GetFuncInfo(typeof(string), false, "ToUpperInvariant") },
+                { Fn.Compare, GetFuncInfo(typeof(string), true, typeof(string), typeof(string)) },
+                { Fn.Concat_2, GetFuncInfo(typeof(string), true, "Concat", typeof(string), typeof(string)) },
+                { Fn.Concat_3, GetFuncInfo(typeof(string), true, "Concat", typeof(string), typeof(string), typeof(string)) },
+                { Fn.Concat_4, GetFuncInfo(typeof(string), true, "Concat", typeof(string), typeof(string), typeof(string), typeof(string)) },
+                { Fn.Contains, GetFuncInfo(typeof(string), false, typeof(string)) },
+                { Fn.EndsWith, GetFuncInfo(typeof(string), false, typeof(string)) },
+                { Fn.Equals, GetFuncInfo(typeof(object), false, typeof(object)) },
+                { Fn.Format, GetFuncInfo(typeof(string), true, typeof(string), typeof(object[])) },
+                { Fn.Length, GetFuncInfo(typeof(string), false, "get_Length") },
+                { Fn.If, new FuncInfo(Fn.If, true, typeof(bool), typeof(object), typeof(object)) },
+                { Fn.IndexOf, GetFuncInfo(typeof(string), false, typeof(char)) },
+                { Fn.Insert, GetFuncInfo(typeof(string), false, typeof(int), typeof(string)) },
+                { Fn.IsNull, GetFuncInfo(typeof(string), true, "IsNullOrWhiteSpace", typeof(string)) }, // "IsEmpty" already used as a Tag :-(
+                { Fn.Match_, GetFuncInfo(typeof(Regex), true, "IsMatch", typeof(string), typeof(string)) },
+                { Fn.LastIndexOf, GetFuncInfo(typeof(string), false, typeof(char)) },
+                { Fn.Lowercase, GetFuncInfo(typeof(string), false, "ToLowerInvariant") },
+                { Fn.Max, GetFuncInfo(typeof(Math), true, typeof(double), typeof(double)) },
+                { "Min", GetFuncInfo(typeof(Math), true, typeof(double), typeof(double)) },
+                { Fn.Pow, GetFuncInfo(typeof(Math), true,  typeof(double), typeof(double)) },
+                { Fn.Remove, GetFuncInfo(typeof(string), false, typeof(int), typeof(int)) },
+                { Fn.Replace, GetFuncInfo(typeof(string), false, typeof(string), typeof(string)) },
+                { Fn.Replace_, GetFuncInfo(typeof(Regex), true, "Replace", typeof(string), typeof(string), typeof(string)) },
+                { Fn.Round, GetFuncInfo(typeof(Math), true, typeof(double)) },
+                { Fn.Sign, GetFuncInfo(typeof(Math), true, typeof(double)) },
+                { Fn.StartsWith, GetFuncInfo(typeof(string), false, typeof(string)) },
+                { Fn.Substring, GetFuncInfo(typeof(string), false, typeof(int), typeof(int)) },
+                { Fn.ToString, GetFuncInfo(typeof(object), false) },
+                { Fn.ToText, new FuncInfo(Fn.ToText, true, typeof(string)) },
+                { Fn.Trim, GetFuncInfo(typeof(string), false) },
+                { Fn.Truncate, GetFuncInfo(typeof(Math), true, typeof(double)) },
+                { Fn.Uppercase, GetFuncInfo(typeof(string), false, "ToUpperInvariant") },
             };
             Keys = FunctionDictionary.Keys.ToArray();
             Values = FunctionDictionary.Values.ToArray();
@@ -78,16 +83,19 @@
 
         #region Private Fields
 
-        private static readonly Dictionary<string, FuncInfo> FunctionDictionary;
+        private static readonly Dictionary<Fn, FuncInfo> FunctionDictionary;
 
         #endregion
 
         #region Private Methods
 
-        private static FuncInfo GetFuncInfo(Type declaringType, bool isStatic, string name, params Type[] paramTypes) =>
-            new FuncInfo(declaringType
+        private static void AddFn(Fn fn, Type declaringType, bool isStatic, params Type[] paramTypes) =>
+            AddFn(fn, fn.ToString(), declaringType, isStatic, paramTypes);
+
+        private static void AddFn(Fn fn, string name, Type declaringType, bool isStatic, params Type[] paramTypes) =>
+            FunctionDictionary.Add(fn, new FuncInfo(declaringType
                 .GetMethods(BindingFlags.Public | (isStatic ? BindingFlags.Static : BindingFlags.Instance))
-                .Single(p => p.Name == name && p.GetParamTypes().SequenceEqual(paramTypes)));
+                .Single(p => p.Name == name && p.GetParamTypes().SequenceEqual(paramTypes))));
 
         private static IEnumerable<Type> GetParamTypes(this MethodInfo methodInfo) => methodInfo.GetParameters().Select(p => p.ParameterType);
 

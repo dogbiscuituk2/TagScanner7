@@ -1,0 +1,37 @@
+﻿namespace TagScanner.Terms
+{
+    public enum Fn
+    {
+        Compare,
+        Concat_2,
+        Concat_3,
+        Concat_4,
+        Contains,
+        EndsWith,
+        Equals,
+        Format,
+        Length,
+        If,
+        IndexOf,
+        Insert,
+        IsNull,
+        Match_,
+        LastIndexOf,
+        Lowercase,
+        Max,
+        Min,
+        Pow,
+        Remove,
+        Replace,
+        Replace_,
+        Round,
+        Sign,
+        StartsWith,
+        Substring,
+        ToString,
+        ToText,
+        Trim,
+        Truncate,
+        Uppercase,
+    }
+}
