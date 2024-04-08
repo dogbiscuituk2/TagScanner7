@@ -128,11 +128,11 @@
         [DataRow(Tag.ImageMake, "Nikon")]
         [DataRow(Tag.ImageModel, "Pro")]
         [DataRow(Tag.ImageSoftware, "Photoshop")]
-        [DataRow(Tag.JoinedAlbumArtists, "Led Zeppelin")]
-        [DataRow(Tag.JoinedArtists, "Led Zeppelin")]
-        [DataRow(Tag.JoinedComposers, "Led Zeppelin")]
+        [DataRow(Tag.JoinedAlbumArtists, "The Beatles", 91)]
+        [DataRow(Tag.JoinedArtists, "The Beatles", 91)]
+        [DataRow(Tag.JoinedComposers, "The Beatles", 91)]
         [DataRow(Tag.JoinedGenres, "Rock & Roll")]
-        [DataRow(Tag.JoinedPerformers, "Led Zeppelin")]
+        [DataRow(Tag.JoinedPerformers, "The Beatles", 91)]
         [DataRow(Tag.JoinedPerformersSort, "Led Zeppelin")]
         [DataRow(Tag.Lyrics, "We come from the land of the ice and snow")]
         [DataRow(Tag.MimeType, "taglib/mp3")]
@@ -148,11 +148,11 @@
         [DataRow(Tag.TitleSort, "and Away Far Hills Over the")]
         [DataRow(Tag.TrackGain, "-4.07 dB")]
         [DataRow(Tag.TrackPeak, "1.049575")]
-        public void TestFields_String(Tag tag, object expectedValue)
+        public void TestFields_String(Tag tag, object expectedValue, int expectedCount = 1)
         {
             var term = !new Function(Fn.IsNull, tag);
             var works = Works.Where(p => term.Predicate(p));
-            Assert.AreEqual(expected: 1, actual: works.Count());
+            Assert.AreEqual(expected: expectedCount, actual: works.Count());
             Assert.AreEqual(expected: expectedValue, actual: works.First().GetPropertyValue(tag));
             TestTerm(term);
         }
@@ -168,8 +168,6 @@
         [DataRow(Tag.PerformersSort, new[] { "Bonham", "Jones", "Page", "Plant" })]
         public void TestFields_Strings(Tag tag, object expectedValue)
         {
-            //var term = new Function("IsNull", tag);
-            //var works = Works.Where(p => term.Predicate(p));
             var works = Works.Where(p => !string.IsNullOrWhiteSpace(p.GetPropertyValue(tag)?.ToString()));
             Assert.AreEqual(expected: 1, actual: works.Count());
             var actualValue = works.First().GetPropertyValue(tag);
@@ -187,6 +185,28 @@
             Assert.AreEqual(expected: 1, actual: works.Count());
             Assert.AreEqual(expected: expectedValue, actual: works.First().GetPropertyValue(tag));
             TestTerm(term);
+        }
+
+        [TestMethod]
+        public void testFields_Multiple()
+        {
+            var fields = new Function(
+                Fn.ToText,
+                Tag.Album,
+                Tag.Comment,
+                Tag.Conductor,
+                Tag.Copyright,
+                Tag.FilePath,
+                Tag.JoinedAlbumArtists,
+                Tag.JoinedArtists,
+                Tag.JoinedComposers,
+                Tag.JoinedGenres,
+                Tag.JoinedPerformers,
+                Tag.Title,
+                Tag.YearAlbum);
+            var term = new Function(fields, Fn.Contains, "The");
+            var works = Works.Where(p => term.Predicate(p));
+            Assert.AreEqual(expected: 53, actual: works.Count());
         }
     }
 }
