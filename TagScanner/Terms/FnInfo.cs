@@ -36,32 +36,33 @@
         public Expression GetExpression(List<Term> operands)
         {
             var expressions = operands.Select(p => p.Expression).ToList();
-            if (_methodInfo != null)
-                return IsStatic
-                    ? Expression.Call(_methodInfo, expressions)
-                    : Expression.Call(expressions[0], _methodInfo, expressions.Skip(1));
-            switch (_fn)
-            {
-                case (Fn.If):
-                    return Expression.Condition(expressions[0], expressions[1], expressions[2]);
-                case (Fn.ToText):
-                    var newOperands = new List<Term>();
-                    var newLine = new Constant<string>(Environment.NewLine);
-                    for (var index = 0; index < operands.Count; index++)
-                    {
-                        var operand = operands[index];
-                        if (operand.ResultType != typeof(string))
+            if (_methodInfo == null)
+                switch (_fn)
+                {
+                    case Fn.If:
+                        return Expression.Condition(expressions[0], expressions[1], expressions[2]);
+                    case Fn.ToText:
+                        var newOperands = new List<Term>();
+                        var newLine = new Constant<string>(Environment.NewLine);
+                        for (var index = 0; index < operands.Count; index++)
                         {
-                            operand = new Function(Fn.ToString, operand);
-                            expressions[index] = operand.Expression;
+                            var operand = operands[index];
+                            if (operand.ResultType != typeof(string))
+                            {
+                                operand = new Function(Fn.ToString, operand);
+                                expressions[index] = operand.Expression;
+                            }
+                            if (index > 0)
+                                newOperands.Add(newLine);
+                            newOperands.Add(operand);
                         }
-                        if (index > 0)
-                            newOperands.Add(newLine);
-                        newOperands.Add(operand);
-                    }
-                    return new Concatenation(newOperands.ToArray()).Expression;
-            }
-            return null;
+                        return new Concatenation(newOperands.ToArray()).Expression;
+                    default:
+                        return null;
+                }
+            if (IsStatic)
+                return Expression.Call(_methodInfo, expressions);
+            return Expression.Call(expressions[0], _methodInfo, expressions.Skip(1));
         }
 
         #region Private Fields

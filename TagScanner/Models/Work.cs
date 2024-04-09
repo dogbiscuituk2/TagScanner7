@@ -47,29 +47,15 @@
         private string _album;
         public string Album
         {
-            get => _album;
-            set
-            {
-                if (Album != value)
-                {
-                    _album = value;
-                    OnPropertyChanged(Tag.Album);
-                }
-            }
+            get => Get(_album);
+            set => Set(ref _album, value, Tag.Album);
         }
 
         private string[] _albumArtists;
         public string[] AlbumArtists
         {
-            get => _albumArtists;
-            set
-            {
-                if (!SequenceEqual(AlbumArtists, value))
-                {
-                    _albumArtists = value;
-                    OnPropertyChanged(Tag.AlbumArtists);
-                }
-            }
+            get => Get(_albumArtists);
+            set => Set(ref _albumArtists, value, Tag.AlbumArtists);
         }
 
         [JsonIgnore, XmlIgnore]
@@ -78,62 +64,45 @@
         private string[] _albumArtistsSort;
         public string[] AlbumArtistsSort
         {
-            get => _albumArtistsSort;
-            set
-            {
-                if (!SequenceEqual(AlbumArtistsSort, value))
-                {
-                    _albumArtistsSort = value;
-                    OnPropertyChanged(Tag.AlbumArtistsSort);
-                }
-            }
+            get => Get(_albumArtistsSort);
+            set => Set(ref _albumArtistsSort, value, Tag.AlbumArtistsSort);
         }
 
         public int AlbumArtistsSortCount => AlbumArtistsSort.Length;
 
-        public string AlbumGain { get; set; }
-        public string AlbumPeak { get; set; }
+        private string _albumGain;
+        public string AlbumGain
+        {
+            get => Get(_albumGain);
+            set => Set(ref _albumGain, value, Tag.AlbumGain);
+        }
+
+        private string _albumPeak;
+        public string AlbumPeak
+        {
+            get => Get(_albumPeak);
+            set => Set(ref _albumPeak, value, Tag.AlbumPeak);
+        }
 
         private string _albumSort;
         public string AlbumSort
         {
-            get => _albumSort;
-            set
-            {
-                if (AlbumSort != value)
-                {
-                    _albumSort = value;
-                    OnPropertyChanged(Tag.AlbumSort);
-                }
-            }
+            get => Get(_albumSort);
+            set => Set(ref _albumSort, value, Tag.AlbumSort);
         }
 
         private string _amazonId;
         public string AmazonId
         {
-            get => _amazonId;
-            set
-            {
-                if (AmazonId != value)
-                {
-                    _amazonId = value;
-                    OnPropertyChanged(Tag.AmazonId);
-                }
-            }
+            get => Get(_amazonId);
+            set => Set(ref _amazonId, value, Tag.AmazonId);
         }
 
         private string[] _artists;
         public string[] Artists
         {
-            get => _artists;
-            set
-            {
-                if (!SequenceEqual(Artists, value))
-                {
-                    _artists = value;
-                    OnPropertyChanged(Tag.Artists);
-                }
-            }
+            get => Get(_artists);
+            set => Set(ref _artists, value, Tag.Artists);
         }
 
         [JsonIgnore, XmlIgnore]
@@ -163,34 +132,25 @@
         [JsonIgnore, XmlIgnore]
         public string Century => Year > 0 ? ((long)(Year + 99) / 100).AsOrdinal() : string.Empty;
 
-        public string Codecs { get; set; }
+        private string _codecs;
+        public string Codecs
+        {
+            get => Get(_codecs);
+            set => Set(ref _codecs, value, Tag.Codecs);
+        }
 
         private string _comment;
         public string Comment
         {
-            get => _comment;
-            set
-            {
-                if (Comment != value)
-                {
-                    _comment = value;
-                    OnPropertyChanged(Tag.Comment);
-                }
-            }
+            get => Get(_comment);
+            set => Set(ref _comment, value, Tag.Comment);
         }
 
         private string[] _composers;
         public string[] Composers
         {
-            get => _composers;
-            set
-            {
-                if (!SequenceEqual(Composers, value))
-                {
-                    _composers = value;
-                    OnPropertyChanged(Tag.Composers);
-                }
-            }
+            get => Get(_composers);
+            set => Set(ref _composers, value, Tag.Composers);
         }
 
         [JsonIgnore, XmlIgnore]
@@ -199,15 +159,8 @@
         private string[] _composersSort;
         public string[] ComposersSort
         {
-            get => _composersSort;
-            set
-            {
-                if (!SequenceEqual(ComposersSort, value))
-                {
-                    _composersSort = value;
-                    OnPropertyChanged(Tag.ComposersSort);
-                }
-            }
+            get => Get(_composersSort);
+            set => Set(ref _composersSort, value, Tag.ComposersSort);
         }
 
         [JsonIgnore, XmlIgnore]
@@ -216,35 +169,26 @@
         private string _conductor;
         public string Conductor
         {
-            get => _conductor;
-            set
-            {
-                if (Conductor != value)
-                {
-                    _conductor = value;
-                    OnPropertyChanged(Tag.Conductor);
-                }
-            }
+            get => Get(_conductor);
+            set => Set(ref _conductor, value, Tag.Conductor);
         }
 
         private string _copyright;
         public string Copyright
         {
-            get => _copyright;
-            set
-            {
-                if (Copyright != value)
-                {
-                    _copyright = value;
-                    OnPropertyChanged(Tag.Copyright);
-                }
-            }
+            get => Get(_copyright);
+            set => Set(ref _copyright, value, Tag.Copyright);
         }
 
         [JsonIgnore, XmlIgnore]
         public string Decade => Year > 0 ? $"{Year / 10}0s" : string.Empty;
 
-        public string Description { get; set; }
+        private string _description;
+        public string Description
+        {
+            get => Get(_description);
+            set => Set(ref _description, value, Tag.Description);
+        }
 
         [DefaultValue(0)]
         private int _discCount;
@@ -340,27 +284,67 @@
             }
         }
 
-        public string FirstAlbumArtist { get; set; }
-        public string FirstAlbumArtistSort { get; set; }
-        public string FirstArtist { get; set; }
-        public string FirstComposer { get; set; }
-        public string FirstComposerSort { get; set; }
-        public string FirstGenre { get; set; }
-        public string FirstPerformer { get; set; }
-        public string FirstPerformerSort { get; set; }
+        private string _firstAlbumArtist;
+        public string FirstAlbumArtist
+        {
+            get => Get(_firstAlbumArtist);
+            set => Set(ref _firstAlbumArtist, value, Tag.FirstAlbumArtist);
+        }
+
+        private string _firstAlbumArtistSort;
+        public string FirstAlbumArtistSort
+        {
+            get => Get(_firstAlbumArtistSort);
+            set => Set(ref _firstAlbumArtistSort, value, Tag.FirstAlbumArtistSort);
+        }
+
+        private string _firstArtist;
+        public string FirstArtist
+        {
+            get => Get(_firstArtist);
+            set => Set(ref _firstArtist, value, Tag.FirstArtist);
+        }
+
+        private string _firstComposer;
+        public string FirstComposer
+        {
+            get => Get(_firstComposer);
+            set => Set(ref _firstComposer, value, Tag.FirstComposer);
+        }
+
+        private string _firstComposerSort;
+        public string FirstComposerSort
+        {
+            get => Get(_firstComposerSort);
+            set => Set(ref _firstComposerSort, value, Tag.FirstComposerSort);
+        }
+
+        private string _firstGenre;
+        public string FirstGenre
+        {
+            get => Get(_firstGenre);
+            set => Set(ref _firstGenre, value, Tag.FirstGenre);
+        }
+
+        private string _firstPerformer;
+        public string FirstPerformer
+        {
+            get => Get(_firstPerformer);
+            set => Set(ref _firstPerformer, value, Tag.FirstPerformer);
+        }
+
+        private string _firstPerformerSort;
+        public string FirstPerformerSort
+        {
+            get => Get(_firstPerformerSort);
+            set => Set(ref _firstPerformerSort, value, Tag.FirstPerformerSort);
+        }
 
         private string[] _genres;
         public string[] Genres
         {
-            get => _genres;
-            set
-            {
-                if (!SequenceEqual(Genres, value))
-                {
-                    _genres = value;
-                    OnPropertyChanged(Tag.Genres);
-                }
-            }
+            get => Get(_genres);
+            set => Set(ref _genres, value, Tag.Genres);
         }
 
         [JsonIgnore, XmlIgnore]
@@ -369,34 +353,63 @@
         private string _grouping;
         public string Grouping
         {
-            get => _grouping;
-            set
-            {
-                if (Grouping != value)
-                {
-                    _grouping = value;
-                    OnPropertyChanged(Tag.Grouping);
-                }
-            }
+            get => Get(_grouping);
+            set => Set(ref _grouping, value, Tag.Grouping);
         }
 
         [DefaultValue(0)] public double ImageAltitude { get; set; }
-        public string ImageCreator { get; set; }
+
+        private string _imageCreator;
+        public string ImageCreator
+        {
+            get => Get(_imageCreator);
+            set => Set(ref _imageCreator, value, Tag.ImageCreator);
+        }
+
         public DateTime ImageDateTime { get; set; }
+
         [DefaultValue(0)] public double ImageExposureTime { get; set; }
         [DefaultValue(0)] public double ImageFNumber { get; set; }
         [DefaultValue(0)] public double ImageFocalLength { get; set; }
         [DefaultValue(0)] public int ImageFocalLengthIn35mmFilm { get; set; }
         [DefaultValue(0)] public int ImageISOSpeedRatings { get; set; }
-        public string[] ImageKeywords { get; set; }
+
+        private string[] _imageKeywords;
+        public string[] ImageKeywords
+        {
+            get => Get(_imageKeywords);
+            set => Set(ref _imageKeywords, value, Tag.ImageKeywords);
+        }
+
         [DefaultValue(0)] public double ImageLatitude { get; set; }
         [DefaultValue(0)] public double ImageLongitude { get; set; }
-        public string ImageMake { get; set; }
-        public string ImageModel { get; set; }
+
+        private string _imageMake;
+        public string ImageMake
+        {
+            get => Get(_imageMake);
+            set => Set(ref _imageMake, value, Tag.ImageMake);
+        }
+
+        private string _imageModel;
+        public string ImageModel
+        {
+            get => Get(_imageModel);
+            set => Set(ref _imageModel, value, Tag.ImageModel);
+        }
+
         [DefaultValue(TagLib.Image.ImageOrientation.None)]
         public TagLib.Image.ImageOrientation ImageOrientation { get; set; }
+
         [DefaultValue(0)] public int ImageRating { get; set; }
-        public string ImageSoftware { get; set; }
+
+        private string _imageSoftware;
+        public string ImageSoftware
+        {
+            get => Get(_imageSoftware);
+            set => Set(ref _imageSoftware, value, Tag.ImageSoftware);
+        }
+
         public long InvariantEndPosition { get; set; }
         public long InvariantStartPosition { get; set; }
 
@@ -406,25 +419,53 @@
         private bool _isEmpty;
         public Logical IsEmpty => _isEmpty.AsLogical();
 
-        public string JoinedAlbumArtists { get; set; }
-        public string JoinedArtists { get; set; }
-        public string JoinedComposers { get; set; }
-        public string JoinedGenres { get; set; }
-        public string JoinedPerformers { get; set; }
-        public string JoinedPerformersSort { get; set; }
+        private string _joinedAlbumArtists;
+        public string JoinedAlbumArtists
+        {
+            get => Get(_joinedAlbumArtists);
+            set => Set(ref _joinedAlbumArtists, value, Tag.JoinedAlbumArtists);
+        }
+
+        private string _joinedArtists;
+        public string JoinedArtists
+        {
+            get => Get(_joinedArtists);
+            set => Set(ref _joinedArtists, value, Tag.JoinedArtists);
+        }
+
+        private string _joinedComposers;
+        public string JoinedComposers
+        {
+            get => Get(_joinedComposers);
+            set => Set(ref _joinedComposers, value, Tag.JoinedComposers);
+        }
+
+        private string _joinedGenres;
+        public string JoinedGenres
+        {
+            get => Get(_joinedGenres);
+            set => Set(ref _joinedGenres, value, Tag.JoinedGenres);
+        }
+
+        private string _joinedPerformers;
+        public string JoinedPerformers
+        {
+            get => Get(_joinedPerformers);
+            set => Set(ref _joinedPerformers, value, Tag.JoinedPerformers);
+        }
+
+        private string _joinedPerformersSort;
+        public string JoinedPerformersSort
+        {
+            get => Get(_joinedPerformersSort);
+            set => Set(ref _joinedPerformersSort, value, Tag.JoinedPerformersSort);
+        }
 
         private string _lyrics;
         public string Lyrics
         {
-            get => _lyrics;
-            set
-            {
-                if (Lyrics != value)
-                {
-                    _lyrics = value;
-                    OnPropertyChanged(Tag.Lyrics);
-                }
-            }
+            get => Get(_lyrics);
+            set => Set(ref _lyrics, value, Tag.Lyrics);
         }
 
         public TagLib.MediaTypes MediaTypes { get; set; }
@@ -432,132 +473,74 @@
         [JsonIgnore, XmlIgnore]
         public string Millennium => Year > 0 ? ((long)(Year + 999) / 1000).AsOrdinal() : string.Empty;
 
-        public string MimeType { get; set; }
+        private string _mimeType;
+        public string MimeType
+        {
+            get => Get(_mimeType);
+            set => Set(ref _mimeType, value, Tag.MimeType);
+        }
 
         private string _musicBrainzArtistId;
         public string MusicBrainzArtistId
         {
-            get => _musicBrainzArtistId;
-            set
-            {
-                if (MusicBrainzArtistId != value)
-                {
-                    _musicBrainzArtistId = value;
-                    OnPropertyChanged(Tag.MusicBrainzArtistId);
-                }
-            }
+            get => Get(_musicBrainzArtistId);
+            set => Set(ref _musicBrainzArtistId, value, Tag.MusicBrainzArtistId);
         }
 
         private string _musicBrainzDiscId;
         public string MusicBrainzDiscId
         {
-            get => _musicBrainzDiscId;
-            set
-            {
-                if (MusicBrainzDiscId != value)
-                {
-                    _musicBrainzDiscId = value;
-                    OnPropertyChanged(Tag.MusicBrainzDiscId);
-                }
-            }
+            get => Get(_musicBrainzDiscId);
+            set => Set(ref _musicBrainzDiscId, value, Tag.MusicBrainzDiscId);
         }
 
         private string _musicBrainzReleaseArtistId;
         public string MusicBrainzReleaseArtistId
         {
-            get => _musicBrainzReleaseArtistId;
-            set
-            {
-                if (MusicBrainzReleaseArtistId != value)
-                {
-                    _musicBrainzReleaseArtistId = value;
-                    OnPropertyChanged(Tag.MusicBrainzReleaseArtistId);
-                }
-            }
+            get => Get(_musicBrainzReleaseArtistId);
+            set => Set(ref _musicBrainzReleaseArtistId, value, Tag.MusicBrainzReleaseArtistId);
         }
 
         private string _musicBrainzReleaseCountry;
         public string MusicBrainzReleaseCountry
         {
-            get => _musicBrainzReleaseCountry;
-            set
-            {
-                if (MusicBrainzReleaseCountry != value)
-                {
-                    _musicBrainzReleaseCountry = value;
-                    OnPropertyChanged(Tag.MusicBrainzReleaseCountry);
-                }
-            }
+            get => Get(_musicBrainzReleaseCountry);
+            set => Set(ref _musicBrainzReleaseCountry, value, Tag.MusicBrainzReleaseCountry);
         }
 
         private string _musicBrainzReleaseId;
         public string MusicBrainzReleaseId
         {
-            get => _musicBrainzReleaseId;
-            set
-            {
-                if (MusicBrainzReleaseId != value)
-                {
-                    _musicBrainzReleaseId = value;
-                    OnPropertyChanged(Tag.MusicBrainzReleaseId);
-                }
-            }
+            get => Get(_musicBrainzReleaseId);
+            set => Set(ref _musicBrainzReleaseId, value, Tag.MusicBrainzReleaseId);
         }
 
         private string _musicBrainzReleaseStatus;
         public string MusicBrainzReleaseStatus
         {
-            get => _musicBrainzReleaseStatus;
-            set
-            {
-                if (MusicBrainzReleaseStatus != value)
-                {
-                    _musicBrainzReleaseStatus = value;
-                    OnPropertyChanged(Tag.MusicBrainzReleaseStatus);
-                }
-            }
+            get => Get(_musicBrainzReleaseStatus);
+            set => Set(ref _musicBrainzReleaseStatus, value, Tag.MusicBrainzReleaseStatus);
         }
 
         private string _musicBrainzReleaseType;
         public string MusicBrainzReleaseType
         {
-            get => _musicBrainzReleaseType;
-            set
-            {
-                if (MusicBrainzReleaseType != value)
-                {
-                    _musicBrainzReleaseType = value;
-                    OnPropertyChanged(Tag.MusicBrainzReleaseType);
-                }
-            }
+            get => Get(_musicBrainzReleaseType);
+            set => Set(ref _musicBrainzReleaseType, value, Tag.MusicBrainzReleaseType);
         }
 
         private string _musicBrainzTrackId;
         public string MusicBrainzTrackId
         {
-            get => _musicBrainzTrackId;
-            set
-            {
-                if (MusicBrainzTrackId != value)
-                {
-                    _musicBrainzTrackId = value;
-                    OnPropertyChanged(Tag.MusicBrainzTrackId);
-                }
-            }
+            get => Get(_musicBrainzTrackId);
+            set => Set(ref _musicBrainzTrackId, value, Tag.MusicBrainzTrackId);
         }
 
         private string _musicIpId;
         public string MusicIpId
         {
-            get => _musicIpId;
-            set
-            {
-                if (MusicIpId != value)
-                {
-                    _musicIpId = value;
-                    OnPropertyChanged(Tag.MusicIpId);
-                }
-            }
+            get => Get(_musicIpId);
+            set => Set(ref _musicIpId, value, Tag.MusicIpId);
         }
 
         public string Name { get; set; }
@@ -565,15 +548,8 @@
         private string[] _performers;
         public string[] Performers
         {
-            get => _performers;
-            set
-            {
-                if (!SequenceEqual(Performers, value))
-                {
-                    _performers = value;
-                    OnPropertyChanged(Tag.Performers);
-                }
-            }
+            get => Get(_performers);
+            set => Set(ref _performers, value, Tag.Performers);
         }
 
         [JsonIgnore, XmlIgnore]
@@ -582,15 +558,8 @@
         private string[] _performersSort;
         public string[] PerformersSort
         {
-            get => _performersSort;
-            set
-            {
-                if (!SequenceEqual(PerformersSort, value))
-                {
-                    _performersSort = value;
-                    OnPropertyChanged(Tag.PerformersSort);
-                }
-            }
+            get => Get(_performersSort);
+            set => Set(ref _performersSort, value, Tag.PerformersSort);
         }
 
         [JsonIgnore, XmlIgnore]
@@ -600,7 +569,12 @@
         [DefaultValue(0)] public int PhotoQuality { get; set; }
         [DefaultValue(0)] public int PhotoWidth { get; set; }
 
-        public Picture[] Pictures { get; set; }
+        private Picture[] _pictures;
+        public Picture[] Pictures
+        {
+            get => Get(_pictures);
+            set => Set(ref _pictures, value, Tag.Pictures);
+        }
 
         [NonSerialized]
         private int _picturesCount;
@@ -616,29 +590,15 @@
         private string _title;
         public string Title
         {
-            get => _title;
-            set
-            {
-                if (Title != value)
-                {
-                    _title = value;
-                    OnPropertyChanged(Tag.Title);
-                }
-            }
+            get => Get(_title);
+            set => Set(ref _title, value, Tag.Title);
         }
 
         private string _titleSort;
         public string TitleSort
         {
-            get => _titleSort;
-            set
-            {
-                if (TitleSort != value)
-                {
-                    _titleSort = value;
-                    OnPropertyChanged(Tag.TitleSort);
-                }
-            }
+            get => Get(_titleSort);
+            set => Set(ref _titleSort, value, Tag.TitleSort);
         }
 
         private int _trackCount;
@@ -656,7 +616,12 @@
             }
         }
 
-        public string TrackGain { get; set; }
+        private string _trackGain;
+        public string TrackGain
+        {
+            get => Get(_trackGain);
+            set => Set(ref _trackGain, value, Tag.TrackGain);
+        }
 
         private int _trackNumber;
         [DefaultValue(0)]
@@ -676,7 +641,12 @@
         [JsonIgnore, XmlIgnore]
         public string TrackOf => NumberOfTotal(TrackNumber, TrackCount, 2);
 
-        public string TrackPeak { get; set; }
+        private string _trackPeak;
+        public string TrackPeak
+        {
+            get => Get(_trackPeak);
+            set => Set(ref _trackPeak, value, Tag.TrackPeak);
+        }
 
         [DefaultValue(0)] public int VideoHeight { get; set; }
         [DefaultValue(0)] public int VideoWidth { get; set; }
@@ -744,6 +714,10 @@
         #endregion
 
         #region Private Methods
+
+        private string Get(string field) => field ?? string.Empty;
+
+        private T[] Get<T>(T[] field) => field ?? Array.Empty<T>();
 
         private static PropertyInfo GetPropertyInfo(string propertyName) => typeof(Work).GetProperty(propertyName);
 
@@ -1009,8 +983,22 @@
             return string.Format($"{{0:D{digits}}}/{{1:D{digits}}}", number, total);
         }
 
-        private static bool SequenceEqual(IEnumerable<string> x, IEnumerable<string> y) =>
+        private static bool SequenceEqual<T>(IEnumerable<T> x, IEnumerable<T> y) =>
             x != null ? y != null && x.SequenceEqual(y) : y == null;
+
+        private void Set(ref string field, string value, Tag tag)
+        {
+            if (field == value) return;
+            field = value;
+            OnPropertyChanged(tag);
+        }
+
+        private void Set<T>(ref T[] field, T[] value, Tag tag)
+        {
+            if (SequenceEqual(field, value)) return;
+            field = value;
+            OnPropertyChanged(tag);
+        }
 
         #endregion
     }
