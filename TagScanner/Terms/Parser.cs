@@ -61,20 +61,18 @@
             var term = ParseSimpleTerm();
             while (AnyTokens())
             {
-                if (PeekToken().Value == ")")
-                    break;
-                var token = DequeueToken().Value;
+                var token = PeekToken().Value;
+                if (token == ")") break;
+                if (token.IsOperator()) DequeueToken();
+                else token = "."; // Dot may be omitted.
                 var tokenRank = token.Rank(unary: false);
                 while (AnyOperators())
                 {
                     var op = PeekOperator();
-                    if (op == 0)
-                        break;
+                    if (op == 0) break;
                     var priorRank = op.GetRank();
-                    if (priorRank >= tokenRank)
-                        term = Consolidate(term);
-                    else
-                        break;
+                    if (priorRank >= tokenRank) term = Consolidate(term);
+                    else break;
                 }
                 PushTerm(term);
                 PushOperator(token.ToOperator(unary: false));
@@ -83,8 +81,7 @@
             while (AnyOperators())
             {
                 var op = PeekOperator();
-                if (op == 0)
-                    break;
+                if (op == 0) break;
                 term = Consolidate(term);
             }
             return term;
@@ -92,8 +89,7 @@
 
         private Term ParseMemberFunction(Token token)
         {
-            if (PeekOperator() != Op.Dot)
-                UnexpectedToken(token);
+            if (PeekOperator() != Op.Dot) UnexpectedToken(token);
             PopOperator();
             return NewTerm(new Function(PopTerm(), token.Value.ToFunction(), ParseParameters()));
         }
@@ -126,8 +122,7 @@
             var token = DequeueToken();
             var match = token.Value;
             if (match == "(")
-                if (PeekToken().Value.IsType())
-                    return ParseCast();
+                if (PeekToken().Value.IsType()) return ParseCast();
                 else
                 {
                     PushOperator();
@@ -158,15 +153,9 @@
             var term = ParseSimpleTerm();
             switch (token)
             {
-                case "+":
-                case "＋":
-                    return NewTerm(new Positive(term));
-                case "-":
-                case "－":
-                    return NewTerm(new Negative(term));
-                case "!":
-                case "not":
-                    return NewTerm(new Negation(term));
+                case "+": case "＋": return NewTerm(new Positive(term));
+                case "-": case "－": return NewTerm(new Negative(term));
+                case "!": case "not": return NewTerm(new Negation(term));
             }
             return null;
         }

@@ -138,6 +138,9 @@ namespace TagScanner.Controllers
         public void ClearFilter() => ListCollectionView.Filter = null;
         public void SetFilter(Term term) => ListCollectionView.Filter = p => term.Predicate((Work)p);
 
+        public int WorksCountAll => Model.Works.Count;
+        public int WorksCountVisible => ListCollectionView.Count;
+
         #endregion
 
         #region Sorting and Grouping

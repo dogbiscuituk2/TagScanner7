@@ -755,7 +755,7 @@
         public System.Windows.Forms.ToolStripSeparator toolStripMenuItem2;
         public System.Windows.Forms.ToolStripMenuItem EditFind;
         public System.Windows.Forms.ToolStripMenuItem EditReplace;
-        private System.Windows.Forms.ToolStripMenuItem ViewGroupBy;
+        public System.Windows.Forms.ToolStripMenuItem ViewGroupBy;
         public System.Windows.Forms.ToolStripMenuItem ViewByArtist;
         public System.Windows.Forms.ToolStripMenuItem ViewByAlbum;
         public System.Windows.Forms.ToolStripSeparator toolStripMenuItem4;
@@ -764,9 +764,9 @@
         public System.Windows.Forms.ToolStripMenuItem ViewByGenre;
         public System.Windows.Forms.ToolStripMenuItem ViewByNoGrouping;
         public System.Windows.Forms.ToolStripMenuItem ViewFilter;
-        private System.Windows.Forms.ToolStripSeparator toolStripMenuItem7;
+        public System.Windows.Forms.ToolStripSeparator toolStripMenuItem7;
         public System.Windows.Forms.Integration.ElementHost GridElementHost;
-        private System.Windows.Forms.GroupBox FilterGroupBox;
+        public System.Windows.Forms.GroupBox FilterGroupBox;
         public System.Windows.Forms.ComboBox FilterComboBox;
         public System.Windows.Forms.CheckBox cbFilterApply;
         public System.Windows.Forms.Button btnFilterBuild;

@@ -85,15 +85,16 @@
             void SyntaxError() => throw new FormatException($"Unrecognised term at character position {index}: {text.Substring(index)}");
         }
 
+        public static bool IsBinaryOperator(this string token) => BinaryOperators.Contains(token, IgnoreCase);
         public static bool IsBoolean(this string token) => Booleans.Contains(token, IgnoreCase);
         public static bool IsChar(this string token) => token[0] == SingleQuote;
         public static bool IsConstant(this string token) => token.IsBoolean() || token.IsChar() || token.IsNumber() || token.IsString();
         public static bool IsDateTime(this string token) => Regex.IsMatch(token, DateTimeParser.DateTimePattern);
-        public static bool IsDyadicOperator(this string token) => DyadicOperators.Contains(token);
+        public static bool IsDyadicOperator(this string token) => BinaryOperators.Contains(token);
         public static bool IsField(this string token) => Fields.Contains(token, IgnoreCase);
         public static bool IsFunction(this string token) => FunctionNames.Contains(token, IgnoreCase);
         public static bool IsMemberFunction(this string token) => MemberFunctionNames.Contains(token, IgnoreCase);
-        public static bool IsMonadicOperator(this string token) => MonadicOperators.Contains(token, IgnoreCase);
+        public static bool IsMonadicOperator(this string token) => UnaryOperators.Contains(token, IgnoreCase);
         public static bool IsNumber(this string token) => char.IsDigit(token[0]);
         public static bool IsOperator(this string token) => Operators.Contains(token, IgnoreCase);
         public static bool IsParameter(this string token) => token[0] == '{';
@@ -102,7 +103,7 @@
         public static bool IsSymbol(this string token) => Symbols.Contains(token, IgnoreCase);
         public static bool IsTimeSpan(this string token) => Regex.IsMatch(token, DateTimeParser.TimeSpanPattern);
         public static bool IsType(this string token) => TypeNames.Contains(token, IgnoreCase);
-
+        public static bool IsUnaryOperator(this string token) => UnaryOperators.Contains(token, IgnoreCase);
         public static Rank Rank(this string token, bool unary) => token.ToOperator(unary).GetRank();
 
         #endregion
@@ -134,14 +135,14 @@
 
         private static IEnumerable<string> Booleans => new[] { "false", "true" };
 
-        private static IEnumerable<string> MonadicOperators => new[]
+        private static IEnumerable<string> UnaryOperators => new[]
         {
             "+", "＋",
             "-", "－",
             "!", "not",
         };
 
-        private static IEnumerable<string> DyadicOperators => new[]
+        private static IEnumerable<string> BinaryOperators => new[]
         {
             ",",
             "&&", "&", "and",
@@ -164,7 +165,7 @@
         private static IEnumerable<string> Fields => Tags.Keys.Select(p => p.DisplayName());
         private static IEnumerable<string> FunctionNames => Functors.Keys.Select(fn => $"{fn}");
         private static IEnumerable<string> MemberFunctionNames => Functors.Keys.Where(p => !p.IsStatic()).Select(p => p.ToString());
-        private static IEnumerable<string> Operators => MonadicOperators.Union(DyadicOperators);
+        private static IEnumerable<string> Operators => UnaryOperators.Union(BinaryOperators);
         private static IEnumerable<string> StaticFunctionNames => Functors.Keys.Where(p => p.IsStatic()).Select(p => p.ToString());
         private static IEnumerable<string> Symbols => Operators.Union(new[] { "(", ")" });
         private static IEnumerable<string> TypeNames => Types.TypeNames;

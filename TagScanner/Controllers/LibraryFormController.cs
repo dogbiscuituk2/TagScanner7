@@ -235,15 +235,20 @@
         private void UpdateFilter()
         {
             if (View.cbFilterApply.Checked)
-            {
-                var ok = new Parser().TryParse(View.FilterComboBox.Text, out var term, out var exception);
-                if (ok)
+                if (new Parser().TryParse(View.FilterComboBox.Text, out var term, out var exception))
+                {
                     LibraryGridController.SetFilter(term);
+                    UpdateFilterStatus($"{LibraryGridController.WorksCountVisible} of {LibraryGridController.WorksCountAll} Works shown.");
+                }
                 else
-                    exception.ShowDialog();
-            }
+                    UpdateFilterStatus(exception.GetAllInformation());
             else
+            {
                 LibraryGridController.ClearFilter();
+                UpdateFilterStatus($"{LibraryGridController.WorksCountAll} Works shown.");
+            }
         }
+
+        private void UpdateFilterStatus(string status) => View.FilterGroupBox.Text = $"Filter: {status}";
     }
 }
