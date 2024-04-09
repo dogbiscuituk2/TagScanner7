@@ -44,7 +44,7 @@
 
         #region IWork
 
-        private string _album;
+        private string _album = string.Empty;
         [DefaultValue("")]
         public string Album
         {
@@ -71,7 +71,7 @@
 
         public int AlbumArtistsSortCount => AlbumArtistsSort.Length;
 
-        private string _albumGain;
+        private string _albumGain = string.Empty;
         [DefaultValue("")]
         public string AlbumGain
         {
@@ -79,7 +79,7 @@
             set => Set(ref _albumGain, value, Tag.AlbumGain);
         }
 
-        private string _albumPeak;
+        private string _albumPeak = string.Empty;
         [DefaultValue("")]
         public string AlbumPeak
         {
@@ -87,7 +87,7 @@
             set => Set(ref _albumPeak, value, Tag.AlbumPeak);
         }
 
-        private string _albumSort;
+        private string _albumSort = string.Empty;
         [DefaultValue("")]
         public string AlbumSort
         {
@@ -95,7 +95,7 @@
             set => Set(ref _albumSort, value, Tag.AlbumSort);
         }
 
-        private string _amazonId;
+        private string _amazonId = string.Empty;
         [DefaultValue("")]
         public string AmazonId
         {
@@ -115,6 +115,7 @@
 
         public int AudioBitrate { get; set; }
         public int AudioChannels { get; set; }
+
         public int AudioSampleRate { get; set; }
 
         private int _beatsPerMinute;
@@ -132,12 +133,13 @@
             }
         }
 
+        [DefaultValue(0)]
         public int BitsPerSample { get; set; }
 
         [JsonIgnore, XmlIgnore]
         public string Century => Year > 0 ? ((long)(Year + 99) / 100).AsOrdinal() : string.Empty;
 
-        private string _codecs;
+        private string _codecs = string.Empty;
         [DefaultValue("")]
         public string Codecs
         {
@@ -145,7 +147,7 @@
             set => Set(ref _codecs, value, Tag.Codecs);
         }
 
-        private string _comment;
+        private string _comment = string.Empty;
         [DefaultValue("")]
         public string Comment
         {
@@ -173,7 +175,7 @@
         [JsonIgnore, XmlIgnore]
         public int ComposersSortCount => ComposersSort.Length;
 
-        private string _conductor;
+        private string _conductor = string.Empty;
         [DefaultValue("")]
         public string Conductor
         {
@@ -181,7 +183,7 @@
             set => Set(ref _conductor, value, Tag.Conductor);
         }
 
-        private string _copyright;
+        private string _copyright = string.Empty;
         [DefaultValue("")]
         public string Copyright
         {
@@ -192,7 +194,7 @@
         [JsonIgnore, XmlIgnore]
         public string Decade => Year > 0 ? $"{Year / 10}0s" : string.Empty;
 
-        private string _description;
+        private string _description = string.Empty;
         [DefaultValue("")]
         public string Description
         {
@@ -268,9 +270,7 @@
         [JsonIgnore, XmlIgnore]
         public string FileNameWithoutExtension => Path.GetFileNameWithoutExtension(FilePath);
 
-        [DefaultValue("")]
         public string FilePath { get; set; }
-
         public long FileSize { get; set; }
 
         [JsonIgnore, XmlIgnore]
@@ -297,7 +297,7 @@
             }
         }
 
-        private string _firstAlbumArtist;
+        private string _firstAlbumArtist = string.Empty;
         [DefaultValue("")]
         public string FirstAlbumArtist
         {
@@ -305,7 +305,7 @@
             set => Set(ref _firstAlbumArtist, value, Tag.FirstAlbumArtist);
         }
 
-        private string _firstAlbumArtistSort;
+        private string _firstAlbumArtistSort = string.Empty;
         [DefaultValue("")]
         public string FirstAlbumArtistSort
         {
@@ -313,7 +313,7 @@
             set => Set(ref _firstAlbumArtistSort, value, Tag.FirstAlbumArtistSort);
         }
 
-        private string _firstArtist;
+        private string _firstArtist = string.Empty;
         [DefaultValue("")]
         public string FirstArtist
         {
@@ -321,7 +321,7 @@
             set => Set(ref _firstArtist, value, Tag.FirstArtist);
         }
 
-        private string _firstComposer;
+        private string _firstComposer = string.Empty;
         [DefaultValue("")]
         public string FirstComposer
         {
@@ -329,7 +329,7 @@
             set => Set(ref _firstComposer, value, Tag.FirstComposer);
         }
 
-        private string _firstComposerSort;
+        private string _firstComposerSort = string.Empty;
         [DefaultValue("")]
         public string FirstComposerSort
         {
@@ -337,7 +337,7 @@
             set => Set(ref _firstComposerSort, value, Tag.FirstComposerSort);
         }
 
-        private string _firstGenre;
+        private string _firstGenre = string.Empty;
         [DefaultValue("")]
         public string FirstGenre
         {
@@ -345,7 +345,7 @@
             set => Set(ref _firstGenre, value, Tag.FirstGenre);
         }
 
-        private string _firstPerformer;
+        private string _firstPerformer = string.Empty;
         [DefaultValue("")]
         public string FirstPerformer
         {
@@ -353,7 +353,7 @@
             set => Set(ref _firstPerformer, value, Tag.FirstPerformer);
         }
 
-        private string _firstPerformerSort;
+        private string _firstPerformerSort = string.Empty;
         [DefaultValue("")]
         public string FirstPerformerSort
         {
@@ -371,7 +371,7 @@
         [JsonIgnore, XmlIgnore]
         public int GenresCount => Genres.Length;
 
-        private string _grouping;
+        private string _grouping = string.Empty;
         [DefaultValue("")]
         public string Grouping
         {
@@ -379,9 +379,9 @@
             set => Set(ref _grouping, value, Tag.Grouping);
         }
 
-        [DefaultValue(0)] public double ImageAltitude { get; set; }
+        [DefaultValue(0.0D)] public double ImageAltitude { get; set; }
 
-        private string _imageCreator;
+        private string _imageCreator = string.Empty;
         [DefaultValue("")]
         public string ImageCreator
         {
@@ -391,9 +391,9 @@
 
         public DateTime ImageDateTime { get; set; }
 
-        [DefaultValue(0)] public double ImageExposureTime { get; set; }
-        [DefaultValue(0)] public double ImageFNumber { get; set; }
-        [DefaultValue(0)] public double ImageFocalLength { get; set; }
+        [DefaultValue(0.0D)] public double ImageExposureTime { get; set; }
+        [DefaultValue(0.0D)] public double ImageFNumber { get; set; }
+        [DefaultValue(0.0D)] public double ImageFocalLength { get; set; }
         [DefaultValue(0)] public int ImageFocalLengthIn35mmFilm { get; set; }
         [DefaultValue(0)] public int ImageISOSpeedRatings { get; set; }
 
@@ -404,10 +404,10 @@
             set => Set(ref _imageKeywords, value, Tag.ImageKeywords);
         }
 
-        [DefaultValue(0)] public double ImageLatitude { get; set; }
-        [DefaultValue(0)] public double ImageLongitude { get; set; }
+        [DefaultValue(0.0D)] public double ImageLatitude { get; set; }
+        [DefaultValue(0.0D)] public double ImageLongitude { get; set; }
 
-        private string _imageMake;
+        private string _imageMake = string.Empty;
         [DefaultValue("")]
         public string ImageMake
         {
@@ -415,7 +415,7 @@
             set => Set(ref _imageMake, value, Tag.ImageMake);
         }
 
-        private string _imageModel;
+        private string _imageModel = string.Empty;
         [DefaultValue("")]
         public string ImageModel
         {
@@ -428,7 +428,7 @@
 
         [DefaultValue(0)] public int ImageRating { get; set; }
 
-        private string _imageSoftware;
+        private string _imageSoftware = string.Empty;
         [DefaultValue("")]
         public string ImageSoftware
         {
@@ -445,7 +445,7 @@
         private bool _isEmpty;
         public Logical IsEmpty => _isEmpty.AsLogical();
 
-        private string _joinedAlbumArtists;
+        private string _joinedAlbumArtists = string.Empty;
         [DefaultValue("")]
         public string JoinedAlbumArtists
         {
@@ -453,7 +453,7 @@
             set => Set(ref _joinedAlbumArtists, value, Tag.JoinedAlbumArtists);
         }
 
-        private string _joinedArtists;
+        private string _joinedArtists = string.Empty;
         [DefaultValue("")]
         public string JoinedArtists
         {
@@ -461,7 +461,7 @@
             set => Set(ref _joinedArtists, value, Tag.JoinedArtists);
         }
 
-        private string _joinedComposers;
+        private string _joinedComposers = string.Empty;
         [DefaultValue("")]
         public string JoinedComposers
         {
@@ -469,7 +469,7 @@
             set => Set(ref _joinedComposers, value, Tag.JoinedComposers);
         }
 
-        private string _joinedGenres;
+        private string _joinedGenres = string.Empty;
         [DefaultValue("")]
         public string JoinedGenres
         {
@@ -477,7 +477,7 @@
             set => Set(ref _joinedGenres, value, Tag.JoinedGenres);
         }
 
-        private string _joinedPerformers;
+        private string _joinedPerformers = string.Empty;
         [DefaultValue("")]
         public string JoinedPerformers
         {
@@ -485,7 +485,7 @@
             set => Set(ref _joinedPerformers, value, Tag.JoinedPerformers);
         }
 
-        private string _joinedPerformersSort;
+        private string _joinedPerformersSort = string.Empty;
         [DefaultValue("")]
         public string JoinedPerformersSort
         {
@@ -493,7 +493,7 @@
             set => Set(ref _joinedPerformersSort, value, Tag.JoinedPerformersSort);
         }
 
-        private string _lyrics;
+        private string _lyrics = string.Empty;
         [DefaultValue("")]
         public string Lyrics
         {
@@ -506,7 +506,7 @@
         [JsonIgnore, XmlIgnore]
         public string Millennium => Year > 0 ? ((long)(Year + 999) / 1000).AsOrdinal() : string.Empty;
 
-        private string _mimeType;
+        private string _mimeType = string.Empty;
         [DefaultValue("")]
         public string MimeType
         {
@@ -514,7 +514,7 @@
             set => Set(ref _mimeType, value, Tag.MimeType);
         }
 
-        private string _musicBrainzArtistId;
+        private string _musicBrainzArtistId = string.Empty;
         [DefaultValue("")]
         public string MusicBrainzArtistId
         {
@@ -522,7 +522,7 @@
             set => Set(ref _musicBrainzArtistId, value, Tag.MusicBrainzArtistId);
         }
 
-        private string _musicBrainzDiscId;
+        private string _musicBrainzDiscId = string.Empty;
         [DefaultValue("")]
         public string MusicBrainzDiscId
         {
@@ -530,7 +530,7 @@
             set => Set(ref _musicBrainzDiscId, value, Tag.MusicBrainzDiscId);
         }
 
-        private string _musicBrainzReleaseArtistId;
+        private string _musicBrainzReleaseArtistId = string.Empty;
         [DefaultValue("")]
         public string MusicBrainzReleaseArtistId
         {
@@ -538,7 +538,7 @@
             set => Set(ref _musicBrainzReleaseArtistId, value, Tag.MusicBrainzReleaseArtistId);
         }
 
-        private string _musicBrainzReleaseCountry;
+        private string _musicBrainzReleaseCountry = string.Empty;
         [DefaultValue("")]
         public string MusicBrainzReleaseCountry
         {
@@ -546,7 +546,7 @@
             set => Set(ref _musicBrainzReleaseCountry, value, Tag.MusicBrainzReleaseCountry);
         }
 
-        private string _musicBrainzReleaseId;
+        private string _musicBrainzReleaseId = string.Empty;
         [DefaultValue("")]
         public string MusicBrainzReleaseId
         {
@@ -554,7 +554,7 @@
             set => Set(ref _musicBrainzReleaseId, value, Tag.MusicBrainzReleaseId);
         }
 
-        private string _musicBrainzReleaseStatus;
+        private string _musicBrainzReleaseStatus = string.Empty;
         [DefaultValue("")]
         public string MusicBrainzReleaseStatus
         {
@@ -562,7 +562,7 @@
             set => Set(ref _musicBrainzReleaseStatus, value, Tag.MusicBrainzReleaseStatus);
         }
 
-        private string _musicBrainzReleaseType;
+        private string _musicBrainzReleaseType = string.Empty;
         [DefaultValue("")]
         public string MusicBrainzReleaseType
         {
@@ -570,7 +570,7 @@
             set => Set(ref _musicBrainzReleaseType, value, Tag.MusicBrainzReleaseType);
         }
 
-        private string _musicBrainzTrackId;
+        private string _musicBrainzTrackId = string.Empty;
         [DefaultValue("")]
         public string MusicBrainzTrackId
         {
@@ -578,7 +578,7 @@
             set => Set(ref _musicBrainzTrackId, value, Tag.MusicBrainzTrackId);
         }
 
-        private string _musicIpId;
+        private string _musicIpId = string.Empty;
         [DefaultValue("")]
         public string MusicIpId
         {
@@ -630,7 +630,7 @@
         public TagLib.TagTypes TagTypes { get; set; }
         public TagLib.TagTypes TagTypesOnDisk { get; set; }
 
-        private string _title;
+        private string _title = string.Empty;
         [DefaultValue("")]
         public string Title
         {
@@ -638,7 +638,7 @@
             set => Set(ref _title, value, Tag.Title);
         }
 
-        private string _titleSort;
+        private string _titleSort = string.Empty;
         [DefaultValue("")]
         public string TitleSort
         {
@@ -661,7 +661,7 @@
             }
         }
 
-        private string _trackGain;
+        private string _trackGain = string.Empty;
         [DefaultValue("")]
         public string TrackGain
         {
@@ -687,7 +687,7 @@
         [JsonIgnore, XmlIgnore]
         public string TrackOf => NumberOfTotal(TrackNumber, TrackCount, 2);
 
-        private string _trackPeak;
+        private string _trackPeak = string.Empty;
         [DefaultValue("")]
         public string TrackPeak
         {
