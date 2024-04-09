@@ -9,11 +9,19 @@
     [DefaultProperty("Title")]
     public class Selection : IWork
     {
+        #region Constructor
+
         public Selection(IEnumerable<Work> works) => Works = works;
 
-        public readonly IEnumerable<Work> Works;
+        #endregion
 
-        #region Properties
+        #region Public Properties
+
+        public IEnumerable<Work> Works { get; }
+
+        #endregion
+
+        #region IWork
 
         #region Album
 
@@ -22,7 +30,7 @@
         [Category(Details)]
         [Column(160)]
         [Description("A string containing the album name of the media represented by the selected item(s), or an empty string if no value is present.")]
-        [DisplayName("Album Title")]
+        [DisplayName("Album")]
         public string Album
         {
             get => GetString(p => p.Album, ref _album);
@@ -1213,7 +1221,7 @@
         [Category(Personnel)]
         [Column(160)]
         [Description("A string containing the artist(s) credited in the creation of the entire album or collection containing the media described by the selected item(s), or an empty string if no value is present.")]
-        [DisplayName("Album Artists (joined)")]
+        [DisplayName("Album Artist")]
         [ReadOnly(true)]
         [Uses(Tag.AlbumArtists)]
         public string JoinedAlbumArtists => GetString(p => p.JoinedAlbumArtists, ref _joinedAlbumArtists);
@@ -1240,7 +1248,7 @@
         [Category(Personnel)]
         [Column(160)]
         [Description("A string containing the composers of the media represented by the selected item(s), or an empty string if no value is present.")]
-        [DisplayName("Composers (joined)")]
+        [DisplayName("Composer")]
         [ReadOnly(true)]
         [Uses(Tag.Composers)]
         public string JoinedComposers => GetString(p => p.JoinedComposers, ref _joinedComposers);
@@ -1253,7 +1261,7 @@
         [Category(Category)]
         [Column(160)]
         [Description("A string containing the genres of the media represented by the selected item(s), or an empty string if no value is present.")]
-        [DisplayName("Genres (joined)")]
+        [DisplayName("Genre")]
         [ReadOnly(true)]
         [Uses(Tag.Genres)]
         public string JoinedGenres => GetString(p => p.JoinedGenres, ref _joinedGenres);
@@ -1266,7 +1274,7 @@
         [Category(Personnel)]
         [Column(160)]
         [Description("A string containing the performers or artists who performed in the media described by the selected item(s), or an empty string if no value is present.")]
-        [DisplayName("Performers (joined)")]
+        [DisplayName("Artist")]
         [ReadOnly(true)]
         [Uses(Tag.Performers)]
         public string JoinedPerformers => GetString(p => p.JoinedPerformers, ref _joinedPerformers);
@@ -1670,7 +1678,7 @@
         public int SelectedArtistsCount => Works.SelectMany(f => f.Performers).Distinct().Count();
 
         #endregion
-        #region SelectedFolders
+        #region SelectedFoldersCount
 
         [Browsable(true)]
         [Category(Selected)]
@@ -1678,7 +1686,7 @@
         [Description("The number of distinct folders containing one or more items from the selection.")]
         [DisplayName("# Selected Folders")]
         [ReadOnly(true)]
-        public int SelectedFolders => Works.Select(p => Path.GetDirectoryName(p.FilePath)).Distinct().Count();
+        public int SelectedFoldersCount => Works.Select(p => Path.GetDirectoryName(p.FilePath)).Distinct().Count();
 
         #endregion
         #region SelectedGenresCount

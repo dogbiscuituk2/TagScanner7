@@ -11,7 +11,6 @@
     using Mru;
     using Properties;
     using Terms;
-    using Utils;
     using Views;
 
     public class LibraryFormController : Controller
@@ -58,8 +57,6 @@
                 View.EditSelectAll.Click += EditSelectAll_Click;
                 View.EditInvertSelection.Click += EditInvertSelection_Click;
                 View.ViewFilter.Click += ViewFilter_Click;
-                View.cbFilterApply.CheckStateChanged += CbFilterApply_CheckStateChanged;
-                View.FilterComboBox.TextChanged += FilterComboBox_TextChanged;
                 View.btnFilterBuild.Click += BtnFilterBuild_Click;
                 View.ViewByArtistAlbum.Click += ViewByArtistAlbum_Click;
                 View.ViewByArtist.Click += ViewByArtist_Click;
@@ -115,8 +112,6 @@
         private void EditInvertSelection_Click(object sender, EventArgs e) => LibraryGridController.InvertSelection();
         private void ViewFilter_Click(object sender, EventArgs e) => FilterFormController.Execute();
         private void BtnFilterBuild_Click(object sender, EventArgs e) => FilterFormController.Execute(View.FilterComboBox.Text);
-        private void CbFilterApply_CheckStateChanged(object sender, EventArgs e) => UpdateFilter();
-        private void FilterComboBox_TextChanged(object sender, EventArgs e) => UpdateFilter();
 
         #endregion
 
@@ -144,7 +139,7 @@
         private void HelpAbout_Click(object sender, EventArgs e)
         {
             MessageBox.Show(
-                $"{Application.CompanyName}{Environment.NewLine}{Application.ProductName}{Environment.NewLine}Version {Application.ProductVersion}",
+                $"{Application.CompanyName}\n{Application.ProductName}\nVersion {Application.ProductVersion}",
                 string.Concat("About ", Application.ProductName));
         }
 
@@ -154,7 +149,7 @@
 
         #region Popup Menus
 
-        private void GridPopupMenu_Opening(object sender, CancelEventArgs e) => View.GridPopupMoreActions.Enabled = LibraryGridController.Selection.SelectedFolders == 1;
+        private void GridPopupMenu_Opening(object sender, CancelEventArgs e) => View.GridPopupMoreActions.Enabled = LibraryGridController.Selection.SelectedFoldersCount == 1;
         private void GridPopupMoreOptions_Click(object sender, EventArgs e) => LibraryGridController.PopupShellContextMenu();
         private void PopupTags_Click(object sender, EventArgs e) => LibraryGridController.EditTagVisibility();
         private void PropertyGridPopupTagVisibility_Click(object sender, EventArgs e) => SelectPropertyGridTags();
@@ -231,24 +226,5 @@
         }
 
         private void UpdatePropertyGrid() => View.PropertyGrid.SelectedObject = LibraryGridController.Selection;
-
-        private void UpdateFilter()
-        {
-            if (View.cbFilterApply.Checked)
-                if (new Parser().TryParse(View.FilterComboBox.Text, out var term, out var exception))
-                {
-                    LibraryGridController.SetFilter(term);
-                    UpdateFilterStatus($"{LibraryGridController.WorksCountVisible} of {LibraryGridController.WorksCountAll} Works shown.");
-                }
-                else
-                    UpdateFilterStatus(exception.GetAllInformation());
-            else
-            {
-                LibraryGridController.ClearFilter();
-                UpdateFilterStatus($"{LibraryGridController.WorksCountAll} Works shown.");
-            }
-        }
-
-        private void UpdateFilterStatus(string status) => View.FilterGroupBox.Text = $"Filter: {status}";
     }
 }
