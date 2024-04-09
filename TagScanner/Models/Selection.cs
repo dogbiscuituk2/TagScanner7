@@ -15,9 +15,9 @@
 
         #endregion
 
-        #region Public Properties
+        #region Public Fields
 
-        public IEnumerable<Work> Works { get; }
+        public readonly IEnumerable<Work> Works;
 
         #endregion
 
