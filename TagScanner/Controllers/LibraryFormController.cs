@@ -11,6 +11,7 @@
     using Mru;
     using Properties;
     using Terms;
+    using Utils;
     using Views;
 
     public class LibraryFormController : Controller
@@ -57,6 +58,8 @@
                 View.EditSelectAll.Click += EditSelectAll_Click;
                 View.EditInvertSelection.Click += EditInvertSelection_Click;
                 View.ViewFilter.Click += ViewFilter_Click;
+                View.cbFilterApply.CheckStateChanged += CbFilterApply_CheckStateChanged;
+                View.FilterComboBox.TextChanged += FilterComboBox_TextChanged;
                 View.btnFilterBuild.Click += BtnFilterBuild_Click;
                 View.ViewByArtistAlbum.Click += ViewByArtistAlbum_Click;
                 View.ViewByArtist.Click += ViewByArtist_Click;
@@ -139,7 +142,7 @@
         private void HelpAbout_Click(object sender, EventArgs e)
         {
             MessageBox.Show(
-                $"{Application.CompanyName}\n{Application.ProductName}\nVersion {Application.ProductVersion}",
+                $"{Application.CompanyName}{Environment.NewLine}{Application.ProductName}{Environment.NewLine}Version {Application.ProductVersion}",
                 string.Concat("About ", Application.ProductName));
         }
 
@@ -226,5 +229,24 @@
         }
 
         private void UpdatePropertyGrid() => View.PropertyGrid.SelectedObject = LibraryGridController.Selection;
+
+        private void UpdateFilter()
+        {
+            if (View.cbFilterApply.Checked)
+                if (new Parser().TryParse(View.FilterComboBox.Text, out var term, out var exception))
+                {
+                    LibraryGridController.SetFilter(term);
+                    UpdateFilterStatus($"{LibraryGridController.WorksCountVisible} of {LibraryGridController.WorksCountAll} Works shown.");
+                }
+                else
+                    UpdateFilterStatus(exception.GetAllInformation());
+            else
+            {
+                LibraryGridController.ClearFilter();
+                UpdateFilterStatus($"{LibraryGridController.WorksCountAll} Works shown.");
+            }
+        }
+
+        private void UpdateFilterStatus(string status) => View.FilterGroupBox.Text = $"Filter: {status}";
     }
 }
