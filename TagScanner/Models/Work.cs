@@ -45,6 +45,7 @@
         #region IWork
 
         private string _album;
+        [DefaultValue("")]
         public string Album
         {
             get => Get(_album);
@@ -71,6 +72,7 @@
         public int AlbumArtistsSortCount => AlbumArtistsSort.Length;
 
         private string _albumGain;
+        [DefaultValue("")]
         public string AlbumGain
         {
             get => Get(_albumGain);
@@ -78,6 +80,7 @@
         }
 
         private string _albumPeak;
+        [DefaultValue("")]
         public string AlbumPeak
         {
             get => Get(_albumPeak);
@@ -85,6 +88,7 @@
         }
 
         private string _albumSort;
+        [DefaultValue("")]
         public string AlbumSort
         {
             get => Get(_albumSort);
@@ -92,6 +96,7 @@
         }
 
         private string _amazonId;
+        [DefaultValue("")]
         public string AmazonId
         {
             get => Get(_amazonId);
@@ -133,6 +138,7 @@
         public string Century => Year > 0 ? ((long)(Year + 99) / 100).AsOrdinal() : string.Empty;
 
         private string _codecs;
+        [DefaultValue("")]
         public string Codecs
         {
             get => Get(_codecs);
@@ -140,6 +146,7 @@
         }
 
         private string _comment;
+        [DefaultValue("")]
         public string Comment
         {
             get => Get(_comment);
@@ -167,6 +174,7 @@
         public int ComposersSortCount => ComposersSort.Length;
 
         private string _conductor;
+        [DefaultValue("")]
         public string Conductor
         {
             get => Get(_conductor);
@@ -174,6 +182,7 @@
         }
 
         private string _copyright;
+        [DefaultValue("")]
         public string Copyright
         {
             get => Get(_copyright);
@@ -184,6 +193,7 @@
         public string Decade => Year > 0 ? $"{Year / 10}0s" : string.Empty;
 
         private string _description;
+        [DefaultValue("")]
         public string Description
         {
             get => Get(_description);
@@ -239,6 +249,7 @@
             set => Duration = string.IsNullOrWhiteSpace(value) ? TimeSpan.Zero : XmlConvert.ToTimeSpan(value);
         }
 
+        [DefaultValue("")]
         public string FileAttributes { get; set; }
         public DateTime FileCreationTime { get; set; }
         public DateTime FileCreationTimeUtc { get; set; }
@@ -257,7 +268,9 @@
         [JsonIgnore, XmlIgnore]
         public string FileNameWithoutExtension => Path.GetFileNameWithoutExtension(FilePath);
 
+        [DefaultValue("")]
         public string FilePath { get; set; }
+
         public long FileSize { get; set; }
 
         [JsonIgnore, XmlIgnore]
@@ -285,6 +298,7 @@
         }
 
         private string _firstAlbumArtist;
+        [DefaultValue("")]
         public string FirstAlbumArtist
         {
             get => Get(_firstAlbumArtist);
@@ -292,6 +306,7 @@
         }
 
         private string _firstAlbumArtistSort;
+        [DefaultValue("")]
         public string FirstAlbumArtistSort
         {
             get => Get(_firstAlbumArtistSort);
@@ -299,6 +314,7 @@
         }
 
         private string _firstArtist;
+        [DefaultValue("")]
         public string FirstArtist
         {
             get => Get(_firstArtist);
@@ -306,6 +322,7 @@
         }
 
         private string _firstComposer;
+        [DefaultValue("")]
         public string FirstComposer
         {
             get => Get(_firstComposer);
@@ -313,6 +330,7 @@
         }
 
         private string _firstComposerSort;
+        [DefaultValue("")]
         public string FirstComposerSort
         {
             get => Get(_firstComposerSort);
@@ -320,6 +338,7 @@
         }
 
         private string _firstGenre;
+        [DefaultValue("")]
         public string FirstGenre
         {
             get => Get(_firstGenre);
@@ -327,6 +346,7 @@
         }
 
         private string _firstPerformer;
+        [DefaultValue("")]
         public string FirstPerformer
         {
             get => Get(_firstPerformer);
@@ -334,6 +354,7 @@
         }
 
         private string _firstPerformerSort;
+        [DefaultValue("")]
         public string FirstPerformerSort
         {
             get => Get(_firstPerformerSort);
@@ -351,6 +372,7 @@
         public int GenresCount => Genres.Length;
 
         private string _grouping;
+        [DefaultValue("")]
         public string Grouping
         {
             get => Get(_grouping);
@@ -360,6 +382,7 @@
         [DefaultValue(0)] public double ImageAltitude { get; set; }
 
         private string _imageCreator;
+        [DefaultValue("")]
         public string ImageCreator
         {
             get => Get(_imageCreator);
@@ -385,6 +408,7 @@
         [DefaultValue(0)] public double ImageLongitude { get; set; }
 
         private string _imageMake;
+        [DefaultValue("")]
         public string ImageMake
         {
             get => Get(_imageMake);
@@ -392,6 +416,7 @@
         }
 
         private string _imageModel;
+        [DefaultValue("")]
         public string ImageModel
         {
             get => Get(_imageModel);
@@ -404,6 +429,7 @@
         [DefaultValue(0)] public int ImageRating { get; set; }
 
         private string _imageSoftware;
+        [DefaultValue("")]
         public string ImageSoftware
         {
             get => Get(_imageSoftware);
@@ -420,6 +446,7 @@
         public Logical IsEmpty => _isEmpty.AsLogical();
 
         private string _joinedAlbumArtists;
+        [DefaultValue("")]
         public string JoinedAlbumArtists
         {
             get => Get(_joinedAlbumArtists);
@@ -427,6 +454,7 @@
         }
 
         private string _joinedArtists;
+        [DefaultValue("")]
         public string JoinedArtists
         {
             get => Get(_joinedArtists);
@@ -434,6 +462,7 @@
         }
 
         private string _joinedComposers;
+        [DefaultValue("")]
         public string JoinedComposers
         {
             get => Get(_joinedComposers);
@@ -441,6 +470,7 @@
         }
 
         private string _joinedGenres;
+        [DefaultValue("")]
         public string JoinedGenres
         {
             get => Get(_joinedGenres);
@@ -448,6 +478,7 @@
         }
 
         private string _joinedPerformers;
+        [DefaultValue("")]
         public string JoinedPerformers
         {
             get => Get(_joinedPerformers);
@@ -455,6 +486,7 @@
         }
 
         private string _joinedPerformersSort;
+        [DefaultValue("")]
         public string JoinedPerformersSort
         {
             get => Get(_joinedPerformersSort);
@@ -462,6 +494,7 @@
         }
 
         private string _lyrics;
+        [DefaultValue("")]
         public string Lyrics
         {
             get => Get(_lyrics);
@@ -474,6 +507,7 @@
         public string Millennium => Year > 0 ? ((long)(Year + 999) / 1000).AsOrdinal() : string.Empty;
 
         private string _mimeType;
+        [DefaultValue("")]
         public string MimeType
         {
             get => Get(_mimeType);
@@ -481,6 +515,7 @@
         }
 
         private string _musicBrainzArtistId;
+        [DefaultValue("")]
         public string MusicBrainzArtistId
         {
             get => Get(_musicBrainzArtistId);
@@ -488,6 +523,7 @@
         }
 
         private string _musicBrainzDiscId;
+        [DefaultValue("")]
         public string MusicBrainzDiscId
         {
             get => Get(_musicBrainzDiscId);
@@ -495,6 +531,7 @@
         }
 
         private string _musicBrainzReleaseArtistId;
+        [DefaultValue("")]
         public string MusicBrainzReleaseArtistId
         {
             get => Get(_musicBrainzReleaseArtistId);
@@ -502,6 +539,7 @@
         }
 
         private string _musicBrainzReleaseCountry;
+        [DefaultValue("")]
         public string MusicBrainzReleaseCountry
         {
             get => Get(_musicBrainzReleaseCountry);
@@ -509,6 +547,7 @@
         }
 
         private string _musicBrainzReleaseId;
+        [DefaultValue("")]
         public string MusicBrainzReleaseId
         {
             get => Get(_musicBrainzReleaseId);
@@ -516,6 +555,7 @@
         }
 
         private string _musicBrainzReleaseStatus;
+        [DefaultValue("")]
         public string MusicBrainzReleaseStatus
         {
             get => Get(_musicBrainzReleaseStatus);
@@ -523,6 +563,7 @@
         }
 
         private string _musicBrainzReleaseType;
+        [DefaultValue("")]
         public string MusicBrainzReleaseType
         {
             get => Get(_musicBrainzReleaseType);
@@ -530,6 +571,7 @@
         }
 
         private string _musicBrainzTrackId;
+        [DefaultValue("")]
         public string MusicBrainzTrackId
         {
             get => Get(_musicBrainzTrackId);
@@ -537,6 +579,7 @@
         }
 
         private string _musicIpId;
+        [DefaultValue("")]
         public string MusicIpId
         {
             get => Get(_musicIpId);
@@ -588,6 +631,7 @@
         public TagLib.TagTypes TagTypesOnDisk { get; set; }
 
         private string _title;
+        [DefaultValue("")]
         public string Title
         {
             get => Get(_title);
@@ -595,6 +639,7 @@
         }
 
         private string _titleSort;
+        [DefaultValue("")]
         public string TitleSort
         {
             get => Get(_titleSort);
@@ -617,6 +662,7 @@
         }
 
         private string _trackGain;
+        [DefaultValue("")]
         public string TrackGain
         {
             get => Get(_trackGain);
@@ -642,6 +688,7 @@
         public string TrackOf => NumberOfTotal(TrackNumber, TrackCount, 2);
 
         private string _trackPeak;
+        [DefaultValue("")]
         public string TrackPeak
         {
             get => Get(_trackPeak);

@@ -2,6 +2,7 @@
 {
     using System;
     using System.IO;
+    using System.Reflection.Metadata;
     using System.Runtime.Serialization.Formatters.Binary;
     using System.Xml.Serialization;
     using Newtonsoft.Json;
@@ -95,7 +96,7 @@
                         jsonTextWriter.Flush();
                         break;
                     case StreamFormat.Xml:
-                        var xmlSerializer = new XmlSerializer(document.GetType());
+                        var xmlSerializer = GetXmlSerializer(document.GetType());
                         xmlSerializer.UnknownAttribute += XmlSerializer_UnknownAttribute;
                         xmlSerializer.UnknownElement += XmlSerializer_UnknownElement;
                         xmlSerializer.UnknownNode += XmlSerializer_UnknownNode;
@@ -142,12 +143,17 @@
         {
             var jsonSerializer = new JsonSerializer
             {
-                DefaultValueHandling = DefaultValueHandling.Include,
+                DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate,
                 Formatting = Formatting.Indented,
                 TypeNameHandling = TypeNameHandling.Auto,
             };
-            //jsonSerializer.Converters.Add(new JsonNumberConverter());
             return jsonSerializer;
+        }
+
+        private static XmlSerializer GetXmlSerializer(Type documentType)
+        {
+            var xmlSerializer = new XmlSerializer(documentType);
+            return xmlSerializer;
         }
 
         private static void JsonSerializer_Error(object sender, Newtonsoft.Json.Serialization.ErrorEventArgs e) =>
