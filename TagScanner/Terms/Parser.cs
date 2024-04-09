@@ -64,7 +64,7 @@
                 var token = PeekToken().Value;
                 if (token == ")") break;
                 if (token.IsOperator()) DequeueToken();
-                else token = "."; // Dot may be omitted.
+                else token = "."; // The Dot operator is optional & implied where appropriate.
                 var tokenRank = token.Rank(unary: false);
                 while (AnyOperators())
                 {
