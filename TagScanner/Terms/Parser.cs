@@ -107,14 +107,18 @@
 
         private Term[] ParseParameters()
         {
-            if (!AnyTokens() || PeekToken().Value != "(")
+            if (!AnyTokens())
                 return Array.Empty<Term>();
-            AcceptToken("(");
-            PushOperator();
-            var term = PeekToken().Value != ")" ? NewTerm(ParseCompoundTerm()) : null;
-            PopOperator();
-            AcceptToken(")");
-            return MakeArray(term);
+            if (PeekToken().Value == "(")
+            {
+                AcceptToken("(");
+                PushOperator();
+                var term = PeekToken().Value != ")" ? NewTerm(ParseCompoundTerm()) : null;
+                PopOperator();
+                AcceptToken(")");
+                return MakeArray(term);
+            }
+            return MakeArray(NewTerm(ParseSimpleTerm())); // Parentheses are optional for single parameters.
         }
 
         private Term ParseSimpleTerm()
