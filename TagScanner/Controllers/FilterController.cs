@@ -9,10 +9,10 @@
     {
         public FilterController(Controller parent) : base(parent)
         {
-            View.cbFilterApply.CheckStateChanged += CbFilterApply_CheckStateChanged;
+            View.CaseSensitiveCheckBox.CheckStateChanged += CbFilterApply_CheckStateChanged;
             View.FilterComboBox.TextChanged += FilterComboBox_TextChanged;
             View.ViewFilter.Click += ViewFilter_Click;
-            View.btnFilterBuild.Click += BtnFilterBuild_Click;
+            View.ApplyButton.Click += BtnFilterBuild_Click;
         }
 
         private FilterFormController FilterFormController = new FilterFormController(null);
@@ -29,7 +29,7 @@
 
         private void UpdateFilter()
         {
-            if (View.cbFilterApply.Checked)
+            if (View.CaseSensitiveCheckBox.Checked)
                 if (new Parser().TryParse(View.FilterComboBox.Text, out var term, out var exception))
                 {
                     LibraryGridController.SetFilter(term);

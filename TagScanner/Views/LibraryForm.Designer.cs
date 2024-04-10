@@ -41,8 +41,9 @@
             this.GridPopupTags = new System.Windows.Forms.ToolStripMenuItem();
             this.FilterGroupBox = new System.Windows.Forms.GroupBox();
             this.FilterComboBox = new System.Windows.Forms.ComboBox();
-            this.btnFilterBuild = new System.Windows.Forms.Button();
-            this.cbFilterApply = new System.Windows.Forms.CheckBox();
+            this.CaseSensitiveCheckBox = new System.Windows.Forms.CheckBox();
+            this.ApplyButton = new System.Windows.Forms.Button();
+            this.ClearButton = new System.Windows.Forms.Button();
             this.splitContainer2 = new System.Windows.Forms.SplitContainer();
             this.PictureBox = new System.Windows.Forms.PictureBox();
             this.TabControl = new System.Windows.Forms.TabControl();
@@ -53,6 +54,7 @@
             this.tabPlayer = new System.Windows.Forms.TabPage();
             this.splitContainer3 = new System.Windows.Forms.SplitContainer();
             this.PlaylistElementHost = new System.Windows.Forms.Integration.ElementHost();
+            this.MediaPlayer = new AxWMPLib.AxWindowsMediaPlayer();
             this.FilterPopupMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.MainMenu = new TagScanner.Controls.FirstClickMenuStrip();
             this.FileMenu = new System.Windows.Forms.ToolStripMenuItem();
@@ -66,6 +68,7 @@
             this.FileSaveAs = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem5 = new System.Windows.Forms.ToolStripSeparator();
             this.FileClose = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItem9 = new System.Windows.Forms.ToolStripSeparator();
             this.FileExit = new System.Windows.Forms.ToolStripMenuItem();
             this.EditMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.EditSelectAll = new System.Windows.Forms.ToolStripMenuItem();
@@ -97,8 +100,6 @@
             this.AddFolderDialog = new System.Windows.Forms.FolderBrowserDialog();
             this.AddFileDialog = new System.Windows.Forms.OpenFileDialog();
             this.StatusBar = new System.Windows.Forms.StatusStrip();
-            this.MediaPlayer = new AxWMPLib.AxWindowsMediaPlayer();
-            this.toolStripMenuItem9 = new System.Windows.Forms.ToolStripSeparator();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -118,8 +119,8 @@
             this.splitContainer3.Panel1.SuspendLayout();
             this.splitContainer3.Panel2.SuspendLayout();
             this.splitContainer3.SuspendLayout();
-            this.MainMenu.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.MediaPlayer)).BeginInit();
+            this.MainMenu.SuspendLayout();
             this.SuspendLayout();
             // 
             // splitContainer1
@@ -206,8 +207,9 @@
             // FilterGroupBox
             // 
             this.FilterGroupBox.Controls.Add(this.FilterComboBox);
-            this.FilterGroupBox.Controls.Add(this.btnFilterBuild);
-            this.FilterGroupBox.Controls.Add(this.cbFilterApply);
+            this.FilterGroupBox.Controls.Add(this.CaseSensitiveCheckBox);
+            this.FilterGroupBox.Controls.Add(this.ApplyButton);
+            this.FilterGroupBox.Controls.Add(this.ClearButton);
             this.FilterGroupBox.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.FilterGroupBox.Location = new System.Drawing.Point(4, 640);
             this.FilterGroupBox.Name = "FilterGroupBox";
@@ -221,34 +223,44 @@
             // 
             this.FilterComboBox.Dock = System.Windows.Forms.DockStyle.Fill;
             this.FilterComboBox.FormattingEnabled = true;
-            this.FilterComboBox.Location = new System.Drawing.Point(66, 18);
+            this.FilterComboBox.Location = new System.Drawing.Point(115, 18);
             this.FilterComboBox.Name = "FilterComboBox";
-            this.FilterComboBox.Size = new System.Drawing.Size(497, 25);
+            this.FilterComboBox.Size = new System.Drawing.Size(447, 25);
             this.FilterComboBox.TabIndex = 0;
             // 
-            // btnFilterBuild
+            // CaseSensitiveCheckBox
             // 
-            this.btnFilterBuild.AutoSize = true;
-            this.btnFilterBuild.Dock = System.Windows.Forms.DockStyle.Right;
-            this.btnFilterBuild.Location = new System.Drawing.Point(563, 18);
-            this.btnFilterBuild.Name = "btnFilterBuild";
-            this.btnFilterBuild.Padding = new System.Windows.Forms.Padding(3, 0, 3, 3);
-            this.btnFilterBuild.Size = new System.Drawing.Size(71, 26);
-            this.btnFilterBuild.TabIndex = 1;
-            this.btnFilterBuild.Text = "Build...";
-            this.btnFilterBuild.UseVisualStyleBackColor = true;
+            this.CaseSensitiveCheckBox.AutoSize = true;
+            this.CaseSensitiveCheckBox.Dock = System.Windows.Forms.DockStyle.Left;
+            this.CaseSensitiveCheckBox.Location = new System.Drawing.Point(0, 18);
+            this.CaseSensitiveCheckBox.Name = "CaseSensitiveCheckBox";
+            this.CaseSensitiveCheckBox.Padding = new System.Windows.Forms.Padding(3);
+            this.CaseSensitiveCheckBox.Size = new System.Drawing.Size(115, 26);
+            this.CaseSensitiveCheckBox.TabIndex = 2;
+            this.CaseSensitiveCheckBox.Text = "Case Sensitive";
+            this.CaseSensitiveCheckBox.UseVisualStyleBackColor = true;
             // 
-            // cbFilterApply
+            // ApplyButton
             // 
-            this.cbFilterApply.AutoSize = true;
-            this.cbFilterApply.Dock = System.Windows.Forms.DockStyle.Left;
-            this.cbFilterApply.Location = new System.Drawing.Point(0, 18);
-            this.cbFilterApply.Name = "cbFilterApply";
-            this.cbFilterApply.Padding = new System.Windows.Forms.Padding(3);
-            this.cbFilterApply.Size = new System.Drawing.Size(66, 26);
-            this.cbFilterApply.TabIndex = 2;
-            this.cbFilterApply.Text = "Apply";
-            this.cbFilterApply.UseVisualStyleBackColor = true;
+            this.ApplyButton.AutoSize = true;
+            this.ApplyButton.Dock = System.Windows.Forms.DockStyle.Right;
+            this.ApplyButton.Location = new System.Drawing.Point(562, 18);
+            this.ApplyButton.Name = "ApplyButton";
+            this.ApplyButton.Size = new System.Drawing.Size(36, 26);
+            this.ApplyButton.TabIndex = 1;
+            this.ApplyButton.Text = "On";
+            this.ApplyButton.UseVisualStyleBackColor = true;
+            // 
+            // ClearButton
+            // 
+            this.ClearButton.AutoSize = true;
+            this.ClearButton.Dock = System.Windows.Forms.DockStyle.Right;
+            this.ClearButton.Location = new System.Drawing.Point(598, 18);
+            this.ClearButton.Name = "ClearButton";
+            this.ClearButton.Size = new System.Drawing.Size(36, 26);
+            this.ClearButton.TabIndex = 3;
+            this.ClearButton.Text = "Off";
+            this.ClearButton.UseVisualStyleBackColor = true;
             // 
             // splitContainer2
             // 
@@ -332,11 +344,11 @@
             // tabPlayer
             // 
             this.tabPlayer.Controls.Add(this.splitContainer3);
-            this.tabPlayer.Location = new System.Drawing.Point(4, 26);
+            this.tabPlayer.Location = new System.Drawing.Point(4, 22);
             this.tabPlayer.Margin = new System.Windows.Forms.Padding(4);
             this.tabPlayer.Name = "tabPlayer";
             this.tabPlayer.Padding = new System.Windows.Forms.Padding(4);
-            this.tabPlayer.Size = new System.Drawing.Size(264, 475);
+            this.tabPlayer.Size = new System.Drawing.Size(264, 479);
             this.tabPlayer.TabIndex = 4;
             this.tabPlayer.Text = "Player";
             this.tabPlayer.UseVisualStyleBackColor = true;
@@ -371,6 +383,17 @@
             this.PlaylistElementHost.TabIndex = 0;
             this.PlaylistElementHost.Text = "elementHost1";
             this.PlaylistElementHost.Child = null;
+            // 
+            // MediaPlayer
+            // 
+            this.MediaPlayer.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.MediaPlayer.Enabled = true;
+            this.MediaPlayer.Location = new System.Drawing.Point(0, 0);
+            this.MediaPlayer.Margin = new System.Windows.Forms.Padding(4);
+            this.MediaPlayer.Name = "MediaPlayer";
+            this.MediaPlayer.OcxState = ((System.Windows.Forms.AxHost.State)(resources.GetObject("MediaPlayer.OcxState")));
+            this.MediaPlayer.Size = new System.Drawing.Size(256, 338);
+            this.MediaPlayer.TabIndex = 0;
             // 
             // FilterPopupMenu
             // 
@@ -480,6 +503,11 @@
             this.FileClose.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.F4)));
             this.FileClose.Size = new System.Drawing.Size(197, 22);
             this.FileClose.Text = "Close Window";
+            // 
+            // toolStripMenuItem9
+            // 
+            this.toolStripMenuItem9.Name = "toolStripMenuItem9";
+            this.toolStripMenuItem9.Size = new System.Drawing.Size(194, 6);
             // 
             // FileExit
             // 
@@ -701,25 +729,9 @@
             this.StatusBar.TabIndex = 9;
             this.StatusBar.Text = "Status";
             // 
-            // MediaPlayer
-            // 
-            this.MediaPlayer.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.MediaPlayer.Enabled = true;
-            this.MediaPlayer.Location = new System.Drawing.Point(0, 0);
-            this.MediaPlayer.Margin = new System.Windows.Forms.Padding(4);
-            this.MediaPlayer.Name = "MediaPlayer";
-            this.MediaPlayer.OcxState = ((System.Windows.Forms.AxHost.State)(resources.GetObject("MediaPlayer.OcxState")));
-            this.MediaPlayer.Size = new System.Drawing.Size(256, 338);
-            this.MediaPlayer.TabIndex = 0;
-            // 
-            // toolStripMenuItem9
-            // 
-            this.toolStripMenuItem9.Name = "toolStripMenuItem9";
-            this.toolStripMenuItem9.Size = new System.Drawing.Size(194, 6);
-            // 
             // LibraryForm
             // 
-            this.AcceptButton = this.btnFilterBuild;
+            this.AcceptButton = this.ApplyButton;
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 17F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(915, 735);
@@ -752,9 +764,9 @@
             this.splitContainer3.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer3)).EndInit();
             this.splitContainer3.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.MediaPlayer)).EndInit();
             this.MainMenu.ResumeLayout(false);
             this.MainMenu.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.MediaPlayer)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -821,8 +833,8 @@
         public System.Windows.Forms.Integration.ElementHost GridElementHost;
         public System.Windows.Forms.GroupBox FilterGroupBox;
         public System.Windows.Forms.ComboBox FilterComboBox;
-        public System.Windows.Forms.CheckBox cbFilterApply;
-        public System.Windows.Forms.Button btnFilterBuild;
+        public System.Windows.Forms.CheckBox CaseSensitiveCheckBox;
+        public System.Windows.Forms.Button ApplyButton;
         public System.Windows.Forms.ToolStripMenuItem GridPopupMoreActions;
         public System.Windows.Forms.ToolStripMenuItem FileNewLibrary;
         public System.Windows.Forms.ToolStripMenuItem FileNewWindow;
@@ -831,6 +843,7 @@
         public Controls.FirstClickMenuStrip MainMenu;
         private System.Windows.Forms.ToolStripSeparator toolStripMenuItem8;
         private System.Windows.Forms.ToolStripSeparator toolStripMenuItem9;
+        public System.Windows.Forms.Button ClearButton;
     }
 }
 
