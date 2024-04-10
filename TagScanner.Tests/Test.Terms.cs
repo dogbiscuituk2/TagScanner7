@@ -29,5 +29,14 @@
             var after = term?.ToString();
             Assert.AreEqual(expected: before, actual: after);
         }
+
+        [TestMethod]
+        public void TestParser()
+        {
+            var parser = new Parser();
+            var text = "Compare(\"1\", \"2\")";
+            var term = parser.Parse(text, caseSensitive: false);
+            System.Diagnostics.Debug.WriteLine(term.Expression.ToString());
+        }
     }
 }

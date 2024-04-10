@@ -25,7 +25,7 @@
 
             FunctorDictionary = new Dictionary<Fn, FnInfo>();
 
-            AddFn(Fn.Compare, s, true, s, s);
+            AddFn(Fn.Compare, s, true, s, s, b);
             AddFn(Fn.Concat_2, "Concat", s, true, s, s);
             AddFn(Fn.Concat_3, "Concat", s, true, s, s, s);
             AddFn(Fn.Concat_4, "Concat", s, true, s, s, s, s);

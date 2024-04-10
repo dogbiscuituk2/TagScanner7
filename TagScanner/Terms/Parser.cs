@@ -8,19 +8,27 @@
     {
         #region Public Methods
 
-        public Term Parse(string text)
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="text"></param>
+        /// <param name="caseSensitive">Matching of data field & function names, type casts, operators and other syntactical elements, is always insensitive to case. 
+        /// The caseSensitive parameter applies only to the user data, such as work titles, album names, performers, and so on.</param>
+        /// <returns></returns>
+        public Term Parse(string text, bool caseSensitive = false)
         {
+            CaseSensitive = caseSensitive;
             BeginParse(text);
             var term = ParseCompoundTerm();
             EndParse(term);
             return term;
         }
 
-        public bool TryParse(string text, out Term term, out Exception exception)
+        public bool TryParse(string text, out Term term, out Exception exception, bool caseSensitive = false)
         {
             try
             {
-                term = Parse(text);
+                term = Parse(text, caseSensitive);
                 exception = null;
                 return true;
             }
@@ -36,7 +44,8 @@
 
         #region Private Fields
 
-        private readonly ParserState _state = new ParserState();
+        private static bool CaseSensitive { get; set; } = false;
+        private ParserState State { get; } = new ParserState();
 
         #endregion
 
@@ -168,35 +177,35 @@
 
         #region ParserState Calls
 
-        private void BeginParse(string text, [CallerMemberName] string caller = "", [CallerLineNumber] int line = 0) => _state.BeginParse(caller, line, text);
-        private void EndParse(Term term, [CallerMemberName] string caller = "", [CallerLineNumber] int line = 0) => _state.EndParse(caller, line, term);
-        private Term NewTerm(Term term, [CallerMemberName] string caller = "", [CallerLineNumber] int line = 0) => _state.NewTerm(caller, line, term);
-        private object UnexpectedToken(Token token, [CallerMemberName] string caller = "", [CallerLineNumber] int line = 0) => _state.UnexpectedToken(caller, line, token);
+        private void BeginParse(string text, [CallerMemberName] string caller = "", [CallerLineNumber] int line = 0) => State.BeginParse(caller, line, text);
+        private void EndParse(Term term, [CallerMemberName] string caller = "", [CallerLineNumber] int line = 0) => State.EndParse(caller, line, term);
+        private Term NewTerm(Term term, [CallerMemberName] string caller = "", [CallerLineNumber] int line = 0) => State.NewTerm(caller, line, term);
+        private object UnexpectedToken(Token token, [CallerMemberName] string caller = "", [CallerLineNumber] int line = 0) => State.UnexpectedToken(caller, line, token);
 
         #region Operators
 
-        private bool AnyOperators() => _state.AnyOperators();
-        private Op PeekOperator([CallerMemberName] string caller = "", [CallerLineNumber] int line = 0) => _state.PeekOperator(caller, line);
-        private Op PopOperator([CallerMemberName] string caller = "", [CallerLineNumber] int line = 0) => _state.PopOperator(caller, line);
-        private void PushOperator(Op op = 0, [CallerMemberName] string caller = "", [CallerLineNumber] int line = 0) => _state.PushOperator(caller, line, op);
+        private bool AnyOperators() => State.AnyOperators();
+        private Op PeekOperator([CallerMemberName] string caller = "", [CallerLineNumber] int line = 0) => State.PeekOperator(caller, line);
+        private Op PopOperator([CallerMemberName] string caller = "", [CallerLineNumber] int line = 0) => State.PopOperator(caller, line);
+        private void PushOperator(Op op = 0, [CallerMemberName] string caller = "", [CallerLineNumber] int line = 0) => State.PushOperator(caller, line, op);
 
         #endregion
         #region Terms
 
         //  private bool AnyTerms() => _state.AnyTerms();
-        private Operation Consolidate(Term right, [CallerMemberName] string caller = "", [CallerLineNumber] int line = 0) => _state.Consolidate(caller, line, right);
+        private Operation Consolidate(Term right, [CallerMemberName] string caller = "", [CallerLineNumber] int line = 0) => State.Consolidate(caller, line, right);
     //  private Term PeekTerm([CallerMemberName] string caller = "", [CallerLineNumber] int line = 0) => _state.PeekTerm(caller, line);
-        private Term PopTerm([CallerMemberName] string caller = "", [CallerLineNumber] int line = 0) => _state.PopTerm(caller, line);
-        private void PushTerm(Term term, [CallerMemberName] string caller = "", [CallerLineNumber] int line = 0) => _state.PushTerm(caller, line, term);
+        private Term PopTerm([CallerMemberName] string caller = "", [CallerLineNumber] int line = 0) => State.PopTerm(caller, line);
+        private void PushTerm(Term term, [CallerMemberName] string caller = "", [CallerLineNumber] int line = 0) => State.PushTerm(caller, line, term);
 
         #endregion
         #region Tokens
 
-        private void AcceptToken(string expected, [CallerMemberName] string caller = "", [CallerLineNumber] int line = 0) => _state.AcceptToken(caller, line, expected);
-        private bool AnyTokens() => _state.AnyTokens();
-        private Token DequeueToken([CallerMemberName] string caller = "", [CallerLineNumber] int line = 0) => _state.DequeueToken(caller, line);
+        private void AcceptToken(string expected, [CallerMemberName] string caller = "", [CallerLineNumber] int line = 0) => State.AcceptToken(caller, line, expected);
+        private bool AnyTokens() => State.AnyTokens();
+        private Token DequeueToken([CallerMemberName] string caller = "", [CallerLineNumber] int line = 0) => State.DequeueToken(caller, line);
     //  private void EnqueueToken(Token token, [CallerMemberName] string caller = "", [CallerLineNumber] int line = 0) => _state.EnqueueToken(caller, line, token);
-        private Token PeekToken([CallerMemberName] string caller = "", [CallerLineNumber] int line = 0) => _state.PeekToken(caller, line);
+        private Token PeekToken([CallerMemberName] string caller = "", [CallerLineNumber] int line = 0) => State.PeekToken(caller, line);
 
         #endregion
 

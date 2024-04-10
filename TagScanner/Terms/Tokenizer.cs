@@ -9,7 +9,7 @@
     {
         #region Public Properties
 
-        public static EqualityComparer IgnoreCase = new EqualityComparer();
+        public static EqualityComparer IgnoreCase = new EqualityComparer(caseSensitive: false);
 
         #endregion
 
