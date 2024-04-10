@@ -17,7 +17,7 @@
     {
         #region Constructor
 
-        public LibraryFormController(AppController parent) : base(parent)
+        public LibraryFormController() : base(null)
         {
             View = new LibraryForm();
             Model = new Model();
@@ -92,12 +92,6 @@
         public readonly PlayerController PlayerController;
         public readonly FilterController FilterController;
         public readonly StatusController StatusController;
-
-        #endregion
-
-        #region Properties
-
-        private AppController AppController => (AppController)Parent;
 
         #endregion
 

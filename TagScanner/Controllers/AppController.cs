@@ -4,34 +4,38 @@
     using System.Linq;
     using Views;
 
-    public class AppController : Controller
+    public static class AppController
     {
-        public AppController() : base(null)
+        static AppController()
         {
             MainForm = new MainForm();
             MainForm.FormClosing += MainForm_FormClosing;
             NewWindow();
+            new SplashController().Run(MainForm);
         }
 
-        private void MainForm_FormClosing(object sender, System.Windows.Forms.FormClosingEventArgs e) =>
-            e.Cancel = !Shutdown();
+        public static MainForm MainForm;
+        private static readonly List<LibraryFormController> Controllers = new List<LibraryFormController>();
 
-        public MainForm MainForm;
-
-        private readonly List<LibraryFormController> _controllers = new List<LibraryFormController>();
-
-        public void NewWindow()
+        public static void CloseWindow(LibraryFormController controller)
         {
-            var controller = new LibraryFormController(this);
-            _controllers.Add(controller);
+            Controllers.Remove(controller);
+            if (!Controllers.Any())
+                MainForm.Close();
+        }
+
+        public static void NewWindow()
+        {
+            var controller = new LibraryFormController();
+            Controllers.Add(controller);
             controller.View.Show();
         }
 
-        public bool Shutdown()
+        public static bool Shutdown()
         {
-            for (var index = _controllers.Count; index > 0; index--)
+            for (var index = Controllers.Count; index > 0; index--)
             {
-                var controller = _controllers[index -1];
+                var controller = Controllers[index -1];
                 var view = controller.View;
                 view.Close();
                 if (view.Visible)
@@ -41,11 +45,7 @@
             return true;
         }
 
-        public void CloseWindow(LibraryFormController controller)
-        {
-            _controllers.Remove(controller);
-            if (!_controllers.Any())
-                MainForm.Close();
-        }
+        private static void MainForm_FormClosing(object sender, System.Windows.Forms.FormClosingEventArgs e) =>
+            e.Cancel = !Shutdown();
     }
 }

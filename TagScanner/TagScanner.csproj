@@ -126,6 +126,7 @@
   <ItemGroup>
     <Compile Include="Controllers\FilterController.cs" />
     <Compile Include="Controllers\AppController.cs" />
+    <Compile Include="Controllers\SplashController.cs" />
     <Compile Include="Controls\FirstClickHelper.cs" />
     <Compile Include="Controls\FirstClickMenuStrip.cs">
       <SubType>Component</SubType>
@@ -287,6 +288,7 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Resources\20150611_213458.jpg" />
     <Content Include="Resources\arrow_Down_16xLG.png" />
     <Content Include="Resources\arrow_Up_16xLG.png" />
     <Content Include="Resources\CandyStripe_00.bmp" />
