@@ -7,8 +7,8 @@
 
     public class MruLibraryController : MruSdiController
     {
-        public MruLibraryController(Model model, ToolStripMenuItem recentMenuItem)
-            : base(model, Properties.Settings.Default.LibraryFilter, "LibraryMRU", recentMenuItem) { }
+        public MruLibraryController(Model model, ToolStripMenuItem recentMenuItem, IWin32Window owner)
+            : base(model, Properties.Settings.Default.LibraryFilter, "LibraryMRU", recentMenuItem, owner) { }
 
         public new Model Model
         {
