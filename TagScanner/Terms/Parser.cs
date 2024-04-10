@@ -9,21 +9,30 @@
         #region Public Methods
 
         /// <summary>
-        /// 
+        /// Parse an arbitrary string into a Term.
         /// </summary>
-        /// <param name="text"></param>
+        /// <param name="text">The string to parse.</param>
         /// <param name="caseSensitive">Matching of data field & function names, type casts, operators and other syntactical elements, is always insensitive to case. 
         /// The caseSensitive parameter applies only to the user data, such as work titles, album names, performers, and so on.</param>
-        /// <returns></returns>
+        /// <returns>The Term obtained from parsing.</returns>
         public Term Parse(string text, bool caseSensitive = false)
         {
-            CaseSensitive = caseSensitive;
             BeginParse(text);
             var term = ParseCompoundTerm();
             EndParse(term);
             return term;
         }
 
+        /// <summary>
+        ///  Parse an arbitrary string into a Term,catching any exceptions and forwarding their information.
+        /// </summary>
+        /// <param name="text">The string to parse.</param>
+        /// <param name="term">The Term obtained from parsing, assuming no exceptions occurred.</param>
+        /// <param name="exception">The exception that did, in fact, occur.</param>
+        /// <param name="caseSensitive">Matching of data field & function names, type casts, operators and other syntactical elements, is always insensitive to case. 
+        /// The caseSensitive parameter applies only to the user data, such as work titles, album names, performers, and so on.</param>
+        /// <returns>True if the parsing succeeded, and the result is returned in the out parameter term.
+        /// False if an exception occurred, and the exception is returned in the out parameter exception.</returns>
         public bool TryParse(string text, out Term term, out Exception exception, bool caseSensitive = false)
         {
             try
@@ -44,7 +53,6 @@
 
         #region Private Fields
 
-        private static bool CaseSensitive { get; set; } = false;
         private ParserState State { get; } = new ParserState();
 
         #endregion
