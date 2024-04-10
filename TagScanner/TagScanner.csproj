@@ -126,9 +126,16 @@
   <ItemGroup>
     <Compile Include="Controllers\FilterController.cs" />
     <Compile Include="Controllers\AppController.cs" />
+    <Compile Include="Controls\FirstClickHelper.cs" />
+    <Compile Include="Controls\FirstClickMenuStrip.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Controls\FirstClickToolStrip.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Menus\ShellContextMenu.cs" />
     <Compile Include="Streaming\StreamFormat.cs" />
-    <Compile Include="Controls\TermNode.cs" />
+    <Compile Include="Controls\TermTreeNode.cs" />
     <Compile Include="Controls\TermTree.cs">
       <SubType>Component</SubType>
     </Compile>

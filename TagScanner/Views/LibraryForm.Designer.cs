@@ -54,7 +54,7 @@
             this.splitContainer3 = new System.Windows.Forms.SplitContainer();
             this.PlaylistElementHost = new System.Windows.Forms.Integration.ElementHost();
             this.FilterPopupMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.MainMenu = new System.Windows.Forms.MenuStrip();
+            this.MainMenu = new TagScanner.Controls.FirstClickMenuStrip();
             this.FileMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.FileNew = new System.Windows.Forms.ToolStripMenuItem();
             this.FileNewLibrary = new System.Windows.Forms.ToolStripMenuItem();

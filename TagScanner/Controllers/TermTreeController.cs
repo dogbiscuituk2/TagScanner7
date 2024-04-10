@@ -128,13 +128,13 @@
 
         private void MouseMove(MouseEventArgs e) => HotNode = TreeView.GetNodeAt(e.Location);
 
-        private static TermNode NewNode(Term term) => new TermNode(term);
+        private static TermTreeNode NewNode(Term term) => new TermTreeNode(term);
 
         private void VisitRoot(Graphics g, Font font, TreeNode node, RectangleF bounds, Action action)
         {
             if (bounds.IsEmpty) return;
             g.TextRenderingHint = System.Drawing.Text.TextRenderingHint.ClearTypeGridFit;
-            var termNode = (TermNode)node;
+            var termNode = (TermTreeNode)node;
             var term = termNode.Term;
             var text = term.ToString();
             var regions = new List<RectangleF>();

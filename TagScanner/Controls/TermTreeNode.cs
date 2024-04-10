@@ -5,13 +5,13 @@
     using System.Windows.Forms;
     using Terms;
 
-    public class TermNode : TreeNode
+    public class TermTreeNode : TreeNode
     {
         #region Constructors
 
-        public TermNode() { }
-        public TermNode(string text) : this() { Text = text; }
-        public TermNode(Term term) : this(term.ToString()) { Term = term; }
+        public TermTreeNode() { }
+        public TermTreeNode(string text) : this() { Text = text; }
+        public TermTreeNode(Term term) : this(term.ToString()) { Term = term; }
 
         #endregion
 
@@ -46,7 +46,7 @@
         {
             if (Term == null) return;
             Term.InvalidateCharacterRanges();
-            if (Parent is TermNode parent)
+            if (Parent is TermTreeNode parent)
                 parent.InvalidateCharacterRanges();
         }
 
@@ -60,7 +60,7 @@
 
         #region Private Methods
 
-        private void AddTerms(List<Term> terms) { foreach (var term in terms) { Nodes.Add(new TermNode(term)); } }
+        private void AddTerms(List<Term> terms) { foreach (var term in terms) { Nodes.Add(new TermTreeNode(term)); } }
 
         #endregion
     }
