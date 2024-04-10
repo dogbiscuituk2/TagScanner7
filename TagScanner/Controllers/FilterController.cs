@@ -9,10 +9,9 @@
     {
         public FilterController(Controller parent) : base(parent)
         {
-            View.CaseSensitiveCheckBox.CheckStateChanged += CbFilterApply_CheckStateChanged;
-            View.FilterComboBox.TextChanged += FilterComboBox_TextChanged;
             View.ViewFilter.Click += ViewFilter_Click;
-            View.ApplyButton.Click += BtnFilterBuild_Click;
+            View.ApplyButton.Click += ApplyButton_Click;
+            View.ClearButton.Click += ClearButton_Click;
         }
 
         private FilterFormController FilterFormController = new FilterFormController(null);
@@ -20,31 +19,46 @@
         private LibraryGridController LibraryGridController => LibraryFormController.LibraryGridController; 
         private LibraryForm View => LibraryFormController.View;
 
-        private void BtnFilterBuild_Click(object sender, EventArgs e) => LaunchFilterBuilder();
-        private void CbFilterApply_CheckStateChanged(object sender, EventArgs e) => UpdateFilter();
-        private void FilterComboBox_TextChanged(object sender, EventArgs e) => UpdateFilter();
+        private void ApplyButton_Click(object sender, EventArgs e) => UpdateFilter();
+        private void ClearButton_Click(object sender, EventArgs e) => ClearFilter();
         private void ViewFilter_Click(object sender, EventArgs e) => LaunchFilterBuilder();
+
+        private void ClearFilter()
+        {
+            View.FilterComboBox.Text = string.Empty;
+            LibraryGridController.ClearFilter();
+            UpdateFilterStatus($"{LibraryGridController.WorksCountAll} Works shown.");
+        }
 
         private void LaunchFilterBuilder() => FilterFormController.Execute(View.FilterComboBox.Text);
 
         private void UpdateFilter()
         {
-            if (View.CaseSensitiveCheckBox.Checked)
-                if (new Parser().TryParse(View.FilterComboBox.Text, out var term, out var exception))
-                {
-                    LibraryGridController.SetFilter(term);
-                    UpdateFilterStatus($"{LibraryGridController.WorksCountVisible} of {LibraryGridController.WorksCountAll} Works shown.");
-                }
-                else
-                    UpdateFilterStatus(exception.GetAllInformation());
-            else
+            var filter = View.FilterComboBox.Text;
+            if (string.IsNullOrWhiteSpace(filter))
+                return;
+            if (new Parser().TryParse(filter, out var term, out var exception, caseSensitive: View.CaseSensitiveCheckBox.Checked))
             {
-                LibraryGridController.ClearFilter();
-                UpdateFilterStatus($"{LibraryGridController.WorksCountAll} Works shown.");
+                LibraryGridController.SetFilter(term);
+                UpdateFilterStatus(
+                    $"{LibraryGridController.WorksCountVisible} of {LibraryGridController.WorksCountAll} Works shown.");
+                UpdateFilters();
             }
+            else
+                UpdateFilterStatus(exception.GetAllInformation());
+        }
+
+        private void UpdateFilters()
+        {
+            var editor = View.FilterComboBox;
+            var filter = editor.Text;
+            var filters = editor.Items;
+            if (filters.Contains(filter))
+                filters.Remove(filter);
+            filters.Insert(0, filter);
+            editor.Text = filter;
         }
 
         private void UpdateFilterStatus(string status) => View.FilterGroupBox.Text = $"Filter: {status}";
-
     }
 }

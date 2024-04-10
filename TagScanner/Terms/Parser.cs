@@ -20,6 +20,8 @@
             BeginParse(text);
             var term = ParseCompoundTerm();
             EndParse(term);
+            if (!caseSensitive)
+                term = term.IgnoreCase();
             return term;
         }
 

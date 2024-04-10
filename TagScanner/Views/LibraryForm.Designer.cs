@@ -225,7 +225,7 @@
             this.FilterComboBox.FormattingEnabled = true;
             this.FilterComboBox.Location = new System.Drawing.Point(115, 18);
             this.FilterComboBox.Name = "FilterComboBox";
-            this.FilterComboBox.Size = new System.Drawing.Size(447, 25);
+            this.FilterComboBox.Size = new System.Drawing.Size(420, 25);
             this.FilterComboBox.TabIndex = 0;
             // 
             // CaseSensitiveCheckBox
@@ -244,22 +244,22 @@
             // 
             this.ApplyButton.AutoSize = true;
             this.ApplyButton.Dock = System.Windows.Forms.DockStyle.Right;
-            this.ApplyButton.Location = new System.Drawing.Point(562, 18);
+            this.ApplyButton.Location = new System.Drawing.Point(535, 18);
             this.ApplyButton.Name = "ApplyButton";
-            this.ApplyButton.Size = new System.Drawing.Size(36, 26);
+            this.ApplyButton.Size = new System.Drawing.Size(51, 26);
             this.ApplyButton.TabIndex = 1;
-            this.ApplyButton.Text = "On";
+            this.ApplyButton.Text = "Apply";
             this.ApplyButton.UseVisualStyleBackColor = true;
             // 
             // ClearButton
             // 
             this.ClearButton.AutoSize = true;
             this.ClearButton.Dock = System.Windows.Forms.DockStyle.Right;
-            this.ClearButton.Location = new System.Drawing.Point(598, 18);
+            this.ClearButton.Location = new System.Drawing.Point(586, 18);
             this.ClearButton.Name = "ClearButton";
-            this.ClearButton.Size = new System.Drawing.Size(36, 26);
+            this.ClearButton.Size = new System.Drawing.Size(48, 26);
             this.ClearButton.TabIndex = 3;
-            this.ClearButton.Text = "Off";
+            this.ClearButton.Text = "Clear";
             this.ClearButton.UseVisualStyleBackColor = true;
             // 
             // splitContainer2
