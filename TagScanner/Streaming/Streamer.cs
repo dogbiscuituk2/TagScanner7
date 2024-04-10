@@ -2,7 +2,6 @@
 {
     using System;
     using System.IO;
-    using System.Reflection.Metadata;
     using System.Runtime.Serialization.Formatters.Binary;
     using System.Xml.Serialization;
     using Newtonsoft.Json;

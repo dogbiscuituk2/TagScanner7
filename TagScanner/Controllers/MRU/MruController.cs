@@ -10,13 +10,15 @@
 
     public class MruController
     {
-        public MruController(string subKeyName, ToolStripDropDownItem parentItem) : this(subKeyName, parentItem?.DropDownItems)
+        public MruController(string subKeyName, ToolStripDropDownItem parentItem) :
+            this(subKeyName, parentItem?.DropDownItems)
         {
             _parentItem = parentItem;
             RefreshRecentMenu();
         }
 
-        public MruController(string subKeyName, ContextMenuStrip parentMenu) : this(subKeyName, parentMenu?.Items)
+        public MruController(string subKeyName, ContextMenuStrip parentMenu) :
+            this(subKeyName, parentMenu?.Items)
         {
             _parentMenu = parentMenu;
             RefreshRecentMenu();

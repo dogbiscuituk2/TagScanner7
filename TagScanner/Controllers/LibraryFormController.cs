@@ -11,12 +11,11 @@
     using Mru;
     using Properties;
     using Terms;
-    using Utils;
     using Views;
 
     public class LibraryFormController : Controller
     {
-        #region Lifetime Management
+        #region Constructor
 
         public LibraryFormController(Controller parent) : base(parent)
         {
@@ -31,8 +30,8 @@
             PersistenceController.FileSaving += PersistenceController_FileSaving;
             MediaController = new MruMediaController(this, View.AddRecentFolders);
             PlayerController = new PlayerController(this, null);
-            FilterFormController = new FilterFormController(this);
-            new PictureController(View.PictureBox, View.PropertyGrid, PlayerController.PlaylistGrid);
+            FilterController = new FilterController(this);
+            PictureController = new PictureController(View.PictureBox, View.PropertyGrid, PlayerController.PlaylistGrid);
             ModifiedChanged();
             LibraryGridController.ViewByArtist();
             UpdatePropertyGrid();
@@ -50,17 +49,14 @@
             {
                 _view = value;
                 View.FileMenu.DropDownOpening += FileMenu_DropDownOpening;
-                View.FileNew.Click += FileNew_Click;
+                View.FileNewLibrary.Click += FileNewLibrary_Click;
+                View.FileNewWindow.Click += FileNewWindow_Click;
                 View.FileOpen.Click += FileOpen_Click;
                 View.FileSave.Click += FileSave_Click;
                 View.FileSaveAs.Click += FileSaveAs_Click;
                 View.FileExit.Click += FileExit_Click;
                 View.EditSelectAll.Click += EditSelectAll_Click;
                 View.EditInvertSelection.Click += EditInvertSelection_Click;
-                View.ViewFilter.Click += ViewFilter_Click;
-                View.cbFilterApply.CheckStateChanged += CbFilterApply_CheckStateChanged;
-                View.FilterComboBox.TextChanged += FilterComboBox_TextChanged;
-                View.btnFilterBuild.Click += BtnFilterBuild_Click;
                 View.ViewByArtistAlbum.Click += ViewByArtistAlbum_Click;
                 View.ViewByArtist.Click += ViewByArtist_Click;
                 View.ViewByGenre.Click += ViewByGenre_Click;
@@ -90,8 +86,9 @@
         public readonly LibraryGridController LibraryGridController;
         public readonly MruMediaController MediaController;
         public readonly MruLibraryController PersistenceController;
+        public readonly PictureController PictureController;
         public readonly PlayerController PlayerController;
-        public readonly FilterFormController FilterFormController;
+        public readonly FilterController FilterController;
         public readonly StatusController StatusController;
 
         #endregion
@@ -101,7 +98,8 @@
         #region File
 
         private void FileMenu_DropDownOpening(object sender, EventArgs e) => View.FileSave.Enabled = Model.Modified;
-        private void FileNew_Click(object sender, EventArgs e) => PersistenceController.Clear();
+        private void FileNewLibrary_Click(object sender, EventArgs e) => PersistenceController.Clear();
+        private void FileNewWindow_Click(object sender, EventArgs e) => NewWindow();
         private void FileOpen_Click(object sender, EventArgs e) => PersistenceController.Open();
         private void FileSave_Click(object sender, EventArgs e) => PersistenceController.Save();
         private void FileSaveAs_Click(object sender, EventArgs e) => PersistenceController.SaveAs();
@@ -113,10 +111,6 @@
 
         private void EditSelectAll_Click(object sender, EventArgs e) => LibraryGridController.SelectAll();
         private void EditInvertSelection_Click(object sender, EventArgs e) => LibraryGridController.InvertSelection();
-        private void ViewFilter_Click(object sender, EventArgs e) => FilterFormController.Execute();
-        private void BtnFilterBuild_Click(object sender, EventArgs e) => FilterFormController.Execute(View.FilterComboBox.Text);
-        private void CbFilterApply_CheckStateChanged(object sender, EventArgs e) => UpdateFilter();
-        private void FilterComboBox_TextChanged(object sender, EventArgs e) => UpdateFilter();
 
         #endregion
 
@@ -143,7 +137,7 @@
 
         private void HelpAbout_Click(object sender, EventArgs e)
         {
-            MessageBox.Show(
+            MessageBox.Show(View,
                 $"{Application.CompanyName}{Environment.NewLine}{Application.ProductName}{Environment.NewLine}Version {Application.ProductVersion}",
                 string.Concat("About ", Application.ProductName));
         }
@@ -184,6 +178,7 @@
             Say(message, works, FileStatus.Deleted, Resources.WorksDeleted);
             message.Append(Resources.ConfirmSync);
             var decision = MessageBox.Show(
+                View,
                 message.ToString(),
                 Resources.ConfirmSyncCaption,
                 MessageBoxButtons.YesNo,
@@ -193,6 +188,8 @@
                     ProcessWork(work);
             return decision;
         }
+
+        public static void NewWindow() => new LibraryFormController(null).View.Show();
 
         private bool ProcessWork(Work work)
         {
@@ -231,24 +228,5 @@
         }
 
         private void UpdatePropertyGrid() => View.PropertyGrid.SelectedObject = LibraryGridController.Selection;
-
-        private void UpdateFilter()
-        {
-            if (View.cbFilterApply.Checked)
-                if (new Parser().TryParse(View.FilterComboBox.Text, out var term, out var exception))
-                {
-                    LibraryGridController.SetFilter(term);
-                    UpdateFilterStatus($"{LibraryGridController.WorksCountVisible} of {LibraryGridController.WorksCountAll} Works shown.");
-                }
-                else
-                    UpdateFilterStatus(exception.GetAllInformation());
-            else
-            {
-                LibraryGridController.ClearFilter();
-                UpdateFilterStatus($"{LibraryGridController.WorksCountAll} Works shown.");
-            }
-        }
-
-        private void UpdateFilterStatus(string status) => View.FilterGroupBox.Text = $"Filter: {status}";
     }
 }

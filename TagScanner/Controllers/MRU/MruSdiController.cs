@@ -7,19 +7,20 @@
     using Models;
     using Properties;
     using Streaming;
-    using Utils;
 
     public abstract class MruSdiController : MruController
     {
-        protected MruSdiController(IModel model, string filter, string subKeyName, ToolStripMenuItem recentMenuItem)
+        protected MruSdiController(IModel model, string filter, string subKeyName, ToolStripMenuItem recentMenuItem, IWin32Window owner = null)
             : base(subKeyName, recentMenuItem)
         {
             Model = model;
+            Owner = owner;
             _openFileDialog = new OpenFileDialog { Filter = filter, Title = Resources.Select_the_file_to_open };
             _saveFileDialog = new SaveFileDialog { Filter = filter, Title = Resources.Save_file };
         }
 
         protected IModel Model;
+        protected IWin32Window Owner;
 
         public bool Clear()
         {
@@ -33,7 +34,7 @@
 
         public bool Open()
         {
-            if (!SaveIfModified() || _openFileDialog.ShowDialog() != DialogResult.OK)
+            if (!SaveIfModified() || _openFileDialog.ShowDialog(Owner) != DialogResult.OK)
                 return false;
             var fileName = _openFileDialog.FileName;
             var format = fileName.GetStreamFormat();
@@ -44,7 +45,7 @@
 
         public bool SaveAs()
         {
-            if (_saveFileDialog.ShowDialog() != DialogResult.OK)
+            if (_saveFileDialog.ShowDialog(Owner) != DialogResult.OK)
                 return false;
             var fileName = _saveFileDialog.FileName;
             var format = fileName.GetStreamFormat();
@@ -54,7 +55,7 @@
         public bool SaveIfModified()
         {
             if (!Model.Modified) return true;
-            switch (MessageBox.Show(
+            switch (MessageBox.Show(Owner,
                         "The contents of this file have changed. Do you want to save the changes?",
                         "File modified",
                         MessageBoxButtons.YesNoCancel,
@@ -118,7 +119,7 @@
                 if (SaveIfModified())
                     LoadFromFile(filePath, filePath.GetStreamFormat());
             }
-            else if (MessageBox.Show(
+            else if (MessageBox.Show(Owner,
                 $"File \"{filePath}\" no longer exists. Remove from menu?",
                 "Reopen file",
                 MessageBoxButtons.YesNo) == DialogResult.Yes)
