@@ -65,6 +65,7 @@
             this.FileSave = new System.Windows.Forms.ToolStripMenuItem();
             this.FileSaveAs = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem5 = new System.Windows.Forms.ToolStripSeparator();
+            this.FileClose = new System.Windows.Forms.ToolStripMenuItem();
             this.FileExit = new System.Windows.Forms.ToolStripMenuItem();
             this.EditMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.EditSelectAll = new System.Windows.Forms.ToolStripMenuItem();
@@ -83,6 +84,8 @@
             this.ViewByGenre = new System.Windows.Forms.ToolStripMenuItem();
             this.ViewByNoGrouping = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem7 = new System.Windows.Forms.ToolStripSeparator();
+            this.ViewWindow = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItem8 = new System.Windows.Forms.ToolStripSeparator();
             this.ViewRefresh = new System.Windows.Forms.ToolStripMenuItem();
             this.AddMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.AddMedia = new System.Windows.Forms.ToolStripMenuItem();
@@ -95,7 +98,7 @@
             this.AddFileDialog = new System.Windows.Forms.OpenFileDialog();
             this.StatusBar = new System.Windows.Forms.StatusStrip();
             this.MediaPlayer = new AxWMPLib.AxWindowsMediaPlayer();
-            this.FileClose = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItem9 = new System.Windows.Forms.ToolStripSeparator();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -400,6 +403,7 @@
             this.FileSaveAs,
             this.toolStripMenuItem5,
             this.FileClose,
+            this.toolStripMenuItem9,
             this.FileExit});
             this.FileMenu.Name = "FileMenu";
             this.FileMenu.Size = new System.Drawing.Size(37, 19);
@@ -420,13 +424,15 @@
             this.FileNewLibrary.Name = "FileNewLibrary";
             this.FileNewLibrary.ShortcutKeyDisplayString = "^N";
             this.FileNewLibrary.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.N)));
-            this.FileNewLibrary.Size = new System.Drawing.Size(134, 22);
+            this.FileNewLibrary.Size = new System.Drawing.Size(144, 22);
             this.FileNewLibrary.Text = "Library";
             // 
             // FileNewWindow
             // 
             this.FileNewWindow.Name = "FileNewWindow";
-            this.FileNewWindow.Size = new System.Drawing.Size(134, 22);
+            this.FileNewWindow.ShortcutKeyDisplayString = "^W";
+            this.FileNewWindow.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.W)));
+            this.FileNewWindow.Size = new System.Drawing.Size(144, 22);
             this.FileNewWindow.Text = "Window";
             // 
             // FileOpen
@@ -466,6 +472,14 @@
             // 
             this.toolStripMenuItem5.Name = "toolStripMenuItem5";
             this.toolStripMenuItem5.Size = new System.Drawing.Size(194, 6);
+            // 
+            // FileClose
+            // 
+            this.FileClose.Name = "FileClose";
+            this.FileClose.ShortcutKeyDisplayString = "^F4";
+            this.FileClose.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.F4)));
+            this.FileClose.Size = new System.Drawing.Size(197, 22);
+            this.FileClose.Text = "Close Window";
             // 
             // FileExit
             // 
@@ -528,6 +542,7 @@
             this.ViewFilter,
             this.ViewGroupBy,
             this.toolStripMenuItem7,
+            this.ViewWindow,
             this.ViewRefresh});
             this.GroupMenu.Name = "GroupMenu";
             this.GroupMenu.Size = new System.Drawing.Size(44, 19);
@@ -598,6 +613,19 @@
             // 
             this.toolStripMenuItem7.Name = "toolStripMenuItem7";
             this.toolStripMenuItem7.Size = new System.Drawing.Size(129, 6);
+            // 
+            // ViewWindow
+            // 
+            this.ViewWindow.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolStripMenuItem8});
+            this.ViewWindow.Name = "ViewWindow";
+            this.ViewWindow.Size = new System.Drawing.Size(132, 22);
+            this.ViewWindow.Text = "&Window";
+            // 
+            // toolStripMenuItem8
+            // 
+            this.toolStripMenuItem8.Name = "toolStripMenuItem8";
+            this.toolStripMenuItem8.Size = new System.Drawing.Size(57, 6);
             // 
             // ViewRefresh
             // 
@@ -684,13 +712,10 @@
             this.MediaPlayer.Size = new System.Drawing.Size(256, 338);
             this.MediaPlayer.TabIndex = 0;
             // 
-            // FileClose
+            // toolStripMenuItem9
             // 
-            this.FileClose.Name = "FileClose";
-            this.FileClose.ShortcutKeyDisplayString = "^F4";
-            this.FileClose.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.F4)));
-            this.FileClose.Size = new System.Drawing.Size(197, 22);
-            this.FileClose.Text = "Close Window";
+            this.toolStripMenuItem9.Name = "toolStripMenuItem9";
+            this.toolStripMenuItem9.Size = new System.Drawing.Size(194, 6);
             // 
             // LibraryForm
             // 
@@ -740,7 +765,6 @@
 		public System.Windows.Forms.SplitContainer splitContainer1;
 		public System.Windows.Forms.SplitContainer splitContainer2;
 		public System.Windows.Forms.PictureBox PictureBox;
-		public System.Windows.Forms.MenuStrip MainMenu;
 		public System.Windows.Forms.ToolStripMenuItem FileMenu;
 		public System.Windows.Forms.ToolStripMenuItem FileExit;
 		public System.Windows.Forms.ToolStripMenuItem EditMenu;
@@ -803,6 +827,10 @@
         public System.Windows.Forms.ToolStripMenuItem FileNewLibrary;
         public System.Windows.Forms.ToolStripMenuItem FileNewWindow;
         public System.Windows.Forms.ToolStripMenuItem FileClose;
+        public System.Windows.Forms.ToolStripMenuItem ViewWindow;
+        public Controls.FirstClickMenuStrip MainMenu;
+        private System.Windows.Forms.ToolStripSeparator toolStripMenuItem8;
+        private System.Windows.Forms.ToolStripSeparator toolStripMenuItem9;
     }
 }
 

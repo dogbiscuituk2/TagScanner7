@@ -1,21 +1,28 @@
 ﻿namespace TagScanner.Controllers
 {
+    using System;
     using System.Collections.Generic;
     using System.Linq;
+    using System.Windows.Forms;
+    using Utils;
     using Views;
 
     public static class AppController
     {
+        #region Static Constructor
+
         static AppController()
         {
             MainForm = new MainForm();
+            Controllers = new List<LibraryFormController>();
             MainForm.FormClosing += MainForm_FormClosing;
             NewWindow();
             new SplashController().Run(MainForm);
         }
 
-        public static MainForm MainForm;
-        private static readonly List<LibraryFormController> Controllers = new List<LibraryFormController>();
+        #endregion
+
+        #region Public Methods
 
         public static void CloseWindow(LibraryFormController controller)
         {
@@ -31,6 +38,28 @@
             controller.View.Show();
         }
 
+        public static void PopulateWindowMenu(ToolStripMenuItem menu)
+        {
+            ClearWindowMenu(menu);
+            for (var index = 0; index < Controllers.Count; index++)
+            {
+                var controller = Controllers[index];
+                var shortcut =
+                    index < 10 ? $@"&{index}: " :
+                    index < 36 ? $@"&{(char)('A' + index - 10)}: " :
+                    string.Empty;
+                var item = new ToolStripMenuItem()
+                {
+                    Tag = controller.View,
+                    Text = $@"{shortcut}{controller.View.Text.Escape()}",
+                };
+                item.Click += WindowClick;
+                menu.DropDownItems.Add(item);
+            }
+        }
+
+        public static void Run() => Application.Run(MainForm);
+
         public static bool Shutdown()
         {
             for (var index = Controllers.Count; index > 0; index--)
@@ -45,7 +74,34 @@
             return true;
         }
 
-        private static void MainForm_FormClosing(object sender, System.Windows.Forms.FormClosingEventArgs e) =>
-            e.Cancel = !Shutdown();
+        #endregion
+
+        #region Private Fields
+
+        private static MainForm MainForm { get; }
+        private static List<LibraryFormController> Controllers { get; }
+
+        #endregion
+
+        #region Private Methods
+
+        private static void ClearWindowMenu(ToolStripDropDownItem menu)
+        {
+            if (!menu.HasDropDownItems) return;
+            foreach (ToolStripItem item in menu.DropDownItems)
+                item.Click -= WindowClick;
+            menu.DropDownItems.Clear();
+        }
+
+        private static void MainForm_FormClosing(object sender, FormClosingEventArgs e) => e.Cancel = !Shutdown();
+
+        private static void WindowClick(object sender, EventArgs e)
+        {
+            var form = (LibraryForm)((ToolStripMenuItem)sender).Tag;
+            form.BringToFront();
+            form.Focus();
+        }
+
+        #endregion
     }
 }

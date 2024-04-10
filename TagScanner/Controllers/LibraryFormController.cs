@@ -7,6 +7,7 @@
     using System.Linq;
     using System.Text;
     using System.Windows.Forms;
+    using Menus;
     using Models;
     using Mru;
     using Properties;
@@ -64,6 +65,7 @@
                 View.ViewByYear.Click += ViewByYear_Click;
                 View.ViewByAlbum.Click += ViewByAlbum_Click;
                 View.ViewByNoGrouping.Click += ViewByNone_Click;
+                View.ViewWindow.DropDownOpening += ViewWindow_DropDownOpening;
                 View.ViewRefresh.Click += ViewRefresh_Click;
                 View.AddMedia.Click += AddMedia_Click;
                 View.AddFolder.Click += AddFolder_Click;
@@ -125,6 +127,7 @@
         private void ViewByNone_Click(object sender, EventArgs e) => LibraryGridController.ViewByNone();
         private void ViewByGenre_Click(object sender, EventArgs e) => LibraryGridController.ViewByGenre();
         private void ViewByYear_Click(object sender, EventArgs e) => LibraryGridController.ViewByYear();
+        private void ViewWindow_DropDownOpening(object sender, EventArgs e) => AppController.PopulateWindowMenu(View.ViewWindow);
         private void ViewRefresh_Click(object sender, EventArgs e) => MediaController.Rescan();
 
         #endregion

@@ -4,7 +4,7 @@
     using System.Windows.Forms;
     using Controllers;
 
-    static class Program
+    internal static class Program
     {
         /// <summary>
         /// The main entry point for the application.
@@ -14,7 +14,7 @@
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(AppController.MainForm);
+            AppController.Run();
         }
     }
 }
