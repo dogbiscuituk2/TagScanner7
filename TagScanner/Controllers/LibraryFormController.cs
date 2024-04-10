@@ -17,7 +17,7 @@
     {
         #region Constructor
 
-        public LibraryFormController(Controller parent) : base(parent)
+        public LibraryFormController(AppController parent) : base(parent)
         {
             View = new LibraryForm();
             Model = new Model();
@@ -54,6 +54,7 @@
                 View.FileOpen.Click += FileOpen_Click;
                 View.FileSave.Click += FileSave_Click;
                 View.FileSaveAs.Click += FileSaveAs_Click;
+                View.FileClose.Click += FileClose_Click;
                 View.FileExit.Click += FileExit_Click;
                 View.EditSelectAll.Click += EditSelectAll_Click;
                 View.EditInvertSelection.Click += EditInvertSelection_Click;
@@ -72,7 +73,8 @@
                 View.GridPopupMoreActions.Click += GridPopupMoreOptions_Click;
                 View.PropertyGridPopupTagVisibility.Click += PropertyGridPopupTagVisibility_Click;
                 View.Shown += View_Shown;
-                View.FormClosing += FormClosing;
+                View.FormClosed += View_FormClosed;
+                View.FormClosing += View_FormClosing;
             }
         }
 
@@ -93,17 +95,24 @@
 
         #endregion
 
+        #region Properties
+
+        private AppController AppController => (AppController)Parent;
+
+        #endregion
+
         #region Main Menu
 
         #region File
 
         private void FileMenu_DropDownOpening(object sender, EventArgs e) => View.FileSave.Enabled = Model.Modified;
         private void FileNewLibrary_Click(object sender, EventArgs e) => PersistenceController.Clear();
-        private void FileNewWindow_Click(object sender, EventArgs e) => NewWindow();
+        private void FileNewWindow_Click(object sender, EventArgs e) => AppController.NewWindow();
         private void FileOpen_Click(object sender, EventArgs e) => PersistenceController.Open();
         private void FileSave_Click(object sender, EventArgs e) => PersistenceController.Save();
         private void FileSaveAs_Click(object sender, EventArgs e) => PersistenceController.SaveAs();
-        private void FileExit_Click(object sender, EventArgs e) => View.Close();
+        private void FileClose_Click(object sender, EventArgs e) => View.Close();
+        private void FileExit_Click(object sender, EventArgs e) => AppController.Shutdown();
 
         #endregion
 
@@ -157,10 +166,11 @@
 
         #region Event Handlers
 
-        private void FormClosing(object sender, FormClosingEventArgs e) => e.Cancel = !PersistenceController.SaveIfModified();
         private void LibraryGridController_SelectionChanged(object sender, EventArgs e) => UpdatePropertyGrid();
         private void Model_ModifiedChanged(object sender, EventArgs e) => ModifiedChanged();
         private void PersistenceController_FileSaving(object sender, CancelEventArgs e) => e.Cancel = !ContinueSaving();
+        private void View_FormClosed(object sender, FormClosedEventArgs e) => AppController.CloseWindow(this);
+        private void View_FormClosing(object sender, FormClosingEventArgs e) => e.Cancel = !PersistenceController.SaveIfModified();
         private void View_Shown(object sender, EventArgs e) => View.ActiveControl = View.FilterComboBox;
 
         private void ModifiedChanged() => View.Text = PersistenceController.WindowCaption;
@@ -188,8 +198,6 @@
                     ProcessWork(work);
             return decision;
         }
-
-        public static void NewWindow() => new LibraryFormController(null).View.Show();
 
         private bool ProcessWork(Work work)
         {

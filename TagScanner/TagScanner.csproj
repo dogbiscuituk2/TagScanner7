@@ -125,7 +125,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Controllers\FilterController.cs" />
-    <Compile Include="Controllers\MainFormController.cs" />
+    <Compile Include="Controllers\AppController.cs" />
     <Compile Include="Menus\ShellContextMenu.cs" />
     <Compile Include="Streaming\StreamFormat.cs" />
     <Compile Include="Controls\TermNode.cs" />

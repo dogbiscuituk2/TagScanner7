@@ -53,7 +53,6 @@
             this.tabPlayer = new System.Windows.Forms.TabPage();
             this.splitContainer3 = new System.Windows.Forms.SplitContainer();
             this.PlaylistElementHost = new System.Windows.Forms.Integration.ElementHost();
-            this.MediaPlayer = new AxWMPLib.AxWindowsMediaPlayer();
             this.FilterPopupMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.MainMenu = new System.Windows.Forms.MenuStrip();
             this.FileMenu = new System.Windows.Forms.ToolStripMenuItem();
@@ -95,6 +94,8 @@
             this.AddFolderDialog = new System.Windows.Forms.FolderBrowserDialog();
             this.AddFileDialog = new System.Windows.Forms.OpenFileDialog();
             this.StatusBar = new System.Windows.Forms.StatusStrip();
+            this.MediaPlayer = new AxWMPLib.AxWindowsMediaPlayer();
+            this.FileClose = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -114,8 +115,8 @@
             this.splitContainer3.Panel1.SuspendLayout();
             this.splitContainer3.Panel2.SuspendLayout();
             this.splitContainer3.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.MediaPlayer)).BeginInit();
             this.MainMenu.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.MediaPlayer)).BeginInit();
             this.SuspendLayout();
             // 
             // splitContainer1
@@ -328,11 +329,11 @@
             // tabPlayer
             // 
             this.tabPlayer.Controls.Add(this.splitContainer3);
-            this.tabPlayer.Location = new System.Drawing.Point(4, 22);
+            this.tabPlayer.Location = new System.Drawing.Point(4, 26);
             this.tabPlayer.Margin = new System.Windows.Forms.Padding(4);
             this.tabPlayer.Name = "tabPlayer";
             this.tabPlayer.Padding = new System.Windows.Forms.Padding(4);
-            this.tabPlayer.Size = new System.Drawing.Size(264, 479);
+            this.tabPlayer.Size = new System.Drawing.Size(264, 475);
             this.tabPlayer.TabIndex = 4;
             this.tabPlayer.Text = "Player";
             this.tabPlayer.UseVisualStyleBackColor = true;
@@ -368,17 +369,6 @@
             this.PlaylistElementHost.Text = "elementHost1";
             this.PlaylistElementHost.Child = null;
             // 
-            // MediaPlayer
-            // 
-            this.MediaPlayer.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.MediaPlayer.Enabled = true;
-            this.MediaPlayer.Location = new System.Drawing.Point(0, 0);
-            this.MediaPlayer.Margin = new System.Windows.Forms.Padding(4);
-            this.MediaPlayer.Name = "MediaPlayer";
-            this.MediaPlayer.OcxState = ((System.Windows.Forms.AxHost.State)(resources.GetObject("MediaPlayer.OcxState")));
-            this.MediaPlayer.Size = new System.Drawing.Size(256, 338);
-            this.MediaPlayer.TabIndex = 0;
-            // 
             // FilterPopupMenu
             // 
             this.FilterPopupMenu.Name = "FilterPopupMenu";
@@ -409,6 +399,7 @@
             this.FileSave,
             this.FileSaveAs,
             this.toolStripMenuItem5,
+            this.FileClose,
             this.FileExit});
             this.FileMenu.Name = "FileMenu";
             this.FileMenu.Size = new System.Drawing.Size(37, 19);
@@ -421,7 +412,7 @@
             this.FileNewWindow});
             this.FileNew.Name = "FileNew";
             this.FileNew.ShortcutKeyDisplayString = "";
-            this.FileNew.Size = new System.Drawing.Size(180, 22);
+            this.FileNew.Size = new System.Drawing.Size(197, 22);
             this.FileNew.Text = "&New";
             // 
             // FileNewLibrary
@@ -429,13 +420,13 @@
             this.FileNewLibrary.Name = "FileNewLibrary";
             this.FileNewLibrary.ShortcutKeyDisplayString = "^N";
             this.FileNewLibrary.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.N)));
-            this.FileNewLibrary.Size = new System.Drawing.Size(180, 22);
+            this.FileNewLibrary.Size = new System.Drawing.Size(134, 22);
             this.FileNewLibrary.Text = "Library";
             // 
             // FileNewWindow
             // 
             this.FileNewWindow.Name = "FileNewWindow";
-            this.FileNewWindow.Size = new System.Drawing.Size(180, 22);
+            this.FileNewWindow.Size = new System.Drawing.Size(134, 22);
             this.FileNewWindow.Text = "Window";
             // 
             // FileOpen
@@ -443,46 +434,46 @@
             this.FileOpen.Name = "FileOpen";
             this.FileOpen.ShortcutKeyDisplayString = "^O";
             this.FileOpen.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.O)));
-            this.FileOpen.Size = new System.Drawing.Size(180, 22);
+            this.FileOpen.Size = new System.Drawing.Size(197, 22);
             this.FileOpen.Text = "&Open...";
             // 
             // FileReopen
             // 
             this.FileReopen.Name = "FileReopen";
-            this.FileReopen.Size = new System.Drawing.Size(180, 22);
+            this.FileReopen.Size = new System.Drawing.Size(197, 22);
             this.FileReopen.Text = "&Reopen";
             // 
             // toolStripMenuItem1
             // 
             this.toolStripMenuItem1.Name = "toolStripMenuItem1";
-            this.toolStripMenuItem1.Size = new System.Drawing.Size(177, 6);
+            this.toolStripMenuItem1.Size = new System.Drawing.Size(194, 6);
             // 
             // FileSave
             // 
             this.FileSave.Name = "FileSave";
             this.FileSave.ShortcutKeyDisplayString = "^S";
             this.FileSave.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.S)));
-            this.FileSave.Size = new System.Drawing.Size(180, 22);
+            this.FileSave.Size = new System.Drawing.Size(197, 22);
             this.FileSave.Text = "&Save";
             // 
             // FileSaveAs
             // 
             this.FileSaveAs.Name = "FileSaveAs";
-            this.FileSaveAs.Size = new System.Drawing.Size(180, 22);
+            this.FileSaveAs.Size = new System.Drawing.Size(197, 22);
             this.FileSaveAs.Text = "Save &As...";
             // 
             // toolStripMenuItem5
             // 
             this.toolStripMenuItem5.Name = "toolStripMenuItem5";
-            this.toolStripMenuItem5.Size = new System.Drawing.Size(177, 6);
+            this.toolStripMenuItem5.Size = new System.Drawing.Size(194, 6);
             // 
             // FileExit
             // 
             this.FileExit.Name = "FileExit";
             this.FileExit.ShortcutKeyDisplayString = "Alt+F4";
             this.FileExit.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Alt | System.Windows.Forms.Keys.F4)));
-            this.FileExit.Size = new System.Drawing.Size(180, 22);
-            this.FileExit.Text = "E&xit";
+            this.FileExit.Size = new System.Drawing.Size(197, 22);
+            this.FileExit.Text = "Close All && E&xit";
             // 
             // EditMenu
             // 
@@ -501,26 +492,26 @@
             this.EditSelectAll.Name = "EditSelectAll";
             this.EditSelectAll.ShortcutKeyDisplayString = "^A";
             this.EditSelectAll.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.A)));
-            this.EditSelectAll.Size = new System.Drawing.Size(180, 22);
+            this.EditSelectAll.Size = new System.Drawing.Size(155, 22);
             this.EditSelectAll.Text = "Select &All";
             // 
             // EditInvertSelection
             // 
             this.EditInvertSelection.Name = "EditInvertSelection";
-            this.EditInvertSelection.Size = new System.Drawing.Size(180, 22);
+            this.EditInvertSelection.Size = new System.Drawing.Size(155, 22);
             this.EditInvertSelection.Text = "&Invert Selection";
             // 
             // toolStripMenuItem2
             // 
             this.toolStripMenuItem2.Name = "toolStripMenuItem2";
-            this.toolStripMenuItem2.Size = new System.Drawing.Size(177, 6);
+            this.toolStripMenuItem2.Size = new System.Drawing.Size(152, 6);
             // 
             // EditFind
             // 
             this.EditFind.Name = "EditFind";
             this.EditFind.ShortcutKeyDisplayString = "^F";
             this.EditFind.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.F)));
-            this.EditFind.Size = new System.Drawing.Size(180, 22);
+            this.EditFind.Size = new System.Drawing.Size(155, 22);
             this.EditFind.Text = "&Find...";
             // 
             // EditReplace
@@ -528,7 +519,7 @@
             this.EditReplace.Name = "EditReplace";
             this.EditReplace.ShortcutKeyDisplayString = "^H";
             this.EditReplace.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.H)));
-            this.EditReplace.Size = new System.Drawing.Size(180, 22);
+            this.EditReplace.Size = new System.Drawing.Size(155, 22);
             this.EditReplace.Text = "&Replace...";
             // 
             // GroupMenu
@@ -682,6 +673,25 @@
             this.StatusBar.TabIndex = 9;
             this.StatusBar.Text = "Status";
             // 
+            // MediaPlayer
+            // 
+            this.MediaPlayer.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.MediaPlayer.Enabled = true;
+            this.MediaPlayer.Location = new System.Drawing.Point(0, 0);
+            this.MediaPlayer.Margin = new System.Windows.Forms.Padding(4);
+            this.MediaPlayer.Name = "MediaPlayer";
+            this.MediaPlayer.OcxState = ((System.Windows.Forms.AxHost.State)(resources.GetObject("MediaPlayer.OcxState")));
+            this.MediaPlayer.Size = new System.Drawing.Size(256, 338);
+            this.MediaPlayer.TabIndex = 0;
+            // 
+            // FileClose
+            // 
+            this.FileClose.Name = "FileClose";
+            this.FileClose.ShortcutKeyDisplayString = "^F4";
+            this.FileClose.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.F4)));
+            this.FileClose.Size = new System.Drawing.Size(197, 22);
+            this.FileClose.Text = "Close Window";
+            // 
             // LibraryForm
             // 
             this.AcceptButton = this.btnFilterBuild;
@@ -695,6 +705,7 @@
             this.MainMenuStrip = this.MainMenu;
             this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "LibraryForm";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.WindowsDefaultBounds;
             this.Text = "ID3 Tag Explorer";
             this.splitContainer1.Panel1.ResumeLayout(false);
             this.splitContainer1.Panel2.ResumeLayout(false);
@@ -716,9 +727,9 @@
             this.splitContainer3.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer3)).EndInit();
             this.splitContainer3.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.MediaPlayer)).EndInit();
             this.MainMenu.ResumeLayout(false);
             this.MainMenu.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.MediaPlayer)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -791,6 +802,7 @@
         public System.Windows.Forms.ToolStripMenuItem GridPopupMoreActions;
         public System.Windows.Forms.ToolStripMenuItem FileNewLibrary;
         public System.Windows.Forms.ToolStripMenuItem FileNewWindow;
+        public System.Windows.Forms.ToolStripMenuItem FileClose;
     }
 }
 
