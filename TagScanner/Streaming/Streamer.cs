@@ -17,7 +17,7 @@
                 case ".binary": return StreamFormat.Binary;
                 case ".xml": return StreamFormat.Xml;
                 case ".json": return StreamFormat.Json;
-                default: throw new NotImplementedException($"Unrecognised file type '{ext}'.");
+                default: return StreamFormat.Binary;
             }
         }
 

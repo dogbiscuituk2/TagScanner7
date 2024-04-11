@@ -1,5 +1,6 @@
 ﻿namespace TagScanner.Controllers.Mru
 {
+    using System;
     using System.IO;
     using System.Windows.Forms;
     using Models;
@@ -20,9 +21,12 @@
         {
             get
             {
-                var text = Path.GetFileNameWithoutExtension(FilePath);
-                if (string.IsNullOrWhiteSpace(text))
-                    text = "(untitled)";
+                var text = FilePath;
+                try
+                {
+                    text = Path.GetFileNameWithoutExtension(text);
+                }
+                catch (ArgumentException) { }
                 var modified = Model.Modified;
                 if (modified)
                     text = string.Concat("* ", text);

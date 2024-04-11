@@ -96,11 +96,23 @@
 
         #endregion
 
+        #region Properties
+
+        public string FilePath
+        {
+            get => PersistenceController.FilePath;
+            set => PersistenceController.FilePath = value;
+        }
+
+        #endregion
+
         #region Main Menu
 
         #region File
 
-        private void FileMenu_DropDownOpening(object sender, EventArgs e) => View.FileSave.Enabled = Model.Modified;
+        private void FileMenu_DropDownOpening(object sender, EventArgs e) =>
+            View.FileSave.Enabled = Model.Modified && FilePath.IndexOfAny(Path.GetInvalidPathChars()) < 0;
+
         private void FileNewLibrary_Click(object sender, EventArgs e) => PersistenceController.Clear();
         private void FileNewWindow_Click(object sender, EventArgs e) => AppController.NewWindow();
         private void FileOpen_Click(object sender, EventArgs e) => PersistenceController.Open();

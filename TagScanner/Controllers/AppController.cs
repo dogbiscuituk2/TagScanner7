@@ -31,10 +31,13 @@
                 MainForm.Close();
         }
 
+        public static string GetTempFileName() => $"<untitled #{++TempFileIndex}>";
+
         public static void NewWindow()
         {
             var controller = new LibraryFormController();
             Controllers.Add(controller);
+            controller.FilePath = GetTempFileName();
             controller.View.Show();
         }
 
@@ -45,8 +48,8 @@
             {
                 var controller = Controllers[index];
                 var shortcut =
-                    index < 10 ? $@"&{index}: " :
-                    index < 36 ? $@"&{(char)('A' + index - 10)}: " :
+                    index < 9 ? $@"&{index + 1}: " :
+                    index < 9 + 26 ? $@"&{(char)('A' + index - 9)}: " :
                     string.Empty;
                 var item = new ToolStripMenuItem()
                 {
@@ -80,6 +83,7 @@
 
         private static MainForm MainForm { get; }
         private static List<LibraryFormController> Controllers { get; }
+        private static int TempFileIndex;
 
         #endregion
 

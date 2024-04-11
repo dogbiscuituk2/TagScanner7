@@ -74,7 +74,7 @@
         public event EventHandler<CancelEventArgs> FileSaving;
 
         private string _filePath = string.Empty;
-        protected string FilePath
+        public string FilePath
         {
             get => _filePath;
             set
