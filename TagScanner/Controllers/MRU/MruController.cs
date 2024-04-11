@@ -29,7 +29,9 @@
 
         #region Methods
 
-        protected virtual void AddItem(string item)
+        protected virtual void AddItem(string value) => AddItem($"{DateTime.Now:yyyyMMddHHmmssFF}", value);
+
+        protected virtual void AddItem(string name, string value)
         {
             try
             {
@@ -38,13 +40,14 @@
                     return;
                 try
                 {
-                    DeleteItem(key, item);
-                    key.SetValue($"{DateTime.Now:yyyyMMddHHmmssFF}", item);
+                    DeleteItem(key, value);
+                    key.SetValue(name, value);
                 }
                 finally { key.Close(); }
             }
             catch (Exception exception) { LogException(exception); }
         }
+
 
         protected void ClearItems()
         {

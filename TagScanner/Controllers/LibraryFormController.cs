@@ -50,8 +50,8 @@
             {
                 _view = value;
                 View.FileMenu.DropDownOpening += FileMenu_DropDownOpening;
-                View.FileNewLibrary.Click += FileNewLibrary_Click;
-                View.FileNewWindow.Click += FileNewWindow_Click;
+                View.FileNew.Click += FileNewLibrary_Click;
+                View.WindowNew.Click += FileNewWindow_Click;
                 View.FileOpen.Click += FileOpen_Click;
                 View.FileSave.Click += FileSave_Click;
                 View.FileSaveAs.Click += FileSaveAs_Click;
@@ -65,7 +65,7 @@
                 View.ViewByYear.Click += ViewByYear_Click;
                 View.ViewByAlbum.Click += ViewByAlbum_Click;
                 View.ViewByNoGrouping.Click += ViewByNone_Click;
-                View.ViewWindow.DropDownOpening += ViewWindow_DropDownOpening;
+                View.WindowMenu.DropDownOpening += ViewWindow_DropDownOpening;
                 View.ViewRefresh.Click += ViewRefresh_Click;
                 View.AddMedia.Click += AddMedia_Click;
                 View.AddFolder.Click += AddFolder_Click;
@@ -145,7 +145,7 @@
         private void ViewByNone_Click(object sender, EventArgs e) => LibraryGridController.ViewByNone();
         private void ViewByGenre_Click(object sender, EventArgs e) => LibraryGridController.ViewByGenre();
         private void ViewByYear_Click(object sender, EventArgs e) => LibraryGridController.ViewByYear();
-        private void ViewWindow_DropDownOpening(object sender, EventArgs e) => AppController.PopulateWindowMenu(View.ViewWindow);
+        private void ViewWindow_DropDownOpening(object sender, EventArgs e) => AppController.PopulateWindowMenu(View.WindowMenu);
         private void ViewRefresh_Click(object sender, EventArgs e) => MediaController.Rescan();
 
         #endregion
@@ -185,7 +185,14 @@
         private void Model_ModifiedChanged(object sender, EventArgs e) => ModifiedChanged();
         private void PersistenceController_FileSaving(object sender, CancelEventArgs e) => e.Cancel = !ContinueSaving();
         private void View_FormClosed(object sender, FormClosedEventArgs e) => AppController.CloseWindow(this);
-        private void View_FormClosing(object sender, FormClosingEventArgs e) => e.Cancel = !PersistenceController.SaveIfModified();
+
+        private void View_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            e.Cancel = !PersistenceController.SaveIfModified();
+            if (!e.Cancel)
+                FilterController.RegistryWrite();
+        }
+
         private void View_Shown(object sender, EventArgs e) => View.ActiveControl = View.FilterComboBox;
 
         #endregion

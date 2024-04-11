@@ -1,8 +1,10 @@
 ﻿namespace TagScanner.Utils
 {
     using System;
+    using System.Collections.Generic;
     using System.Drawing;
     using System.IO;
+    using System.Linq;
     using System.Windows.Forms;
     using Models;
 
@@ -149,6 +151,19 @@
         }
 
         public static string Range(this string s, CharacterRange range) => s.Substring(range.First, range.Length);
+
+        public static string StringsToText(this IEnumerable<string> strings)
+        {
+            if (strings == null || !strings.Any()) return string.Empty;
+            return strings.Aggregate((p, q) => $"{p}{Environment.NewLine}{q}");
+        }
+
+        public static string[] TextToStrings(this string s)
+        {
+            return s == null
+                ? Array.Empty<string>()
+                : s.Split(new[] { Environment.NewLine }, StringSplitOptions.None);
+        }
 
         #endregion
 

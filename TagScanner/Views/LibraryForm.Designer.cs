@@ -59,8 +59,6 @@
             this.MainMenu = new TagScanner.Controls.FirstClickMenuStrip();
             this.FileMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.FileNew = new System.Windows.Forms.ToolStripMenuItem();
-            this.FileNewLibrary = new System.Windows.Forms.ToolStripMenuItem();
-            this.FileNewWindow = new System.Windows.Forms.ToolStripMenuItem();
             this.FileOpen = new System.Windows.Forms.ToolStripMenuItem();
             this.FileReopen = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripSeparator();
@@ -76,6 +74,11 @@
             this.toolStripMenuItem2 = new System.Windows.Forms.ToolStripSeparator();
             this.EditFind = new System.Windows.Forms.ToolStripMenuItem();
             this.EditReplace = new System.Windows.Forms.ToolStripMenuItem();
+            this.AddMenu = new System.Windows.Forms.ToolStripMenuItem();
+            this.AddMedia = new System.Windows.Forms.ToolStripMenuItem();
+            this.AddFolder = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItem3 = new System.Windows.Forms.ToolStripSeparator();
+            this.AddRecentFolders = new System.Windows.Forms.ToolStripMenuItem();
             this.GroupMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.ViewFilter = new System.Windows.Forms.ToolStripMenuItem();
             this.ViewGroupBy = new System.Windows.Forms.ToolStripMenuItem();
@@ -87,19 +90,15 @@
             this.ViewByGenre = new System.Windows.Forms.ToolStripMenuItem();
             this.ViewByNoGrouping = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem7 = new System.Windows.Forms.ToolStripSeparator();
-            this.ViewWindow = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripMenuItem8 = new System.Windows.Forms.ToolStripSeparator();
             this.ViewRefresh = new System.Windows.Forms.ToolStripMenuItem();
-            this.AddMenu = new System.Windows.Forms.ToolStripMenuItem();
-            this.AddMedia = new System.Windows.Forms.ToolStripMenuItem();
-            this.AddFolder = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripMenuItem3 = new System.Windows.Forms.ToolStripSeparator();
-            this.AddRecentFolders = new System.Windows.Forms.ToolStripMenuItem();
+            this.WindowMenu = new System.Windows.Forms.ToolStripMenuItem();
+            this.WindowNew = new System.Windows.Forms.ToolStripMenuItem();
             this.HelpMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.HelpAbout = new System.Windows.Forms.ToolStripMenuItem();
             this.AddFolderDialog = new System.Windows.Forms.FolderBrowserDialog();
             this.AddFileDialog = new System.Windows.Forms.OpenFileDialog();
             this.StatusBar = new System.Windows.Forms.StatusStrip();
+            this.toolStripMenuItem8 = new System.Windows.Forms.ToolStripSeparator();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -405,8 +404,9 @@
             this.MainMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.FileMenu,
             this.EditMenu,
-            this.GroupMenu,
             this.AddMenu,
+            this.GroupMenu,
+            this.WindowMenu,
             this.HelpMenu});
             this.MainMenu.Location = new System.Drawing.Point(0, 0);
             this.MainMenu.Name = "MainMenu";
@@ -434,29 +434,11 @@
             // 
             // FileNew
             // 
-            this.FileNew.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.FileNewLibrary,
-            this.FileNewWindow});
             this.FileNew.Name = "FileNew";
-            this.FileNew.ShortcutKeyDisplayString = "";
+            this.FileNew.ShortcutKeyDisplayString = "^N";
+            this.FileNew.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.N)));
             this.FileNew.Size = new System.Drawing.Size(180, 22);
             this.FileNew.Text = "&New";
-            // 
-            // FileNewLibrary
-            // 
-            this.FileNewLibrary.Name = "FileNewLibrary";
-            this.FileNewLibrary.ShortcutKeyDisplayString = "^N";
-            this.FileNewLibrary.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.N)));
-            this.FileNewLibrary.Size = new System.Drawing.Size(144, 22);
-            this.FileNewLibrary.Text = "Library";
-            // 
-            // FileNewWindow
-            // 
-            this.FileNewWindow.Name = "FileNewWindow";
-            this.FileNewWindow.ShortcutKeyDisplayString = "^W";
-            this.FileNewWindow.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.W)));
-            this.FileNewWindow.Size = new System.Drawing.Size(144, 22);
-            this.FileNewWindow.Text = "Window";
             // 
             // FileOpen
             // 
@@ -534,26 +516,26 @@
             this.EditSelectAll.Name = "EditSelectAll";
             this.EditSelectAll.ShortcutKeyDisplayString = "^A";
             this.EditSelectAll.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.A)));
-            this.EditSelectAll.Size = new System.Drawing.Size(155, 22);
+            this.EditSelectAll.Size = new System.Drawing.Size(180, 22);
             this.EditSelectAll.Text = "Select &All";
             // 
             // EditInvertSelection
             // 
             this.EditInvertSelection.Name = "EditInvertSelection";
-            this.EditInvertSelection.Size = new System.Drawing.Size(155, 22);
+            this.EditInvertSelection.Size = new System.Drawing.Size(180, 22);
             this.EditInvertSelection.Text = "&Invert Selection";
             // 
             // toolStripMenuItem2
             // 
             this.toolStripMenuItem2.Name = "toolStripMenuItem2";
-            this.toolStripMenuItem2.Size = new System.Drawing.Size(152, 6);
+            this.toolStripMenuItem2.Size = new System.Drawing.Size(177, 6);
             // 
             // EditFind
             // 
             this.EditFind.Name = "EditFind";
             this.EditFind.ShortcutKeyDisplayString = "^F";
             this.EditFind.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.F)));
-            this.EditFind.Size = new System.Drawing.Size(155, 22);
+            this.EditFind.Size = new System.Drawing.Size(180, 22);
             this.EditFind.Text = "&Find...";
             // 
             // EditReplace
@@ -561,8 +543,42 @@
             this.EditReplace.Name = "EditReplace";
             this.EditReplace.ShortcutKeyDisplayString = "^H";
             this.EditReplace.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.H)));
-            this.EditReplace.Size = new System.Drawing.Size(155, 22);
+            this.EditReplace.Size = new System.Drawing.Size(180, 22);
             this.EditReplace.Text = "&Replace...";
+            // 
+            // AddMenu
+            // 
+            this.AddMenu.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.AddMedia,
+            this.AddFolder,
+            this.toolStripMenuItem3,
+            this.AddRecentFolders});
+            this.AddMenu.Name = "AddMenu";
+            this.AddMenu.Size = new System.Drawing.Size(41, 19);
+            this.AddMenu.Text = "&Add";
+            // 
+            // AddMedia
+            // 
+            this.AddMedia.Name = "AddMedia";
+            this.AddMedia.Size = new System.Drawing.Size(180, 22);
+            this.AddMedia.Text = "&Media...";
+            // 
+            // AddFolder
+            // 
+            this.AddFolder.Name = "AddFolder";
+            this.AddFolder.Size = new System.Drawing.Size(180, 22);
+            this.AddFolder.Text = "&Folder...";
+            // 
+            // toolStripMenuItem3
+            // 
+            this.toolStripMenuItem3.Name = "toolStripMenuItem3";
+            this.toolStripMenuItem3.Size = new System.Drawing.Size(177, 6);
+            // 
+            // AddRecentFolders
+            // 
+            this.AddRecentFolders.Name = "AddRecentFolders";
+            this.AddRecentFolders.Size = new System.Drawing.Size(180, 22);
+            this.AddRecentFolders.Text = "&Recent Folders";
             // 
             // GroupMenu
             // 
@@ -570,7 +586,6 @@
             this.ViewFilter,
             this.ViewGroupBy,
             this.toolStripMenuItem7,
-            this.ViewWindow,
             this.ViewRefresh});
             this.GroupMenu.Name = "GroupMenu";
             this.GroupMenu.Size = new System.Drawing.Size(44, 19);
@@ -579,7 +594,7 @@
             // ViewFilter
             // 
             this.ViewFilter.Name = "ViewFilter";
-            this.ViewFilter.Size = new System.Drawing.Size(132, 22);
+            this.ViewFilter.Size = new System.Drawing.Size(180, 22);
             this.ViewFilter.Text = "&Filter...";
             // 
             // ViewGroupBy
@@ -593,7 +608,7 @@
             this.ViewByGenre,
             this.ViewByNoGrouping});
             this.ViewGroupBy.Name = "ViewGroupBy";
-            this.ViewGroupBy.Size = new System.Drawing.Size(132, 22);
+            this.ViewGroupBy.Size = new System.Drawing.Size(180, 22);
             this.ViewGroupBy.Text = "&Group by";
             // 
             // ViewByArtistAlbum
@@ -640,61 +655,31 @@
             // toolStripMenuItem7
             // 
             this.toolStripMenuItem7.Name = "toolStripMenuItem7";
-            this.toolStripMenuItem7.Size = new System.Drawing.Size(129, 6);
-            // 
-            // ViewWindow
-            // 
-            this.ViewWindow.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.toolStripMenuItem8});
-            this.ViewWindow.Name = "ViewWindow";
-            this.ViewWindow.Size = new System.Drawing.Size(132, 22);
-            this.ViewWindow.Text = "&Window";
-            // 
-            // toolStripMenuItem8
-            // 
-            this.toolStripMenuItem8.Name = "toolStripMenuItem8";
-            this.toolStripMenuItem8.Size = new System.Drawing.Size(57, 6);
+            this.toolStripMenuItem7.Size = new System.Drawing.Size(177, 6);
             // 
             // ViewRefresh
             // 
             this.ViewRefresh.Name = "ViewRefresh";
             this.ViewRefresh.ShortcutKeys = System.Windows.Forms.Keys.F5;
-            this.ViewRefresh.Size = new System.Drawing.Size(132, 22);
+            this.ViewRefresh.Size = new System.Drawing.Size(180, 22);
             this.ViewRefresh.Text = "&Refresh";
             // 
-            // AddMenu
+            // WindowMenu
             // 
-            this.AddMenu.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.AddMedia,
-            this.AddFolder,
-            this.toolStripMenuItem3,
-            this.AddRecentFolders});
-            this.AddMenu.Name = "AddMenu";
-            this.AddMenu.Size = new System.Drawing.Size(41, 19);
-            this.AddMenu.Text = "&Add";
+            this.WindowMenu.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.WindowNew,
+            this.toolStripMenuItem8});
+            this.WindowMenu.Name = "WindowMenu";
+            this.WindowMenu.Size = new System.Drawing.Size(63, 19);
+            this.WindowMenu.Text = "&Window";
             // 
-            // AddMedia
+            // WindowNew
             // 
-            this.AddMedia.Name = "AddMedia";
-            this.AddMedia.Size = new System.Drawing.Size(151, 22);
-            this.AddMedia.Text = "&Media...";
-            // 
-            // AddFolder
-            // 
-            this.AddFolder.Name = "AddFolder";
-            this.AddFolder.Size = new System.Drawing.Size(151, 22);
-            this.AddFolder.Text = "&Folder...";
-            // 
-            // toolStripMenuItem3
-            // 
-            this.toolStripMenuItem3.Name = "toolStripMenuItem3";
-            this.toolStripMenuItem3.Size = new System.Drawing.Size(148, 6);
-            // 
-            // AddRecentFolders
-            // 
-            this.AddRecentFolders.Name = "AddRecentFolders";
-            this.AddRecentFolders.Size = new System.Drawing.Size(151, 22);
-            this.AddRecentFolders.Text = "&Recent Folders";
+            this.WindowNew.Name = "WindowNew";
+            this.WindowNew.ShortcutKeyDisplayString = "^W";
+            this.WindowNew.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.W)));
+            this.WindowNew.Size = new System.Drawing.Size(180, 22);
+            this.WindowNew.Text = "&New";
             // 
             // HelpMenu
             // 
@@ -728,6 +713,11 @@
             this.StatusBar.Size = new System.Drawing.Size(915, 22);
             this.StatusBar.TabIndex = 9;
             this.StatusBar.Text = "Status";
+            // 
+            // toolStripMenuItem8
+            // 
+            this.toolStripMenuItem8.Name = "toolStripMenuItem8";
+            this.toolStripMenuItem8.Size = new System.Drawing.Size(177, 6);
             // 
             // LibraryForm
             // 
@@ -788,7 +778,6 @@
 		public System.Windows.Forms.FolderBrowserDialog AddFolderDialog;
 		public System.Windows.Forms.OpenFileDialog AddFileDialog;
 		public System.Windows.Forms.StatusStrip StatusBar;
-		public System.Windows.Forms.ToolStripMenuItem FileNew;
 		public System.Windows.Forms.ToolStripMenuItem FileOpen;
 		public System.Windows.Forms.ToolStripMenuItem FileSave;
 		public System.Windows.Forms.ToolStripMenuItem FileSaveAs;
@@ -836,14 +825,14 @@
         public System.Windows.Forms.CheckBox CaseSensitiveCheckBox;
         public System.Windows.Forms.Button ApplyButton;
         public System.Windows.Forms.ToolStripMenuItem GridPopupMoreActions;
-        public System.Windows.Forms.ToolStripMenuItem FileNewLibrary;
-        public System.Windows.Forms.ToolStripMenuItem FileNewWindow;
         public System.Windows.Forms.ToolStripMenuItem FileClose;
-        public System.Windows.Forms.ToolStripMenuItem ViewWindow;
         public Controls.FirstClickMenuStrip MainMenu;
-        private System.Windows.Forms.ToolStripSeparator toolStripMenuItem8;
         private System.Windows.Forms.ToolStripSeparator toolStripMenuItem9;
         public System.Windows.Forms.Button ClearButton;
+        public System.Windows.Forms.ToolStripMenuItem WindowMenu;
+        public System.Windows.Forms.ToolStripMenuItem FileNew;
+        public System.Windows.Forms.ToolStripMenuItem WindowNew;
+        private System.Windows.Forms.ToolStripSeparator toolStripMenuItem8;
     }
 }
 

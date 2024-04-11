@@ -63,7 +63,7 @@
                 var item = new ToolStripMenuItem()
                 {
                     Tag = controller.View,
-                    Text = $@"{shortcut}{controller.View.Text.Escape()}",
+                    Text = $@"{shortcut}{controller.FilePath.Escape()}",
                 };
                 item.Click += WindowClick;
                 menu.DropDownItems.Add(item);
@@ -99,10 +99,12 @@
 
         private static void ClearWindowMenu(ToolStripDropDownItem menu)
         {
-            if (!menu.HasDropDownItems) return;
-            foreach (ToolStripItem item in menu.DropDownItems)
-                item.Click -= WindowClick;
-            menu.DropDownItems.Clear();
+            var items = menu.DropDownItems;
+            for (var index = items.Count - 1; index >= 2;  index--)
+            {
+                items[index].Click -= WindowClick;
+                items.RemoveAt(index);
+            }
         }
 
         private static void MainForm_FormClosing(object sender, FormClosingEventArgs e) => e.Cancel = !Shutdown();
