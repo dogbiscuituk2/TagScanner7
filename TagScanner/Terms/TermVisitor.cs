@@ -4,25 +4,30 @@
 
     public static class TermVisitor
     {
-        public static Term IgnoreCase(this Term term) => Visit(term, p =>
-            p.ResultType == typeof(string) && !(p is Function f && f.Fn == Fn.Uppercase)
-                ? new Function(Fn.Uppercase, p)
-                : p);
+        public static Term IgnoreCase(this Term term) => VisitDepthFirst(term, p =>
+            p.ResultType == typeof(string) && !(p is Function f && f.Fn == Fn.Uppercase) // Idempotency check.
+                ? new Function(Fn.Uppercase, p) // If we haven't been here before, then apply the transform.
+                : p); // Transform would be redundant.
 
-        public static Term Visit(Term term, Func<Term, Term> function)
+        public static Term Visit(Term term, Func<Term, Term> breadthFirst, Func<Term, Term> depthFirst)
         {
             return DoVisit(term);
 
             Term DoVisit(Term t)
             {
-                if (t is TermList termList) // Depth first.
+                t = breadthFirst(t);
+                if (t is TermList termList)
                 {
                     var terms = termList.Operands;
                     for (var index = 0; index < terms.Count; index++)
                         terms[index] = DoVisit(terms[index]);
                 }
-                return function(t);
+                return depthFirst(t);
             }
         }
+
+        public static Term VisitBreadthFirst(this Term term, Func<Term, Term> breadthFirst) => Visit(term, breadthFirst, p => p);
+
+        public static Term VisitDepthFirst(this Term term, Func<Term, Term> depthFirst) => Visit(term, p => p, depthFirst);
     }
 }
