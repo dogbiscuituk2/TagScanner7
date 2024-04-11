@@ -10,7 +10,7 @@
     using Models;
     using Mru;
     using Properties;
-    using TagScanner.Utils;
+    using Utils;
     using Terms;
     using Views;
 
@@ -117,7 +117,8 @@
         private void FileNewLibrary_Click(object sender, EventArgs e)
         {
             if (PersistenceController.Clear())
-                FilePath = AppController.GetTempFileName();
+                if (FilePath.IsValidFilePath())
+                    FilePath = AppController.GetTempFileName();
         }
 
         private void FileNewWindow_Click(object sender, EventArgs e) => AppController.NewWindow();
@@ -187,7 +188,9 @@
         private void View_FormClosing(object sender, FormClosingEventArgs e) => e.Cancel = !PersistenceController.SaveIfModified();
         private void View_Shown(object sender, EventArgs e) => View.ActiveControl = View.FilterComboBox;
 
-        private void ModifiedChanged() => View.Text = PersistenceController.WindowCaption;
+        #endregion
+
+        #region Private Methods
 
         private bool ContinueSaving()
         {
@@ -213,6 +216,8 @@
             return decision;
         }
 
+        private void ModifiedChanged() => View.Text = PersistenceController.WindowCaption;
+
         private bool ProcessWork(Work work)
         {
             var result = false;
@@ -236,8 +241,6 @@
 
         private void PersistenceController_FilePathChanged(object sender, EventArgs e) => View.Text = PersistenceController.WindowCaption;
 
-        #endregion
-
         private void SelectPropertyGridTags()
         {
             var visibleTags = Tags.BrowsableTags;
@@ -250,5 +253,7 @@
         }
 
         private void UpdatePropertyGrid() => View.PropertyGrid.SelectedObject = LibraryGridController.Selection;
+
+        #endregion
     }
 }

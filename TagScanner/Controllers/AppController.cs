@@ -13,7 +13,7 @@
 
         static AppController()
         {
-            MainForm = new MainForm();
+            MainForm = new SplashForm();
             Controllers = new List<LibraryFormController>();
             MainForm.FormClosing += MainForm_FormClosing;
             NewWindow();
@@ -30,9 +30,7 @@
             if (!Controllers.Any())
                 MainForm.Close();
         }
-
         public static string GetTempFileName() => $"<untitled #{++TempFileIndex}>";
-
         public static void NewWindow()
         {
             var controller = new LibraryFormController();
@@ -81,10 +79,9 @@
 
         #region Private Fields
 
-        private static MainForm MainForm { get; }
+        private static SplashForm MainForm { get; }
         private static List<LibraryFormController> Controllers { get; }
         private static int TempFileIndex;
-
         #endregion
 
         #region Private Methods

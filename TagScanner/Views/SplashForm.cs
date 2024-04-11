@@ -10,9 +10,9 @@
     using System.Threading.Tasks;
     using System.Windows.Forms;
 
-    public partial class MainForm : Form
+    public partial class SplashForm : Form
     {
-        public MainForm()
+        public SplashForm()
         {
             InitializeComponent();
         }

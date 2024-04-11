@@ -1,6 +1,6 @@
 ﻿namespace TagScanner.Views
 {
-    partial class MainForm
+    partial class SplashForm
     {
         /// <summary>
         /// Required designer variable.
