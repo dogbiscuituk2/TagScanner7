@@ -10,6 +10,7 @@
     using Models;
     using Mru;
     using Properties;
+    using TagScanner.Utils;
     using Terms;
     using Views;
 
@@ -111,9 +112,14 @@
         #region File
 
         private void FileMenu_DropDownOpening(object sender, EventArgs e) =>
-            View.FileSave.Enabled = Model.Modified && FilePath.IndexOfAny(Path.GetInvalidPathChars()) < 0;
+            View.FileSave.Enabled = Model.Modified && FilePath.IsValidFilePath();
 
-        private void FileNewLibrary_Click(object sender, EventArgs e) => PersistenceController.Clear();
+        private void FileNewLibrary_Click(object sender, EventArgs e)
+        {
+            if (PersistenceController.Clear())
+                FilePath = AppController.GetTempFileName();
+        }
+
         private void FileNewWindow_Click(object sender, EventArgs e) => AppController.NewWindow();
         private void FileOpen_Click(object sender, EventArgs e) => PersistenceController.Open();
         private void FileSave_Click(object sender, EventArgs e) => PersistenceController.Save();
