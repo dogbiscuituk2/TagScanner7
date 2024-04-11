@@ -8,8 +8,10 @@
     using Models;
     using Properties;
 
-    public class MruMediaController : MruController
+    public class MruMediaController : MruMenuController
     {
+        #region Constructor
+
         public MruMediaController(LibraryFormController libraryFormController, ToolStripMenuItem recentMenuItem)
             : base("MediaMRU", recentMenuItem)
         {
@@ -20,13 +22,30 @@
             _folderBrowserDialog = new FolderBrowserDialog { Description = Resources.Select_the_media_folder_to_add };
         }
 
-        private readonly Model _model;
+        #endregion
+
+        #region Fields & Properties
+
         private IWin32Window Owner => _libraryFormController.View;
+        private readonly Model _model;
+        private readonly FolderBrowserDialog _folderBrowserDialog;
+        private readonly OpenFileDialog _openFileDialog;
+        private readonly LibraryFormController _libraryFormController;
+
+        #endregion
+
+        #region Methods
 
         public void AddFiles()
         {
             if (_openFileDialog.ShowDialog(Owner) == DialogResult.OK)
                 AddFiles(_openFileDialog.FileNames);
+        }
+
+        private void AddFiles(string[] filePaths)
+        {
+            var progress = CreateNewProgress();
+            Task.Run(() => _model.AddFiles(filePaths, progress));
         }
 
         public void AddFolder()
@@ -38,11 +57,15 @@
             AddFolder(folderPath, filter);
         }
 
-        public void Rescan()
+        private void AddFolder(string folderPath, string filter)
         {
-            foreach (var folderParts in _model.Folders.Select(folder => folder.Split('|')))
-                AddFolder(folderParts[0], folderParts[1]);
+            var progress = CreateNewProgress();
+            Task.Run(() => _model.AddFolder(folderPath, filter, progress));
         }
+
+        private IProgress<ProgressEventArgs> CreateNewProgress() => _libraryFormController.StatusController.CreateNewProgress();
+
+        private static string MakeItem(string folderPath, string filter) => string.Concat(folderPath, '|', filter);
 
         protected override void Reopen(ToolStripItem menuItem)
         {
@@ -59,24 +82,12 @@
                 RemoveItem(item);
         }
 
-        private readonly FolderBrowserDialog _folderBrowserDialog;
-        private readonly OpenFileDialog _openFileDialog;
-        private readonly LibraryFormController _libraryFormController;
-
-        private void AddFiles(string[] filePaths)
+        public void Rescan()
         {
-            var progress = CreateNewProgress();
-            Task.Run(() => _model.AddFiles(filePaths, progress));
+            foreach (var folderParts in _model.Folders.Select(folder => folder.Split('|')))
+                AddFolder(folderParts[0], folderParts[1]);
         }
 
-        private void AddFolder(string folderPath, string filter)
-        {
-            var progress = CreateNewProgress();
-            Task.Run(() => _model.AddFolder(folderPath, filter, progress));
-        }
-
-        private IProgress<ProgressEventArgs> CreateNewProgress() => _libraryFormController.StatusController.CreateNewProgress();
-
-        private static string MakeItem(string folderPath, string filter) => string.Concat(folderPath, '|', filter);
+        #endregion
     }
 }

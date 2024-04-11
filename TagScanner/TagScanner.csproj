@@ -126,6 +126,8 @@
   <ItemGroup>
     <Compile Include="Controllers\FilterController.cs" />
     <Compile Include="Controllers\AppController.cs" />
+    <Compile Include="Controllers\Mru\MruController.cs" />
+    <Compile Include="Controllers\Mru\MruFilterController.cs" />
     <Compile Include="Controllers\SplashController.cs" />
     <Compile Include="Controls\FirstClickHelper.cs" />
     <Compile Include="Controls\FirstClickMenuStrip.cs">
@@ -229,7 +231,7 @@
     <Compile Include="Views\LibraryForm.Designer.cs">
       <DependentUpon>LibraryForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="Controllers\Mru\MruController.cs" />
+    <Compile Include="Controllers\Mru\MruMenuController.cs" />
     <Compile Include="Models\Picture.cs" />
     <Compile Include="Controllers\PictureController.cs" />
     <Compile Include="Models\ProgressEventArgs.cs" />

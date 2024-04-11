@@ -92,7 +92,7 @@
 
         private static SplashForm MainForm { get; }
         private static List<LibraryFormController> Controllers { get; }
-        private static int TempFileIndex;
+
         #endregion
 
         #region Private Methods

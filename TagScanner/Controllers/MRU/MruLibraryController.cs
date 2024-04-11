@@ -8,8 +8,14 @@
 
     public class MruLibraryController : MruSdiController
     {
+        #region Constructor
+
         public MruLibraryController(Model model, ToolStripMenuItem recentMenuItem, IWin32Window owner)
             : base(model, Properties.Settings.Default.LibraryFilter, "LibraryMRU", recentMenuItem, owner) { }
+
+        #endregion
+
+        #region Properties
 
         public new Model Model
         {
@@ -35,6 +41,10 @@
             }
         }
 
+        #endregion
+
+        #region Methods
+
         protected override void ClearDocument() => Model.Clear();
 
         protected override bool LoadFromStream(Stream stream, StreamFormat format)
@@ -51,5 +61,7 @@
         }
 
         protected override bool SaveToStream(Stream stream, StreamFormat format) => SaveDocument(stream, Model.Library, format);
+
+        #endregion
     }
 }
