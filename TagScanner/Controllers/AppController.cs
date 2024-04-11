@@ -30,7 +30,18 @@
             if (!Controllers.Any())
                 MainForm.Close();
         }
-        public static string GetTempFileName() => $"<untitled #{++TempFileIndex}>";
+
+        public static string GetTempFileName()
+        {
+            var filePaths = Controllers.Select(p => p.FilePath);
+            for (var index = 1; true; index++)
+            {
+                var filePath = $"<untitled #{index}>";
+                if (!filePaths.Contains(filePath))
+                    return filePath;
+            }
+        }
+
         public static void NewWindow()
         {
             var controller = new LibraryFormController();

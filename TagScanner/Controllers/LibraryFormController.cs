@@ -116,9 +116,9 @@
 
         private void FileNewLibrary_Click(object sender, EventArgs e)
         {
+            var filePath = FilePath;
             if (PersistenceController.Clear())
-                if (FilePath.IsValidFilePath())
-                    FilePath = AppController.GetTempFileName();
+                FilePath = filePath.IsValidFilePath() ? AppController.GetTempFileName() : filePath;
         }
 
         private void FileNewWindow_Click(object sender, EventArgs e) => AppController.NewWindow();
