@@ -52,10 +52,16 @@
                 _view = value;
                 View.FileMenu.DropDownOpening += FileMenu_DropDownOpening;
                 View.FileNew.Click += FileNewLibrary_Click;
+                View.tbNew.ButtonClick += FileNewLibrary_Click;
+                View.tbNewLibrary.Click += FileNewLibrary_Click;
                 View.WindowNew.Click += FileNewWindow_Click;
+                View.tbNewWindow.Click += FileNewWindow_Click;
                 View.FileOpen.Click += FileOpen_Click;
+                View.tbOpenLibrary.Click += FileOpen_Click;
                 View.FileSave.Click += FileSave_Click;
+                View.tbSave.Click += FileSave_Click;
                 View.FileSaveAs.Click += FileSaveAs_Click;
+                View.tbSaveAs.Click += FileSaveAs_Click;
                 View.FileClose.Click += FileClose_Click;
                 View.FileExit.Click += FileExit_Click;
                 View.EditSelectAll.Click += EditSelectAll_Click;

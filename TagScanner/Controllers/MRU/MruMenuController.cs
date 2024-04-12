@@ -88,7 +88,11 @@
                 if (ok)
                 {
                     _recentItems.Add("-");
-                    _recentItems.Add("Clear this list", null, OnRecentClear_Click);
+                    var item = new ToolStripMenuItem("Clear this list", Properties.Resources.Delete, OnRecentClear_Click)
+                    {
+                        ImageTransparentColor = Color.White
+                    };
+                    _recentItems.Add(item);
                 }
             }
             SetEnabled(ok);
