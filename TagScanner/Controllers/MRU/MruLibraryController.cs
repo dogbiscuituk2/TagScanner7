@@ -54,7 +54,7 @@
             {
                 Model.Library = library;
                 foreach (var work in Model.Works)
-                    work.PropertyChanged += Model.Work_PropertyChanged;
+                    work.WorkEdit += Model.Work_Edit;
                 result = true;
             }
             return result;

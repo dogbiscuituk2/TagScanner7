@@ -9,11 +9,12 @@
     using System.Xml;
     using System.Xml.Serialization;
     using Newtonsoft.Json;
+    using Newtonsoft.Json.Linq;
     using Terms;
     using Utils;
 
     [Serializable]
-    public class Work : IWork, INotifyPropertyChanged
+    public class Work : IWork
     {
         #region Public Interface
 
@@ -127,8 +128,9 @@
             {
                 if (BeatsPerMinute != value)
                 {
+                    var oldValue = _beatsPerMinute;
                     _beatsPerMinute = value;
-                    OnPropertyChanged(Tag.BeatsPerMinute);
+                    OnWorkEdit(Tag.BeatsPerMinute, oldValue, value);
                 }
             }
         }
@@ -211,8 +213,9 @@
             {
                 if (DiscCount != value)
                 {
+                    var oldValue = _discCount;
                     _discCount = value;
-                    OnPropertyChanged(Tag.DiscCount);
+                    OnWorkEdit(Tag.DiscCount, oldValue, value);
                 }
             }
         }
@@ -226,8 +229,9 @@
             {
                 if (DiscNumber != value)
                 {
+                    var oldValue = _discNumber;
                     _discNumber = value;
-                    OnPropertyChanged(Tag.DiscNumber);
+                    OnWorkEdit(Tag.DiscNumber, oldValue, value);
                 }
             }
         }
@@ -655,8 +659,9 @@
             {
                 if (TrackCount != value)
                 {
+                    var oldValue = _trackCount;
                     _trackCount = value;
-                    OnPropertyChanged(Tag.TrackCount);
+                    OnWorkEdit(Tag.TrackCount, oldValue, value);
                 }
             }
         }
@@ -678,8 +683,9 @@
             {
                 if (TrackNumber != value)
                 {
+                    var oldValue = _trackNumber;
                     _trackNumber = value;
-                    OnPropertyChanged(Tag.TrackNumber);
+                    OnWorkEdit(Tag.TrackNumber, oldValue, value);
                 }
             }
         }
@@ -707,8 +713,9 @@
             {
                 if (Year != value)
                 {
+                    var oldValue = _year;
                     _year = value;
-                    OnPropertyChanged(Tag.Year);
+                    OnWorkEdit(Tag.Year, oldValue, value);
                 }
             }
         }
@@ -718,12 +725,8 @@
 
         #endregion
 
-        #region INotifyPropertyChanged
-
         [field: NonSerialized]
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        #endregion
+        public event EventHandler<WorkEditEventArgs> WorkEdit;
 
         #region Methods
 
@@ -748,12 +751,6 @@
             Load();
         }
 
-        public void SetPropertyValue(string propertyName, object value)
-        {
-            GetPropertyInfo(propertyName).SetValue(this, value);
-            OnPropertyChanged(propertyName);
-        }
-
         public override string ToString() => $"{JoinedPerformers} | {YearAlbum} | {TrackOf} {Title} ({Duration.AsString(false)}) {FileSize.AsString(true)}";
 
         #endregion
@@ -770,25 +767,15 @@
 
         private TagLib.File GetTagLibFile() => TagLib.File.Create(FilePath);
 
-        private void InvokeHandler(PropertyChangedEventHandler propertyChanged, Tag propertyTag) => InvokeHandler(propertyChanged, propertyTag.ToString());
-
-        private void InvokeHandler(PropertyChangedEventHandler propertyChanged, string propertyName)
+        private void OnWorkEdit(Tag tag, object oldValue, object newValue)
         {
-            propertyChanged(this, new PropertyChangedEventArgs(propertyName));
-            foreach (var dependentPropertyName in Tags.GetDependencyNames(propertyName))
-                InvokeHandler(propertyChanged, dependentPropertyName);
-        }
-
-        protected virtual void OnPropertyChanged(Tag propertyTag) => OnPropertyChanged(propertyTag.ToString());
-
-        protected virtual void OnPropertyChanged(string propertyName)
-        {
-            var propertyChanged = PropertyChanged;
-            if (propertyChanged == null) // Are we just now streaming in, using XML?
-                return; // Yes: then property accessors should have no side effects.
-            IsModified = true;
-            InvokeHandler(propertyChanged, propertyName);
-            InvokeHandler(propertyChanged, Tag.FileStatus);
+            var workEdit = WorkEdit;
+            if (workEdit == null) // Are we just now streaming input, using XML?
+                return; // Yes: then relax, property accessors should have no side effects.
+            workEdit.Invoke(this, new WorkEditEventArgs(tag, oldValue, newValue));
+            workEdit.Invoke(this, new WorkEditEventArgs(Tag.FileStatus));
+            foreach (var dependency in tag.GetDependencies())
+                workEdit.Invoke(this, new WorkEditEventArgs(tag));
         }
 
         private void ReadFile(TagLib.File file)
@@ -1033,18 +1020,15 @@
         private static bool SequenceEqual<T>(IEnumerable<T> x, IEnumerable<T> y) =>
             x != null ? y != null && x.SequenceEqual(y) : y == null;
 
-        private void Set(ref string field, string value, Tag tag)
-        {
-            if (field == value) return;
-            field = value;
-            OnPropertyChanged(tag);
-        }
+        private void Set<T>(ref T field, T value, Tag tag) => Set(ref field, value, tag, !Equals(field, value));
+        private void Set<T>(ref T[] field, T[] value, Tag tag) => Set(ref field, value, tag, !SequenceEqual(field, value));
 
-        private void Set<T>(ref T[] field, T[] value, Tag tag)
+        private void Set<T>(ref T field, T value, Tag tag, bool condition)
         {
-            if (SequenceEqual(field, value)) return;
+            if (!condition) return;
+            var oldValue = field;
             field = value;
-            OnPropertyChanged(tag);
+            OnWorkEdit(tag, oldValue, value);
         }
 
         #endregion

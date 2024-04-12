@@ -46,9 +46,7 @@
                         var streamReader = new StreamReader(stream);
                         var jsonTextReader = new JsonTextReader(streamReader);
                         var jsonSerializer = GetJsonSerializer();
-                        jsonSerializer.Error += JsonSerializer_Error;
                         var result = jsonSerializer.Deserialize(jsonTextReader, documentType);
-                        jsonSerializer.Error -= JsonSerializer_Error;
                         return result;
                     case StreamFormat.Xml:
                         return new XmlSerializer(documentType).Deserialize(stream);
@@ -89,17 +87,11 @@
                         var streamWriter = new StreamWriter(stream);
                         var jsonTextWriter = new JsonTextWriter(streamWriter);
                         var jsonSerializer = GetJsonSerializer();
-                        jsonSerializer.Error += JsonSerializer_Error;
                         jsonSerializer.Serialize(jsonTextWriter, document,document.GetType());
-                        jsonSerializer.Error -= JsonSerializer_Error;
                         jsonTextWriter.Flush();
                         break;
                     case StreamFormat.Xml:
                         var xmlSerializer = GetXmlSerializer(document.GetType());
-                        xmlSerializer.UnknownAttribute += XmlSerializer_UnknownAttribute;
-                        xmlSerializer.UnknownElement += XmlSerializer_UnknownElement;
-                        xmlSerializer.UnknownNode += XmlSerializer_UnknownNode;
-                        xmlSerializer.UnreferencedObject += XmlSerializer_UnreferencedObject;
                         try
                         {
                             xmlSerializer.Serialize(stream, document);
@@ -107,13 +99,6 @@
                         catch (Exception exception)
                         {
                             exception.ShowDialog($"{nameof(document)}: {document}");
-                        }
-                        finally
-                        {
-                            xmlSerializer.UnknownAttribute -= XmlSerializer_UnknownAttribute;
-                            xmlSerializer.UnknownElement -= XmlSerializer_UnknownElement;
-                            xmlSerializer.UnknownNode -= XmlSerializer_UnknownNode;
-                            xmlSerializer.UnreferencedObject -= XmlSerializer_UnreferencedObject;
                         }
                         break;
                     default:
@@ -153,29 +138,6 @@
         {
             var xmlSerializer = new XmlSerializer(documentType);
             return xmlSerializer;
-        }
-
-        private static void JsonSerializer_Error(object sender, Newtonsoft.Json.Serialization.ErrorEventArgs e) =>
-            e.ErrorContext.Error.ShowDialog();
-
-        private static void XmlSerializer_UnreferencedObject(object sender, UnreferencedObjectEventArgs e)
-        {
-            System.Diagnostics.Debug.WriteLine("UnreferencedObject");
-        }
-
-        private static void XmlSerializer_UnknownNode(object sender, XmlNodeEventArgs e)
-        {
-            System.Diagnostics.Debug.WriteLine("UnknownNode");
-        }
-
-        private static void XmlSerializer_UnknownElement(object sender, XmlElementEventArgs e)
-        {
-            System.Diagnostics.Debug.WriteLine("UnknownElement");
-        }
-
-        private static void XmlSerializer_UnknownAttribute(object sender, XmlAttributeEventArgs e)
-        {
-            System.Diagnostics.Debug.WriteLine("UnknownAttribute");
         }
     }
 }

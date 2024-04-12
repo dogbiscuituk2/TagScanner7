@@ -2,7 +2,6 @@
 {
     using System;
     using System.Collections.Generic;
-    using System.ComponentModel;
     using System.Linq;
 
     [Serializable]
@@ -68,9 +67,15 @@
             }
         }
 
-        public void Work_PropertyChanged(object sender, PropertyChangedEventArgs e) => Modified = true;
+        public void Work_Edit(object sender, WorkEditEventArgs e)
+        {
+            var workEdit = WorkEdit;
+            workEdit?.Invoke(sender, e);
+            Modified = true;
+        }
 
         public event EventHandler ModifiedChanged;
+        public event EventHandler<WorkEditEventArgs> WorkEdit;
         public event EventHandler WorksChanged;
 
         #endregion

@@ -23,6 +23,7 @@
             View = new LibraryForm();
             Model = new Model();
             Model.ModifiedChanged += Model_ModifiedChanged;
+            Model.WorkEdit += Model_WorkEdit;
             LibraryGridController = new LibraryGridController(this, Model, View.GridElementHost);
             LibraryGridController.SelectionChanged += LibraryGridController_SelectionChanged;
             StatusController = new StatusController(Model, View.StatusBar);
@@ -183,6 +184,7 @@
 
         private void LibraryGridController_SelectionChanged(object sender, EventArgs e) => UpdatePropertyGrid();
         private void Model_ModifiedChanged(object sender, EventArgs e) => ModifiedChanged();
+        private void Model_WorkEdit(object sender, WorkEditEventArgs e) => WorkEdit((Work)sender, e.Tag, e.OldValue, e.NewValue);
         private void PersistenceController_FileSaving(object sender, CancelEventArgs e) => e.Cancel = !ContinueSaving();
         private void View_FormClosed(object sender, FormClosedEventArgs e) => AppController.CloseWindow(this);
 
@@ -260,6 +262,10 @@
         }
 
         private void UpdatePropertyGrid() => View.PropertyGrid.SelectedObject = LibraryGridController.Selection;
+
+        private void WorkEdit(Work sender, Tag tag, object oldValue, object newValue)
+        {
+        }
 
         #endregion
     }

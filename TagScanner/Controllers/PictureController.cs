@@ -6,8 +6,8 @@
     using System.Linq;
     using System.Windows.Forms;
     using NReco.VideoConverter;
-    using Logging;
     using Models;
+    using Utils;
 
     public class PictureController
     {
@@ -88,7 +88,7 @@
         {
             Image image;
             try { image = Image.FromFile(filePath); }
-            catch (OutOfMemoryException ex) { Logger.LogException(ex, filePath); return null; }
+            catch (OutOfMemoryException ex) { ex.LogException(); return null; }
             var rotateFlipType = GetRotateFlipType(orientation);
             if (rotateFlipType != RotateFlipType.RotateNoneFlipNone)
                 image.RotateFlip(rotateFlipType);

@@ -4,7 +4,7 @@
     using System.Collections.Generic;
     using System.IO;
     using System.Linq;
-    using Logging;
+    using Utils;
 
     public class Reader
     {
@@ -57,9 +57,9 @@
                 }
                 _workIndex++;
             }
-            catch (Exception ex)
+            catch (Exception exception)
             {
-                Logger.LogException(ex, filePath);
+                exception.LogException();
                 _workCount--;
             }
             var progressEventArgs = new ProgressEventArgs(_workIndex, _workCount, filePath, work);

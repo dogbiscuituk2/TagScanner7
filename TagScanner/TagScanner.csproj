@@ -124,6 +124,8 @@
     <Reference Include="WindowsFormsIntegration" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Commands\Command.cs" />
+    <Compile Include="Commands\WorkEditCommand.cs" />
     <Compile Include="Controllers\FilterController.cs" />
     <Compile Include="Controllers\AppController.cs" />
     <Compile Include="Controllers\Mru\MruController.cs" />
@@ -137,6 +139,7 @@
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Menus\ShellContextMenu.cs" />
+    <Compile Include="Models\WorkEditEventArgs.cs" />
     <Compile Include="Streaming\StreamFormat.cs" />
     <Compile Include="Controls\TermTreeNode.cs" />
     <Compile Include="Controls\TermTree.cs">

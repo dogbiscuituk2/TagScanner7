@@ -34,7 +34,7 @@
                     if (e.Work != null)
                     {
                         _model.Modified = true;
-                        e.Work.PropertyChanged += _model.Work_PropertyChanged;
+                        e.Work.WorkEdit += _model.Work_Edit;
                     }
                 }
                 else

@@ -2,9 +2,11 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.Diagnostics;
     using System.Drawing;
     using System.IO;
     using System.Linq;
+    using System.Runtime.CompilerServices;
     using System.Windows.Forms;
     using Models;
 
@@ -106,6 +108,24 @@
         /// <param name="filePath"></param>
         /// <returns></returns>
         public static bool IsValidFilePath(this string s) => s.IndexOfAny(Path.GetInvalidPathChars()) < 0;
+
+        public static void LogException(
+            this Exception ex,
+            [CallerFilePath] string filePath = "",
+            [CallerMemberName] string memberName = "",
+            [CallerLineNumber] int lineNumber = 0)
+        {
+            Debug.WriteLine($"File Path: {filePath}");
+            Debug.WriteLine($"Member Name: {memberName}");
+            Debug.WriteLine($"Line Number: {lineNumber}");
+            while (true)
+            {
+                Debug.WriteLine("{0} - {1}", ex.GetType(), ex.Message);
+                ex = ex.InnerException;
+                if (ex == null)
+                    break;
+            }
+        }
 
         public static void ShowDialog(this Exception exception, IWin32Window owner = null) => exception.ShowDialog(owner, string.Empty);
         public static void ShowDialog(this Exception exception, string text) => exception.ShowDialog(null, text);
