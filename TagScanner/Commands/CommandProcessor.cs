@@ -2,30 +2,70 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.Drawing;
     using System.Windows.Forms;
     using Controllers;
+    using Models;
     using Views;
 
     public class CommandProcessor : Controller
     {
+        #region Constructor
+
         public CommandProcessor(LibraryFormController parent) : base(parent)
         {
             View.EditUndo.Click += EditUndo_Click;
             View.tbUndo.ButtonClick += EditUndo_Click;
+            View.tbUndo.DropDownOpening += TbUndo_DropDownOpening;
             View.EditRedo.Click += EditRedo_Click;
             View.tbRedo.ButtonClick += EditRedo_Click;
+            View.tbRedo.DropDownOpening += TbRedo_DropDownOpening;
         }
 
-        private readonly Stack<Command> RedoStack = new Stack<Command>();
+        #endregion
+
+        #region Fields
+
         private readonly Stack<Command> UndoStack = new Stack<Command>();
+        private readonly Stack<Command> RedoStack = new Stack<Command>();
 
         private int LastSave, UpdateCount;
 
-        private LibraryForm View => LibraryFormController.View;
+        #endregion
+
+        #region Properties
+
+        public bool IsModified => LastSave != UndoStack.Count;
+
         private LibraryFormController LibraryFormController => (LibraryFormController)Parent;
+        private Model Model => LibraryFormController.Model;
+        private LibraryForm View => LibraryFormController.View;
+        private List<Work> Works => Model.Works;
+
+        #endregion
+
+        #region Public Methods
+
+        public bool Run(Command command, bool spoof = false)
+        {
+            if (command == null)
+                return false;
+            if (LastSave > UndoStack.Count)
+                LastSave = -1;
+            RedoStack.Clear();
+            return Redo(command, spoof);
+        }
+
+        #endregion
+
+        #region Private Methods
 
         private void EditRedo_Click(object sender, EventArgs e) => Redo();
         private void EditUndo_Click(object sender, EventArgs e) => Undo();
+        private void TbUndo_DropDownOpening(object sender, EventArgs e) => Copy(UndoStack, View.tbUndo, UndoMultiple);
+        private void TbRedo_DropDownOpening(object sender, EventArgs e) => Copy(RedoStack, View.tbRedo, RedoMultiple);
+        private static void UndoRedoItems_MouseEnter(object sender, EventArgs e) => HighlightUndoRedoItems((ToolStripItem)sender);
+        private static void UndoRedoItems_Paint(object sender, PaintEventArgs e) => HighlightUndoRedoItems((ToolStripItem)sender);
 
         private bool CanRedo => RedoStack.Count > 0;
         private bool CanUndo => UndoStack.Count > 0;
@@ -35,17 +75,45 @@
 
         private void BeginUpdate() { ++UpdateCount; }
 
+        private void Copy(Stack<Command> source, ToolStripDropDownItem target, EventHandler handler)
+        {
+            const int MaxItems = 20;
+            var commands = source.ToArray();
+            var items = target.DropDownItems;
+            items.Clear();
+            for (int n = 0; n < Math.Min(commands.Length, MaxItems); n++)
+            {
+                var command = commands[n];
+                var item = items.Add(command.ToString(), null, handler);
+                item.Tag = command;
+                item.MouseEnter += UndoRedoItems_MouseEnter;
+                item.Paint += UndoRedoItems_Paint;
+            }
+        }
+
         private void EndUpdate()
         {
             if (--UpdateCount == 0)
                 UpdateUI();
         }
 
+        private static void HighlightUndoRedoItems(ToolStripItem activeItem)
+        {
+            if (!activeItem.Selected)
+                return;
+            var items = activeItem.GetCurrentParent().Items;
+            var index = items.IndexOf(activeItem);
+            foreach (ToolStripItem item in items)
+                item.BackColor = Color.FromKnownColor(items.IndexOf(item) <= index
+                    ? KnownColor.GradientActiveCaption
+                    : KnownColor.Control);
+        }
+
         private bool Redo() => CanRedo && Redo(RedoStack.Pop());
 
         private bool Redo(Command command, bool spoof = false)
         {
-            var result = spoof || command.Do();
+            var result = spoof || command.Do(Model);
             if (result)
             {
                 UndoStack.Push(command);
@@ -66,7 +134,7 @@
 
         private bool Undo(Command command)
         {
-            if (!command.Do())
+            if (!command.Do(Model))
                 return false;
             RedoStack.Push(command);
             UpdateUI();
@@ -97,5 +165,6 @@
             //LibraryFormController.ModifiedChanged();
         }
 
+        #endregion
     }
 }

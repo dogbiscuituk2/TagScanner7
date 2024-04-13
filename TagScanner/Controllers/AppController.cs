@@ -13,11 +13,11 @@
 
         static AppController()
         {
-            MainForm = new SplashForm();
+            SplashForm = new SplashForm();
             Controllers = new List<LibraryFormController>();
-            MainForm.FormClosing += MainForm_FormClosing;
+            SplashForm.FormClosing += MainForm_FormClosing;
             NewWindow();
-            new SplashController().Run(MainForm);
+            new SplashController().Run(SplashForm);
         }
 
         #endregion
@@ -28,7 +28,7 @@
         {
             Controllers.Remove(controller);
             if (!Controllers.Any())
-                MainForm.Close();
+                SplashForm.Close();
         }
 
         public static string GetTempFileName()
@@ -70,7 +70,7 @@
             }
         }
 
-        public static void Run() => Application.Run(MainForm);
+        public static void Run() => Application.Run(SplashForm);
 
         public static bool Shutdown()
         {
@@ -90,7 +90,7 @@
 
         #region Private Fields
 
-        private static SplashForm MainForm { get; }
+        private static SplashForm SplashForm { get; }
         private static List<LibraryFormController> Controllers { get; }
 
         #endregion

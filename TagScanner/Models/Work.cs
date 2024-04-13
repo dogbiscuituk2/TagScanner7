@@ -6,6 +6,7 @@
     using System.IO;
     using System.Linq;
     using System.Reflection;
+    using System.Runtime.CompilerServices;
     using System.Xml;
     using System.Xml.Serialization;
     using Newtonsoft.Json;
@@ -49,14 +50,14 @@
         public string Album
         {
             get => Get(_album);
-            set => Set(ref _album, value, Tag.Album);
+            set => Set(ref _album, value);
         }
 
         private string[] _albumArtists;
         public string[] AlbumArtists
         {
             get => Get(_albumArtists);
-            set => Set(ref _albumArtists, value, Tag.AlbumArtists);
+            set => Set(ref _albumArtists, value);
         }
 
         [JsonIgnore, XmlIgnore]
@@ -66,7 +67,7 @@
         public string[] AlbumArtistsSort
         {
             get => Get(_albumArtistsSort);
-            set => Set(ref _albumArtistsSort, value, Tag.AlbumArtistsSort);
+            set => Set(ref _albumArtistsSort, value);
         }
 
         public int AlbumArtistsSortCount => AlbumArtistsSort.Length;
@@ -76,7 +77,7 @@
         public string AlbumGain
         {
             get => Get(_albumGain);
-            set => Set(ref _albumGain, value, Tag.AlbumGain);
+            set => Set(ref _albumGain, value);
         }
 
         private string _albumPeak = string.Empty;
@@ -84,7 +85,7 @@
         public string AlbumPeak
         {
             get => Get(_albumPeak);
-            set => Set(ref _albumPeak, value, Tag.AlbumPeak);
+            set => Set(ref _albumPeak, value);
         }
 
         private string _albumSort = string.Empty;
@@ -92,7 +93,7 @@
         public string AlbumSort
         {
             get => Get(_albumSort);
-            set => Set(ref _albumSort, value, Tag.AlbumSort);
+            set => Set(ref _albumSort, value);
         }
 
         private string _amazonId = string.Empty;
@@ -100,14 +101,14 @@
         public string AmazonId
         {
             get => Get(_amazonId);
-            set => Set(ref _amazonId, value, Tag.AmazonId);
+            set => Set(ref _amazonId, value);
         }
 
         private string[] _artists;
         public string[] Artists
         {
             get => Get(_artists);
-            set => Set(ref _artists, value, Tag.Artists);
+            set => Set(ref _artists, value);
         }
 
         [JsonIgnore, XmlIgnore]
@@ -123,15 +124,7 @@
         public int BeatsPerMinute
         {
             get => _beatsPerMinute;
-            set
-            {
-                if (BeatsPerMinute != value)
-                {
-                    var oldValue = _beatsPerMinute;
-                    _beatsPerMinute = value;
-                    OnWorkEdit(Tag.BeatsPerMinute, oldValue, value);
-                }
-            }
+            set => Set(ref _beatsPerMinute, value);
         }
 
         [DefaultValue(0)]
@@ -145,7 +138,7 @@
         public string Codecs
         {
             get => Get(_codecs);
-            set => Set(ref _codecs, value, Tag.Codecs);
+            set => Set(ref _codecs, value);
         }
 
         private string _comment = string.Empty;
@@ -153,14 +146,14 @@
         public string Comment
         {
             get => Get(_comment);
-            set => Set(ref _comment, value, Tag.Comment);
+            set => Set(ref _comment, value);
         }
 
         private string[] _composers;
         public string[] Composers
         {
             get => Get(_composers);
-            set => Set(ref _composers, value, Tag.Composers);
+            set => Set(ref _composers, value);
         }
 
         [JsonIgnore, XmlIgnore]
@@ -170,7 +163,7 @@
         public string[] ComposersSort
         {
             get => Get(_composersSort);
-            set => Set(ref _composersSort, value, Tag.ComposersSort);
+            set => Set(ref _composersSort, value);
         }
 
         [JsonIgnore, XmlIgnore]
@@ -181,7 +174,7 @@
         public string Conductor
         {
             get => Get(_conductor);
-            set => Set(ref _conductor, value, Tag.Conductor);
+            set => Set(ref _conductor, value);
         }
 
         private string _copyright = string.Empty;
@@ -189,7 +182,7 @@
         public string Copyright
         {
             get => Get(_copyright);
-            set => Set(ref _copyright, value, Tag.Copyright);
+            set => Set(ref _copyright, value);
         }
 
         [JsonIgnore, XmlIgnore]
@@ -200,7 +193,7 @@
         public string Description
         {
             get => Get(_description);
-            set => Set(ref _description, value, Tag.Description);
+            set => Set(ref _description, value);
         }
 
         [DefaultValue(0)]
@@ -208,15 +201,7 @@
         public int DiscCount
         {
             get => _discCount;
-            set
-            {
-                if (DiscCount != value)
-                {
-                    var oldValue = _discCount;
-                    _discCount = value;
-                    OnWorkEdit(Tag.DiscCount, oldValue, value);
-                }
-            }
+            set => Set(ref _discCount, value);
         }
 
         [DefaultValue(0)]
@@ -224,15 +209,7 @@
         public int DiscNumber
         {
             get => _discNumber;
-            set
-            {
-                if (DiscNumber != value)
-                {
-                    var oldValue = _discNumber;
-                    _discNumber = value;
-                    OnWorkEdit(Tag.DiscNumber, oldValue, value);
-                }
-            }
+            set => Set(ref _discNumber, value);
         }
 
         [JsonIgnore, XmlIgnore]
@@ -305,7 +282,7 @@
         public string FirstAlbumArtist
         {
             get => Get(_firstAlbumArtist);
-            set => Set(ref _firstAlbumArtist, value, Tag.FirstAlbumArtist);
+            set => Set(ref _firstAlbumArtist, value);
         }
 
         private string _firstAlbumArtistSort = string.Empty;
@@ -313,7 +290,7 @@
         public string FirstAlbumArtistSort
         {
             get => Get(_firstAlbumArtistSort);
-            set => Set(ref _firstAlbumArtistSort, value, Tag.FirstAlbumArtistSort);
+            set => Set(ref _firstAlbumArtistSort, value);
         }
 
         private string _firstArtist = string.Empty;
@@ -321,7 +298,7 @@
         public string FirstArtist
         {
             get => Get(_firstArtist);
-            set => Set(ref _firstArtist, value, Tag.FirstArtist);
+            set => Set(ref _firstArtist, value);
         }
 
         private string _firstComposer = string.Empty;
@@ -329,7 +306,7 @@
         public string FirstComposer
         {
             get => Get(_firstComposer);
-            set => Set(ref _firstComposer, value, Tag.FirstComposer);
+            set => Set(ref _firstComposer, value);
         }
 
         private string _firstComposerSort = string.Empty;
@@ -337,7 +314,7 @@
         public string FirstComposerSort
         {
             get => Get(_firstComposerSort);
-            set => Set(ref _firstComposerSort, value, Tag.FirstComposerSort);
+            set => Set(ref _firstComposerSort, value);
         }
 
         private string _firstGenre = string.Empty;
@@ -345,7 +322,7 @@
         public string FirstGenre
         {
             get => Get(_firstGenre);
-            set => Set(ref _firstGenre, value, Tag.FirstGenre);
+            set => Set(ref _firstGenre, value);
         }
 
         private string _firstPerformer = string.Empty;
@@ -353,7 +330,7 @@
         public string FirstPerformer
         {
             get => Get(_firstPerformer);
-            set => Set(ref _firstPerformer, value, Tag.FirstPerformer);
+            set => Set(ref _firstPerformer, value);
         }
 
         private string _firstPerformerSort = string.Empty;
@@ -361,14 +338,14 @@
         public string FirstPerformerSort
         {
             get => Get(_firstPerformerSort);
-            set => Set(ref _firstPerformerSort, value, Tag.FirstPerformerSort);
+            set => Set(ref _firstPerformerSort, value);
         }
 
         private string[] _genres;
         public string[] Genres
         {
             get => Get(_genres);
-            set => Set(ref _genres, value, Tag.Genres);
+            set => Set(ref _genres, value);
         }
 
         [JsonIgnore, XmlIgnore]
@@ -379,7 +356,7 @@
         public string Grouping
         {
             get => Get(_grouping);
-            set => Set(ref _grouping, value, Tag.Grouping);
+            set => Set(ref _grouping, value);
         }
 
         [DefaultValue(0.0D)] public double ImageAltitude { get; set; }
@@ -389,7 +366,7 @@
         public string ImageCreator
         {
             get => Get(_imageCreator);
-            set => Set(ref _imageCreator, value, Tag.ImageCreator);
+            set => Set(ref _imageCreator, value);
         }
 
         public DateTime ImageDateTime { get; set; }
@@ -404,7 +381,7 @@
         public string[] ImageKeywords
         {
             get => Get(_imageKeywords);
-            set => Set(ref _imageKeywords, value, Tag.ImageKeywords);
+            set => Set(ref _imageKeywords, value);
         }
 
         [DefaultValue(0.0D)] public double ImageLatitude { get; set; }
@@ -415,7 +392,7 @@
         public string ImageMake
         {
             get => Get(_imageMake);
-            set => Set(ref _imageMake, value, Tag.ImageMake);
+            set => Set(ref _imageMake, value);
         }
 
         private string _imageModel = string.Empty;
@@ -423,7 +400,7 @@
         public string ImageModel
         {
             get => Get(_imageModel);
-            set => Set(ref _imageModel, value, Tag.ImageModel);
+            set => Set(ref _imageModel, value);
         }
 
         [DefaultValue(TagLib.Image.ImageOrientation.None)]
@@ -436,7 +413,7 @@
         public string ImageSoftware
         {
             get => Get(_imageSoftware);
-            set => Set(ref _imageSoftware, value, Tag.ImageSoftware);
+            set => Set(ref _imageSoftware, value);
         }
 
         public long InvariantEndPosition { get; set; }
@@ -453,7 +430,7 @@
         public string JoinedAlbumArtists
         {
             get => Get(_joinedAlbumArtists);
-            set => Set(ref _joinedAlbumArtists, value, Tag.JoinedAlbumArtists);
+            set => Set(ref _joinedAlbumArtists, value);
         }
 
         private string _joinedArtists = string.Empty;
@@ -461,7 +438,7 @@
         public string JoinedArtists
         {
             get => Get(_joinedArtists);
-            set => Set(ref _joinedArtists, value, Tag.JoinedArtists);
+            set => Set(ref _joinedArtists, value);
         }
 
         private string _joinedComposers = string.Empty;
@@ -469,7 +446,7 @@
         public string JoinedComposers
         {
             get => Get(_joinedComposers);
-            set => Set(ref _joinedComposers, value, Tag.JoinedComposers);
+            set => Set(ref _joinedComposers, value);
         }
 
         private string _joinedGenres = string.Empty;
@@ -477,7 +454,7 @@
         public string JoinedGenres
         {
             get => Get(_joinedGenres);
-            set => Set(ref _joinedGenres, value, Tag.JoinedGenres);
+            set => Set(ref _joinedGenres, value);
         }
 
         private string _joinedPerformers = string.Empty;
@@ -485,7 +462,7 @@
         public string JoinedPerformers
         {
             get => Get(_joinedPerformers);
-            set => Set(ref _joinedPerformers, value, Tag.JoinedPerformers);
+            set => Set(ref _joinedPerformers, value);
         }
 
         private string _joinedPerformersSort = string.Empty;
@@ -493,7 +470,7 @@
         public string JoinedPerformersSort
         {
             get => Get(_joinedPerformersSort);
-            set => Set(ref _joinedPerformersSort, value, Tag.JoinedPerformersSort);
+            set => Set(ref _joinedPerformersSort, value);
         }
 
         private string _lyrics = string.Empty;
@@ -501,7 +478,7 @@
         public string Lyrics
         {
             get => Get(_lyrics);
-            set => Set(ref _lyrics, value, Tag.Lyrics);
+            set => Set(ref _lyrics, value);
         }
 
         public TagLib.MediaTypes MediaTypes { get; set; }
@@ -514,7 +491,7 @@
         public string MimeType
         {
             get => Get(_mimeType);
-            set => Set(ref _mimeType, value, Tag.MimeType);
+            set => Set(ref _mimeType, value);
         }
 
         private string _musicBrainzArtistId = string.Empty;
@@ -522,7 +499,7 @@
         public string MusicBrainzArtistId
         {
             get => Get(_musicBrainzArtistId);
-            set => Set(ref _musicBrainzArtistId, value, Tag.MusicBrainzArtistId);
+            set => Set(ref _musicBrainzArtistId, value);
         }
 
         private string _musicBrainzDiscId = string.Empty;
@@ -530,7 +507,7 @@
         public string MusicBrainzDiscId
         {
             get => Get(_musicBrainzDiscId);
-            set => Set(ref _musicBrainzDiscId, value, Tag.MusicBrainzDiscId);
+            set => Set(ref _musicBrainzDiscId, value);
         }
 
         private string _musicBrainzReleaseArtistId = string.Empty;
@@ -538,7 +515,7 @@
         public string MusicBrainzReleaseArtistId
         {
             get => Get(_musicBrainzReleaseArtistId);
-            set => Set(ref _musicBrainzReleaseArtistId, value, Tag.MusicBrainzReleaseArtistId);
+            set => Set(ref _musicBrainzReleaseArtistId, value);
         }
 
         private string _musicBrainzReleaseCountry = string.Empty;
@@ -546,7 +523,7 @@
         public string MusicBrainzReleaseCountry
         {
             get => Get(_musicBrainzReleaseCountry);
-            set => Set(ref _musicBrainzReleaseCountry, value, Tag.MusicBrainzReleaseCountry);
+            set => Set(ref _musicBrainzReleaseCountry, value);
         }
 
         private string _musicBrainzReleaseId = string.Empty;
@@ -554,7 +531,7 @@
         public string MusicBrainzReleaseId
         {
             get => Get(_musicBrainzReleaseId);
-            set => Set(ref _musicBrainzReleaseId, value, Tag.MusicBrainzReleaseId);
+            set => Set(ref _musicBrainzReleaseId, value);
         }
 
         private string _musicBrainzReleaseStatus = string.Empty;
@@ -562,7 +539,7 @@
         public string MusicBrainzReleaseStatus
         {
             get => Get(_musicBrainzReleaseStatus);
-            set => Set(ref _musicBrainzReleaseStatus, value, Tag.MusicBrainzReleaseStatus);
+            set => Set(ref _musicBrainzReleaseStatus, value);
         }
 
         private string _musicBrainzReleaseType = string.Empty;
@@ -570,7 +547,7 @@
         public string MusicBrainzReleaseType
         {
             get => Get(_musicBrainzReleaseType);
-            set => Set(ref _musicBrainzReleaseType, value, Tag.MusicBrainzReleaseType);
+            set => Set(ref _musicBrainzReleaseType, value);
         }
 
         private string _musicBrainzTrackId = string.Empty;
@@ -578,7 +555,7 @@
         public string MusicBrainzTrackId
         {
             get => Get(_musicBrainzTrackId);
-            set => Set(ref _musicBrainzTrackId, value, Tag.MusicBrainzTrackId);
+            set => Set(ref _musicBrainzTrackId, value);
         }
 
         private string _musicIpId = string.Empty;
@@ -586,7 +563,7 @@
         public string MusicIpId
         {
             get => Get(_musicIpId);
-            set => Set(ref _musicIpId, value, Tag.MusicIpId);
+            set => Set(ref _musicIpId, value);
         }
 
         public string Name { get; set; }
@@ -595,7 +572,7 @@
         public string[] Performers
         {
             get => Get(_performers);
-            set => Set(ref _performers, value, Tag.Performers);
+            set => Set(ref _performers, value);
         }
 
         [JsonIgnore, XmlIgnore]
@@ -605,7 +582,7 @@
         public string[] PerformersSort
         {
             get => Get(_performersSort);
-            set => Set(ref _performersSort, value, Tag.PerformersSort);
+            set => Set(ref _performersSort, value);
         }
 
         [JsonIgnore, XmlIgnore]
@@ -619,7 +596,7 @@
         public Picture[] Pictures
         {
             get => Get(_pictures);
-            set => Set(ref _pictures, value, Tag.Pictures);
+            set => Set(ref _pictures, value);
         }
 
         [NonSerialized]
@@ -638,7 +615,7 @@
         public string Title
         {
             get => Get(_title);
-            set => Set(ref _title, value, Tag.Title);
+            set => Set(ref _title, value);
         }
 
         private string _titleSort = string.Empty;
@@ -646,7 +623,7 @@
         public string TitleSort
         {
             get => Get(_titleSort);
-            set => Set(ref _titleSort, value, Tag.TitleSort);
+            set => Set(ref _titleSort, value);
         }
 
         private int _trackCount;
@@ -654,15 +631,7 @@
         public int TrackCount
         {
             get => _trackCount;
-            set
-            {
-                if (TrackCount != value)
-                {
-                    var oldValue = _trackCount;
-                    _trackCount = value;
-                    OnWorkEdit(Tag.TrackCount, oldValue, value);
-                }
-            }
+            set => Set(ref _trackCount, value);
         }
 
         private string _trackGain = string.Empty;
@@ -670,7 +639,7 @@
         public string TrackGain
         {
             get => Get(_trackGain);
-            set => Set(ref _trackGain, value, Tag.TrackGain);
+            set => Set(ref _trackGain, value);
         }
 
         private int _trackNumber;
@@ -678,15 +647,7 @@
         public int TrackNumber
         {
             get => _trackNumber;
-            set
-            {
-                if (TrackNumber != value)
-                {
-                    var oldValue = _trackNumber;
-                    _trackNumber = value;
-                    OnWorkEdit(Tag.TrackNumber, oldValue, value);
-                }
-            }
+            set => Set(ref _trackNumber, value);
         }
 
         [JsonIgnore, XmlIgnore]
@@ -697,7 +658,7 @@
         public string TrackPeak
         {
             get => Get(_trackPeak);
-            set => Set(ref _trackPeak, value, Tag.TrackPeak);
+            set => Set(ref _trackPeak, value);
         }
 
         [DefaultValue(0)] public int VideoHeight { get; set; }
@@ -708,15 +669,7 @@
         public int Year
         {
             get => _year;
-            set
-            {
-                if (Year != value)
-                {
-                    var oldValue = _year;
-                    _year = value;
-                    OnWorkEdit(Tag.Year, oldValue, value);
-                }
-            }
+            set => Set(ref _year, value);
         }
 
         [JsonIgnore, XmlIgnore]
@@ -724,19 +677,22 @@
 
         #endregion
 
-        [field: NonSerialized]
-        public event EventHandler<WorkEditEventArgs> WorkEdit;
+        #region Events
 
-        #region Methods
+        [field: NonSerialized] public event EventHandler<WorkEditEventArgs> WorkEdit;
+
+        #endregion
+
+        #region Public Methods
 
         public object GetPropertyValue(Tag tag) => GetPropertyInfo(tag).GetValue(this);
         public void SetPropertyValue(Tag tag, object value) => GetPropertyInfo(tag).SetValue(this, value);
 
         public void Load()
         {
-            ReadMetadata();
+            ReadFileMetadata();
             using (var file = GetTagLibFile())
-                ReadFile(file);
+                ReadTagFile(file);
             IsModified = false;
         }
 
@@ -758,49 +714,11 @@
 
         #region Private Methods
 
-        private string Get(string field) => field ?? string.Empty;
-
-        private T[] Get<T>(T[] field) => field ?? Array.Empty<T>();
-
-        private static PropertyInfo GetPropertyInfo(Tag tag) => typeof(Work).GetProperty($"{tag}");
+        #region Read / Write Tag File
 
         private TagLib.File GetTagLibFile() => TagLib.File.Create(FilePath);
 
-        private static string NumberOfTotal(int number, int total, int digits)
-        {
-            number = Math.Max(number, 1);
-            total = Math.Max(number, total);
-            digits = Math.Max(digits, total.ToString().Length);
-            return string.Format($"{{0:D{digits}}}/{{1:D{digits}}}", number, total);
-        }
-
-        private void OnWorkEdit(Tag tag, object oldValue, object newValue)
-        {
-            var workEdit = WorkEdit;
-            if (workEdit == null) // Are we just now streaming input, using XML?
-                return; // Yes: then relax, property accessors should have no side effects.
-            workEdit.Invoke(this, new WorkEditEventArgs(tag, oldValue, newValue));
-            workEdit.Invoke(this, new WorkEditEventArgs(Tag.FileStatus));
-            foreach (var dependency in tag.GetDependencies())
-                workEdit.Invoke(this, new WorkEditEventArgs(tag));
-        }
-
-        private void ReadFile(TagLib.File file)
-        {
-            if (file == null)
-                return;
-            InvariantEndPosition = file.InvariantEndPosition;
-            InvariantStartPosition = file.InvariantStartPosition;
-            MimeType = file.MimeType;
-            Name = file.Name;
-            _possiblyCorrupt = file.PossiblyCorrupt;
-            TagTypes = file.TagTypes;
-            TagTypesOnDisk = file.TagTypesOnDisk;
-            ReadProperties(file.Properties);
-            ReadTag(file.Tag);
-        }
-
-        private void ReadMetadata()
+        private void ReadFileMetadata()
         {
             FileSize = new FileInfo(FilePath).Length;
             FileAttributes = File.GetAttributes(FilePath).ToString();
@@ -810,28 +728,6 @@
             FileCreationTimeUtc = File.GetCreationTimeUtc(FilePath);
             FileLastWriteTimeUtc = File.GetLastWriteTimeUtc(FilePath);
             FileLastAccessTimeUtc = File.GetLastAccessTimeUtc(FilePath);
-        }
-
-        private void ReadProperties(TagLib.Properties properties)
-        {
-            if (properties == null)
-                return;
-            AudioBitrate = properties.AudioBitrate;
-            AudioChannels = properties.AudioChannels;
-            AudioSampleRate = properties.AudioSampleRate;
-            BitsPerSample = properties.BitsPerSample;
-            Codecs = properties.Codecs
-                .Where(c => c != null)
-                .Select(c => $"{c.MediaTypes} ({c.Description} - {c.Duration:g})")
-                .Aggregate((s, t) => s + "; " + t);
-            Description = properties.Description;
-            Duration = properties.Duration;
-            MediaTypes = properties.MediaTypes; // 0 = None, 1 = Audio, 2 = Video, 4 = Photo, 8 = Text.
-            PhotoHeight = properties.PhotoHeight;
-            PhotoQuality = properties.PhotoQuality;
-            PhotoWidth = properties.PhotoWidth;
-            VideoHeight = properties.VideoHeight;
-            VideoWidth = properties.VideoWidth;
         }
 
         private void ReadTag(TagLib.Tag tag)
@@ -908,6 +804,21 @@
                 ReadTagImageData(imageTag);
         }
 
+        private void ReadTagFile(TagLib.File file)
+        {
+            if (file == null)
+                return;
+            InvariantEndPosition = file.InvariantEndPosition;
+            InvariantStartPosition = file.InvariantStartPosition;
+            MimeType = file.MimeType;
+            Name = file.Name;
+            _possiblyCorrupt = file.PossiblyCorrupt;
+            TagTypes = file.TagTypes;
+            TagTypesOnDisk = file.TagTypesOnDisk;
+            ReadTagProperties(file.Properties);
+            ReadTag(file.Tag);
+        }
+
         private void ReadTagImageData(TagLib.Image.ImageTag tag)
         {
             ImageAltitude = tag.Altitude ?? 0;
@@ -928,6 +839,28 @@
             ImageSoftware = tag.Software;
         }
 
+        private void ReadTagProperties(TagLib.Properties properties)
+        {
+            if (properties == null)
+                return;
+            AudioBitrate = properties.AudioBitrate;
+            AudioChannels = properties.AudioChannels;
+            AudioSampleRate = properties.AudioSampleRate;
+            BitsPerSample = properties.BitsPerSample;
+            Codecs = properties.Codecs
+                .Where(c => c != null)
+                .Select(c => $"{c.MediaTypes} ({c.Description} - {c.Duration:g})")
+                .Aggregate((s, t) => s + "; " + t);
+            Description = properties.Description;
+            Duration = properties.Duration;
+            MediaTypes = properties.MediaTypes; // 0 = None, 1 = Audio, 2 = Video, 4 = Photo, 8 = Text.
+            PhotoHeight = properties.PhotoHeight;
+            PhotoQuality = properties.PhotoQuality;
+            PhotoWidth = properties.PhotoWidth;
+            VideoHeight = properties.VideoHeight;
+            VideoWidth = properties.VideoWidth;
+        }
+
         private void ReadTagUserText(TagLib.CombinedTag tag)
         {
             var id3v2Tag = tag.Tags.OfType<TagLib.Id3v2.Tag>().FirstOrDefault();
@@ -940,31 +873,6 @@
         {
             foreach (var frame in tag)
                 SetUserValue(frame.Name, frame.ToString());
-        }
-
-        private static bool SequenceEqual<T>(IEnumerable<T> x, IEnumerable<T> y) =>
-            x != null ? y != null && x.SequenceEqual(y) : y == null;
-
-        private void Set<T>(ref T field, T value, Tag tag) => Set(ref field, value, tag, !Equals(field, value));
-        private void Set<T>(ref T[] field, T[] value, Tag tag) => Set(ref field, value, tag, !SequenceEqual(field, value));
-
-        private void Set<T>(ref T field, T value, Tag tag, bool condition)
-        {
-            if (!condition) return;
-            var oldValue = field;
-            field = value;
-            OnWorkEdit(tag, oldValue, value);
-        }
-
-        private void SetUserValue(string name, string value)
-        {
-            switch (name)
-            {
-                case "replaygain_album_gain": AlbumGain = value; break;
-                case "replaygain_album_peak": AlbumPeak = value; break;
-                case "replaygain_track_gain": TrackGain = value; break;
-                case "replaygain_track_peak": TrackPeak = value; break;
-            }
         }
 
         private void WriteTag(TagLib.Tag tag)
@@ -1029,6 +937,60 @@
             imageTag.Rating = (uint)ImageRating;
             imageTag.Software = ImageSoftware;
         }
+
+        #endregion
+
+        #region Get / Set Property Values
+
+        private string Get(string field) => field ?? string.Empty;
+        private T[] Get<T>(T[] field) => field ?? Array.Empty<T>();
+        private static PropertyInfo GetPropertyInfo(Tag tag) => typeof(Work).GetProperty($"{tag}");
+
+        private void Set<T>(ref T field, T value, [CallerMemberName] string tag = "") => Set(ref field, value, tag, !Equals(field, value));
+        private void Set<T>(ref T[] field, T[] value, [CallerMemberName] string tag = "") => Set(ref field, value, tag, !SequenceEqual(field, value));
+
+        private void Set<T>(ref T field, T value, string tag, bool condition)
+        {
+            if (!condition) return;
+            var oldValue = field;
+            field = value;
+            OnWorkEdit((Tag)Enum.Parse(typeof(Tag), tag), oldValue, value);
+        }
+
+        private void SetUserValue(string name, string value)
+        {
+            switch (name)
+            {
+                case "replaygain_album_gain": AlbumGain = value; break;
+                case "replaygain_album_peak": AlbumPeak = value; break;
+                case "replaygain_track_gain": TrackGain = value; break;
+                case "replaygain_track_peak": TrackPeak = value; break;
+            }
+        }
+
+        #endregion
+
+        private static string NumberOfTotal(int number, int total, int digits)
+        {
+            number = Math.Max(number, 1);
+            total = Math.Max(number, total);
+            digits = Math.Max(digits, total.ToString().Length);
+            return string.Format($"{{0:D{digits}}}/{{1:D{digits}}}", number, total);
+        }
+
+        private void OnWorkEdit(Tag tag, object oldValue, object newValue)
+        {
+            var workEdit = WorkEdit;
+            if (workEdit == null) // Are we just now streaming input, using XML?
+                return; // Yes: then relax, property accessors should have no side effects.
+            workEdit.Invoke(this, new WorkEditEventArgs(tag, oldValue, newValue));
+            workEdit.Invoke(this, new WorkEditEventArgs(Tag.FileStatus));
+            foreach (var dependency in tag.GetDependencies())
+                workEdit.Invoke(this, new WorkEditEventArgs(tag));
+        }
+
+        private static bool SequenceEqual<T>(IEnumerable<T> x, IEnumerable<T> y) =>
+            x != null ? y != null && x.SequenceEqual(y) : y == null;
 
         #endregion
     }
