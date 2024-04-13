@@ -27,6 +27,7 @@
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(LibraryForm));
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
+            this.splitContainer4 = new System.Windows.Forms.SplitContainer();
             this.GridElementHost = new System.Windows.Forms.Integration.ElementHost();
             this.GridPopupMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.GridPopupPlay = new System.Windows.Forms.ToolStripMenuItem();
@@ -35,6 +36,7 @@
             this.GridPopupMoreActions = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem6 = new System.Windows.Forms.ToolStripSeparator();
             this.GridPopupTags = new System.Windows.Forms.ToolStripMenuItem();
+            this.DataGridView = new System.Windows.Forms.DataGridView();
             this.FilterGroupBox = new System.Windows.Forms.GroupBox();
             this.FilterComboBox = new System.Windows.Forms.ComboBox();
             this.CaseSensitiveCheckBox = new System.Windows.Forms.CheckBox();
@@ -131,7 +133,12 @@
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
             this.splitContainer1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer4)).BeginInit();
+            this.splitContainer4.Panel1.SuspendLayout();
+            this.splitContainer4.Panel2.SuspendLayout();
+            this.splitContainer4.SuspendLayout();
             this.GridPopupMenu.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.DataGridView)).BeginInit();
             this.FilterGroupBox.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer2)).BeginInit();
             this.splitContainer2.Panel1.SuspendLayout();
@@ -160,7 +167,7 @@
             // 
             // splitContainer1.Panel1
             // 
-            this.splitContainer1.Panel1.Controls.Add(this.GridElementHost);
+            this.splitContainer1.Panel1.Controls.Add(this.splitContainer4);
             this.splitContainer1.Panel1.Controls.Add(this.FilterGroupBox);
             this.splitContainer1.Panel1.Padding = new System.Windows.Forms.Padding(4, 0, 0, 0);
             // 
@@ -172,14 +179,32 @@
             this.splitContainer1.SplitterWidth = 5;
             this.splitContainer1.TabIndex = 7;
             // 
+            // splitContainer4
+            // 
+            this.splitContainer4.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.splitContainer4.Location = new System.Drawing.Point(4, 0);
+            this.splitContainer4.Name = "splitContainer4";
+            this.splitContainer4.Orientation = System.Windows.Forms.Orientation.Horizontal;
+            // 
+            // splitContainer4.Panel1
+            // 
+            this.splitContainer4.Panel1.Controls.Add(this.GridElementHost);
+            // 
+            // splitContainer4.Panel2
+            // 
+            this.splitContainer4.Panel2.Controls.Add(this.DataGridView);
+            this.splitContainer4.Size = new System.Drawing.Size(406, 346);
+            this.splitContainer4.SplitterDistance = 173;
+            this.splitContainer4.TabIndex = 2;
+            // 
             // GridElementHost
             // 
             this.GridElementHost.ContextMenuStrip = this.GridPopupMenu;
             this.GridElementHost.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.GridElementHost.Location = new System.Drawing.Point(4, 0);
+            this.GridElementHost.Location = new System.Drawing.Point(0, 0);
             this.GridElementHost.Margin = new System.Windows.Forms.Padding(0);
             this.GridElementHost.Name = "GridElementHost";
-            this.GridElementHost.Size = new System.Drawing.Size(406, 346);
+            this.GridElementHost.Size = new System.Drawing.Size(406, 173);
             this.GridElementHost.TabIndex = 0;
             this.GridElementHost.Text = "GridContainerHost";
             this.GridElementHost.Child = null;
@@ -231,6 +256,15 @@
             this.GridPopupTags.Name = "GridPopupTags";
             this.GridPopupTags.Size = new System.Drawing.Size(165, 22);
             this.GridPopupTags.Text = "Select &Columns...";
+            // 
+            // DataGridView1
+            // 
+            this.DataGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.DataGridView.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.DataGridView.Location = new System.Drawing.Point(0, 0);
+            this.DataGridView.Name = "DataGridView";
+            this.DataGridView.Size = new System.Drawing.Size(406, 169);
+            this.DataGridView.TabIndex = 0;
             // 
             // FilterGroupBox
             // 
@@ -664,24 +698,24 @@
             // AddMedia
             // 
             this.AddMedia.Name = "AddMedia";
-            this.AddMedia.Size = new System.Drawing.Size(180, 22);
+            this.AddMedia.Size = new System.Drawing.Size(146, 22);
             this.AddMedia.Text = "&Media...";
             // 
             // AddFolder
             // 
             this.AddFolder.Name = "AddFolder";
-            this.AddFolder.Size = new System.Drawing.Size(180, 22);
+            this.AddFolder.Size = new System.Drawing.Size(146, 22);
             this.AddFolder.Text = "&Folder...";
             // 
             // toolStripMenuItem3
             // 
             this.toolStripMenuItem3.Name = "toolStripMenuItem3";
-            this.toolStripMenuItem3.Size = new System.Drawing.Size(177, 6);
+            this.toolStripMenuItem3.Size = new System.Drawing.Size(143, 6);
             // 
             // AddRecentFolder
             // 
             this.AddRecentFolder.Name = "AddRecentFolder";
-            this.AddRecentFolder.Size = new System.Drawing.Size(180, 22);
+            this.AddRecentFolder.Size = new System.Drawing.Size(146, 22);
             this.AddRecentFolder.Text = "&Recent Folder";
             // 
             // ViewMenu
@@ -1015,24 +1049,24 @@
             // tbAddMedia
             // 
             this.tbAddMedia.Name = "tbAddMedia";
-            this.tbAddMedia.Size = new System.Drawing.Size(180, 22);
+            this.tbAddMedia.Size = new System.Drawing.Size(171, 22);
             this.tbAddMedia.Text = "Add Media...";
             // 
             // tbAddFolder
             // 
             this.tbAddFolder.Name = "tbAddFolder";
-            this.tbAddFolder.Size = new System.Drawing.Size(180, 22);
+            this.tbAddFolder.Size = new System.Drawing.Size(171, 22);
             this.tbAddFolder.Text = "Add Folder...";
             // 
             // toolStripMenuItem12
             // 
             this.toolStripMenuItem12.Name = "toolStripMenuItem12";
-            this.toolStripMenuItem12.Size = new System.Drawing.Size(177, 6);
+            this.toolStripMenuItem12.Size = new System.Drawing.Size(168, 6);
             // 
             // tbAddRecentFolder
             // 
             this.tbAddRecentFolder.Name = "tbAddRecentFolder";
-            this.tbAddRecentFolder.Size = new System.Drawing.Size(180, 22);
+            this.tbAddRecentFolder.Size = new System.Drawing.Size(171, 22);
             this.tbAddRecentFolder.Text = "Add Recent Folder";
             // 
             // LibraryForm
@@ -1055,7 +1089,12 @@
             this.splitContainer1.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
             this.splitContainer1.ResumeLayout(false);
+            this.splitContainer4.Panel1.ResumeLayout(false);
+            this.splitContainer4.Panel2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer4)).EndInit();
+            this.splitContainer4.ResumeLayout(false);
             this.GridPopupMenu.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.DataGridView)).EndInit();
             this.FilterGroupBox.ResumeLayout(false);
             this.FilterGroupBox.PerformLayout();
             this.splitContainer2.Panel1.ResumeLayout(false);
@@ -1182,9 +1221,11 @@
         public System.Windows.Forms.ToolStripMenuItem tbAddMedia;
         public System.Windows.Forms.ToolStripMenuItem tbAddFolder;
         public System.Windows.Forms.ToolStripMenuItem tbAddRecentFolder;
-        private System.ComponentModel.IContainer components;
-        private System.Windows.Forms.ToolStripSeparator toolStripSeparator3;
-        private System.Windows.Forms.ToolStripSeparator toolStripMenuItem12;
+        public System.ComponentModel.IContainer components;
+        public System.Windows.Forms.ToolStripSeparator toolStripSeparator3;
+        public System.Windows.Forms.ToolStripSeparator toolStripMenuItem12;
+        public System.Windows.Forms.SplitContainer splitContainer4;
+        public System.Windows.Forms.DataGridView DataGridView;
     }
 }
 

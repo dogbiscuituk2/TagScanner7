@@ -24,8 +24,12 @@
             Model = new Model();
             Model.ModifiedChanged += Model_ModifiedChanged;
             Model.WorkEdit += Model_WorkEdit;
+
             LibraryGridController = new LibraryGridController(this, Model, View.GridElementHost);
             LibraryGridController.SelectionChanged += LibraryGridController_SelectionChanged;
+
+            DataGridController = new DataGridController(this, Model, View.DataGridView);
+
             StatusController = new StatusController(Model, View.StatusBar);
             PersistenceController = new MruLibraryController(Model, View.FileReopen, View);
             PersistenceController.FilePathChanged += PersistenceController_FilePathChanged;
@@ -129,7 +133,10 @@
         #region Fields
 
         public readonly Model Model;
+
+        public readonly DataGridController DataGridController;
         public readonly LibraryGridController LibraryGridController;
+
         public readonly MruMediaController MediaController;
         public readonly MruLibraryController PersistenceController;
         public readonly PictureController PictureController;
