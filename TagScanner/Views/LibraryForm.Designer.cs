@@ -129,6 +129,117 @@
             this.tbAddFolder = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem12 = new System.Windows.Forms.ToolStripSeparator();
             this.tbAddRecentFolder = new System.Windows.Forms.ToolStripMenuItem();
+            this.modelBindingSource = new System.Windows.Forms.BindingSource(this.components);
+            this.worksBindingSource = new System.Windows.Forms.BindingSource(this.components);
+            this.albumDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.albumArtistsCountDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.albumArtistsSortCountDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.albumGainDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.albumPeakDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.albumSortDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.amazonIdDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.artistsCountDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.audioBitrateDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.audioChannelsDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.audioSampleRateDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.beatsPerMinuteDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.bitsPerSampleDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.centuryDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.codecsDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.commentDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.composersCountDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.composersSortCountDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.conductorDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.copyrightDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.decadeDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.descriptionDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.discCountDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.discNumberDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.discOfDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.discTrackDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.durationDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.fileAttributesDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.fileCreationTimeDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.fileCreationTimeUtcDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.fileExtensionDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.fileLastAccessTimeDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.fileLastAccessTimeUtcDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.fileLastWriteTimeDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.fileLastWriteTimeUtcDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.fileNameDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.fileNameWithoutExtensionDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.filePathDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.fileSizeDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.fileStatusDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.firstAlbumArtistDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.firstAlbumArtistSortDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.firstArtistDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.firstComposerDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.firstComposerSortDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.firstGenreDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.firstPerformerDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.firstPerformerSortDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.genresCountDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.groupingDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.imageAltitudeDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.imageCreatorDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.imageDateTimeDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.imageExposureTimeDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.imageFNumberDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.imageFocalLengthDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.imageFocalLengthIn35mmFilmDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.imageISOSpeedRatingsDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.imageLatitudeDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.imageLongitudeDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.imageMakeDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.imageModelDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.imageOrientationDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.imageRatingDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.imageSoftwareDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.invariantEndPositionDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.invariantStartPositionDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.isClassicalDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.isEmptyDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.joinedAlbumArtistsDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.joinedArtistsDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.joinedComposersDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.joinedGenresDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.joinedPerformersDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.joinedPerformersSortDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.lyricsDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.mediaTypesDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.millenniumDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.mimeTypeDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.musicBrainzArtistIdDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.musicBrainzDiscIdDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.musicBrainzReleaseArtistIdDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.musicBrainzReleaseCountryDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.musicBrainzReleaseIdDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.musicBrainzReleaseStatusDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.musicBrainzReleaseTypeDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.musicBrainzTrackIdDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.musicIpIdDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.nameDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.performersCountDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.performersSortCountDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.photoHeightDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.photoQualityDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.photoWidthDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.picturesCountDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.possiblyCorruptDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.tagTypesDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.tagTypesOnDiskDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.titleDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.titleSortDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.trackCountDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.trackGainDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.trackNumberDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.trackOfDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.trackPeakDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.videoHeightDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.videoWidthDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.yearDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.yearAlbumDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -156,6 +267,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.MediaPlayer)).BeginInit();
             this.MainMenu.SuspendLayout();
             this.toolStrip1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.modelBindingSource)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.worksBindingSource)).BeginInit();
             this.SuspendLayout();
             // 
             // splitContainer1
@@ -257,9 +370,121 @@
             this.GridPopupTags.Size = new System.Drawing.Size(165, 22);
             this.GridPopupTags.Text = "Select &Columns...";
             // 
-            // DataGridView1
+            // DataGridView
             // 
+            this.DataGridView.AutoGenerateColumns = false;
             this.DataGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.DataGridView.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.albumDataGridViewTextBoxColumn,
+            this.albumArtistsCountDataGridViewTextBoxColumn,
+            this.albumArtistsSortCountDataGridViewTextBoxColumn,
+            this.albumGainDataGridViewTextBoxColumn,
+            this.albumPeakDataGridViewTextBoxColumn,
+            this.albumSortDataGridViewTextBoxColumn,
+            this.amazonIdDataGridViewTextBoxColumn,
+            this.artistsCountDataGridViewTextBoxColumn,
+            this.audioBitrateDataGridViewTextBoxColumn,
+            this.audioChannelsDataGridViewTextBoxColumn,
+            this.audioSampleRateDataGridViewTextBoxColumn,
+            this.beatsPerMinuteDataGridViewTextBoxColumn,
+            this.bitsPerSampleDataGridViewTextBoxColumn,
+            this.centuryDataGridViewTextBoxColumn,
+            this.codecsDataGridViewTextBoxColumn,
+            this.commentDataGridViewTextBoxColumn,
+            this.composersCountDataGridViewTextBoxColumn,
+            this.composersSortCountDataGridViewTextBoxColumn,
+            this.conductorDataGridViewTextBoxColumn,
+            this.copyrightDataGridViewTextBoxColumn,
+            this.decadeDataGridViewTextBoxColumn,
+            this.descriptionDataGridViewTextBoxColumn,
+            this.discCountDataGridViewTextBoxColumn,
+            this.discNumberDataGridViewTextBoxColumn,
+            this.discOfDataGridViewTextBoxColumn,
+            this.discTrackDataGridViewTextBoxColumn,
+            this.durationDataGridViewTextBoxColumn,
+            this.fileAttributesDataGridViewTextBoxColumn,
+            this.fileCreationTimeDataGridViewTextBoxColumn,
+            this.fileCreationTimeUtcDataGridViewTextBoxColumn,
+            this.fileExtensionDataGridViewTextBoxColumn,
+            this.fileLastAccessTimeDataGridViewTextBoxColumn,
+            this.fileLastAccessTimeUtcDataGridViewTextBoxColumn,
+            this.fileLastWriteTimeDataGridViewTextBoxColumn,
+            this.fileLastWriteTimeUtcDataGridViewTextBoxColumn,
+            this.fileNameDataGridViewTextBoxColumn,
+            this.fileNameWithoutExtensionDataGridViewTextBoxColumn,
+            this.filePathDataGridViewTextBoxColumn,
+            this.fileSizeDataGridViewTextBoxColumn,
+            this.fileStatusDataGridViewTextBoxColumn,
+            this.firstAlbumArtistDataGridViewTextBoxColumn,
+            this.firstAlbumArtistSortDataGridViewTextBoxColumn,
+            this.firstArtistDataGridViewTextBoxColumn,
+            this.firstComposerDataGridViewTextBoxColumn,
+            this.firstComposerSortDataGridViewTextBoxColumn,
+            this.firstGenreDataGridViewTextBoxColumn,
+            this.firstPerformerDataGridViewTextBoxColumn,
+            this.firstPerformerSortDataGridViewTextBoxColumn,
+            this.genresCountDataGridViewTextBoxColumn,
+            this.groupingDataGridViewTextBoxColumn,
+            this.imageAltitudeDataGridViewTextBoxColumn,
+            this.imageCreatorDataGridViewTextBoxColumn,
+            this.imageDateTimeDataGridViewTextBoxColumn,
+            this.imageExposureTimeDataGridViewTextBoxColumn,
+            this.imageFNumberDataGridViewTextBoxColumn,
+            this.imageFocalLengthDataGridViewTextBoxColumn,
+            this.imageFocalLengthIn35mmFilmDataGridViewTextBoxColumn,
+            this.imageISOSpeedRatingsDataGridViewTextBoxColumn,
+            this.imageLatitudeDataGridViewTextBoxColumn,
+            this.imageLongitudeDataGridViewTextBoxColumn,
+            this.imageMakeDataGridViewTextBoxColumn,
+            this.imageModelDataGridViewTextBoxColumn,
+            this.imageOrientationDataGridViewTextBoxColumn,
+            this.imageRatingDataGridViewTextBoxColumn,
+            this.imageSoftwareDataGridViewTextBoxColumn,
+            this.invariantEndPositionDataGridViewTextBoxColumn,
+            this.invariantStartPositionDataGridViewTextBoxColumn,
+            this.isClassicalDataGridViewTextBoxColumn,
+            this.isEmptyDataGridViewTextBoxColumn,
+            this.joinedAlbumArtistsDataGridViewTextBoxColumn,
+            this.joinedArtistsDataGridViewTextBoxColumn,
+            this.joinedComposersDataGridViewTextBoxColumn,
+            this.joinedGenresDataGridViewTextBoxColumn,
+            this.joinedPerformersDataGridViewTextBoxColumn,
+            this.joinedPerformersSortDataGridViewTextBoxColumn,
+            this.lyricsDataGridViewTextBoxColumn,
+            this.mediaTypesDataGridViewTextBoxColumn,
+            this.millenniumDataGridViewTextBoxColumn,
+            this.mimeTypeDataGridViewTextBoxColumn,
+            this.musicBrainzArtistIdDataGridViewTextBoxColumn,
+            this.musicBrainzDiscIdDataGridViewTextBoxColumn,
+            this.musicBrainzReleaseArtistIdDataGridViewTextBoxColumn,
+            this.musicBrainzReleaseCountryDataGridViewTextBoxColumn,
+            this.musicBrainzReleaseIdDataGridViewTextBoxColumn,
+            this.musicBrainzReleaseStatusDataGridViewTextBoxColumn,
+            this.musicBrainzReleaseTypeDataGridViewTextBoxColumn,
+            this.musicBrainzTrackIdDataGridViewTextBoxColumn,
+            this.musicIpIdDataGridViewTextBoxColumn,
+            this.nameDataGridViewTextBoxColumn,
+            this.performersCountDataGridViewTextBoxColumn,
+            this.performersSortCountDataGridViewTextBoxColumn,
+            this.photoHeightDataGridViewTextBoxColumn,
+            this.photoQualityDataGridViewTextBoxColumn,
+            this.photoWidthDataGridViewTextBoxColumn,
+            this.picturesCountDataGridViewTextBoxColumn,
+            this.possiblyCorruptDataGridViewTextBoxColumn,
+            this.tagTypesDataGridViewTextBoxColumn,
+            this.tagTypesOnDiskDataGridViewTextBoxColumn,
+            this.titleDataGridViewTextBoxColumn,
+            this.titleSortDataGridViewTextBoxColumn,
+            this.trackCountDataGridViewTextBoxColumn,
+            this.trackGainDataGridViewTextBoxColumn,
+            this.trackNumberDataGridViewTextBoxColumn,
+            this.trackOfDataGridViewTextBoxColumn,
+            this.trackPeakDataGridViewTextBoxColumn,
+            this.videoHeightDataGridViewTextBoxColumn,
+            this.videoWidthDataGridViewTextBoxColumn,
+            this.yearDataGridViewTextBoxColumn,
+            this.yearAlbumDataGridViewTextBoxColumn});
+            this.DataGridView.DataSource = this.worksBindingSource;
             this.DataGridView.Dock = System.Windows.Forms.DockStyle.Fill;
             this.DataGridView.Location = new System.Drawing.Point(0, 0);
             this.DataGridView.Name = "DataGridView";
@@ -1069,6 +1294,692 @@
             this.tbAddRecentFolder.Size = new System.Drawing.Size(171, 22);
             this.tbAddRecentFolder.Text = "Add Recent Folder";
             // 
+            // modelBindingSource
+            // 
+            this.modelBindingSource.DataSource = typeof(TagScanner.Models.Model);
+            // 
+            // worksBindingSource
+            // 
+            this.worksBindingSource.DataMember = "Works";
+            this.worksBindingSource.DataSource = this.modelBindingSource;
+            // 
+            // albumDataGridViewTextBoxColumn
+            // 
+            this.albumDataGridViewTextBoxColumn.DataPropertyName = "Album";
+            this.albumDataGridViewTextBoxColumn.HeaderText = "Album";
+            this.albumDataGridViewTextBoxColumn.Name = "albumDataGridViewTextBoxColumn";
+            // 
+            // albumArtistsCountDataGridViewTextBoxColumn
+            // 
+            this.albumArtistsCountDataGridViewTextBoxColumn.DataPropertyName = "AlbumArtistsCount";
+            this.albumArtistsCountDataGridViewTextBoxColumn.HeaderText = "AlbumArtistsCount";
+            this.albumArtistsCountDataGridViewTextBoxColumn.Name = "albumArtistsCountDataGridViewTextBoxColumn";
+            this.albumArtistsCountDataGridViewTextBoxColumn.ReadOnly = true;
+            // 
+            // albumArtistsSortCountDataGridViewTextBoxColumn
+            // 
+            this.albumArtistsSortCountDataGridViewTextBoxColumn.DataPropertyName = "AlbumArtistsSortCount";
+            this.albumArtistsSortCountDataGridViewTextBoxColumn.HeaderText = "AlbumArtistsSortCount";
+            this.albumArtistsSortCountDataGridViewTextBoxColumn.Name = "albumArtistsSortCountDataGridViewTextBoxColumn";
+            this.albumArtistsSortCountDataGridViewTextBoxColumn.ReadOnly = true;
+            // 
+            // albumGainDataGridViewTextBoxColumn
+            // 
+            this.albumGainDataGridViewTextBoxColumn.DataPropertyName = "AlbumGain";
+            this.albumGainDataGridViewTextBoxColumn.HeaderText = "AlbumGain";
+            this.albumGainDataGridViewTextBoxColumn.Name = "albumGainDataGridViewTextBoxColumn";
+            // 
+            // albumPeakDataGridViewTextBoxColumn
+            // 
+            this.albumPeakDataGridViewTextBoxColumn.DataPropertyName = "AlbumPeak";
+            this.albumPeakDataGridViewTextBoxColumn.HeaderText = "AlbumPeak";
+            this.albumPeakDataGridViewTextBoxColumn.Name = "albumPeakDataGridViewTextBoxColumn";
+            // 
+            // albumSortDataGridViewTextBoxColumn
+            // 
+            this.albumSortDataGridViewTextBoxColumn.DataPropertyName = "AlbumSort";
+            this.albumSortDataGridViewTextBoxColumn.HeaderText = "AlbumSort";
+            this.albumSortDataGridViewTextBoxColumn.Name = "albumSortDataGridViewTextBoxColumn";
+            // 
+            // amazonIdDataGridViewTextBoxColumn
+            // 
+            this.amazonIdDataGridViewTextBoxColumn.DataPropertyName = "AmazonId";
+            this.amazonIdDataGridViewTextBoxColumn.HeaderText = "AmazonId";
+            this.amazonIdDataGridViewTextBoxColumn.Name = "amazonIdDataGridViewTextBoxColumn";
+            // 
+            // artistsCountDataGridViewTextBoxColumn
+            // 
+            this.artistsCountDataGridViewTextBoxColumn.DataPropertyName = "ArtistsCount";
+            this.artistsCountDataGridViewTextBoxColumn.HeaderText = "ArtistsCount";
+            this.artistsCountDataGridViewTextBoxColumn.Name = "artistsCountDataGridViewTextBoxColumn";
+            this.artistsCountDataGridViewTextBoxColumn.ReadOnly = true;
+            // 
+            // audioBitrateDataGridViewTextBoxColumn
+            // 
+            this.audioBitrateDataGridViewTextBoxColumn.DataPropertyName = "AudioBitrate";
+            this.audioBitrateDataGridViewTextBoxColumn.HeaderText = "AudioBitrate";
+            this.audioBitrateDataGridViewTextBoxColumn.Name = "audioBitrateDataGridViewTextBoxColumn";
+            // 
+            // audioChannelsDataGridViewTextBoxColumn
+            // 
+            this.audioChannelsDataGridViewTextBoxColumn.DataPropertyName = "AudioChannels";
+            this.audioChannelsDataGridViewTextBoxColumn.HeaderText = "AudioChannels";
+            this.audioChannelsDataGridViewTextBoxColumn.Name = "audioChannelsDataGridViewTextBoxColumn";
+            // 
+            // audioSampleRateDataGridViewTextBoxColumn
+            // 
+            this.audioSampleRateDataGridViewTextBoxColumn.DataPropertyName = "AudioSampleRate";
+            this.audioSampleRateDataGridViewTextBoxColumn.HeaderText = "AudioSampleRate";
+            this.audioSampleRateDataGridViewTextBoxColumn.Name = "audioSampleRateDataGridViewTextBoxColumn";
+            // 
+            // beatsPerMinuteDataGridViewTextBoxColumn
+            // 
+            this.beatsPerMinuteDataGridViewTextBoxColumn.DataPropertyName = "BeatsPerMinute";
+            this.beatsPerMinuteDataGridViewTextBoxColumn.HeaderText = "BeatsPerMinute";
+            this.beatsPerMinuteDataGridViewTextBoxColumn.Name = "beatsPerMinuteDataGridViewTextBoxColumn";
+            // 
+            // bitsPerSampleDataGridViewTextBoxColumn
+            // 
+            this.bitsPerSampleDataGridViewTextBoxColumn.DataPropertyName = "BitsPerSample";
+            this.bitsPerSampleDataGridViewTextBoxColumn.HeaderText = "BitsPerSample";
+            this.bitsPerSampleDataGridViewTextBoxColumn.Name = "bitsPerSampleDataGridViewTextBoxColumn";
+            // 
+            // centuryDataGridViewTextBoxColumn
+            // 
+            this.centuryDataGridViewTextBoxColumn.DataPropertyName = "Century";
+            this.centuryDataGridViewTextBoxColumn.HeaderText = "Century";
+            this.centuryDataGridViewTextBoxColumn.Name = "centuryDataGridViewTextBoxColumn";
+            this.centuryDataGridViewTextBoxColumn.ReadOnly = true;
+            // 
+            // codecsDataGridViewTextBoxColumn
+            // 
+            this.codecsDataGridViewTextBoxColumn.DataPropertyName = "Codecs";
+            this.codecsDataGridViewTextBoxColumn.HeaderText = "Codecs";
+            this.codecsDataGridViewTextBoxColumn.Name = "codecsDataGridViewTextBoxColumn";
+            // 
+            // commentDataGridViewTextBoxColumn
+            // 
+            this.commentDataGridViewTextBoxColumn.DataPropertyName = "Comment";
+            this.commentDataGridViewTextBoxColumn.HeaderText = "Comment";
+            this.commentDataGridViewTextBoxColumn.Name = "commentDataGridViewTextBoxColumn";
+            // 
+            // composersCountDataGridViewTextBoxColumn
+            // 
+            this.composersCountDataGridViewTextBoxColumn.DataPropertyName = "ComposersCount";
+            this.composersCountDataGridViewTextBoxColumn.HeaderText = "ComposersCount";
+            this.composersCountDataGridViewTextBoxColumn.Name = "composersCountDataGridViewTextBoxColumn";
+            this.composersCountDataGridViewTextBoxColumn.ReadOnly = true;
+            // 
+            // composersSortCountDataGridViewTextBoxColumn
+            // 
+            this.composersSortCountDataGridViewTextBoxColumn.DataPropertyName = "ComposersSortCount";
+            this.composersSortCountDataGridViewTextBoxColumn.HeaderText = "ComposersSortCount";
+            this.composersSortCountDataGridViewTextBoxColumn.Name = "composersSortCountDataGridViewTextBoxColumn";
+            this.composersSortCountDataGridViewTextBoxColumn.ReadOnly = true;
+            // 
+            // conductorDataGridViewTextBoxColumn
+            // 
+            this.conductorDataGridViewTextBoxColumn.DataPropertyName = "Conductor";
+            this.conductorDataGridViewTextBoxColumn.HeaderText = "Conductor";
+            this.conductorDataGridViewTextBoxColumn.Name = "conductorDataGridViewTextBoxColumn";
+            // 
+            // copyrightDataGridViewTextBoxColumn
+            // 
+            this.copyrightDataGridViewTextBoxColumn.DataPropertyName = "Copyright";
+            this.copyrightDataGridViewTextBoxColumn.HeaderText = "Copyright";
+            this.copyrightDataGridViewTextBoxColumn.Name = "copyrightDataGridViewTextBoxColumn";
+            // 
+            // decadeDataGridViewTextBoxColumn
+            // 
+            this.decadeDataGridViewTextBoxColumn.DataPropertyName = "Decade";
+            this.decadeDataGridViewTextBoxColumn.HeaderText = "Decade";
+            this.decadeDataGridViewTextBoxColumn.Name = "decadeDataGridViewTextBoxColumn";
+            this.decadeDataGridViewTextBoxColumn.ReadOnly = true;
+            // 
+            // descriptionDataGridViewTextBoxColumn
+            // 
+            this.descriptionDataGridViewTextBoxColumn.DataPropertyName = "Description";
+            this.descriptionDataGridViewTextBoxColumn.HeaderText = "Description";
+            this.descriptionDataGridViewTextBoxColumn.Name = "descriptionDataGridViewTextBoxColumn";
+            // 
+            // discCountDataGridViewTextBoxColumn
+            // 
+            this.discCountDataGridViewTextBoxColumn.DataPropertyName = "DiscCount";
+            this.discCountDataGridViewTextBoxColumn.HeaderText = "DiscCount";
+            this.discCountDataGridViewTextBoxColumn.Name = "discCountDataGridViewTextBoxColumn";
+            // 
+            // discNumberDataGridViewTextBoxColumn
+            // 
+            this.discNumberDataGridViewTextBoxColumn.DataPropertyName = "DiscNumber";
+            this.discNumberDataGridViewTextBoxColumn.HeaderText = "DiscNumber";
+            this.discNumberDataGridViewTextBoxColumn.Name = "discNumberDataGridViewTextBoxColumn";
+            // 
+            // discOfDataGridViewTextBoxColumn
+            // 
+            this.discOfDataGridViewTextBoxColumn.DataPropertyName = "DiscOf";
+            this.discOfDataGridViewTextBoxColumn.HeaderText = "DiscOf";
+            this.discOfDataGridViewTextBoxColumn.Name = "discOfDataGridViewTextBoxColumn";
+            this.discOfDataGridViewTextBoxColumn.ReadOnly = true;
+            // 
+            // discTrackDataGridViewTextBoxColumn
+            // 
+            this.discTrackDataGridViewTextBoxColumn.DataPropertyName = "DiscTrack";
+            this.discTrackDataGridViewTextBoxColumn.HeaderText = "DiscTrack";
+            this.discTrackDataGridViewTextBoxColumn.Name = "discTrackDataGridViewTextBoxColumn";
+            this.discTrackDataGridViewTextBoxColumn.ReadOnly = true;
+            // 
+            // durationDataGridViewTextBoxColumn
+            // 
+            this.durationDataGridViewTextBoxColumn.DataPropertyName = "Duration";
+            this.durationDataGridViewTextBoxColumn.HeaderText = "Duration";
+            this.durationDataGridViewTextBoxColumn.Name = "durationDataGridViewTextBoxColumn";
+            // 
+            // fileAttributesDataGridViewTextBoxColumn
+            // 
+            this.fileAttributesDataGridViewTextBoxColumn.DataPropertyName = "FileAttributes";
+            this.fileAttributesDataGridViewTextBoxColumn.HeaderText = "FileAttributes";
+            this.fileAttributesDataGridViewTextBoxColumn.Name = "fileAttributesDataGridViewTextBoxColumn";
+            // 
+            // fileCreationTimeDataGridViewTextBoxColumn
+            // 
+            this.fileCreationTimeDataGridViewTextBoxColumn.DataPropertyName = "FileCreationTime";
+            this.fileCreationTimeDataGridViewTextBoxColumn.HeaderText = "FileCreationTime";
+            this.fileCreationTimeDataGridViewTextBoxColumn.Name = "fileCreationTimeDataGridViewTextBoxColumn";
+            // 
+            // fileCreationTimeUtcDataGridViewTextBoxColumn
+            // 
+            this.fileCreationTimeUtcDataGridViewTextBoxColumn.DataPropertyName = "FileCreationTimeUtc";
+            this.fileCreationTimeUtcDataGridViewTextBoxColumn.HeaderText = "FileCreationTimeUtc";
+            this.fileCreationTimeUtcDataGridViewTextBoxColumn.Name = "fileCreationTimeUtcDataGridViewTextBoxColumn";
+            // 
+            // fileExtensionDataGridViewTextBoxColumn
+            // 
+            this.fileExtensionDataGridViewTextBoxColumn.DataPropertyName = "FileExtension";
+            this.fileExtensionDataGridViewTextBoxColumn.HeaderText = "FileExtension";
+            this.fileExtensionDataGridViewTextBoxColumn.Name = "fileExtensionDataGridViewTextBoxColumn";
+            this.fileExtensionDataGridViewTextBoxColumn.ReadOnly = true;
+            // 
+            // fileLastAccessTimeDataGridViewTextBoxColumn
+            // 
+            this.fileLastAccessTimeDataGridViewTextBoxColumn.DataPropertyName = "FileLastAccessTime";
+            this.fileLastAccessTimeDataGridViewTextBoxColumn.HeaderText = "FileLastAccessTime";
+            this.fileLastAccessTimeDataGridViewTextBoxColumn.Name = "fileLastAccessTimeDataGridViewTextBoxColumn";
+            // 
+            // fileLastAccessTimeUtcDataGridViewTextBoxColumn
+            // 
+            this.fileLastAccessTimeUtcDataGridViewTextBoxColumn.DataPropertyName = "FileLastAccessTimeUtc";
+            this.fileLastAccessTimeUtcDataGridViewTextBoxColumn.HeaderText = "FileLastAccessTimeUtc";
+            this.fileLastAccessTimeUtcDataGridViewTextBoxColumn.Name = "fileLastAccessTimeUtcDataGridViewTextBoxColumn";
+            // 
+            // fileLastWriteTimeDataGridViewTextBoxColumn
+            // 
+            this.fileLastWriteTimeDataGridViewTextBoxColumn.DataPropertyName = "FileLastWriteTime";
+            this.fileLastWriteTimeDataGridViewTextBoxColumn.HeaderText = "FileLastWriteTime";
+            this.fileLastWriteTimeDataGridViewTextBoxColumn.Name = "fileLastWriteTimeDataGridViewTextBoxColumn";
+            // 
+            // fileLastWriteTimeUtcDataGridViewTextBoxColumn
+            // 
+            this.fileLastWriteTimeUtcDataGridViewTextBoxColumn.DataPropertyName = "FileLastWriteTimeUtc";
+            this.fileLastWriteTimeUtcDataGridViewTextBoxColumn.HeaderText = "FileLastWriteTimeUtc";
+            this.fileLastWriteTimeUtcDataGridViewTextBoxColumn.Name = "fileLastWriteTimeUtcDataGridViewTextBoxColumn";
+            // 
+            // fileNameDataGridViewTextBoxColumn
+            // 
+            this.fileNameDataGridViewTextBoxColumn.DataPropertyName = "FileName";
+            this.fileNameDataGridViewTextBoxColumn.HeaderText = "FileName";
+            this.fileNameDataGridViewTextBoxColumn.Name = "fileNameDataGridViewTextBoxColumn";
+            this.fileNameDataGridViewTextBoxColumn.ReadOnly = true;
+            // 
+            // fileNameWithoutExtensionDataGridViewTextBoxColumn
+            // 
+            this.fileNameWithoutExtensionDataGridViewTextBoxColumn.DataPropertyName = "FileNameWithoutExtension";
+            this.fileNameWithoutExtensionDataGridViewTextBoxColumn.HeaderText = "FileNameWithoutExtension";
+            this.fileNameWithoutExtensionDataGridViewTextBoxColumn.Name = "fileNameWithoutExtensionDataGridViewTextBoxColumn";
+            this.fileNameWithoutExtensionDataGridViewTextBoxColumn.ReadOnly = true;
+            // 
+            // filePathDataGridViewTextBoxColumn
+            // 
+            this.filePathDataGridViewTextBoxColumn.DataPropertyName = "FilePath";
+            this.filePathDataGridViewTextBoxColumn.HeaderText = "FilePath";
+            this.filePathDataGridViewTextBoxColumn.Name = "filePathDataGridViewTextBoxColumn";
+            // 
+            // fileSizeDataGridViewTextBoxColumn
+            // 
+            this.fileSizeDataGridViewTextBoxColumn.DataPropertyName = "FileSize";
+            this.fileSizeDataGridViewTextBoxColumn.HeaderText = "FileSize";
+            this.fileSizeDataGridViewTextBoxColumn.Name = "fileSizeDataGridViewTextBoxColumn";
+            // 
+            // fileStatusDataGridViewTextBoxColumn
+            // 
+            this.fileStatusDataGridViewTextBoxColumn.DataPropertyName = "FileStatus";
+            this.fileStatusDataGridViewTextBoxColumn.HeaderText = "FileStatus";
+            this.fileStatusDataGridViewTextBoxColumn.Name = "fileStatusDataGridViewTextBoxColumn";
+            this.fileStatusDataGridViewTextBoxColumn.ReadOnly = true;
+            // 
+            // firstAlbumArtistDataGridViewTextBoxColumn
+            // 
+            this.firstAlbumArtistDataGridViewTextBoxColumn.DataPropertyName = "FirstAlbumArtist";
+            this.firstAlbumArtistDataGridViewTextBoxColumn.HeaderText = "FirstAlbumArtist";
+            this.firstAlbumArtistDataGridViewTextBoxColumn.Name = "firstAlbumArtistDataGridViewTextBoxColumn";
+            // 
+            // firstAlbumArtistSortDataGridViewTextBoxColumn
+            // 
+            this.firstAlbumArtistSortDataGridViewTextBoxColumn.DataPropertyName = "FirstAlbumArtistSort";
+            this.firstAlbumArtistSortDataGridViewTextBoxColumn.HeaderText = "FirstAlbumArtistSort";
+            this.firstAlbumArtistSortDataGridViewTextBoxColumn.Name = "firstAlbumArtistSortDataGridViewTextBoxColumn";
+            // 
+            // firstArtistDataGridViewTextBoxColumn
+            // 
+            this.firstArtistDataGridViewTextBoxColumn.DataPropertyName = "FirstArtist";
+            this.firstArtistDataGridViewTextBoxColumn.HeaderText = "FirstArtist";
+            this.firstArtistDataGridViewTextBoxColumn.Name = "firstArtistDataGridViewTextBoxColumn";
+            // 
+            // firstComposerDataGridViewTextBoxColumn
+            // 
+            this.firstComposerDataGridViewTextBoxColumn.DataPropertyName = "FirstComposer";
+            this.firstComposerDataGridViewTextBoxColumn.HeaderText = "FirstComposer";
+            this.firstComposerDataGridViewTextBoxColumn.Name = "firstComposerDataGridViewTextBoxColumn";
+            // 
+            // firstComposerSortDataGridViewTextBoxColumn
+            // 
+            this.firstComposerSortDataGridViewTextBoxColumn.DataPropertyName = "FirstComposerSort";
+            this.firstComposerSortDataGridViewTextBoxColumn.HeaderText = "FirstComposerSort";
+            this.firstComposerSortDataGridViewTextBoxColumn.Name = "firstComposerSortDataGridViewTextBoxColumn";
+            // 
+            // firstGenreDataGridViewTextBoxColumn
+            // 
+            this.firstGenreDataGridViewTextBoxColumn.DataPropertyName = "FirstGenre";
+            this.firstGenreDataGridViewTextBoxColumn.HeaderText = "FirstGenre";
+            this.firstGenreDataGridViewTextBoxColumn.Name = "firstGenreDataGridViewTextBoxColumn";
+            // 
+            // firstPerformerDataGridViewTextBoxColumn
+            // 
+            this.firstPerformerDataGridViewTextBoxColumn.DataPropertyName = "FirstPerformer";
+            this.firstPerformerDataGridViewTextBoxColumn.HeaderText = "FirstPerformer";
+            this.firstPerformerDataGridViewTextBoxColumn.Name = "firstPerformerDataGridViewTextBoxColumn";
+            // 
+            // firstPerformerSortDataGridViewTextBoxColumn
+            // 
+            this.firstPerformerSortDataGridViewTextBoxColumn.DataPropertyName = "FirstPerformerSort";
+            this.firstPerformerSortDataGridViewTextBoxColumn.HeaderText = "FirstPerformerSort";
+            this.firstPerformerSortDataGridViewTextBoxColumn.Name = "firstPerformerSortDataGridViewTextBoxColumn";
+            // 
+            // genresCountDataGridViewTextBoxColumn
+            // 
+            this.genresCountDataGridViewTextBoxColumn.DataPropertyName = "GenresCount";
+            this.genresCountDataGridViewTextBoxColumn.HeaderText = "GenresCount";
+            this.genresCountDataGridViewTextBoxColumn.Name = "genresCountDataGridViewTextBoxColumn";
+            this.genresCountDataGridViewTextBoxColumn.ReadOnly = true;
+            // 
+            // groupingDataGridViewTextBoxColumn
+            // 
+            this.groupingDataGridViewTextBoxColumn.DataPropertyName = "Grouping";
+            this.groupingDataGridViewTextBoxColumn.HeaderText = "Grouping";
+            this.groupingDataGridViewTextBoxColumn.Name = "groupingDataGridViewTextBoxColumn";
+            // 
+            // imageAltitudeDataGridViewTextBoxColumn
+            // 
+            this.imageAltitudeDataGridViewTextBoxColumn.DataPropertyName = "ImageAltitude";
+            this.imageAltitudeDataGridViewTextBoxColumn.HeaderText = "ImageAltitude";
+            this.imageAltitudeDataGridViewTextBoxColumn.Name = "imageAltitudeDataGridViewTextBoxColumn";
+            // 
+            // imageCreatorDataGridViewTextBoxColumn
+            // 
+            this.imageCreatorDataGridViewTextBoxColumn.DataPropertyName = "ImageCreator";
+            this.imageCreatorDataGridViewTextBoxColumn.HeaderText = "ImageCreator";
+            this.imageCreatorDataGridViewTextBoxColumn.Name = "imageCreatorDataGridViewTextBoxColumn";
+            // 
+            // imageDateTimeDataGridViewTextBoxColumn
+            // 
+            this.imageDateTimeDataGridViewTextBoxColumn.DataPropertyName = "ImageDateTime";
+            this.imageDateTimeDataGridViewTextBoxColumn.HeaderText = "ImageDateTime";
+            this.imageDateTimeDataGridViewTextBoxColumn.Name = "imageDateTimeDataGridViewTextBoxColumn";
+            // 
+            // imageExposureTimeDataGridViewTextBoxColumn
+            // 
+            this.imageExposureTimeDataGridViewTextBoxColumn.DataPropertyName = "ImageExposureTime";
+            this.imageExposureTimeDataGridViewTextBoxColumn.HeaderText = "ImageExposureTime";
+            this.imageExposureTimeDataGridViewTextBoxColumn.Name = "imageExposureTimeDataGridViewTextBoxColumn";
+            // 
+            // imageFNumberDataGridViewTextBoxColumn
+            // 
+            this.imageFNumberDataGridViewTextBoxColumn.DataPropertyName = "ImageFNumber";
+            this.imageFNumberDataGridViewTextBoxColumn.HeaderText = "ImageFNumber";
+            this.imageFNumberDataGridViewTextBoxColumn.Name = "imageFNumberDataGridViewTextBoxColumn";
+            // 
+            // imageFocalLengthDataGridViewTextBoxColumn
+            // 
+            this.imageFocalLengthDataGridViewTextBoxColumn.DataPropertyName = "ImageFocalLength";
+            this.imageFocalLengthDataGridViewTextBoxColumn.HeaderText = "ImageFocalLength";
+            this.imageFocalLengthDataGridViewTextBoxColumn.Name = "imageFocalLengthDataGridViewTextBoxColumn";
+            // 
+            // imageFocalLengthIn35mmFilmDataGridViewTextBoxColumn
+            // 
+            this.imageFocalLengthIn35mmFilmDataGridViewTextBoxColumn.DataPropertyName = "ImageFocalLengthIn35mmFilm";
+            this.imageFocalLengthIn35mmFilmDataGridViewTextBoxColumn.HeaderText = "ImageFocalLengthIn35mmFilm";
+            this.imageFocalLengthIn35mmFilmDataGridViewTextBoxColumn.Name = "imageFocalLengthIn35mmFilmDataGridViewTextBoxColumn";
+            // 
+            // imageISOSpeedRatingsDataGridViewTextBoxColumn
+            // 
+            this.imageISOSpeedRatingsDataGridViewTextBoxColumn.DataPropertyName = "ImageISOSpeedRatings";
+            this.imageISOSpeedRatingsDataGridViewTextBoxColumn.HeaderText = "ImageISOSpeedRatings";
+            this.imageISOSpeedRatingsDataGridViewTextBoxColumn.Name = "imageISOSpeedRatingsDataGridViewTextBoxColumn";
+            // 
+            // imageLatitudeDataGridViewTextBoxColumn
+            // 
+            this.imageLatitudeDataGridViewTextBoxColumn.DataPropertyName = "ImageLatitude";
+            this.imageLatitudeDataGridViewTextBoxColumn.HeaderText = "ImageLatitude";
+            this.imageLatitudeDataGridViewTextBoxColumn.Name = "imageLatitudeDataGridViewTextBoxColumn";
+            // 
+            // imageLongitudeDataGridViewTextBoxColumn
+            // 
+            this.imageLongitudeDataGridViewTextBoxColumn.DataPropertyName = "ImageLongitude";
+            this.imageLongitudeDataGridViewTextBoxColumn.HeaderText = "ImageLongitude";
+            this.imageLongitudeDataGridViewTextBoxColumn.Name = "imageLongitudeDataGridViewTextBoxColumn";
+            // 
+            // imageMakeDataGridViewTextBoxColumn
+            // 
+            this.imageMakeDataGridViewTextBoxColumn.DataPropertyName = "ImageMake";
+            this.imageMakeDataGridViewTextBoxColumn.HeaderText = "ImageMake";
+            this.imageMakeDataGridViewTextBoxColumn.Name = "imageMakeDataGridViewTextBoxColumn";
+            // 
+            // imageModelDataGridViewTextBoxColumn
+            // 
+            this.imageModelDataGridViewTextBoxColumn.DataPropertyName = "ImageModel";
+            this.imageModelDataGridViewTextBoxColumn.HeaderText = "ImageModel";
+            this.imageModelDataGridViewTextBoxColumn.Name = "imageModelDataGridViewTextBoxColumn";
+            // 
+            // imageOrientationDataGridViewTextBoxColumn
+            // 
+            this.imageOrientationDataGridViewTextBoxColumn.DataPropertyName = "ImageOrientation";
+            this.imageOrientationDataGridViewTextBoxColumn.HeaderText = "ImageOrientation";
+            this.imageOrientationDataGridViewTextBoxColumn.Name = "imageOrientationDataGridViewTextBoxColumn";
+            // 
+            // imageRatingDataGridViewTextBoxColumn
+            // 
+            this.imageRatingDataGridViewTextBoxColumn.DataPropertyName = "ImageRating";
+            this.imageRatingDataGridViewTextBoxColumn.HeaderText = "ImageRating";
+            this.imageRatingDataGridViewTextBoxColumn.Name = "imageRatingDataGridViewTextBoxColumn";
+            // 
+            // imageSoftwareDataGridViewTextBoxColumn
+            // 
+            this.imageSoftwareDataGridViewTextBoxColumn.DataPropertyName = "ImageSoftware";
+            this.imageSoftwareDataGridViewTextBoxColumn.HeaderText = "ImageSoftware";
+            this.imageSoftwareDataGridViewTextBoxColumn.Name = "imageSoftwareDataGridViewTextBoxColumn";
+            // 
+            // invariantEndPositionDataGridViewTextBoxColumn
+            // 
+            this.invariantEndPositionDataGridViewTextBoxColumn.DataPropertyName = "InvariantEndPosition";
+            this.invariantEndPositionDataGridViewTextBoxColumn.HeaderText = "InvariantEndPosition";
+            this.invariantEndPositionDataGridViewTextBoxColumn.Name = "invariantEndPositionDataGridViewTextBoxColumn";
+            // 
+            // invariantStartPositionDataGridViewTextBoxColumn
+            // 
+            this.invariantStartPositionDataGridViewTextBoxColumn.DataPropertyName = "InvariantStartPosition";
+            this.invariantStartPositionDataGridViewTextBoxColumn.HeaderText = "InvariantStartPosition";
+            this.invariantStartPositionDataGridViewTextBoxColumn.Name = "invariantStartPositionDataGridViewTextBoxColumn";
+            // 
+            // isClassicalDataGridViewTextBoxColumn
+            // 
+            this.isClassicalDataGridViewTextBoxColumn.DataPropertyName = "IsClassical";
+            this.isClassicalDataGridViewTextBoxColumn.HeaderText = "IsClassical";
+            this.isClassicalDataGridViewTextBoxColumn.Name = "isClassicalDataGridViewTextBoxColumn";
+            this.isClassicalDataGridViewTextBoxColumn.ReadOnly = true;
+            // 
+            // isEmptyDataGridViewTextBoxColumn
+            // 
+            this.isEmptyDataGridViewTextBoxColumn.DataPropertyName = "IsEmpty";
+            this.isEmptyDataGridViewTextBoxColumn.HeaderText = "IsEmpty";
+            this.isEmptyDataGridViewTextBoxColumn.Name = "isEmptyDataGridViewTextBoxColumn";
+            this.isEmptyDataGridViewTextBoxColumn.ReadOnly = true;
+            // 
+            // joinedAlbumArtistsDataGridViewTextBoxColumn
+            // 
+            this.joinedAlbumArtistsDataGridViewTextBoxColumn.DataPropertyName = "JoinedAlbumArtists";
+            this.joinedAlbumArtistsDataGridViewTextBoxColumn.HeaderText = "JoinedAlbumArtists";
+            this.joinedAlbumArtistsDataGridViewTextBoxColumn.Name = "joinedAlbumArtistsDataGridViewTextBoxColumn";
+            // 
+            // joinedArtistsDataGridViewTextBoxColumn
+            // 
+            this.joinedArtistsDataGridViewTextBoxColumn.DataPropertyName = "JoinedArtists";
+            this.joinedArtistsDataGridViewTextBoxColumn.HeaderText = "JoinedArtists";
+            this.joinedArtistsDataGridViewTextBoxColumn.Name = "joinedArtistsDataGridViewTextBoxColumn";
+            // 
+            // joinedComposersDataGridViewTextBoxColumn
+            // 
+            this.joinedComposersDataGridViewTextBoxColumn.DataPropertyName = "JoinedComposers";
+            this.joinedComposersDataGridViewTextBoxColumn.HeaderText = "JoinedComposers";
+            this.joinedComposersDataGridViewTextBoxColumn.Name = "joinedComposersDataGridViewTextBoxColumn";
+            // 
+            // joinedGenresDataGridViewTextBoxColumn
+            // 
+            this.joinedGenresDataGridViewTextBoxColumn.DataPropertyName = "JoinedGenres";
+            this.joinedGenresDataGridViewTextBoxColumn.HeaderText = "JoinedGenres";
+            this.joinedGenresDataGridViewTextBoxColumn.Name = "joinedGenresDataGridViewTextBoxColumn";
+            // 
+            // joinedPerformersDataGridViewTextBoxColumn
+            // 
+            this.joinedPerformersDataGridViewTextBoxColumn.DataPropertyName = "JoinedPerformers";
+            this.joinedPerformersDataGridViewTextBoxColumn.HeaderText = "JoinedPerformers";
+            this.joinedPerformersDataGridViewTextBoxColumn.Name = "joinedPerformersDataGridViewTextBoxColumn";
+            // 
+            // joinedPerformersSortDataGridViewTextBoxColumn
+            // 
+            this.joinedPerformersSortDataGridViewTextBoxColumn.DataPropertyName = "JoinedPerformersSort";
+            this.joinedPerformersSortDataGridViewTextBoxColumn.HeaderText = "JoinedPerformersSort";
+            this.joinedPerformersSortDataGridViewTextBoxColumn.Name = "joinedPerformersSortDataGridViewTextBoxColumn";
+            // 
+            // lyricsDataGridViewTextBoxColumn
+            // 
+            this.lyricsDataGridViewTextBoxColumn.DataPropertyName = "Lyrics";
+            this.lyricsDataGridViewTextBoxColumn.HeaderText = "Lyrics";
+            this.lyricsDataGridViewTextBoxColumn.Name = "lyricsDataGridViewTextBoxColumn";
+            // 
+            // mediaTypesDataGridViewTextBoxColumn
+            // 
+            this.mediaTypesDataGridViewTextBoxColumn.DataPropertyName = "MediaTypes";
+            this.mediaTypesDataGridViewTextBoxColumn.HeaderText = "MediaTypes";
+            this.mediaTypesDataGridViewTextBoxColumn.Name = "mediaTypesDataGridViewTextBoxColumn";
+            // 
+            // millenniumDataGridViewTextBoxColumn
+            // 
+            this.millenniumDataGridViewTextBoxColumn.DataPropertyName = "Millennium";
+            this.millenniumDataGridViewTextBoxColumn.HeaderText = "Millennium";
+            this.millenniumDataGridViewTextBoxColumn.Name = "millenniumDataGridViewTextBoxColumn";
+            this.millenniumDataGridViewTextBoxColumn.ReadOnly = true;
+            // 
+            // mimeTypeDataGridViewTextBoxColumn
+            // 
+            this.mimeTypeDataGridViewTextBoxColumn.DataPropertyName = "MimeType";
+            this.mimeTypeDataGridViewTextBoxColumn.HeaderText = "MimeType";
+            this.mimeTypeDataGridViewTextBoxColumn.Name = "mimeTypeDataGridViewTextBoxColumn";
+            // 
+            // musicBrainzArtistIdDataGridViewTextBoxColumn
+            // 
+            this.musicBrainzArtistIdDataGridViewTextBoxColumn.DataPropertyName = "MusicBrainzArtistId";
+            this.musicBrainzArtistIdDataGridViewTextBoxColumn.HeaderText = "MusicBrainzArtistId";
+            this.musicBrainzArtistIdDataGridViewTextBoxColumn.Name = "musicBrainzArtistIdDataGridViewTextBoxColumn";
+            // 
+            // musicBrainzDiscIdDataGridViewTextBoxColumn
+            // 
+            this.musicBrainzDiscIdDataGridViewTextBoxColumn.DataPropertyName = "MusicBrainzDiscId";
+            this.musicBrainzDiscIdDataGridViewTextBoxColumn.HeaderText = "MusicBrainzDiscId";
+            this.musicBrainzDiscIdDataGridViewTextBoxColumn.Name = "musicBrainzDiscIdDataGridViewTextBoxColumn";
+            // 
+            // musicBrainzReleaseArtistIdDataGridViewTextBoxColumn
+            // 
+            this.musicBrainzReleaseArtistIdDataGridViewTextBoxColumn.DataPropertyName = "MusicBrainzReleaseArtistId";
+            this.musicBrainzReleaseArtistIdDataGridViewTextBoxColumn.HeaderText = "MusicBrainzReleaseArtistId";
+            this.musicBrainzReleaseArtistIdDataGridViewTextBoxColumn.Name = "musicBrainzReleaseArtistIdDataGridViewTextBoxColumn";
+            // 
+            // musicBrainzReleaseCountryDataGridViewTextBoxColumn
+            // 
+            this.musicBrainzReleaseCountryDataGridViewTextBoxColumn.DataPropertyName = "MusicBrainzReleaseCountry";
+            this.musicBrainzReleaseCountryDataGridViewTextBoxColumn.HeaderText = "MusicBrainzReleaseCountry";
+            this.musicBrainzReleaseCountryDataGridViewTextBoxColumn.Name = "musicBrainzReleaseCountryDataGridViewTextBoxColumn";
+            // 
+            // musicBrainzReleaseIdDataGridViewTextBoxColumn
+            // 
+            this.musicBrainzReleaseIdDataGridViewTextBoxColumn.DataPropertyName = "MusicBrainzReleaseId";
+            this.musicBrainzReleaseIdDataGridViewTextBoxColumn.HeaderText = "MusicBrainzReleaseId";
+            this.musicBrainzReleaseIdDataGridViewTextBoxColumn.Name = "musicBrainzReleaseIdDataGridViewTextBoxColumn";
+            // 
+            // musicBrainzReleaseStatusDataGridViewTextBoxColumn
+            // 
+            this.musicBrainzReleaseStatusDataGridViewTextBoxColumn.DataPropertyName = "MusicBrainzReleaseStatus";
+            this.musicBrainzReleaseStatusDataGridViewTextBoxColumn.HeaderText = "MusicBrainzReleaseStatus";
+            this.musicBrainzReleaseStatusDataGridViewTextBoxColumn.Name = "musicBrainzReleaseStatusDataGridViewTextBoxColumn";
+            // 
+            // musicBrainzReleaseTypeDataGridViewTextBoxColumn
+            // 
+            this.musicBrainzReleaseTypeDataGridViewTextBoxColumn.DataPropertyName = "MusicBrainzReleaseType";
+            this.musicBrainzReleaseTypeDataGridViewTextBoxColumn.HeaderText = "MusicBrainzReleaseType";
+            this.musicBrainzReleaseTypeDataGridViewTextBoxColumn.Name = "musicBrainzReleaseTypeDataGridViewTextBoxColumn";
+            // 
+            // musicBrainzTrackIdDataGridViewTextBoxColumn
+            // 
+            this.musicBrainzTrackIdDataGridViewTextBoxColumn.DataPropertyName = "MusicBrainzTrackId";
+            this.musicBrainzTrackIdDataGridViewTextBoxColumn.HeaderText = "MusicBrainzTrackId";
+            this.musicBrainzTrackIdDataGridViewTextBoxColumn.Name = "musicBrainzTrackIdDataGridViewTextBoxColumn";
+            // 
+            // musicIpIdDataGridViewTextBoxColumn
+            // 
+            this.musicIpIdDataGridViewTextBoxColumn.DataPropertyName = "MusicIpId";
+            this.musicIpIdDataGridViewTextBoxColumn.HeaderText = "MusicIpId";
+            this.musicIpIdDataGridViewTextBoxColumn.Name = "musicIpIdDataGridViewTextBoxColumn";
+            // 
+            // nameDataGridViewTextBoxColumn
+            // 
+            this.nameDataGridViewTextBoxColumn.DataPropertyName = "Name";
+            this.nameDataGridViewTextBoxColumn.HeaderText = "Name";
+            this.nameDataGridViewTextBoxColumn.Name = "nameDataGridViewTextBoxColumn";
+            // 
+            // performersCountDataGridViewTextBoxColumn
+            // 
+            this.performersCountDataGridViewTextBoxColumn.DataPropertyName = "PerformersCount";
+            this.performersCountDataGridViewTextBoxColumn.HeaderText = "PerformersCount";
+            this.performersCountDataGridViewTextBoxColumn.Name = "performersCountDataGridViewTextBoxColumn";
+            this.performersCountDataGridViewTextBoxColumn.ReadOnly = true;
+            // 
+            // performersSortCountDataGridViewTextBoxColumn
+            // 
+            this.performersSortCountDataGridViewTextBoxColumn.DataPropertyName = "PerformersSortCount";
+            this.performersSortCountDataGridViewTextBoxColumn.HeaderText = "PerformersSortCount";
+            this.performersSortCountDataGridViewTextBoxColumn.Name = "performersSortCountDataGridViewTextBoxColumn";
+            this.performersSortCountDataGridViewTextBoxColumn.ReadOnly = true;
+            // 
+            // photoHeightDataGridViewTextBoxColumn
+            // 
+            this.photoHeightDataGridViewTextBoxColumn.DataPropertyName = "PhotoHeight";
+            this.photoHeightDataGridViewTextBoxColumn.HeaderText = "PhotoHeight";
+            this.photoHeightDataGridViewTextBoxColumn.Name = "photoHeightDataGridViewTextBoxColumn";
+            // 
+            // photoQualityDataGridViewTextBoxColumn
+            // 
+            this.photoQualityDataGridViewTextBoxColumn.DataPropertyName = "PhotoQuality";
+            this.photoQualityDataGridViewTextBoxColumn.HeaderText = "PhotoQuality";
+            this.photoQualityDataGridViewTextBoxColumn.Name = "photoQualityDataGridViewTextBoxColumn";
+            // 
+            // photoWidthDataGridViewTextBoxColumn
+            // 
+            this.photoWidthDataGridViewTextBoxColumn.DataPropertyName = "PhotoWidth";
+            this.photoWidthDataGridViewTextBoxColumn.HeaderText = "PhotoWidth";
+            this.photoWidthDataGridViewTextBoxColumn.Name = "photoWidthDataGridViewTextBoxColumn";
+            // 
+            // picturesCountDataGridViewTextBoxColumn
+            // 
+            this.picturesCountDataGridViewTextBoxColumn.DataPropertyName = "PicturesCount";
+            this.picturesCountDataGridViewTextBoxColumn.HeaderText = "PicturesCount";
+            this.picturesCountDataGridViewTextBoxColumn.Name = "picturesCountDataGridViewTextBoxColumn";
+            this.picturesCountDataGridViewTextBoxColumn.ReadOnly = true;
+            // 
+            // possiblyCorruptDataGridViewTextBoxColumn
+            // 
+            this.possiblyCorruptDataGridViewTextBoxColumn.DataPropertyName = "PossiblyCorrupt";
+            this.possiblyCorruptDataGridViewTextBoxColumn.HeaderText = "PossiblyCorrupt";
+            this.possiblyCorruptDataGridViewTextBoxColumn.Name = "possiblyCorruptDataGridViewTextBoxColumn";
+            this.possiblyCorruptDataGridViewTextBoxColumn.ReadOnly = true;
+            // 
+            // tagTypesDataGridViewTextBoxColumn
+            // 
+            this.tagTypesDataGridViewTextBoxColumn.DataPropertyName = "TagTypes";
+            this.tagTypesDataGridViewTextBoxColumn.HeaderText = "TagTypes";
+            this.tagTypesDataGridViewTextBoxColumn.Name = "tagTypesDataGridViewTextBoxColumn";
+            // 
+            // tagTypesOnDiskDataGridViewTextBoxColumn
+            // 
+            this.tagTypesOnDiskDataGridViewTextBoxColumn.DataPropertyName = "TagTypesOnDisk";
+            this.tagTypesOnDiskDataGridViewTextBoxColumn.HeaderText = "TagTypesOnDisk";
+            this.tagTypesOnDiskDataGridViewTextBoxColumn.Name = "tagTypesOnDiskDataGridViewTextBoxColumn";
+            // 
+            // titleDataGridViewTextBoxColumn
+            // 
+            this.titleDataGridViewTextBoxColumn.DataPropertyName = "Title";
+            this.titleDataGridViewTextBoxColumn.HeaderText = "Title";
+            this.titleDataGridViewTextBoxColumn.Name = "titleDataGridViewTextBoxColumn";
+            // 
+            // titleSortDataGridViewTextBoxColumn
+            // 
+            this.titleSortDataGridViewTextBoxColumn.DataPropertyName = "TitleSort";
+            this.titleSortDataGridViewTextBoxColumn.HeaderText = "TitleSort";
+            this.titleSortDataGridViewTextBoxColumn.Name = "titleSortDataGridViewTextBoxColumn";
+            // 
+            // trackCountDataGridViewTextBoxColumn
+            // 
+            this.trackCountDataGridViewTextBoxColumn.DataPropertyName = "TrackCount";
+            this.trackCountDataGridViewTextBoxColumn.HeaderText = "TrackCount";
+            this.trackCountDataGridViewTextBoxColumn.Name = "trackCountDataGridViewTextBoxColumn";
+            // 
+            // trackGainDataGridViewTextBoxColumn
+            // 
+            this.trackGainDataGridViewTextBoxColumn.DataPropertyName = "TrackGain";
+            this.trackGainDataGridViewTextBoxColumn.HeaderText = "TrackGain";
+            this.trackGainDataGridViewTextBoxColumn.Name = "trackGainDataGridViewTextBoxColumn";
+            // 
+            // trackNumberDataGridViewTextBoxColumn
+            // 
+            this.trackNumberDataGridViewTextBoxColumn.DataPropertyName = "TrackNumber";
+            this.trackNumberDataGridViewTextBoxColumn.HeaderText = "TrackNumber";
+            this.trackNumberDataGridViewTextBoxColumn.Name = "trackNumberDataGridViewTextBoxColumn";
+            // 
+            // trackOfDataGridViewTextBoxColumn
+            // 
+            this.trackOfDataGridViewTextBoxColumn.DataPropertyName = "TrackOf";
+            this.trackOfDataGridViewTextBoxColumn.HeaderText = "TrackOf";
+            this.trackOfDataGridViewTextBoxColumn.Name = "trackOfDataGridViewTextBoxColumn";
+            this.trackOfDataGridViewTextBoxColumn.ReadOnly = true;
+            // 
+            // trackPeakDataGridViewTextBoxColumn
+            // 
+            this.trackPeakDataGridViewTextBoxColumn.DataPropertyName = "TrackPeak";
+            this.trackPeakDataGridViewTextBoxColumn.HeaderText = "TrackPeak";
+            this.trackPeakDataGridViewTextBoxColumn.Name = "trackPeakDataGridViewTextBoxColumn";
+            // 
+            // videoHeightDataGridViewTextBoxColumn
+            // 
+            this.videoHeightDataGridViewTextBoxColumn.DataPropertyName = "VideoHeight";
+            this.videoHeightDataGridViewTextBoxColumn.HeaderText = "VideoHeight";
+            this.videoHeightDataGridViewTextBoxColumn.Name = "videoHeightDataGridViewTextBoxColumn";
+            // 
+            // videoWidthDataGridViewTextBoxColumn
+            // 
+            this.videoWidthDataGridViewTextBoxColumn.DataPropertyName = "VideoWidth";
+            this.videoWidthDataGridViewTextBoxColumn.HeaderText = "VideoWidth";
+            this.videoWidthDataGridViewTextBoxColumn.Name = "videoWidthDataGridViewTextBoxColumn";
+            // 
+            // yearDataGridViewTextBoxColumn
+            // 
+            this.yearDataGridViewTextBoxColumn.DataPropertyName = "Year";
+            this.yearDataGridViewTextBoxColumn.HeaderText = "Year";
+            this.yearDataGridViewTextBoxColumn.Name = "yearDataGridViewTextBoxColumn";
+            // 
+            // yearAlbumDataGridViewTextBoxColumn
+            // 
+            this.yearAlbumDataGridViewTextBoxColumn.DataPropertyName = "YearAlbum";
+            this.yearAlbumDataGridViewTextBoxColumn.HeaderText = "YearAlbum";
+            this.yearAlbumDataGridViewTextBoxColumn.Name = "yearAlbumDataGridViewTextBoxColumn";
+            this.yearAlbumDataGridViewTextBoxColumn.ReadOnly = true;
+            // 
             // LibraryForm
             // 
             this.AcceptButton = this.ApplyButton;
@@ -1115,6 +2026,8 @@
             this.MainMenu.PerformLayout();
             this.toolStrip1.ResumeLayout(false);
             this.toolStrip1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.modelBindingSource)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.worksBindingSource)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -1221,11 +2134,122 @@
         public System.Windows.Forms.ToolStripMenuItem tbAddMedia;
         public System.Windows.Forms.ToolStripMenuItem tbAddFolder;
         public System.Windows.Forms.ToolStripMenuItem tbAddRecentFolder;
-        public System.ComponentModel.IContainer components;
         public System.Windows.Forms.ToolStripSeparator toolStripSeparator3;
         public System.Windows.Forms.ToolStripSeparator toolStripMenuItem12;
         public System.Windows.Forms.SplitContainer splitContainer4;
         public System.Windows.Forms.DataGridView DataGridView;
+        private System.ComponentModel.IContainer components;
+        private System.Windows.Forms.DataGridViewTextBoxColumn albumDataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn albumArtistsCountDataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn albumArtistsSortCountDataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn albumGainDataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn albumPeakDataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn albumSortDataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn amazonIdDataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn artistsCountDataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn audioBitrateDataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn audioChannelsDataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn audioSampleRateDataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn beatsPerMinuteDataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn bitsPerSampleDataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn centuryDataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn codecsDataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn commentDataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn composersCountDataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn composersSortCountDataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn conductorDataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn copyrightDataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn decadeDataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn descriptionDataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn discCountDataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn discNumberDataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn discOfDataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn discTrackDataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn durationDataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn fileAttributesDataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn fileCreationTimeDataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn fileCreationTimeUtcDataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn fileExtensionDataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn fileLastAccessTimeDataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn fileLastAccessTimeUtcDataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn fileLastWriteTimeDataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn fileLastWriteTimeUtcDataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn fileNameDataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn fileNameWithoutExtensionDataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn filePathDataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn fileSizeDataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn fileStatusDataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn firstAlbumArtistDataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn firstAlbumArtistSortDataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn firstArtistDataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn firstComposerDataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn firstComposerSortDataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn firstGenreDataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn firstPerformerDataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn firstPerformerSortDataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn genresCountDataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn groupingDataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn imageAltitudeDataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn imageCreatorDataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn imageDateTimeDataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn imageExposureTimeDataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn imageFNumberDataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn imageFocalLengthDataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn imageFocalLengthIn35mmFilmDataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn imageISOSpeedRatingsDataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn imageLatitudeDataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn imageLongitudeDataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn imageMakeDataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn imageModelDataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn imageOrientationDataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn imageRatingDataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn imageSoftwareDataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn invariantEndPositionDataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn invariantStartPositionDataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn isClassicalDataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn isEmptyDataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn joinedAlbumArtistsDataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn joinedArtistsDataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn joinedComposersDataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn joinedGenresDataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn joinedPerformersDataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn joinedPerformersSortDataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn lyricsDataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn mediaTypesDataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn millenniumDataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn mimeTypeDataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn musicBrainzArtistIdDataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn musicBrainzDiscIdDataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn musicBrainzReleaseArtistIdDataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn musicBrainzReleaseCountryDataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn musicBrainzReleaseIdDataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn musicBrainzReleaseStatusDataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn musicBrainzReleaseTypeDataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn musicBrainzTrackIdDataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn musicIpIdDataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn nameDataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn performersCountDataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn performersSortCountDataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn photoHeightDataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn photoQualityDataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn photoWidthDataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn picturesCountDataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn possiblyCorruptDataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn tagTypesDataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn tagTypesOnDiskDataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn titleDataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn titleSortDataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn trackCountDataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn trackGainDataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn trackNumberDataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn trackOfDataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn trackPeakDataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn videoHeightDataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn videoWidthDataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn yearDataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn yearAlbumDataGridViewTextBoxColumn;
+        private System.Windows.Forms.BindingSource worksBindingSource;
+        private System.Windows.Forms.BindingSource modelBindingSource;
     }
 }
 

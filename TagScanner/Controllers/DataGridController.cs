@@ -7,10 +7,13 @@
     {
         public DataGridController(Controller parent, Model model, DataGridView view) : base(parent)
         {
-            Model = model;
-            View = view;
+            //Model = model;
+            //View = view;
 
-            View.DataSource = Model;
+            //var foo = new BindingSource(Model, "Works");
+
+            //View.DataSource = foo;
+            //View.DataMember = "Works";
         }
 
         public Model Model { get; private set; }
