@@ -30,7 +30,7 @@
             PersistenceController = new MruLibraryController(Model, View.FileReopen, View);
             PersistenceController.FilePathChanged += PersistenceController_FilePathChanged;
             PersistenceController.FileSaving += PersistenceController_FileSaving;
-            MediaController = new MruMediaController(this, View.AddRecentFolders);
+            MediaController = new MruMediaController(this, View.AddRecentFolder);
             PlayerController = new PlayerController(this, null);
             FilterController = new FilterController(this);
             PictureController = new PictureController(View.PictureBox, View.PropertyGrid, PlayerController.PlaylistGrid);
@@ -50,37 +50,72 @@
             set
             {
                 _view = value;
+
                 View.FileMenu.DropDownOpening += FileMenu_DropDownOpening;
+                View.tbSave.DropDownOpening += FileMenu_DropDownOpening;
+
                 View.FileNew.Click += FileNewLibrary_Click;
-                View.tbNew.ButtonClick += FileNewLibrary_Click;
                 View.tbNewLibrary.Click += FileNewLibrary_Click;
-                View.WindowNew.Click += FileNewWindow_Click;
+                View.tbNew.ButtonClick += FileNewLibrary_Click;
                 View.tbNewWindow.Click += FileNewWindow_Click;
+                View.WindowNew.Click += FileNewWindow_Click;
+
                 View.FileOpen.Click += FileOpen_Click;
+                View.tbOpen.ButtonClick += FileOpen_Click;
                 View.tbOpenLibrary.Click += FileOpen_Click;
+
                 View.FileSave.Click += FileSave_Click;
-                View.tbSave.Click += FileSave_Click;
+                View.tbSaveLibrary.Click += FileSave_Click;
                 View.FileSaveAs.Click += FileSaveAs_Click;
+                View.tbSave.ButtonClick += FileSaveAs_Click;
                 View.tbSaveAs.Click += FileSaveAs_Click;
+
                 View.FileClose.Click += FileClose_Click;
                 View.FileExit.Click += FileExit_Click;
+
+                View.EditUndo.Click += EditUndo_Click;
+                View.tbUndo.Click += EditUndo_Click;
+                View.EditRedo.Click += EditRedo_Click;
+                View.tbRedo.Click += EditRedo_Click;
+
+                View.EditCut.Click += EditCut_Click;
+                View.tbCut.Click += EditCut_Click;
+                View.EditCopy.Click += EditCopy_Click;
+                View.tbCopy.Click += EditCopy_Click;
+                View.EditPaste.Click += EditPaste_Click;
+                View.tbPaste.Click += EditPaste_Click;
+                View.EditDelete.Click += EditDelete_Click;
+                View.tbDelete.Click += EditDelete_Click;
+
                 View.EditSelectAll.Click += EditSelectAll_Click;
                 View.EditInvertSelection.Click += EditInvertSelection_Click;
+
                 View.ViewByArtistAlbum.Click += ViewByArtistAlbum_Click;
                 View.ViewByArtist.Click += ViewByArtist_Click;
                 View.ViewByGenre.Click += ViewByGenre_Click;
                 View.ViewByYear.Click += ViewByYear_Click;
                 View.ViewByAlbum.Click += ViewByAlbum_Click;
                 View.ViewByNoGrouping.Click += ViewByNone_Click;
-                View.WindowMenu.DropDownOpening += ViewWindow_DropDownOpening;
                 View.ViewRefresh.Click += ViewRefresh_Click;
+
+                View.WindowMenu.DropDownOpening += ViewWindow_DropDownOpening;
+
                 View.AddMedia.Click += AddMedia_Click;
+                View.tbAddMedia.Click += AddMedia_Click;
                 View.AddFolder.Click += AddFolder_Click;
+                View.tbAddFolder.Click += AddFolder_Click;
+                View.tbAdd.ButtonClick += AddFolder_Click;
+                View.tbAdd.DropDownOpening += TbAdd_DropDownOpening;
+
+                View.tbAddRecentFolder.DropDown = View.AddRecentFolder.DropDown;
+
                 View.HelpAbout.Click += HelpAbout_Click;
+
                 View.GridPopupMenu.Opening += GridPopupMenu_Opening;
                 View.GridPopupTags.Click += PopupTags_Click;
                 View.GridPopupMoreActions.Click += GridPopupMoreOptions_Click;
                 View.PropertyGridPopupTagVisibility.Click += PropertyGridPopupTagVisibility_Click;
+
                 View.Shown += View_Shown;
                 View.FormClosed += View_FormClosed;
                 View.FormClosing += View_FormClosing;
@@ -118,8 +153,7 @@
 
         #region File
 
-        private void FileMenu_DropDownOpening(object sender, EventArgs e) =>
-            View.FileSave.Enabled = Model.Modified && FilePath.IsValidFilePath();
+        private void FileMenu_DropDownOpening(object sender, EventArgs e) => UpdateSave();
 
         private void FileNewLibrary_Click(object sender, EventArgs e)
         {
@@ -139,6 +173,13 @@
 
         #region Edit
 
+
+        private void EditRedo_Click(object sender, EventArgs e) { }
+        private void EditUndo_Click(object sender, EventArgs e) { }
+        private void EditCut_Click(object sender, EventArgs e) { }
+        private void EditCopy_Click(object sender, EventArgs e) { }
+        private void EditPaste_Click(object sender, EventArgs e) { }
+        private void EditDelete_Click(object sender, EventArgs e) { }
         private void EditSelectAll_Click(object sender, EventArgs e) => LibraryGridController.SelectAll();
         private void EditInvertSelection_Click(object sender, EventArgs e) => LibraryGridController.InvertSelection();
 
@@ -161,6 +202,7 @@
 
         private void AddMedia_Click(object sender, EventArgs e) => MediaController.AddFiles();
         private void AddFolder_Click(object sender, EventArgs e) => MediaController.AddFolder();
+        private void TbAdd_DropDownOpening(object sender, EventArgs e) => View.tbAddRecentFolder.Enabled = View.AddRecentFolder.Enabled;
 
         #endregion
 
@@ -268,6 +310,12 @@
         }
 
         private void UpdatePropertyGrid() => View.PropertyGrid.SelectedObject = LibraryGridController.Selection;
+
+        private void UpdateSave()
+        {
+            var enabled = Model.Modified && FilePath.IsValidFilePath();
+            View.FileSave.Enabled = View.tbSaveLibrary.Enabled = enabled;
+        }
 
         private void WorkEdit(Work sender, Tag tag, object oldValue, object newValue)
         {

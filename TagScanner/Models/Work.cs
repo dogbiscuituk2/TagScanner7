@@ -9,7 +9,6 @@
     using System.Xml;
     using System.Xml.Serialization;
     using Newtonsoft.Json;
-    using Newtonsoft.Json.Linq;
     using Terms;
     using Utils;
 
@@ -730,8 +729,8 @@
 
         #region Methods
 
-        public object GetPropertyValue(Tag tag) => GetPropertyValue(tag.ToString());
-        public object GetPropertyValue(string propertyName) => GetPropertyInfo(propertyName).GetValue(this);
+        public object GetPropertyValue(Tag tag) => GetPropertyInfo(tag).GetValue(this);
+        public void SetPropertyValue(Tag tag, object value) => GetPropertyInfo(tag).SetValue(this, value);
 
         public void Load()
         {
@@ -763,9 +762,17 @@
 
         private T[] Get<T>(T[] field) => field ?? Array.Empty<T>();
 
-        private static PropertyInfo GetPropertyInfo(string propertyName) => typeof(Work).GetProperty(propertyName);
+        private static PropertyInfo GetPropertyInfo(Tag tag) => typeof(Work).GetProperty($"{tag}");
 
         private TagLib.File GetTagLibFile() => TagLib.File.Create(FilePath);
+
+        private static string NumberOfTotal(int number, int total, int digits)
+        {
+            number = Math.Max(number, 1);
+            total = Math.Max(number, total);
+            digits = Math.Max(digits, total.ToString().Length);
+            return string.Format($"{{0:D{digits}}}/{{1:D{digits}}}", number, total);
+        }
 
         private void OnWorkEdit(Tag tag, object oldValue, object newValue)
         {
@@ -935,6 +942,20 @@
                 SetUserValue(frame.Name, frame.ToString());
         }
 
+        private static bool SequenceEqual<T>(IEnumerable<T> x, IEnumerable<T> y) =>
+            x != null ? y != null && x.SequenceEqual(y) : y == null;
+
+        private void Set<T>(ref T field, T value, Tag tag) => Set(ref field, value, tag, !Equals(field, value));
+        private void Set<T>(ref T[] field, T[] value, Tag tag) => Set(ref field, value, tag, !SequenceEqual(field, value));
+
+        private void Set<T>(ref T field, T value, Tag tag, bool condition)
+        {
+            if (!condition) return;
+            var oldValue = field;
+            field = value;
+            OnWorkEdit(tag, oldValue, value);
+        }
+
         private void SetUserValue(string name, string value)
         {
             switch (name)
@@ -1007,28 +1028,6 @@
             imageTag.Orientation = ImageOrientation;
             imageTag.Rating = (uint)ImageRating;
             imageTag.Software = ImageSoftware;
-        }
-
-        private static string NumberOfTotal(int number, int total, int digits)
-        {
-            number = Math.Max(number, 1);
-            total = Math.Max(number, total);
-            digits = Math.Max(digits, total.ToString().Length);
-            return string.Format($"{{0:D{digits}}}/{{1:D{digits}}}", number, total);
-        }
-
-        private static bool SequenceEqual<T>(IEnumerable<T> x, IEnumerable<T> y) =>
-            x != null ? y != null && x.SequenceEqual(y) : y == null;
-
-        private void Set<T>(ref T field, T value, Tag tag) => Set(ref field, value, tag, !Equals(field, value));
-        private void Set<T>(ref T[] field, T[] value, Tag tag) => Set(ref field, value, tag, !SequenceEqual(field, value));
-
-        private void Set<T>(ref T field, T value, Tag tag, bool condition)
-        {
-            if (!condition) return;
-            var oldValue = field;
-            field = value;
-            OnWorkEdit(tag, oldValue, value);
         }
 
         #endregion
