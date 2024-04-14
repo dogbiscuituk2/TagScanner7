@@ -12,9 +12,9 @@
             Value = value;
         }
 
+        public Work Work { get; set; }
         public Tag Tag { get; set; }
         public object Value { get; set; }
-        public Work Work { get; set; }
 
         public override bool Do(Model model)
         {
@@ -30,7 +30,7 @@
             var result = !Equals(value, Value);
             if (result)
             {
-                Work.SetPropertyValue(Tag, value);
+                Work.SetPropertyValue(Tag, Value);
                 Value = value;
             }
             return result;
@@ -47,6 +47,5 @@
         private string Action => $"{Tag.DisplayName()} change";
 
         public override string ToString() => $"{Tag.DisplayName()} = {Value}";
-
     }
 }

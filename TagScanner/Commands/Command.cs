@@ -2,7 +2,7 @@
 {
     using Models;
 
-    public abstract class Command : ICommand
+    public abstract class Command
     {
         #region Constructor
 
@@ -10,10 +10,14 @@
 
         #endregion
 
-        #region ICommand
+        #region Properties
 
         public abstract string UndoAction { get; }
         public abstract string RedoAction { get; }
+
+        #endregion
+
+        #region Methods
 
         public virtual bool Do(Model model)
         {
@@ -23,13 +27,10 @@
         }
 
         public void Invert() { }
-        public abstract bool Run(Model model);
-
-        #endregion
-
-        #region Methods
 
         protected abstract void PropertyChanged(Model model, Tag tag);
+
+        public abstract bool Run(Model model);
 
         #endregion
     }

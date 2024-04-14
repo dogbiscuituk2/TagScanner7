@@ -14,23 +14,26 @@
 
         public CommandProcessor(LibraryFormController parent) : base(parent)
         {
-            View.EditUndo.Click += EditUndo_Click;
-            View.tbUndo.ButtonClick += EditUndo_Click;
-            View.EditUndo.DropDownOpening += TbUndo_DropDownOpening;
-            View.tbUndo.DropDownOpening += TbUndo_DropDownOpening;
-            View.EditRedo.Click += EditRedo_Click;
-            View.tbRedo.ButtonClick += EditRedo_Click;
-            View.EditRedo.DropDownOpening += TbUndo_DropDownOpening;
-            View.tbRedo.DropDownOpening += TbRedo_DropDownOpening;
+            UndoStack = new Stack<Command>();
+            RedoStack = new Stack<Command>();
+            AddHandlers(View.EditUndo, View.tbUndo, EditUndo_Click, EditUndo_DropDownOpening);
+            AddHandlers(View.EditRedo, View.tbRedo, EditRedo_Click, EditRedo_DropDownOpening);
+            UpdateMenu();
+
+            void AddHandlers(ToolStripMenuItem edit, ToolStripSplitButton tb, EventHandler click, EventHandler dropDownOpening)
+            {
+                edit.Click += click;
+                tb.ButtonClick += click;
+                edit.DropDownOpening += dropDownOpening;
+                tb.DropDownOpening += dropDownOpening;
+            }
         }
 
         #endregion
 
         #region Fields
 
-        private readonly Stack<Command> UndoStack = new Stack<Command>();
-        private readonly Stack<Command> RedoStack = new Stack<Command>();
-
+        private readonly Stack<Command> UndoStack, RedoStack;
         private int LastSave, UpdateCount;
 
         #endregion
@@ -53,7 +56,7 @@
             LastSave = 0;
             UndoStack.Clear();
             RedoStack.Clear();
-            UpdateUI();
+            UpdateMenu();
         }
 
         /// <summary>
@@ -79,10 +82,10 @@
 
         #region Private Methods
 
-        private void EditRedo_Click(object sender, EventArgs e) => Redo();
         private void EditUndo_Click(object sender, EventArgs e) => Undo();
-        private void TbUndo_DropDownOpening(object sender, EventArgs e) => PopulateMenu(UndoStack, View.UndoPopupMenu, UndoMultiple);
-        private void TbRedo_DropDownOpening(object sender, EventArgs e) => PopulateMenu(RedoStack, View.RedoPopupMenu, RedoMultiple);
+        private void EditRedo_Click(object sender, EventArgs e) => Redo();
+        private void EditUndo_DropDownOpening(object sender, EventArgs e) => PopulateMenu(UndoStack, View.UndoPopupMenu, UndoMultiple);
+        private void EditRedo_DropDownOpening(object sender, EventArgs e) => PopulateMenu(RedoStack, View.RedoPopupMenu, RedoMultiple);
         private static void UndoRedoItems_MouseEnter(object sender, EventArgs e) => HighlightUndoRedoItems((ToolStripItem)sender);
         private static void UndoRedoItems_Paint(object sender, PaintEventArgs e) => HighlightUndoRedoItems((ToolStripItem)sender);
 
@@ -97,7 +100,7 @@
         private void EndUpdate()
         {
             if (--UpdateCount == 0)
-                UpdateUI();
+                UpdateMenu();
         }
 
         private static void HighlightUndoRedoItems(ToolStripItem activeItem)
@@ -136,7 +139,7 @@
             if (result)
             {
                 UndoStack.Push(command);
-                UpdateUI();
+                UpdateMenu();
             }
             return result;
         }
@@ -156,7 +159,7 @@
             if (!command.Do(Model))
                 return false;
             RedoStack.Push(command);
-            UpdateUI();
+            UpdateMenu();
             return true;
         }
 
@@ -168,7 +171,7 @@
             EndUpdate();
         }
 
-        private void UpdateUI()
+        private void UpdateMenu()
         {
             if (UpdateCount > 0)
                 return;
@@ -181,7 +184,6 @@
             View.EditRedo.Text = $"&{redo}";
             View.tbUndo.ToolTipText = $"{undo} (^Z)";
             View.tbRedo.ToolTipText = $"{redo} (^Y)";
-            //LibraryFormController.ModifiedChanged();
         }
 
         #endregion
