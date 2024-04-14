@@ -16,15 +16,15 @@
         public Tag Tag { get; set; }
         public object Value { get; set; }
 
-        public override bool Do(Model model)
+        public override bool Do()
         {
-            var result = base.Do(model);
+            var result = base.Do();
             if (result)
-                PropertyChanged(model, Tag);
+                PropertyChanged();
             return result;
         }
 
-        public override bool Run(Model model)
+        public override bool Run()
         {
             var value = Work.GetPropertyValue(Tag);
             var result = !Equals(value, Value);
@@ -36,7 +36,7 @@
             return result;
         }
 
-        protected override void PropertyChanged(Model model, Tag tag)
+        protected override void PropertyChanged()
         {
             // model.???
         }

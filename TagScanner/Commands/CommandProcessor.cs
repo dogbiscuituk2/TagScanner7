@@ -75,7 +75,8 @@
             if (LastSave > UndoStack.Count)
                 LastSave = -1;
             RedoStack.Clear();
-            return Redo(command, spoof);
+            var result = Redo(command, spoof);
+            return result;
         }
 
         #endregion
@@ -84,16 +85,18 @@
 
         private void EditUndo_Click(object sender, EventArgs e) => Undo();
         private void EditRedo_Click(object sender, EventArgs e) => Redo();
+
         private void EditUndo_DropDownOpening(object sender, EventArgs e) => PopulateMenu(UndoStack, View.UndoPopupMenu, UndoMultiple);
         private void EditRedo_DropDownOpening(object sender, EventArgs e) => PopulateMenu(RedoStack, View.RedoPopupMenu, RedoMultiple);
-        private static void UndoRedoItems_MouseEnter(object sender, EventArgs e) => HighlightUndoRedoItems((ToolStripItem)sender);
-        private static void UndoRedoItems_Paint(object sender, PaintEventArgs e) => HighlightUndoRedoItems((ToolStripItem)sender);
+
+        private static void Menu_MouseEnter(object sender, EventArgs e) => HighlightMenu((ToolStripItem)sender);
+        private static void Menu_Paint(object sender, PaintEventArgs e) => HighlightMenu((ToolStripItem)sender);
 
         private bool CanRedo => RedoStack.Count > 0;
         private bool CanUndo => UndoStack.Count > 0;
 
-        private string RedoAction => RedoStack.Peek().RedoAction;
         private string UndoAction => UndoStack.Peek().UndoAction;
+        private string RedoAction => RedoStack.Peek().RedoAction;
 
         private void BeginUpdate() { ++UpdateCount; }
 
@@ -103,7 +106,7 @@
                 UpdateMenu();
         }
 
-        private static void HighlightUndoRedoItems(ToolStripItem activeItem)
+        private static void HighlightMenu(ToolStripItem activeItem)
         {
             if (!activeItem.Selected)
                 return;
@@ -126,8 +129,8 @@
                 var command = commands[n];
                 var item = items.Add(command.ToString(), null, handler);
                 item.Tag = command;
-                item.MouseEnter += UndoRedoItems_MouseEnter;
-                item.Paint += UndoRedoItems_Paint;
+                item.MouseEnter += Menu_MouseEnter;
+                item.Paint += Menu_Paint;
             }
         }
 
@@ -135,7 +138,7 @@
 
         private bool Redo(Command command, bool spoof = false)
         {
-            var result = spoof || command.Do(Model);
+            var result = spoof || command.Do();
             if (result)
             {
                 UndoStack.Push(command);
@@ -156,7 +159,7 @@
 
         private bool Undo(Command command)
         {
-            if (!command.Do(Model))
+            if (!command.Do())
                 return false;
             RedoStack.Push(command);
             UpdateMenu();

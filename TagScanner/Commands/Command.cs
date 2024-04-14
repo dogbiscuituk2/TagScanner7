@@ -19,18 +19,18 @@
 
         #region Methods
 
-        public virtual bool Do(Model model)
+        public virtual bool Do()
         {
-            var result = Run(model);
+            var result = Run();
             Invert();
             return result;
         }
 
         public void Invert() { }
 
-        protected abstract void PropertyChanged(Model model, Tag tag);
+        protected abstract void PropertyChanged();
 
-        public abstract bool Run(Model model);
+        public abstract bool Run();
 
         #endregion
     }
