@@ -24,7 +24,7 @@
 
         public Work(string filePath) : this()
         {
-            FilePath = filePath;
+            _filePath = filePath;
             Load();
             IsNew = true;
         }
@@ -114,10 +114,26 @@
         [JsonIgnore, XmlIgnore]
         public int ArtistsCount => Artists.Length;
 
-        public int AudioBitrate { get; set; }
-        public int AudioChannels { get; set; }
+        private int _audioBitrate;
+        public int AudioBitrate
+        {
+            get => _audioBitrate;
+            set => Set(ref _audioBitrate, value);
+        }
 
-        public int AudioSampleRate { get; set; }
+        private int _audioChannels;
+        public int AudioChannels
+        {
+            get => _audioChannels;
+            set => Set(ref _audioChannels, value);
+        }
+
+        private int _audioSampleRate;
+        public int AudioSampleRate
+        {
+            get => _audioSampleRate;
+            set => Set(ref _audioSampleRate, value);
+        }
 
         private int _beatsPerMinute;
         [DefaultValue(0)]
@@ -127,8 +143,12 @@
             set => Set(ref _beatsPerMinute, value);
         }
 
-        [DefaultValue(0)]
-        public int BitsPerSample { get; set; }
+        private int _bitsPerSample;
+        public int BitsPerSample
+        {
+            get => _bitsPerSample;
+            set => Set(ref _bitsPerSample, value);
+        }
 
         [JsonIgnore, XmlIgnore]
         public string Century => Year > 0 ? ((long)(Year + 99) / 100).AsOrdinal() : string.Empty;
@@ -218,8 +238,12 @@
         [JsonIgnore, XmlIgnore]
         public string DiscTrack => $"{DiscOf} - {TrackOf}";
 
-        [XmlIgnore]
-        public TimeSpan Duration { get; set; }
+        private TimeSpan _duration;
+        [XmlIgnore] public TimeSpan Duration
+        {
+            get => _duration;
+            set => Set(ref _duration, value);
+        }
 
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Never)]
@@ -231,18 +255,57 @@
             set => Duration = string.IsNullOrWhiteSpace(value) ? TimeSpan.Zero : XmlConvert.ToTimeSpan(value);
         }
 
-        [DefaultValue("")]
-        public string FileAttributes { get; set; }
-        public DateTime FileCreationTime { get; set; }
-        public DateTime FileCreationTimeUtc { get; set; }
+        private string _fileAttributes;
+        [DefaultValue("")] public string FileAttributes
+        {
+            get => Get(_fileAttributes);
+            set => Set(ref _fileAttributes, value);
+        }
+
+        private DateTime _fileCreationTime;
+        public DateTime FileCreationTime
+        {
+            get => _fileCreationTime;
+            set => Set(ref _fileCreationTime, value);
+        }
+
+        private DateTime _fileCreationTimeUtc;
+        public DateTime FileCreationTimeUtc
+        {
+            get => _fileCreationTimeUtc;
+            set => Set(ref _fileCreationTimeUtc, value);
+        }
 
         [JsonIgnore, XmlIgnore]
         public string FileExtension => Path.GetExtension(FilePath);
 
-        public DateTime FileLastAccessTime { get; set; }
-        public DateTime FileLastAccessTimeUtc { get; set; }
-        public DateTime FileLastWriteTime { get; set; }
-        public DateTime FileLastWriteTimeUtc { get; set; }
+        private DateTime _fileLastAccessTime;
+        public DateTime FileLastAccessTime
+        {
+            get => _fileLastAccessTime;
+            set => Set(ref _fileLastAccessTime, value);
+        }
+
+        private DateTime _fileLastAccessTimeUtc;
+        public DateTime FileLastAccessTimeUtc
+        {
+            get => _fileLastAccessTimeUtc;
+            set => Set(ref _fileLastAccessTimeUtc, value);
+        }
+
+        private DateTime _fileLastWriteTime;
+        public DateTime FileLastWriteTime
+        {
+            get => _fileLastWriteTime;
+            set => Set(ref _fileLastWriteTime, value);
+        }
+
+        private DateTime _fileLastWriteTimeUtc;
+        public DateTime FileLastWriteTimeUtc
+        {
+            get => _fileLastWriteTimeUtc;
+            set => Set(ref _fileLastWriteTimeUtc, value);
+        }
 
         [JsonIgnore, XmlIgnore]
         public string FileName => Path.GetFileName(FilePath);
@@ -250,8 +313,19 @@
         [JsonIgnore, XmlIgnore]
         public string FileNameWithoutExtension => Path.GetFileNameWithoutExtension(FilePath);
 
-        public string FilePath { get; set; }
-        public long FileSize { get; set; }
+        private string _filePath;
+        public string FilePath
+        {
+            get => Get(_filePath);
+            set => Set(ref _filePath, value);
+        }
+
+        private long _fileSize;
+        public long FileSize
+        {
+            get => _fileSize;
+            set => Set(ref _fileSize, value);
+        }
 
         [JsonIgnore, XmlIgnore]
         public FileStatus FileStatus
@@ -359,7 +433,12 @@
             set => Set(ref _grouping, value);
         }
 
-        [DefaultValue(0.0D)] public double ImageAltitude { get; set; }
+        private double _imageAltitude;
+        [DefaultValue(0.0D)] public double ImageAltitude
+        {
+            get => _imageAltitude;
+            set => Set(ref _imageAltitude, value);
+        }
 
         private string _imageCreator = string.Empty;
         [DefaultValue("")]
@@ -369,13 +448,47 @@
             set => Set(ref _imageCreator, value);
         }
 
-        public DateTime ImageDateTime { get; set; }
+        private DateTime _imageDateTime;
+        public DateTime ImageDateTime
+        {
+            get => _imageDateTime;
+            set => Set(ref _imageDateTime, value);
+        }
 
-        [DefaultValue(0.0D)] public double ImageExposureTime { get; set; }
-        [DefaultValue(0.0D)] public double ImageFNumber { get; set; }
-        [DefaultValue(0.0D)] public double ImageFocalLength { get; set; }
-        [DefaultValue(0)] public int ImageFocalLengthIn35mmFilm { get; set; }
-        [DefaultValue(0)] public int ImageISOSpeedRatings { get; set; }
+        private double _imageExposureTime;
+        [DefaultValue(0.0D)] public double ImageExposureTime
+        {
+            get => _imageExposureTime;
+            set => Set(ref _imageExposureTime, value);
+        }
+
+        private double _imageFNumber;
+        [DefaultValue(0.0D)] public double ImageFNumber
+        {
+            get => _imageFNumber;
+            set => Set(ref _imageFNumber, value);
+        }
+
+        private double _imageFocalLength;
+        [DefaultValue(0.0D)] public double ImageFocalLength
+        {
+            get => _imageFocalLength;
+            set => Set(ref _imageFocalLength, value);
+        }
+
+        private int _imageFocalLengthIn35mmFilm;
+        [DefaultValue(0)] public int ImageFocalLengthIn35mmFilm
+        {
+            get => _imageFocalLengthIn35mmFilm;
+            set => Set(ref _imageFocalLengthIn35mmFilm, value);
+        }
+
+        private int _imageISOSpeedRatings;
+        [DefaultValue(0)] public int ImageISOSpeedRatings
+        {
+            get => _imageISOSpeedRatings;
+            set => Set(ref _imageISOSpeedRatings, value);
+        }
 
         private string[] _imageKeywords;
         public string[] ImageKeywords
@@ -384,8 +497,19 @@
             set => Set(ref _imageKeywords, value);
         }
 
-        [DefaultValue(0.0D)] public double ImageLatitude { get; set; }
-        [DefaultValue(0.0D)] public double ImageLongitude { get; set; }
+        private double _imageLatitude;
+        [DefaultValue(0.0D)] public double ImageLatitude
+        {
+            get => _imageLatitude;
+            set => Set(ref _imageLatitude, value);
+        }
+
+        private double _imageLongitude;
+        [DefaultValue(0.0D)] public double ImageLongitude
+        {
+            get => _imageLongitude;
+            set => Set(ref _imageLongitude, value);
+        }
 
         private string _imageMake = string.Empty;
         [DefaultValue("")]
@@ -403,10 +527,20 @@
             set => Set(ref _imageModel, value);
         }
 
+        private TagLib.Image.ImageOrientation _imageOrientation;
         [DefaultValue(TagLib.Image.ImageOrientation.None)]
-        public TagLib.Image.ImageOrientation ImageOrientation { get; set; }
+        public TagLib.Image.ImageOrientation ImageOrientation
+        {
+            get => _imageOrientation;
+            set => Set(ref _imageOrientation, value);
+        }
 
-        [DefaultValue(0)] public int ImageRating { get; set; }
+        private int _imageRating;
+        [DefaultValue(0)] public int ImageRating
+        {
+            get => _imageRating;
+            set => Set(ref _imageRating, value);
+        }
 
         private string _imageSoftware = string.Empty;
         [DefaultValue("")]
@@ -416,8 +550,19 @@
             set => Set(ref _imageSoftware, value);
         }
 
-        public long InvariantEndPosition { get; set; }
-        public long InvariantStartPosition { get; set; }
+        private long _invariantEndPosition;
+        public long InvariantEndPosition
+        {
+            get => _invariantEndPosition;
+            set => Set(ref _invariantEndPosition, value);
+        }
+
+        private long _invariantStartPosition;
+        public long InvariantStartPosition
+        {
+            get => _invariantStartPosition;
+            set => Set(ref _invariantStartPosition, value);
+        }
 
         [JsonIgnore, XmlIgnore]
         public Logical IsClassical => (FirstGenre == "Classical").AsLogical();
@@ -481,7 +626,12 @@
             set => Set(ref _lyrics, value);
         }
 
-        public TagLib.MediaTypes MediaTypes { get; set; }
+        private TagLib.MediaTypes _mediaTypes;
+        public TagLib.MediaTypes MediaTypes
+        {
+            get => _mediaTypes;
+            set => Set(ref _mediaTypes, value);
+        }
 
         [JsonIgnore, XmlIgnore]
         public string Millennium => Year > 0 ? ((long)(Year + 999) / 1000).AsOrdinal() : string.Empty;
@@ -566,7 +716,12 @@
             set => Set(ref _musicIpId, value);
         }
 
-        public string Name { get; set; }
+        private string _name;
+        public string Name
+        {
+            get => _name;
+            set => Set(ref _name, value);
+        }
 
         private string[] _performers;
         public string[] Performers
@@ -588,9 +743,26 @@
         [JsonIgnore, XmlIgnore]
         public int PerformersSortCount => PerformersSort.Length;
 
-        [DefaultValue(0)] public int PhotoHeight { get; set; }
-        [DefaultValue(0)] public int PhotoQuality { get; set; }
-        [DefaultValue(0)] public int PhotoWidth { get; set; }
+        private int _photoHeight;
+        [DefaultValue(0)] public int PhotoHeight
+        {
+            get => _photoHeight;
+            set => Set(ref _photoHeight, value);
+        }
+
+        private int _photoQuality;
+        [DefaultValue(0)] public int PhotoQuality
+        {
+            get => _photoQuality;
+            set => Set(ref _photoQuality, value);
+        }
+
+        private int _photoWidth;
+        [DefaultValue(0)] public int PhotoWidth
+        {
+            get => _photoWidth;
+            set => Set(ref _photoWidth, value);
+        }
 
         private Picture[] _pictures;
         public Picture[] Pictures
@@ -607,8 +779,19 @@
         private bool _possiblyCorrupt;
         public Logical PossiblyCorrupt => _possiblyCorrupt.AsLogical();
 
-        public TagLib.TagTypes TagTypes { get; set; }
-        public TagLib.TagTypes TagTypesOnDisk { get; set; }
+        private TagLib.TagTypes _tagTypes;
+        public TagLib.TagTypes TagTypes
+        {
+            get => _tagTypes;
+            set => Set(ref _tagTypes, value);
+        }
+
+        private TagLib.TagTypes _tagTypesOnDisk;
+        public TagLib.TagTypes TagTypesOnDisk
+        {
+            get => _tagTypesOnDisk;
+            set => Set(ref _tagTypesOnDisk, value);
+        }
 
         private string _title = string.Empty;
         [DefaultValue("")]
@@ -661,8 +844,20 @@
             set => Set(ref _trackPeak, value);
         }
 
-        [DefaultValue(0)] public int VideoHeight { get; set; }
-        [DefaultValue(0)] public int VideoWidth { get; set; }
+        private int _videoHeight;
+        [DefaultValue(0)] public int VideoHeight
+        {
+            get => _videoHeight;
+            set => Set(ref _videoHeight, value);
+        }
+
+        private int _videoWidth;
+        [DefaultValue(0)]
+        public int VideoWidth
+        {
+            get => _videoWidth;
+            set => Set(ref _videoWidth, value);
+        }
 
         private int _year;
         [DefaultValue(0)]
@@ -720,14 +915,14 @@
 
         private void ReadFileMetadata()
         {
-            FileSize = new FileInfo(FilePath).Length;
-            FileAttributes = File.GetAttributes(FilePath).ToString();
-            FileCreationTime = File.GetCreationTimeUtc(FilePath);
-            FileLastWriteTime = File.GetLastWriteTimeUtc(FilePath);
-            FileLastAccessTime = File.GetLastAccessTimeUtc(FilePath);
-            FileCreationTimeUtc = File.GetCreationTimeUtc(FilePath);
-            FileLastWriteTimeUtc = File.GetLastWriteTimeUtc(FilePath);
-            FileLastAccessTimeUtc = File.GetLastAccessTimeUtc(FilePath);
+            _fileSize = new FileInfo(FilePath).Length;
+            _fileAttributes = File.GetAttributes(FilePath).ToString();
+            _fileCreationTime = File.GetCreationTimeUtc(FilePath);
+            _fileLastWriteTime = File.GetLastWriteTimeUtc(FilePath);
+            _fileLastAccessTime = File.GetLastAccessTimeUtc(FilePath);
+            _fileCreationTimeUtc = File.GetCreationTimeUtc(FilePath);
+            _fileLastWriteTimeUtc = File.GetLastWriteTimeUtc(FilePath);
+            _fileLastAccessTimeUtc = File.GetLastAccessTimeUtc(FilePath);
         }
 
         private void ReadTag(TagLib.Tag tag)
@@ -750,27 +945,27 @@
             _copyright = tag.Copyright;
             _discNumber = (int)tag.Disc;
             _discCount = (int)tag.DiscCount;
-            FirstAlbumArtist = tag.FirstAlbumArtist;
-            FirstAlbumArtistSort = tag.FirstAlbumArtistSort;
+            _firstAlbumArtist = tag.FirstAlbumArtist;
+            _firstAlbumArtistSort = tag.FirstAlbumArtistSort;
 #pragma warning disable 612, 618
-            FirstArtist = tag.FirstArtist;
+            _firstArtist = tag.FirstArtist;
 #pragma warning restore 612, 618
-            FirstComposer = tag.FirstComposer;
-            FirstComposerSort = tag.FirstComposerSort;
-            FirstGenre = tag.FirstGenre;
-            FirstPerformer = tag.FirstPerformer;
-            FirstPerformerSort = tag.FirstPerformerSort;
+            _firstComposer = tag.FirstComposer;
+            _firstComposerSort = tag.FirstComposerSort;
+            _firstGenre = tag.FirstGenre;
+            _firstPerformer = tag.FirstPerformer;
+            _firstPerformerSort = tag.FirstPerformerSort;
             _genres = tag.Genres;
             _grouping = tag.Grouping;
             _isEmpty = tag.IsEmpty;
-            JoinedAlbumArtists = tag.JoinedAlbumArtists;
+            _joinedAlbumArtists = tag.JoinedAlbumArtists;
 #pragma warning disable 612, 618
-            JoinedArtists = tag.JoinedArtists;
+            _joinedArtists = tag.JoinedArtists;
 #pragma warning restore 612, 618
-            JoinedComposers = tag.JoinedComposers;
-            JoinedGenres = tag.JoinedGenres;
-            JoinedPerformers = tag.JoinedPerformers;
-            JoinedPerformersSort = tag.JoinedPerformersSort;
+            _joinedComposers = tag.JoinedComposers;
+            _joinedGenres = tag.JoinedGenres;
+            _joinedPerformers = tag.JoinedPerformers;
+            _joinedPerformersSort = tag.JoinedPerformersSort;
             _lyrics = tag.Lyrics;
             _musicBrainzArtistId = tag.MusicBrainzArtistId;
             _musicBrainzDiscId = tag.MusicBrainzDiscId;
@@ -785,7 +980,7 @@
             _performersSort = tag.PerformersSort;
             _picturesCount = tag.Pictures.Length;
             var pictureIndex = 0;
-            Pictures = tag.Pictures.Select(p => new Picture(FilePath, pictureIndex++, p)).ToArray();
+            _pictures = tag.Pictures.Select(p => new Picture(FilePath, pictureIndex++, p)).ToArray();
             _title = tag.Title;
             _titleSort = tag.TitleSort;
             _trackNumber = (int)tag.Track;
@@ -808,57 +1003,57 @@
         {
             if (file == null)
                 return;
-            InvariantEndPosition = file.InvariantEndPosition;
-            InvariantStartPosition = file.InvariantStartPosition;
-            MimeType = file.MimeType;
-            Name = file.Name;
+            _invariantEndPosition = file.InvariantEndPosition;
+            _invariantStartPosition = file.InvariantStartPosition;
+            _mimeType = file.MimeType;
+            _name = file.Name;
             _possiblyCorrupt = file.PossiblyCorrupt;
-            TagTypes = file.TagTypes;
-            TagTypesOnDisk = file.TagTypesOnDisk;
+            _tagTypes = file.TagTypes;
+            _tagTypesOnDisk = file.TagTypesOnDisk;
             ReadTagProperties(file.Properties);
             ReadTag(file.Tag);
         }
 
         private void ReadTagImageData(TagLib.Image.ImageTag tag)
         {
-            ImageAltitude = tag.Altitude ?? 0;
-            ImageCreator = tag.Creator;
-            ImageDateTime = tag.DateTime ?? DateTime.MinValue;
-            ImageExposureTime = tag.ExposureTime ?? 0;
-            ImageFNumber = tag.FNumber ?? 0;
-            ImageFocalLength = tag.FocalLength ?? 0;
-            ImageFocalLengthIn35mmFilm = (int)(tag.FocalLengthIn35mmFilm ?? 0);
-            ImageISOSpeedRatings = (int)(tag.ISOSpeedRatings ?? 0);
-            ImageKeywords = tag.Keywords;
-            ImageLatitude = tag.Latitude ?? 0;
-            ImageLongitude = tag.Longitude ?? 0;
-            ImageMake = tag.Make;
-            ImageModel = tag.Model;
-            ImageOrientation = tag.Orientation;
-            ImageRating = (int)(tag.Rating ?? 0);
-            ImageSoftware = tag.Software;
+            _imageAltitude = tag.Altitude ?? 0;
+            _imageCreator = tag.Creator;
+            _imageDateTime = tag.DateTime ?? DateTime.MinValue;
+            _imageExposureTime = tag.ExposureTime ?? 0;
+            _imageFNumber = tag.FNumber ?? 0;
+            _imageFocalLength = tag.FocalLength ?? 0;
+            _imageFocalLengthIn35mmFilm = (int)(tag.FocalLengthIn35mmFilm ?? 0);
+            _imageISOSpeedRatings = (int)(tag.ISOSpeedRatings ?? 0);
+            _imageKeywords = tag.Keywords;
+            _imageLatitude = tag.Latitude ?? 0;
+            _imageLongitude = tag.Longitude ?? 0;
+            _imageMake = tag.Make;
+            _imageModel = tag.Model;
+            _imageOrientation = tag.Orientation;
+            _imageRating = (int)(tag.Rating ?? 0);
+            _imageSoftware = tag.Software;
         }
 
         private void ReadTagProperties(TagLib.Properties properties)
         {
             if (properties == null)
                 return;
-            AudioBitrate = properties.AudioBitrate;
-            AudioChannels = properties.AudioChannels;
-            AudioSampleRate = properties.AudioSampleRate;
-            BitsPerSample = properties.BitsPerSample;
-            Codecs = properties.Codecs
+            _audioBitrate = properties.AudioBitrate;
+            _audioChannels = properties.AudioChannels;
+            _audioSampleRate = properties.AudioSampleRate;
+            _bitsPerSample = properties.BitsPerSample;
+            _codecs = properties.Codecs
                 .Where(c => c != null)
                 .Select(c => $"{c.MediaTypes} ({c.Description} - {c.Duration:g})")
                 .Aggregate((s, t) => s + "; " + t);
-            Description = properties.Description;
-            Duration = properties.Duration;
-            MediaTypes = properties.MediaTypes; // 0 = None, 1 = Audio, 2 = Video, 4 = Photo, 8 = Text.
-            PhotoHeight = properties.PhotoHeight;
-            PhotoQuality = properties.PhotoQuality;
-            PhotoWidth = properties.PhotoWidth;
-            VideoHeight = properties.VideoHeight;
-            VideoWidth = properties.VideoWidth;
+            _description = properties.Description;
+            _duration = properties.Duration;
+            _mediaTypes = properties.MediaTypes; // 0 = None, 1 = Audio, 2 = Video, 4 = Photo, 8 = Text.
+            _photoHeight = properties.PhotoHeight;
+            _photoQuality = properties.PhotoQuality;
+            _photoWidth = properties.PhotoWidth;
+            _videoHeight = properties.VideoHeight;
+            _videoWidth = properties.VideoWidth;
         }
 
         private void ReadTagUserText(TagLib.CombinedTag tag)
@@ -961,10 +1156,10 @@
         {
             switch (name)
             {
-                case "replaygain_album_gain": AlbumGain = value; break;
-                case "replaygain_album_peak": AlbumPeak = value; break;
-                case "replaygain_track_gain": TrackGain = value; break;
-                case "replaygain_track_peak": TrackPeak = value; break;
+                case "replaygain_album_gain": _albumGain = value; break;
+                case "replaygain_album_peak": _albumPeak = value; break;
+                case "replaygain_track_gain": _trackGain = value; break;
+                case "replaygain_track_peak": _trackPeak = value; break;
             }
         }
 
@@ -984,7 +1179,7 @@
             if (workEdit == null) // Are we just now streaming input, using XML?
                 return; // Yes: then relax, property accessors should have no side effects.
             workEdit.Invoke(this, new WorkEditEventArgs(tag, oldValue, newValue));
-            workEdit.Invoke(this, new WorkEditEventArgs(Tag.FileStatus));
+            workEdit.Invoke(this, new WorkEditEventArgs(Tag.FileStatus)); // TODO: replace with an explicit recalculation?
             foreach (var dependency in tag.GetDependencies())
                 workEdit.Invoke(this, new WorkEditEventArgs(tag));
         }

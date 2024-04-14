@@ -128,7 +128,6 @@
     <Compile Include="Commands\ICommand.cs" />
     <Compile Include="Commands\WorkPropertyCommand.cs" />
     <Compile Include="Commands\CommandProcessor.cs" />
-    <Compile Include="Controllers\DataGridController.cs" />
     <Compile Include="Controllers\FilterController.cs" />
     <Compile Include="Controllers\AppController.cs" />
     <Compile Include="Controllers\Mru\MruController.cs" />
@@ -283,7 +282,9 @@
       <DependentUpon>FilterForm.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="packages.config" />
+    <None Include="Properties\DataSources\TagScanner.Models.Library.datasource" />
     <None Include="Properties\DataSources\TagScanner.Models.Model.datasource" />
+    <None Include="Properties\DataSources\TagScanner.Models.Work.datasource" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>

@@ -8,10 +8,5 @@
         {
             InitializeComponent();
         }
-
-        private void toolStrip1_ItemClicked(object sender, ToolStripItemClickedEventArgs e)
-        {
-
-        }
     }
 }

@@ -46,6 +46,23 @@
 
         #region Public Methods
 
+        public void Clear()
+        {
+            LastSave = 0;
+            UndoStack.Clear();
+            RedoStack.Clear();
+            UpdateUI();
+        }
+
+        /// <summary>
+        /// Run a command, pushing its memento on to the Undo stack.
+        /// </summary>
+        /// <param name="command">The command to run.</param>
+        /// <param name="spoof">A flag indicating whether the command should actually be run. 
+        /// If true, the command should be run as normal. 
+        /// If false, the relevant properties have already been changed on the target, 
+        /// so just log the memento to the Undo stack.</param>
+        /// <returns>True if the command was run, and actually caused a property change.</returns>
         public bool Run(Command command, bool spoof = false)
         {
             if (command == null)
@@ -62,8 +79,8 @@
 
         private void EditRedo_Click(object sender, EventArgs e) => Redo();
         private void EditUndo_Click(object sender, EventArgs e) => Undo();
-        private void TbUndo_DropDownOpening(object sender, EventArgs e) => Copy(UndoStack, View.tbUndo, UndoMultiple);
-        private void TbRedo_DropDownOpening(object sender, EventArgs e) => Copy(RedoStack, View.tbRedo, RedoMultiple);
+        private void TbUndo_DropDownOpening(object sender, EventArgs e) => PopulateMenu(UndoStack, View.UndoPopupMenu, UndoMultiple);
+        private void TbRedo_DropDownOpening(object sender, EventArgs e) => PopulateMenu(RedoStack, View.RedoPopupMenu, RedoMultiple);
         private static void UndoRedoItems_MouseEnter(object sender, EventArgs e) => HighlightUndoRedoItems((ToolStripItem)sender);
         private static void UndoRedoItems_Paint(object sender, PaintEventArgs e) => HighlightUndoRedoItems((ToolStripItem)sender);
 
@@ -74,22 +91,6 @@
         private string UndoAction => UndoStack.Peek().UndoAction;
 
         private void BeginUpdate() { ++UpdateCount; }
-
-        private void Copy(Stack<Command> source, ToolStripDropDownItem target, EventHandler handler)
-        {
-            const int MaxItems = 20;
-            var commands = source.ToArray();
-            var items = target.DropDownItems;
-            items.Clear();
-            for (int n = 0; n < Math.Min(commands.Length, MaxItems); n++)
-            {
-                var command = commands[n];
-                var item = items.Add(command.ToString(), null, handler);
-                item.Tag = command;
-                item.MouseEnter += UndoRedoItems_MouseEnter;
-                item.Paint += UndoRedoItems_Paint;
-            }
-        }
 
         private void EndUpdate()
         {
@@ -107,6 +108,22 @@
                 item.BackColor = Color.FromKnownColor(items.IndexOf(item) <= index
                     ? KnownColor.GradientActiveCaption
                     : KnownColor.Control);
+        }
+
+        private void PopulateMenu(Stack<Command> source, ContextMenuStrip target, EventHandler handler)
+        {
+            const int MaxItems = 20;
+            var commands = source.ToArray();
+            var items = target.Items;
+            items.Clear();
+            for (int n = 0; n < Math.Min(commands.Length, MaxItems); n++)
+            {
+                var command = commands[n];
+                var item = items.Add(command.ToString(), null, handler);
+                item.Tag = command;
+                item.MouseEnter += UndoRedoItems_MouseEnter;
+                item.Paint += UndoRedoItems_Paint;
+            }
         }
 
         private bool Redo() => CanRedo && Redo(RedoStack.Pop());
