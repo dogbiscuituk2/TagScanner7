@@ -16,9 +16,11 @@
         {
             View.EditUndo.Click += EditUndo_Click;
             View.tbUndo.ButtonClick += EditUndo_Click;
+            View.EditUndo.DropDownOpening += TbUndo_DropDownOpening;
             View.tbUndo.DropDownOpening += TbUndo_DropDownOpening;
             View.EditRedo.Click += EditRedo_Click;
             View.tbRedo.ButtonClick += EditRedo_Click;
+            View.EditRedo.DropDownOpening += TbUndo_DropDownOpening;
             View.tbRedo.DropDownOpening += TbRedo_DropDownOpening;
         }
 

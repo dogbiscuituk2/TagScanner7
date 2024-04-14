@@ -45,5 +45,8 @@
         public override string UndoAction => Action;
 
         private string Action => $"{Tag.DisplayName()} change";
+
+        public override string ToString() => $"{Tag.DisplayName()} = {Value}";
+
     }
 }
