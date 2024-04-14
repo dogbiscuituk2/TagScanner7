@@ -10,6 +10,7 @@
     using Models;
     using Mru;
     using Properties;
+    using TagScanner.Commands;
     using Terms;
     using Utils;
     using Views;
@@ -24,6 +25,7 @@
             Model = new Model();
             Model.ModifiedChanged += Model_ModifiedChanged;
             Model.WorkEdit += Model_WorkEdit;
+            CommandProcessor = new CommandProcessor(this);
             LibraryGridController = new LibraryGridController(this, Model, View.GridElementHost);
             LibraryGridController.SelectionChanged += LibraryGridController_SelectionChanged;
             StatusController = new StatusController(Model, View.StatusBar);
@@ -129,6 +131,7 @@
         #region Fields
 
         public readonly Model Model;
+        public readonly CommandProcessor CommandProcessor;
         public readonly LibraryGridController LibraryGridController;
         public readonly MruMediaController MediaController;
         public readonly MruLibraryController PersistenceController;

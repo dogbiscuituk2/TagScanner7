@@ -13,6 +13,7 @@ namespace TagScanner.Controllers
     using System.Windows.Forms.Integration;
     using Menus;
     using Models;
+    using TagScanner.Commands;
     using ValueConverters;
     using Views;
 
@@ -25,6 +26,13 @@ namespace TagScanner.Controllers
             Model = model;
             View = view;
         }
+
+        #endregion
+
+        #region Properties
+
+        private LibraryFormController LibraryFormController => (LibraryFormController)Parent;
+        private CommandProcessor CommandProcessor => LibraryFormController.CommandProcessor;
 
         #endregion
 
@@ -211,7 +219,8 @@ namespace TagScanner.Controllers
         {
             if (UpdatingSelectionCount != 0) return;
             InvalidateSelection();
-            SelectionChanged?.Invoke(this, EventArgs.Empty);
+            var selectionChanged = SelectionChanged;
+            selectionChanged?.Invoke(this, EventArgs.Empty);
         }
 
         public void SelectAll()
@@ -256,7 +265,16 @@ namespace TagScanner.Controllers
 
         private void Grid_SelectionChanged(object sender, SelectionChangedEventArgs e) => OnSelectionChanged();
 
-        private Selection GetSelection() => new Selection(DataGrid.SelectedItems.Cast<Work>());
+        private Selection GetSelection()
+        {
+            var selection = new Selection(DataGrid.SelectedItems.Cast<Work>());
+            selection.BeginUpdate += Selection_BeginUpdate;
+            selection.EndUpdate += Selection_EndUpdate;
+            return selection;
+        }
+
+        private void Selection_BeginUpdate(object sender, EventArgs e) => CommandProcessor.BeginGroup();
+        private void Selection_EndUpdate(object sender, EventArgs e) => CommandProcessor.EndGroup();
 
         #endregion
 

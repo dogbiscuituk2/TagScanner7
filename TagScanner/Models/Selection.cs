@@ -22,6 +22,26 @@
 
         #endregion
 
+        #region Events
+
+        public event EventHandler
+            BeginUpdate,
+            EndUpdate;
+
+        private void OnBeginUpdate()
+        {
+            var beginUpdate = BeginUpdate;
+            beginUpdate?.Invoke(this, EventArgs.Empty);
+        }
+
+        private void OnEndUpdate()
+        {
+            var endUpdate = EndUpdate;
+            endUpdate?.Invoke(this, EventArgs.Empty);
+        }
+
+        #endregion
+
         #region IWork
 
         #region Album
@@ -2205,8 +2225,13 @@
 
         private void SetValue(Action<IWork> setValue)
         {
+            var beginEnd = Works.Count() > 1;
+            if (beginEnd)
+                OnBeginUpdate();
             foreach (var file in Works)
                 setValue(file);
+            if (beginEnd)
+                OnEndUpdate();
         }
 
         #endregion
