@@ -1,5 +1,28 @@
 ﻿# TagScanner - A Code Overview {#contents}
 
+When an edit is made to one or more Work items in the PropertyGrid editor, its WorkEdit event is invoked:-
+
+    Work
+     \
+      Set<T>(ref T field, T value, string tag, bool condition)
+       \
+        OnWorkEdit(tag, oldValue, newValue);
+	     \
+	      WorkEdit.Invoke(this, new WorkEditEventArgs(tag, oldValue, newValue));	  
+
+    This WorkEdit is assigned a delegate in one of two ways, either of which will call Model.WorkEdit:
+     \
+      1. During loading from a live directory scan, StatusController adds a delegate.
+      2. During loading from a saved file, MruLibraryController adds a delegate.
+
+    Model.WorkEdit(sender, e) invokes its own WorkEdit event.
+     \
+      WorkEdit.Invoke(sender, e)
+
+    This WorkEdit event is heard by the LibraryFormController, which calls its WorkEdit method:
+     \
+  
+
 TagScanner gathers ID3 tags and other available metadata from suitable files, e.g. MP3s, and stores them in a library file. Loaded metadata are editable, and when the library file is re-saved, these edits can optionally be applied to the relevant media files.
 
 There is a query builder allowing the construction of complex filters based on all metadata properties, and a Find/Replace function which operates across multiple tags and optionally uses Regex. The app is WinForms based, but uses embedded WPF grids to take advantage of their (free!) filtering, sorting & grouping operations.
