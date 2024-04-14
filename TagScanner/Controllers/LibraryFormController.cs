@@ -322,7 +322,7 @@
 
         private void WorkEdit(Work sender, Tag tag, object oldValue)
         {
-            CommandProcessor.Run(new WorkPropertyCommand(sender, tag, oldValue), true);
+            CommandProcessor.Run(new WorkPropertyCommand(sender, tag, oldValue), spoof: true);
         }
 
         #endregion

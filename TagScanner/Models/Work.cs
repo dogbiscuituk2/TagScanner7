@@ -1167,7 +1167,7 @@
             var workEdit = WorkEdit;
             if (workEdit == null) // Are we just now streaming input, using XML?
                 return; // Yes: then relax, property accessors should have no side effects.
-            workEdit.Invoke(this, new WorkEditEventArgs(tag, oldValue, newValue));
+            workEdit.Invoke(this, new WorkEditEventArgs(tag, oldValue));
             //workEdit.Invoke(this, new WorkEditEventArgs(Tag.FileStatus)); // TODO: replace with explicit recalculations?
             //foreach (var dependency in tag.GetDependencies())
             //    workEdit.Invoke(this, new WorkEditEventArgs(tag));
