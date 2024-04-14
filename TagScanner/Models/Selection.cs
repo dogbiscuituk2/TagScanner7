@@ -5,6 +5,7 @@
     using System.ComponentModel;
     using System.IO;
     using System.Linq;
+    using TagScanner.Commands;
 
     [DefaultProperty("Title")]
     public class Selection : IWork

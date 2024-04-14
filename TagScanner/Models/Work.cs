@@ -144,6 +144,7 @@
         }
 
         private int _bitsPerSample;
+        [DefaultValue(0)]
         public int BitsPerSample
         {
             get => _bitsPerSample;
@@ -216,16 +217,16 @@
             set => Set(ref _description, value);
         }
 
-        [DefaultValue(0)]
         private int _discCount;
+        [DefaultValue(0)]
         public int DiscCount
         {
             get => _discCount;
             set => Set(ref _discCount, value);
         }
 
-        [DefaultValue(0)]
         private int _discNumber;
+        [DefaultValue(0)]
         public int DiscNumber
         {
             get => _discNumber;
@@ -255,8 +256,9 @@
             set => Duration = string.IsNullOrWhiteSpace(value) ? TimeSpan.Zero : XmlConvert.ToTimeSpan(value);
         }
 
-        private string _fileAttributes;
-        [DefaultValue("")] public string FileAttributes
+        private string _fileAttributes = string.Empty;
+        [DefaultValue("")]
+        public string FileAttributes
         {
             get => Get(_fileAttributes);
             set => Set(ref _fileAttributes, value);
@@ -456,35 +458,40 @@
         }
 
         private double _imageExposureTime;
-        [DefaultValue(0.0D)] public double ImageExposureTime
+        [DefaultValue(0.0D)]
+        public double ImageExposureTime
         {
             get => _imageExposureTime;
             set => Set(ref _imageExposureTime, value);
         }
 
         private double _imageFNumber;
-        [DefaultValue(0.0D)] public double ImageFNumber
+        [DefaultValue(0.0D)]
+        public double ImageFNumber
         {
             get => _imageFNumber;
             set => Set(ref _imageFNumber, value);
         }
 
         private double _imageFocalLength;
-        [DefaultValue(0.0D)] public double ImageFocalLength
+        [DefaultValue(0.0D)]
+        public double ImageFocalLength
         {
             get => _imageFocalLength;
             set => Set(ref _imageFocalLength, value);
         }
 
         private int _imageFocalLengthIn35mmFilm;
-        [DefaultValue(0)] public int ImageFocalLengthIn35mmFilm
+        [DefaultValue(0)]
+        public int ImageFocalLengthIn35mmFilm
         {
             get => _imageFocalLengthIn35mmFilm;
             set => Set(ref _imageFocalLengthIn35mmFilm, value);
         }
 
         private int _imageISOSpeedRatings;
-        [DefaultValue(0)] public int ImageISOSpeedRatings
+        [DefaultValue(0)]
+        public int ImageISOSpeedRatings
         {
             get => _imageISOSpeedRatings;
             set => Set(ref _imageISOSpeedRatings, value);
@@ -498,14 +505,16 @@
         }
 
         private double _imageLatitude;
-        [DefaultValue(0.0D)] public double ImageLatitude
+        [DefaultValue(0.0D)]
+        public double ImageLatitude
         {
             get => _imageLatitude;
             set => Set(ref _imageLatitude, value);
         }
 
         private double _imageLongitude;
-        [DefaultValue(0.0D)] public double ImageLongitude
+        [DefaultValue(0.0D)]
+        public double ImageLongitude
         {
             get => _imageLongitude;
             set => Set(ref _imageLongitude, value);
@@ -536,7 +545,8 @@
         }
 
         private int _imageRating;
-        [DefaultValue(0)] public int ImageRating
+        [DefaultValue(0)]
+        public int ImageRating
         {
             get => _imageRating;
             set => Set(ref _imageRating, value);
@@ -568,7 +578,11 @@
         public Logical IsClassical => (FirstGenre == "Classical").AsLogical();
 
         private bool _isEmpty;
-        public Logical IsEmpty => _isEmpty.AsLogical();
+        public Logical IsEmpty
+        {
+            get => _isEmpty.AsLogical();
+            set => Set(ref _isEmpty, value == Logical.Yes);
+        }
 
         private string _joinedAlbumArtists = string.Empty;
         [DefaultValue("")]
@@ -744,21 +758,24 @@
         public int PerformersSortCount => PerformersSort.Length;
 
         private int _photoHeight;
-        [DefaultValue(0)] public int PhotoHeight
+        [DefaultValue(0)]
+        public int PhotoHeight
         {
             get => _photoHeight;
             set => Set(ref _photoHeight, value);
         }
 
         private int _photoQuality;
-        [DefaultValue(0)] public int PhotoQuality
+        [DefaultValue(0)]
+        public int PhotoQuality
         {
             get => _photoQuality;
             set => Set(ref _photoQuality, value);
         }
 
         private int _photoWidth;
-        [DefaultValue(0)] public int PhotoWidth
+        [DefaultValue(0)]
+        public int PhotoWidth
         {
             get => _photoWidth;
             set => Set(ref _photoWidth, value);
@@ -777,7 +794,11 @@
         public int PicturesCount => _picturesCount;
 
         private bool _possiblyCorrupt;
-        public Logical PossiblyCorrupt => _possiblyCorrupt.AsLogical();
+        public Logical PossiblyCorrupt
+        {
+            get => _possiblyCorrupt.AsLogical();
+            set => Set(ref _possiblyCorrupt, value == Logical.Yes);
+        }
 
         private TagLib.TagTypes _tagTypes;
         public TagLib.TagTypes TagTypes
@@ -845,7 +866,8 @@
         }
 
         private int _videoHeight;
-        [DefaultValue(0)] public int VideoHeight
+        [DefaultValue(0)]
+        public int VideoHeight
         {
             get => _videoHeight;
             set => Set(ref _videoHeight, value);
