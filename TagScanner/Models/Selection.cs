@@ -2205,8 +2205,8 @@
 
         private void SetValue(Action<IWork> setValue)
         {
-            foreach (var file in Works)
-                setValue(file);
+            foreach (var work in Works)
+                setValue(work);
         }
 
         #endregion

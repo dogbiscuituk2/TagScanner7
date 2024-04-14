@@ -20,12 +20,12 @@
             AddHandlers(View.EditRedo, View.tbRedo, EditRedo_Click, EditRedo_DropDownOpening);
             UpdateMenu();
 
-            void AddHandlers(ToolStripMenuItem edit, ToolStripSplitButton tb, EventHandler click, EventHandler dropDownOpening)
+            void AddHandlers(ToolStripMenuItem item, ToolStripSplitButton button, EventHandler click, EventHandler dropDownOpening)
             {
-                edit.Click += click;
-                tb.ButtonClick += click;
-                edit.DropDownOpening += dropDownOpening;
-                tb.DropDownOpening += dropDownOpening;
+                item.Click += click;
+                button.ButtonClick += click;
+                item.DropDownOpening += dropDownOpening;
+                button.DropDownOpening += dropDownOpening;
             }
         }
 
