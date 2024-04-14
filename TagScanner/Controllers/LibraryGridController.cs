@@ -11,9 +11,9 @@ namespace TagScanner.Controllers
     using System.Windows.Controls;
     using System.Windows.Data;
     using System.Windows.Forms.Integration;
+    using Commands;
     using Menus;
     using Models;
-    using TagScanner.Commands;
     using ValueConverters;
     using Views;
 
@@ -265,16 +265,7 @@ namespace TagScanner.Controllers
 
         private void Grid_SelectionChanged(object sender, SelectionChangedEventArgs e) => OnSelectionChanged();
 
-        private Selection GetSelection()
-        {
-            var selection = new Selection(DataGrid.SelectedItems.Cast<Work>());
-            selection.BeginUpdate += Selection_BeginUpdate;
-            selection.EndUpdate += Selection_EndUpdate;
-            return selection;
-        }
-
-        private void Selection_BeginUpdate(object sender, EventArgs e) => CommandProcessor.BeginGroup();
-        private void Selection_EndUpdate(object sender, EventArgs e) => CommandProcessor.EndGroup();
+        private Selection GetSelection() => new Selection(DataGrid.SelectedItems.Cast<Work>());
 
         #endregion
 

@@ -46,22 +46,12 @@
 
         #region Public Methods
 
-        public void BeginGroup()
-        {
-
-        }
-
         public void Clear()
         {
             LastSave = 0;
             UndoStack.Clear();
             RedoStack.Clear();
             UpdateUI();
-        }
-
-        public void EndGroup()
-        {
-
         }
 
         /// <summary>
