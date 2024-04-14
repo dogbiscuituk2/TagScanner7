@@ -71,7 +71,7 @@
         {
             var workEdit = WorkEdit;
             workEdit?.Invoke(sender, e);
-            Modified = true;
+            // Modified = true; // Should use the CommandProcessor's value now!
         }
 
         public event EventHandler ModifiedChanged;

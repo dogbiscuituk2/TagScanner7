@@ -5,16 +5,16 @@
 
     public class WorkPropertyCommand : Command
     {
-        public WorkPropertyCommand(int index, Tag tag, object value) : base()
+        public WorkPropertyCommand(Work work, Tag tag, object value) : base()
         {
-            Index = index;
+            Work = work;
             Tag = tag;
             Value = value;
         }
 
-        public int Index { get; set; }
         public Tag Tag { get; set; }
         public object Value { get; set; }
+        public Work Work { get; set; }
 
         public override bool Do(Model model)
         {
@@ -26,12 +26,11 @@
 
         public override bool Run(Model model)
         {
-            var work = model.Works[Index];
-            var value = work.GetPropertyValue(Tag);
+            var value = Work.GetPropertyValue(Tag);
             var result = !Equals(value, Value);
             if (result)
             {
-                work.SetPropertyValue(Tag, value);
+                Work.SetPropertyValue(Tag, value);
                 Value = value;
             }
             return result;

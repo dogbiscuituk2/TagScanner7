@@ -16,8 +16,6 @@
     [Serializable]
     public class Work : IWork
     {
-        #region Public Interface
-
         #region Constructors
 
         public Work() { }
@@ -40,6 +38,9 @@
 
         [NonSerialized, XmlIgnore]
         public bool IsNew;
+
+        [field: NonSerialized]
+        public event EventHandler<WorkEditEventArgs> WorkEdit;
 
         #endregion
 
@@ -234,7 +235,7 @@
         }
 
         [JsonIgnore, XmlIgnore]
-        public string DiscOf => NumberOfTotal(DiscNumber, DiscCount, 1);
+        public string DiscOf => GetNumberOfTotal(DiscNumber, DiscCount, 1);
 
         [JsonIgnore, XmlIgnore]
         public string DiscTrack => $"{DiscOf} - {TrackOf}";
@@ -855,7 +856,7 @@
         }
 
         [JsonIgnore, XmlIgnore]
-        public string TrackOf => NumberOfTotal(TrackNumber, TrackCount, 2);
+        public string TrackOf => GetNumberOfTotal(TrackNumber, TrackCount, 2);
 
         private string _trackPeak = string.Empty;
         [DefaultValue("")]
@@ -894,12 +895,6 @@
 
         #endregion
 
-        #region Events
-
-        [field: NonSerialized] public event EventHandler<WorkEditEventArgs> WorkEdit;
-
-        #endregion
-
         #region Public Methods
 
         public object GetPropertyValue(Tag tag) => GetPropertyInfo(tag).GetValue(this);
@@ -926,10 +921,6 @@
         public override string ToString() => $"{JoinedPerformers} | {YearAlbum} | {TrackOf} {Title} ({Duration.AsString(false)}) {FileSize.AsString(true)}";
 
         #endregion
-
-        #endregion
-
-        #region Private Methods
 
         #region Read / Write Tag File
 
@@ -1163,31 +1154,7 @@
         private T[] Get<T>(T[] field) => field ?? Array.Empty<T>();
         private static PropertyInfo GetPropertyInfo(Tag tag) => typeof(Work).GetProperty($"{tag}");
 
-        private void Set<T>(ref T field, T value, [CallerMemberName] string tag = "") => Set(ref field, value, tag, !Equals(field, value));
-        private void Set<T>(ref T[] field, T[] value, [CallerMemberName] string tag = "") => Set(ref field, value, tag, !SequenceEqual(field, value));
-
-        private void Set<T>(ref T field, T value, string tag, bool condition)
-        {
-            if (!condition) return;
-            var oldValue = field;
-            field = value;
-            OnWorkEdit((Tag)Enum.Parse(typeof(Tag), tag), oldValue, value);
-        }
-
-        private void SetUserValue(string name, string value)
-        {
-            switch (name)
-            {
-                case "replaygain_album_gain": _albumGain = value; break;
-                case "replaygain_album_peak": _albumPeak = value; break;
-                case "replaygain_track_gain": _trackGain = value; break;
-                case "replaygain_track_peak": _trackPeak = value; break;
-            }
-        }
-
-        #endregion
-
-        private static string NumberOfTotal(int number, int total, int digits)
+        private static string GetNumberOfTotal(int number, int total, int digits)
         {
             number = Math.Max(number, 1);
             total = Math.Max(number, total);
@@ -1201,13 +1168,34 @@
             if (workEdit == null) // Are we just now streaming input, using XML?
                 return; // Yes: then relax, property accessors should have no side effects.
             workEdit.Invoke(this, new WorkEditEventArgs(tag, oldValue, newValue));
-            workEdit.Invoke(this, new WorkEditEventArgs(Tag.FileStatus)); // TODO: replace with an explicit recalculation?
-            foreach (var dependency in tag.GetDependencies())
-                workEdit.Invoke(this, new WorkEditEventArgs(tag));
+            //workEdit.Invoke(this, new WorkEditEventArgs(Tag.FileStatus)); // TODO: replace with explicit recalculations?
+            //foreach (var dependency in tag.GetDependencies())
+            //    workEdit.Invoke(this, new WorkEditEventArgs(tag));
         }
 
-        private static bool SequenceEqual<T>(IEnumerable<T> x, IEnumerable<T> y) =>
-            x != null ? y != null && x.SequenceEqual(y) : y == null;
+        private static bool SequenceEqual<T>(IEnumerable<T> x, IEnumerable<T> y) => x != null ? y != null && x.SequenceEqual(y) : y == null;
+
+        private void Set<T>(ref T field, T newValue, [CallerMemberName] string tag = "") => Set(ref field, newValue, tag, !Equals(field, newValue));
+        private void Set<T>(ref T[] field, T[] newValue, [CallerMemberName] string tag = "") => Set(ref field, newValue, tag, !SequenceEqual(field, newValue));
+
+        private void Set<T>(ref T field, T newValue, string tag, bool condition)
+        {
+            if (!condition) return;
+            var oldValue = field;
+            field = newValue;
+            OnWorkEdit((Tag)Enum.Parse(typeof(Tag), tag), oldValue, newValue);
+        }
+
+        private void SetUserValue(string name, string value)
+        {
+            switch (name)
+            {
+                case "replaygain_album_gain": _albumGain = value; break;
+                case "replaygain_album_peak": _albumPeak = value; break;
+                case "replaygain_track_gain": _trackGain = value; break;
+                case "replaygain_track_peak": _trackPeak = value; break;
+            }
+        }
 
         #endregion
     }

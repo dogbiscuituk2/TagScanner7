@@ -322,6 +322,7 @@
 
         private void WorkEdit(Work sender, Tag tag, object oldValue, object newValue)
         {
+            CommandProcessor.Run(new WorkPropertyCommand(sender, tag, oldValue), true);
         }
 
         #endregion
