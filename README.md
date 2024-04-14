@@ -1,19 +1,19 @@
 ﻿# TagScanner - A Code Overview {#contents}
 
-When an edit is made to one or more Work items in the PropertyGrid editor, its WorkEdit event is invoked:-
-
-    Work
+    When an edit is made to one or more Work items in the PropertyGrid editor, its WorkEdit event is invoked:-
      \
-      Set<T>(ref T field, T value, string tag, bool condition)
+      Work
        \
-        OnWorkEdit(tag, oldValue, newValue);
-	     \
-	      WorkEdit.Invoke(this, new WorkEditEventArgs(tag, oldValue, newValue));	  
+        Set<T>(ref T field, T value, string tag, bool condition)
+         \
+          OnWorkEdit(tag, oldValue, newValue);
+	       \
+	        WorkEdit.Invoke(this, new WorkEditEventArgs(tag, oldValue, newValue));	  
 
-    This WorkEdit is assigned a delegate in one of two ways, either of which will call Model.WorkEdit:
+    WorkEdit is assigned a delegate in one of two ways, either of which will call Model.WorkEdit():
      \
-      1. During loading from a live directory scan, StatusController adds a delegate.
-      2. During loading from a saved file, MruLibraryController adds a delegate.
+      StatusController adds a delegate when loading from a live directory scan.
+      MruLibraryController adds a delegate when loading from a saved file.
 
     Model.WorkEdit(sender, e) invokes its own WorkEdit event.
      \
