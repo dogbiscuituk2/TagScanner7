@@ -10,7 +10,6 @@
     using System.Xml;
     using System.Xml.Serialization;
     using Newtonsoft.Json;
-    using Terms;
     using Utils;
 
     [Serializable]
@@ -40,7 +39,7 @@
         public bool IsNew;
 
         [field: NonSerialized]
-        public event EventHandler<WorkEditEventArgs> WorkEdit;
+        public event EventHandler<WorkEditEventArgs> Edit;
 
         #endregion
 
@@ -1162,9 +1161,9 @@
             return string.Format($"{{0:D{digits}}}/{{1:D{digits}}}", number, total);
         }
 
-        private void OnWorkEdit(Tag tag, object oldValue, object newValue)
+        private void OnEdit(Tag tag, object oldValue)
         {
-            var workEdit = WorkEdit;
+            var workEdit = Edit;
             if (workEdit == null) // Are we just now streaming input, using XML?
                 return; // Yes: then relax, property accessors should have no side effects.
             workEdit.Invoke(this, new WorkEditEventArgs(tag, oldValue));
@@ -1183,7 +1182,7 @@
             if (!condition) return;
             var oldValue = field;
             field = newValue;
-            OnWorkEdit((Tag)Enum.Parse(typeof(Tag), tag), oldValue, newValue);
+            OnEdit((Tag)Enum.Parse(typeof(Tag), tag), oldValue);
         }
 
         private void SetUserValue(string name, string value)

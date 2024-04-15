@@ -2,6 +2,7 @@
 {
     using Models;
     using Terms;
+    using Utils;
 
     public class WorkPropertyCommand : Command
     {
@@ -46,6 +47,6 @@
 
         private string Action => $"{Tag.DisplayName()} change";
 
-        public override string ToString() => $"{Tag.DisplayName()} = {Value}";
+        public override string ToString() => $"{Tag.DisplayName().Escape()} = {Value.ToString().Escape()}";
     }
 }

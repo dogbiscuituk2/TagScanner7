@@ -54,7 +54,7 @@
             {
                 Model.Library = library;
                 foreach (var work in Model.Works)
-                    work.WorkEdit += Model.Work_Edit;
+                    work.Edit += Model.Work_Edit;
                 result = true;
             }
             return result;

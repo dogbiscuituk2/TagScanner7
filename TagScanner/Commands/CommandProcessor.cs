@@ -35,6 +35,7 @@
 
         private readonly Stack<Command> UndoStack, RedoStack;
         private int LastSave, UpdateCount;
+        private bool Busy;
 
         #endregion
 
@@ -70,7 +71,7 @@
         /// <returns>True if the command was run, and actually caused a property change.</returns>
         public bool Run(Command command, bool spoof = false)
         {
-            if (command == null)
+            if (Busy || command == null)
                 return false;
             if (LastSave > UndoStack.Count)
                 LastSave = -1;
@@ -86,8 +87,8 @@
         private void EditUndo_Click(object sender, EventArgs e) => Undo();
         private void EditRedo_Click(object sender, EventArgs e) => Redo();
 
-        private void EditUndo_DropDownOpening(object sender, EventArgs e) => PopulateMenu(UndoStack, View.UndoPopupMenu, UndoMultiple);
-        private void EditRedo_DropDownOpening(object sender, EventArgs e) => PopulateMenu(RedoStack, View.RedoPopupMenu, RedoMultiple);
+        private void EditUndo_DropDownOpening(object sender, EventArgs e) => PopulateMenu(undo: true /*UndoStack, View.UndoPopupMenu, UndoMultiple*/);
+        private void EditRedo_DropDownOpening(object sender, EventArgs e) => PopulateMenu(undo: false /*RedoStack, View.RedoPopupMenu, RedoMultiple*/);
 
         private static void Menu_MouseEnter(object sender, EventArgs e) => HighlightMenu((ToolStripItem)sender);
         private static void Menu_Paint(object sender, PaintEventArgs e) => HighlightMenu((ToolStripItem)sender);
@@ -118,19 +119,25 @@
                     : KnownColor.Control);
         }
 
-        private void PopulateMenu(Stack<Command> source, ContextMenuStrip target, EventHandler handler)
+        private void PopulateMenu(bool undo /*Stack<Command> source, ContextMenuStrip target, EventHandler handler*/)
         {
+            var commands = (undo ? UndoStack : RedoStack).ToArray();
+            var menuItems = (undo ? View.UndoPopupMenu : View.RedoPopupMenu).Items; ;
+            var handler = undo ? (EventHandler)UndoMultiple : RedoMultiple;
             const int MaxItems = 20;
-            var commands = source.ToArray();
-            var items = target.Items;
-            items.Clear();
+            menuItems.Clear();
             for (int n = 0; n < Math.Min(commands.Length, MaxItems); n++)
             {
                 var command = commands[n];
-                var item = items.Add(command.ToString(), null, handler);
-                item.Tag = command;
+                var item = new ToolStripMenuItem(command.ToString(), null, handler) { Tag = command };
                 item.MouseEnter += Menu_MouseEnter;
                 item.Paint += Menu_Paint;
+                if (n == 0)
+                {
+                    item.ShortcutKeys = Keys.Control | (undo ? Keys.Z : Keys.Y);
+                    item.ShortcutKeyDisplayString = undo ? "^Z" : "^Y";
+                }
+                menuItems.Add(item);
             }
         }
 
@@ -138,12 +145,14 @@
 
         private bool Redo(Command command, bool spoof = false)
         {
+            Busy = true;
             var result = spoof || command.Do();
             if (result)
             {
                 UndoStack.Push(command);
                 UpdateMenu();
             }
+            Busy = false;
             return result;
         }
 
@@ -159,10 +168,12 @@
 
         private bool Undo(Command command)
         {
+            Busy = true;
             if (!command.Do())
                 return false;
             RedoStack.Push(command);
             UpdateMenu();
+            Busy = false;
             return true;
         }
 

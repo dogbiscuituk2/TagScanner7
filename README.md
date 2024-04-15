@@ -1,62 +1,36 @@
 ﻿# TagScanner - A Code Overview {#contents}
 
-    When an edit is made to one or more Work items in the PropertyGrid editor, its WorkEdit event is invoked:-
-     \
-      Work
-        \
-         Set<T>(ref T field, T value, string tag, bool condition)
-           \
-            OnWorkEdit(tag, oldValue, newValue);
-	          \
-	           WorkEdit.Invoke(this, new WorkEditEventArgs(tag, oldValue, newValue));	  
-
-    WorkEdit is assigned a delegate in one of two ways, either of which will call Model.WorkEdit():
-     \
-       StatusController adds a delegate when loading from a live directory scan.
-       MruLibraryController adds a delegate when loading from a saved file.
-
-    Model.WorkEdit(sender, e) invokes its own WorkEdit event.
-     \
-       WorkEdit.Invoke(sender, e)
-
-    This WorkEdit event is heard by the LibraryFormController, which calls its own WorkEdit() method:
-     \
-       CommandProcessor.Run(new WorkPropertyCommand(sender, tag, oldValue), spoof: true)
-        \
-          CommandProcessor.Redo(command, spoof);
-
-    The "spoof: true"" parameter serves to inform the CommandProcessor that this edit has in fact already occurred,
-    so there's no need to run the Command payload; just update the stacks & menus.
-
-    When a command is undone by selecting it on the Edit|Undo menu, the CommandProcessor does this:
-     \
-      EditUndo_Click(object sender, EventArgs e) => Undo();
-       \
-         Undo() => CanUndo && Undo(UndoStack.Pop());
-          \
-            Undo(Command command)
-             \
-               WorkPropertyCommand.Do(Model)
-                \
-                  Command.Do(Model)
-                   \
-                     Command.Run(Model)
-                      \
-                        WorkPropertyCommand.Run(Model)
-                         \
-                           Work.SetPropertyValue(Tag, Value);
-                            \
-                              Work.GetPropertyInfo(tag).SetValue(this, value);
-
-    This last step takes us back into the Work property setter, which will call the Set method at the start of this section.
-    Clearly we don't want another spoof command generated!
-
-
 TagScanner gathers ID3 tags and other available metadata from suitable files, e.g. MP3s, and stores them in a library file. Loaded metadata are editable, and when the library file is re-saved, these edits can optionally be applied to the relevant media files.
 
 There is a query builder allowing the construction of complex filters based on all metadata properties, and a Find/Replace function which operates across multiple tags and optionally uses Regex. The app is WinForms based, but uses embedded WPF grids to take advantage of their (free!) filtering, sorting & grouping operations.
 
 This document presents brief desciptions of the most important classes and other design elements of the TagScanner application.
+
+    When an edit is made to one or more Work items in the PropertyGrid editor, its Edit event is invoked:-
+     \
+      Work.Set<T>() -> Work.OnEdit() -> Work.Edit.Invoke() -> Model.Work_Edit() -> Model.WorkEdit.Invoke()
+
+    Work.Edit was assigned a delegate in one of two ways, either of which will call Model.WorkEdit():
+    1. StatusController adds a delegate when loading from a live directory scan.
+    2. MruLibraryController adds a delegate when loading from a saved file.
+
+    This WorkEdit event is heard by LFC (the LibraryFormController), which calls its own WorkEdit() method:
+     \
+      LFC.WorkEdit() -> CP.Run(... spoof: true) -> CP.Redo(command, spoof);
+
+    The "spoof: true"" parameter tells CP (the CommandProcessor) that this edit has already occurred,
+    so there's no need to run the Command payload; just update the stacks & menus.
+
+    When a command is undone by selecting it on the Edit|Undo menu, the CommandProcessor does this:
+     \
+      CP.EditUndo_Click() -> CP.Undo() -> CP.CanUndo && CP.Undo(UndoStack.Pop()) ? CP.Undo(Command)
+       \
+        WorkPropertyCommand.Do() -> WorkPropertyCommand.Run()
+         \
+          Work.SetPropertyValue() -> Work.GetPropertyInfo().SetValue();
+
+    This takes us back into the Work property setter, which will call the Set method at the start of this section.
+    Clearly we don't want another spoof command generated!
 
 ## Contents
 

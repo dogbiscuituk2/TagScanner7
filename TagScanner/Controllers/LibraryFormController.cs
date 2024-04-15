@@ -7,10 +7,10 @@
     using System.Linq;
     using System.Text;
     using System.Windows.Forms;
+    using Commands;
     using Models;
     using Mru;
     using Properties;
-    using TagScanner.Commands;
     using Terms;
     using Utils;
     using Views;
