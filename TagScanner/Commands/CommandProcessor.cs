@@ -101,6 +101,19 @@
 
         private void BeginUpdate() { ++UpdateCount; }
 
+        private bool DoCommand(Command command, bool undo, bool spoof = false)
+        {
+            Busy = true;
+            var result = spoof || command.Do();
+            Busy = false;
+            if (!result)
+                return false;
+            var stack = undo ? RedoStack : UndoStack;
+            stack.Push(command);
+            UpdateMenu();
+            return true;
+        }
+
         private void EndUpdate()
         {
             if (--UpdateCount == 0)
@@ -119,7 +132,7 @@
                     : KnownColor.Control);
         }
 
-        private void PopulateMenu(bool undo /*Stack<Command> source, ContextMenuStrip target, EventHandler handler*/)
+        private void PopulateMenu(bool undo)
         {
             var commands = (undo ? UndoStack : RedoStack).ToArray();
             var menuItems = (undo ? View.UndoPopupMenu : View.RedoPopupMenu).Items; ;
@@ -132,29 +145,15 @@
                 var item = new ToolStripMenuItem(command.ToString(), null, handler) { Tag = command };
                 item.MouseEnter += Menu_MouseEnter;
                 item.Paint += Menu_Paint;
-                if (n == 0)
-                {
-                    item.ShortcutKeys = Keys.Control | (undo ? Keys.Z : Keys.Y);
-                    item.ShortcutKeyDisplayString = undo ? "^Z" : "^Y";
-                }
                 menuItems.Add(item);
             }
         }
 
+        private bool Undo() => CanUndo && Undo(UndoStack.Pop());
         private bool Redo() => CanRedo && Redo(RedoStack.Pop());
 
-        private bool Redo(Command command, bool spoof = false)
-        {
-            Busy = true;
-            var result = spoof || command.Do();
-            if (result)
-            {
-                UndoStack.Push(command);
-                UpdateMenu();
-            }
-            Busy = false;
-            return result;
-        }
+        private bool Undo(Command command) => DoCommand(command, undo: true, spoof: false);
+        private bool Redo(Command command, bool spoof = false) => DoCommand(command, undo: false, spoof);
 
         private void RedoMultiple(object sender, EventArgs e)
         {
@@ -162,19 +161,6 @@
             var peek = ((ToolStripItem)sender).Tag;
             do Redo(); while (UndoStack.Peek() != peek);
             EndUpdate();
-        }
-
-        private bool Undo() => CanUndo && Undo(UndoStack.Pop());
-
-        private bool Undo(Command command)
-        {
-            Busy = true;
-            if (!command.Do())
-                return false;
-            RedoStack.Push(command);
-            UpdateMenu();
-            Busy = false;
-            return true;
         }
 
         private void UndoMultiple(object sender, EventArgs e)
@@ -189,15 +175,15 @@
         {
             if (UpdateCount > 0)
                 return;
+            View.EditUndo.Enabled = View.tbUndo.Enabled = CanUndo;
+            View.EditRedo.Enabled = View.tbRedo.Enabled = CanRedo;
             string
                 undo = CanUndo ? $"Undo {UndoAction}" : "Undo",
                 redo = CanRedo ? $"Redo {RedoAction}" : "Redo";
-            View.EditUndo.Enabled = View.tbUndo.Enabled = CanUndo;
-            View.EditRedo.Enabled = View.tbRedo.Enabled = CanRedo;
             View.EditUndo.Text = $"&{undo}";
             View.EditRedo.Text = $"&{redo}";
-            View.tbUndo.ToolTipText = $"{undo} (^Z)";
-            View.tbRedo.ToolTipText = $"{redo} (^Y)";
+            View.tbUndo.ToolTipText = $"{undo}";
+            View.tbRedo.ToolTipText = $"{redo}";
         }
 
         #endregion
