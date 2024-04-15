@@ -568,19 +568,22 @@
             this.EditUndo.DropDown = this.UndoPopupMenu;
             this.EditUndo.Image = global::TagScanner.Properties.Resources.Edit_UndoHS;
             this.EditUndo.Name = "EditUndo";
+            this.EditUndo.ShortcutKeyDisplayString = "";
             this.EditUndo.Size = new System.Drawing.Size(180, 22);
             this.EditUndo.Text = "&Undo";
             // 
             // UndoPopupMenu
             // 
             this.UndoPopupMenu.Name = "UndoPopupMenu";
-            this.UndoPopupMenu.Size = new System.Drawing.Size(61, 4);
+            this.UndoPopupMenu.OwnerItem = this.EditUndo;
+            this.UndoPopupMenu.Size = new System.Drawing.Size(181, 26);
             // 
             // EditRedo
             // 
             this.EditRedo.DropDown = this.RedoPopupMenu;
             this.EditRedo.Image = global::TagScanner.Properties.Resources.Edit_RedoHS;
             this.EditRedo.Name = "EditRedo";
+            this.EditRedo.ShortcutKeyDisplayString = "";
             this.EditRedo.Size = new System.Drawing.Size(180, 22);
             this.EditRedo.Text = "&Redo";
             // 
