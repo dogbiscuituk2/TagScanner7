@@ -5,6 +5,7 @@
     using System.Windows.Forms;
     using Models;
     using Streaming;
+    using TagScanner.Commands;
 
     public class MruLibraryController : MruSdiController
     {

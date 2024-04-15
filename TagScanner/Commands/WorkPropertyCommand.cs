@@ -15,7 +15,6 @@
 
         public Work Work { get; set; }
         public Tag Tag { get; set; }
-        public object Value { get; set; }
 
         public override bool Do()
         {
@@ -37,7 +36,7 @@
             return result;
         }
 
-        protected override void PropertyChanged()
+        protected void PropertyChanged()
         {
             // model.???
         }

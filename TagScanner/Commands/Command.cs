@@ -1,7 +1,5 @@
 ﻿namespace TagScanner.Commands
 {
-    using Models;
-
     public abstract class Command
     {
         #region Constructor
@@ -11,6 +9,8 @@
         #endregion
 
         #region Properties
+
+        public object Value { get; set; }
 
         public abstract string UndoAction { get; }
         public abstract string RedoAction { get; }
@@ -26,9 +26,7 @@
             return result;
         }
 
-        public void Invert() { }
-
-        protected abstract void PropertyChanged();
+        public virtual void Invert() { }
 
         public abstract bool Run();
 

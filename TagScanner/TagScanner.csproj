@@ -127,6 +127,7 @@
     <Compile Include="Commands\Command.cs" />
     <Compile Include="Commands\WorkPropertyCommand.cs" />
     <Compile Include="Commands\CommandProcessor.cs" />
+    <Compile Include="Commands\WorksCommand.cs" />
     <Compile Include="Controllers\FilterController.cs" />
     <Compile Include="Controllers\AppController.cs" />
     <Compile Include="Controllers\Mru\MruController.cs" />
