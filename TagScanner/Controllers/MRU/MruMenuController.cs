@@ -12,20 +12,6 @@
     {
         #region Constructors
 
-        public MruMenuController(string subKeyName, ToolStripDropDownItem parentItem) :
-            this(subKeyName, parentItem?.DropDownItems)
-        {
-            _parentItem = parentItem;
-            RefreshRecentMenu();
-        }
-
-        public MruMenuController(string subKeyName, ContextMenuStrip parentMenu) :
-            this(subKeyName, parentMenu?.Items)
-        {
-            _parentMenu = parentMenu;
-            RefreshRecentMenu();
-        }
-
         public MruMenuController(string subKeyName, ToolStripItemCollection recentItems) : base(subKeyName)
         {
             _recentItems = recentItems;
@@ -36,9 +22,9 @@
 
         #region Private Fields
 
-        private readonly ToolStripDropDownItem _parentItem;
-        private readonly ContextMenuStrip _parentMenu;
-        private readonly ToolStripItemCollection _recentItems;
+        protected ToolStripDropDownItem _parentItem;
+        protected ContextMenuStrip _parentMenu;
+        protected ToolStripItemCollection _recentItems;
 
         #endregion
 
@@ -64,7 +50,7 @@
             return result.Escape();
         }
 
-        private void RefreshRecentMenu()
+        protected void RefreshRecentMenu()
         {
             if (_recentItems == null)
                 return;

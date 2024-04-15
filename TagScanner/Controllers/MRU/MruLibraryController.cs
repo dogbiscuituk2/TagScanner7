@@ -5,14 +5,13 @@
     using System.Windows.Forms;
     using Models;
     using Streaming;
-    using TagScanner.Commands;
 
     public class MruLibraryController : MruSdiController
     {
         #region Constructor
 
-        public MruLibraryController(Model model, ToolStripMenuItem recentMenuItem, IWin32Window owner)
-            : base(model, Properties.Settings.Default.LibraryFilter, "LibraryMRU", recentMenuItem, owner) { }
+        public MruLibraryController(Model model, ContextMenuStrip parentMenu, IWin32Window owner)
+            : base(model, Properties.Settings.Default.LibraryFilter, "LibraryMRU", parentMenu.Items, owner) { }
 
         #endregion
 

@@ -29,10 +29,10 @@
             LibraryGridController = new LibraryGridController(this, Model, View.GridElementHost);
             LibraryGridController.SelectionChanged += LibraryGridController_SelectionChanged;
             StatusController = new StatusController(Model, View.StatusBar);
-            PersistenceController = new MruLibraryController(Model, View.FileReopen, View);
+            PersistenceController = new MruLibraryController(Model, View.RecentLibraryPopupMenu, View);
             PersistenceController.FilePathChanged += PersistenceController_FilePathChanged;
             PersistenceController.FileSaving += PersistenceController_FileSaving;
-            MediaController = new MruMediaController(this, View.AddRecentFolder);
+            MediaController = new MruMediaController(this, View.RecentFolderPopupMenu);
             PlayerController = new PlayerController(this, null);
             FilterController = new FilterController(this);
             PictureController = new PictureController(View.PictureBox, View.PropertyGrid, PlayerController.PlaylistGrid);
@@ -53,8 +53,11 @@
             {
                 _view = value;
 
-                View.FileMenu.DropDownOpening += FileMenu_DropDownOpening;
-                View.tbSave.DropDownOpening += FileMenu_DropDownOpening;
+                View.FileMenu.DropDownOpening += Menu_DropDownOpening;
+                View.tbOpen.DropDownOpening += Menu_DropDownOpening;
+                View.tbSave.DropDownOpening += Menu_DropDownOpening;
+                View.AddMenu.DropDownOpening += Menu_DropDownOpening;
+                View.tbAdd.DropDownOpening += Menu_DropDownOpening;
 
                 View.FileNew.Click += FileNewLibrary_Click;
                 View.tbNewLibrary.Click += FileNewLibrary_Click;
@@ -156,7 +159,7 @@
 
         #region File
 
-        private void FileMenu_DropDownOpening(object sender, EventArgs e) => UpdateSave();
+        private void Menu_DropDownOpening(object sender, EventArgs e) => UpdateMenus();
 
         private void FileNewLibrary_Click(object sender, EventArgs e)
         {
@@ -278,6 +281,8 @@
 
         private void ModifiedChanged() => View.Text = PersistenceController.WindowCaption;
 
+        private void PersistenceController_FilePathChanged(object sender, EventArgs e) => View.Text = PersistenceController.WindowCaption;
+
         private bool ProcessWork(Work work)
         {
             var result = false;
@@ -299,8 +304,6 @@
                 message.AppendFormat(format, count);
         }
 
-        private void PersistenceController_FilePathChanged(object sender, EventArgs e) => View.Text = PersistenceController.WindowCaption;
-
         private void SelectPropertyGridTags()
         {
             var visibleTags = Tags.BrowsableTags;
@@ -312,18 +315,21 @@
             }
         }
 
-        private void UpdatePropertyGrid() => View.PropertyGrid.SelectedObject = LibraryGridController.Selection;
-
-        private void UpdateSave()
+        private void UpdateMenus()
         {
+            View.FileReopen.Enabled = View.tbReopen.Enabled =
+                View.AddRecentLibrary.Enabled = View.tbAddRecentLibrary.Enabled =
+                View.RecentLibraryPopupMenu.Items.Count > 0;
             var enabled = Model.Modified && FilePath.IsValidFilePath();
             View.FileSave.Enabled = View.tbSaveLibrary.Enabled = enabled;
+            View.AddRecentFolder.Enabled = View.tbAddRecentFolder.Enabled =
+                View.RecentFolderPopupMenu.Items.Count > 0;
         }
 
-        private void WorkEdit(Work sender, Tag tag, object oldValue)
-        {
+        private void UpdatePropertyGrid() => View.PropertyGrid.SelectedObject = LibraryGridController.Selection;
+
+        private void WorkEdit(Work sender, Tag tag, object oldValue) =>
             CommandProcessor.Run(new WorkPropertyCommand(sender, tag, oldValue), spoof: true);
-        }
 
         #endregion
     }

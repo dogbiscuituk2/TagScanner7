@@ -12,8 +12,8 @@
     {
         #region Constructor
 
-        public MruMediaController(LibraryFormController libraryFormController, ToolStripMenuItem recentMenuItem)
-            : base("MediaMRU", recentMenuItem)
+        public MruMediaController(LibraryFormController libraryFormController, ContextMenuStrip parentMenu) :
+            base("MediaMRU", parentMenu?.Items)
         {
             _libraryFormController = libraryFormController;
             _model = libraryFormController.Model;

@@ -12,13 +12,14 @@
     {
         #region Constructor
 
-        protected MruSdiController(IModel model, string filter, string subKeyName, ToolStripMenuItem recentMenuItem, IWin32Window owner = null)
-            : base(subKeyName, recentMenuItem)
+        protected MruSdiController(IModel model, string filter, string subKeyName, ToolStripItemCollection recentItems, IWin32Window owner = null)
+            : base(subKeyName, recentItems)
         {
             Model = model;
             Owner = owner;
             _openFileDialog = new OpenFileDialog { Filter = filter, Title = Resources.Select_the_file_to_open };
             _saveFileDialog = new SaveFileDialog { Filter = filter, Title = Resources.Save_file };
+            RefreshRecentMenu();
         }
 
         #endregion
