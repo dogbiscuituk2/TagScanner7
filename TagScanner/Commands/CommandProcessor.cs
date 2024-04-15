@@ -87,8 +87,8 @@
         private void EditUndo_Click(object sender, EventArgs e) => Undo();
         private void EditRedo_Click(object sender, EventArgs e) => Redo();
 
-        private void EditUndo_DropDownOpening(object sender, EventArgs e) => PopulateMenu(undo: true /*UndoStack, View.UndoPopupMenu, UndoMultiple*/);
-        private void EditRedo_DropDownOpening(object sender, EventArgs e) => PopulateMenu(undo: false /*RedoStack, View.RedoPopupMenu, RedoMultiple*/);
+        private void EditUndo_DropDownOpening(object sender, EventArgs e) => PopulateMenu(undo: true);
+        private void EditRedo_DropDownOpening(object sender, EventArgs e) => PopulateMenu(undo: false);
 
         private static void Menu_MouseEnter(object sender, EventArgs e) => HighlightMenu((ToolStripItem)sender);
         private static void Menu_Paint(object sender, PaintEventArgs e) => HighlightMenu((ToolStripItem)sender);
