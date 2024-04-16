@@ -11,7 +11,7 @@
     using Models;
     using Mru;
     using Properties;
-    using TagScanner.Streaming;
+    using Streaming;
     using Terms;
     using Utils;
     using Views;

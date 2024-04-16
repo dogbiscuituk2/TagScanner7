@@ -27,7 +27,7 @@
 
         public override string ToString() => $"{(Add ? "Add" : "Remove")} {null}";
 
-        private string GetAction(bool undo) => $"Works {(Add ^ undo ? "addition" : "removal")}";
+        private string GetAction(bool undo) => $"{(Add ^ undo ? "add" : "remove")} Works";
     }
 
     public class WorksAddCommand : WorksCommand
