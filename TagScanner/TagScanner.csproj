@@ -125,7 +125,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Commands\Command.cs" />
-    <Compile Include="Commands\WorksEditedCommand.cs" />
+    <Compile Include="Commands\WorksEditCommand.cs" />
     <Compile Include="Commands\CommandProcessor.cs" />
     <Compile Include="Commands\WorksCommand.cs" />
     <Compile Include="Controllers\FilterController.cs" />
@@ -141,7 +141,8 @@
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Menus\ShellContextMenu.cs" />
-    <Compile Include="Models\WorksEditedEventArgs.cs" />
+    <Compile Include="Models\WorksEventArgs.cs" />
+    <Compile Include="Models\WorksEditEventArgs.cs" />
     <Compile Include="Streaming\StreamFormat.cs" />
     <Compile Include="Controls\TermTreeNode.cs" />
     <Compile Include="Controls\TermTree.cs">

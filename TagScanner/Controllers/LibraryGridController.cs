@@ -268,12 +268,12 @@ namespace TagScanner.Controllers
         private Selection GetSelection()
         {
             var selection = new Selection(DataGrid.SelectedItems.Cast<Work>());
-            selection.WorksEdited += Selection_WorksEdited;
+            selection.WorksEdit += Selection_WorksEdit;
             return selection;
         }
 
-        private void Selection_WorksEdited(object sender, WorksEditedEventArgs e) =>
-            CommandProcessor.Run(new WorksEditedCommand(e.Tag, e.Works, e.Values), spoof: true);
+        private void Selection_WorksEdit(object sender, WorksEditEventArgs e) =>
+            LibraryFormController.WorksEdit(e.Tag, e.Works, e.Values);
 
         #endregion
 

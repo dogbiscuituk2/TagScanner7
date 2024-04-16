@@ -24,6 +24,7 @@
             View = new LibraryForm();
             Model = new Model();
             Model.ModifiedChanged += Model_ModifiedChanged;
+            Model.WorksAdd += Model_WorksAdd;
             Model.WorksEdit += Model_WorksEdit;
             CommandProcessor = new CommandProcessor(this);
             LibraryGridController = new LibraryGridController(this, Model, View.GridElementHost);
@@ -153,6 +154,36 @@
             set => PersistenceController.FilePath = value;
         }
 
+        private Selection Selection => LibraryGridController.Selection;
+
+        #endregion
+
+        #region Methods
+
+        public void WorksAdd(List<Work> works)
+        {
+            if (View.InvokeRequired)
+                View.Invoke(new Action<List<Work>>(WorksAdd), works);
+            else
+                CommandProcessor.Run(new WorksAddCommand(works), spoof: false);
+        }
+
+        public void WorksEdit(Tag tag, List<Work> works, List<object> values)
+        {
+            if (View.InvokeRequired)
+                View.Invoke(new Action<Tag, List<Work>, List<object>>(WorksEdit), tag, works, values);
+            else
+                CommandProcessor.Run(new WorksEditCommand(tag, works, values), spoof: true);
+        }
+
+        public void WorksRemove(List<Work> works)
+        {
+            if (View.InvokeRequired)
+                View.Invoke(new Action<List<Work>>(WorksRemove), works);
+            else
+                CommandProcessor.Run(new WorksRemoveCommand(works), spoof: false);
+        }
+
         #endregion
 
         #region Main Menu
@@ -185,7 +216,7 @@
         private void EditCut_Click(object sender, EventArgs e) { }
         private void EditCopy_Click(object sender, EventArgs e) { }
         private void EditPaste_Click(object sender, EventArgs e) { }
-        private void EditDelete_Click(object sender, EventArgs e) { }
+        private void EditDelete_Click(object sender, EventArgs e) => DeleteSelection();
         private void EditSelectAll_Click(object sender, EventArgs e) => LibraryGridController.SelectAll();
         private void EditInvertSelection_Click(object sender, EventArgs e) => LibraryGridController.InvertSelection();
 
@@ -238,7 +269,8 @@
 
         private void LibraryGridController_SelectionChanged(object sender, EventArgs e) => UpdatePropertyGrid();
         private void Model_ModifiedChanged(object sender, EventArgs e) => ModifiedChanged();
-        private void Model_WorksEdit(object sender, WorksEditedEventArgs e) => WorksEdit(e.Tag, e.Works, e.Values);
+        private void Model_WorksAdd(object sender, WorksEventArgs e) => WorksAdd(e.Works);
+        private void Model_WorksEdit(object sender, WorksEditEventArgs e) => WorksEdit(e.Tag, e.Works, e.Values);
         private void PersistenceController_FileSaving(object sender, CancelEventArgs e) => e.Cancel = !ContinueSaving();
         private void View_FormClosed(object sender, FormClosedEventArgs e) => AppController.CloseWindow(this);
 
@@ -278,6 +310,8 @@
                     ProcessWork(work);
             return decision;
         }
+
+        private void DeleteSelection() => WorksRemove(Selection.Works.ToList());
 
         private void ModifiedChanged() => View.Text = PersistenceController.WindowCaption;
 
@@ -327,9 +361,6 @@
         }
 
         private void UpdatePropertyGrid() => View.PropertyGrid.SelectedObject = LibraryGridController.Selection;
-
-        private void WorksEdit(Tag tag, List<Work> works, List<object> values) =>
-            CommandProcessor.Run(new WorksEditedCommand(tag, works, values), spoof: true);
 
         #endregion
     }

@@ -3,6 +3,7 @@
     using System;
     using System.Collections.Generic;
     using System.Linq;
+    using TagScanner.Commands;
 
     [Serializable]
     public class Model : IModel
@@ -48,6 +49,15 @@
             return ReadWorks(p => p.AddFolder(folderPath, fileFilter.Split(';')), progress);
         }
 
+        public void AddRemoveWorks(List<Work> works, bool add)
+        {
+            if (add)
+                Works.AddRange(works);
+            else
+                Works.RemoveAll(p => works.Contains(p));
+            OnWorksChanged();
+        }
+
         public void Clear()
         {
             Library.Clear();
@@ -67,7 +77,7 @@
             }
         }
 
-        public void Work_Edit(object sender, WorksEditedEventArgs e)
+        public void Work_Edit(object sender, WorksEditEventArgs e)
         {
             var workEdit = WorksEdit;
             workEdit?.Invoke(sender, e);
@@ -75,7 +85,8 @@
         }
 
         public event EventHandler ModifiedChanged;
-        public event EventHandler<WorksEditedEventArgs> WorksEdit;
+        public event EventHandler<WorksEventArgs> WorksAdd;
+        public event EventHandler<WorksEditEventArgs> WorksEdit;
         public event EventHandler WorksChanged;
 
         #endregion
@@ -104,6 +115,13 @@
             modifiedChanged?.Invoke(this, EventArgs.Empty);
         }
 
+        protected virtual void OnWorksAdd(List<Work> works)
+        {
+            var worksAdd = WorksAdd;
+            worksAdd?.Invoke(this, new WorksEventArgs(works));
+            OnWorksChanged();
+        }
+
         protected virtual void OnWorksChanged()
         {
             var worksChanged = WorksChanged;
@@ -116,8 +134,9 @@
             var reader = new Reader(existingFilePaths, progress);
             action(reader);
             var works = reader.Works;
-            Works.AddRange(works);
-            OnWorksChanged();
+            var count = works.Count;
+            if (count > 0)
+                OnWorksAdd(works);
             return works.Count;
         }
 

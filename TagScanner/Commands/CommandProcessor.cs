@@ -104,7 +104,7 @@
         private bool DoCommand(Command command, bool undo, bool spoof = false)
         {
             Busy = true;
-            var result = spoof || command.Do();
+            var result = spoof || command.Do(Model);
             Busy = false;
             if (!result)
                 return false;

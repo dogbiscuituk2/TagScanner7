@@ -1,5 +1,7 @@
 ﻿namespace TagScanner.Commands
 {
+    using Models;
+
     public abstract class Command
     {
         #region Constructor
@@ -19,16 +21,16 @@
 
         #region Methods
 
-        public virtual bool Do()
+        public virtual bool Do(Model model)
         {
-            var result = Run();
+            var result = Run(model);
             Invert();
             return result;
         }
 
         public virtual void Invert() { }
 
-        public abstract bool Run();
+        public abstract bool Run(Model model);
 
         #endregion
     }

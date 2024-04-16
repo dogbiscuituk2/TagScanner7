@@ -1,33 +1,42 @@
 ﻿namespace TagScanner.Commands
 {
+    using System.Collections.Generic;
+    using Models;
+
     public abstract class WorksCommand : Command
     {
-        public WorksCommand(bool add): base() { Adding = add; }
+        public WorksCommand(List<Work> works, bool add): base()
+        {
+            Works = works;
+            Add = add;
+        }
 
-        protected bool Adding;
+        protected bool Add;
+        protected List<Work> Works { get; }
 
         public override string UndoAction => GetAction(undo: true);
         public override string RedoAction => GetAction(undo: false);
 
-        public override void Invert() { Adding = !Adding; }
+        public override void Invert() { Add = !Add; }
 
-        public override bool Run()
+        public override bool Run(Model model)
         {
+            model.AddRemoveWorks(Works, add: Add);
             return true;
         }
 
-        public override string ToString() => $"{(Adding ? "Add" : "Remove")} {null}";
+        public override string ToString() => $"{(Add ? "Add" : "Remove")} {null}";
 
-        private string GetAction(bool undo) => $"Works {(Adding ^ undo ? "addition" : "removal")}";
+        private string GetAction(bool undo) => $"Works {(Add ^ undo ? "addition" : "removal")}";
     }
 
     public class WorksAddCommand : WorksCommand
     {
-        public WorksAddCommand() : base(add: true) { }
+        public WorksAddCommand(List<Work> works) : base(works, add: true) { }
     }
 
     public class WorksRemoveCommand : WorksCommand
     {
-        public WorksRemoveCommand() : base(add: false) { }
+        public WorksRemoveCommand(List<Work> works) : base(works, add: false) { }
     }
 }

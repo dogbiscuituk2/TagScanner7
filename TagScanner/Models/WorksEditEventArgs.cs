@@ -3,17 +3,15 @@
     using System;
     using System.Collections.Generic;
 
-    public class WorksEditedEventArgs : EventArgs
+    public class WorksEditEventArgs : WorksEventArgs
     {
-        public WorksEditedEventArgs(Tag tag, List<Work> works, List<object> values) : base()
+        public WorksEditEventArgs(Tag tag, List<Work> works, List<object> values) : base(works)
         {
             Tag = tag;
-            Works = works;
             Values = values;
         }
 
         public Tag Tag { get; private set; }
-        public List<Work> Works { get; private set; }
         public List<object> Values { get; private set; }
     }
 }

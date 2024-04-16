@@ -38,7 +38,7 @@
         public bool IsNew;
 
         [field: NonSerialized]
-        public event EventHandler<WorksEditedEventArgs> Edit;
+        public event EventHandler<WorksEditEventArgs> Edit;
 
         #endregion
 

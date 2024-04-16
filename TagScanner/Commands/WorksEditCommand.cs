@@ -1,14 +1,12 @@
 ﻿namespace TagScanner.Commands
 {
-    using Models;
     using System.Collections.Generic;
-    using System.Windows.Media;
+    using Models;
     using Terms;
-    using Utils;
 
-    public class WorksEditedCommand : Command
+    public class WorksEditCommand : Command
     {
-        public WorksEditedCommand(Tag tag, List<Work> works, List<object> values) : base()
+        public WorksEditCommand(Tag tag, List<Work> works, List<object> values) : base()
         {
             Tag = tag;
             Works = works;
@@ -19,15 +17,15 @@
         public List<Work> Works { get; set; }
         public List<object> Values { get; set; }
 
-        public override bool Do()
+        public override bool Do(Model model)
         {
-            var result = base.Do();
+            var result = base.Do(model);
             if (result)
                 PropertyChanged();
             return result;
         }
 
-        public override bool Run()
+        public override bool Run(Model model)
         {
             var result = false;
             for (var index = 0; index < Works.Count; index++)

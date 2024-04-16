@@ -1926,19 +1926,19 @@
 
         #region Events
 
-        public event EventHandler<WorksEditedEventArgs> WorksEdited;
+        public event EventHandler<WorksEditEventArgs> WorksEdit;
 
-        protected virtual void OnWorksEdited(Tag tag, List<object> values)
+        protected virtual void OnWorksEdit(Tag tag, List<object> values)
         {
-            var worksEdited = WorksEdited;
-            worksEdited?.Invoke(this, new WorksEditedEventArgs(tag, Works.ToList(), values));
+            var worksEdit = WorksEdit;
+            worksEdit?.Invoke(this, new WorksEditEventArgs(tag, Works.ToList(), values));
         }
 
         #endregion
 
         #region Tag Accessors (private methods)
 
-        private DateTime GetDateTime(Func<IWork, DateTime> getDateTime, ref DateTime result)
+        private DateTime GetDateTime(Func<Work, DateTime> getDateTime, ref DateTime result)
         {
             if (result == DateTime.MaxValue)
             {
@@ -1964,7 +1964,7 @@
             return result;
         }
 
-        private double GetDouble(Func<IWork, double> getDouble, ref double result)
+        private double GetDouble(Func<Work, double> getDouble, ref double result)
         {
             if (result == double.MaxValue)
             {
@@ -1990,7 +1990,7 @@
             return result;
         }
 
-        private string GetFileOrCommonFolderPath(Func<IWork, string> getString, ref string result)
+        private string GetFileOrCommonFolderPath(Func<Work, string> getString, ref string result)
         {
             if (result == null)
             {
@@ -2016,7 +2016,7 @@
             return result;
         }
 
-        private FileStatus GetFileStatus(Func<IWork, FileStatus> getFileStatus, ref FileStatus result)
+        private FileStatus GetFileStatus(Func<Work, FileStatus> getFileStatus, ref FileStatus result)
         {
             if (result == FileStatus.Unknown && Works != null)
                 result = Works
@@ -2026,7 +2026,7 @@
         }
 
         private TagLib.Image.ImageOrientation GetImageOrientation(
-            Func<IWork, TagLib.Image.ImageOrientation> getImageOrientation,
+            Func<Work, TagLib.Image.ImageOrientation> getImageOrientation,
             ref TagLib.Image.ImageOrientation result)
         {
             if (result == TagLib.Image.ImageOrientation.None)
@@ -2047,7 +2047,7 @@
             return result;
         }
 
-        private int GetInt(Func<IWork, int> getInt, ref int result)
+        private int GetInt(Func<Work, int> getInt, ref int result)
         {
             if (result == int.MaxValue)
             {
@@ -2073,7 +2073,7 @@
             return result;
         }
 
-        private Logical GetLogical(Func<IWork, Logical> getLogical, ref Logical result)
+        private Logical GetLogical(Func<Work, Logical> getLogical, ref Logical result)
         {
             if (result == Logical.Unknown && Works != null)
                 foreach (var value in Works.Select(getLogical))
@@ -2085,7 +2085,7 @@
             return result;
         }
 
-        private long GetLong(Func<IWork, long> getLong, ref long result, bool sum)
+        private long GetLong(Func<Work, long> getLong, ref long result, bool sum)
         {
             if (result == long.MaxValue)
             {
@@ -2111,7 +2111,7 @@
             return result;
         }
 
-        private TagLib.MediaTypes GetMediaTypes(Func<IWork, TagLib.MediaTypes> getMediaTypes, ref TagLib.MediaTypes result)
+        private TagLib.MediaTypes GetMediaTypes(Func<Work, TagLib.MediaTypes> getMediaTypes, ref TagLib.MediaTypes result)
         {
             if (result == AllMediaTypes)
             {
@@ -2124,7 +2124,7 @@
             return result;
         }
 
-        private Picture[] GetPictures(Func<IWork, Picture[]> getPictures, ref Picture[] result)
+        private Picture[] GetPictures(Func<Work, Picture[]> getPictures, ref Picture[] result)
         {
             if (result == null)
             {
@@ -2143,7 +2143,7 @@
             return result;
         }
 
-        private string GetString(Func<IWork, string> getString, ref string result)
+        private string GetString(Func<Work, string> getString, ref string result)
         {
             if (result == null)
             {
@@ -2164,7 +2164,7 @@
             return result;
         }
 
-        private string[] GetStringArray(Func<IWork, string[]> getStringArray, ref string[] result)
+        private string[] GetStringArray(Func<Work, string[]> getStringArray, ref string[] result)
         {
             if (result == null)
             {
@@ -2184,7 +2184,7 @@
             return result;
         }
 
-        private TagLib.TagTypes GetTagTypes(Func<IWork, TagLib.TagTypes> getTagTypes, ref TagLib.TagTypes result)
+        private TagLib.TagTypes GetTagTypes(Func<Work, TagLib.TagTypes> getTagTypes, ref TagLib.TagTypes result)
         {
             if (result == TagLib.TagTypes.AllTags)
             {
@@ -2197,7 +2197,7 @@
             return result;
         }
 
-        private TimeSpan GetTimeSpan(Func<IWork, TimeSpan> getTimeSpan, ref TimeSpan result)
+        private TimeSpan GetTimeSpan(Func<Work, TimeSpan> getTimeSpan, ref TimeSpan result)
         {
             if (result == TimeSpan.MaxValue)
             {
@@ -2210,7 +2210,7 @@
             return result;
         }
 
-        private void SetValue(Tag tag, Func<IWork, object> getValue, Action<IWork> setValue)
+        private void SetValue(Tag tag, Func<Work, object> getValue, Action<Work> setValue)
         {
             var values = new List<object>();
             foreach (var work in Works)
@@ -2218,7 +2218,7 @@
                 values.Add(getValue(work));
                 setValue(work);
             }
-            OnWorksEdited(tag, values);
+            OnWorksEdit(tag, values);
         }
 
         #endregion
