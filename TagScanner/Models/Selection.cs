@@ -9,8 +9,9 @@
     [DefaultProperty("Title")]
     public class Selection : IWork
     {
-        #region Constructor
+        #region Constructors
 
+        public Selection() => Works = new List<Work>();
         public Selection(IEnumerable<Work> works) => Works = works;
 
         #endregion

@@ -11,6 +11,7 @@
     using Models;
     using Mru;
     using Properties;
+    using TagScanner.Streaming;
     using Terms;
     using Utils;
     using Views;
@@ -78,11 +79,6 @@
 
                 View.FileClose.Click += FileClose_Click;
                 View.FileExit.Click += FileExit_Click;
-
-                View.EditUndo.Click += EditUndo_Click;
-                View.tbUndo.Click += EditUndo_Click;
-                View.EditRedo.Click += EditRedo_Click;
-                View.tbRedo.Click += EditRedo_Click;
 
                 View.EditCut.Click += EditCut_Click;
                 View.tbCut.Click += EditCut_Click;
@@ -210,13 +206,10 @@
 
         #region Edit
 
-
-        private void EditRedo_Click(object sender, EventArgs e) { }
-        private void EditUndo_Click(object sender, EventArgs e) { }
-        private void EditCut_Click(object sender, EventArgs e) { }
-        private void EditCopy_Click(object sender, EventArgs e) { }
-        private void EditPaste_Click(object sender, EventArgs e) { }
-        private void EditDelete_Click(object sender, EventArgs e) => DeleteSelection();
+        private void EditCut_Click(object sender, EventArgs e) => Cut();
+        private void EditCopy_Click(object sender, EventArgs e) => Copy();
+        private void EditPaste_Click(object sender, EventArgs e) => Paste();
+        private void EditDelete_Click(object sender, EventArgs e) => Delete();
         private void EditSelectAll_Click(object sender, EventArgs e) => LibraryGridController.SelectAll();
         private void EditInvertSelection_Click(object sender, EventArgs e) => LibraryGridController.InvertSelection();
 
@@ -311,9 +304,50 @@
             return decision;
         }
 
-        private void DeleteSelection() => WorksRemove(Selection.Works.ToList());
+        private void Copy() => CopyToClipboard();
+
+        private void CopyToClipboard()
+        {
+            using (var stream = new MemoryStream())
+            {
+                var data = Selection.Works.ToList();
+                Streamer.SaveToStream(stream, data, StreamFormat.Xml);
+                stream.Seek(0, SeekOrigin.Begin);
+                using (var streamReader = new StreamReader(stream))
+                {
+                    var text = streamReader.ReadToEnd();
+                    Clipboard.SetText(text);
+                }
+                stream.Close();
+            }
+        }
+
+        private void Cut() { Copy(); Delete(); }
+
+        private void Delete() => WorksRemove(Selection.Works.ToList());
 
         private void ModifiedChanged() => View.Text = PersistenceController.WindowCaption;
+
+        private void Paste() => PasteFromClipboard();
+
+        private void PasteFromClipboard()
+        {
+            List<Work> works = null;
+            using (var stream = new MemoryStream())
+            {
+                using (var streamWriter = new StreamWriter(stream))
+                {
+                    var text = Clipboard.GetText();
+                    streamWriter.Write(text);
+                    stream.Flush();
+                    stream.Seek(0, SeekOrigin.Begin);
+                    var data = Streamer.LoadFromStream(stream, typeof(List<Work>), StreamFormat.Xml);
+                    works = (List<Work>)data;
+                    stream.Close();
+                }
+            }
+            WorksAdd(works);
+        }
 
         private void PersistenceController_FilePathChanged(object sender, EventArgs e) => View.Text = PersistenceController.WindowCaption;
 
@@ -358,9 +392,16 @@
             View.FileSave.Enabled = View.tbSaveLibrary.Enabled = enabled;
             View.AddRecentFolder.Enabled = View.tbAddRecentFolder.Enabled =
                 View.RecentFolderPopupMenu.Items.Count > 0;
+            View.EditCut.Enabled = View.tbCut.Enabled =
+                View.EditCopy.Enabled = View.tbCopy.Enabled =
+                View.EditDelete.Enabled = View.tbDelete.Enabled = Selection.Works.Any();
         }
 
-        private void UpdatePropertyGrid() => View.PropertyGrid.SelectedObject = LibraryGridController.Selection;
+        private void UpdatePropertyGrid()
+        {
+            UpdateMenus();
+            View.PropertyGrid.SelectedObject = LibraryGridController.Selection;
+        }
 
         #endregion
     }
