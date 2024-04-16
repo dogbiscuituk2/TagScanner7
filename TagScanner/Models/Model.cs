@@ -67,15 +67,15 @@
             }
         }
 
-        public void Work_Edit(object sender, WorkEditEventArgs e)
+        public void Work_Edit(object sender, WorksEditedEventArgs e)
         {
-            var workEdit = WorkEdit;
+            var workEdit = WorksEdit;
             workEdit?.Invoke(sender, e);
             // Modified = true; // Should use the CommandProcessor's value now!
         }
 
         public event EventHandler ModifiedChanged;
-        public event EventHandler<WorkEditEventArgs> WorkEdit;
+        public event EventHandler<WorksEditedEventArgs> WorksEdit;
         public event EventHandler WorksChanged;
 
         #endregion

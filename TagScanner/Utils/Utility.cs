@@ -178,6 +178,8 @@
             return strings.Aggregate((p, q) => $"{p}{Environment.NewLine}{q}");
         }
 
+        public static Tag TagFromString(this string tag) => (Tag)Enum.Parse(typeof(Tag), tag);
+
         public static string[] TextToStrings(this string s)
         {
             return s == null

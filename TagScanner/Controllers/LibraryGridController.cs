@@ -265,7 +265,15 @@ namespace TagScanner.Controllers
 
         private void Grid_SelectionChanged(object sender, SelectionChangedEventArgs e) => OnSelectionChanged();
 
-        private Selection GetSelection() => new Selection(DataGrid.SelectedItems.Cast<Work>());
+        private Selection GetSelection()
+        {
+            var selection = new Selection(DataGrid.SelectedItems.Cast<Work>());
+            selection.WorksEdited += Selection_WorksEdited;
+            return selection;
+        }
+
+        private void Selection_WorksEdited(object sender, WorksEditedEventArgs e) =>
+            CommandProcessor.Run(new WorksEditedCommand(e.Tag, e.Works, e.Values), spoof: true);
 
         #endregion
 

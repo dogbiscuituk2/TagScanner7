@@ -6,7 +6,6 @@
     using System.IO;
     using System.Linq;
     using System.Reflection;
-    using System.Runtime.CompilerServices;
     using System.Xml;
     using System.Xml.Serialization;
     using Newtonsoft.Json;
@@ -39,7 +38,7 @@
         public bool IsNew;
 
         [field: NonSerialized]
-        public event EventHandler<WorkEditEventArgs> Edit;
+        public event EventHandler<WorksEditedEventArgs> Edit;
 
         #endregion
 
@@ -1161,28 +1160,15 @@
             return string.Format($"{{0:D{digits}}}/{{1:D{digits}}}", number, total);
         }
 
-        private void OnEdit(Tag tag, object oldValue)
-        {
-            var workEdit = Edit;
-            if (workEdit == null) // Are we just now streaming input, using XML?
-                return; // Yes: then relax, property accessors should have no side effects.
-            workEdit.Invoke(this, new WorkEditEventArgs(tag, oldValue));
-            //workEdit.Invoke(this, new WorkEditEventArgs(Tag.FileStatus)); // TODO: replace with explicit recalculations?
-            //foreach (var dependency in tag.GetDependencies())
-            //    workEdit.Invoke(this, new WorkEditEventArgs(tag));
-        }
-
         private static bool SequenceEqual<T>(IEnumerable<T> x, IEnumerable<T> y) => x != null ? y != null && x.SequenceEqual(y) : y == null;
 
-        private void Set<T>(ref T field, T newValue, [CallerMemberName] string tag = "") => Set(ref field, newValue, tag, !Equals(field, newValue));
-        private void Set<T>(ref T[] field, T[] newValue, [CallerMemberName] string tag = "") => Set(ref field, newValue, tag, !SequenceEqual(field, newValue));
+        private void Set<T>(ref T field, T value) => Set(ref field, value, !Equals(field, value));
+        private void Set<T>(ref T[] field, T[] value) => Set(ref field, value, !SequenceEqual(field, value));
 
-        private void Set<T>(ref T field, T newValue, string tag, bool condition)
+        private void Set<T>(ref T field, T value, bool condition)
         {
-            if (!condition) return;
-            var oldValue = field;
-            field = newValue;
-            OnEdit((Tag)Enum.Parse(typeof(Tag), tag), oldValue);
+            if (condition)
+                field = value;
         }
 
         private void SetUserValue(string name, string value)

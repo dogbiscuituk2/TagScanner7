@@ -5,7 +5,6 @@
     using System.ComponentModel;
     using System.IO;
     using System.Linq;
-    using TagScanner.Commands;
 
     [DefaultProperty("Title")]
     public class Selection : IWork
@@ -19,6 +18,18 @@
         #region Public Fields
 
         public readonly IEnumerable<Work> Works;
+
+        public const string
+            Category = "Category",
+            Details = "Details",
+            File = "File",
+            Format = "Format",
+            Image = "Image",
+            Media = "Media",
+            Metadata = "Metadata",
+            Personnel = "Personnel",
+            ReplayGain = "Replay Gain",
+            Selected = "Selection";
 
         #endregion
 
@@ -37,7 +48,7 @@
             get => GetString(p => p.Album, ref _album);
             set
             {
-                SetValue(p => p.Album = value);
+                SetValue(Tag.Album, p => p.Album, p => p.Album = value);
                 _album = null;
                 _yearAlbum = null;
             }
@@ -57,7 +68,7 @@
             get => GetStringArray(p => p.AlbumArtists, ref _albumArtists);
             set
             {
-                SetValue(p => p.AlbumArtists = value);
+                SetValue(Tag.AlbumArtists, p => p.AlbumArtists, p => p.AlbumArtists = value);
                 _albumArtists = null;
                 _firstAlbumArtist = null;
                 _joinedAlbumArtists = null;
@@ -91,7 +102,7 @@
             get => GetStringArray(p => p.AlbumArtistsSort, ref _albumArtistsSort);
             set
             {
-                SetValue(p => p.AlbumArtistsSort = value);
+                SetValue(Tag.AlbumArtistsSort, p => p.AlbumArtistsSort, p => p.AlbumArtistsSort = value);
                 _albumArtistsSort = null;
                 _firstAlbumArtistSort = null;
             }
@@ -146,7 +157,7 @@
             get => GetString(p => p.AlbumSort, ref _albumSort);
             set
             {
-                SetValue(p => p.AlbumSort = value);
+                SetValue(Tag.AlbumSort, p => p.AlbumSort, p => p.AlbumSort = value);
                 _albumSort = null;
             }
         }
@@ -164,7 +175,7 @@
             get => GetString(p => p.AmazonId, ref _amazonId);
             set
             {
-                SetValue(p => p.AmazonId = value);
+                SetValue(Tag.AmazonId, p => p.AmazonId, p => p.AmazonId = value);
                 _amazonId = null;
             }
         }
@@ -184,7 +195,7 @@
             get => GetStringArray(p => p.Artists, ref _artists);
             set
             {
-                SetValue(p => p.Artists = value);
+                SetValue(Tag.Artists, p => p.Artists, p => p.Artists = value);
                 _artists = null;
                 _firstArtist = null;
                 _joinedArtists = null;
@@ -259,7 +270,7 @@
             get => GetInt(p => p.BeatsPerMinute, ref _beatsPerMinute);
             set
             {
-                SetValue(p => p.BeatsPerMinute = value);
+                SetValue(Tag.BeatsPerMinute, p => p.BeatsPerMinute, p => p.BeatsPerMinute = value);
                 _beatsPerMinute = value;
             }
         }
@@ -316,7 +327,7 @@
             get => GetString(p => p.Comment, ref _comment);
             set
             {
-                SetValue(p => p.Comment = value);
+                SetValue(Tag.Comment, p => p.Comment, p => p.Comment = value);
                 _comment = null;
             }
         }
@@ -335,7 +346,7 @@
             get => GetStringArray(p => p.Composers, ref _composers);
             set
             {
-                SetValue(p => p.Composers = value);
+                SetValue(Tag.Composers, p => p.Composers, p => p.Composers = value);
                 _composers = null;
                 _firstComposer = null;
                 _joinedComposers = null;
@@ -368,7 +379,7 @@
             get => GetStringArray(p => p.ComposersSort, ref _composersSort);
             set
             {
-                SetValue(p => p.ComposersSort = value);
+                SetValue(Tag.ComposersSort, p => p.ComposersSort, p => p.ComposersSort = value);
                 _composersSort = null;
                 _firstComposerSort = null;
             }
@@ -401,7 +412,7 @@
             get => GetString(p => p.Conductor, ref _conductor);
             set
             {
-                SetValue(p => p.Conductor = value);
+                SetValue(Tag.Conductor, p => p.Conductor, p => p.Conductor = value);
                 _conductor = null;
             }
         }
@@ -420,7 +431,7 @@
             get => GetString(p => p.Copyright, ref _copyright);
             set
             {
-                SetValue(p => p.Copyright = value);
+                SetValue(Tag.Copyright, p => p.Copyright, p => p.Copyright = value);
                 _copyright = null;
             }
         }
@@ -465,7 +476,7 @@
             get => GetInt(p => p.DiscCount, ref _discCount);
             set
             {
-                SetValue(p => p.DiscCount = value);
+                SetValue(Tag.DiscCount, p => p.DiscCount, p => p.DiscCount = value);
                 _discCount = value;
             }
         }
@@ -485,7 +496,7 @@
             get => GetInt(p => p.DiscNumber, ref _discNumber);
             set
             {
-                SetValue(p => p.DiscNumber = value);
+                SetValue(Tag.DiscNumber, p => p.DiscNumber, p => p.DiscNumber = value);
                 _discNumber = value;
             }
         }
@@ -815,7 +826,7 @@
             get => GetStringArray(p => p.Genres, ref _genres);
             set
             {
-                SetValue(p => p.Genres = value);
+                SetValue(Tag.Genres, p => p.Genres, p => p.Genres = value);
                 _genres = null;
                 _firstGenre = null;
                 _joinedGenres = null;
@@ -850,7 +861,7 @@
             get => GetString(p => p.Grouping, ref _grouping);
             set
             {
-                SetValue(p => p.Grouping = value);
+                SetValue(Tag.Grouping, p => p.Grouping, p => p.Grouping = value);
                 _grouping = null;
             }
         }
@@ -870,7 +881,7 @@
             get => GetDouble(p => p.ImageAltitude, ref _imageAltitude);
             set
             {
-                SetValue(p => p.ImageAltitude = value);
+                SetValue(Tag.ImageAltitude, p => p.ImageAltitude, p => p.ImageAltitude = value);
                 _imageAltitude = value;
             }
         }
@@ -888,7 +899,7 @@
             get => GetString(p => p.ImageCreator, ref _imageCreator);
             set
             {
-                SetValue(p => p.ImageCreator = value);
+                SetValue(Tag.ImageCreator, p => p.ImageCreator, p => p.ImageCreator = value);
                 _imageCreator = value;
             }
         }
@@ -907,7 +918,7 @@
             get => GetDateTime(p => p.ImageDateTime, ref _imageDateTime);
             set
             {
-                SetValue(p => p.ImageDateTime = value);
+                SetValue(Tag.ImageDateTime, p => p.ImageDateTime, p => p.ImageDateTime = value);
                 _imageDateTime = value;
             }
         }
@@ -927,7 +938,7 @@
             get => GetDouble(p => p.ImageExposureTime, ref _imageExposureTime);
             set
             {
-                SetValue(p => p.ImageExposureTime = value);
+                SetValue(Tag.ImageExposureTime, p => p.ImageExposureTime, p => p.ImageExposureTime = value);
                 _imageExposureTime = value;
             }
         }
@@ -947,7 +958,7 @@
             get => GetDouble(p => p.ImageFNumber, ref _imageFNumber);
             set
             {
-                SetValue(p => p.ImageFNumber = value);
+                SetValue(Tag.ImageFNumber, p => p.ImageFNumber, p => p.ImageFNumber = value);
                 _imageFNumber = value;
             }
         }
@@ -967,7 +978,7 @@
             get => GetDouble(p => p.ImageFocalLength, ref _imageFocalLength);
             set
             {
-                SetValue(p => p.ImageFocalLength = value);
+                SetValue(Tag.ImageFocalLength, p => p.ImageFocalLength, p => p.ImageFocalLength = value);
                 _imageFocalLength = value;
             }
         }
@@ -987,7 +998,7 @@
             get => GetInt(p => p.ImageFocalLengthIn35mmFilm, ref _imageFocalLengthIn35mmFilm);
             set
             {
-                SetValue(p => p.ImageFocalLengthIn35mmFilm = value);
+                SetValue(Tag.ImageFocalLengthIn35mmFilm, p => p.ImageFocalLengthIn35mmFilm, p => p.ImageFocalLengthIn35mmFilm = value);
                 _imageFocalLengthIn35mmFilm = value;
             }
         }
@@ -1007,7 +1018,7 @@
             get => GetInt(p => p.ImageISOSpeedRatings, ref _imageISOSpeedRatings);
             set
             {
-                SetValue(p => p.ImageISOSpeedRatings = value);
+                SetValue(Tag.ImageISOSpeedRatings, p => p.ImageISOSpeedRatings, p => p.ImageISOSpeedRatings = value);
                 _imageISOSpeedRatings = value;
             }
         }
@@ -1025,7 +1036,7 @@
             get => GetStringArray(p => p.ImageKeywords, ref _imageKeywords);
             set
             {
-                SetValue(p => p.ImageKeywords = value);
+                SetValue(Tag.ImageKeywords, p => p.ImageKeywords, p => p.ImageKeywords = value);
                 _imageKeywords = value;
             }
         }
@@ -1045,7 +1056,7 @@
             get => GetDouble(p => p.ImageLatitude, ref _imageLatitude);
             set
             {
-                SetValue(p => p.ImageLatitude = value);
+                SetValue(Tag.ImageLatitude, p => p.ImageLatitude, p => p.ImageLatitude = value);
                 _imageLatitude = value;
             }
         }
@@ -1065,7 +1076,7 @@
             get => GetDouble(p => p.ImageLongitude, ref _imageLongitude);
             set
             {
-                SetValue(p => p.ImageLongitude = value);
+                SetValue(Tag.ImageLongitude, p => p.ImageLongitude, p => p.ImageLongitude = value);
                 _imageLongitude = value;
             }
         }
@@ -1083,7 +1094,7 @@
             get => GetString(p => p.ImageMake, ref _imageMake);
             set
             {
-                SetValue(p => p.ImageMake = value);
+                SetValue(Tag.ImageMake, p => p.ImageMake, p => p.ImageMake = value);
                 _imageMake = value;
             }
         }
@@ -1101,7 +1112,7 @@
             get => GetString(p => p.ImageModel, ref _imageModel);
             set
             {
-                SetValue(p => p.ImageModel = value);
+                SetValue(Tag.ImageModel, p => p.ImageModel, p => p.ImageModel = value);
                 _imageModel = value;
             }
         }
@@ -1120,7 +1131,7 @@
             get => GetImageOrientation(p => p.ImageOrientation, ref _imageOrientation);
             set
             {
-                SetValue(p => p.ImageOrientation = value);
+                SetValue(Tag.ImageOrientation, p => p.ImageOrientation, p => p.ImageOrientation = value);
                 _imageOrientation = value;
             }
         }
@@ -1140,7 +1151,7 @@
             get => GetInt(p => p.ImageRating, ref _imageRating);
             set
             {
-                SetValue(p => p.ImageRating = value);
+                SetValue(Tag.ImageRating, p => p.ImageRating, p => p.ImageRating = value);
                 _imageRating = value;
             }
         }
@@ -1158,7 +1169,7 @@
             get => GetString(p => p.ImageSoftware, ref _imageSoftware);
             set
             {
-                SetValue(p => p.ImageSoftware = value);
+                SetValue(Tag.ImageSoftware, p => p.ImageSoftware, p => p.ImageSoftware = value);
                 _imageSoftware = value;
             }
         }
@@ -1307,7 +1318,7 @@
             get => GetString(p => p.Lyrics, ref _lyrics);
             set
             {
-                SetValue(p => p.Lyrics = value);
+                SetValue(Tag.Lyrics, p => p.Lyrics, p => p.Lyrics = value);
                 _lyrics = null;
             }
         }
@@ -1362,7 +1373,7 @@
             get => GetString(p => p.MusicBrainzArtistId, ref _musicBrainzArtistId);
             set
             {
-                SetValue(p => p.MusicBrainzArtistId = value);
+                SetValue(Tag.MusicBrainzArtistId, p => p.MusicBrainzArtistId, p => p.MusicBrainzArtistId = value);
                 _musicBrainzArtistId = null;
             }
         }
@@ -1380,7 +1391,7 @@
             get => GetString(p => p.MusicBrainzDiscId, ref _musicBrainzDiscId);
             set
             {
-                SetValue(p => p.MusicBrainzDiscId = value);
+                SetValue(Tag.MusicBrainzDiscId, p => p.MusicBrainzDiscId, p => p.MusicBrainzDiscId = value);
                 _musicBrainzDiscId = null;
             }
         }
@@ -1398,7 +1409,7 @@
             get => GetString(p => p.MusicBrainzReleaseArtistId, ref _musicBrainzReleaseArtistId);
             set
             {
-                SetValue(p => p.MusicBrainzReleaseArtistId = value);
+                SetValue(Tag.MusicBrainzReleaseArtistId, p => p.MusicBrainzReleaseArtistId, p => p.MusicBrainzReleaseArtistId = value);
                 _musicBrainzReleaseArtistId = null;
             }
         }
@@ -1416,7 +1427,7 @@
             get => GetString(p => p.MusicBrainzReleaseCountry, ref _musicBrainzReleaseCountry);
             set
             {
-                SetValue(p => p.MusicBrainzReleaseCountry = value);
+                SetValue(Tag.MusicBrainzReleaseCountry, p => p.MusicBrainzReleaseCountry, p => p.MusicBrainzReleaseCountry = value);
                 _musicBrainzReleaseCountry = null;
             }
         }
@@ -1434,7 +1445,7 @@
             get => GetString(p => p.MusicBrainzReleaseId, ref _musicBrainzReleaseId);
             set
             {
-                SetValue(p => p.MusicBrainzReleaseId = value);
+                SetValue(Tag.MusicBrainzReleaseId, p => p.MusicBrainzReleaseId, p => p.MusicBrainzReleaseId = value);
                 _musicBrainzReleaseId = null;
             }
         }
@@ -1452,7 +1463,7 @@
             get => GetString(p => p.MusicBrainzReleaseStatus, ref _musicBrainzReleaseStatus);
             set
             {
-                SetValue(p => p.MusicBrainzReleaseStatus = value);
+                SetValue(Tag.MusicBrainzReleaseStatus, p => p.MusicBrainzReleaseStatus, p => p.MusicBrainzReleaseStatus = value);
                 _musicBrainzReleaseStatus = null;
             }
         }
@@ -1470,7 +1481,7 @@
             get => GetString(p => p.MusicBrainzReleaseType, ref _musicBrainzReleaseType);
             set
             {
-                SetValue(p => p.MusicBrainzReleaseType = value);
+                SetValue(Tag.MusicBrainzReleaseType, p => p.MusicBrainzReleaseType, p => p.MusicBrainzReleaseType = value);
                 _musicBrainzReleaseType = null;
             }
         }
@@ -1488,7 +1499,7 @@
             get => GetString(p => p.MusicBrainzTrackId, ref _musicBrainzTrackId);
             set
             {
-                SetValue(p => p.MusicBrainzTrackId = value);
+                SetValue(Tag.MusicBrainzTrackId, p => p.MusicBrainzTrackId, p => p.MusicBrainzTrackId = value);
                 _musicBrainzTrackId = null;
             }
         }
@@ -1506,7 +1517,7 @@
             get => GetString(p => p.MusicIpId, ref _musicIpId);
             set
             {
-                SetValue(p => p.MusicIpId = value);
+                SetValue(Tag.MusicIpId, p => p.MusicIpId, p => p.MusicIpId = value);
                 _musicIpId = null;
             }
         }
@@ -1525,7 +1536,7 @@
             get => GetStringArray(p => p.Performers, ref _performers);
             set
             {
-                SetValue(p => p.Performers = value);
+                SetValue(Tag.Performers, p => p.Performers, p => p.Performers = value);
                 _performers = null;
                 _firstPerformer = null;
                 _joinedPerformers = null;
@@ -1559,7 +1570,7 @@
             get => GetStringArray(p => p.PerformersSort, ref _performersSort);
             set
             {
-                SetValue(p => p.PerformersSort = value);
+                SetValue(Tag.PerformersSort, p => p.PerformersSort, p => p.PerformersSort = value);
                 _performersSort = null;
                 _firstPerformerSort = null;
                 _joinedPerformersSort = null;
@@ -1747,7 +1758,7 @@
             get => GetString(p => p.Title, ref _title);
             set
             {
-                SetValue(p => p.Title = value);
+                SetValue(Tag.Title, p => p.Title, p => p.Title = value);
                 _title = null;
             }
         }
@@ -1766,7 +1777,7 @@
             get => GetString(p => p.TitleSort, ref _titleSort);
             set
             {
-                SetValue(p => p.TitleSort = value);
+                SetValue(Tag.TitleSort, p => p.TitleSort, p => p.TitleSort = value);
                 _titleSort = null;
             }
         }
@@ -1786,7 +1797,7 @@
             get => GetInt(p => p.TrackCount, ref _trackCount);
             set
             {
-                SetValue(p => p.TrackCount = value);
+                SetValue(Tag.TrackCount, p => p.TrackCount, p => p.TrackCount = value);
                 _trackCount = value;
             }
         }
@@ -1817,7 +1828,7 @@
             get => GetInt(p => p.TrackNumber, ref _trackNumber);
             set
             {
-                SetValue(p => p.TrackNumber = value);
+                SetValue(Tag.TrackNumber, p => p.TrackNumber, p => p.TrackNumber = value);
                 _trackNumber = value;
             }
         }
@@ -1887,7 +1898,7 @@
             get => GetInt(p => p.Year, ref _year);
             set
             {
-                SetValue(p => p.Year = value);
+                SetValue(Tag.Year, p => p.Year, p => p.Year = value);
                 _year = value;
                 _decade = null;
                 _century = null;
@@ -1913,19 +1924,15 @@
 
         #endregion
 
-        #region Categories
+        #region Events
 
-        public const string
-            Category = "Category",
-            Details = "Details",
-            File = "File",
-            Format = "Format",
-            Image = "Image",
-            Media = "Media",
-            Metadata = "Metadata",
-            Personnel = "Personnel",
-            ReplayGain = "Replay Gain",
-            Selected = "Selection";
+        public event EventHandler<WorksEditedEventArgs> WorksEdited;
+
+        protected virtual void OnWorksEdited(Tag tag, List<object> values)
+        {
+            var worksEdited = WorksEdited;
+            worksEdited?.Invoke(this, new WorksEditedEventArgs(tag, Works.ToList(), values));
+        }
 
         #endregion
 
@@ -2203,10 +2210,15 @@
             return result;
         }
 
-        private void SetValue(Action<IWork> setValue)
+        private void SetValue(Tag tag, Func<IWork, object> getValue, Action<IWork> setValue)
         {
+            var values = new List<object>();
             foreach (var work in Works)
+            {
+                values.Add(getValue(work));
                 setValue(work);
+            }
+            OnWorksEdited(tag, values);
         }
 
         #endregion
