@@ -107,6 +107,8 @@
                 View.AddFolder.Click += AddFolder_Click;
                 View.tbAddFolder.Click += AddFolder_Click;
                 View.tbAdd.ButtonClick += AddFolder_Click;
+                View.AddLibrary.Click += AddLibrary_Click;
+                View.tbAddLibrary.Click += AddLibrary_Click;
                 View.tbAdd.DropDownOpening += TbAdd_DropDownOpening;
 
                 View.tbAddRecentFolder.DropDown = View.AddRecentFolder.DropDown;
@@ -232,6 +234,7 @@
 
         private void AddMedia_Click(object sender, EventArgs e) => MediaController.AddFiles();
         private void AddFolder_Click(object sender, EventArgs e) => MediaController.AddFolder();
+        private void AddLibrary_Click(object sender, EventArgs e) => PersistenceController.AddLibrary();
         private void TbAdd_DropDownOpening(object sender, EventArgs e) => View.tbAddRecentFolder.Enabled = View.AddRecentFolder.Enabled;
 
         #endregion
@@ -332,21 +335,37 @@
 
         private void PasteFromClipboard()
         {
-            List<Work> works = null;
-            using (var stream = new MemoryStream())
+            if (!Clipboard.ContainsText())
+                return;
+            var text = Clipboard.GetText();
+            var tempFileName = Path.GetTempFileName();
+            using (var stream = new FileStream(tempFileName, FileMode.OpenOrCreate, FileAccess.Write))
             {
-                using (var streamWriter = new StreamWriter(stream))
+                using (var writer = new StreamWriter(stream))
                 {
-                    var text = Clipboard.GetText();
-                    streamWriter.Write(text);
-                    stream.Flush();
-                    stream.Seek(0, SeekOrigin.Begin);
-                    var data = Streamer.LoadFromStream(stream, typeof(List<Work>), StreamFormat.Xml);
-                    works = (List<Work>)data;
+                    writer.Write(text);
+                    writer.Flush();
+                }
+                stream.Close();
+            }
+            using (var stream = new FileStream(tempFileName, FileMode.Open, FileAccess.Read))
+            {
+                try
+                {
+                    var value = Streamer.LoadFromStream(stream, typeof(List<Work>), StreamFormat.Xml);
+                    if (value is List<Work> works)
+                        WorksAdd(works);
+                }
+                catch (Exception exception)
+                {
+                    exception.ShowDialog(View);
+                }
+                finally
+                {
                     stream.Close();
+                    File.Delete(tempFileName);
                 }
             }
-            WorksAdd(works);
         }
 
         private void PersistenceController_FilePathChanged(object sender, EventArgs e) => View.Text = PersistenceController.WindowCaption;

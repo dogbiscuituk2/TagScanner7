@@ -58,6 +58,7 @@
             this.FileOpen = new System.Windows.Forms.ToolStripMenuItem();
             this.FileReopen = new System.Windows.Forms.ToolStripMenuItem();
             this.RecentLibraryPopupMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.tbAddRecentLibrary = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripSeparator();
             this.FileSave = new System.Windows.Forms.ToolStripMenuItem();
             this.FileSaveAs = new System.Windows.Forms.ToolStripMenuItem();
@@ -69,10 +70,8 @@
             this.EditMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.EditUndo = new System.Windows.Forms.ToolStripMenuItem();
             this.UndoPopupMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.tbUndo = new System.Windows.Forms.ToolStripSplitButton();
             this.EditRedo = new System.Windows.Forms.ToolStripMenuItem();
             this.RedoPopupMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.tbRedo = new System.Windows.Forms.ToolStripSplitButton();
             this.toolStripMenuItem10 = new System.Windows.Forms.ToolStripSeparator();
             this.EditCut = new System.Windows.Forms.ToolStripMenuItem();
             this.EditCopy = new System.Windows.Forms.ToolStripMenuItem();
@@ -109,6 +108,10 @@
             this.toolStripMenuItem8 = new System.Windows.Forms.ToolStripSeparator();
             this.HelpMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.HelpAbout = new System.Windows.Forms.ToolStripMenuItem();
+            this.tbReopen = new System.Windows.Forms.ToolStripMenuItem();
+            this.tbAddRecentFolder = new System.Windows.Forms.ToolStripMenuItem();
+            this.tbUndo = new System.Windows.Forms.ToolStripSplitButton();
+            this.tbRedo = new System.Windows.Forms.ToolStripSplitButton();
             this.AddFolderDialog = new System.Windows.Forms.FolderBrowserDialog();
             this.AddFileDialog = new System.Windows.Forms.OpenFileDialog();
             this.StatusBar = new System.Windows.Forms.StatusStrip();
@@ -118,7 +121,6 @@
             this.tbNewWindow = new System.Windows.Forms.ToolStripMenuItem();
             this.tbOpen = new System.Windows.Forms.ToolStripSplitButton();
             this.tbOpenLibrary = new System.Windows.Forms.ToolStripMenuItem();
-            this.tbReopen = new System.Windows.Forms.ToolStripMenuItem();
             this.tbSave = new System.Windows.Forms.ToolStripSplitButton();
             this.tbSaveLibrary = new System.Windows.Forms.ToolStripMenuItem();
             this.tbSaveAs = new System.Windows.Forms.ToolStripMenuItem();
@@ -135,8 +137,6 @@
             this.tbAddFolder = new System.Windows.Forms.ToolStripMenuItem();
             this.tbAddLibrary = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem12 = new System.Windows.Forms.ToolStripSeparator();
-            this.tbAddRecentFolder = new System.Windows.Forms.ToolStripMenuItem();
-            this.tbAddRecentLibrary = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -500,8 +500,15 @@
             // RecentLibraryPopupMenu
             // 
             this.RecentLibraryPopupMenu.Name = "RecentLibraryPopupMenu";
-            this.RecentLibraryPopupMenu.OwnerItem = this.tbAddRecentLibrary;
-            this.RecentLibraryPopupMenu.Size = new System.Drawing.Size(181, 26);
+            this.RecentLibraryPopupMenu.OwnerItem = this.tbReopen;
+            this.RecentLibraryPopupMenu.Size = new System.Drawing.Size(61, 4);
+            // 
+            // tbAddRecentLibrary
+            // 
+            this.tbAddRecentLibrary.DropDown = this.RecentLibraryPopupMenu;
+            this.tbAddRecentLibrary.Name = "tbAddRecentLibrary";
+            this.tbAddRecentLibrary.Size = new System.Drawing.Size(149, 22);
+            this.tbAddRecentLibrary.Text = "R&ecent Library";
             // 
             // toolStripMenuItem1
             // 
@@ -578,58 +585,36 @@
             // 
             // EditUndo
             // 
-            this.EditUndo.DropDown = this.UndoPopupMenu;
             this.EditUndo.Image = global::TagScanner.Properties.Resources.Edit_UndoHS;
             this.EditUndo.Name = "EditUndo";
-            this.EditUndo.ShortcutKeyDisplayString = "";
-            this.EditUndo.Size = new System.Drawing.Size(155, 22);
+            this.EditUndo.ShortcutKeyDisplayString = "^Z";
+            this.EditUndo.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Z)));
+            this.EditUndo.Size = new System.Drawing.Size(180, 22);
             this.EditUndo.Text = "&Undo";
             // 
             // UndoPopupMenu
             // 
             this.UndoPopupMenu.Name = "UndoPopupMenu";
-            this.UndoPopupMenu.OwnerItem = this.EditUndo;
             this.UndoPopupMenu.Size = new System.Drawing.Size(61, 4);
-            // 
-            // tbUndo
-            // 
-            this.tbUndo.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.tbUndo.DropDown = this.UndoPopupMenu;
-            this.tbUndo.Image = global::TagScanner.Properties.Resources.Edit_UndoHS;
-            this.tbUndo.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.tbUndo.Name = "tbUndo";
-            this.tbUndo.Size = new System.Drawing.Size(30, 20);
-            this.tbUndo.Text = "tbUndo";
             // 
             // EditRedo
             // 
-            this.EditRedo.DropDown = this.RedoPopupMenu;
             this.EditRedo.Image = global::TagScanner.Properties.Resources.Edit_RedoHS;
             this.EditRedo.Name = "EditRedo";
-            this.EditRedo.ShortcutKeyDisplayString = "";
-            this.EditRedo.Size = new System.Drawing.Size(155, 22);
+            this.EditRedo.ShortcutKeyDisplayString = "^Y";
+            this.EditRedo.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Y)));
+            this.EditRedo.Size = new System.Drawing.Size(180, 22);
             this.EditRedo.Text = "&Redo";
             // 
             // RedoPopupMenu
             // 
             this.RedoPopupMenu.Name = "RedoPopupMenu";
-            this.RedoPopupMenu.OwnerItem = this.EditRedo;
             this.RedoPopupMenu.Size = new System.Drawing.Size(61, 4);
-            // 
-            // tbRedo
-            // 
-            this.tbRedo.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.tbRedo.DropDown = this.RedoPopupMenu;
-            this.tbRedo.Image = global::TagScanner.Properties.Resources.Edit_RedoHS;
-            this.tbRedo.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.tbRedo.Name = "tbRedo";
-            this.tbRedo.Size = new System.Drawing.Size(30, 20);
-            this.tbRedo.Text = "tbRedo";
             // 
             // toolStripMenuItem10
             // 
             this.toolStripMenuItem10.Name = "toolStripMenuItem10";
-            this.toolStripMenuItem10.Size = new System.Drawing.Size(152, 6);
+            this.toolStripMenuItem10.Size = new System.Drawing.Size(177, 6);
             // 
             // EditCut
             // 
@@ -637,7 +622,7 @@
             this.EditCut.Name = "EditCut";
             this.EditCut.ShortcutKeyDisplayString = "^X";
             this.EditCut.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.X)));
-            this.EditCut.Size = new System.Drawing.Size(155, 22);
+            this.EditCut.Size = new System.Drawing.Size(180, 22);
             this.EditCut.Text = "Cu&t";
             // 
             // EditCopy
@@ -646,7 +631,7 @@
             this.EditCopy.Name = "EditCopy";
             this.EditCopy.ShortcutKeyDisplayString = "^C";
             this.EditCopy.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.C)));
-            this.EditCopy.Size = new System.Drawing.Size(155, 22);
+            this.EditCopy.Size = new System.Drawing.Size(180, 22);
             this.EditCopy.Text = "&Copy";
             // 
             // EditPaste
@@ -655,7 +640,7 @@
             this.EditPaste.Name = "EditPaste";
             this.EditPaste.ShortcutKeyDisplayString = "^V";
             this.EditPaste.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.V)));
-            this.EditPaste.Size = new System.Drawing.Size(155, 22);
+            this.EditPaste.Size = new System.Drawing.Size(180, 22);
             this.EditPaste.Text = "&Paste";
             // 
             // EditDelete
@@ -665,13 +650,13 @@
             this.EditDelete.Name = "EditDelete";
             this.EditDelete.ShortcutKeyDisplayString = "Del";
             this.EditDelete.ShortcutKeys = System.Windows.Forms.Keys.Delete;
-            this.EditDelete.Size = new System.Drawing.Size(155, 22);
+            this.EditDelete.Size = new System.Drawing.Size(180, 22);
             this.EditDelete.Text = "&Delete";
             // 
             // toolStripMenuItem11
             // 
             this.toolStripMenuItem11.Name = "toolStripMenuItem11";
-            this.toolStripMenuItem11.Size = new System.Drawing.Size(152, 6);
+            this.toolStripMenuItem11.Size = new System.Drawing.Size(177, 6);
             // 
             // EditFind
             // 
@@ -679,7 +664,7 @@
             this.EditFind.Name = "EditFind";
             this.EditFind.ShortcutKeyDisplayString = "^F";
             this.EditFind.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.F)));
-            this.EditFind.Size = new System.Drawing.Size(155, 22);
+            this.EditFind.Size = new System.Drawing.Size(180, 22);
             this.EditFind.Text = "&Find...";
             // 
             // EditReplace
@@ -687,26 +672,26 @@
             this.EditReplace.Name = "EditReplace";
             this.EditReplace.ShortcutKeyDisplayString = "^H";
             this.EditReplace.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.H)));
-            this.EditReplace.Size = new System.Drawing.Size(155, 22);
+            this.EditReplace.Size = new System.Drawing.Size(180, 22);
             this.EditReplace.Text = "&Replace...";
             // 
             // toolStripMenuItem2
             // 
             this.toolStripMenuItem2.Name = "toolStripMenuItem2";
-            this.toolStripMenuItem2.Size = new System.Drawing.Size(152, 6);
+            this.toolStripMenuItem2.Size = new System.Drawing.Size(177, 6);
             // 
             // EditSelectAll
             // 
             this.EditSelectAll.Name = "EditSelectAll";
             this.EditSelectAll.ShortcutKeyDisplayString = "^A";
             this.EditSelectAll.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.A)));
-            this.EditSelectAll.Size = new System.Drawing.Size(155, 22);
+            this.EditSelectAll.Size = new System.Drawing.Size(180, 22);
             this.EditSelectAll.Text = "Select &All";
             // 
             // EditInvertSelection
             // 
             this.EditInvertSelection.Name = "EditInvertSelection";
-            this.EditInvertSelection.Size = new System.Drawing.Size(155, 22);
+            this.EditInvertSelection.Size = new System.Drawing.Size(180, 22);
             this.EditInvertSelection.Text = "&Invert Selection";
             // 
             // AddMenu
@@ -756,6 +741,7 @@
             // RecentFolderPopupMenu
             // 
             this.RecentFolderPopupMenu.Name = "RecentFolderPopupMenu";
+            this.RecentFolderPopupMenu.OwnerItem = this.tbAddRecentFolder;
             this.RecentFolderPopupMenu.Size = new System.Drawing.Size(61, 4);
             // 
             // AddRecentLibrary
@@ -888,6 +874,40 @@
             this.HelpAbout.Size = new System.Drawing.Size(126, 22);
             this.HelpAbout.Text = "&About";
             // 
+            // tbReopen
+            // 
+            this.tbReopen.DropDown = this.RecentLibraryPopupMenu;
+            this.tbReopen.Name = "tbReopen";
+            this.tbReopen.Size = new System.Drawing.Size(136, 22);
+            this.tbReopen.Text = "&Reopen";
+            // 
+            // tbAddRecentFolder
+            // 
+            this.tbAddRecentFolder.DropDown = this.RecentFolderPopupMenu;
+            this.tbAddRecentFolder.Name = "tbAddRecentFolder";
+            this.tbAddRecentFolder.Size = new System.Drawing.Size(149, 22);
+            this.tbAddRecentFolder.Text = "&Recent Folder";
+            // 
+            // tbUndo
+            // 
+            this.tbUndo.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.tbUndo.DropDown = this.UndoPopupMenu;
+            this.tbUndo.Image = global::TagScanner.Properties.Resources.Edit_UndoHS;
+            this.tbUndo.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.tbUndo.Name = "tbUndo";
+            this.tbUndo.Size = new System.Drawing.Size(30, 20);
+            this.tbUndo.Text = "tbUndo";
+            // 
+            // tbRedo
+            // 
+            this.tbRedo.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.tbRedo.DropDown = this.RedoPopupMenu;
+            this.tbRedo.Image = global::TagScanner.Properties.Resources.Edit_RedoHS;
+            this.tbRedo.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.tbRedo.Name = "tbRedo";
+            this.tbRedo.Size = new System.Drawing.Size(30, 20);
+            this.tbRedo.Text = "tbRedo";
+            // 
             // AddFolderDialog
             // 
             this.AddFolderDialog.Description = "Select the folder to add";
@@ -979,13 +999,6 @@
             this.tbOpenLibrary.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.O)));
             this.tbOpenLibrary.Size = new System.Drawing.Size(136, 22);
             this.tbOpenLibrary.Text = "&Open...";
-            // 
-            // tbReopen
-            // 
-            this.tbReopen.DropDown = this.RecentLibraryPopupMenu;
-            this.tbReopen.Name = "tbReopen";
-            this.tbReopen.Size = new System.Drawing.Size(136, 22);
-            this.tbReopen.Text = "&Reopen";
             // 
             // tbSave
             // 
@@ -1092,39 +1105,25 @@
             // tbAddMedia
             // 
             this.tbAddMedia.Name = "tbAddMedia";
-            this.tbAddMedia.Size = new System.Drawing.Size(180, 22);
+            this.tbAddMedia.Size = new System.Drawing.Size(149, 22);
             this.tbAddMedia.Text = "&Media...";
             // 
             // tbAddFolder
             // 
             this.tbAddFolder.Name = "tbAddFolder";
-            this.tbAddFolder.Size = new System.Drawing.Size(180, 22);
+            this.tbAddFolder.Size = new System.Drawing.Size(149, 22);
             this.tbAddFolder.Text = "&Folder...";
             // 
             // tbAddLibrary
             // 
             this.tbAddLibrary.Name = "tbAddLibrary";
-            this.tbAddLibrary.Size = new System.Drawing.Size(180, 22);
+            this.tbAddLibrary.Size = new System.Drawing.Size(149, 22);
             this.tbAddLibrary.Text = "&Library...";
             // 
             // toolStripMenuItem12
             // 
             this.toolStripMenuItem12.Name = "toolStripMenuItem12";
-            this.toolStripMenuItem12.Size = new System.Drawing.Size(177, 6);
-            // 
-            // tbAddRecentFolder
-            // 
-            this.tbAddRecentFolder.DropDown = this.RecentFolderPopupMenu;
-            this.tbAddRecentFolder.Name = "tbAddRecentFolder";
-            this.tbAddRecentFolder.Size = new System.Drawing.Size(180, 22);
-            this.tbAddRecentFolder.Text = "&Recent Folder";
-            // 
-            // tbAddRecentLibrary
-            // 
-            this.tbAddRecentLibrary.DropDown = this.RecentLibraryPopupMenu;
-            this.tbAddRecentLibrary.Name = "tbAddRecentLibrary";
-            this.tbAddRecentLibrary.Size = new System.Drawing.Size(180, 22);
-            this.tbAddRecentLibrary.Text = "R&ecent Library";
+            this.toolStripMenuItem12.Size = new System.Drawing.Size(146, 6);
             // 
             // LibraryForm
             // 

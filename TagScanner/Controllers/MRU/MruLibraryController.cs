@@ -47,6 +47,21 @@
 
         protected override void ClearDocument() => Model.Clear();
 
+        protected override bool AddFromStream(Stream stream, StreamFormat format)
+        {
+            var result = false;
+            if (LoadDocument(stream, typeof(Library), format) is Library library)
+            {
+
+                Model.Library = library;
+
+                foreach (var work in Model.Works)
+                    work.Edit += Model.Work_Edit;
+                result = true;
+            }
+            return result;
+        }
+
         protected override bool LoadFromStream(Stream stream, StreamFormat format)
         {
             var result = false;

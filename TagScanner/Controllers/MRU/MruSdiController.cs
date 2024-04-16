@@ -48,6 +48,27 @@
 
         #region Methods
 
+        private bool AddFromFile(string filePath, StreamFormat format)
+        {
+            using (var stream = new FileStream(filePath, FileMode.Open, FileAccess.Read))
+                if (!AddFromStream(stream, format))
+                    return false;
+            FilePath = filePath;
+            AddItem(filePath);
+            return true;
+        }
+
+        protected abstract bool AddFromStream(Stream stream, StreamFormat format);
+
+        public bool AddLibrary()
+        {
+            if (_openFileDialog.ShowDialog(Owner) != DialogResult.OK)
+                return false;
+            var fileName = _openFileDialog.FileName;
+            var format = fileName.GetStreamFormat();
+            return AddFromFile(fileName, format);
+        }
+
         public bool Clear()
         {
             if (!SaveIfModified())
