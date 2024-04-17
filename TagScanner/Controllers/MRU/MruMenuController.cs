@@ -38,7 +38,7 @@
 
         private static string CompactMenuText(string text)
         {
-            var result = Path.ChangeExtension(text, string.Empty).TrimEnd('.');
+            var result = text; //  Path.ChangeExtension(text, string.Empty).TrimEnd('.');
             TextRenderer.MeasureText(
                 result,
                 SystemFonts.MenuFont,
