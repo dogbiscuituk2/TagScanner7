@@ -18,7 +18,7 @@
             RedoStack = new Stack<Command>();
             AddHandlers(View.EditUndo, View.tbUndo, EditUndo_Click, EditUndo_DropDownOpening);
             AddHandlers(View.EditRedo, View.tbRedo, EditRedo_Click, EditRedo_DropDownOpening);
-            UpdateMenu();
+            UpdateUI();
 
             void AddHandlers(ToolStripMenuItem item, ToolStripSplitButton button, EventHandler click, EventHandler dropDownOpening)
             {
@@ -57,7 +57,7 @@
             LastSave = 0;
             UndoStack.Clear();
             RedoStack.Clear();
-            UpdateMenu();
+            UpdateUI();
         }
 
         /// <summary>
@@ -110,14 +110,14 @@
                 return false;
             var stack = undo ? RedoStack : UndoStack;
             stack.Push(command);
-            UpdateMenu();
+            UpdateUI();
             return true;
         }
 
         private void EndUpdate()
         {
             if (--UpdateCount == 0)
-                UpdateMenu();
+                UpdateUI();
         }
 
         private static void HighlightMenu(ToolStripItem activeItem)
@@ -171,7 +171,7 @@
             EndUpdate();
         }
 
-        private void UpdateMenu()
+        private void UpdateUI()
         {
             if (UpdateCount > 0)
                 return;

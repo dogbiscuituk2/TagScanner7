@@ -7,7 +7,7 @@
 
     public class MruFilterController : MruController
     {
-        public MruFilterController() : base("FilterMRU") { }
+        public MruFilterController(Controller parent) : base(parent, "FilterMRU") { }
 
         public IEnumerable<string> ReadValues()
         {

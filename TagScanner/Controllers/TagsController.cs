@@ -17,13 +17,11 @@
 
         public GroupTagsBy GroupTagsBy;
 
-        public override Form Form => Dialog;
-
         public bool Execute(string caption, List<Tag> visibleTags)
         {
             Dialog.Text = caption;
             _tagsListController.SetVisibleTags(visibleTags);
-            var ok = Dialog.ShowDialog(Parent.Form) == DialogResult.OK;
+            var ok = Dialog.ShowDialog(Owner) == DialogResult.OK;
             if (ok)
             {
                 visibleTags.Clear();
@@ -46,10 +44,12 @@
 
         #region Private Properties
 
-        private TagVisibilityDialog Dialog => _dialog ?? CreateDialog();
+        public TagVisibilityDialog Dialog => _dialog ?? CreateDialog();
         private List<Tag> VisibleTags { get; set; }
 
         #endregion
+
+        protected override IWin32Window Owner => Dialog;
 
         #region Private Methods
 

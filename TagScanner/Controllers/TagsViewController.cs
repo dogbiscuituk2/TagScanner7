@@ -13,8 +13,10 @@
 
         protected TagsViewController(Controller parent) : base(parent) { }
 
+        private TagsController TagsController => (TagsController)Parent;
+
         public abstract Control Control { get; }
-        public TagVisibilityDialog Dialog => (TagVisibilityDialog)Form;
+        public TagVisibilityDialog Dialog => TagsController.Dialog;
         public GroupTagsBy GroupTagsBy => ((TagsController)Parent).GroupTagsBy;
 
         public void HideView() => Control?.Hide();

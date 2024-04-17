@@ -10,13 +10,7 @@
 
     public class TagsListController : TagsViewController, IComparer
     {
-        #region Public Interface IComparer
-
-        public int Compare(object x, object y) => string.CompareOrdinal(GetValue(x), GetValue(y)) * (_sortDescending ? -1 : +1);
-
-        #endregion
-
-        #region Internal Interface
+        #region Public Interface
 
         public TagsListController(Controller parent) : base(parent) { }
 
@@ -43,6 +37,12 @@
             ListView.ListViewItemSorter = this;
             Dialog.ListMenu.DropDownOpening += (sender, e) => InitListMenu();
         }
+
+        #endregion
+
+        #region Public Interface IComparer
+
+        public int Compare(object x, object y) => string.CompareOrdinal(GetValue(x), GetValue(y)) * (_sortDescending ? -1 : +1);
 
         #endregion
 

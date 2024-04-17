@@ -4,15 +4,17 @@
     using System.IO;
     using System.Windows.Forms;
     using Models;
+    using Views;
 
-    public class StatusController
+    public class StatusController : Controller
     {
-        public StatusController(Model model, StatusStrip statusStrip) { _model = model; _statusBar = statusStrip; }
+        public StatusController(Controller parent) : base(parent) { }
 
-        private readonly Model _model;
-        private readonly StatusStrip _statusBar;
-
-        private ToolStripItemCollection StatusBarItems => _statusBar.Items;
+        private LibraryForm LibraryForm => LibraryFormController.View;
+        private LibraryFormController LibraryFormController => (LibraryFormController)Parent;
+        private Model Model => LibraryFormController.Model;
+        private StatusStrip StatusBar => LibraryForm.StatusBar;
+        private ToolStripItemCollection StatusBarItems => StatusBar.Items;
 
         public IProgress<ProgressEventArgs> CreateNewProgress()
         {
@@ -32,10 +34,7 @@
                     progressBar.Value = e.Index;
                     statusLine.Text = Path.GetDirectoryName(e.Path);
                     if (e.Work != null)
-                    {
-                        _model.Modified = true;
-                        e.Work.Edit += _model.Work_Edit;
-                    }
+                        e.Work.Edit += Model.Work_Edit;
                 }
                 else
                 {

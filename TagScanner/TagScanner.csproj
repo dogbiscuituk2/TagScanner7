@@ -192,7 +192,6 @@
     <Compile Include="Controllers\TagsController.cs" />
     <Compile Include="Controllers\FilterFormController.cs" />
     <Compile Include="Controllers\TermTreeController.cs" />
-    <Compile Include="Models\IModel.cs" />
     <Compile Include="Models\Tag.cs" />
     <Compile Include="Terms\Constant.cs" />
     <Compile Include="Terms\Functors.cs" />

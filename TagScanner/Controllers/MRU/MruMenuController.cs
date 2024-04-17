@@ -12,7 +12,8 @@
     {
         #region Constructors
 
-        public MruMenuController(string subKeyName, ToolStripItemCollection recentItems) : base(subKeyName)
+        public MruMenuController(Controller parent, string subKeyName, ToolStripItemCollection recentItems)
+            : base(parent, subKeyName)
         {
             _recentItems = recentItems;
             RefreshRecentMenu();

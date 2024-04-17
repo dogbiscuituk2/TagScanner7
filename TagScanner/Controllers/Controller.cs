@@ -6,8 +6,7 @@
     {
         protected Controller(Controller parent) => Parent = parent;
 
-        public Controller Parent { get;  }
-
-        public virtual Form Form => Parent?.Form;
+        protected virtual IWin32Window Owner => Parent.Owner;
+        protected Controller Parent { get;  }
     }
 }

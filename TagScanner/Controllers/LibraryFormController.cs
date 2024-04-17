@@ -24,14 +24,13 @@
         {
             View = new LibraryForm();
             Model = new Model();
-            Model.ModifiedChanged += Model_ModifiedChanged;
             Model.WorksAdd += Model_WorksAdd;
             Model.WorksEdit += Model_WorksEdit;
             CommandProcessor = new CommandProcessor(this);
             LibraryGridController = new LibraryGridController(this, Model, View.GridElementHost);
             LibraryGridController.SelectionChanged += LibraryGridController_SelectionChanged;
-            StatusController = new StatusController(Model, View.StatusBar);
-            PersistenceController = new MruLibraryController(Model, View.RecentLibraryPopupMenu, View);
+            StatusController = new StatusController(this);
+            PersistenceController = new MruLibraryController(this, View.RecentLibraryPopupMenu, View);
             PersistenceController.FilePathChanged += PersistenceController_FilePathChanged;
             PersistenceController.FileSaving += PersistenceController_FileSaving;
             MediaController = new MruMediaController(this, View.RecentFolderPopupMenu);
@@ -43,6 +42,8 @@
         }
 
         #endregion
+
+        protected override IWin32Window Owner => View;
 
         #region View
 
@@ -118,8 +119,6 @@
                 View.FormClosing += View_FormClosing;
             }
         }
-
-        public override Form Form => View;
 
         #endregion
 
@@ -394,7 +393,7 @@
             View.FileReopen.Enabled = View.tbReopen.Enabled =
                 View.AddRecentLibrary.Enabled = View.tbAddRecentLibrary.Enabled =
                 View.RecentLibraryPopupMenu.Items.Count > 0;
-            var enabled = Model.Modified && FilePath.IsValidFilePath();
+            var enabled = CommandProcessor.IsModified && FilePath.IsValidFilePath();
             View.FileSave.Enabled = View.tbSaveLibrary.Enabled = enabled;
             View.AddRecentFolder.Enabled = View.tbAddRecentFolder.Enabled =
                 View.RecentFolderPopupMenu.Items.Count > 0;

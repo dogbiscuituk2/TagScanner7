@@ -10,18 +10,12 @@
     {
         #region Constructor
 
-        public MruLibraryController(Model model, ContextMenuStrip parentMenu, IWin32Window owner)
-            : base(model, Properties.Settings.Default.LibraryFilter, "LibraryMRU", parentMenu.Items, owner) { }
+        public MruLibraryController(Controller parent, ContextMenuStrip parentMenu, IWin32Window owner)
+            : base(parent, Properties.Settings.Default.LibraryFilter, "LibraryMRU", parentMenu.Items, owner) { }
 
         #endregion
 
         #region Properties
-
-        public new Model Model
-        {
-            get => (Model)base.Model;
-            set => base.Model = value;
-        }
 
         public string WindowCaption
         {
@@ -33,8 +27,7 @@
                     text = Path.GetFileNameWithoutExtension(text);
                 }
                 catch (ArgumentException) { }
-                var modified = Model.Modified;
-                if (modified)
+                if (CommandProcessor.IsModified)
                     text = string.Concat("* ", text);
                 text = string.Concat(text, " - ", Application.ProductName);
                 return text;

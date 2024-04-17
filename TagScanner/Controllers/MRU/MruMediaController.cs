@@ -12,11 +12,9 @@
     {
         #region Constructor
 
-        public MruMediaController(LibraryFormController libraryFormController, ContextMenuStrip parentMenu) :
-            base("MediaMRU", parentMenu?.Items)
+        public MruMediaController(Controller parent, ContextMenuStrip parentMenu) :
+            base(parent, "MediaMRU", parentMenu?.Items)
         {
-            _libraryFormController = libraryFormController;
-            _model = libraryFormController.Model;
             var filter = Settings.Default.MediaFilter;
             _openFileDialog = new OpenFileDialog { Filter = filter, Multiselect = true, Title = Resources.Select_the_media_file_s__to_add };
             _folderBrowserDialog = new FolderBrowserDialog { Description = Resources.Select_the_media_folder_to_add };
@@ -26,11 +24,11 @@
 
         #region Fields & Properties
 
-        private IWin32Window Owner => _libraryFormController.View;
-        private readonly Model _model;
         private readonly FolderBrowserDialog _folderBrowserDialog;
         private readonly OpenFileDialog _openFileDialog;
-        private readonly LibraryFormController _libraryFormController;
+
+        private LibraryFormController LibraryFormController => (LibraryFormController)Parent;
+        private Model Model => LibraryFormController.Model;
 
         #endregion
 
@@ -45,7 +43,7 @@
         private void AddFiles(string[] filePaths)
         {
             var progress = CreateNewProgress();
-            Task.Run(() => _model.AddFiles(filePaths, progress));
+            Task.Run(() => Model.AddFiles(filePaths, progress));
         }
 
         public void AddFolder()
@@ -60,10 +58,10 @@
         private void AddFolder(string folderPath, string filter)
         {
             var progress = CreateNewProgress();
-            Task.Run(() => _model.AddFolder(folderPath, filter, progress));
+            Task.Run(() => Model.AddFolder(folderPath, filter, progress));
         }
 
-        private IProgress<ProgressEventArgs> CreateNewProgress() => _libraryFormController.StatusController.CreateNewProgress();
+        private IProgress<ProgressEventArgs> CreateNewProgress() => LibraryFormController.StatusController.CreateNewProgress();
 
         private static string MakeItem(string folderPath, string filter) => string.Concat(folderPath, '|', filter);
 
@@ -84,7 +82,7 @@
 
         public void Rescan()
         {
-            foreach (var folderParts in _model.Folders.Select(folder => folder.Split('|')))
+            foreach (var folderParts in Model.Folders.Select(folder => folder.Split('|')))
                 AddFolder(folderParts[0], folderParts[1]);
         }
 

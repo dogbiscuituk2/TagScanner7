@@ -6,11 +6,11 @@
     using Utils;
     using Win32 = Microsoft.Win32;
 
-    public class MruController
+    public class MruController : Controller
     {
         #region Constructor
 
-        public MruController(string subKeyName)
+        public MruController(Controller parent, string subKeyName) : base(parent)
         {
             if (string.IsNullOrWhiteSpace(subKeyName))
                 throw new ArgumentNullException(nameof(subKeyName));

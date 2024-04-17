@@ -7,15 +7,15 @@
     using Models;
     using Properties;
     using Streaming;
+    using TagScanner.Commands;
 
     public abstract class MruSdiController : MruMenuController
     {
         #region Constructor
 
-        protected MruSdiController(IModel model, string filter, string subKeyName, ToolStripItemCollection recentItems, IWin32Window owner = null)
-            : base(subKeyName, recentItems)
+        protected MruSdiController(Controller parent, string filter, string subKeyName, ToolStripItemCollection recentItems, IWin32Window owner = null)
+            : base(parent, subKeyName, recentItems)
         {
-            Model = model;
             Owner = owner;
             _openFileDialog = new OpenFileDialog { Filter = filter, Title = Resources.Select_the_file_to_open };
             _saveFileDialog = new SaveFileDialog { Filter = filter, Title = Resources.Save_file };
@@ -37,7 +37,9 @@
             }
         }
 
-        protected IModel Model;
+        protected CommandProcessor CommandProcessor => LibraryFormController.CommandProcessor;
+        protected LibraryFormController LibraryFormController => (LibraryFormController)Parent;
+        protected Model Model;
         protected IWin32Window Owner;
 
         private string _filePath = string.Empty;
@@ -74,7 +76,7 @@
             if (!SaveIfModified())
                 return false;
             ClearDocument();
-            Model.Modified = false;
+            CommandProcessor.Clear();
             FilePath = string.Empty;
             return true;
         }
@@ -85,7 +87,7 @@
         {
             var result = Streamer.LoadFromStream(stream, documentType, format);
             if (result != null)
-                Model.Modified = false;
+                CommandProcessor.Clear();
             return result;
         }
 
@@ -141,18 +143,20 @@
         {
             var result = Streamer.SaveToStream(stream, document, format);
             if (result)
-                Model.Modified = false;
+                CommandProcessor.Clear();
             return result;
         }
 
         public bool SaveIfModified()
         {
-            if (!Model.Modified) return true;
-            switch (MessageBox.Show(Owner,
-                        "The contents of this file have changed. Do you want to save the changes?",
-                        "File modified",
-                        MessageBoxButtons.YesNoCancel,
-                        MessageBoxIcon.Warning))
+            if (!CommandProcessor.IsModified)
+                return true;
+            switch (MessageBox.Show(
+                Owner,
+                "The contents of this file have changed. Do you want to save the changes?",
+                "File modified",
+                MessageBoxButtons.YesNoCancel,
+                MessageBoxIcon.Warning))
             {
                 case DialogResult.Yes: return Save();
                 case DialogResult.No: return true;

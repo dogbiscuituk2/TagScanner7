@@ -3,10 +3,8 @@
     using System;
     using System.Collections.Generic;
     using System.Linq;
-    using TagScanner.Commands;
 
-    [Serializable]
-    public class Model : IModel
+    public class Model
     {
         #region Public Interface
 
@@ -22,21 +20,6 @@
         }
 
         public List<string> Folders => Library.Folders;
-
-        private bool _modified;
-        public bool Modified
-        {
-            get => _modified;
-            set
-            {
-                if (Modified != value)
-                {
-                    _modified = value;
-                    OnModifiedChanged();
-                }
-            }
-        }
-
         public List<Work> Works => Library.Works;
 
         public int AddFiles(string[] filePaths, IProgress<ProgressEventArgs> progress) => ReadWorks(p => p.AddWorks(filePaths), progress);
@@ -81,10 +64,8 @@
         {
             var workEdit = WorksEdit;
             workEdit?.Invoke(sender, e);
-            // Modified = true; // Should use the CommandProcessor's value now!
         }
 
-        public event EventHandler ModifiedChanged;
         public event EventHandler<WorksEventArgs> WorksAdd;
         public event EventHandler<WorksEditEventArgs> WorksEdit;
         public event EventHandler WorksChanged;
@@ -107,12 +88,6 @@
         {
             work.Load();
             return true;
-        }
-
-        protected virtual void OnModifiedChanged()
-        {
-            var modifiedChanged = ModifiedChanged;
-            modifiedChanged?.Invoke(this, EventArgs.Empty);
         }
 
         protected virtual void OnWorksAdd(List<Work> works)

@@ -15,9 +15,10 @@
             View.ApplyButton.Click += ApplyButton_Click;
             View.ClearButton.Click += ClearButton_Click;
             View.FilterComboBox.DropDown += FilterComboBox_DropDown;
+            FilterFormController = new FilterFormController(this);
         }
 
-        private FilterFormController FilterFormController = new FilterFormController(null);
+        private FilterFormController FilterFormController;
         private LibraryFormController LibraryFormController => (LibraryFormController)Parent;
         private LibraryGridController LibraryGridController => LibraryFormController.LibraryGridController; 
         private LibraryForm View => LibraryFormController.View;
@@ -40,10 +41,10 @@
         {
             var items = View.FilterComboBox.Items;
             items.Clear();
-            items.AddRange(new MruFilterController().ReadValues().ToArray());
+            items.AddRange(new MruFilterController(this).ReadValues().ToArray());
         }
 
-        public void RegistryWrite() => new MruFilterController().WriteValues(View.FilterComboBox.Items.Cast<string>());
+        public void RegistryWrite() => new MruFilterController(this).WriteValues(View.FilterComboBox.Items.Cast<string>());
 
         private void UpdateFilter()
         {

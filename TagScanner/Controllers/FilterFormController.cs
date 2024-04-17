@@ -39,14 +39,16 @@
                     TermTreeController.AddRoot(term);
                 else
                 {
-                    exception.ShowDialog(Form);
+                    exception.ShowDialog(Owner);
                     return false;
                 }
             }
-            return View.ShowDialog(Form) == DialogResult.OK;
+            return View.ShowDialog(Owner) == DialogResult.OK;
         }
 
         #endregion
+
+        protected override IWin32Window Owner => View;
 
         #region Private Fields
 
