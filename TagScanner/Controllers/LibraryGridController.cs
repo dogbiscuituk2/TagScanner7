@@ -1,6 +1,4 @@
-﻿using TagScanner.Terms;
-
-namespace TagScanner.Controllers
+﻿namespace TagScanner.Controllers
 {
     using System;
     using System.Collections.Generic;
@@ -11,9 +9,9 @@ namespace TagScanner.Controllers
     using System.Windows.Controls;
     using System.Windows.Data;
     using System.Windows.Forms.Integration;
-    using Commands;
     using Menus;
     using Models;
+    using Terms;
     using ValueConverters;
     using Views;
 
@@ -31,8 +29,8 @@ namespace TagScanner.Controllers
 
         #region Properties
 
+        private LibraryForm LibraryForm => LibraryFormController.View;
         private LibraryFormController LibraryFormController => (LibraryFormController)Parent;
-        private CommandProcessor CommandProcessor => LibraryFormController.CommandProcessor;
 
         #endregion
 
@@ -53,7 +51,7 @@ namespace TagScanner.Controllers
 
         #endregion
 
-        #region View
+        #region Views
 
         private ElementHost _view;
         private ElementHost View
@@ -62,10 +60,20 @@ namespace TagScanner.Controllers
             set
             {
                 _view = value;
+
+                LibraryForm.ViewByArtistAlbum.Click += ViewByArtistAlbum_Click;
+                LibraryForm.ViewByArtist.Click += ViewByArtist_Click;
+                LibraryForm.ViewByGenre.Click += ViewByGenre_Click;
+                LibraryForm.ViewByYear.Click += ViewByYear_Click;
+                LibraryForm.ViewByAlbum.Click += ViewByAlbum_Click;
+                LibraryForm.ViewByNoGrouping.Click += ViewByNone_Click;
+
                 View.Child = new GridElement();
                 InitColumns();
                 DataGrid.SelectionChanged += Grid_SelectionChanged;
                 RefreshDataSource();
+
+                ViewByArtistAlbum();
             }
         }
 
@@ -85,9 +93,16 @@ namespace TagScanner.Controllers
             {
                 ListCollectionView = new ListCollectionView(Model.Works);
                 ClearFilter();
-                InitGroups();
+                InitSortsAndGroups();
             }
         }
+
+        private void ViewByArtistAlbum_Click(object sender, EventArgs e) => ViewByArtistAlbum();
+        private void ViewByArtist_Click(object sender, EventArgs e) => ViewByArtist();
+        private void ViewByAlbum_Click(object sender, EventArgs e) => ViewByAlbum();
+        private void ViewByNone_Click(object sender, EventArgs e) => ViewByNone();
+        private void ViewByGenre_Click(object sender, EventArgs e) => ViewByGenre();
+        private void ViewByYear_Click(object sender, EventArgs e) => ViewByYear();
 
         #endregion
 
@@ -153,45 +168,52 @@ namespace TagScanner.Controllers
 
         #region Sorting and Grouping
 
-        private IEnumerable<SortDescription> _sortDescriptions = Array.Empty<SortDescription>();
-        public IEnumerable<SortDescription> SortDescriptions
+        private IEnumerable<SortDescription> _sorts = Array.Empty<SortDescription>();
+        public IEnumerable<SortDescription> Sorts
         {
-            get => _sortDescriptions;
+            get => _sorts;
             set
             {
-                if (!SortDescriptions.SequenceEqual(value))
-                {
-                    _sortDescriptions = value;
-                    InitGroups();
-                }
+                if (Sorts.SequenceEqual(value)) return;
+                _sorts = value;
+                InitSortsAndGroups();
             }
         }
 
-        private IEnumerable<Tag> _groupDescriptions = Array.Empty<Tag>();
-        public IEnumerable<Tag> GroupDescriptions
+        private IEnumerable<Tag> _groups = Array.Empty<Tag>();
+        public IEnumerable<Tag> Groups
         {
-            get => _groupDescriptions;
+            get => _groups;
             set
             {
-                if (GroupDescriptions.SequenceEqual(value)) return;
-                _groupDescriptions = value;
-                InitGroups();
+                if (Groups.SequenceEqual(value)) return;
+                _groups = value;
+                InitSortsAndGroups();
             }
         }
 
         private void InitGroups()
         {
-            //var sortDescriptions = ListCollectionView.SortDescriptions;
-            //sortDescriptions.Clear();
-            //foreach (var sortDescription in SortDescriptions)
-            //	sortDescriptions.Add(sortDescription);
-            var groupDescriptions = ListCollectionView.GroupDescriptions;
-            if (groupDescriptions != null)
-            {
-                groupDescriptions.Clear();
-                foreach (var groupDescription in GroupDescriptions)
-                    groupDescriptions.Add(new PropertyGroupDescription(groupDescription.ToString()));
-            }
+            var groups = ListCollectionView.GroupDescriptions;
+            if (groups == null) return;
+            groups.Clear();
+            foreach (var group in Groups)
+                groups.Add(new PropertyGroupDescription(group.ToString()));
+        }
+
+        private void InitSorts()
+        {
+            var sorts = ListCollectionView.SortDescriptions;
+            if (sorts == null) return;
+            sorts.Clear();
+            foreach (var sort in Sorts)
+                sorts.Add(sort);
+        }
+
+        private void InitSortsAndGroups()
+        {
+            InitSorts();
+            InitGroups();
         }
 
         #endregion
@@ -213,21 +235,6 @@ namespace TagScanner.Controllers
         {
             UpdatingSelectionCount--;
             OnSelectionChanged();
-        }
-
-        protected virtual void OnSelectionChanged()
-        {
-            if (UpdatingSelectionCount != 0) return;
-            InvalidateSelection();
-            var selectionChanged = SelectionChanged;
-            selectionChanged?.Invoke(this, EventArgs.Empty);
-        }
-
-        public void SelectAll()
-        {
-            BeginUpdateSelection();
-            DataGrid.SelectAll();
-            EndUpdateSelection();
         }
 
         public void InvertSelection()
@@ -255,15 +262,28 @@ namespace TagScanner.Controllers
             EndUpdateSelection();
         }
 
+        protected virtual void OnSelectionChanged()
+        {
+            if (UpdatingSelectionCount != 0) return;
+            InvalidateSelection();
+            var selectionChanged = SelectionChanged;
+            selectionChanged?.Invoke(this, EventArgs.Empty);
+        }
+
         public void PopupShellContextMenu()
         {
             var menu = new ShellContextMenu();
             menu.ShowContextMenu(GetSelectedFileInfos(), System.Windows.Forms.Cursor.Position);
         }
 
-        private FileInfo[] GetSelectedFileInfos() => Selection.Works.Select(p => new FileInfo(p.FilePath)).ToArray();
+        public void SelectAll()
+        {
+            BeginUpdateSelection();
+            DataGrid.SelectAll();
+            EndUpdateSelection();
+        }
 
-        private void Grid_SelectionChanged(object sender, SelectionChangedEventArgs e) => OnSelectionChanged();
+        private FileInfo[] GetSelectedFileInfos() => Selection.Works.Select(p => new FileInfo(p.FilePath)).ToArray();
 
         private Selection GetSelection()
         {
@@ -272,6 +292,8 @@ namespace TagScanner.Controllers
             return selection;
         }
 
+        private void Grid_SelectionChanged(object sender, SelectionChangedEventArgs e) => OnSelectionChanged();
+
         private void Selection_WorksEdit(object sender, WorksEditEventArgs e) =>
             LibraryFormController.WorksEdit(e.Tag, e.Works, e.Values);
 
@@ -279,23 +301,19 @@ namespace TagScanner.Controllers
 
         #region Presets
 
-        private static readonly List<Tag>
-            VisibleTagsDefault = new[] { Tag.DiscTrack, Tag.Title, Tag.Duration, Tag.FileSize }.ToList(),
-            VisibleTagsExtended = new[] { Tag.DiscTrack, Tag.Title, Tag.Duration, Tag.FileSize, Tag.JoinedPerformers, Tag.Album }.ToList();
-        
-        public void ViewByAlbum() => SetQuery(VisibleTagsDefault, new[] { Tag.Album }, new[] { Tag.DiscNumber, Tag.TrackNumber });
-        public void ViewByArtist() => SetQuery(new[] { Tag.YearAlbum, Tag.DiscTrack, Tag.Title, Tag.Duration, Tag.FileSize }, new[] { Tag.JoinedPerformers }, new[] { Tag.DiscNumber, Tag.TrackNumber });
-        public void ViewByArtistAlbum() => SetQuery(VisibleTagsDefault, new[] { Tag.JoinedPerformers, Tag.YearAlbum }, new[] { Tag.DiscNumber, Tag.TrackNumber });
-        public void ViewByGenre() => SetQuery(VisibleTagsDefault, new[] { Tag.JoinedGenres, Tag.JoinedPerformers, Tag.YearAlbum }, new[] { Tag.DiscNumber, Tag.TrackNumber });
-        public void ViewByNone() => SetQuery(VisibleTagsExtended, null, new[] { Tag.DiscNumber, Tag.TrackNumber });
-        public void ViewByYear() => SetQuery(VisibleTagsExtended, new[] { Tag.DiscNumber, Tag.Decade, Tag.Year }, new[] { Tag.DiscNumber, Tag.TrackNumber });
+        private void ViewByArtistAlbum() => SetQuery(Tags.Data1, Tags.GroupByArtistAlbum, Tags.SortByNumber);
+        private void ViewByArtist() => SetQuery(Tags.Data3, Tags.GroupByArtist, Tags.SortByAlbum);
+        private void ViewByAlbum() => SetQuery(Tags.Data1, Tags.GroupByAlbum, Tags.SortByNumber);
+        private void ViewByYear() => SetQuery(Tags.Data2, Tags.GroupByYear, Tags.SortByNumber);
+        private void ViewByGenre() => SetQuery(Tags.Data1, Tags.GroupByGenre, Tags.SortByNumber);
+        private void ViewByNone() => SetQuery(Tags.Data4, Tags.GroupByNone, Tags.SortByTitle);
 
-        private void SetQuery(IEnumerable<Tag> visibleTags, IEnumerable<Tag> groupDescriptions, IEnumerable<Tag> sortDescriptions)
+        private void SetQuery(Tag[] tags, Tag[] groups, Tag[] sorts)
         {
-            VisibleTags = visibleTags.Union(VisibleTags).ToList();
-            _sortDescriptions = sortDescriptions.Select(p => new SortDescription(p.ToString(), ListSortDirection.Ascending));
-            _groupDescriptions = groupDescriptions;
-            InitGroups();
+            VisibleTags = tags.Union(VisibleTags).ToList();
+            _groups = groups;
+            _sorts = groups.Union(sorts).Select(p => new SortDescription($"{p}", ListSortDirection.Ascending));
+            InitSortsAndGroups();
         }
 
         #endregion

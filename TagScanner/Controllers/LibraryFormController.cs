@@ -39,7 +39,6 @@
             FilterController = new FilterController(this);
             PictureController = new PictureController(View.PictureBox, View.PropertyGrid, PlayerController.PlaylistGrid);
             ModifiedChanged();
-            LibraryGridController.ViewByArtist();
             UpdatePropertyGrid();
         }
 
@@ -92,12 +91,6 @@
                 View.EditSelectAll.Click += EditSelectAll_Click;
                 View.EditInvertSelection.Click += EditInvertSelection_Click;
 
-                View.ViewByArtistAlbum.Click += ViewByArtistAlbum_Click;
-                View.ViewByArtist.Click += ViewByArtist_Click;
-                View.ViewByGenre.Click += ViewByGenre_Click;
-                View.ViewByYear.Click += ViewByYear_Click;
-                View.ViewByAlbum.Click += ViewByAlbum_Click;
-                View.ViewByNoGrouping.Click += ViewByNone_Click;
                 View.ViewRefresh.Click += ViewRefresh_Click;
 
                 View.WindowMenu.DropDownOpening += ViewWindow_DropDownOpening;
@@ -219,12 +212,6 @@
 
         #region View
 
-        private void ViewByArtistAlbum_Click(object sender, EventArgs e) => LibraryGridController.ViewByArtistAlbum();
-        private void ViewByArtist_Click(object sender, EventArgs e) => LibraryGridController.ViewByArtist();
-        private void ViewByAlbum_Click(object sender, EventArgs e) => LibraryGridController.ViewByAlbum();
-        private void ViewByNone_Click(object sender, EventArgs e) => LibraryGridController.ViewByNone();
-        private void ViewByGenre_Click(object sender, EventArgs e) => LibraryGridController.ViewByGenre();
-        private void ViewByYear_Click(object sender, EventArgs e) => LibraryGridController.ViewByYear();
         private void ViewWindow_DropDownOpening(object sender, EventArgs e) => AppController.PopulateWindowMenu(View.WindowMenu);
         private void ViewRefresh_Click(object sender, EventArgs e) => MediaController.Rescan();
 

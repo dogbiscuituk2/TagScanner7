@@ -69,9 +69,7 @@
             this.FileExit = new System.Windows.Forms.ToolStripMenuItem();
             this.EditMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.EditUndo = new System.Windows.Forms.ToolStripMenuItem();
-            this.UndoPopupMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.EditRedo = new System.Windows.Forms.ToolStripMenuItem();
-            this.RedoPopupMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.toolStripMenuItem10 = new System.Windows.Forms.ToolStripSeparator();
             this.EditCut = new System.Windows.Forms.ToolStripMenuItem();
             this.EditCopy = new System.Windows.Forms.ToolStripMenuItem();
@@ -110,7 +108,9 @@
             this.HelpAbout = new System.Windows.Forms.ToolStripMenuItem();
             this.tbReopen = new System.Windows.Forms.ToolStripMenuItem();
             this.tbAddRecentFolder = new System.Windows.Forms.ToolStripMenuItem();
+            this.UndoPopupMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.tbUndo = new System.Windows.Forms.ToolStripSplitButton();
+            this.RedoPopupMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.tbRedo = new System.Windows.Forms.ToolStripSplitButton();
             this.AddFolderDialog = new System.Windows.Forms.FolderBrowserDialog();
             this.AddFileDialog = new System.Windows.Forms.OpenFileDialog();
@@ -137,6 +137,7 @@
             this.tbAddFolder = new System.Windows.Forms.ToolStripMenuItem();
             this.tbAddLibrary = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem12 = new System.Windows.Forms.ToolStripSeparator();
+            this.toolStripMenuItem13 = new System.Windows.Forms.ToolStripSeparator();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -478,7 +479,7 @@
             this.FileNew.Name = "FileNew";
             this.FileNew.ShortcutKeyDisplayString = "^N";
             this.FileNew.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.N)));
-            this.FileNew.Size = new System.Drawing.Size(180, 22);
+            this.FileNew.Size = new System.Drawing.Size(161, 22);
             this.FileNew.Text = "&New Library";
             // 
             // FileOpen
@@ -487,14 +488,14 @@
             this.FileOpen.Name = "FileOpen";
             this.FileOpen.ShortcutKeyDisplayString = "^O";
             this.FileOpen.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.O)));
-            this.FileOpen.Size = new System.Drawing.Size(180, 22);
+            this.FileOpen.Size = new System.Drawing.Size(161, 22);
             this.FileOpen.Text = "&Open...";
             // 
             // FileReopen
             // 
             this.FileReopen.DropDown = this.RecentLibraryPopupMenu;
             this.FileReopen.Name = "FileReopen";
-            this.FileReopen.Size = new System.Drawing.Size(180, 22);
+            this.FileReopen.Size = new System.Drawing.Size(161, 22);
             this.FileReopen.Text = "&Reopen";
             // 
             // RecentLibraryPopupMenu
@@ -513,7 +514,7 @@
             // toolStripMenuItem1
             // 
             this.toolStripMenuItem1.Name = "toolStripMenuItem1";
-            this.toolStripMenuItem1.Size = new System.Drawing.Size(177, 6);
+            this.toolStripMenuItem1.Size = new System.Drawing.Size(158, 6);
             // 
             // FileSave
             // 
@@ -521,46 +522,46 @@
             this.FileSave.Name = "FileSave";
             this.FileSave.ShortcutKeyDisplayString = "^S";
             this.FileSave.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.S)));
-            this.FileSave.Size = new System.Drawing.Size(180, 22);
+            this.FileSave.Size = new System.Drawing.Size(161, 22);
             this.FileSave.Text = "&Save";
             // 
             // FileSaveAs
             // 
             this.FileSaveAs.Name = "FileSaveAs";
-            this.FileSaveAs.Size = new System.Drawing.Size(180, 22);
+            this.FileSaveAs.Size = new System.Drawing.Size(161, 22);
             this.FileSaveAs.Text = "Save &As...";
             // 
             // FileSaveAll
             // 
             this.FileSaveAll.Image = global::TagScanner.Properties.Resources.SaveAllHS;
             this.FileSaveAll.Name = "FileSaveAll";
-            this.FileSaveAll.Size = new System.Drawing.Size(180, 22);
+            this.FileSaveAll.Size = new System.Drawing.Size(161, 22);
             this.FileSaveAll.Text = "Save A&ll";
             // 
             // toolStripMenuItem5
             // 
             this.toolStripMenuItem5.Name = "toolStripMenuItem5";
-            this.toolStripMenuItem5.Size = new System.Drawing.Size(177, 6);
+            this.toolStripMenuItem5.Size = new System.Drawing.Size(158, 6);
             // 
             // FileClose
             // 
             this.FileClose.Name = "FileClose";
             this.FileClose.ShortcutKeyDisplayString = "^F4";
             this.FileClose.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.F4)));
-            this.FileClose.Size = new System.Drawing.Size(180, 22);
+            this.FileClose.Size = new System.Drawing.Size(161, 22);
             this.FileClose.Text = "Close";
             // 
             // toolStripMenuItem9
             // 
             this.toolStripMenuItem9.Name = "toolStripMenuItem9";
-            this.toolStripMenuItem9.Size = new System.Drawing.Size(177, 6);
+            this.toolStripMenuItem9.Size = new System.Drawing.Size(158, 6);
             // 
             // FileExit
             // 
             this.FileExit.Name = "FileExit";
             this.FileExit.ShortcutKeyDisplayString = "Alt+F4";
             this.FileExit.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Alt | System.Windows.Forms.Keys.F4)));
-            this.FileExit.Size = new System.Drawing.Size(180, 22);
+            this.FileExit.Size = new System.Drawing.Size(161, 22);
             this.FileExit.Text = "E&xit";
             // 
             // EditMenu
@@ -589,13 +590,8 @@
             this.EditUndo.Name = "EditUndo";
             this.EditUndo.ShortcutKeyDisplayString = "^Z";
             this.EditUndo.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Z)));
-            this.EditUndo.Size = new System.Drawing.Size(180, 22);
+            this.EditUndo.Size = new System.Drawing.Size(155, 22);
             this.EditUndo.Text = "&Undo";
-            // 
-            // UndoPopupMenu
-            // 
-            this.UndoPopupMenu.Name = "UndoPopupMenu";
-            this.UndoPopupMenu.Size = new System.Drawing.Size(61, 4);
             // 
             // EditRedo
             // 
@@ -603,18 +599,13 @@
             this.EditRedo.Name = "EditRedo";
             this.EditRedo.ShortcutKeyDisplayString = "^Y";
             this.EditRedo.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Y)));
-            this.EditRedo.Size = new System.Drawing.Size(180, 22);
+            this.EditRedo.Size = new System.Drawing.Size(155, 22);
             this.EditRedo.Text = "&Redo";
-            // 
-            // RedoPopupMenu
-            // 
-            this.RedoPopupMenu.Name = "RedoPopupMenu";
-            this.RedoPopupMenu.Size = new System.Drawing.Size(61, 4);
             // 
             // toolStripMenuItem10
             // 
             this.toolStripMenuItem10.Name = "toolStripMenuItem10";
-            this.toolStripMenuItem10.Size = new System.Drawing.Size(177, 6);
+            this.toolStripMenuItem10.Size = new System.Drawing.Size(152, 6);
             // 
             // EditCut
             // 
@@ -622,7 +613,7 @@
             this.EditCut.Name = "EditCut";
             this.EditCut.ShortcutKeyDisplayString = "^X";
             this.EditCut.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.X)));
-            this.EditCut.Size = new System.Drawing.Size(180, 22);
+            this.EditCut.Size = new System.Drawing.Size(155, 22);
             this.EditCut.Text = "Cu&t";
             // 
             // EditCopy
@@ -631,7 +622,7 @@
             this.EditCopy.Name = "EditCopy";
             this.EditCopy.ShortcutKeyDisplayString = "^C";
             this.EditCopy.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.C)));
-            this.EditCopy.Size = new System.Drawing.Size(180, 22);
+            this.EditCopy.Size = new System.Drawing.Size(155, 22);
             this.EditCopy.Text = "&Copy";
             // 
             // EditPaste
@@ -640,7 +631,7 @@
             this.EditPaste.Name = "EditPaste";
             this.EditPaste.ShortcutKeyDisplayString = "^V";
             this.EditPaste.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.V)));
-            this.EditPaste.Size = new System.Drawing.Size(180, 22);
+            this.EditPaste.Size = new System.Drawing.Size(155, 22);
             this.EditPaste.Text = "&Paste";
             // 
             // EditDelete
@@ -650,13 +641,13 @@
             this.EditDelete.Name = "EditDelete";
             this.EditDelete.ShortcutKeyDisplayString = "Del";
             this.EditDelete.ShortcutKeys = System.Windows.Forms.Keys.Delete;
-            this.EditDelete.Size = new System.Drawing.Size(180, 22);
+            this.EditDelete.Size = new System.Drawing.Size(155, 22);
             this.EditDelete.Text = "&Delete";
             // 
             // toolStripMenuItem11
             // 
             this.toolStripMenuItem11.Name = "toolStripMenuItem11";
-            this.toolStripMenuItem11.Size = new System.Drawing.Size(177, 6);
+            this.toolStripMenuItem11.Size = new System.Drawing.Size(152, 6);
             // 
             // EditFind
             // 
@@ -664,7 +655,7 @@
             this.EditFind.Name = "EditFind";
             this.EditFind.ShortcutKeyDisplayString = "^F";
             this.EditFind.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.F)));
-            this.EditFind.Size = new System.Drawing.Size(180, 22);
+            this.EditFind.Size = new System.Drawing.Size(155, 22);
             this.EditFind.Text = "&Find...";
             // 
             // EditReplace
@@ -672,26 +663,26 @@
             this.EditReplace.Name = "EditReplace";
             this.EditReplace.ShortcutKeyDisplayString = "^H";
             this.EditReplace.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.H)));
-            this.EditReplace.Size = new System.Drawing.Size(180, 22);
+            this.EditReplace.Size = new System.Drawing.Size(155, 22);
             this.EditReplace.Text = "&Replace...";
             // 
             // toolStripMenuItem2
             // 
             this.toolStripMenuItem2.Name = "toolStripMenuItem2";
-            this.toolStripMenuItem2.Size = new System.Drawing.Size(177, 6);
+            this.toolStripMenuItem2.Size = new System.Drawing.Size(152, 6);
             // 
             // EditSelectAll
             // 
             this.EditSelectAll.Name = "EditSelectAll";
             this.EditSelectAll.ShortcutKeyDisplayString = "^A";
             this.EditSelectAll.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.A)));
-            this.EditSelectAll.Size = new System.Drawing.Size(180, 22);
+            this.EditSelectAll.Size = new System.Drawing.Size(155, 22);
             this.EditSelectAll.Text = "Select &All";
             // 
             // EditInvertSelection
             // 
             this.EditInvertSelection.Name = "EditInvertSelection";
-            this.EditInvertSelection.Size = new System.Drawing.Size(180, 22);
+            this.EditInvertSelection.Size = new System.Drawing.Size(155, 22);
             this.EditInvertSelection.Text = "&Invert Selection";
             // 
             // AddMenu
@@ -765,7 +756,7 @@
             // ViewFilter
             // 
             this.ViewFilter.Name = "ViewFilter";
-            this.ViewFilter.Size = new System.Drawing.Size(132, 22);
+            this.ViewFilter.Size = new System.Drawing.Size(180, 22);
             this.ViewFilter.Text = "&Filter...";
             // 
             // ViewGroupBy
@@ -777,62 +768,63 @@
             this.toolStripMenuItem4,
             this.ViewByYear,
             this.ViewByGenre,
+            this.toolStripMenuItem13,
             this.ViewByNoGrouping});
             this.ViewGroupBy.Name = "ViewGroupBy";
-            this.ViewGroupBy.Size = new System.Drawing.Size(132, 22);
+            this.ViewGroupBy.Size = new System.Drawing.Size(180, 22);
             this.ViewGroupBy.Text = "&Group by";
             // 
             // ViewByArtistAlbum
             // 
             this.ViewByArtistAlbum.Name = "ViewByArtistAlbum";
-            this.ViewByArtistAlbum.Size = new System.Drawing.Size(143, 22);
+            this.ViewByArtistAlbum.Size = new System.Drawing.Size(180, 22);
             this.ViewByArtistAlbum.Text = "&Artist/Album";
             // 
             // ViewByArtist
             // 
             this.ViewByArtist.Name = "ViewByArtist";
-            this.ViewByArtist.Size = new System.Drawing.Size(143, 22);
+            this.ViewByArtist.Size = new System.Drawing.Size(180, 22);
             this.ViewByArtist.Text = "A&rtist";
             // 
             // ViewByAlbum
             // 
             this.ViewByAlbum.Name = "ViewByAlbum";
-            this.ViewByAlbum.Size = new System.Drawing.Size(143, 22);
+            this.ViewByAlbum.Size = new System.Drawing.Size(180, 22);
             this.ViewByAlbum.Text = "A&lbum";
             // 
             // toolStripMenuItem4
             // 
             this.toolStripMenuItem4.Name = "toolStripMenuItem4";
-            this.toolStripMenuItem4.Size = new System.Drawing.Size(140, 6);
+            this.toolStripMenuItem4.Size = new System.Drawing.Size(177, 6);
             // 
             // ViewByYear
             // 
             this.ViewByYear.Name = "ViewByYear";
-            this.ViewByYear.Size = new System.Drawing.Size(143, 22);
+            this.ViewByYear.Size = new System.Drawing.Size(180, 22);
             this.ViewByYear.Text = "&Year";
             // 
             // ViewByGenre
             // 
             this.ViewByGenre.Name = "ViewByGenre";
-            this.ViewByGenre.Size = new System.Drawing.Size(143, 22);
+            this.ViewByGenre.Size = new System.Drawing.Size(180, 22);
             this.ViewByGenre.Text = "&Genre";
             // 
             // ViewByNoGrouping
             // 
             this.ViewByNoGrouping.Name = "ViewByNoGrouping";
-            this.ViewByNoGrouping.Size = new System.Drawing.Size(143, 22);
+            this.ViewByNoGrouping.Size = new System.Drawing.Size(180, 22);
             this.ViewByNoGrouping.Text = "&No grouping";
             // 
             // toolStripMenuItem7
             // 
             this.toolStripMenuItem7.Name = "toolStripMenuItem7";
-            this.toolStripMenuItem7.Size = new System.Drawing.Size(129, 6);
+            this.toolStripMenuItem7.Size = new System.Drawing.Size(177, 6);
             // 
             // ViewRefresh
             // 
             this.ViewRefresh.Name = "ViewRefresh";
             this.ViewRefresh.ShortcutKeys = System.Windows.Forms.Keys.F5;
-            this.ViewRefresh.Size = new System.Drawing.Size(132, 22);
+            this.ViewRefresh.Size = new System.Drawing.Size(180, 22);
             this.ViewRefresh.Text = "&Refresh";
             // 
             // WindowMenu
@@ -888,6 +880,12 @@
             this.tbAddRecentFolder.Size = new System.Drawing.Size(149, 22);
             this.tbAddRecentFolder.Text = "&Recent Folder";
             // 
+            // UndoPopupMenu
+            // 
+            this.UndoPopupMenu.Name = "UndoPopupMenu";
+            this.UndoPopupMenu.OwnerItem = this.tbUndo;
+            this.UndoPopupMenu.Size = new System.Drawing.Size(61, 4);
+            // 
             // tbUndo
             // 
             this.tbUndo.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
@@ -897,6 +895,12 @@
             this.tbUndo.Name = "tbUndo";
             this.tbUndo.Size = new System.Drawing.Size(30, 20);
             this.tbUndo.Text = "tbUndo";
+            // 
+            // RedoPopupMenu
+            // 
+            this.RedoPopupMenu.Name = "RedoPopupMenu";
+            this.RedoPopupMenu.OwnerItem = this.tbRedo;
+            this.RedoPopupMenu.Size = new System.Drawing.Size(61, 4);
             // 
             // tbRedo
             // 
@@ -1125,6 +1129,11 @@
             this.toolStripMenuItem12.Name = "toolStripMenuItem12";
             this.toolStripMenuItem12.Size = new System.Drawing.Size(146, 6);
             // 
+            // toolStripMenuItem13
+            // 
+            this.toolStripMenuItem13.Name = "toolStripMenuItem13";
+            this.toolStripMenuItem13.Size = new System.Drawing.Size(177, 6);
+            // 
             // LibraryForm
             // 
             this.AcceptButton = this.ApplyButton;
@@ -1285,6 +1294,7 @@
         public System.Windows.Forms.ContextMenuStrip RecentLibraryPopupMenu;
         public System.Windows.Forms.ContextMenuStrip RecentFolderPopupMenu;
         public System.Windows.Forms.ToolStripMenuItem tbAddRecentLibrary;
+        private System.Windows.Forms.ToolStripSeparator toolStripMenuItem13;
     }
 }
 

@@ -6,13 +6,6 @@
     [Serializable]
     public class Library
     {
-        private List<string> _filters = new List<string>();
-        public List<string> Filters
-        {
-            get => _filters;
-            set => _filters = value;
-        }
-
         private List<string> _folders = new List<string>();
         public List<string> Folders
         {

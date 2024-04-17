@@ -51,6 +51,7 @@
         public static List<Tag> BrowsableTags => Keys.Where(p => p.Browsable()).ToList();
         public static Tag[] Keys { get; }
         public static TagInfo[] Values { get; }
+
         #endregion
 
         #region Public Methods
@@ -131,6 +132,39 @@
                 fieldInfo?.SetValue(attributes, value);
             return value;
         }
+
+        #endregion
+
+        #region Default Tag Lists
+
+        private const Tag
+            album = Tag.Album,
+            artist = Tag.JoinedPerformers,
+            decade = Tag.Decade,
+            genre = Tag.JoinedGenres,
+            number = Tag.DiscTrack,
+            path = Tag.FilePath,
+            size = Tag.FileSize,
+            time = Tag.Duration,
+            title = Tag.Title,
+            year = Tag.Year,
+            yearAlbum = Tag.YearAlbum;
+
+        public static readonly Tag[]
+            Data1 = new[] { number, title, time, size },
+            Data2 = new[] { number, title, time, size, artist, album },
+            Data3 = new[] { yearAlbum, number, title, time, size },
+            Data4 = new[] { title, yearAlbum, time, size, artist },
+            FilePath = new[] { path },
+            GroupByAlbum = new[] { album },
+            GroupByArtist = new[] { artist },
+            GroupByArtistAlbum = new[] { artist, yearAlbum },
+            GroupByGenre = new[] { genre, artist, yearAlbum },
+            GroupByNone = Array.Empty<Tag>(),
+            GroupByYear = new[] { decade, year, artist, album },
+            SortByAlbum = new[] { yearAlbum, number },
+            SortByNumber = new[] { number },
+            SortByTitle = new[] { title, artist, yearAlbum };
 
         #endregion
     }
