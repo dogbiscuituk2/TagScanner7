@@ -15,7 +15,7 @@
         /// <param name="caseSensitive">Matching of data field & function names, type casts, operators and other syntactical elements, is always insensitive to case. 
         /// The caseSensitive parameter applies only to the user data, such as work titles, album names, performers, and so on.</param>
         /// <returns>The Term obtained from parsing.</returns>
-        public Term Parse(string text, bool caseSensitive = false)
+        public Term Parse(string text, bool caseSensitive)
         {
             BeginParse(text);
             var term = ParseCompoundTerm();
@@ -35,7 +35,7 @@
         /// The caseSensitive parameter applies only to the user data, such as work titles, album names, performers, and so on.</param>
         /// <returns>True if the parsing succeeded, and the result is returned in the out parameter term.
         /// False if an exception occurred, and the exception is returned in the out parameter exception.</returns>
-        public bool TryParse(string text, out Term term, out Exception exception, bool caseSensitive = false)
+        public bool TryParse(string text, out Term term, out Exception exception, bool caseSensitive)
         {
             try
             {

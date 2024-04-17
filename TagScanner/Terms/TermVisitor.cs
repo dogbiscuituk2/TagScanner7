@@ -5,7 +5,7 @@
     public static class TermVisitor
     {
         public static Term IgnoreCase(this Term term) => VisitDepthFirst(term, p =>
-            p.ResultType == typeof(string) && !(p is Function f && f.Fn == Fn.Uppercase) // Idempotency check.
+            p.ResultType == typeof(string) && !(p is Function function && function.Fn == Fn.Uppercase) // Idempotency check.
                 ? new Function(Fn.Uppercase, p) // If we haven't been here before, then apply the transform.
                 : p); // Transform would be redundant.
 

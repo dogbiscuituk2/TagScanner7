@@ -27,7 +27,7 @@
         public void TestRoundTrip(Term term)
         {
             var before = term?.ToString();
-            term = new Parser().Parse(before);
+            term = new Parser().Parse(before, caseSensitive: true);
             var after = term?.ToString();
             Assert.AreEqual(expected: before, actual: after);
         }
