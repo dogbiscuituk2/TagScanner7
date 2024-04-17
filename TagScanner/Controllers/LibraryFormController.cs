@@ -27,14 +27,14 @@
             Model.WorksAdd += Model_WorksAdd;
             Model.WorksEdit += Model_WorksEdit;
             CommandProcessor = new CommandProcessor(this);
-            LibraryGridController = new LibraryGridController(this, Model, View.GridElementHost);
+            LibraryGridController = new LibraryGridController(this, View.GridElementHost);
             LibraryGridController.SelectionChanged += LibraryGridController_SelectionChanged;
             StatusController = new StatusController(this);
-            PersistenceController = new MruLibraryController(this, View.RecentLibraryPopupMenu, View);
-            PersistenceController.FilePathChanged += PersistenceController_FilePathChanged;
-            PersistenceController.FileSaving += PersistenceController_FileSaving;
+            MruLibraryController = new MruLibraryController(this, View.RecentLibraryPopupMenu);
+            MruLibraryController.FilePathChanged += PersistenceController_FilePathChanged;
+            MruLibraryController.FileSaving += PersistenceController_FileSaving;
             MediaController = new MruMediaController(this, View.RecentFolderPopupMenu);
-            PlayerController = new PlayerController(this, null);
+            PlayerController = new PlayerController(this);
             FilterController = new FilterController(this);
             PictureController = new PictureController(View.PictureBox, View.PropertyGrid, PlayerController.PlaylistGrid);
             ModifiedChanged();
@@ -125,13 +125,14 @@
         #region Fields
 
         public readonly Model Model;
+
         public readonly CommandProcessor CommandProcessor;
+        public readonly FilterController FilterController;
         public readonly LibraryGridController LibraryGridController;
         public readonly MruMediaController MediaController;
-        public readonly MruLibraryController PersistenceController;
+        public readonly MruLibraryController MruLibraryController;
         public readonly PictureController PictureController;
         public readonly PlayerController PlayerController;
-        public readonly FilterController FilterController;
         public readonly StatusController StatusController;
 
         #endregion
@@ -140,8 +141,8 @@
 
         public string FilePath
         {
-            get => PersistenceController.FilePath;
-            set => PersistenceController.FilePath = value;
+            get => MruLibraryController.FilePath;
+            set => MruLibraryController.FilePath = value;
         }
 
         private Selection Selection => LibraryGridController.Selection;
@@ -185,14 +186,14 @@
         private void FileNewLibrary_Click(object sender, EventArgs e)
         {
             var filePath = FilePath;
-            if (PersistenceController.Clear())
+            if (MruLibraryController.Clear())
                 FilePath = filePath.IsValidFilePath() ? AppController.GetTempFileName() : filePath;
         }
 
         private void FileNewWindow_Click(object sender, EventArgs e) => AppController.NewWindow();
-        private void FileOpen_Click(object sender, EventArgs e) => PersistenceController.Open();
-        private void FileSave_Click(object sender, EventArgs e) => PersistenceController.Save();
-        private void FileSaveAs_Click(object sender, EventArgs e) => PersistenceController.SaveAs();
+        private void FileOpen_Click(object sender, EventArgs e) => MruLibraryController.Open();
+        private void FileSave_Click(object sender, EventArgs e) => MruLibraryController.Save();
+        private void FileSaveAs_Click(object sender, EventArgs e) => MruLibraryController.SaveAs();
         private void FileClose_Click(object sender, EventArgs e) => View.Close();
         private void FileExit_Click(object sender, EventArgs e) => AppController.Shutdown();
 
@@ -220,7 +221,7 @@
 
         private void AddMedia_Click(object sender, EventArgs e) => MediaController.AddFiles();
         private void AddFolder_Click(object sender, EventArgs e) => MediaController.AddFolder();
-        private void AddLibrary_Click(object sender, EventArgs e) => PersistenceController.AddLibrary();
+        private void AddLibrary_Click(object sender, EventArgs e) => MruLibraryController.AddLibrary();
         private void TbAdd_DropDownOpening(object sender, EventArgs e) => View.tbAddRecentFolder.Enabled = View.AddRecentFolder.Enabled;
 
         #endregion
@@ -258,7 +259,7 @@
 
         private void View_FormClosing(object sender, FormClosingEventArgs e)
         {
-            e.Cancel = !PersistenceController.SaveIfModified();
+            e.Cancel = !MruLibraryController.SaveIfModified();
             if (!e.Cancel)
                 FilterController.RegistryWrite();
         }
@@ -315,7 +316,7 @@
 
         private void Delete() => WorksRemove(Selection.Works.ToList());
 
-        private void ModifiedChanged() => View.Text = PersistenceController.WindowCaption;
+        private void ModifiedChanged() => View.Text = MruLibraryController.WindowCaption;
 
         private void Paste() => PasteFromClipboard();
 
@@ -354,7 +355,7 @@
             }
         }
 
-        private void PersistenceController_FilePathChanged(object sender, EventArgs e) => View.Text = PersistenceController.WindowCaption;
+        private void PersistenceController_FilePathChanged(object sender, EventArgs e) => View.Text = MruLibraryController.WindowCaption;
 
         private bool ProcessWork(Work work)
         {

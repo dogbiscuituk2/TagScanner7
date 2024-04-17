@@ -12,7 +12,7 @@
     {
         #region Constructor
 
-        public CommandProcessor(LibraryFormController parent) : base(parent)
+        public CommandProcessor(Controller parent) : base(parent)
         {
             UndoStack = new Stack<Command>();
             RedoStack = new Stack<Command>();

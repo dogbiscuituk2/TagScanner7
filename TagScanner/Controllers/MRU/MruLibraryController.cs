@@ -10,8 +10,8 @@
     {
         #region Constructor
 
-        public MruLibraryController(Controller parent, ContextMenuStrip parentMenu, IWin32Window owner)
-            : base(parent, Properties.Settings.Default.LibraryFilter, "LibraryMRU", parentMenu.Items, owner) { }
+        public MruLibraryController(Controller parent, ContextMenuStrip parentMenu)
+            : base(parent, Properties.Settings.Default.LibraryFilter, "LibraryMRU", parentMenu.Items) { }
 
         #endregion
 

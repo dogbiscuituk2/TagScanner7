@@ -10,7 +10,7 @@
     {
         #region Constructor
 
-        public MruController(Controller parent, string subKeyName) : base(parent)
+        protected MruController(Controller parent, string subKeyName) : base(parent)
         {
             if (string.IsNullOrWhiteSpace(subKeyName))
                 throw new ArgumentNullException(nameof(subKeyName));

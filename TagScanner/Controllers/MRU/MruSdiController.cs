@@ -4,19 +4,18 @@
     using System.ComponentModel;
     using System.IO;
     using System.Windows.Forms;
+    using Commands;
     using Models;
     using Properties;
     using Streaming;
-    using TagScanner.Commands;
 
     public abstract class MruSdiController : MruMenuController
     {
         #region Constructor
 
-        protected MruSdiController(Controller parent, string filter, string subKeyName, ToolStripItemCollection recentItems, IWin32Window owner = null)
+        protected MruSdiController(Controller parent, string filter, string subKeyName, ToolStripItemCollection recentItems)
             : base(parent, subKeyName, recentItems)
         {
-            Owner = owner;
             _openFileDialog = new OpenFileDialog { Filter = filter, Title = Resources.Select_the_file_to_open };
             _saveFileDialog = new SaveFileDialog { Filter = filter, Title = Resources.Save_file };
             RefreshRecentMenu();
@@ -40,7 +39,6 @@
         protected CommandProcessor CommandProcessor => LibraryFormController.CommandProcessor;
         protected LibraryFormController LibraryFormController => (LibraryFormController)Parent;
         protected Model Model;
-        protected IWin32Window Owner;
 
         private string _filePath = string.Empty;
         private readonly OpenFileDialog _openFileDialog;

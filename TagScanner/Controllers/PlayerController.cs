@@ -12,7 +12,7 @@
 
     public class PlayerController : GridController
     {
-        public PlayerController(LibraryFormController libraryFormController, ToolStripDropDownItem recentMenu) : base(libraryFormController)
+        public PlayerController(LibraryFormController libraryFormController) : base(libraryFormController)
         {
             View.GridPopupPlayAddToQueue.Click += PlaylistAddToQueue_Click;
             View.GridPopupPlayNewPlaylist.Click += PlaylistCreateNew_Click;

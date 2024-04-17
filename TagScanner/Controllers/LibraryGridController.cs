@@ -19,9 +19,9 @@
     {
         #region Constructor
 
-        public LibraryGridController(LibraryFormController parent, Model model, ElementHost view) : base(parent)
+        public LibraryGridController(Controller parent, ElementHost view) : base(parent)
         {
-            Model = model;
+            Model.WorksChanged += Model_WorksChanged;
             View = view;
         }
 
@@ -31,21 +31,11 @@
 
         private LibraryForm LibraryForm => LibraryFormController.View;
         private LibraryFormController LibraryFormController => (LibraryFormController)Parent;
+        private Model Model => LibraryFormController.Model;
 
         #endregion
 
         #region Model
-
-        private Model _model;
-        public Model Model
-        {
-            get => _model;
-            set
-            {
-                _model = value;
-                Model.WorksChanged += Model_WorksChanged;
-            }
-        }
 
         private void Model_WorksChanged(object sender, EventArgs e) => RefreshDataSource();
 

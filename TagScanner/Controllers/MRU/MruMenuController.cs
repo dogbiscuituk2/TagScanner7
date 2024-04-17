@@ -2,17 +2,16 @@
 {
     using System;
     using System.Drawing;
-    using System.IO;
     using System.Linq;
     using System.Windows.Forms;
     using Utils;
     using Win32 = Microsoft.Win32;
 
-    public class MruMenuController : MruController
+    public abstract class MruMenuController : MruController
     {
         #region Constructors
 
-        public MruMenuController(Controller parent, string subKeyName, ToolStripItemCollection recentItems)
+        protected MruMenuController(Controller parent, string subKeyName, ToolStripItemCollection recentItems)
             : base(parent, subKeyName)
         {
             _recentItems = recentItems;
@@ -39,7 +38,7 @@
 
         private static string CompactMenuText(string text)
         {
-            var result = text; //  Path.ChangeExtension(text, string.Empty).TrimEnd('.');
+            var result = text;
             TextRenderer.MeasureText(
                 result,
                 SystemFonts.MenuFont,
@@ -91,7 +90,7 @@
             RefreshRecentMenu();
         }
 
-        protected virtual void Reopen(ToolStripItem menuItem) { }
+        protected abstract void Reopen(ToolStripItem menuItem);
 
         private void SetEnabled(bool value)
         {
