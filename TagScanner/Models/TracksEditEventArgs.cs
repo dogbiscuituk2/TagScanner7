@@ -3,9 +3,9 @@
     using System;
     using System.Collections.Generic;
 
-    public class WorksEditEventArgs : WorksEventArgs
+    public class TracksEditEventArgs : TracksEventArgs
     {
-        public WorksEditEventArgs(Tag tag, List<Work> works, List<object> values) : base(works)
+        public TracksEditEventArgs(Tag tag, List<Track> tracks, List<object> values) : base(tracks)
         {
             Tag = tag;
             Values = values;

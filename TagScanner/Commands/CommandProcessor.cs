@@ -18,7 +18,6 @@
             RedoStack = new Stack<Command>();
             AddHandlers(View.EditUndo, View.tbUndo, EditUndo_Click, EditUndo_DropDownOpening);
             AddHandlers(View.EditRedo, View.tbRedo, EditRedo_Click, EditRedo_DropDownOpening);
-            UpdateUI();
 
             void AddHandlers(ToolStripMenuItem item, ToolStripSplitButton button, EventHandler click, EventHandler dropDownOpening)
             {
@@ -46,7 +45,7 @@
         private LibraryFormController LibraryFormController => (LibraryFormController)Parent;
         private Model Model => LibraryFormController.Model;
         private LibraryForm View => LibraryFormController.View;
-        private List<Work> Works => Model.Works;
+        private List<Track> Tracks => Model.Tracks;
 
         #endregion
 
@@ -78,6 +77,21 @@
             RedoStack.Clear();
             var result = Redo(command, spoof);
             return result;
+        }
+
+        public void UpdateLocalUI()
+        {
+            if (UpdateCount > 0)
+                return;
+            View.EditUndo.Enabled = View.tbUndo.Enabled = CanUndo;
+            View.EditRedo.Enabled = View.tbRedo.Enabled = CanRedo;
+            string
+                undo = CanUndo ? $"Undo {UndoAction}" : "Undo",
+                redo = CanRedo ? $"Redo {RedoAction}" : "Redo";
+            View.EditUndo.Text = $"&{undo}";
+            View.EditRedo.Text = $"&{redo}";
+            View.tbUndo.ToolTipText = $"{undo}";
+            View.tbRedo.ToolTipText = $"{redo}";
         }
 
         #endregion
@@ -171,20 +185,7 @@
             EndUpdate();
         }
 
-        private void UpdateUI()
-        {
-            if (UpdateCount > 0)
-                return;
-            View.EditUndo.Enabled = View.tbUndo.Enabled = CanUndo;
-            View.EditRedo.Enabled = View.tbRedo.Enabled = CanRedo;
-            string
-                undo = CanUndo ? $"Undo {UndoAction}" : "Undo",
-                redo = CanRedo ? $"Redo {RedoAction}" : "Redo";
-            View.EditUndo.Text = $"&{undo}";
-            View.EditRedo.Text = $"&{redo}";
-            View.tbUndo.ToolTipText = $"{undo}";
-            View.tbRedo.ToolTipText = $"{redo}";
-        }
+        private void UpdateUI() => AppController.UpdateUI(LibraryFormController);
 
         #endregion
     }

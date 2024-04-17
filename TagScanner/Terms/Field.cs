@@ -11,7 +11,7 @@
 
         public Tag Tag { get; set; }
 
-        public override Expression Expression => Expression.Property(Work, Tag.ToString());
+        public override Expression Expression => Expression.Property(Track, Tag.ToString());
         public override Type ResultType => Tag.Type();
 
         public override string ToString() => Tag.DisplayName();

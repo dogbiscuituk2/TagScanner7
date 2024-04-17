@@ -19,7 +19,7 @@
                 Assert.AreEqual(expected: tag.Name(), actual: field.Tag.ToString());
                 Assert.AreEqual(expected: Rank.Unary, actual: field.Rank);
                 Assert.AreEqual(expected: tag.Type(), actual: field.ResultType);
-                Assert.AreEqual(expected: $"{Term.Work.Name}.{tag.Name()}", actual: field.Expression.ToString());
+                Assert.AreEqual(expected: $"{Term.Track.Name}.{tag.Name()}", actual: field.Expression.ToString());
                 TestTerm(field);
             }
         }
@@ -35,9 +35,9 @@
         public void TestFields_DateTime(Tag tag, object expectedValue)
         {
             var term = new Operation(tag, "!=", DateTime.MinValue);
-            var works = Works.Where(p => term.Predicate(p));
-            Assert.AreEqual(expected: 1, actual: works.Count());
-            Assert.AreEqual(expected: expectedValue, actual: works.First().GetPropertyValue(tag).ToString());
+            var tracks = Tracks.Where(p => term.Predicate(p));
+            Assert.AreEqual(expected: 1, actual: tracks.Count());
+            Assert.AreEqual(expected: expectedValue, actual: tracks.First().GetPropertyValue(tag).ToString());
             TestTerm(term);
         }
 
@@ -45,9 +45,9 @@
         public void TestFields_DiscTrack()
         {
             var term = new Operation(Tag.DiscNumber, '>', 1);
-            var works = Works.Where(p => term.Predicate(p));
-            Assert.AreEqual(expected: 1, actual: works.Count());
-            Assert.AreEqual(expected: "2/3 - 08/12", actual: works.First().DiscTrack);
+            var tracks = Tracks.Where(p => term.Predicate(p));
+            Assert.AreEqual(expected: 1, actual: tracks.Count());
+            Assert.AreEqual(expected: "2/3 - 08/12", actual: tracks.First().DiscTrack);
             TestTerm(term);
         }
 
@@ -60,9 +60,9 @@
         public void TestFields_Double(Tag tag, object expectedValue)
         {
             var term = new Operation(tag, "!=", 0.0);
-            var works = Works.Where(p => term.Predicate(p));
-            Assert.AreEqual(expected: 1, actual: works.Count());
-            Assert.AreEqual(expected: expectedValue, actual: works.First().GetPropertyValue(tag));
+            var tracks = Tracks.Where(p => term.Predicate(p));
+            Assert.AreEqual(expected: 1, actual: tracks.Count());
+            Assert.AreEqual(expected: expectedValue, actual: tracks.First().GetPropertyValue(tag));
             TestTerm(term);
         }
 
@@ -84,9 +84,9 @@
         public void TestFields_Int(Tag tag, object expectedValue)
         {
             var term = new Operation(tag, "!=", 0);
-            var works = Works.Where(p => term.Predicate(p));
-            Assert.AreEqual(expected: 1, actual: works.Count());
-            Assert.AreEqual(expected: expectedValue, actual: works.First().GetPropertyValue(tag));
+            var tracks = Tracks.Where(p => term.Predicate(p));
+            Assert.AreEqual(expected: 1, actual: tracks.Count());
+            Assert.AreEqual(expected: expectedValue, actual: tracks.First().GetPropertyValue(tag));
             TestTerm(term);
         }
 
@@ -97,9 +97,9 @@
         public void TestFields_Long(Tag tag, object expectedValue)
         {
             var term = new Operation(tag, "!=", 0L);
-            var works = Works.Where(p => term.Predicate(p));
-            Assert.AreEqual(expected: 1, actual: works.Count());
-            Assert.AreEqual(expected: expectedValue, actual: works.First().GetPropertyValue(tag));
+            var tracks = Tracks.Where(p => term.Predicate(p));
+            Assert.AreEqual(expected: 1, actual: tracks.Count());
+            Assert.AreEqual(expected: expectedValue, actual: tracks.First().GetPropertyValue(tag));
             TestTerm(term);
         }
 
@@ -151,9 +151,9 @@
         public void TestFields_String(Tag tag, object expectedValue, int expectedCount = 1)
         {
             var term = !new Function(Fn.IsNull, tag);
-            var works = Works.Where(p => term.Predicate(p));
-            Assert.AreEqual(expected: expectedCount, actual: works.Count());
-            Assert.AreEqual(expected: expectedValue, actual: works.First().GetPropertyValue(tag));
+            var tracks = Tracks.Where(p => term.Predicate(p));
+            Assert.AreEqual(expected: expectedCount, actual: tracks.Count());
+            Assert.AreEqual(expected: expectedValue, actual: tracks.First().GetPropertyValue(tag));
             TestTerm(term);
         }
 
@@ -168,9 +168,9 @@
         [DataRow(Tag.PerformersSort, new[] { "Bonham", "Jones", "Page", "Plant" })]
         public void TestFields_Strings(Tag tag, object expectedValue)
         {
-            var works = Works.Where(p => !string.IsNullOrWhiteSpace(p.GetPropertyValue(tag)?.ToString()));
-            Assert.AreEqual(expected: 1, actual: works.Count());
-            var actualValue = works.First().GetPropertyValue(tag);
+            var tracks = Tracks.Where(p => !string.IsNullOrWhiteSpace(p.GetPropertyValue(tag)?.ToString()));
+            Assert.AreEqual(expected: 1, actual: tracks.Count());
+            var actualValue = tracks.First().GetPropertyValue(tag);
             Assert.IsTrue(((string[])actualValue).SequenceEqual((string[])expectedValue));
         }
 
@@ -181,9 +181,9 @@
         {
             var cast = new Cast(typeof(int), tag);
             var term = new Operation(cast, "!=", 0);
-            var works = Works.Where(p => term.Predicate(p));
-            Assert.AreEqual(expected: 1, actual: works.Count());
-            Assert.AreEqual(expected: expectedValue, actual: works.First().GetPropertyValue(tag));
+            var tracks = Tracks.Where(p => term.Predicate(p));
+            Assert.AreEqual(expected: 1, actual: tracks.Count());
+            Assert.AreEqual(expected: expectedValue, actual: tracks.First().GetPropertyValue(tag));
             TestTerm(term);
         }
 
@@ -205,8 +205,8 @@
                 Tag.Title,
                 Tag.YearAlbum);
             var term = new Function(fields, Fn.Contains, "The");
-            var works = Works.Where(p => term.Predicate(p));
-            Assert.AreEqual(expected: 53, actual: works.Count());
+            var tracks = Tracks.Where(p => term.Predicate(p));
+            Assert.AreEqual(expected: 53, actual: tracks.Count());
         }
     }
 }

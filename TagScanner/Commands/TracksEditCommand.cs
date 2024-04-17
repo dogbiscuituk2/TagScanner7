@@ -4,17 +4,17 @@
     using Models;
     using Terms;
 
-    public class WorksEditCommand : Command
+    public class TracksEditCommand : Command
     {
-        public WorksEditCommand(Tag tag, List<Work> works, List<object> values) : base()
+        public TracksEditCommand(Tag tag, List<Track> tracks, List<object> values) : base()
         {
             Tag = tag;
-            Works = works;
+            Tracks = tracks;
             Values = values;
         }
 
         public Tag Tag { get; set; }
-        public List<Work> Works { get; set; }
+        public List<Track> Tracks { get; set; }
         public List<object> Values { get; set; }
 
         public override bool Do(Model model)
@@ -28,15 +28,15 @@
         public override bool Run(Model model)
         {
             var result = false;
-            for (var index = 0; index < Works.Count; index++)
+            for (var index = 0; index < Tracks.Count; index++)
             {
-                var work = Works[index];
-                var oldValue = work.GetPropertyValue(Tag);
+                var track = Tracks[index];
+                var oldValue = track.GetPropertyValue(Tag);
                 var newValue = Values[index];
                 result |= !Equals(oldValue, newValue);
                 if (result)
                 {
-                    work.SetPropertyValue(Tag, newValue);
+                    track.SetPropertyValue(Tag, newValue);
                     Values[index] = oldValue;
                 }
             }

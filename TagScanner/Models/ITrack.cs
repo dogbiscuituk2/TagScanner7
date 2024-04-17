@@ -4,7 +4,7 @@
     using TagLib;
     using TagLib.Image;
 
-    public interface IWork
+    public interface ITrack
     {
         string Album { get; set; }
         string[] AlbumArtists { get; set; }

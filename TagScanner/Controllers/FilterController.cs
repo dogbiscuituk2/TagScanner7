@@ -32,7 +32,7 @@
         {
             View.FilterComboBox.Text = string.Empty;
             LibraryGridController.ClearFilter();
-            UpdateFilterStatus($"{LibraryGridController.WorksCountAll} Works shown.");
+            UpdateFilterStatus($"{LibraryGridController.TracksCountAll} Tracks shown.");
         }
 
         private void LaunchFilterBuilder() => FilterFormController.Execute(View.FilterComboBox.Text);
@@ -55,7 +55,7 @@
             {
                 LibraryGridController.SetFilter(term);
                 UpdateFilterStatus(
-                    $"{LibraryGridController.WorksCountVisible} of {LibraryGridController.WorksCountAll} Works shown.");
+                    $"{LibraryGridController.TracksCountVisible} of {LibraryGridController.TracksCountAll} Tracks shown.");
                 UpdateFilters();
                 RegistryWrite();
             }

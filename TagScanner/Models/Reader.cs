@@ -22,51 +22,51 @@
             foreach (var searchPattern in searchPatterns)
             {
                 var filePathList = Directory.EnumerateFiles(folderPath, searchPattern, SearchOption.AllDirectories);
-                _workCount += filePathList.Count();
+                _trackCount += filePathList.Count();
                 filePathLists.Add(filePathList);
             }
-            foreach (var filePathList in filePathLists.Where(filePathList => !DoAddWorks(filePathList)))
+            foreach (var filePathList in filePathLists.Where(filePathList => !DoAddTracks(filePathList)))
                 break;
         }
 
-        public void AddWorks(IEnumerable<string> filePathList)
+        public void AddTracks(IEnumerable<string> filePathList)
         {
-            _workCount += filePathList.Count();
-            DoAddWorks(filePathList);
+            _trackCount += filePathList.Count();
+            DoAddTracks(filePathList);
         }
 
         #region State
 
         public readonly List<string> ExistingFilePaths;
-        public readonly List<Work> Works = new List<Work>();
-        private int _workIndex, _workCount;
+        public readonly List<Track> Tracks = new List<Track>();
+        private int _trackIndex, _trackCount;
         private readonly IProgress<ProgressEventArgs> _progress;
 
         #endregion
 
-        private bool DoAddWork(string filePath)
+        private bool DoAddTrack(string filePath)
         {
-            Work work = null;
+            Track track = null;
             try
             {
                 if (!ExistingFilePaths.Contains(filePath))
                 {
                     ExistingFilePaths.Add(filePath);
-                    work = new Work(filePath);
-                    Works.Add(work);
+                    track = new Track(filePath);
+                    Tracks.Add(track);
                 }
-                _workIndex++;
+                _trackIndex++;
             }
             catch (Exception exception)
             {
                 exception.LogException();
-                _workCount--;
+                _trackCount--;
             }
-            var progressEventArgs = new ProgressEventArgs(_workIndex, _workCount, filePath, work);
+            var progressEventArgs = new ProgressEventArgs(_trackIndex, _trackCount, filePath, track);
             _progress.Report(progressEventArgs);
             return progressEventArgs.Continue;
         }
 
-        private bool DoAddWorks(IEnumerable<string> filePathList) => filePathList.FirstOrDefault(p => !DoAddWork(p)) == null;
+        private bool DoAddTracks(IEnumerable<string> filePathList) => filePathList.FirstOrDefault(p => !DoAddTrack(p)) == null;
     }
 }

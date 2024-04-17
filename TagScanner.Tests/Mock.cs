@@ -3,7 +3,7 @@
     using Models;
     using System;
 
-    public class Mock : Work
+    public class Mock : Track
     {
         public Mock(string artist, int year, string album, int trackNumber, string duration, string title) : base()
         {

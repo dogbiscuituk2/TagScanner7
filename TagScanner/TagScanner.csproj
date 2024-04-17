@@ -134,9 +134,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Commands\Command.cs" />
-    <Compile Include="Commands\WorksEditCommand.cs" />
+    <Compile Include="Commands\TracksEditCommand.cs" />
     <Compile Include="Commands\CommandProcessor.cs" />
-    <Compile Include="Commands\WorksCommand.cs" />
+    <Compile Include="Commands\TracksCommand.cs" />
     <Compile Include="Controllers\FilterController.cs" />
     <Compile Include="Controllers\AppController.cs" />
     <Compile Include="Controllers\Mru\MruController.cs" />
@@ -150,8 +150,9 @@
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Menus\ShellContextMenu.cs" />
-    <Compile Include="Models\WorksEventArgs.cs" />
-    <Compile Include="Models\WorksEditEventArgs.cs" />
+    <Compile Include="Models\Query.cs" />
+    <Compile Include="Models\TracksEventArgs.cs" />
+    <Compile Include="Models\TracksEditEventArgs.cs" />
     <Compile Include="Streaming\StreamFormat.cs" />
     <Compile Include="Controls\TermTreeNode.cs" />
     <Compile Include="Controls\TermTree.cs">
@@ -229,7 +230,7 @@
     <Compile Include="Controllers\StatusController.cs" />
     <Compile Include="Models\Logical.cs" />
     <Compile Include="Models\Reader.cs" />
-    <Compile Include="Models\IWork.cs" />
+    <Compile Include="Models\ITrack.cs" />
     <Compile Include="Views\SplashForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -251,7 +252,7 @@
     <Compile Include="Models\ProgressEventArgs.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Models\Work.cs" />
+    <Compile Include="Models\Track.cs" />
     <Compile Include="Utils\Utility.cs" />
     <Compile Include="Models\Model.cs" />
     <Compile Include="Models\Selection.cs" />

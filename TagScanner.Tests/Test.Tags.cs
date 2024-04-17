@@ -15,7 +15,7 @@
         {
             foreach (var tag in Tags.Keys)
             {
-                var property = typeof(IWork).GetProperty(tag.Name());
+                var property = typeof(ITrack).GetProperty(tag.Name());
                 Assert.IsNotNull(property);
                 bool
                     canSort = tag.Type().BaseType == typeof(Enum) || SortableTypes.Contains(tag.Type()),

@@ -12,13 +12,13 @@
     using Utils;
 
     [Serializable]
-    public class Work : IWork
+    public class Track : ITrack
     {
         #region Constructors
 
-        public Work() { }
+        public Track() { }
 
-        public Work(string filePath) : this()
+        public Track(string filePath) : this()
         {
             _filePath = filePath;
             Load();
@@ -38,11 +38,11 @@
         public bool IsNew;
 
         [field: NonSerialized]
-        public event EventHandler<WorksEditEventArgs> Edit;
+        public event EventHandler<TracksEditEventArgs> Edit;
 
         #endregion
 
-        #region IWork
+        #region ITrack
 
         private string _album = string.Empty;
         [DefaultValue("")]
@@ -1150,7 +1150,7 @@
 
         private string Get(string field) => field /* ?? string.Empty */ ;
         private T[] Get<T>(T[] field) => field /* ?? Array.Empty<T>() */ ;
-        private static PropertyInfo GetPropertyInfo(Tag tag) => typeof(Work).GetProperty($"{tag}");
+        private static PropertyInfo GetPropertyInfo(Tag tag) => typeof(Track).GetProperty($"{tag}");
 
         private static string GetNumberOfTotal(int number, int total, int digits)
         {

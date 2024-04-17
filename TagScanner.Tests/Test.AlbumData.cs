@@ -25,7 +25,7 @@
             LZiv = "Led Zeppelin IV",
             HH = "Houses of the Holy";
 
-        private static readonly Mock[] Works = new[]
+        private static readonly Mock[] Tracks = new[]
         {
             new Mock(TB, 1967, SP, 1, "2:00", SP),
             new Mock(TB, 1967, SP, 2, "2:42", "With a Little Help from My Friends") { AlbumArtists = new[] { "John", "Paul", "George", "Ringo" } },

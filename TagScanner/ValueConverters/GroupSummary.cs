@@ -15,23 +15,23 @@
         {
             if (!(value is ReadOnlyObservableCollection<object> group))
                 return string.Empty;
-            var works = new List<Work>();
-            AddWorks(works, group);
-            var summary = new Selection(works);
-            var workCount = works.Count;
-            return $" ({workCount:n0} {(workCount == 1 ? "work" : "works")}, {summary.FileSize.AsString(false)}, {summary.Duration.AsString(false)})";
+            var tracks = new List<Track>();
+            AddTracks(tracks, group);
+            var summary = new Selection(tracks);
+            var trackCount = tracks.Count;
+            return $" ({trackCount:n0} {(trackCount == 1 ? "track" : "tracks")}, {summary.FileSize.AsString(false)}, {summary.Duration.AsString(false)})";
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture) => value;
 
-        private static void AddWorks(List<Work> works, IReadOnlyList<object> group)
+        private static void AddTracks(List<Track> tracks, IReadOnlyList<object> group)
         {
             if (!group.Any()) return;
-            if (group[0] is Work)
-                works.AddRange(group.Cast<Work>());
+            if (group[0] is Track)
+                tracks.AddRange(group.Cast<Track>());
             else
                 foreach (var item in group.Cast<CollectionViewGroup>())
-                    AddWorks(works, item.Items);
+                    AddTracks(tracks, item.Items);
         }
     }
 }

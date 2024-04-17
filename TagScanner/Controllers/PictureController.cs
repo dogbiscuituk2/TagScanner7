@@ -76,7 +76,7 @@
         #region Events
 
         private void PictureBox_Resize(object sender, EventArgs e) => InitSizeMode();
-        private void PlaylistGrid_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e) => InitPictureFromWork(PlaylistGrid.SelectedItem);
+        private void PlaylistGrid_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e) => InitPictureFromTrack(PlaylistGrid.SelectedItem);
         private void PropertyGrid_SelectedGridItemChanged(object sender, SelectedGridItemChangedEventArgs e) => InitPicture();
         private void PropertyGrid_SelectedObjectsChanged(object sender, EventArgs e) => InitPicture();
 
@@ -95,22 +95,22 @@
             return image;
         }
 
-        private Image GetImageFromWork(IWork work)
+        private Image GetImageFromTrack(ITrack track)
         {
-            if (work == null) return null;
-            var pictures = work.Pictures;
+            if (track == null) return null;
+            var pictures = track.Pictures;
             if (pictures != null)
             {
                 var picture = pictures.FirstOrDefault(p => p != null);
                 if (picture != null)
                     return picture.GetImage();
             }
-            var filePath = work.FilePath;
+            var filePath = track.FilePath;
             return string.IsNullOrWhiteSpace(filePath) || filePath.EndsWith(@"\")
                 ? null
-                : (work.MediaTypes & TagLib.MediaTypes.Photo) != 0
-                ? GetImageFromFile(filePath, work.ImageOrientation)
-                : (work.MediaTypes & TagLib.MediaTypes.Video) != 0 ? GetVideoThumbnail(filePath, work.Duration.TotalSeconds / 10) : null;
+                : (track.MediaTypes & TagLib.MediaTypes.Photo) != 0
+                ? GetImageFromFile(filePath, track.ImageOrientation)
+                : (track.MediaTypes & TagLib.MediaTypes.Video) != 0 ? GetVideoThumbnail(filePath, track.Duration.TotalSeconds / 10) : null;
         }
 
         /// <summary>
@@ -144,10 +144,10 @@
             }
             // If no Picture is selected in the PropertyGrid,
             // then use the first Picture in the selection, if any.
-            InitPictureFromWork(PropertyGrid.SelectedObject);
+            InitPictureFromTrack(PropertyGrid.SelectedObject);
         }
 
-        private void InitPictureFromWork(object work) => SetImage(GetImageFromWork(work as IWork));
+        private void InitPictureFromTrack(object track) => SetImage(GetImageFromTrack(track as ITrack));
 
         private void InitSizeMode()
         {

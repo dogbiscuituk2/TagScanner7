@@ -13,7 +13,7 @@
         /// </summary>
         /// <param name="text">The string to parse.</param>
         /// <param name="caseSensitive">Matching of data field & function names, type casts, operators and other syntactical elements, is always insensitive to case. 
-        /// The caseSensitive parameter applies only to the user data, such as work titles, album names, performers, and so on.</param>
+        /// The caseSensitive parameter applies only to the user data, such as track titles, album names, performers, and so on.</param>
         /// <returns>The Term obtained from parsing.</returns>
         public Term Parse(string text, bool caseSensitive)
         {
@@ -32,7 +32,7 @@
         /// <param name="term">The Term obtained from parsing, assuming no exceptions occurred.</param>
         /// <param name="exception">The exception that did, in fact, occur.</param>
         /// <param name="caseSensitive">Matching of data field & function names, type casts, operators and other syntactical elements, is always insensitive to case. 
-        /// The caseSensitive parameter applies only to the user data, such as work titles, album names, performers, and so on.</param>
+        /// The caseSensitive parameter applies only to the user data, such as track titles, album names, performers, and so on.</param>
         /// <returns>True if the parsing succeeded, and the result is returned in the out parameter term.
         /// False if an exception occurred, and the exception is returned in the out parameter exception.</returns>
         public bool TryParse(string text, out Term term, out Exception exception, bool caseSensitive)

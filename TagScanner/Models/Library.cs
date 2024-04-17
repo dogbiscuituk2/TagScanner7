@@ -13,17 +13,17 @@
             set => _folders = value;
         }
 
-        private List<Work> _works = new List<Work>();
-        public List<Work> Works
+        private List<Track> _tracks = new List<Track>();
+        public List<Track> Tracks
         {
-            get => _works;
-            set => _works = value;
+            get => _tracks;
+            set => _tracks = value;
         }
 
         public void Clear()
         {
             Folders.Clear();
-            Works.Clear();
+            Tracks.Clear();
         }
     }
 }

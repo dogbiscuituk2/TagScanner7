@@ -48,8 +48,8 @@
 
                 Model.Library = library;
 
-                foreach (var work in Model.Works)
-                    work.Edit += Model.Work_Edit;
+                foreach (var track in Model.Tracks)
+                    track.Edit += Model.Track_Edit;
                 result = true;
             }
             return result;
@@ -61,8 +61,8 @@
             if (LoadDocument(stream, typeof(Library), format) is Library library)
             {
                 Model.Library = library;
-                foreach (var work in Model.Works)
-                    work.Edit += Model.Work_Edit;
+                foreach (var track in Model.Tracks)
+                    track.Edit += Model.Track_Edit;
                 result = true;
             }
             return result;

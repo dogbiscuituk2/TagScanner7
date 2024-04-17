@@ -24,21 +24,21 @@
         {
             View = new LibraryForm();
             Model = new Model();
-            Model.WorksAdd += Model_WorksAdd;
-            Model.WorksEdit += Model_WorksEdit;
+            Model.TracksAdd += Model_TracksAdd;
+            Model.TracksEdit += Model_TracksEdit;
             CommandProcessor = new CommandProcessor(this);
+            FilterController = new FilterController(this);
             LibraryGridController = new LibraryGridController(this, View.GridElementHost);
             LibraryGridController.SelectionChanged += LibraryGridController_SelectionChanged;
-            StatusController = new StatusController(this);
+            MediaController = new MruMediaController(this, View.RecentFolderPopupMenu);
             MruLibraryController = new MruLibraryController(this, View.RecentLibraryPopupMenu);
             MruLibraryController.FilePathChanged += PersistenceController_FilePathChanged;
             MruLibraryController.FileSaving += PersistenceController_FileSaving;
-            MediaController = new MruMediaController(this, View.RecentFolderPopupMenu);
             PlayerController = new PlayerController(this);
-            FilterController = new FilterController(this);
             PictureController = new PictureController(View.PictureBox, View.PropertyGrid, PlayerController.PlaylistGrid);
+            StatusController = new StatusController(this);
             ModifiedChanged();
-            UpdatePropertyGrid();
+            UpdateUI();
         }
 
         #endregion
@@ -151,28 +151,48 @@
 
         #region Methods
 
-        public void WorksAdd(List<Work> works)
+        public void UpdateLocalUI()
         {
-            if (View.InvokeRequired)
-                View.Invoke(new Action<List<Work>>(WorksAdd), works);
-            else
-                CommandProcessor.Run(new WorksAddCommand(works), spoof: false);
+            // Window Caption
+            View.Text = MruLibraryController.WindowCaption;
+            // File Operations
+            View.FileReopen.Enabled = View.tbReopen.Enabled =
+                View.AddRecentLibrary.Enabled = View.tbAddRecentLibrary.Enabled =
+                View.RecentLibraryPopupMenu.Items.Count > 0;
+            var enabled = CommandProcessor.IsModified && FilePath.IsValidFilePath();
+            View.FileSave.Enabled = View.tbSaveLibrary.Enabled = enabled;
+            View.AddRecentFolder.Enabled = View.tbAddRecentFolder.Enabled =
+                View.RecentFolderPopupMenu.Items.Count > 0;
+            // Clipboard Menu Items
+            View.EditCut.Enabled = View.tbCut.Enabled =
+                View.EditCopy.Enabled = View.tbCopy.Enabled =
+                View.EditDelete.Enabled = View.tbDelete.Enabled = Selection.Tracks.Any();
+            // Property Grid
+            View.PropertyGrid.SelectedObject = LibraryGridController.Selection;
         }
 
-        public void WorksEdit(Tag tag, List<Work> works, List<object> values)
+        public void TracksAdd(List<Track> tracks)
         {
             if (View.InvokeRequired)
-                View.Invoke(new Action<Tag, List<Work>, List<object>>(WorksEdit), tag, works, values);
+                View.Invoke(new Action<List<Track>>(TracksAdd), tracks);
             else
-                CommandProcessor.Run(new WorksEditCommand(tag, works, values), spoof: true);
+                CommandProcessor.Run(new TracksAddCommand(tracks), spoof: false);
         }
 
-        public void WorksRemove(List<Work> works)
+        public void TracksEdit(Tag tag, List<Track> tracks, List<object> values)
         {
             if (View.InvokeRequired)
-                View.Invoke(new Action<List<Work>>(WorksRemove), works);
+                View.Invoke(new Action<Tag, List<Track>, List<object>>(TracksEdit), tag, tracks, values);
             else
-                CommandProcessor.Run(new WorksRemoveCommand(works), spoof: false);
+                CommandProcessor.Run(new TracksEditCommand(tag, tracks, values), spoof: true);
+        }
+
+        public void TracksRemove(List<Track> tracks)
+        {
+            if (View.InvokeRequired)
+                View.Invoke(new Action<List<Track>>(TracksRemove), tracks);
+            else
+                CommandProcessor.Run(new TracksRemoveCommand(tracks), spoof: false);
         }
 
         #endregion
@@ -181,7 +201,7 @@
 
         #region File
 
-        private void Menu_DropDownOpening(object sender, EventArgs e) => UpdateMenus();
+        private void Menu_DropDownOpening(object sender, EventArgs e) => UpdateUI();
 
         private void FileNewLibrary_Click(object sender, EventArgs e)
         {
@@ -250,10 +270,10 @@
 
         #region Event Handlers
 
-        private void LibraryGridController_SelectionChanged(object sender, EventArgs e) => UpdatePropertyGrid();
+        private void LibraryGridController_SelectionChanged(object sender, EventArgs e) => UpdateUI();
         private void Model_ModifiedChanged(object sender, EventArgs e) => ModifiedChanged();
-        private void Model_WorksAdd(object sender, WorksEventArgs e) => WorksAdd(e.Works);
-        private void Model_WorksEdit(object sender, WorksEditEventArgs e) => WorksEdit(e.Tag, e.Works, e.Values);
+        private void Model_TracksAdd(object sender, TracksEventArgs e) => TracksAdd(e.Tracks);
+        private void Model_TracksEdit(object sender, TracksEditEventArgs e) => TracksEdit(e.Tag, e.Tracks, e.Values);
         private void PersistenceController_FileSaving(object sender, CancelEventArgs e) => e.Cancel = !ContinueSaving();
         private void View_FormClosed(object sender, FormClosedEventArgs e) => AppController.CloseWindow(this);
 
@@ -272,15 +292,15 @@
 
         private bool ContinueSaving()
         {
-            var works = Model.Works.Where(t => (t.FileStatus & FileStatus.Changed) != 0).ToList();
-            if (!works.Any())
+            var tracks = Model.Tracks.Where(t => (t.FileStatus & FileStatus.Changed) != 0).ToList();
+            if (!tracks.Any())
                 return true;
             var message = new StringBuilder();
-            Say(message, works, FileStatus.Changed, Resources.WorksChanged);
-            Say(message, works, FileStatus.New, Resources.WorksAdded);
-            Say(message, works, FileStatus.Updated, Resources.WorksUpdated);
-            Say(message, works, FileStatus.Pending, Resources.WorksPending);
-            Say(message, works, FileStatus.Deleted, Resources.WorksDeleted);
+            Say(message, tracks, FileStatus.Changed, Resources.TracksChanged);
+            Say(message, tracks, FileStatus.New, Resources.TracksAdded);
+            Say(message, tracks, FileStatus.Updated, Resources.TracksUpdated);
+            Say(message, tracks, FileStatus.Pending, Resources.TracksPending);
+            Say(message, tracks, FileStatus.Deleted, Resources.TracksDeleted);
             message.Append(Resources.ConfirmSync);
             var decision = MessageBox.Show(
                 View,
@@ -289,8 +309,8 @@
                 MessageBoxButtons.YesNo,
                 MessageBoxIcon.Question) == DialogResult.Yes;
             if (decision)
-                foreach (var work in works)
-                    ProcessWork(work);
+                foreach (var track in tracks)
+                    ProcessTrack(track);
             return decision;
         }
 
@@ -300,7 +320,7 @@
         {
             using (var stream = new MemoryStream())
             {
-                var data = Selection.Works.ToList();
+                var data = Selection.Tracks.ToList();
                 Streamer.SaveToStream(stream, data, StreamFormat.Xml);
                 stream.Seek(0, SeekOrigin.Begin);
                 using (var streamReader = new StreamReader(stream))
@@ -314,9 +334,9 @@
 
         private void Cut() { Copy(); Delete(); }
 
-        private void Delete() => WorksRemove(Selection.Works.ToList());
+        private void Delete() => TracksRemove(Selection.Tracks.ToList());
 
-        private void ModifiedChanged() => View.Text = MruLibraryController.WindowCaption;
+        private void ModifiedChanged() => UpdateUI();
 
         private void Paste() => PasteFromClipboard();
 
@@ -339,9 +359,9 @@
             {
                 try
                 {
-                    var value = Streamer.LoadFromStream(stream, typeof(List<Work>), StreamFormat.Xml);
-                    if (value is List<Work> works)
-                        WorksAdd(works);
+                    var value = Streamer.LoadFromStream(stream, typeof(List<Track>), StreamFormat.Xml);
+                    if (value is List<Track> tracks)
+                        TracksAdd(tracks);
                 }
                 catch (Exception exception)
                 {
@@ -355,14 +375,14 @@
             }
         }
 
-        private void PersistenceController_FilePathChanged(object sender, EventArgs e) => View.Text = MruLibraryController.WindowCaption;
+        private void PersistenceController_FilePathChanged(object sender, EventArgs e) => UpdateUI();
 
-        private bool ProcessWork(Work work)
+        private bool ProcessTrack(Track track)
         {
             var result = false;
             try
             {
-                result = Model.ProcessWork(work);
+                result = Model.ProcessTrack(track);
             }
             catch (IOException ex)
             {
@@ -371,9 +391,9 @@
             return result;
         }
 
-        private void Say(StringBuilder message, List<Work> works, FileStatus status, string format)
+        private void Say(StringBuilder message, List<Track> tracks, FileStatus status, string format)
         {
-            var count = works.Count(t => (t.FileStatus & status) != 0);
+            var count = tracks.Count(t => (t.FileStatus & status) != 0);
             if (count > 0)
                 message.AppendFormat(format, count);
         }
@@ -385,29 +405,11 @@
             if (ok)
             {
                 Tags.WriteBrowsableTags(visibleTags);
-                UpdatePropertyGrid();
+                UpdateUI();
             }
         }
 
-        private void UpdateMenus()
-        {
-            View.FileReopen.Enabled = View.tbReopen.Enabled =
-                View.AddRecentLibrary.Enabled = View.tbAddRecentLibrary.Enabled =
-                View.RecentLibraryPopupMenu.Items.Count > 0;
-            var enabled = CommandProcessor.IsModified && FilePath.IsValidFilePath();
-            View.FileSave.Enabled = View.tbSaveLibrary.Enabled = enabled;
-            View.AddRecentFolder.Enabled = View.tbAddRecentFolder.Enabled =
-                View.RecentFolderPopupMenu.Items.Count > 0;
-            View.EditCut.Enabled = View.tbCut.Enabled =
-                View.EditCopy.Enabled = View.tbCopy.Enabled =
-                View.EditDelete.Enabled = View.tbDelete.Enabled = Selection.Works.Any();
-        }
-
-        private void UpdatePropertyGrid()
-        {
-            UpdateMenus();
-            View.PropertyGrid.SelectedObject = LibraryGridController.Selection;
-        }
+        private void UpdateUI() => AppController.UpdateUI(this);
 
         #endregion
     }

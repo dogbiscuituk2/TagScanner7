@@ -230,7 +230,7 @@
             // 
             this.GridPopupMoreActions.Name = "GridPopupMoreActions";
             this.GridPopupMoreActions.Size = new System.Drawing.Size(165, 22);
-            this.GridPopupMoreActions.Text = "&More Actions...";
+            this.GridPopupMoreActions.Text = "&File Operations...";
             // 
             // toolStripMenuItem6
             // 

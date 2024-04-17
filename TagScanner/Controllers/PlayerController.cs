@@ -33,7 +33,7 @@
 
         public override System.Windows.Controls.DataGrid DataGrid => ((GridElement)View.PlaylistElementHost.Child).DataGrid;
 
-        private readonly ObservableCollection<Work> _currentPlaylist = new ObservableCollection<Work>();
+        private readonly ObservableCollection<Track> _currentPlaylist = new ObservableCollection<Track>();
 
         private void PlaylistAddToQueue_Click(object sender, EventArgs e) => PlaySelection(newPlaylist: false);
 
@@ -41,19 +41,19 @@
 
         private void PlaySelection(bool newPlaylist)
         {
-            var works = LibraryFormController.LibraryGridController.Selection.Works;
-            var worksArray = works as Work[] ?? works.ToArray();
-            if (!worksArray.Any())
+            var tracks = LibraryFormController.LibraryGridController.Selection.Tracks;
+            var tracksArray = tracks as Track[] ?? tracks.ToArray();
+            if (!tracksArray.Any())
                 return;
             if (newPlaylist)
             {
                 _currentPlaylist.Clear();
                 Player.currentPlaylist = Player.newPlaylist(string.Empty, string.Empty);
             }
-            foreach (var work in worksArray)
+            foreach (var track in tracksArray)
             {
-                _currentPlaylist.Add(work);
-                Player.currentPlaylist.appendItem(Player.newMedia(work.FilePath));
+                _currentPlaylist.Add(track);
+                Player.currentPlaylist.appendItem(Player.newMedia(track.FilePath));
             }
             Player.Ctlcontrols.play();
             View.TabControl.SelectedTab = View.tabPlayer;
@@ -63,11 +63,11 @@
 
         private void UpdatePlaylist(IWMPMedia currentItem)
         {
-            foreach (var work in _currentPlaylist)
-                if (work.FilePath == currentItem.sourceURL)
+            foreach (var track in _currentPlaylist)
+                if (track.FilePath == currentItem.sourceURL)
                 {
                     DataGrid.SelectedItems.Clear();
-                    DataGrid.SelectedItems.Add(work);
+                    DataGrid.SelectedItems.Add(track);
                     break;
                 }
         }

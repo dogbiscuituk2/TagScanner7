@@ -7,17 +7,17 @@
     using System.Linq;
 
     [DefaultProperty("Title")]
-    public class Selection : IWork
+    public class Selection : ITrack
     {
         #region Constructor
 
-        public Selection(IEnumerable<Work> works) => Works = works;
+        public Selection(IEnumerable<Track> tracks) => Tracks = tracks;
 
         #endregion
 
         #region Public Fields
 
-        public readonly IEnumerable<Work> Works;
+        public readonly IEnumerable<Track> Tracks;
 
         public const string
             Category = "Category",
@@ -33,7 +33,7 @@
 
         #endregion
 
-        #region IWork
+        #region ITrack
 
         #region Album
 
@@ -1676,7 +1676,7 @@
         [Description("The number of unique album titles in the current selection.")]
         [DisplayName("# Selected Albums")]
         [ReadOnly(true)]
-        public int SelectedAlbumsCount => Works.Select(f => f.Album).Distinct().Count();
+        public int SelectedAlbumsCount => Tracks.Select(f => f.Album).Distinct().Count();
 
         #endregion
         #region SelectedArtistsCount
@@ -1687,7 +1687,7 @@
         [Description("The number of unique artists in the current selection.")]
         [DisplayName("# Selected Artists")]
         [ReadOnly(true)]
-        public int SelectedArtistsCount => Works.SelectMany(f => f.Performers).Distinct().Count();
+        public int SelectedArtistsCount => Tracks.SelectMany(f => f.Performers).Distinct().Count();
 
         #endregion
         #region SelectedFoldersCount
@@ -1698,7 +1698,7 @@
         [Description("The number of distinct folders containing one or more items from the selection.")]
         [DisplayName("# Selected Folders")]
         [ReadOnly(true)]
-        public int SelectedFoldersCount => Works.Select(p => Path.GetDirectoryName(p.FilePath)).Distinct().Count();
+        public int SelectedFoldersCount => Tracks.Select(p => Path.GetDirectoryName(p.FilePath)).Distinct().Count();
 
         #endregion
         #region SelectedGenresCount
@@ -1709,18 +1709,18 @@
         [Description("The number of unique genres in the current selection.")]
         [DisplayName("# Selected Genres")]
         [ReadOnly(true)]
-        public int SelectedGenresCount => Works.SelectMany(f => f.Genres).Distinct().Count();
+        public int SelectedGenresCount => Tracks.SelectMany(f => f.Genres).Distinct().Count();
 
         #endregion
-        #region SelectedWorksCount
+        #region SelectedTracksCount
 
         [Browsable(true)]
         [Category(Selected)]
         [Column(50)]
-        [Description("The total number of works in the current selection.")]
-        [DisplayName("# Selected Works")]
+        [Description("The total number of tracks in the current selection.")]
+        [DisplayName("# Selected Tracks")]
         [ReadOnly(true)]
-        public int SelectedWorksCount => Works.Count();
+        public int SelectedTracksCount => Tracks.Count();
 
         #endregion
         #region TagTypes
@@ -1926,27 +1926,27 @@
 
         #region Events
 
-        public event EventHandler<WorksEditEventArgs> WorksEdit;
+        public event EventHandler<TracksEditEventArgs> TracksEdit;
 
-        protected virtual void OnWorksEdit(Tag tag, List<object> values)
+        protected virtual void OnTracksEdit(Tag tag, List<object> values)
         {
-            var worksEdit = WorksEdit;
-            worksEdit?.Invoke(this, new WorksEditEventArgs(tag, Works.ToList(), values));
+            var tracksEdit = TracksEdit;
+            tracksEdit?.Invoke(this, new TracksEditEventArgs(tag, Tracks.ToList(), values));
         }
 
         #endregion
 
         #region Tag Accessors (private methods)
 
-        private DateTime GetDateTime(Func<Work, DateTime> getDateTime, ref DateTime result)
+        private DateTime GetDateTime(Func<Track, DateTime> getDateTime, ref DateTime result)
         {
             if (result == DateTime.MaxValue)
             {
                 result = DateTime.MinValue;
-                if (Works != null)
+                if (Tracks != null)
                 {
                     var first = true;
-                    foreach (var value in Works.Select(getDateTime))
+                    foreach (var value in Tracks.Select(getDateTime))
                     {
                         if (first)
                         {
@@ -1964,15 +1964,15 @@
             return result;
         }
 
-        private double GetDouble(Func<Work, double> getDouble, ref double result)
+        private double GetDouble(Func<Track, double> getDouble, ref double result)
         {
             if (result == double.MaxValue)
             {
                 result = 0;
-                if (Works != null)
+                if (Tracks != null)
                 {
                     var first = true;
-                    foreach (var value in Works.Select(getDouble))
+                    foreach (var value in Tracks.Select(getDouble))
                     {
                         if (first)
                         {
@@ -1990,16 +1990,16 @@
             return result;
         }
 
-        private string GetFileOrCommonFolderPath(Func<Work, string> getString, ref string result)
+        private string GetFileOrCommonFolderPath(Func<Track, string> getString, ref string result)
         {
             if (result == null)
             {
                 result = string.Empty;
-                if (Works != null && Works.Any())
+                if (Tracks != null && Tracks.Any())
                 {
                     // The following adapted from http://rosettacode.org/wiki/Find_common_directory_path#C.23
                     var path = result;
-                    var paths = Works.Select(getString).ToList();
+                    var paths = Tracks.Select(getString).ToList();
                     var segments = paths.First(s => s.Length == paths.Max(t => t.Length)).Split('\\').ToList();
                     for (var index = 0; index < segments.Count; index++)
                     {
@@ -2016,23 +2016,23 @@
             return result;
         }
 
-        private FileStatus GetFileStatus(Func<Work, FileStatus> getFileStatus, ref FileStatus result)
+        private FileStatus GetFileStatus(Func<Track, FileStatus> getFileStatus, ref FileStatus result)
         {
-            if (result == FileStatus.Unknown && Works != null)
-                result = Works
+            if (result == FileStatus.Unknown && Tracks != null)
+                result = Tracks
                     .Select(getFileStatus)
                     .Aggregate(result, (p, q) => p | q);
             return result;
         }
 
         private TagLib.Image.ImageOrientation GetImageOrientation(
-            Func<Work, TagLib.Image.ImageOrientation> getImageOrientation,
+            Func<Track, TagLib.Image.ImageOrientation> getImageOrientation,
             ref TagLib.Image.ImageOrientation result)
         {
             if (result == TagLib.Image.ImageOrientation.None)
             {
                 var first = true;
-                foreach (var value in Works.Select(getImageOrientation))
+                foreach (var value in Tracks.Select(getImageOrientation))
                     if (first)
                     {
                         result = value;
@@ -2047,15 +2047,15 @@
             return result;
         }
 
-        private int GetInt(Func<Work, int> getInt, ref int result)
+        private int GetInt(Func<Track, int> getInt, ref int result)
         {
             if (result == int.MaxValue)
             {
                 result = 0;
-                if (Works != null)
+                if (Tracks != null)
                 {
                     var first = true;
-                    foreach (var value in Works.Select(getInt))
+                    foreach (var value in Tracks.Select(getInt))
                     {
                         if (first)
                         {
@@ -2073,10 +2073,10 @@
             return result;
         }
 
-        private Logical GetLogical(Func<Work, Logical> getLogical, ref Logical result)
+        private Logical GetLogical(Func<Track, Logical> getLogical, ref Logical result)
         {
-            if (result == Logical.Unknown && Works != null)
-                foreach (var value in Works.Select(getLogical))
+            if (result == Logical.Unknown && Tracks != null)
+                foreach (var value in Tracks.Select(getLogical))
                 {
                     result |= value;
                     if (result == (Logical.Yes | Logical.No))
@@ -2085,15 +2085,15 @@
             return result;
         }
 
-        private long GetLong(Func<Work, long> getLong, ref long result, bool sum)
+        private long GetLong(Func<Track, long> getLong, ref long result, bool sum)
         {
             if (result == long.MaxValue)
             {
                 result = 0;
-                if (Works != null)
+                if (Tracks != null)
                 {
                     var first = true;
-                    foreach (var value in Works.Select(getLong))
+                    foreach (var value in Tracks.Select(getLong))
                         if (first)
                         {
                             result = value;
@@ -2111,26 +2111,26 @@
             return result;
         }
 
-        private TagLib.MediaTypes GetMediaTypes(Func<Work, TagLib.MediaTypes> getMediaTypes, ref TagLib.MediaTypes result)
+        private TagLib.MediaTypes GetMediaTypes(Func<Track, TagLib.MediaTypes> getMediaTypes, ref TagLib.MediaTypes result)
         {
             if (result == AllMediaTypes)
             {
                 result = 0;
-                if (Works != null)
-                    result = Works
+                if (Tracks != null)
+                    result = Tracks
                         .Select(getMediaTypes)
                         .Aggregate(result, (current, mediaTypes) => current | mediaTypes);
             }
             return result;
         }
 
-        private Picture[] GetPictures(Func<Work, Picture[]> getPictures, ref Picture[] result)
+        private Picture[] GetPictures(Func<Track, Picture[]> getPictures, ref Picture[] result)
         {
             if (result == null)
             {
                 var pictureList = new List<Picture>();
-                if (Works != null)
-                    foreach (var pictures in Works
+                if (Tracks != null)
+                    foreach (var pictures in Tracks
                         .Select(getPictures)
                         .Where(p => p != null))
                     {
@@ -2143,13 +2143,13 @@
             return result;
         }
 
-        private string GetString(Func<Work, string> getString, ref string result)
+        private string GetString(Func<Track, string> getString, ref string result)
         {
             if (result == null)
             {
                 result = string.Empty;
                 var first = true;
-                foreach (var value in Works.Select(getString))
+                foreach (var value in Tracks.Select(getString))
                     if (first)
                     {
                         result = value;
@@ -2164,16 +2164,16 @@
             return result;
         }
 
-        private string[] GetStringArray(Func<Work, string[]> getStringArray, ref string[] result)
+        private string[] GetStringArray(Func<Track, string[]> getStringArray, ref string[] result)
         {
             if (result == null)
             {
                 var values = new List<string>();
-                if (Works != null)
+                if (Tracks != null)
                 {
                     try
                     {
-                        values.AddRange(Works?.SelectMany(getStringArray)?.Distinct() ?? Array.Empty<string>());
+                        values.AddRange(Tracks?.SelectMany(getStringArray)?.Distinct() ?? Array.Empty<string>());
                     }
                     catch (NullReferenceException)
                     {
@@ -2184,41 +2184,41 @@
             return result;
         }
 
-        private TagLib.TagTypes GetTagTypes(Func<Work, TagLib.TagTypes> getTagTypes, ref TagLib.TagTypes result)
+        private TagLib.TagTypes GetTagTypes(Func<Track, TagLib.TagTypes> getTagTypes, ref TagLib.TagTypes result)
         {
             if (result == TagLib.TagTypes.AllTags)
             {
                 result = 0;
-                if (Works != null)
-                    result = Works
+                if (Tracks != null)
+                    result = Tracks
                         .Select(getTagTypes)
                         .Aggregate(result, (current, tagTypes) => current | tagTypes);
             }
             return result;
         }
 
-        private TimeSpan GetTimeSpan(Func<Work, TimeSpan> getTimeSpan, ref TimeSpan result)
+        private TimeSpan GetTimeSpan(Func<Track, TimeSpan> getTimeSpan, ref TimeSpan result)
         {
             if (result == TimeSpan.MaxValue)
             {
                 result = TimeSpan.Zero;
-                if (Works != null)
-                    result = Works
+                if (Tracks != null)
+                    result = Tracks
                         .Select(getTimeSpan)
                         .Aggregate(result, (current, timeSpan) => current + timeSpan);
             }
             return result;
         }
 
-        private void SetValue(Tag tag, Func<Work, object> getValue, Action<Work> setValue)
+        private void SetValue(Tag tag, Func<Track, object> getValue, Action<Track> setValue)
         {
             var values = new List<object>();
-            foreach (var work in Works)
+            foreach (var track in Tracks)
             {
-                values.Add(getValue(work));
-                setValue(work);
+                values.Add(getValue(track));
+                setValue(track);
             }
-            OnWorksEdit(tag, values);
+            OnTracksEdit(tag, values);
         }
 
         #endregion

@@ -10,7 +10,7 @@
     {
         #region Public Fields
 
-        public static readonly ParameterExpression Work = Expression.Parameter(typeof(Work), "Work");
+        public static readonly ParameterExpression Track = Expression.Parameter(typeof(Track), "Track");
 
         public static readonly Constant<string> Empty = new Constant<string>(string.Empty);
         public static readonly Constant<bool> False = new Constant<bool>(false);
@@ -26,17 +26,17 @@
         public abstract Expression Expression { get; }
         public int Length => ToString().Length;
 
-        public Func<Work, bool> Predicate
+        public Func<Track, bool> Predicate
         {
             get
             {
                 try
                 {
-                    return Expression.Lambda<Func<Work, bool>>(Expression, Work).Compile();
+                    return Expression.Lambda<Func<Track, bool>>(Expression, Track).Compile();
                 }
                 catch
                 {
-                    return work => true;
+                    return track => true;
                 }
             }
         }

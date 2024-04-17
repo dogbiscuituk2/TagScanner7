@@ -116,6 +116,12 @@
             form.Focus();
         }
 
+        public static void UpdateUI(LibraryFormController libraryFormController)
+        {
+            libraryFormController.UpdateLocalUI();
+            libraryFormController.CommandProcessor.UpdateLocalUI();
+        }
+
         #endregion
     }
 }

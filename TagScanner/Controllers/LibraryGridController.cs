@@ -21,7 +21,7 @@
 
         public LibraryGridController(Controller parent, ElementHost view) : base(parent)
         {
-            Model.WorksChanged += Model_WorksChanged;
+            Model.TracksChanged += Model_TracksChanged;
             View = view;
         }
 
@@ -37,7 +37,7 @@
 
         #region Model
 
-        private void Model_WorksChanged(object sender, EventArgs e) => RefreshDataSource();
+        private void Model_TracksChanged(object sender, EventArgs e) => RefreshDataSource();
 
         #endregion
 
@@ -63,7 +63,7 @@
                 DataGrid.SelectionChanged += Grid_SelectionChanged;
                 RefreshDataSource();
 
-                ViewByArtistAlbum();
+                SetQuery(Query.ByArtistAlbum);
             }
         }
 
@@ -81,18 +81,18 @@
                 View.Invoke(new Action(RefreshDataSource));
             else
             {
-                ListCollectionView = new ListCollectionView(Model.Works);
+                ListCollectionView = new ListCollectionView(Model.Tracks);
                 ClearFilter();
                 InitSortsAndGroups();
             }
         }
 
-        private void ViewByArtistAlbum_Click(object sender, EventArgs e) => ViewByArtistAlbum();
-        private void ViewByArtist_Click(object sender, EventArgs e) => ViewByArtist();
-        private void ViewByAlbum_Click(object sender, EventArgs e) => ViewByAlbum();
-        private void ViewByNone_Click(object sender, EventArgs e) => ViewByNone();
-        private void ViewByGenre_Click(object sender, EventArgs e) => ViewByGenre();
-        private void ViewByYear_Click(object sender, EventArgs e) => ViewByYear();
+        private void ViewByArtistAlbum_Click(object sender, EventArgs e) => SetQuery(Query.ByArtistAlbum);
+        private void ViewByArtist_Click(object sender, EventArgs e) => SetQuery(Query.ByArtist);
+        private void ViewByAlbum_Click(object sender, EventArgs e) => SetQuery(Query.ByAlbum);
+        private void ViewByNone_Click(object sender, EventArgs e) => SetQuery(Query.ByNone);
+        private void ViewByGenre_Click(object sender, EventArgs e) => SetQuery(Query.ByGenre);
+        private void ViewByYear_Click(object sender, EventArgs e) => SetQuery(Query.ByYear);
 
         #endregion
 
@@ -149,10 +149,10 @@
         #region Filtering
 
         public void ClearFilter() => ListCollectionView.Filter = null;
-        public void SetFilter(Term term) => ListCollectionView.Filter = p => term.Predicate((Work)p);
+        public void SetFilter(Term term) => ListCollectionView.Filter = p => term.Predicate((Track)p);
 
-        public int WorksCountAll => Model.Works.Count;
-        public int WorksCountVisible => ListCollectionView.Count;
+        public int TracksCountAll => Model.Tracks.Count;
+        public int TracksCountVisible => ListCollectionView.Count;
 
         #endregion
 
@@ -273,36 +273,29 @@
             EndUpdateSelection();
         }
 
-        private FileInfo[] GetSelectedFileInfos() => Selection.Works.Select(p => new FileInfo(p.FilePath)).ToArray();
+        private FileInfo[] GetSelectedFileInfos() => Selection.Tracks.Select(p => new FileInfo(p.FilePath)).ToArray();
 
         private Selection GetSelection()
         {
-            var selection = new Selection(DataGrid.SelectedItems.Cast<Work>());
-            selection.WorksEdit += Selection_WorksEdit;
+            var selection = new Selection(DataGrid.SelectedItems.Cast<Track>());
+            selection.TracksEdit += Selection_TracksEdit;
             return selection;
         }
 
         private void Grid_SelectionChanged(object sender, SelectionChangedEventArgs e) => OnSelectionChanged();
 
-        private void Selection_WorksEdit(object sender, WorksEditEventArgs e) =>
-            LibraryFormController.WorksEdit(e.Tag, e.Works, e.Values);
+        private void Selection_TracksEdit(object sender, TracksEditEventArgs e) =>
+            LibraryFormController.TracksEdit(e.Tag, e.Tracks, e.Values);
 
         #endregion
 
         #region Presets
 
-        private void ViewByArtistAlbum() => SetQuery(Tags.Data1, Tags.GroupByArtistAlbum, Tags.SortByNumber);
-        private void ViewByArtist() => SetQuery(Tags.Data3, Tags.GroupByArtist, Tags.SortByAlbum);
-        private void ViewByAlbum() => SetQuery(Tags.Data1, Tags.GroupByAlbum, Tags.SortByNumber);
-        private void ViewByYear() => SetQuery(Tags.Data2, Tags.GroupByYear, Tags.SortByNumber);
-        private void ViewByGenre() => SetQuery(Tags.Data1, Tags.GroupByGenre, Tags.SortByNumber);
-        private void ViewByNone() => SetQuery(Tags.Data4, Tags.GroupByNone, Tags.SortByTitle);
-
-        private void SetQuery(Tag[] tags, Tag[] groups, Tag[] sorts)
+        private void SetQuery(Query query)
         {
-            VisibleTags = tags.Union(VisibleTags).ToList();
-            _groups = groups;
-            _sorts = groups.Union(sorts).Select(p => new SortDescription($"{p}", ListSortDirection.Ascending));
+            VisibleTags = query.Tags.Union(VisibleTags).ToList();
+            _groups = query.Groups;
+            _sorts = _groups.Union(query.Sorts).Select(p => new SortDescription($"{p}", ListSortDirection.Ascending));
             InitSortsAndGroups();
         }
 

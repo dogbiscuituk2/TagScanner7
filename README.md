@@ -6,17 +6,17 @@ There is a query builder allowing the construction of complex filters based on a
 
 This document presents brief desciptions of the most important classes and other design elements of the TagScanner application.
 
-    When an edit is made to one or more Work items in the PropertyGrid editor, its Edit event is invoked:-
+    When an edit is made to one or more Track items in the PropertyGrid editor, its Edit event is invoked:-
      \
-      Work.Set<T>() -> Work.OnEdit() -> Work.Edit.Invoke() -> Model.Work_Edit() -> Model.WorkEdit.Invoke()
+      Track.Set<T>() -> Track.OnEdit() -> Track.Edit.Invoke() -> Model.Track_Edit() -> Model.TrackEdit.Invoke()
 
-    Work.Edit was assigned a delegate in one of two ways, either of which will call Model.WorkEdit():
+    Track.Edit was assigned a delegate in one of two ways, either of which will call Model.TrackEdit():
     1. StatusController adds a delegate when loading from a live directory scan.
     2. MruLibraryController adds a delegate when loading from a saved file.
 
-    This WorkEdit event is heard by LFC (the LibraryFormController), which calls its own WorkEdit() method:
+    This TrackEdit event is heard by LFC (the LibraryFormController), which calls its own TrackEdit() method:
      \
-      LFC.WorkEdit() -> CP.Run(... spoof: true) -> CP.Redo(command, spoof);
+      LFC.TrackEdit() -> CP.Run(... spoof: true) -> CP.Redo(command, spoof);
 
     The "spoof: true"" parameter tells CP (the CommandProcessor) that this edit has already occurred,
     so there's no need to run the Command payload; just update the stacks & menus.
@@ -25,11 +25,11 @@ This document presents brief desciptions of the most important classes and other
      \
       CP.EditUndo_Click() -> CP.Undo() -> CP.CanUndo && CP.Undo(UndoStack.Pop()) ? CP.Undo(Command)
        \
-        WorkPropertyCommand.Do() -> WorkPropertyCommand.Run()
+        TrackPropertyCommand.Do() -> TrackPropertyCommand.Run()
          \
-          Work.SetPropertyValue() -> Work.GetPropertyInfo().SetValue();
+          Track.SetPropertyValue() -> Track.GetPropertyInfo().SetValue();
 
-    This takes us back into the Work property setter, which will call the Set method at the start of this section.
+    This takes us back into the Track property setter, which will call the Set method at the start of this section.
     Clearly we don't want another spoof command generated!
 
 ## Contents
@@ -38,8 +38,8 @@ This document presents brief desciptions of the most important classes and other
   - <a href="#library">Library</a>
   - <a href="#filter">Filter</a>
   - <a href="#tags">Tags</a>
-  -  <a href="#iwork">_IWork (interface)_</a>
-      - <a href="#work">Work</a>
+  -  <a href="#itrack">_ITrack (interface)_</a>
+      - <a href="#track">Track</a>
       - <a href="#selection">Selection</a>
 - <a href="#term">_Term (abstract)_</a>
   - <a href="#constant">Constant</a>
@@ -72,7 +72,7 @@ The most important property of the __Model__ is its <a href="#library">Library</
 
 ## Library {#library}
 
-In the __Library__ class, the _Works_ property is the receptacle for a list of <a href="#work">Work</a> objects. These hold the ID3 Tag information and other metadata about your media files (music, pictures, videos). _Library_ also retains, in its _Folders__ property, a list of the filesystem folders from which these works were scanned.
+In the __Library__ class, the _Tracks_ property is the receptacle for a list of <a href="#track">Track</a> objects. These hold the ID3 Tag information and other metadata about your media files (music, pictures, videos). _Library_ also retains, in its _Folders__ property, a list of the filesystem folders from which these tracks were scanned.
 
 Finally, the Library has a property named <a href="#filter">Filter</a>, holding the current set of Term Filters for the media collection.
 
@@ -94,11 +94,11 @@ At runtime, the selected __Term__ is converted to a _Predicate_ and applied to t
 
 <a href="#contents">\^Contents</a>
 
-## IWork (interface) {#iwork}
+## ITrack (interface) {#itrack}
 
 <a href="#contents">\^Contents</a>
 
-## Work {#work}
+## Track {#track}
 
 <a href="#contents">\^Contents</a>
 
@@ -340,13 +340,13 @@ To get these internal state data dumps to appear at runtime, define the conditio
 
 - This application uses the _TagLib#_ library to access (both read and write) metadata in media files, including video, audio, and photo formats.
   - In the _TagLib#_ library source code and API, the term _Tag_ refers to a structure containing most of the metadata for the given media.
-  - By contrast, the term _Tag_ in this application means any single item of metadata from that structure, e.g. work title, performer, duration, etc.
+  - By contrast, the term _Tag_ in this application means any single item of metadata from that structure, e.g. track title, performer, duration, etc.
   - These _Tags_ have in turn their own metadata, indicating for example their runtime type, category, and so on.
   - Such _meta-metadata_ can be found in the _TagScanner.Models.TagInfo_ class _(TagInfo.cs)_.
 - In the application source code, __Tag__ values are introduced in the _TagScanner.Models.Tag_ enumeration _(Tags.cs)_.
-  - __Tag__ data types and read/write permissions are best summarised in the _TagScanner.Models.IWork_ interface _(IWork.cs)_.
+  - __Tag__ data types and read/write permissions are best summarised in the _TagScanner.Models.ITrack_ interface _(ITrack.cs)_.
   - The set of possible __Tag__ data type names is supplied by the static _TagScanner.Models.TagType_ class _(TagType.cs)_.
-  - This interface is implemented by two classes in the _TagScanner.Models_ namespace: _Work (Work.cs)_ and _Selection (Selection.cs)_.
+  - This interface is implemented by two classes in the _TagScanner.Models_ namespace: _Track (Track.cs)_ and _Selection (Selection.cs)_.
 - The code level name of a __Tag__ is not exposed in the app UI, nor in the scripting interface. Instead, its _DisplayText_ value is used throughout.
   - For historical reasons, these values appear as attributes on corresponding properties of the _TagScanner.Models.Selection_ class _(Selection.cs)_.
   - To see all __Tag__ _DisplayText_ values: (1) run the app, (2) right-click _Select Columns_ or _Select Tags_, then (3) choose _List | Names only_.

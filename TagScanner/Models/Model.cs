@@ -15,109 +15,109 @@
             set
             {
                 _library = value;
-                OnWorksChanged();
+                OnTracksChanged();
             }
         }
 
         public List<string> Folders => Library.Folders;
-        public List<Work> Works => Library.Works;
+        public List<Track> Tracks => Library.Tracks;
 
-        public int AddFiles(string[] filePaths, IProgress<ProgressEventArgs> progress) => ReadWorks(p => p.AddWorks(filePaths), progress);
+        public int AddFiles(string[] filePaths, IProgress<ProgressEventArgs> progress) => ReadTracks(p => p.AddTracks(filePaths), progress);
 
         public int AddFolder(string folderPath, string fileFilter, IProgress<ProgressEventArgs> progress)
         {
             var folder = string.Concat(folderPath, '|', fileFilter);
             if (!Folders.Contains(folder))
                 Folders.Add(folder);
-            return ReadWorks(p => p.AddFolder(folderPath, fileFilter.Split(';')), progress);
+            return ReadTracks(p => p.AddFolder(folderPath, fileFilter.Split(';')), progress);
         }
 
-        public void AddRemoveWorks(List<Work> works, bool add)
+        public void AddRemoveTracks(List<Track> tracks, bool add)
         {
             if (add)
-                Works.AddRange(works);
+                Tracks.AddRange(tracks);
             else
-                Works.RemoveAll(p => works.Contains(p));
-            OnWorksChanged();
+                Tracks.RemoveAll(p => tracks.Contains(p));
+            OnTracksChanged();
         }
 
         public void Clear()
         {
             Library.Clear();
-            OnWorksChanged();
+            OnTracksChanged();
         }
 
-        public bool ProcessWork(Work work)
+        public bool ProcessTrack(Track track)
         {
-            switch (work.FileStatus)
+            switch (track.FileStatus)
             {
-                case FileStatus.New: return AddWork(work);
-                case FileStatus.Pending: return SaveWork(work);
-                case FileStatus.New | FileStatus.Pending: return AddAndSaveWork(work);
-                case FileStatus.Updated: return LoadWork(work);
-                case FileStatus.Deleted: return DropWork(work);
+                case FileStatus.New: return AddTrack(track);
+                case FileStatus.Pending: return SaveTrack(track);
+                case FileStatus.New | FileStatus.Pending: return AddAndSaveTrack(track);
+                case FileStatus.Updated: return LoadTrack(track);
+                case FileStatus.Deleted: return DropTrack(track);
                 default: return false;
             }
         }
 
-        public void Work_Edit(object sender, WorksEditEventArgs e)
+        public void Track_Edit(object sender, TracksEditEventArgs e)
         {
-            var workEdit = WorksEdit;
-            workEdit?.Invoke(sender, e);
+            var trackEdit = TracksEdit;
+            trackEdit?.Invoke(sender, e);
         }
 
-        public event EventHandler<WorksEventArgs> WorksAdd;
-        public event EventHandler<WorksEditEventArgs> WorksEdit;
-        public event EventHandler WorksChanged;
+        public event EventHandler<TracksEventArgs> TracksAdd;
+        public event EventHandler<TracksEditEventArgs> TracksEdit;
+        public event EventHandler TracksChanged;
 
         #endregion
 
         #region Private Implementation
 
-        private bool AddWork(Work work)
+        private bool AddTrack(Track track)
         {
-            work.IsNew = false;
+            track.IsNew = false;
             return true;
         }
 
-        private bool AddAndSaveWork(Work work) => AddWork(work) && SaveWork(work);
+        private bool AddAndSaveTrack(Track track) => AddTrack(track) && SaveTrack(track);
 
-        private bool DropWork(Work work) => Works.Remove(work);
+        private bool DropTrack(Track track) => Tracks.Remove(track);
 
-        private bool LoadWork(Work work)
+        private bool LoadTrack(Track track)
         {
-            work.Load();
+            track.Load();
             return true;
         }
 
-        protected virtual void OnWorksAdd(List<Work> works)
+        protected virtual void OnTracksAdd(List<Track> tracks)
         {
-            var worksAdd = WorksAdd;
-            worksAdd?.Invoke(this, new WorksEventArgs(works));
-            OnWorksChanged();
+            var tracksAdd = TracksAdd;
+            tracksAdd?.Invoke(this, new TracksEventArgs(tracks));
+            OnTracksChanged();
         }
 
-        protected virtual void OnWorksChanged()
+        protected virtual void OnTracksChanged()
         {
-            var worksChanged = WorksChanged;
-            worksChanged?.Invoke(this, EventArgs.Empty);
+            var tracksChanged = TracksChanged;
+            tracksChanged?.Invoke(this, EventArgs.Empty);
         }
 
-        private int ReadWorks(Action<Reader> action, IProgress<ProgressEventArgs> progress)
+        private int ReadTracks(Action<Reader> action, IProgress<ProgressEventArgs> progress)
         {
-            var existingFilePaths = Works.Select(t => t.FilePath).ToList();
+            var existingFilePaths = Tracks.Select(t => t.FilePath).ToList();
             var reader = new Reader(existingFilePaths, progress);
             action(reader);
-            var works = reader.Works;
-            var count = works.Count;
+            var tracks = reader.Tracks;
+            var count = tracks.Count;
             if (count > 0)
-                OnWorksAdd(works);
-            return works.Count;
+                OnTracksAdd(tracks);
+            return tracks.Count;
         }
 
-        private bool SaveWork(Work work)
+        private bool SaveTrack(Track track)
         {
-            work.Save();
+            track.Save();
             return true;
         }
 
