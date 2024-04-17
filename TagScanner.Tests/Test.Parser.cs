@@ -62,12 +62,12 @@
         [TestMethod]
         public void TestParsePrecedence()
         {
-            //TestParse("2 * (3 + 4) * 5", "2 × (3 + 4) × 5");
-            //TestParse("compare(album artists, \"The Beatles\") <= 0", "Compare(Album Artists, \"The Beatles\") ≤ 0");
+            TestParse("2 * (3 + 4) * 5", "2 × (3 + 4) × 5");
+            TestParse("compare(album artists, \"The Beatles\") <= 0", "Compare(Album Artists, \"The Beatles\") ≤ 0", "Compare(Album Artists, \"The Beatles\".Uppercase) ≤ 0");
             TestParse("album artists.length >= 10", "Album Artists.Length ≥ 10");
-            //TestParse("album artists.length() >= 10", "Album Artists.Length ≥ 10");
-            //TestParse("1, 2 | 3 & 4 ^ 5 != 6 >= 7 - 8 / -9", "1, 2 | 3 & 4 ^ 5 ≠ 6 ≥ 7 - 8 ÷ -9");
-            //TestParse("(1, 2) | 3 & 4 ^ 5 != 6 >= 7 - 8 / -9", "(1, 2) | 3 & 4 ^ 5 ≠ 6 ≥ 7 - 8 ÷ -9");
+            TestParse("album artists.length() >= 10", "Album Artists.Length ≥ 10");
+            TestParse("1, 2 | 3 & 4 ^ 5 != 6 >= 7 - 8 / -9", "1, 2 | 3 & 4 ^ 5 ≠ 6 ≥ 7 - 8 ÷ -9");
+            TestParse("(1, 2) | 3 & 4 ^ 5 != 6 >= 7 - 8 / -9", "(1, 2) | 3 & 4 ^ 5 ≠ 6 ≥ 7 - 8 ÷ -9");
         }
 
         [TestMethod]
@@ -96,13 +96,22 @@
             }
         }
 
-        private void TestParse(string original, string expected = null)
+        private void TestParse(string original, string cs, string ci = null)
         {
-            if (expected == null)
-                expected = original;
-            var term = new Parser().Parse(original, caseSensitive: true);
-            var actual = term.ToString();
-            Assert.AreEqual(expected, actual);
+            if (ci == null) ci = cs;
+            var expected = cs;
+            var caseSensitive = true;
+            do
+            {
+                if (expected == null)
+                    expected = original;
+                var term = new Parser().Parse(original, caseSensitive);
+                var actual = term.ToString();
+                Assert.AreEqual(expected, actual);
+                expected = ci;
+                caseSensitive = !caseSensitive;
+            }
+            while (!caseSensitive);
         }
     }
 }
