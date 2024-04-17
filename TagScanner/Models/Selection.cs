@@ -249,7 +249,7 @@
         [Browsable(false)]
         [Category(Format)]
         [Column(50)]
-        [DefaultValue(44100)]
+        [DefaultValue(0)]
         [Description("An integer containing the sample rate of the audio represented by the selected item(s). This value is equal to the first non-zero audio sample rate.")]
         [DisplayName("Audio Sample Rate")]
         [ReadOnly(true)]
