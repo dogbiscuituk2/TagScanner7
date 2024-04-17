@@ -84,6 +84,11 @@
                 if (token == ")") break;
                 if (token.IsOperator()) DequeueToken();
                 else token = "."; // The Dot operator is optional & implied where appropriate.
+                if (token == ".")
+                {
+                    term = ParseMemberFunction(term);
+                    continue;
+                }
                 var tokenRank = token.Rank(unary: false);
                 while (AnyOperators())
                 {
@@ -106,11 +111,11 @@
             return term;
         }
 
-        private Term ParseMemberFunction(Token token)
+        private Term ParseMemberFunction(Term term)
         {
-            if (PeekOperator() != Op.Dot) UnexpectedToken(token);
-            PopOperator();
-            return NewTerm(new Function(PopTerm(), token.Value.ToFunction(), ParseParameters()));
+            var function = DequeueToken().Value.ToFunction();
+            var parameters = ParseParameters();
+            return NewTerm(new Function(term, function, parameters));
         }
 
         private static Term ParseNumber(string token) =>
@@ -126,7 +131,7 @@
 
         private Term[] ParseParameters()
         {
-            if (!AnyTokens())
+            if (!AnyTokens() || PeekToken().Value.IsBinaryOperator())
                 return Array.Empty<Term>();
             if (PeekToken().Value == "(")
             {
@@ -159,7 +164,6 @@
                 match.IsChar() ? NewTerm(new Constant<char>(char.Parse(match.Substring(1, match.Length - 2)))) :
                 match.IsString() ? NewTerm(new Constant<string>(match.Substring(1, match.Length - 2))) :
                 match.IsField() ? NewTerm(new Field(Tags.Values.Single(p => p.DisplayName == match).Tag)) :
-                match.IsMemberFunction() ? ParseMemberFunction(token) :
                 match.IsMonadicOperator() ? ParseUnaryOperation(match) :
                 match.IsNumber() ? NewTerm(ParseNumber(match.ToUpperInvariant())) :
                 match.IsParameter() ? NewTerm(new Parameter(match.Substring(1, match.Length - 2).ToType())) :
