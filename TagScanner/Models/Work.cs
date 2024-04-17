@@ -127,7 +127,8 @@
             set => Set(ref _audioChannels, value);
         }
 
-        private int _audioSampleRate;
+        private int _audioSampleRate = 44100;
+        [DefaultValue(44100)]
         public int AudioSampleRate
         {
             get => _audioSampleRate;
