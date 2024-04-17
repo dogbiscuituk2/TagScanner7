@@ -6,9 +6,9 @@
     using System.IO;
     using System.Linq;
     using System.Reflection;
+    using System.Text.Json.Serialization;
     using System.Xml;
     using System.Xml.Serialization;
-    using Newtonsoft.Json;
     using Utils;
 
     [Serializable]
@@ -240,7 +240,7 @@
         public string DiscTrack => $"{DiscOf} - {TrackOf}";
 
         private TimeSpan _duration;
-        [XmlIgnore] public TimeSpan Duration
+        [JsonIgnore, XmlIgnore] public TimeSpan Duration
         {
             get => _duration;
             set => Set(ref _duration, value);
@@ -248,7 +248,6 @@
 
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Never)]
-        [JsonIgnore]
         [XmlElement(DataType = "duration", ElementName = "Duration")]
         public string DurationString
         {

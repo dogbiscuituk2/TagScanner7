@@ -3,8 +3,8 @@
     using System;
     using System.IO;
     using System.Runtime.Serialization.Formatters.Binary;
+    using System.Text.Json;
     using System.Xml.Serialization;
-    using Newtonsoft.Json;
     using Utils;
 
     public static class Streamer
@@ -43,11 +43,7 @@
                     case StreamFormat.Binary:
                         return new BinaryFormatter().Deserialize(stream);
                     case StreamFormat.Json:
-                        var streamReader = new StreamReader(stream);
-                        var jsonTextReader = new JsonTextReader(streamReader);
-                        var jsonSerializer = GetJsonSerializer();
-                        var result = jsonSerializer.Deserialize(jsonTextReader, documentType);
-                        return result;
+                        return JsonSerializer.Deserialize(stream, documentType);
                     case StreamFormat.Xml:
                         return new XmlSerializer(documentType).Deserialize(stream);
                     default:
@@ -57,7 +53,7 @@
             catch (Exception exception)
             {
                 exception.ShowDialog($"{nameof(documentType)}: {documentType}");
-                return false;
+                return null;
             }
         }
 
@@ -84,22 +80,16 @@
                         new BinaryFormatter().Serialize(stream, document);
                         break;
                     case StreamFormat.Json:
-                        var streamWriter = new StreamWriter(stream);
-                        var jsonTextWriter = new JsonTextWriter(streamWriter);
-                        var jsonSerializer = GetJsonSerializer();
-                        jsonSerializer.Serialize(jsonTextWriter, document,document.GetType());
-                        jsonTextWriter.Flush();
+                        var options = new JsonSerializerOptions
+                        {
+                            DefaultIgnoreCondition = System.Text.Json.Serialization.JsonIgnoreCondition.WhenWritingDefault,
+                            IgnoreReadOnlyProperties = true,
+                            WriteIndented = true,
+                        };
+                        JsonSerializer.Serialize(stream, document, options);
                         break;
                     case StreamFormat.Xml:
-                        var xmlSerializer = GetXmlSerializer(document.GetType());
-                        try
-                        {
-                            xmlSerializer.Serialize(stream, document);
-                        }
-                        catch (Exception exception)
-                        {
-                            exception.ShowDialog($"{nameof(document)}: {document}");
-                        }
+                        GetXmlSerializer(document.GetType()).Serialize(stream, document);
                         break;
                     default:
                         throw new NotSupportedException();
@@ -109,7 +99,7 @@
             }
             catch (Exception exception)
             {
-                exception.ShowDialog();
+                exception.ShowDialog($"{nameof(document)}: {document}");
                 return false;
             }
         }
@@ -121,17 +111,6 @@
             var now = DateTime.Now.ToString("[yyyy-MM-dd HH.mm.ss.fffffff]");
             var filePath = $@"{now}.{format}";
             return SaveToFile(filePath, document, format);
-        }
-
-        private static JsonSerializer GetJsonSerializer()
-        {
-            var jsonSerializer = new JsonSerializer
-            {
-                DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate,
-                Formatting = Formatting.Indented,
-                TypeNameHandling = TypeNameHandling.Auto,
-            };
-            return jsonSerializer;
         }
 
         private static XmlSerializer GetXmlSerializer(Type documentType)
