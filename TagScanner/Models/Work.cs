@@ -1148,8 +1148,8 @@
 
         #region Get / Set Property Values
 
-        private string Get(string field) => field ?? string.Empty;
-        private T[] Get<T>(T[] field) => field ?? Array.Empty<T>();
+        private string Get(string field) => field /* ?? string.Empty */ ;
+        private T[] Get<T>(T[] field) => field /* ?? Array.Empty<T>() */ ;
         private static PropertyInfo GetPropertyInfo(Tag tag) => typeof(Work).GetProperty($"{tag}");
 
         private static string GetNumberOfTotal(int number, int total, int digits)
