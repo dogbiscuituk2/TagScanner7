@@ -40,21 +40,6 @@
 
         protected override void ClearDocument() => Model.Clear();
 
-        protected override bool AddFromStream(Stream stream, StreamFormat format)
-        {
-            var result = false;
-            if (LoadDocument(stream, typeof(Library), format) is Library library)
-            {
-
-                Model.Library = library;
-
-                foreach (var track in Model.Tracks)
-                    track.Edit += Model.Track_Edit;
-                result = true;
-            }
-            return result;
-        }
-
         protected override bool LoadFromStream(Stream stream, StreamFormat format)
         {
             var result = false;

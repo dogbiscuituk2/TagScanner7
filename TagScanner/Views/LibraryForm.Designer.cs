@@ -32,9 +32,14 @@
             this.GridPopupPlay = new System.Windows.Forms.ToolStripMenuItem();
             this.GridPopupPlayAddToQueue = new System.Windows.Forms.ToolStripMenuItem();
             this.GridPopupPlayNewPlaylist = new System.Windows.Forms.ToolStripMenuItem();
-            this.GridPopupMoreActions = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem6 = new System.Windows.Forms.ToolStripSeparator();
+            this.GridPopupCut = new System.Windows.Forms.ToolStripMenuItem();
+            this.GridPopupCopy = new System.Windows.Forms.ToolStripMenuItem();
+            this.GridPopupPaste = new System.Windows.Forms.ToolStripMenuItem();
+            this.GridPopupDelete = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItem14 = new System.Windows.Forms.ToolStripSeparator();
             this.GridPopupTags = new System.Windows.Forms.ToolStripMenuItem();
+            this.GridPopupMoreActions = new System.Windows.Forms.ToolStripMenuItem();
             this.FilterGroupBox = new System.Windows.Forms.GroupBox();
             this.FilterComboBox = new System.Windows.Forms.ComboBox();
             this.CaseSensitiveCheckBox = new System.Windows.Forms.CheckBox();
@@ -199,11 +204,16 @@
             // 
             this.GridPopupMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.GridPopupPlay,
-            this.GridPopupMoreActions,
             this.toolStripMenuItem6,
-            this.GridPopupTags});
+            this.GridPopupCut,
+            this.GridPopupCopy,
+            this.GridPopupPaste,
+            this.GridPopupDelete,
+            this.toolStripMenuItem14,
+            this.GridPopupTags,
+            this.GridPopupMoreActions});
             this.GridPopupMenu.Name = "PopupMenu";
-            this.GridPopupMenu.Size = new System.Drawing.Size(166, 76);
+            this.GridPopupMenu.Size = new System.Drawing.Size(181, 192);
             // 
             // GridPopupPlay
             // 
@@ -212,7 +222,7 @@
             this.GridPopupPlayNewPlaylist});
             this.GridPopupPlay.Name = "GridPopupPlay";
             this.GridPopupPlay.Size = new System.Drawing.Size(165, 22);
-            this.GridPopupPlay.Text = "&Play";
+            this.GridPopupPlay.Text = "Pl&ay";
             // 
             // GridPopupPlayAddToQueue
             // 
@@ -226,22 +236,62 @@
             this.GridPopupPlayNewPlaylist.Size = new System.Drawing.Size(148, 22);
             this.GridPopupPlayNewPlaylist.Text = "&New Playlist";
             // 
-            // GridPopupMoreActions
-            // 
-            this.GridPopupMoreActions.Name = "GridPopupMoreActions";
-            this.GridPopupMoreActions.Size = new System.Drawing.Size(165, 22);
-            this.GridPopupMoreActions.Text = "&File Operations...";
-            // 
             // toolStripMenuItem6
             // 
             this.toolStripMenuItem6.Name = "toolStripMenuItem6";
             this.toolStripMenuItem6.Size = new System.Drawing.Size(162, 6);
             // 
+            // GridPopupCut
+            // 
+            this.GridPopupCut.Image = global::TagScanner.Properties.Resources.CutHS;
+            this.GridPopupCut.Name = "GridPopupCut";
+            this.GridPopupCut.ShortcutKeyDisplayString = "^X";
+            this.GridPopupCut.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.X)));
+            this.GridPopupCut.Size = new System.Drawing.Size(180, 22);
+            this.GridPopupCut.Text = "Cu&t";
+            // 
+            // GridPopupCopy
+            // 
+            this.GridPopupCopy.Image = global::TagScanner.Properties.Resources.CopyHS;
+            this.GridPopupCopy.Name = "GridPopupCopy";
+            this.GridPopupCopy.ShortcutKeyDisplayString = "^C";
+            this.GridPopupCopy.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.C)));
+            this.GridPopupCopy.Size = new System.Drawing.Size(180, 22);
+            this.GridPopupCopy.Text = "&Copy";
+            // 
+            // GridPopupPaste
+            // 
+            this.GridPopupPaste.Image = global::TagScanner.Properties.Resources.PasteHS;
+            this.GridPopupPaste.Name = "GridPopupPaste";
+            this.GridPopupPaste.ShortcutKeyDisplayString = "^V";
+            this.GridPopupPaste.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.V)));
+            this.GridPopupPaste.Size = new System.Drawing.Size(180, 22);
+            this.GridPopupPaste.Text = "&Paste";
+            // 
+            // GridPopupDelete
+            // 
+            this.GridPopupDelete.Image = global::TagScanner.Properties.Resources.Delete;
+            this.GridPopupDelete.ImageTransparentColor = System.Drawing.Color.White;
+            this.GridPopupDelete.Name = "GridPopupDelete";
+            this.GridPopupDelete.Size = new System.Drawing.Size(165, 22);
+            this.GridPopupDelete.Text = "&Delete";
+            // 
+            // toolStripMenuItem14
+            // 
+            this.toolStripMenuItem14.Name = "toolStripMenuItem14";
+            this.toolStripMenuItem14.Size = new System.Drawing.Size(162, 6);
+            // 
             // GridPopupTags
             // 
             this.GridPopupTags.Name = "GridPopupTags";
             this.GridPopupTags.Size = new System.Drawing.Size(165, 22);
-            this.GridPopupTags.Text = "Select &Columns...";
+            this.GridPopupTags.Text = "&Select Columns...";
+            // 
+            // GridPopupMoreActions
+            // 
+            this.GridPopupMoreActions.Name = "GridPopupMoreActions";
+            this.GridPopupMoreActions.Size = new System.Drawing.Size(165, 22);
+            this.GridPopupMoreActions.Text = "&File Operations...";
             // 
             // FilterGroupBox
             // 
@@ -640,8 +690,7 @@
             this.EditDelete.Image = global::TagScanner.Properties.Resources.Delete;
             this.EditDelete.ImageTransparentColor = System.Drawing.Color.White;
             this.EditDelete.Name = "EditDelete";
-            this.EditDelete.ShortcutKeyDisplayString = "Del";
-            this.EditDelete.ShortcutKeys = System.Windows.Forms.Keys.Delete;
+            this.EditDelete.ShortcutKeyDisplayString = "";
             this.EditDelete.Size = new System.Drawing.Size(180, 22);
             this.EditDelete.Text = "&Delete";
             // 
@@ -1297,6 +1346,11 @@
         public System.Windows.Forms.ContextMenuStrip RecentFolderPopupMenu;
         public System.Windows.Forms.ToolStripMenuItem tbAddRecentLibrary;
         private System.Windows.Forms.ToolStripSeparator toolStripMenuItem13;
+        public System.Windows.Forms.ToolStripMenuItem GridPopupCut;
+        public System.Windows.Forms.ToolStripMenuItem GridPopupCopy;
+        public System.Windows.Forms.ToolStripMenuItem GridPopupPaste;
+        public System.Windows.Forms.ToolStripMenuItem GridPopupDelete;
+        private System.Windows.Forms.ToolStripSeparator toolStripMenuItem14;
     }
 }
 

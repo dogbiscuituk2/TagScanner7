@@ -61,6 +61,11 @@
                 View.AddMenu.DropDownOpening += Menu_DropDownOpening;
                 View.tbAdd.DropDownOpening += Menu_DropDownOpening;
 
+                View.FileReopen.DropDownOpening += FileReopen_DropDownOpening;
+                View.tbReopen.DropDownOpening += FileReopen_DropDownOpening;
+                View.AddRecentLibrary.DropDownOpening += AddRecentLibrary_DropDownOpening;
+                View.tbAddRecentLibrary.DropDownOpening += AddRecentLibrary_DropDownOpening;
+
                 View.FileNew.Click += FileNewLibrary_Click;
                 View.tbNewLibrary.Click += FileNewLibrary_Click;
                 View.tbNew.ButtonClick += FileNewLibrary_Click;
@@ -82,12 +87,16 @@
 
                 View.EditCut.Click += EditCut_Click;
                 View.tbCut.Click += EditCut_Click;
+                View.GridPopupCut.Click += EditCut_Click;
                 View.EditCopy.Click += EditCopy_Click;
                 View.tbCopy.Click += EditCopy_Click;
+                View.GridPopupCopy.Click += EditCopy_Click;
                 View.EditPaste.Click += EditPaste_Click;
                 View.tbPaste.Click += EditPaste_Click;
+                View.GridPopupPaste.Click += EditPaste_Click;
                 View.EditDelete.Click += EditDelete_Click;
                 View.tbDelete.Click += EditDelete_Click;
+                View.GridPopupDelete.Click += EditDelete_Click;
 
                 View.EditSelectAll.Click += EditSelectAll_Click;
                 View.EditInvertSelection.Click += EditInvertSelection_Click;
@@ -101,8 +110,6 @@
                 View.AddFolder.Click += AddFolder_Click;
                 View.tbAddFolder.Click += AddFolder_Click;
                 View.tbAdd.ButtonClick += AddFolder_Click;
-                View.AddLibrary.Click += AddLibrary_Click;
-                View.tbAddLibrary.Click += AddLibrary_Click;
                 View.tbAdd.DropDownOpening += TbAdd_DropDownOpening;
 
                 View.tbAddRecentFolder.DropDown = View.AddRecentFolder.DropDown;
@@ -145,6 +152,8 @@
             set => MruLibraryController.FilePath = value;
         }
 
+        private bool ResetLibrary;
+
         private Selection Selection => LibraryGridController.Selection;
 
         #endregion
@@ -152,7 +161,7 @@
         #region Methods
 
         public void EnablePaste(bool enable) =>
-            View.EditPaste.Enabled = View.tbPaste.Enabled = enable;
+            View.EditPaste.Enabled = View.tbPaste.Enabled = View.GridPopupPaste.Enabled = enable;
 
         public void UpdateLocalUI()
         {
@@ -162,14 +171,15 @@
             View.FileReopen.Enabled = View.tbReopen.Enabled =
                 View.AddRecentLibrary.Enabled = View.tbAddRecentLibrary.Enabled =
                 View.RecentLibraryPopupMenu.Items.Count > 0;
-            var enabled = CommandProcessor.IsModified && FilePath.IsValidFilePath();
+            var enabled = CommandProcessor.IsModified;
             View.FileSave.Enabled = View.tbSaveLibrary.Enabled = enabled;
             View.AddRecentFolder.Enabled = View.tbAddRecentFolder.Enabled =
                 View.RecentFolderPopupMenu.Items.Count > 0;
             // Clipboard Menu Items
-            View.EditCut.Enabled = View.tbCut.Enabled =
-                View.EditCopy.Enabled = View.tbCopy.Enabled =
-                View.EditDelete.Enabled = View.tbDelete.Enabled = Selection.Tracks.Any();
+            View.EditCut.Enabled = View.tbCut.Enabled = View.GridPopupCut.Enabled =
+                View.EditCopy.Enabled = View.tbCopy.Enabled = View.GridPopupCopy.Enabled =
+                View.EditDelete.Enabled = View.tbDelete.Enabled = View.GridPopupDelete.Enabled =
+                Selection.Tracks.Any();
             // Property Grid
             View.PropertyGrid.SelectedObject = LibraryGridController.Selection;
         }
@@ -215,6 +225,7 @@
 
         private void FileNewWindow_Click(object sender, EventArgs e) => AppController.NewWindow();
         private void FileOpen_Click(object sender, EventArgs e) => MruLibraryController.Open();
+        private void FileReopen_DropDownOpening(object sender, EventArgs e) => MruLibraryController.ResetLibrary = true;
         private void FileSave_Click(object sender, EventArgs e) => MruLibraryController.Save();
         private void FileSaveAs_Click(object sender, EventArgs e) => MruLibraryController.SaveAs();
         private void FileClose_Click(object sender, EventArgs e) => View.Close();
@@ -244,7 +255,7 @@
 
         private void AddMedia_Click(object sender, EventArgs e) => MediaController.AddFiles();
         private void AddFolder_Click(object sender, EventArgs e) => MediaController.AddFolder();
-        private void AddLibrary_Click(object sender, EventArgs e) => MruLibraryController.AddLibrary();
+        private void AddRecentLibrary_DropDownOpening(object sender, EventArgs e) => MruLibraryController.ResetLibrary = false;
         private void TbAdd_DropDownOpening(object sender, EventArgs e) => View.tbAddRecentFolder.Enabled = View.AddRecentFolder.Enabled;
 
         #endregion

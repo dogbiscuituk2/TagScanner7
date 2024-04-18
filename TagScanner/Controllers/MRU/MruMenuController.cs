@@ -28,6 +28,12 @@
 
         #endregion
 
+        #region Properties
+
+        public bool ResetLibrary { get; set; }
+
+        #endregion
+
         #region Methods
 
         protected override void AddItem(string item)

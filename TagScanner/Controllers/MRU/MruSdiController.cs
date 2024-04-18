@@ -8,6 +8,7 @@
     using Models;
     using Properties;
     using Streaming;
+    using Utils;
 
     public abstract class MruSdiController : MruMenuController
     {
@@ -38,7 +39,7 @@
 
         protected CommandProcessor CommandProcessor => LibraryFormController.CommandProcessor;
         protected LibraryFormController LibraryFormController => (LibraryFormController)Parent;
-        protected Model Model;
+        protected Model Model => LibraryFormController.Model;
 
         private string _filePath = string.Empty;
         private readonly OpenFileDialog _openFileDialog;
@@ -47,27 +48,6 @@
         #endregion
 
         #region Methods
-
-        private bool AddFromFile(string filePath, StreamFormat format)
-        {
-            using (var stream = new FileStream(filePath, FileMode.Open, FileAccess.Read))
-                if (!AddFromStream(stream, format))
-                    return false;
-            FilePath = filePath;
-            AddItem(filePath);
-            return true;
-        }
-
-        protected abstract bool AddFromStream(Stream stream, StreamFormat format);
-
-        public bool AddLibrary()
-        {
-            if (_openFileDialog.ShowDialog(Owner) != DialogResult.OK)
-                return false;
-            var fileName = _openFileDialog.FileName;
-            var format = fileName.GetStreamFormat();
-            return AddFromFile(fileName, format);
-        }
 
         public bool Clear()
         {
@@ -126,7 +106,10 @@
                 RemoveItem(filePath);
         }
 
-        public bool Save() => string.IsNullOrEmpty(FilePath) ? SaveAs() : SaveToFile(FilePath, FilePath.GetStreamFormat());
+        public bool Save() =>
+            !string.IsNullOrEmpty(FilePath) && FilePath.IsValidFilePath()
+            ? SaveToFile(FilePath, FilePath.GetStreamFormat())
+            : SaveAs();
 
         public bool SaveAs()
         {
