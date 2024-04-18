@@ -82,7 +82,7 @@
             else
             {
                 ListCollectionView = new ListCollectionView(Model.Tracks);
-                ClearFilter();
+                //ClearFilter();
                 InitSortsAndGroups();
             }
         }

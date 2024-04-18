@@ -136,7 +136,7 @@
     <Compile Include="Commands\Command.cs" />
     <Compile Include="Commands\TracksEditCommand.cs" />
     <Compile Include="Commands\CommandProcessor.cs" />
-    <Compile Include="Commands\TracksCommand.cs" />
+    <Compile Include="Commands\TracksAddRemoveCommand.cs" />
     <Compile Include="Controllers\FilterController.cs" />
     <Compile Include="Controllers\AppController.cs" />
     <Compile Include="Controllers\Mru\MruController.cs" />
