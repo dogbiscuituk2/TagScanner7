@@ -151,6 +151,9 @@
 
         #region Methods
 
+        public void EnablePaste(bool enable) =>
+            View.EditPaste.Enabled = View.tbPaste.Enabled = enable;
+
         public void UpdateLocalUI()
         {
             // Window Caption

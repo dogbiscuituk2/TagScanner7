@@ -4,8 +4,11 @@
     using System.Collections.Generic;
     using System.Linq;
     using System.Windows.Forms;
+    using WK.Libraries.SharpClipboardNS;
     using Utils;
     using Views;
+    using System.Xml;
+    using System.Xml.Schema;
 
     public static class AppController
     {
@@ -18,6 +21,7 @@
             SplashForm.FormClosing += MainForm_FormClosing;
             NewWindow();
             new SplashController().Run(SplashForm);
+            SplashForm.SharpClipboard.ClipboardChanged += SharpClipboard_ClipboardChanged;
         }
 
         #endregion
@@ -84,6 +88,34 @@
                 CloseWindow(controller);
             }
             return true;
+        }
+
+        #endregion
+
+        #region Events
+
+        private static void SharpClipboard_ClipboardChanged(object sender, SharpClipboard.ClipboardChangedEventArgs e)
+        {
+            var text = Clipboard.GetText();
+            var doc = new XmlDocument();
+            try
+            {
+                doc.LoadXml(text);
+                if (doc.DocumentElement.Name == "ArrayOfTrack")
+                {
+                    EnablePaste(true);
+                    return;
+                }
+            }
+            catch { }
+            EnablePaste(false);
+            return;
+
+            void EnablePaste(bool enable)
+            {
+                foreach (var controller in Controllers)
+                    controller.EnablePaste(enable);
+            }
         }
 
         #endregion

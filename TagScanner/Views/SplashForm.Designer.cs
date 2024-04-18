@@ -28,13 +28,26 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
+            this.SharpClipboard = new WK.Libraries.SharpClipboardNS.SharpClipboard(this.components);
             this.SuspendLayout();
+            // 
+            // SharpClipboard
+            // 
+            this.SharpClipboard.MonitorClipboard = true;
+            this.SharpClipboard.ObservableFormats.All = true;
+            this.SharpClipboard.ObservableFormats.Files = true;
+            this.SharpClipboard.ObservableFormats.Images = true;
+            this.SharpClipboard.ObservableFormats.Others = true;
+            this.SharpClipboard.ObservableFormats.Texts = true;
+            this.SharpClipboard.ObserveLastEntry = true;
+            this.SharpClipboard.Tag = null;
             // 
             // SplashForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 17F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(32, 32);
+            this.ClientSize = new System.Drawing.Size(120, 32);
             this.ControlBox = false;
             this.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
@@ -52,5 +65,7 @@
         }
 
         #endregion
+
+        public WK.Libraries.SharpClipboardNS.SharpClipboard SharpClipboard;
     }
 }
