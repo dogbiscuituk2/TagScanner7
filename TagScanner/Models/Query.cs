@@ -5,6 +5,8 @@
 
     public class Query
     {
+        #region Constructor
+
         public Query(Tag[] tags, Tag[] groups, Tag[] sorts)
         {
             Tags = tags;
@@ -12,20 +14,9 @@
             Sorts = sorts;
         }
 
+        #endregion
+
         public Tag[] Tags, Groups, Sorts;
-
-        public override bool Equals(object obj) => obj is Query query &&
-            Tags.SequenceEqual(query.Tags) &&
-            Groups.SequenceEqual(query.Groups) &&
-            Sorts.SequenceEqual(query.Sorts);
-
-        public override int GetHashCode() =>
-            Tags.GetHashCode() ^
-            Groups.GetHashCode() ^
-            Sorts.GetHashCode();
-
-        public static bool operator ==(Query x, Query y) => x == null ? y == null :  x.Equals(y);
-        public static bool operator !=(Query x, Query y) => !(x == y);
 
         #region Private Fields
 
