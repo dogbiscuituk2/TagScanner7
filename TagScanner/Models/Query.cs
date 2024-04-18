@@ -1,6 +1,7 @@
 ﻿namespace TagScanner.Models
 {
     using System;
+    using System.Linq;
 
     public class Query
     {
@@ -12,6 +13,21 @@
         }
 
         public Tag[] Tags, Groups, Sorts;
+
+        public override bool Equals(object obj) => obj is Query query &&
+            Tags.SequenceEqual(query.Tags) &&
+            Groups.SequenceEqual(query.Groups) &&
+            Sorts.SequenceEqual(query.Sorts);
+
+        public override int GetHashCode() =>
+            Tags.GetHashCode() ^
+            Groups.GetHashCode() ^
+            Sorts.GetHashCode();
+
+        public static bool operator ==(Query x, Query y) => x == null ? y == null :  x.Equals(y);
+        public static bool operator !=(Query x, Query y) => !(x == y);
+
+        #region Private Fields
 
         private const Tag
             album = Tag.Album,
@@ -41,6 +57,10 @@
             SortByNumber = { number },
             SortByTitle = { title, artist, yearAlbum };
 
+        #endregion
+
+        #region Public Fields (depending on previously defined Private Fields)
+
         public static readonly Query
             ByArtistAlbum = new Query(Data1, GroupByArtistAlbum, SortByNumber),
             ByArtist = new Query(Data3, GroupByArtist, SortByAlbum),
@@ -48,5 +68,7 @@
             ByYear = new Query(Data2, GroupByYear, SortByNumber),
             ByGenre = new Query(Data1, GroupByGenre, SortByNumber),
             ByNone = new Query(Data4, GroupByNone, SortByTitle);
+
+        #endregion
     }
 }
