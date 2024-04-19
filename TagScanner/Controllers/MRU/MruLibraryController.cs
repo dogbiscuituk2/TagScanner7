@@ -2,7 +2,9 @@
 {
     using System;
     using System.IO;
+    using System.Linq;
     using System.Windows.Forms;
+    using Commands;
     using Models;
     using Streaming;
 
@@ -45,9 +47,20 @@
             var result = false;
             if (LoadDocument(stream, typeof(Library), format) is Library library)
             {
-                Model.Library = library;
-                foreach (var track in Model.Tracks)
+                var newTracks = library.Tracks;
+                if (!ResetLibrary)
+                {
+                    var oldTracks = Model.Library.Tracks;
+                    newTracks = newTracks.Where(p => oldTracks.FirstOrDefault(q => q.FilePath == p.FilePath) == null).ToList();
+                    if (!newTracks.Any())
+                        return false;
+                }
+                foreach (var track in newTracks)
                     track.Edit += Model.Track_Edit;
+                if (ResetLibrary)
+                    Model.Library = library;
+                else
+                    CommandProcessor.Run(new TracksAddCommand(newTracks));
                 result = true;
             }
             return result;

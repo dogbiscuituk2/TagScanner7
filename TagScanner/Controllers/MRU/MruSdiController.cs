@@ -64,18 +64,19 @@
         protected object LoadDocument(Stream stream, Type documentType, StreamFormat format)
         {
             var result = Streamer.LoadFromStream(stream, documentType, format);
-            if (result != null)
+            if (ResetLibrary && result != null)
                 CommandProcessor.Clear();
             return result;
         }
 
         private bool LoadFromFile(string filePath, StreamFormat format)
         {
-            if (!OnFileLoading()) return false;
+            if (ResetLibrary && !OnFileLoading()) return false;
             using (var stream = new FileStream(filePath, FileMode.Open, FileAccess.Read))
                 if (!LoadFromStream(stream, format))
                     return false;
-            FilePath = filePath;
+            if (ResetLibrary)
+                FilePath = filePath;
             AddItem(filePath);
             return true;
         }
@@ -91,19 +92,20 @@
             return LoadFromFile(fileName, format);
         }
 
-        protected override void Reopen(ToolStripItem menuItem)
+        protected override void Reuse(ToolStripItem menuItem)
         {
             var filePath = menuItem.ToolTipText;
-            if (File.Exists(filePath))
+            if (!File.Exists(filePath))
             {
-                if (SaveIfModified())
-                    LoadFromFile(filePath, filePath.GetStreamFormat());
+                if (MessageBox.Show(Owner,
+                    $"File \"{filePath}\" no longer exists. Remove from menu?",
+                    "Reopen file",
+                    MessageBoxButtons.YesNo) == DialogResult.Yes)
+                    RemoveItem(filePath);
             }
-            else if (MessageBox.Show(Owner,
-                $"File \"{filePath}\" no longer exists. Remove from menu?",
-                "Reopen file",
-                MessageBoxButtons.YesNo) == DialogResult.Yes)
-                RemoveItem(filePath);
+            var format = filePath.GetStreamFormat();
+            if (!ResetLibrary || SaveIfModified())
+                LoadFromFile(filePath, format);
         }
 
         public bool Save() =>

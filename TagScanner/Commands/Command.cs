@@ -3,6 +3,7 @@
     using Models;
     using System.Collections.Generic;
     using System.Linq;
+    using System.Text;
 
     public abstract class Command
     {
@@ -20,18 +21,23 @@
             get
             {
                 IEnumerable<string>
-                    artists = Tracks.Select(p => p.JoinedPerformers).Distinct(),
-                    albums = Tracks.Select(p => p.Album).Distinct();
-
-                return Tracks.Count == 1
-                    ? $"'{Tracks.First().Title}' ({GetDetails()})"
-                    : $"{Tracks.Count} '{GetSummary()}' tracks";
-
-                string GetDetails() => $"{artists.First()} - {albums.First()}";
-
-                string GetSummary() => artists.Count() == 1
-                    ? albums.Count() == 1 ? $"{GetDetails()}" : artists.First()
-                    : albums.Count() == 1 ? albums.First() : "Various Artists";
+                    albums = Tracks.Select(p => p.Album).Distinct(),
+                    artists = Tracks.Select(p => p.JoinedPerformers).Distinct();
+                string
+                    album = albums.First(),
+                    artist = artists.First();
+                bool
+                    sameAlbum = albums.Count() == 1,
+                    sameArtist = artists.Count() == 1;
+                if (Tracks.Count == 1)
+                    return $"'{Tracks.First().Title}' by {artist} (from '{album}')";
+                var s = new StringBuilder($"{Tracks.Count} ");
+                if (sameAlbum)
+                    s.Append($"'{album}' ");
+                s.Append($"tracks by {artist}");
+                if (!sameArtist)
+                    s.Append(", etc.");
+                return s.ToString();
             }
         }
 
