@@ -1,12 +1,13 @@
 ﻿namespace TagScanner.Commands
 {
     using System.Collections.Generic;
+    using System.Linq;
     using Models;
     using Terms;
 
     public class TracksEditCommand : Command
     {
-        public TracksEditCommand(Tag tag, List<Track> tracks, List<object> values) : base()
+        public TracksEditCommand(Tag tag, List<Track> tracks, List<object> values)
         {
             Tag = tag;
             Tracks = tracks;
@@ -14,7 +15,6 @@
         }
 
         public Tag Tag { get; set; }
-        public List<Track> Tracks { get; set; }
         public List<object> Values { get; set; }
 
         public override bool Do(Model model)
@@ -48,11 +48,7 @@
             // model.???
         }
 
-        public override string RedoAction => Action;
-        public override string UndoAction => Action;
-
-        private string Action => $"{Tag.DisplayName()} change";
-
-        public override string ToString() => Action;
+        public override string ToString() =>
+            $"Change {Tag.DisplayName()} {(Values.Distinct().Count() == 1 ? $"to '{Values[0]}' " : string.Empty)}on {Summary}";
     }
 }

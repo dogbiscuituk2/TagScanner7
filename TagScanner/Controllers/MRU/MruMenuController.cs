@@ -28,6 +28,12 @@
 
         #endregion
 
+        #region Properties
+
+        public bool ResetLibrary { get; set; }
+
+        #endregion
+
         #region Methods
 
         protected override void AddItem(string item)
@@ -90,7 +96,7 @@
             RefreshRecentMenu();
         }
 
-        protected abstract void Reopen(ToolStripItem menuItem);
+        protected abstract void Reuse(ToolStripItem menuItem);
 
         private void SetEnabled(bool value)
         {
@@ -104,7 +110,7 @@
 
         #region Event Handlers
 
-        private void OnItemClick(object sender, EventArgs e) => Reopen((ToolStripItem)sender);
+        private void OnItemClick(object sender, EventArgs e) => Reuse((ToolStripItem)sender);
 
         private void OnRecentClear_Click(object sender, EventArgs e)
         {

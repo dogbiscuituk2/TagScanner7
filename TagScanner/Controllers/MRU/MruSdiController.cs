@@ -8,6 +8,7 @@
     using Models;
     using Properties;
     using Streaming;
+    using Utils;
 
     public abstract class MruSdiController : MruMenuController
     {
@@ -38,7 +39,7 @@
 
         protected CommandProcessor CommandProcessor => LibraryFormController.CommandProcessor;
         protected LibraryFormController LibraryFormController => (LibraryFormController)Parent;
-        protected Model Model;
+        protected Model Model => LibraryFormController.Model;
 
         private string _filePath = string.Empty;
         private readonly OpenFileDialog _openFileDialog;
@@ -47,27 +48,6 @@
         #endregion
 
         #region Methods
-
-        private bool AddFromFile(string filePath, StreamFormat format)
-        {
-            using (var stream = new FileStream(filePath, FileMode.Open, FileAccess.Read))
-                if (!AddFromStream(stream, format))
-                    return false;
-            FilePath = filePath;
-            AddItem(filePath);
-            return true;
-        }
-
-        protected abstract bool AddFromStream(Stream stream, StreamFormat format);
-
-        public bool AddLibrary()
-        {
-            if (_openFileDialog.ShowDialog(Owner) != DialogResult.OK)
-                return false;
-            var fileName = _openFileDialog.FileName;
-            var format = fileName.GetStreamFormat();
-            return AddFromFile(fileName, format);
-        }
 
         public bool Clear()
         {
@@ -84,18 +64,19 @@
         protected object LoadDocument(Stream stream, Type documentType, StreamFormat format)
         {
             var result = Streamer.LoadFromStream(stream, documentType, format);
-            if (result != null)
+            if (ResetLibrary && result != null)
                 CommandProcessor.Clear();
             return result;
         }
 
         private bool LoadFromFile(string filePath, StreamFormat format)
         {
-            if (!OnFileLoading()) return false;
+            if (ResetLibrary && !OnFileLoading()) return false;
             using (var stream = new FileStream(filePath, FileMode.Open, FileAccess.Read))
                 if (!LoadFromStream(stream, format))
                     return false;
-            FilePath = filePath;
+            if (ResetLibrary)
+                FilePath = filePath;
             AddItem(filePath);
             return true;
         }
@@ -111,22 +92,26 @@
             return LoadFromFile(fileName, format);
         }
 
-        protected override void Reopen(ToolStripItem menuItem)
+        protected override void Reuse(ToolStripItem menuItem)
         {
             var filePath = menuItem.ToolTipText;
-            if (File.Exists(filePath))
+            if (!File.Exists(filePath))
             {
-                if (SaveIfModified())
-                    LoadFromFile(filePath, filePath.GetStreamFormat());
+                if (MessageBox.Show(Owner,
+                    $"File \"{filePath}\" no longer exists. Remove from menu?",
+                    "Reopen file",
+                    MessageBoxButtons.YesNo) == DialogResult.Yes)
+                    RemoveItem(filePath);
             }
-            else if (MessageBox.Show(Owner,
-                $"File \"{filePath}\" no longer exists. Remove from menu?",
-                "Reopen file",
-                MessageBoxButtons.YesNo) == DialogResult.Yes)
-                RemoveItem(filePath);
+            var format = filePath.GetStreamFormat();
+            if (!ResetLibrary || SaveIfModified())
+                LoadFromFile(filePath, format);
         }
 
-        public bool Save() => string.IsNullOrEmpty(FilePath) ? SaveAs() : SaveToFile(FilePath, FilePath.GetStreamFormat());
+        public bool Save() =>
+            !string.IsNullOrEmpty(FilePath) && FilePath.IsValidFilePath()
+            ? SaveToFile(FilePath, FilePath.GetStreamFormat())
+            : SaveAs();
 
         public bool SaveAs()
         {

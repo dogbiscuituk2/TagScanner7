@@ -6,6 +6,7 @@
     using System.Windows.Forms;
     using Controllers;
     using Models;
+    using TagScanner.Utils;
     using Views;
 
     public class CommandProcessor : Controller
@@ -86,8 +87,8 @@
             View.EditUndo.Enabled = View.tbUndo.Enabled = CanUndo;
             View.EditRedo.Enabled = View.tbRedo.Enabled = CanRedo;
             string
-                undo = CanUndo ? $"Undo {UndoAction}" : "Undo",
-                redo = CanRedo ? $"Redo {RedoAction}" : "Redo";
+                undo = CanUndo ? UndoAction : "Undo",
+                redo = CanRedo ? RedoAction : "Redo";
             View.EditUndo.Text = $"&{undo}";
             View.EditRedo.Text = $"&{redo}";
             View.tbUndo.ToolTipText = $"{undo}";
@@ -110,8 +111,8 @@
         private bool CanRedo => RedoStack.Count > 0;
         private bool CanUndo => UndoStack.Count > 0;
 
-        private string UndoAction => UndoStack.Peek().UndoAction;
-        private string RedoAction => RedoStack.Peek().RedoAction;
+        private string UndoAction => UndoStack.Peek().ToString();
+        private string RedoAction => RedoStack.Peek().ToString();
 
         private void BeginUpdate() { ++UpdateCount; }
 
@@ -156,7 +157,7 @@
             for (int n = 0; n < Math.Min(commands.Length, MaxItems); n++)
             {
                 var command = commands[n];
-                var item = new ToolStripMenuItem(command.ToString(), null, handler) { Tag = command };
+                var item = new ToolStripMenuItem(command.ToString().Escape(), null, handler) { Tag = command };
                 item.MouseEnter += Menu_MouseEnter;
                 item.Paint += Menu_Paint;
                 menuItems.Add(item);

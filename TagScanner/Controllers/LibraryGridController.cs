@@ -82,7 +82,6 @@
             else
             {
                 ListCollectionView = new ListCollectionView(Model.Tracks);
-                ClearFilter();
                 InitSortsAndGroups();
             }
         }
@@ -256,8 +255,7 @@
         {
             if (UpdatingSelectionCount != 0) return;
             InvalidateSelection();
-            var selectionChanged = SelectionChanged;
-            selectionChanged?.Invoke(this, EventArgs.Empty);
+            SelectionChanged?.Invoke(this, EventArgs.Empty);
         }
 
         public void PopupShellContextMenu()

@@ -130,7 +130,7 @@
   <data name="Op2_Not" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Op2_Not.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="WorksAdded" xml:space="preserve">
+  <data name="TracksAdded" xml:space="preserve">
     <value>-- {0:n0} new work(s) will be added to the library file.
 </value>
   </data>
@@ -219,7 +219,7 @@ Continue to synchronize and save?</value>
   <data name="Op_NotEqualTo" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Op_NotEqualTo.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="WorksUpdated" xml:space="preserve">
+  <data name="TracksUpdated" xml:space="preserve">
     <value>-- The contents of the library file will be updated to match the currently embedded ID3 tag data of {0:n0} work(s).
 </value>
   </data>
@@ -241,7 +241,7 @@ Continue to synchronize and save?</value>
   <data name="Op2_Multiply" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Op2_Multiply.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="WorksChanged" xml:space="preserve">
+  <data name="TracksChanged" xml:space="preserve">
     <value>You may synchronise the library file with the ID3 work data in your media prior to saving. If you choose to do this, the following {0:n0} operation(s) will be performed:
 
 </value>
@@ -285,14 +285,14 @@ Continue to synchronize and save?</value>
   <data name="Op_Not" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Op_Not.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="WorksDeleted" xml:space="preserve">
+  <data name="TracksDeleted" xml:space="preserve">
     <value>-- The previously loaded ID3 tag data of {0:n0} missing work(s) will be removed from the library file.
 </value>
   </data>
   <data name="Add_Recent_Folder" xml:space="preserve">
     <value>Add Recent Folder</value>
   </data>
-  <data name="WorksPending" xml:space="preserve">
+  <data name="TracksPending" xml:space="preserve">
     <value>-- The embedded ID3 tag data of {0:n0} work(s) will be overwritten to match the current contents of the library file.
 </value>
   </data>

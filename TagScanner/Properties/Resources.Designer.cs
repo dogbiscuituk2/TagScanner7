@@ -1444,6 +1444,57 @@ namespace TagScanner.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to -- {0:n0} new work(s) will be added to the library file.
+        ///.
+        /// </summary>
+        internal static string TracksAdded {
+            get {
+                return ResourceManager.GetString("TracksAdded", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to You may synchronise the library file with the ID3 work data in your media prior to saving. If you choose to do this, the following {0:n0} operation(s) will be performed:
+        ///
+        ///.
+        /// </summary>
+        internal static string TracksChanged {
+            get {
+                return ResourceManager.GetString("TracksChanged", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to -- The previously loaded ID3 tag data of {0:n0} missing work(s) will be removed from the library file.
+        ///.
+        /// </summary>
+        internal static string TracksDeleted {
+            get {
+                return ResourceManager.GetString("TracksDeleted", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to -- The embedded ID3 tag data of {0:n0} work(s) will be overwritten to match the current contents of the library file.
+        ///.
+        /// </summary>
+        internal static string TracksPending {
+            get {
+                return ResourceManager.GetString("TracksPending", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to -- The contents of the library file will be updated to match the currently embedded ID3 tag data of {0:n0} work(s).
+        ///.
+        /// </summary>
+        internal static string TracksUpdated {
+            get {
+                return ResourceManager.GetString("TracksUpdated", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
         internal static System.Drawing.Bitmap Views_7953_32 {
@@ -1460,57 +1511,6 @@ namespace TagScanner.Properties {
             get {
                 object obj = ResourceManager.GetObject("WebInsertHyperlinkHS", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to -- {0:n0} new track(s) will be added to the library file.
-        ///.
-        /// </summary>
-        internal static string TracksAdded {
-            get {
-                return ResourceManager.GetString("TracksAdded", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to You may synchronise the library file with the ID3 track data in your media prior to saving. If you choose to do this, the following {0:n0} operation(s) will be performed:
-        ///
-        ///.
-        /// </summary>
-        internal static string TracksChanged {
-            get {
-                return ResourceManager.GetString("TracksChanged", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to -- The previously loaded ID3 tag data of {0:n0} missing track(s) will be removed from the library file.
-        ///.
-        /// </summary>
-        internal static string TracksDeleted {
-            get {
-                return ResourceManager.GetString("TracksDeleted", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to -- The embedded ID3 tag data of {0:n0} track(s) will be overwritten to match the current contents of the library file.
-        ///.
-        /// </summary>
-        internal static string TracksPending {
-            get {
-                return ResourceManager.GetString("TracksPending", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to -- The contents of the library file will be updated to match the currently embedded ID3 tag data of {0:n0} track(s).
-        ///.
-        /// </summary>
-        internal static string TracksUpdated {
-            get {
-                return ResourceManager.GetString("TracksUpdated", resourceCulture);
             }
         }
         

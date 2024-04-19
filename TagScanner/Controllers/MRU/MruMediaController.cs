@@ -65,7 +65,7 @@
 
         private static string MakeItem(string folderPath, string filter) => string.Concat(folderPath, '|', filter);
 
-        protected override void Reopen(ToolStripItem menuItem)
+        protected override void Reuse(ToolStripItem menuItem)
         {
             var item = menuItem.Tag.ToString();
             var itemParts = item.Split('|');
