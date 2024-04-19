@@ -45,7 +45,7 @@
 
         protected void PropertyChanged()
         {
-            // model.???
+            return;
         }
 
         public override string ToString() =>

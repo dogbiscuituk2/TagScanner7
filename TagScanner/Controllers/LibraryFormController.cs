@@ -152,8 +152,6 @@
             set => MruLibraryController.FilePath = value;
         }
 
-        private bool ResetLibrary;
-
         private Selection Selection => LibraryGridController.Selection;
 
         #endregion
@@ -247,7 +245,7 @@
         #region View
 
         private void ViewWindow_DropDownOpening(object sender, EventArgs e) => AppController.PopulateWindowMenu(View.WindowMenu);
-        private void ViewRefresh_Click(object sender, EventArgs e) => MediaController.Rescan();
+        private void ViewRefresh_Click(object sender, EventArgs e) { }
 
         #endregion
 

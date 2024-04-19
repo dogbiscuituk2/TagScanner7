@@ -60,7 +60,7 @@
                 if (ResetLibrary)
                     Model.Library = library;
                 else
-                    CommandProcessor.Run(new TracksAddCommand(newTracks));
+                    CommandProcessor.Run(new TracksAddCommand(newTracks), spoof: false);
                 result = true;
             }
             return result;

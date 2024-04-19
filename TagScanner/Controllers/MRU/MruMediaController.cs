@@ -80,11 +80,13 @@
                 RemoveItem(item);
         }
 
+        /*
         public void Rescan()
         {
             foreach (var folderParts in Model.Folders.Select(folder => folder.Split('|')))
                 AddFolder(folderParts[0], folderParts[1]);
         }
+        */
 
         #endregion
     }

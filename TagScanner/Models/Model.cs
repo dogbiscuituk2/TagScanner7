@@ -19,7 +19,7 @@
             }
         }
 
-        public List<string> Folders => Library.Folders;
+        //public List<string> Folders => Library.Folders;
         public List<Track> Tracks => Library.Tracks;
 
         public int AddFiles(string[] filePaths, IProgress<ProgressEventArgs> progress) => ReadTracks(p => p.AddTracks(filePaths), progress);
@@ -27,8 +27,8 @@
         public int AddFolder(string folderPath, string fileFilter, IProgress<ProgressEventArgs> progress)
         {
             var folder = string.Concat(folderPath, '|', fileFilter);
-            if (!Folders.Contains(folder))
-                Folders.Add(folder);
+            /*if (!Folders.Contains(folder))
+                Folders.Add(folder);*/
             return ReadTracks(p => p.AddFolder(folderPath, fileFilter.Split(';')), progress);
         }
 
