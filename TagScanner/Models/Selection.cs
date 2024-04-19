@@ -11,13 +11,13 @@
     {
         #region Constructor
 
-        public Selection(IEnumerable<Track> tracks) => Tracks = tracks;
+        public Selection(IEnumerable<Track> tracks) => Tracks = tracks.ToList();
 
         #endregion
 
         #region Public Fields
 
-        public readonly IEnumerable<Track> Tracks;
+        public readonly List<Track> Tracks;
 
         public const string
             Category = "Category",
@@ -1926,13 +1926,10 @@
 
         #region Events
 
-        public event EventHandler<TracksEditEventArgs> TracksEdit;
+        public event EventHandler<SelectionEditEventArgs> TracksEdit;
 
-        protected virtual void OnTracksEdit(Tag tag, List<object> values)
-        {
-            var tracksEdit = TracksEdit;
-            tracksEdit?.Invoke(this, new TracksEditEventArgs(tag, Tracks.ToList(), values));
-        }
+        protected virtual void OnTracksEdit(Tag tag, List<object> values) =>
+            TracksEdit?.Invoke(this, new SelectionEditEventArgs(this, tag, values));
 
         #endregion
 

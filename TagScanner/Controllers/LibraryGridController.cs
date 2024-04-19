@@ -282,8 +282,8 @@
 
         private void Grid_SelectionChanged(object sender, SelectionChangedEventArgs e) => OnSelectionChanged();
 
-        private void Selection_TracksEdit(object sender, TracksEditEventArgs e) =>
-            LibraryFormController.TracksEdit(e.Tag, e.Tracks, e.Values);
+        private void Selection_TracksEdit(object sender, SelectionEditEventArgs e) =>
+            LibraryFormController.TracksEdit(e.Selection, e.Tag, e.Values);
 
         #endregion
 

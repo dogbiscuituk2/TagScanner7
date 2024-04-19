@@ -156,8 +156,8 @@
     </Compile>
     <Compile Include="Menus\ShellContextMenu.cs" />
     <Compile Include="Models\Query.cs" />
-    <Compile Include="Models\TracksEventArgs.cs" />
-    <Compile Include="Models\TracksEditEventArgs.cs" />
+    <Compile Include="Models\SelectionEventArgs.cs" />
+    <Compile Include="Models\SelectionEditEventArgs.cs" />
     <Compile Include="Streaming\StreamFormat.cs" />
     <Compile Include="Controls\TermTreeNode.cs" />
     <Compile Include="Controls\TermTree.cs">
@@ -219,7 +219,6 @@
     <Compile Include="Models\ColumnAttribute.cs" />
     <Compile Include="Models\TagType.cs" />
     <Compile Include="Models\UsesAttribute.cs" />
-    <Compile Include="Models\Library.cs" />
     <Compile Include="Models\TagInfo.cs" />
     <Compile Include="Models\FileStatus.cs" />
     <Compile Include="Terms\TermList.cs" />

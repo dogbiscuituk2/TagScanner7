@@ -33,8 +33,6 @@
                     progressBar.Maximum = e.Count;
                     progressBar.Value = e.Index;
                     statusLine.Text = Path.GetDirectoryName(e.Path);
-                    if (e.Track != null)
-                        e.Track.Edit += Model.Track_Edit;
                 }
                 else
                 {

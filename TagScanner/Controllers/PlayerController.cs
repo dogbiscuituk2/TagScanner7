@@ -41,16 +41,15 @@
 
         private void PlaySelection(bool newPlaylist)
         {
-            var tracks = LibraryFormController.LibraryGridController.Selection.Tracks;
-            var tracksArray = tracks as Track[] ?? tracks.ToArray();
-            if (!tracksArray.Any())
+            var tracks = LibraryFormController.LibraryGridController.Selection.Tracks.ToArray();
+            if (!tracks.Any())
                 return;
             if (newPlaylist)
             {
                 _currentPlaylist.Clear();
                 Player.currentPlaylist = Player.newPlaylist(string.Empty, string.Empty);
             }
-            foreach (var track in tracksArray)
+            foreach (var track in tracks)
             {
                 _currentPlaylist.Add(track);
                 Player.currentPlaylist.appendItem(Player.newMedia(track.FilePath));

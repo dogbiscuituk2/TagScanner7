@@ -8,8 +8,8 @@
     {
         #region Public Interface
 
-        private Library _library = new Library();
-        public Library Library
+        private Selection _library = new Selection(new List<Track>());
+        public Selection Library
         {
             get => _library;
             set
@@ -27,8 +27,6 @@
         public int AddFolder(string folderPath, string fileFilter, IProgress<ProgressEventArgs> progress)
         {
             var folder = string.Concat(folderPath, '|', fileFilter);
-            /*if (!Folders.Contains(folder))
-                Folders.Add(folder);*/
             return ReadTracks(p => p.AddFolder(folderPath, fileFilter.Split(';')), progress);
         }
 
@@ -43,7 +41,7 @@
 
         public void Clear()
         {
-            Library.Clear();
+            Library.Tracks.Clear();
             OnTracksChanged();
         }
 
@@ -60,14 +58,8 @@
             }
         }
 
-        public void Track_Edit(object sender, TracksEditEventArgs e)
-        {
-            var trackEdit = TracksEdit;
-            trackEdit?.Invoke(sender, e);
-        }
-
-        public event EventHandler<TracksEventArgs> TracksAdd;
-        public event EventHandler<TracksEditEventArgs> TracksEdit;
+        public event EventHandler<SelectionEventArgs> TracksAdd;
+        public event EventHandler<SelectionEditEventArgs> TracksEdit;
         public event EventHandler TracksChanged;
 
         #endregion
@@ -90,10 +82,9 @@
             return true;
         }
 
-        protected virtual void OnTracksAdd(List<Track> tracks)
+        protected virtual void OnTracksAdd(Selection selection)
         {
-            var tracksAdd = TracksAdd;
-            tracksAdd?.Invoke(this, new TracksEventArgs(tracks));
+            TracksAdd?.Invoke(this, new SelectionEventArgs(selection));
             OnTracksChanged();
         }
 
@@ -111,7 +102,7 @@
             var tracks = reader.Tracks;
             var count = tracks.Count;
             if (count > 0)
-                OnTracksAdd(tracks);
+                OnTracksAdd(new Selection(tracks));
             return tracks.Count;
         }
 

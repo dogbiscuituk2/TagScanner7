@@ -31,14 +31,8 @@
 
         private bool FileExists => File.Exists(FilePath);
 
-        [NonSerialized, XmlIgnore]
-        public bool IsModified;
-
-        [NonSerialized, XmlIgnore]
-        public bool IsNew;
-
-        [field: NonSerialized]
-        public event EventHandler<TracksEditEventArgs> Edit;
+        [NonSerialized, XmlIgnore] public bool IsModified;
+        [NonSerialized, XmlIgnore] public bool IsNew;
 
         #endregion
 
@@ -1168,7 +1162,10 @@
         private void Set<T>(ref T field, T value, bool condition)
         {
             if (condition)
+            {
                 field = value;
+                IsModified = true;
+            }
         }
 
         private void SetUserValue(string name, string value)

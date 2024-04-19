@@ -182,28 +182,28 @@
             View.PropertyGrid.SelectedObject = LibraryGridController.Selection;
         }
 
-        public void TracksAdd(List<Track> tracks)
+        public void TracksAdd(Selection selection)
         {
             if (View.InvokeRequired)
-                View.Invoke(new Action<List<Track>>(TracksAdd), tracks);
+                View.Invoke(new Action<Selection>(TracksAdd), selection);
             else
-                CommandProcessor.Run(new TracksAddCommand(tracks), spoof: false);
+                CommandProcessor.Run(new TracksAddCommand(selection), spoof: false);
         }
 
-        public void TracksEdit(Tag tag, List<Track> tracks, List<object> values)
+        public void TracksEdit(Selection selection, Tag tag, List<object> values)
         {
             if (View.InvokeRequired)
-                View.Invoke(new Action<Tag, List<Track>, List<object>>(TracksEdit), tag, tracks, values);
+                View.Invoke(new Action<Selection, Tag, List<object>>(TracksEdit), tag, selection, values);
             else
-                CommandProcessor.Run(new TracksEditCommand(tag, tracks, values), spoof: true);
+                CommandProcessor.Run(new TracksEditCommand(selection, tag, values), spoof: true);
         }
 
-        public void TracksRemove(List<Track> tracks)
+        public void TracksRemove(Selection selection)
         {
             if (View.InvokeRequired)
-                View.Invoke(new Action<List<Track>>(TracksRemove), tracks);
+                View.Invoke(new Action<Selection>(TracksRemove), selection);
             else
-                CommandProcessor.Run(new TracksRemoveCommand(tracks), spoof: false);
+                CommandProcessor.Run(new TracksRemoveCommand(selection), spoof: false);
         }
 
         #endregion
@@ -284,8 +284,8 @@
 
         private void LibraryGridController_SelectionChanged(object sender, EventArgs e) => UpdateUI();
         private void Model_ModifiedChanged(object sender, EventArgs e) => ModifiedChanged();
-        private void Model_TracksAdd(object sender, TracksEventArgs e) => TracksAdd(e.Tracks);
-        private void Model_TracksEdit(object sender, TracksEditEventArgs e) => TracksEdit(e.Tag, e.Tracks, e.Values);
+        private void Model_TracksAdd(object sender, SelectionEventArgs e) => TracksAdd(e.Selection);
+        private void Model_TracksEdit(object sender, SelectionEditEventArgs e) => TracksEdit(e.Selection, e.Tag, e.Values);
         private void PersistenceController_FileSaving(object sender, CancelEventArgs e) => e.Cancel = !ContinueSaving();
         private void View_FormClosed(object sender, FormClosedEventArgs e) => AppController.CloseWindow(this);
 
@@ -346,7 +346,7 @@
 
         private void Cut() { Copy(); Delete(); }
 
-        private void Delete() => TracksRemove(Selection.Tracks.ToList());
+        private void Delete() => TracksRemove(Selection);
 
         private void ModifiedChanged() => UpdateUI();
 
@@ -371,9 +371,9 @@
             {
                 try
                 {
-                    var value = Streamer.LoadFromStream(stream, typeof(List<Track>), StreamFormat.Xml);
-                    if (value is List<Track> tracks)
-                        TracksAdd(tracks);
+                    var value = Streamer.LoadFromStream(stream, typeof(Selection), StreamFormat.Xml);
+                    if (value is Selection selection)
+                        TracksAdd(selection);
                 }
                 catch (Exception exception)
                 {

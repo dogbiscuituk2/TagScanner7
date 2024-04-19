@@ -44,26 +44,19 @@
 
         protected override bool LoadFromStream(Stream stream, StreamFormat format)
         {
-            var result = false;
-            if (LoadDocument(stream, typeof(Library), format) is Library library)
+            if (!(LoadDocument(stream, typeof(Selection), format) is Selection selection))
+                return false;
+            if (ResetLibrary)
             {
-                var newTracks = library.Tracks;
-                if (!ResetLibrary)
-                {
-                    var oldTracks = Model.Library.Tracks;
-                    newTracks = newTracks.Where(p => oldTracks.FirstOrDefault(q => q.FilePath == p.FilePath) == null).ToList();
-                    if (!newTracks.Any())
-                        return false;
-                }
-                foreach (var track in newTracks)
-                    track.Edit += Model.Track_Edit;
-                if (ResetLibrary)
-                    Model.Library = library;
-                else
-                    CommandProcessor.Run(new TracksAddCommand(newTracks), spoof: false);
-                result = true;
+                Model.Library = selection;
+                return true;
             }
-            return result;
+            var tracks = Model.Library.Tracks;
+            selection.Tracks.RemoveAll(p => tracks.Any(q => q.FilePath == p.FilePath));
+            if (!selection.Tracks.Any())
+                return false;
+            CommandProcessor.Run(new TracksAddCommand(selection), spoof: false);
+            return true;
         }
 
         protected override bool SaveToStream(Stream stream, StreamFormat format) => SaveDocument(stream, Model.Library, format);
