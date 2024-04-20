@@ -5,7 +5,6 @@
     using System.ComponentModel;
     using System.IO;
     using System.Linq;
-    using System.Reflection;
     using System.Text.Json.Serialization;
     using System.Xml;
     using System.Xml.Serialization;
@@ -889,8 +888,17 @@
 
         #region Public Methods
 
-        public object GetPropertyValue(Tag tag) => GetPropertyInfo(tag).GetValue(this);
-        public void SetPropertyValue(Tag tag, object value) => GetPropertyInfo(tag).SetValue(this, value);
+        public bool ChangeValue(Tag tag, ref object value)
+        {
+            var oldValue = GetPropertyValue(tag);
+            var result = !Equals(oldValue, value);
+            if (result)
+            {
+                SetPropertyValue(tag, value);
+                value = oldValue;
+            }
+            return result;
+        }
 
         public void Load()
         {
@@ -1142,9 +1150,134 @@
 
         #region Get / Set Property Values
 
-        private string Get(string field) => field /* ?? string.Empty */ ;
-        private T[] Get<T>(T[] field) => field /* ?? Array.Empty<T>() */ ;
-        private static PropertyInfo GetPropertyInfo(Tag tag) => typeof(Track).GetProperty($"{tag}");
+        private string Get(string field) => field;
+        private T[] Get<T>(T[] field) => field;
+
+        private object GetPropertyValue(Tag tag)
+        {
+            switch (tag)
+            {
+                case Tag.Album: return Album;
+                case Tag.AlbumArtists: return AlbumArtists;
+                case Tag.AlbumArtistsCount: return AlbumArtistsCount;
+                case Tag.AlbumArtistsSort: return AlbumArtistsSort;
+                case Tag.AlbumArtistsSortCount: return AlbumArtistsSortCount;
+                case Tag.AlbumGain: return AlbumGain;
+                case Tag.AlbumPeak: return AlbumPeak;
+                case Tag.AlbumSort: return AlbumSort;
+                case Tag.AmazonId: return AmazonId;
+                case Tag.Artists: return Artists;
+                case Tag.ArtistsCount: return ArtistsCount;
+                case Tag.AudioBitrate: return AudioBitrate;
+                case Tag.AudioChannels: return AudioChannels;
+                case Tag.AudioSampleRate: return AudioSampleRate;
+                case Tag.BeatsPerMinute: return BeatsPerMinute;
+                case Tag.BitsPerSample: return BitsPerSample;
+                case Tag.Century: return Century;
+                case Tag.Codecs: return Codecs;
+                case Tag.Comment: return Comment;
+                case Tag.Composers: return Composers;
+                case Tag.ComposersCount: return ComposersCount;
+                case Tag.ComposersSort: return ComposersSort;
+                case Tag.ComposersSortCount: return ComposersSortCount;
+                case Tag.Conductor: return Conductor;
+                case Tag.Copyright: return Copyright;
+                case Tag.Decade: return Decade;
+                case Tag.Description: return Description;
+                case Tag.DiscCount: return DiscCount;
+                case Tag.DiscNumber: return DiscNumber;
+                case Tag.DiscOf: return DiscOf;
+                case Tag.DiscTrack: return DiscTrack;
+                case Tag.Duration: return Duration;
+                case Tag.FileAttributes: return FileAttributes;
+                case Tag.FileCreationTime: return FileCreationTime;
+                case Tag.FileCreationTimeUtc: return FileCreationTimeUtc;
+                case Tag.FileExtension: return FileExtension;
+                case Tag.FileLastAccessTime: return FileLastAccessTime;
+                case Tag.FileLastAccessTimeUtc: return FileLastAccessTimeUtc;
+                case Tag.FileLastWriteTime: return FileLastWriteTime;
+                case Tag.FileLastWriteTimeUtc: return FileLastWriteTimeUtc;
+                case Tag.FileName: return FileName;
+                case Tag.FileNameWithoutExtension: return FileNameWithoutExtension;
+                case Tag.FilePath: return FilePath;
+                case Tag.FileSize: return FileSize;
+                case Tag.FileStatus: return FileStatus;
+                case Tag.FirstAlbumArtist: return FirstAlbumArtist;
+                case Tag.FirstAlbumArtistSort: return FirstAlbumArtistSort;
+                case Tag.FirstArtist: return FirstArtist;
+                case Tag.FirstComposer: return FirstComposer;
+                case Tag.FirstComposerSort: return FirstComposerSort;
+                case Tag.FirstGenre: return FirstGenre;
+                case Tag.FirstPerformer: return FirstPerformer;
+                case Tag.FirstPerformerSort: return FirstPerformerSort;
+                case Tag.Genres: return Genres;
+                case Tag.GenresCount: return GenresCount;
+                case Tag.Grouping: return Grouping;
+                case Tag.ImageAltitude: return ImageAltitude;
+                case Tag.ImageCreator: return ImageCreator;
+                case Tag.ImageDateTime: return ImageDateTime;
+                case Tag.ImageExposureTime: return ImageExposureTime;
+                case Tag.ImageFNumber: return ImageFNumber;
+                case Tag.ImageFocalLength: return ImageFocalLength;
+                case Tag.ImageFocalLengthIn35mmFilm: return ImageFocalLengthIn35mmFilm;
+                case Tag.ImageISOSpeedRatings: return ImageISOSpeedRatings;
+                case Tag.ImageKeywords: return ImageKeywords;
+                case Tag.ImageLatitude: return ImageLatitude;
+                case Tag.ImageLongitude: return ImageLongitude;
+                case Tag.ImageMake: return ImageMake;
+                case Tag.ImageModel: return ImageModel;
+                case Tag.ImageOrientation: return ImageOrientation;
+                case Tag.ImageRating: return ImageRating;
+                case Tag.ImageSoftware: return ImageSoftware;
+                case Tag.InvariantEndPosition: return InvariantEndPosition;
+                case Tag.InvariantStartPosition: return InvariantStartPosition;
+                case Tag.IsClassical: return IsClassical;
+                case Tag.IsEmpty: return IsEmpty;
+                case Tag.JoinedAlbumArtists: return JoinedAlbumArtists;
+                case Tag.JoinedArtists: return JoinedArtists;
+                case Tag.JoinedComposers: return JoinedComposers;
+                case Tag.JoinedGenres: return JoinedGenres;
+                case Tag.JoinedPerformers: return JoinedPerformers;
+                case Tag.JoinedPerformersSort: return JoinedPerformersSort;
+                case Tag.Lyrics: return Lyrics;
+                case Tag.MediaTypes: return MediaTypes;
+                case Tag.Millennium: return Millennium;
+                case Tag.MimeType: return MimeType;
+                case Tag.MusicBrainzArtistId: return MusicBrainzArtistId;
+                case Tag.MusicBrainzDiscId: return MusicBrainzDiscId;
+                case Tag.MusicBrainzReleaseArtistId: return MusicBrainzReleaseArtistId;
+                case Tag.MusicBrainzReleaseCountry: return MusicBrainzReleaseCountry;
+                case Tag.MusicBrainzReleaseId: return MusicBrainzReleaseId;
+                case Tag.MusicBrainzReleaseStatus: return MusicBrainzReleaseStatus;
+                case Tag.MusicBrainzReleaseType: return MusicBrainzReleaseType;
+                case Tag.MusicBrainzTrackId: return MusicBrainzTrackId;
+                case Tag.MusicIpId: return MusicIpId;
+                case Tag.Performers: return Performers;
+                case Tag.PerformersCount: return PerformersCount;
+                case Tag.PerformersSort: return PerformersSort;
+                case Tag.PerformersSortCount: return PerformersSortCount;
+                case Tag.PhotoHeight: return PhotoHeight;
+                case Tag.PhotoQuality: return PhotoQuality;
+                case Tag.PhotoWidth: return PhotoWidth;
+                case Tag.Pictures: return Pictures;
+                case Tag.PicturesCount: return PicturesCount;
+                case Tag.PossiblyCorrupt: return PossiblyCorrupt;
+                case Tag.TagTypes: return TagTypes;
+                case Tag.TagTypesOnDisk: return TagTypesOnDisk;
+                case Tag.Title: return Title;
+                case Tag.TitleSort: return TitleSort;
+                case Tag.TrackCount: return TrackCount;
+                case Tag.TrackGain: return TrackGain;
+                case Tag.TrackNumber: return TrackNumber;
+                case Tag.TrackOf: return TrackOf;
+                case Tag.TrackPeak: return TrackPeak;
+                case Tag.VideoHeight: return VideoHeight;
+                case Tag.VideoWidth: return VideoWidth;
+                case Tag.Year: return Year;
+                case Tag.YearAlbum: return YearAlbum;
+                default: return null;
+            }
+        }
 
         private static string GetNumberOfTotal(int number, int total, int digits)
         {
@@ -1165,6 +1298,111 @@
             {
                 field = value;
                 IsModified = true;
+            }
+        }
+
+        private object SetPropertyValue(Tag tag, object value)
+        {
+            switch (tag)
+            {
+                case Tag.Album: return Album = (string)value;
+                case Tag.AlbumArtists: return AlbumArtists = (string[])value;
+                case Tag.AlbumArtistsSort: return AlbumArtistsSort = (string[])value;
+                case Tag.AlbumGain: return AlbumGain = (string)value;
+                case Tag.AlbumPeak: return AlbumPeak = (string)value;
+                case Tag.AlbumSort: return AlbumSort = (string)value;
+                case Tag.AmazonId: return AmazonId = (string)value;
+                case Tag.Artists: return Artists = (string[])value;
+                case Tag.AudioBitrate: return AudioBitrate = (int)value;
+                case Tag.AudioChannels: return AudioChannels = (int)value;
+                case Tag.AudioSampleRate: return AudioSampleRate = (int)value;
+                case Tag.BeatsPerMinute: return BeatsPerMinute = (int)value;
+                case Tag.BitsPerSample: return BitsPerSample = (int)value;
+                case Tag.Codecs: return Codecs = (string)value;
+                case Tag.Comment: return Comment = (string)value;
+                case Tag.Composers: return Composers = (string[])value;
+                case Tag.ComposersSort: return ComposersSort = (string[])value;
+                case Tag.Conductor: return Conductor = (string)value;
+                case Tag.Copyright: return Copyright = (string)value;
+                case Tag.Description: return Description = (string)value;
+                case Tag.DiscCount: return DiscCount = (int)value;
+                case Tag.DiscNumber: return DiscNumber = (int)value;
+                case Tag.Duration: return Duration = (TimeSpan)value;
+                case Tag.FileAttributes: return FileAttributes = (string)value;
+                case Tag.FileCreationTime: return FileCreationTime = (DateTime)value;
+                case Tag.FileCreationTimeUtc: return FileCreationTimeUtc = (DateTime)value;
+                case Tag.FileLastAccessTime: return FileLastAccessTime = (DateTime)value;
+                case Tag.FileLastAccessTimeUtc: return FileLastAccessTimeUtc = (DateTime)value;
+                case Tag.FileLastWriteTime: return FileLastWriteTime = (DateTime)value;
+                case Tag.FileLastWriteTimeUtc: return FileLastWriteTimeUtc = (DateTime)value;
+                case Tag.FilePath: return FilePath = (string)value;
+                case Tag.FileSize: return FileSize = (long)value;
+                case Tag.FirstAlbumArtist: return FirstAlbumArtist = (string)value;
+                case Tag.FirstAlbumArtistSort: return FirstAlbumArtistSort = (string)value;
+                case Tag.FirstArtist: return FirstArtist = (string)value;
+                case Tag.FirstComposer: return FirstComposer = (string)value;
+                case Tag.FirstComposerSort: return FirstComposerSort = (string)value;
+                case Tag.FirstGenre: return FirstGenre = (string)value;
+                case Tag.FirstPerformer: return FirstPerformer = (string)value;
+                case Tag.FirstPerformerSort: return FirstPerformerSort = (string)value;
+                case Tag.Genres: return Genres = (string[])value;
+                case Tag.Grouping: return Grouping = (string)value;
+                case Tag.ImageAltitude: return ImageAltitude = (double)value;
+                case Tag.ImageCreator: return ImageCreator = (string)value;
+                case Tag.ImageDateTime: return ImageDateTime = (DateTime)value;
+                case Tag.ImageExposureTime: return ImageExposureTime = (double)value;
+                case Tag.ImageFNumber: return ImageFNumber = (double)value;
+                case Tag.ImageFocalLength: return ImageFocalLength = (double)value;
+                case Tag.ImageFocalLengthIn35mmFilm: return ImageFocalLengthIn35mmFilm = (int)value;
+                case Tag.ImageISOSpeedRatings: return ImageISOSpeedRatings = (int)value;
+                case Tag.ImageKeywords: return ImageKeywords = (string[])value;
+                case Tag.ImageLatitude: return ImageLatitude = (double)value;
+                case Tag.ImageLongitude: return ImageLongitude = (double)value;
+                case Tag.ImageMake: return ImageMake = (string)value;
+                case Tag.ImageModel: return ImageModel = (string)value;
+                case Tag.ImageOrientation: return ImageOrientation = (TagLib.Image.ImageOrientation)value;
+                case Tag.ImageRating: return ImageRating = (int)value;
+                case Tag.ImageSoftware: return ImageSoftware = (string)value;
+                case Tag.InvariantEndPosition: return InvariantEndPosition = (long)value;
+                case Tag.InvariantStartPosition: return InvariantStartPosition = (long)value;
+                case Tag.IsEmpty: return IsEmpty = (Logical)value;
+                case Tag.JoinedAlbumArtists: return JoinedAlbumArtists = (string)value;
+                case Tag.JoinedArtists: return JoinedArtists = (string)value;
+                case Tag.JoinedComposers: return JoinedComposers = (string)value;
+                case Tag.JoinedGenres: return JoinedGenres = (string)value;
+                case Tag.JoinedPerformers: return JoinedPerformers = (string)value;
+                case Tag.JoinedPerformersSort: return JoinedPerformersSort = (string)value;
+                case Tag.Lyrics: return Lyrics = (string)value;
+                case Tag.MediaTypes: return MediaTypes = (TagLib.MediaTypes)value;
+                case Tag.MimeType: return MimeType = (string)value;
+                case Tag.MusicBrainzArtistId: return MusicBrainzArtistId = (string)value;
+                case Tag.MusicBrainzDiscId: return MusicBrainzDiscId = (string)value;
+                case Tag.MusicBrainzReleaseArtistId: return MusicBrainzReleaseArtistId = (string)value;
+                case Tag.MusicBrainzReleaseCountry: return MusicBrainzReleaseCountry = (string)value;
+                case Tag.MusicBrainzReleaseId: return MusicBrainzReleaseId = (string)value;
+                case Tag.MusicBrainzReleaseStatus: return MusicBrainzReleaseStatus = (string)value;
+                case Tag.MusicBrainzReleaseType: return MusicBrainzReleaseType = (string)value;
+                case Tag.MusicBrainzTrackId: return MusicBrainzTrackId = (string)value;
+                case Tag.MusicIpId: return MusicIpId = (string)value;
+                case Tag.Performers: return Performers = (string[])value;
+                case Tag.PerformersSort: return PerformersSort = (string[])value;
+                case Tag.PhotoHeight: return PhotoHeight = (int)value;
+                case Tag.PhotoQuality: return PhotoQuality = (int)value;
+                case Tag.PhotoWidth: return PhotoWidth = (int)value;
+                case Tag.Pictures: return Pictures = (Picture[])value;
+                case Tag.PossiblyCorrupt: return PossiblyCorrupt = (Logical)value;
+                case Tag.TagTypes: return TagTypes = (TagLib.TagTypes)value;
+                case Tag.TagTypesOnDisk: return TagTypesOnDisk = (TagLib.TagTypes)value;
+                case Tag.Title: return Title = (string)value;
+                case Tag.TitleSort: return TitleSort = (string)value;
+                case Tag.TrackCount: return TrackCount = (int)value;
+                case Tag.TrackGain: return TrackGain = (string)value;
+                case Tag.TrackNumber: return TrackNumber = (int)value;
+                case Tag.TrackPeak: return TrackPeak = (string)value;
+                case Tag.VideoHeight: return VideoHeight = (int)value;
+                case Tag.VideoWidth: return VideoWidth = (int)value;
+                case Tag.Year: return Year = (int)value;
+                default: return null;
             }
         }
 

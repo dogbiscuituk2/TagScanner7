@@ -16,35 +16,16 @@
         public Tag Tag { get; set; }
         public List<object> Values { get; set; }
 
-        public override bool Do(Model model)
-        {
-            var result = base.Do(model);
-            if (result)
-                PropertyChanged();
-            return result;
-        }
-
         public override bool Run(Model model)
         {
             var result = false;
             for (var index = 0; index < Tracks.Count; index++)
             {
-                var track = Tracks[index];
-                var oldValue = track.GetPropertyValue(Tag);
-                var newValue = Values[index];
-                result |= !Equals(oldValue, newValue);
-                if (result)
-                {
-                    track.SetPropertyValue(Tag, newValue);
-                    Values[index] = oldValue;
-                }
+                var value = Values[index];
+                result |= Tracks[index].ChangeValue(Tag, ref value);
+                Values[index] = value;
             }
             return result;
-        }
-
-        protected void PropertyChanged()
-        {
-            return;
         }
 
         public override string ToString() =>
