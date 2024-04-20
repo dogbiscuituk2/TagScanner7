@@ -143,7 +143,6 @@
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Test.Constants.cs" />
-    <Compile Include="Test.Fields.cs" />
     <Compile Include="Test.AlbumData.cs" />
     <Compile Include="Test.Functions.cs" />
     <Compile Include="Mock.cs" />

@@ -110,6 +110,8 @@
                 View.tbAddMedia.Click += AddMedia_Click;
                 View.AddFolder.Click += AddFolder_Click;
                 View.tbAddFolder.Click += AddFolder_Click;
+                View.AddLibrary.Click += AddLibrary_Click;
+                View.tbAddLibrary.Click += AddLibrary_Click;
                 View.tbAdd.ButtonClick += AddFolder_Click;
                 View.tbAdd.DropDownOpening += TbAdd_DropDownOpening;
 
@@ -254,6 +256,7 @@
 
         private void AddMedia_Click(object sender, EventArgs e) => MediaController.AddFiles();
         private void AddFolder_Click(object sender, EventArgs e) => MediaController.AddFolder();
+        private void AddLibrary_Click(object sender, EventArgs e) => MruLibraryController.AddLibrary();
         private void AddRecentLibrary_DropDownOpening(object sender, EventArgs e) => MruLibraryController.ResetLibrary = false;
         private void TbAdd_DropDownOpening(object sender, EventArgs e) => View.tbAddRecentFolder.Enabled = View.AddRecentFolder.Enabled;
 
