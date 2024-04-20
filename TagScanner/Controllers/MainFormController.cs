@@ -12,7 +12,6 @@
     using Mru;
     using Properties;
     using Streaming;
-    using Terms;
     using Utils;
     using Views;
 

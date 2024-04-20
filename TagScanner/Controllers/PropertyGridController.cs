@@ -4,7 +4,7 @@
     using System.Linq;
     using System.Windows.Forms;
     using Models;
-    using TagScanner.Terms;
+    using Terms;
     using Views;
 
     public class PropertyGridController : Controller
