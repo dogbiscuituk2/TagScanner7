@@ -28,18 +28,18 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.GridElementHost = new System.Windows.Forms.Integration.ElementHost();
-            this.GridPopupMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.GridPopupPlay = new System.Windows.Forms.ToolStripMenuItem();
-            this.GridPopupPlayAddToQueue = new System.Windows.Forms.ToolStripMenuItem();
-            this.GridPopupPlayNewPlaylist = new System.Windows.Forms.ToolStripMenuItem();
+            this.TablePopupMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.TablePopupPlay = new System.Windows.Forms.ToolStripMenuItem();
+            this.TablePopupPlayAddToQueue = new System.Windows.Forms.ToolStripMenuItem();
+            this.TablePopupPlayNewPlaylist = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem6 = new System.Windows.Forms.ToolStripSeparator();
-            this.GridPopupCut = new System.Windows.Forms.ToolStripMenuItem();
-            this.GridPopupCopy = new System.Windows.Forms.ToolStripMenuItem();
-            this.GridPopupPaste = new System.Windows.Forms.ToolStripMenuItem();
-            this.GridPopupDelete = new System.Windows.Forms.ToolStripMenuItem();
+            this.TablePopupCut = new System.Windows.Forms.ToolStripMenuItem();
+            this.TablePopupCopy = new System.Windows.Forms.ToolStripMenuItem();
+            this.TablePopupPaste = new System.Windows.Forms.ToolStripMenuItem();
+            this.TablePopupDelete = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem14 = new System.Windows.Forms.ToolStripSeparator();
-            this.GridPopupTags = new System.Windows.Forms.ToolStripMenuItem();
-            this.GridPopupMoreActions = new System.Windows.Forms.ToolStripMenuItem();
+            this.TablePopupTags = new System.Windows.Forms.ToolStripMenuItem();
+            this.TablePopupMoreActions = new System.Windows.Forms.ToolStripMenuItem();
             this.FilterGroupBox = new System.Windows.Forms.GroupBox();
             this.FilterComboBox = new System.Windows.Forms.ComboBox();
             this.CaseSensitiveCheckBox = new System.Windows.Forms.CheckBox();
@@ -49,9 +49,9 @@
             this.PictureBox = new System.Windows.Forms.PictureBox();
             this.TabControl = new System.Windows.Forms.TabControl();
             this.tabTags = new System.Windows.Forms.TabPage();
-            this.PropertyGrid = new System.Windows.Forms.PropertyGrid();
             this.PropertyGridPopupMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.PropertyGridPopupTagVisibility = new System.Windows.Forms.ToolStripMenuItem();
+            this.PropertyGrid = new System.Windows.Forms.PropertyGrid();
             this.tabPlayer = new System.Windows.Forms.TabPage();
             this.splitContainer3 = new System.Windows.Forms.SplitContainer();
             this.PlaylistElementHost = new System.Windows.Forms.Integration.ElementHost();
@@ -143,11 +143,12 @@
             this.tbAddFolder = new System.Windows.Forms.ToolStripMenuItem();
             this.tbAddLibrary = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem12 = new System.Windows.Forms.ToolStripSeparator();
+            this.PropertyGridPopupRefresh = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
             this.splitContainer1.SuspendLayout();
-            this.GridPopupMenu.SuspendLayout();
+            this.TablePopupMenu.SuspendLayout();
             this.FilterGroupBox.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer2)).BeginInit();
             this.splitContainer2.Panel1.SuspendLayout();
@@ -190,7 +191,7 @@
             // 
             // GridElementHost
             // 
-            this.GridElementHost.ContextMenuStrip = this.GridPopupMenu;
+            this.GridElementHost.ContextMenuStrip = this.TablePopupMenu;
             this.GridElementHost.Dock = System.Windows.Forms.DockStyle.Fill;
             this.GridElementHost.Location = new System.Drawing.Point(4, 0);
             this.GridElementHost.Margin = new System.Windows.Forms.Padding(0);
@@ -200,98 +201,98 @@
             this.GridElementHost.Text = "GridContainerHost";
             this.GridElementHost.Child = null;
             // 
-            // GridPopupMenu
+            // TablePopupMenu
             // 
-            this.GridPopupMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.GridPopupPlay,
+            this.TablePopupMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.TablePopupPlay,
             this.toolStripMenuItem6,
-            this.GridPopupCut,
-            this.GridPopupCopy,
-            this.GridPopupPaste,
-            this.GridPopupDelete,
+            this.TablePopupCut,
+            this.TablePopupCopy,
+            this.TablePopupPaste,
+            this.TablePopupDelete,
             this.toolStripMenuItem14,
-            this.GridPopupTags,
-            this.GridPopupMoreActions});
-            this.GridPopupMenu.Name = "PopupMenu";
-            this.GridPopupMenu.Size = new System.Drawing.Size(166, 170);
+            this.TablePopupTags,
+            this.TablePopupMoreActions});
+            this.TablePopupMenu.Name = "PopupMenu";
+            this.TablePopupMenu.Size = new System.Drawing.Size(181, 192);
             // 
-            // GridPopupPlay
+            // TablePopupPlay
             // 
-            this.GridPopupPlay.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.GridPopupPlayAddToQueue,
-            this.GridPopupPlayNewPlaylist});
-            this.GridPopupPlay.Name = "GridPopupPlay";
-            this.GridPopupPlay.Size = new System.Drawing.Size(165, 22);
-            this.GridPopupPlay.Text = "Pl&ay";
+            this.TablePopupPlay.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.TablePopupPlayAddToQueue,
+            this.TablePopupPlayNewPlaylist});
+            this.TablePopupPlay.Name = "TablePopupPlay";
+            this.TablePopupPlay.Size = new System.Drawing.Size(180, 22);
+            this.TablePopupPlay.Text = "Pl&ay";
             // 
-            // GridPopupPlayAddToQueue
+            // TablePopupPlayAddToQueue
             // 
-            this.GridPopupPlayAddToQueue.Name = "GridPopupPlayAddToQueue";
-            this.GridPopupPlayAddToQueue.Size = new System.Drawing.Size(148, 22);
-            this.GridPopupPlayAddToQueue.Text = "Add to &Queue";
+            this.TablePopupPlayAddToQueue.Name = "TablePopupPlayAddToQueue";
+            this.TablePopupPlayAddToQueue.Size = new System.Drawing.Size(180, 22);
+            this.TablePopupPlayAddToQueue.Text = "Add to &Queue";
             // 
-            // GridPopupPlayNewPlaylist
+            // TablePopupPlayNewPlaylist
             // 
-            this.GridPopupPlayNewPlaylist.Name = "GridPopupPlayNewPlaylist";
-            this.GridPopupPlayNewPlaylist.Size = new System.Drawing.Size(148, 22);
-            this.GridPopupPlayNewPlaylist.Text = "&New Playlist";
+            this.TablePopupPlayNewPlaylist.Name = "TablePopupPlayNewPlaylist";
+            this.TablePopupPlayNewPlaylist.Size = new System.Drawing.Size(180, 22);
+            this.TablePopupPlayNewPlaylist.Text = "&New Playlist";
             // 
             // toolStripMenuItem6
             // 
             this.toolStripMenuItem6.Name = "toolStripMenuItem6";
-            this.toolStripMenuItem6.Size = new System.Drawing.Size(162, 6);
+            this.toolStripMenuItem6.Size = new System.Drawing.Size(177, 6);
             // 
-            // GridPopupCut
+            // TablePopupCut
             // 
-            this.GridPopupCut.Image = global::TagScanner.Properties.Resources.CutHS;
-            this.GridPopupCut.Name = "GridPopupCut";
-            this.GridPopupCut.ShortcutKeyDisplayString = "^X";
-            this.GridPopupCut.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.X)));
-            this.GridPopupCut.Size = new System.Drawing.Size(165, 22);
-            this.GridPopupCut.Text = "Cu&t";
+            this.TablePopupCut.Image = global::TagScanner.Properties.Resources.CutHS;
+            this.TablePopupCut.Name = "TablePopupCut";
+            this.TablePopupCut.ShortcutKeyDisplayString = "^X";
+            this.TablePopupCut.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.X)));
+            this.TablePopupCut.Size = new System.Drawing.Size(180, 22);
+            this.TablePopupCut.Text = "Cu&t";
             // 
-            // GridPopupCopy
+            // TablePopupCopy
             // 
-            this.GridPopupCopy.Image = global::TagScanner.Properties.Resources.CopyHS;
-            this.GridPopupCopy.Name = "GridPopupCopy";
-            this.GridPopupCopy.ShortcutKeyDisplayString = "^C";
-            this.GridPopupCopy.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.C)));
-            this.GridPopupCopy.Size = new System.Drawing.Size(165, 22);
-            this.GridPopupCopy.Text = "&Copy";
+            this.TablePopupCopy.Image = global::TagScanner.Properties.Resources.CopyHS;
+            this.TablePopupCopy.Name = "TablePopupCopy";
+            this.TablePopupCopy.ShortcutKeyDisplayString = "^C";
+            this.TablePopupCopy.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.C)));
+            this.TablePopupCopy.Size = new System.Drawing.Size(180, 22);
+            this.TablePopupCopy.Text = "&Copy";
             // 
-            // GridPopupPaste
+            // TablePopupPaste
             // 
-            this.GridPopupPaste.Image = global::TagScanner.Properties.Resources.PasteHS;
-            this.GridPopupPaste.Name = "GridPopupPaste";
-            this.GridPopupPaste.ShortcutKeyDisplayString = "^V";
-            this.GridPopupPaste.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.V)));
-            this.GridPopupPaste.Size = new System.Drawing.Size(165, 22);
-            this.GridPopupPaste.Text = "&Paste";
+            this.TablePopupPaste.Image = global::TagScanner.Properties.Resources.PasteHS;
+            this.TablePopupPaste.Name = "TablePopupPaste";
+            this.TablePopupPaste.ShortcutKeyDisplayString = "^V";
+            this.TablePopupPaste.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.V)));
+            this.TablePopupPaste.Size = new System.Drawing.Size(180, 22);
+            this.TablePopupPaste.Text = "&Paste";
             // 
-            // GridPopupDelete
+            // TablePopupDelete
             // 
-            this.GridPopupDelete.Image = global::TagScanner.Properties.Resources.Delete;
-            this.GridPopupDelete.ImageTransparentColor = System.Drawing.Color.White;
-            this.GridPopupDelete.Name = "GridPopupDelete";
-            this.GridPopupDelete.Size = new System.Drawing.Size(165, 22);
-            this.GridPopupDelete.Text = "&Delete";
+            this.TablePopupDelete.Image = global::TagScanner.Properties.Resources.Delete;
+            this.TablePopupDelete.ImageTransparentColor = System.Drawing.Color.White;
+            this.TablePopupDelete.Name = "TablePopupDelete";
+            this.TablePopupDelete.Size = new System.Drawing.Size(180, 22);
+            this.TablePopupDelete.Text = "&Delete";
             // 
             // toolStripMenuItem14
             // 
             this.toolStripMenuItem14.Name = "toolStripMenuItem14";
-            this.toolStripMenuItem14.Size = new System.Drawing.Size(162, 6);
+            this.toolStripMenuItem14.Size = new System.Drawing.Size(177, 6);
             // 
-            // GridPopupTags
+            // TablePopupTags
             // 
-            this.GridPopupTags.Name = "GridPopupTags";
-            this.GridPopupTags.Size = new System.Drawing.Size(165, 22);
-            this.GridPopupTags.Text = "&Select Columns...";
+            this.TablePopupTags.Name = "TablePopupTags";
+            this.TablePopupTags.Size = new System.Drawing.Size(180, 22);
+            this.TablePopupTags.Text = "&Select Columns...";
             // 
-            // GridPopupMoreActions
+            // TablePopupMoreActions
             // 
-            this.GridPopupMoreActions.Name = "GridPopupMoreActions";
-            this.GridPopupMoreActions.Size = new System.Drawing.Size(165, 22);
-            this.GridPopupMoreActions.Text = "&File Operations...";
+            this.TablePopupMoreActions.Name = "TablePopupMoreActions";
+            this.TablePopupMoreActions.Size = new System.Drawing.Size(180, 22);
+            this.TablePopupMoreActions.Text = "&File Operations...";
             // 
             // FilterGroupBox
             // 
@@ -407,6 +408,20 @@
             this.tabTags.TabIndex = 0;
             this.tabTags.Text = "Tags";
             // 
+            // PropertyGridPopupMenu
+            // 
+            this.PropertyGridPopupMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.PropertyGridPopupTagVisibility,
+            this.PropertyGridPopupRefresh});
+            this.PropertyGridPopupMenu.Name = "PropertyGridPopupMenu";
+            this.PropertyGridPopupMenu.Size = new System.Drawing.Size(141, 48);
+            // 
+            // PropertyGridPopupTagVisibility
+            // 
+            this.PropertyGridPopupTagVisibility.Name = "PropertyGridPopupTagVisibility";
+            this.PropertyGridPopupTagVisibility.Size = new System.Drawing.Size(140, 22);
+            this.PropertyGridPopupTagVisibility.Text = "Select &Tags...";
+            // 
             // PropertyGrid
             // 
             this.PropertyGrid.CategoryForeColor = System.Drawing.SystemColors.InactiveCaptionText;
@@ -417,19 +432,6 @@
             this.PropertyGrid.Name = "PropertyGrid";
             this.PropertyGrid.Size = new System.Drawing.Size(168, 258);
             this.PropertyGrid.TabIndex = 0;
-            // 
-            // PropertyGridPopupMenu
-            // 
-            this.PropertyGridPopupMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.PropertyGridPopupTagVisibility});
-            this.PropertyGridPopupMenu.Name = "PropertyGridPopupMenu";
-            this.PropertyGridPopupMenu.Size = new System.Drawing.Size(141, 26);
-            // 
-            // PropertyGridPopupTagVisibility
-            // 
-            this.PropertyGridPopupTagVisibility.Name = "PropertyGridPopupTagVisibility";
-            this.PropertyGridPopupTagVisibility.Size = new System.Drawing.Size(140, 22);
-            this.PropertyGridPopupTagVisibility.Text = "Select &Tags...";
             // 
             // tabPlayer
             // 
@@ -1186,6 +1188,12 @@
             this.toolStripMenuItem12.Name = "toolStripMenuItem12";
             this.toolStripMenuItem12.Size = new System.Drawing.Size(146, 6);
             // 
+            // PropertyGridPopupRefresh
+            // 
+            this.PropertyGridPopupRefresh.Name = "PropertyGridPopupRefresh";
+            this.PropertyGridPopupRefresh.Size = new System.Drawing.Size(140, 22);
+            this.PropertyGridPopupRefresh.Text = "&Refresh";
+            // 
             // MainForm
             // 
             this.AcceptButton = this.ApplyButton;
@@ -1206,7 +1214,7 @@
             this.splitContainer1.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
             this.splitContainer1.ResumeLayout(false);
-            this.GridPopupMenu.ResumeLayout(false);
+            this.TablePopupMenu.ResumeLayout(false);
             this.FilterGroupBox.ResumeLayout(false);
             this.FilterGroupBox.PerformLayout();
             this.splitContainer2.Panel1.ResumeLayout(false);
@@ -1259,20 +1267,20 @@
 		public System.Windows.Forms.ToolStripSeparator toolStripMenuItem3;
 		public System.Windows.Forms.ToolStripMenuItem FileReopen;
 		public System.Windows.Forms.ToolStripSeparator toolStripMenuItem5;
-		public System.Windows.Forms.ContextMenuStrip GridPopupMenu;
-		public System.Windows.Forms.ToolStripMenuItem GridPopupTags;
+		public System.Windows.Forms.ContextMenuStrip TablePopupMenu;
+		public System.Windows.Forms.ToolStripMenuItem TablePopupTags;
 		public System.Windows.Forms.TabControl TabControl;
 		public System.Windows.Forms.TabPage tabTags;
 		public System.Windows.Forms.PropertyGrid PropertyGrid;
         public System.Windows.Forms.ToolStripSeparator toolStripMenuItem6;
-		public System.Windows.Forms.ToolStripMenuItem GridPopupPlay;
+		public System.Windows.Forms.ToolStripMenuItem TablePopupPlay;
 		public AxWMPLib.AxWindowsMediaPlayer MediaPlayer;
 		public System.Windows.Forms.TabPage tabPlayer;
         public System.Windows.Forms.ContextMenuStrip PropertyGridPopupMenu;
 		public System.Windows.Forms.ToolStripMenuItem PropertyGridPopupTagVisibility;
         public System.Windows.Forms.SplitContainer splitContainer3;
-		public System.Windows.Forms.ToolStripMenuItem GridPopupPlayAddToQueue;
-		public System.Windows.Forms.ToolStripMenuItem GridPopupPlayNewPlaylist;
+		public System.Windows.Forms.ToolStripMenuItem TablePopupPlayAddToQueue;
+		public System.Windows.Forms.ToolStripMenuItem TablePopupPlayNewPlaylist;
 		public System.Windows.Forms.Integration.ElementHost PlaylistElementHost;
 		public System.Windows.Forms.ToolStripMenuItem ViewRefresh;
         public System.Windows.Forms.ContextMenuStrip FilterPopupMenu;
@@ -1294,7 +1302,7 @@
         public System.Windows.Forms.ComboBox FilterComboBox;
         public System.Windows.Forms.CheckBox CaseSensitiveCheckBox;
         public System.Windows.Forms.Button ApplyButton;
-        public System.Windows.Forms.ToolStripMenuItem GridPopupMoreActions;
+        public System.Windows.Forms.ToolStripMenuItem TablePopupMoreActions;
         public System.Windows.Forms.ToolStripMenuItem FileClose;
         public Controls.FirstClickMenuStrip MainMenu;
         public System.Windows.Forms.ToolStripSeparator toolStripMenuItem9;
@@ -1347,11 +1355,12 @@
         public System.Windows.Forms.ContextMenuStrip RecentFolderPopupMenu;
         public System.Windows.Forms.ToolStripMenuItem tbAddRecentLibrary;
         private System.Windows.Forms.ToolStripSeparator toolStripMenuItem13;
-        public System.Windows.Forms.ToolStripMenuItem GridPopupCut;
-        public System.Windows.Forms.ToolStripMenuItem GridPopupCopy;
-        public System.Windows.Forms.ToolStripMenuItem GridPopupPaste;
-        public System.Windows.Forms.ToolStripMenuItem GridPopupDelete;
+        public System.Windows.Forms.ToolStripMenuItem TablePopupCut;
+        public System.Windows.Forms.ToolStripMenuItem TablePopupCopy;
+        public System.Windows.Forms.ToolStripMenuItem TablePopupPaste;
+        public System.Windows.Forms.ToolStripMenuItem TablePopupDelete;
         private System.Windows.Forms.ToolStripSeparator toolStripMenuItem14;
+        public System.Windows.Forms.ToolStripMenuItem PropertyGridPopupRefresh;
     }
 }
 

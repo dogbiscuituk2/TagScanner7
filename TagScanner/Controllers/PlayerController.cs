@@ -14,8 +14,8 @@
     {
         public PlayerController(MainFormController mainFormController) : base(mainFormController)
         {
-            View.GridPopupPlayAddToQueue.Click += PlaylistAddToQueue_Click;
-            View.GridPopupPlayNewPlaylist.Click += PlaylistCreateNew_Click;
+            View.TablePopupPlayAddToQueue.Click += PlaylistAddToQueue_Click;
+            View.TablePopupPlayNewPlaylist.Click += PlaylistCreateNew_Click;
             View.PlaylistElementHost.Child = new GridElement();
             DataGrid.AutoGenerateColumns = false;
             InitColumns();

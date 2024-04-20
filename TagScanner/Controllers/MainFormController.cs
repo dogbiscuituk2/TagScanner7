@@ -88,16 +88,16 @@
 
                 View.EditCut.Click += EditCut_Click;
                 View.tbCut.Click += EditCut_Click;
-                View.GridPopupCut.Click += EditCut_Click;
+                View.TablePopupCut.Click += EditCut_Click;
                 View.EditCopy.Click += EditCopy_Click;
                 View.tbCopy.Click += EditCopy_Click;
-                View.GridPopupCopy.Click += EditCopy_Click;
+                View.TablePopupCopy.Click += EditCopy_Click;
                 View.EditPaste.Click += EditPaste_Click;
                 View.tbPaste.Click += EditPaste_Click;
-                View.GridPopupPaste.Click += EditPaste_Click;
+                View.TablePopupPaste.Click += EditPaste_Click;
                 View.EditDelete.Click += EditDelete_Click;
                 View.tbDelete.Click += EditDelete_Click;
-                View.GridPopupDelete.Click += EditDelete_Click;
+                View.TablePopupDelete.Click += EditDelete_Click;
 
                 View.EditSelectAll.Click += EditSelectAll_Click;
                 View.EditInvertSelection.Click += EditInvertSelection_Click;
@@ -117,10 +117,9 @@
 
                 View.HelpAbout.Click += HelpAbout_Click;
 
-                View.GridPopupMenu.Opening += GridPopupMenu_Opening;
-                View.GridPopupTags.Click += PopupTags_Click;
-                View.GridPopupMoreActions.Click += GridPopupMoreOptions_Click;
-                View.PropertyGridPopupTagVisibility.Click += PropertyGridPopupTagVisibility_Click;
+                View.TablePopupMenu.Opening += GridPopupMenu_Opening;
+                View.TablePopupTags.Click += PopupTags_Click;
+                View.TablePopupMoreActions.Click += GridPopupMoreOptions_Click;
 
                 View.Shown += View_Shown;
                 View.FormClosed += View_FormClosed;
@@ -161,7 +160,7 @@
         #region Methods
 
         public void EnablePaste(bool enable) =>
-            View.EditPaste.Enabled = View.tbPaste.Enabled = View.GridPopupPaste.Enabled = enable;
+            View.EditPaste.Enabled = View.tbPaste.Enabled = View.TablePopupPaste.Enabled = enable;
 
         public void UpdateLocalUI()
         {
@@ -176,9 +175,9 @@
             View.AddRecentFolder.Enabled = View.tbAddRecentFolder.Enabled =
                 View.RecentFolderPopupMenu.Items.Count > 0;
             // Clipboard Menu Items
-            View.EditCut.Enabled = View.tbCut.Enabled = View.GridPopupCut.Enabled =
-                View.EditCopy.Enabled = View.tbCopy.Enabled = View.GridPopupCopy.Enabled =
-                View.EditDelete.Enabled = View.tbDelete.Enabled = View.GridPopupDelete.Enabled =
+            View.EditCut.Enabled = View.tbCut.Enabled = View.TablePopupCut.Enabled =
+                View.EditCopy.Enabled = View.tbCopy.Enabled = View.TablePopupCopy.Enabled =
+                View.EditDelete.Enabled = View.tbDelete.Enabled = View.TablePopupDelete.Enabled =
                 Selection.Tracks.Any();
             // Property Grid
             PropertyGridController.SetSelection(LibraryGridController.Selection);
@@ -275,10 +274,9 @@
 
         #region Popup Menus
 
-        private void GridPopupMenu_Opening(object sender, CancelEventArgs e) => View.GridPopupMoreActions.Enabled = LibraryGridController.Selection.SelectedFoldersCount == 1;
+        private void GridPopupMenu_Opening(object sender, CancelEventArgs e) => View.TablePopupMoreActions.Enabled = LibraryGridController.Selection.SelectedFoldersCount == 1;
         private void GridPopupMoreOptions_Click(object sender, EventArgs e) => LibraryGridController.PopupShellContextMenu();
         private void PopupTags_Click(object sender, EventArgs e) => LibraryGridController.EditTagVisibility();
-        private void PropertyGridPopupTagVisibility_Click(object sender, EventArgs e) => SelectPropertyGridTags();
 
         #endregion
 
@@ -409,17 +407,6 @@
             var count = tracks.Count(t => (t.FileStatus & status) != 0);
             if (count > 0)
                 message.AppendFormat(format, count);
-        }
-
-        private void SelectPropertyGridTags()
-        {
-            var visibleTags = Tags.BrowsableTags;
-            var ok = new TagsController(this).Execute("Select the Tags to display in the Details Panel", visibleTags);
-            if (ok)
-            {
-                Tags.WriteBrowsableTags(visibleTags);
-                UpdateUI();
-            }
         }
 
         private void UpdateUI() => AppController.UpdateUI(this);

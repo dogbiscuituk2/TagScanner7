@@ -7,7 +7,6 @@
     using System.Linq;
 
     [DefaultProperty("Title")]
-    [RefreshProperties(RefreshProperties.All)]
     public class Selection : ITrack
     {
         #region Constructors
@@ -31,6 +30,21 @@
             Personnel = "Personnel",
             ReplayGain = "Replay Gain",
             Selected = "Selection";
+
+        #endregion
+
+        #region Public Methods
+
+        public void Invalidate()
+        {
+            InvalidateDateTimeFields();
+            InvalidateDoubleFields();
+            InvalidateIntegerFields();
+            InvalidateLongFields();
+            InvalidateMiscellaneousFields();
+            InvalidateStringFields();
+            InvalidateStringsFields();
+        }
 
         #endregion
 
@@ -79,6 +93,7 @@
         #endregion
         #region AlbumArtistsCount
 
+        private int _albumArtistsCount = int.MaxValue;
         [Browsable(false)]
         [Category(Personnel)]
         [Column(50)]
@@ -87,7 +102,7 @@
         [DisplayName("# Album Artists")]
         [ReadOnly(true)]
         [Uses(Tag.AlbumArtists)]
-        public int AlbumArtistsCount => AlbumArtists.Length;
+        public int AlbumArtistsCount => GetInt(p => p.AlbumArtistsCount, ref _albumArtistsCount);
 
         #endregion
         #region AlbumArtistsSort
@@ -112,6 +127,7 @@
         #endregion
         #region AlbumArtistsSortCount
 
+        private int _albumArtistsSortCount = int.MaxValue;
         [Browsable(false)]
         [Category(Personnel)]
         [Column(50)]
@@ -120,7 +136,7 @@
         [DisplayName("# Album Artists (sorted)")]
         [ReadOnly(true)]
         [Uses(Tag.AlbumArtistsSort)]
-        public int AlbumArtistsSortCount => AlbumArtistsSort.Length;
+        public int AlbumArtistsSortCount => GetInt(p => p.AlbumArtistsSortCount, ref _albumArtistsSortCount);
 
         #endregion
         #region AlbumGain
@@ -206,6 +222,7 @@
         #endregion
         #region ArtistsCount
 
+        private int _artistsCount = int.MaxValue;
         [Browsable(false)]
         [Category(Personnel)]
         [Column(50)]
@@ -215,7 +232,7 @@
         [Obsolete("Obsolete. For album artists, use AlbumArtistsCount. For track artists, use PerformersCount.")]
         [ReadOnly(true)]
         [Uses(Tag.Artists)]
-        public int ArtistsCount => Artists.Length;
+        public int ArtistsCount => GetInt(p => p.ArtistsCount, ref _artistsCount);
 
         #endregion
         #region AudioBitrate
@@ -357,6 +374,7 @@
         #endregion
         #region ComposersCount
 
+        private int _composersCount = int.MaxValue;
         [Browsable(false)]
         [Category(Personnel)]
         [Column(50)]
@@ -365,7 +383,7 @@
         [DisplayName("# Composers")]
         [ReadOnly(true)]
         [Uses(Tag.Composers)]
-        public int ComposersCount => Composers.Length;
+        public int ComposersCount => GetInt(p => p.ComposersCount, ref _composersCount);
 
         #endregion
         #region ComposersSort
@@ -389,6 +407,7 @@
         #endregion
         #region ComposersSortCount
 
+        private int _composersSortCount = int.MaxValue;
         [Browsable(false)]
         [Category(Personnel)]
         [Column(50)]
@@ -397,7 +416,7 @@
         [DisplayName("# Composers (sorted)")]
         [ReadOnly(true)]
         [Uses(Tag.ComposersSort)]
-        public int ComposersSortCount => ComposersSort.Length;
+        public int ComposersSortCount => GetInt(p => p.ComposersSortCount, ref _composersSortCount);
 
         #endregion
         #region Conductor
@@ -687,7 +706,7 @@
         #endregion
         #region FileStatus
 
-        private FileStatus _fileStatus;
+        private FileStatus _fileStatus = FileStatus.Unknown;
         [Browsable(true)]
         [Category(File)]
         [Column(50)]
@@ -838,6 +857,7 @@
         #endregion
         #region GenresCount
 
+        private int _genresCount = int.MaxValue;
         [Browsable(false)]
         [Category(Category)]
         [Column(50)]
@@ -846,7 +866,7 @@
         [DisplayName("# Genres")]
         [ReadOnly(true)]
         [Uses(Tag.Genres)]
-        public int GenresCount => Genres.Length;
+        public int GenresCount => GetInt(p => p.GenresCount, ref _genresCount);
 
         #endregion
         #region Grouping
@@ -1204,7 +1224,7 @@
         #endregion
         #region IsClassical
 
-        private Logical _isClassical;
+        private Logical _isClassical = Logical.Unknown;
         [Browsable(false)]
         [Category(Category)]
         [Column(50)]
@@ -1217,7 +1237,7 @@
         #endregion
         #region IsEmpty
 
-        private Logical _isEmpty;
+        private Logical _isEmpty = Logical.Unknown;
         [Browsable(false)]
         [Category(Format)]
         [Column(50)]
@@ -1547,6 +1567,7 @@
         #endregion
         #region PerformersCount
 
+        private int _performersCount = int.MaxValue;
         [Browsable(false)]
         [Category(Personnel)]
         [Column(50)]
@@ -1555,7 +1576,7 @@
         [DisplayName("# Performers")]
         [ReadOnly(true)]
         [Uses(Tag.Performers)]
-        public int PerformersCount => Performers.Length;
+        public int PerformersCount => GetInt(p => p.PerformersCount, ref _performersCount);
 
         #endregion
         #region PerformersSort
@@ -1581,6 +1602,7 @@
         #endregion
         #region PerformersSortCount
 
+        private int _performersSortCount = int.MaxValue;
         [Browsable(false)]
         [Category(Personnel)]
         [Column(50)]
@@ -1589,7 +1611,7 @@
         [DisplayName("# Performers (sorted)")]
         [ReadOnly(true)]
         [Uses(Tag.PerformersSort)]
-        public int PerformersSortCount => PerformersSort.Length;
+        public int PerformersSortCount => GetInt(p => p.PerformersSortCount, ref _performersSortCount);
 
         #endregion
         #region PhotoHeight
@@ -1633,7 +1655,7 @@
         #endregion
         #region Pictures
 
-        private Picture[] _pictures;
+        private Picture[] _pictures = null;
         [Browsable(true)]
         [Category(Media)]
         [Column(50)]
@@ -1659,7 +1681,7 @@
         #endregion
         #region PossiblyCorrupt
 
-        private Logical _possiblyCorrupt;
+        private Logical _possiblyCorrupt = Logical.Unknown;
         [Browsable(false)]
         [Category(Format)]
         [Column(50)]
@@ -1699,7 +1721,20 @@
         [Description("The number of distinct folders containing one or more items from the selection.")]
         [DisplayName("# Selected Folders")]
         [ReadOnly(true)]
-        public int SelectedFoldersCount => Tracks.Select(p => Path.GetDirectoryName(p.FilePath)).Distinct().Count();
+        public int SelectedFoldersCount
+        {
+            get
+            {
+                try
+                {
+                    return Tracks.Select(p => Path.GetDirectoryName(p.FilePath)).Distinct().Count();
+                }
+                catch (ArgumentException)
+                {
+                    return 0;
+                }
+            }
+        }
 
         #endregion
         #region SelectedGenresCount
@@ -1935,7 +1970,7 @@
 
         #endregion
 
-        #region Tag Accessors (private methods)
+        #region Private Methods)
 
         private DateTime GetDateTime(Func<Track, DateTime> getDateTime, ref DateTime result)
         {
@@ -2207,6 +2242,155 @@
                         .Aggregate(result, (current, timeSpan) => current + timeSpan);
             }
             return result;
+        }
+
+        private void InvalidateDateTimeFields() // 7 fields
+        {
+            _fileCreationTime =
+                _fileCreationTimeUtc =
+                _fileLastAccessTime =
+                _fileLastAccessTimeUtc =
+                _fileLastWriteTime =
+                _fileLastWriteTimeUtc =
+                _imageDateTime =
+                DateTime.MaxValue;
+        }
+
+        private void InvalidateDoubleFields() // 6 fields
+        {
+            _imageAltitude =
+                _imageExposureTime =
+                _imageFNumber =
+                _imageFocalLength =
+                _imageLatitude =
+                _imageLongitude =
+                double.MaxValue;
+        }
+
+        private void InvalidateIntegerFields() // 27 fields
+        {
+            _albumArtistsCount =
+                _albumArtistsSortCount =
+                _artistsCount =
+                _audioBitrate =
+                _audioChannels =
+                _audioSampleRate =
+                _beatsPerMinute =
+                _bitsPerSample =
+                _composersCount =
+                _composersSortCount =
+                _discCount =
+                _discNumber =
+                _genresCount =
+                _imageFocalLengthIn35mmFilm =
+                _imageISOSpeedRatings =
+                _imageRating =
+                _performersCount =
+                _performersSortCount =
+                _photoHeight =
+                _photoQuality =
+                _photoWidth =
+                _picturesCount =
+                _trackCount =
+                _trackNumber =
+                _videoHeight =
+                _videoWidth =
+                _year =
+                int.MaxValue;
+        }
+
+        private void InvalidateLongFields() // 3 fields
+        {
+            _fileSize =
+                _invariantEndPosition =
+                _invariantStartPosition =
+                long.MaxValue;
+        }
+
+        private void InvalidateMiscellaneousFields() // 10 fields
+        {
+            _duration = TimeSpan.MaxValue;
+            _fileStatus = FileStatus.Unknown;
+            _imageOrientation = TagLib.Image.ImageOrientation.None;
+            _isClassical = _isEmpty = _possiblyCorrupt = Logical.Unknown;
+            _mediaTypes = AllMediaTypes;
+            _pictures = null;
+            _tagTypes = _tagTypesOnDisk = TagLib.TagTypes.AllTags;
+        }
+
+        private void InvalidateStringFields() // 56 fields
+        {
+            _album =
+                _albumGain =
+                _albumPeak =
+                _albumSort =
+                _amazonId =
+                _century =
+                _codecs =
+                _comment =
+                _conductor =
+                _copyright =
+                _decade =
+                _description =
+                _discOf =
+                _discTrack =
+                _fileAttributes =
+                _fileExtension =
+                _fileName =
+                _fileNameWithoutExtension =
+                _filePath =
+                _firstAlbumArtist =
+                _firstAlbumArtistSort =
+                _firstArtist =
+                _firstComposer =
+                _firstComposerSort =
+                _firstGenre =
+                _firstPerformer =
+                _firstPerformerSort =
+                _grouping =
+                _imageCreator =
+                _imageMake =
+                _imageModel =
+                _imageSoftware =
+                _joinedAlbumArtists =
+                _joinedArtists =
+                _joinedComposers =
+                _joinedGenres =
+                _joinedPerformers =
+                _joinedPerformersSort =
+                _lyrics =
+                _millennium =
+                _mimeType =
+                _musicBrainzArtistId =
+                _musicBrainzDiscId =
+                _musicBrainzReleaseArtistId =
+                _musicBrainzReleaseCountry =
+                _musicBrainzReleaseId =
+                _musicBrainzReleaseStatus =
+                _musicBrainzReleaseType =
+                _musicBrainzTrackId =
+                _musicIpId =
+                _title =
+                _titleSort =
+                _trackGain =
+                _trackOf =
+                _trackPeak =
+                _yearAlbum =
+                null;
+        }
+
+        private void InvalidateStringsFields() // 9 fields
+        {
+            _albumArtists =
+                _albumArtistsSort =
+                _artists =
+                _composers =
+                _composersSort =
+                _genres =
+                _imageKeywords =
+                _performers =
+                _performersSort =
+                null;
         }
 
         private void SetValue(Tag tag, Func<Track, object> getValue, Action<Track> setValue)
