@@ -49,6 +49,16 @@
 
         #region Methods
 
+        public bool AddLibrary()
+        {
+            ResetLibrary = false;
+            if (_openFileDialog.ShowDialog(Owner) != DialogResult.OK)
+                return false;
+            var fileName = _openFileDialog.FileName;
+            var format = fileName.GetStreamFormat();
+            return LoadFromFile(fileName, format);
+        }
+
         public bool Clear()
         {
             if (!SaveIfModified())
@@ -85,6 +95,7 @@
 
         public bool Open()
         {
+            ResetLibrary = true;
             if (!SaveIfModified() || _openFileDialog.ShowDialog(Owner) != DialogResult.OK)
                 return false;
             var fileName = _openFileDialog.FileName;
