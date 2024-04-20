@@ -1,16 +1,10 @@
 ﻿namespace TagScanner.Commands
 {
-    using System.Collections.Generic;
-    using System.Linq;
     using Models;
 
     public abstract class TracksAddRemoveCommand : Command
     {
-        public TracksAddRemoveCommand(List<Track> tracks, bool add)
-        {
-            Tracks = tracks;
-            Add = add;
-        }
+        public TracksAddRemoveCommand(Selection selection, bool add) : base(selection) => Add = add;
 
         protected bool Add;
 
@@ -27,11 +21,11 @@
 
     public class TracksAddCommand : TracksAddRemoveCommand
     {
-        public TracksAddCommand(List<Track> tracks) : base(tracks, add: true) { }
+        public TracksAddCommand(Selection selection) : base(selection, add: true) { }
     }
 
     public class TracksRemoveCommand : TracksAddRemoveCommand
     {
-        public TracksRemoveCommand(List<Track> tracks) : base(tracks, add: false) { }
+        public TracksRemoveCommand(Selection selection) : base(selection, add: false) { }
     }
 }

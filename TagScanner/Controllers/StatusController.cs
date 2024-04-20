@@ -10,10 +10,10 @@
     {
         public StatusController(Controller parent) : base(parent) { }
 
-        private LibraryForm LibraryForm => LibraryFormController.View;
-        private LibraryFormController LibraryFormController => (LibraryFormController)Parent;
-        private Model Model => LibraryFormController.Model;
-        private StatusStrip StatusBar => LibraryForm.StatusBar;
+        private MainForm MainForm => MainFormController.View;
+        private MainFormController MainFormController => (MainFormController)Parent;
+        private Model Model => MainFormController.Model;
+        private StatusStrip StatusBar => MainForm.StatusBar;
         private ToolStripItemCollection StatusBarItems => StatusBar.Items;
 
         public IProgress<ProgressEventArgs> CreateNewProgress()
@@ -33,8 +33,6 @@
                     progressBar.Maximum = e.Count;
                     progressBar.Value = e.Index;
                     statusLine.Text = Path.GetDirectoryName(e.Path);
-                    if (e.Track != null)
-                        e.Track.Edit += Model.Track_Edit;
                 }
                 else
                 {

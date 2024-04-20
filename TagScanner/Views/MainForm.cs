@@ -2,9 +2,9 @@
 {
     using System.Windows.Forms;
 
-    public partial class LibraryForm : Form
+    public partial class MainForm : Form
     {
-        public LibraryForm()
+        public MainForm()
         {
             InitializeComponent();
         }

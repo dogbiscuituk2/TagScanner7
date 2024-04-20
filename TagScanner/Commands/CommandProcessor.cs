@@ -43,9 +43,9 @@
 
         public bool IsModified => LastSave != UndoStack.Count;
 
-        private LibraryFormController LibraryFormController => (LibraryFormController)Parent;
-        private Model Model => LibraryFormController.Model;
-        private LibraryForm View => LibraryFormController.View;
+        private MainFormController MainFormController => (MainFormController)Parent;
+        private Model Model => MainFormController.Model;
+        private MainForm View => MainFormController.View;
         private List<Track> Tracks => Model.Tracks;
 
         #endregion
@@ -186,7 +186,7 @@
             EndUpdate();
         }
 
-        private void UpdateUI() => AppController.UpdateUI(LibraryFormController);
+        private void UpdateUI() => AppController.UpdateUI(MainFormController);
 
         #endregion
     }

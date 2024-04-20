@@ -7,6 +7,8 @@
 
     public abstract class Command
     {
+        protected Command(Selection selection) => Selection = selection;
+
         public virtual bool Do(Model model)
         {
             var result = Run(model);
@@ -14,7 +16,8 @@
             return result;
         }
 
-        protected List<Track> Tracks { get; set; }
+        protected Selection Selection { get; }
+        protected List<Track> Tracks => Selection.Tracks;
 
         protected string Summary
         {

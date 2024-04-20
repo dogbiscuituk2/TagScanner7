@@ -49,8 +49,6 @@
 
         #endregion
 
-        protected override IWin32Window Owner => Dialog;
-
         #region Private Methods
 
         private TagVisibilityDialog CreateDialog()

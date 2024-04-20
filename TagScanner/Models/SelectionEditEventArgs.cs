@@ -1,11 +1,10 @@
 ﻿namespace TagScanner.Models
 {
-    using System;
     using System.Collections.Generic;
 
-    public class TracksEditEventArgs : TracksEventArgs
+    public class SelectionEditEventArgs : SelectionEventArgs
     {
-        public TracksEditEventArgs(Tag tag, List<Track> tracks, List<object> values) : base(tracks)
+        public SelectionEditEventArgs(Selection selection, Tag tag, List<object> values) : base(selection)
         {
             Tag = tag;
             Values = values;

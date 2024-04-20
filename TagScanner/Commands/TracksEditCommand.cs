@@ -7,10 +7,9 @@
 
     public class TracksEditCommand : Command
     {
-        public TracksEditCommand(Tag tag, List<Track> tracks, List<object> values)
+        public TracksEditCommand(Selection selection, Tag tag, List<object> values) : base(selection)
         {
             Tag = tag;
-            Tracks = tracks;
             Values = values;
         }
 
@@ -45,7 +44,7 @@
 
         protected void PropertyChanged()
         {
-            // model.???
+            return;
         }
 
         public override string ToString() =>

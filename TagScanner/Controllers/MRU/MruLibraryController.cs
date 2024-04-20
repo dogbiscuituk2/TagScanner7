@@ -1,6 +1,7 @@
 ﻿namespace TagScanner.Controllers.Mru
 {
     using System;
+    using System.Collections.Generic;
     using System.IO;
     using System.Linq;
     using System.Windows.Forms;
@@ -44,29 +45,23 @@
 
         protected override bool LoadFromStream(Stream stream, StreamFormat format)
         {
-            var result = false;
-            if (LoadDocument(stream, typeof(Library), format) is Library library)
+            if (!(LoadDocument(stream, typeof(List<Track>), format) is List<Track> newTracks))
+                return false;
+            if (ResetLibrary)
             {
-                var newTracks = library.Tracks;
-                if (!ResetLibrary)
-                {
-                    var oldTracks = Model.Library.Tracks;
-                    newTracks = newTracks.Where(p => oldTracks.FirstOrDefault(q => q.FilePath == p.FilePath) == null).ToList();
-                    if (!newTracks.Any())
-                        return false;
-                }
-                foreach (var track in newTracks)
-                    track.Edit += Model.Track_Edit;
-                if (ResetLibrary)
-                    Model.Library = library;
-                else
-                    CommandProcessor.Run(new TracksAddCommand(newTracks));
-                result = true;
+                Model.Library = new Selection(newTracks);
+                return true;
             }
-            return result;
+            var oldTracks = Model.Library.Tracks;
+            newTracks.RemoveAll(p => oldTracks.Any(q => q.FilePath == p.FilePath));
+            if (!newTracks.Any())
+                return false;
+            CommandProcessor.Run(new TracksAddCommand(new Selection(newTracks)), spoof: false);
+            return true;
         }
 
-        protected override bool SaveToStream(Stream stream, StreamFormat format) => SaveDocument(stream, Model.Library, format);
+        protected override bool SaveToStream(Stream stream, StreamFormat format) =>
+            SaveDocument(stream, Model.Library.Tracks, format);
 
         #endregion
     }

@@ -31,14 +31,8 @@
 
         private bool FileExists => File.Exists(FilePath);
 
-        [NonSerialized, XmlIgnore]
-        public bool IsModified;
-
-        [NonSerialized, XmlIgnore]
-        public bool IsNew;
-
-        [field: NonSerialized]
-        public event EventHandler<TracksEditEventArgs> Edit;
+        [NonSerialized, XmlIgnore] public bool IsModified;
+        [NonSerialized, XmlIgnore] public bool IsNew;
 
         #endregion
 
@@ -52,7 +46,7 @@
             set => Set(ref _album, value);
         }
 
-        private string[] _albumArtists;
+        private string[] _albumArtists = Array.Empty<string>();
         public string[] AlbumArtists
         {
             get => Get(_albumArtists);
@@ -62,7 +56,7 @@
         [JsonIgnore, XmlIgnore]
         public int AlbumArtistsCount => AlbumArtists.Length;
 
-        private string[] _albumArtistsSort;
+        private string[] _albumArtistsSort = Array.Empty<string>();
         public string[] AlbumArtistsSort
         {
             get => Get(_albumArtistsSort);
@@ -103,7 +97,7 @@
             set => Set(ref _amazonId, value);
         }
 
-        private string[] _artists;
+        private string[] _artists = Array.Empty<string>();
         public string[] Artists
         {
             get => Get(_artists);
@@ -170,7 +164,7 @@
             set => Set(ref _comment, value);
         }
 
-        private string[] _composers;
+        private string[] _composers = Array.Empty<string>();
         public string[] Composers
         {
             get => Get(_composers);
@@ -180,7 +174,7 @@
         [JsonIgnore, XmlIgnore]
         public int ComposersCount => Composers.Length;
 
-        private string[] _composersSort;
+        private string[] _composersSort = Array.Empty<string>();
         public string[] ComposersSort
         {
             get => Get(_composersSort);
@@ -314,7 +308,7 @@
         [JsonIgnore, XmlIgnore]
         public string FileNameWithoutExtension => Path.GetFileNameWithoutExtension(FilePath);
 
-        private string _filePath;
+        private string _filePath = string.Empty;
         public string FilePath
         {
             get => Get(_filePath);
@@ -416,7 +410,7 @@
             set => Set(ref _firstPerformerSort, value);
         }
 
-        private string[] _genres;
+        private string[] _genres = Array.Empty<string>();
         public string[] Genres
         {
             get => Get(_genres);
@@ -496,7 +490,7 @@
             set => Set(ref _imageISOSpeedRatings, value);
         }
 
-        private string[] _imageKeywords;
+        private string[] _imageKeywords = Array.Empty<string>();
         public string[] ImageKeywords
         {
             get => Get(_imageKeywords);
@@ -736,7 +730,7 @@
             set => Set(ref _name, value);
         }
 
-        private string[] _performers;
+        private string[] _performers = Array.Empty<string>();
         public string[] Performers
         {
             get => Get(_performers);
@@ -746,7 +740,7 @@
         [JsonIgnore, XmlIgnore]
         public int PerformersCount => Performers.Length;
 
-        private string[] _performersSort;
+        private string[] _performersSort = Array.Empty<string>();
         public string[] PerformersSort
         {
             get => Get(_performersSort);
@@ -1168,7 +1162,10 @@
         private void Set<T>(ref T field, T value, bool condition)
         {
             if (condition)
+            {
                 field = value;
+                IsModified = true;
+            }
         }
 
         private void SetUserValue(string name, string value)

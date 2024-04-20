@@ -16,19 +16,19 @@
     using Utils;
     using Views;
 
-    public class LibraryFormController : Controller
+    public class MainFormController : Controller
     {
         #region Constructor
 
-        public LibraryFormController() : base(null)
+        public MainFormController() : base(null)
         {
-            View = new LibraryForm();
+            View = new MainForm();
             Model = new Model();
             Model.TracksAdd += Model_TracksAdd;
             Model.TracksEdit += Model_TracksEdit;
             CommandProcessor = new CommandProcessor(this);
             FilterController = new FilterController(this);
-            LibraryGridController = new LibraryGridController(this, View.GridElementHost);
+            LibraryGridController = new TableController(this, View.GridElementHost);
             LibraryGridController.SelectionChanged += LibraryGridController_SelectionChanged;
             MediaController = new MruMediaController(this, View.RecentFolderPopupMenu);
             MruLibraryController = new MruLibraryController(this, View.RecentLibraryPopupMenu);
@@ -36,6 +36,7 @@
             MruLibraryController.FileSaving += PersistenceController_FileSaving;
             PlayerController = new PlayerController(this);
             PictureController = new PictureController(View.PictureBox, View.PropertyGrid, PlayerController.PlaylistGrid);
+            PropertyGridController = new PropertyGridController(this);
             StatusController = new StatusController(this);
             ModifiedChanged();
             UpdateUI();
@@ -47,8 +48,8 @@
 
         #region View
 
-        private LibraryForm _view;
-        public LibraryForm View
+        private MainForm _view;
+        public MainForm View
         {
             get => _view;
             set
@@ -87,16 +88,16 @@
 
                 View.EditCut.Click += EditCut_Click;
                 View.tbCut.Click += EditCut_Click;
-                View.GridPopupCut.Click += EditCut_Click;
+                View.TablePopupCut.Click += EditCut_Click;
                 View.EditCopy.Click += EditCopy_Click;
                 View.tbCopy.Click += EditCopy_Click;
-                View.GridPopupCopy.Click += EditCopy_Click;
+                View.TablePopupCopy.Click += EditCopy_Click;
                 View.EditPaste.Click += EditPaste_Click;
                 View.tbPaste.Click += EditPaste_Click;
-                View.GridPopupPaste.Click += EditPaste_Click;
+                View.TablePopupPaste.Click += EditPaste_Click;
                 View.EditDelete.Click += EditDelete_Click;
                 View.tbDelete.Click += EditDelete_Click;
-                View.GridPopupDelete.Click += EditDelete_Click;
+                View.TablePopupDelete.Click += EditDelete_Click;
 
                 View.EditSelectAll.Click += EditSelectAll_Click;
                 View.EditInvertSelection.Click += EditInvertSelection_Click;
@@ -116,10 +117,9 @@
 
                 View.HelpAbout.Click += HelpAbout_Click;
 
-                View.GridPopupMenu.Opening += GridPopupMenu_Opening;
-                View.GridPopupTags.Click += PopupTags_Click;
-                View.GridPopupMoreActions.Click += GridPopupMoreOptions_Click;
-                View.PropertyGridPopupTagVisibility.Click += PropertyGridPopupTagVisibility_Click;
+                View.TablePopupMenu.Opening += GridPopupMenu_Opening;
+                View.TablePopupTags.Click += PopupTags_Click;
+                View.TablePopupMoreActions.Click += GridPopupMoreOptions_Click;
 
                 View.Shown += View_Shown;
                 View.FormClosed += View_FormClosed;
@@ -135,11 +135,12 @@
 
         public readonly CommandProcessor CommandProcessor;
         public readonly FilterController FilterController;
-        public readonly LibraryGridController LibraryGridController;
+        public readonly TableController LibraryGridController;
         public readonly MruMediaController MediaController;
         public readonly MruLibraryController MruLibraryController;
         public readonly PictureController PictureController;
         public readonly PlayerController PlayerController;
+        public readonly PropertyGridController PropertyGridController;
         public readonly StatusController StatusController;
 
         #endregion
@@ -152,8 +153,6 @@
             set => MruLibraryController.FilePath = value;
         }
 
-        private bool ResetLibrary;
-
         private Selection Selection => LibraryGridController.Selection;
 
         #endregion
@@ -161,7 +160,7 @@
         #region Methods
 
         public void EnablePaste(bool enable) =>
-            View.EditPaste.Enabled = View.tbPaste.Enabled = View.GridPopupPaste.Enabled = enable;
+            View.EditPaste.Enabled = View.tbPaste.Enabled = View.TablePopupPaste.Enabled = enable;
 
         public void UpdateLocalUI()
         {
@@ -176,36 +175,36 @@
             View.AddRecentFolder.Enabled = View.tbAddRecentFolder.Enabled =
                 View.RecentFolderPopupMenu.Items.Count > 0;
             // Clipboard Menu Items
-            View.EditCut.Enabled = View.tbCut.Enabled = View.GridPopupCut.Enabled =
-                View.EditCopy.Enabled = View.tbCopy.Enabled = View.GridPopupCopy.Enabled =
-                View.EditDelete.Enabled = View.tbDelete.Enabled = View.GridPopupDelete.Enabled =
+            View.EditCut.Enabled = View.tbCut.Enabled = View.TablePopupCut.Enabled =
+                View.EditCopy.Enabled = View.tbCopy.Enabled = View.TablePopupCopy.Enabled =
+                View.EditDelete.Enabled = View.tbDelete.Enabled = View.TablePopupDelete.Enabled =
                 Selection.Tracks.Any();
             // Property Grid
-            View.PropertyGrid.SelectedObject = LibraryGridController.Selection;
+            PropertyGridController.SetSelection(LibraryGridController.Selection);
         }
 
-        public void TracksAdd(List<Track> tracks)
+        public void TracksAdd(Selection selection)
         {
             if (View.InvokeRequired)
-                View.Invoke(new Action<List<Track>>(TracksAdd), tracks);
+                View.Invoke(new Action<Selection>(TracksAdd), selection);
             else
-                CommandProcessor.Run(new TracksAddCommand(tracks), spoof: false);
+                CommandProcessor.Run(new TracksAddCommand(selection), spoof: false);
         }
 
-        public void TracksEdit(Tag tag, List<Track> tracks, List<object> values)
+        public void TracksEdit(Selection selection, Tag tag, List<object> values)
         {
             if (View.InvokeRequired)
-                View.Invoke(new Action<Tag, List<Track>, List<object>>(TracksEdit), tag, tracks, values);
+                View.Invoke(new Action<Selection, Tag, List<object>>(TracksEdit), tag, selection, values);
             else
-                CommandProcessor.Run(new TracksEditCommand(tag, tracks, values), spoof: true);
+                CommandProcessor.Run(new TracksEditCommand(selection, tag, values), spoof: true);
         }
 
-        public void TracksRemove(List<Track> tracks)
+        public void TracksRemove(Selection selection)
         {
             if (View.InvokeRequired)
-                View.Invoke(new Action<List<Track>>(TracksRemove), tracks);
+                View.Invoke(new Action<Selection>(TracksRemove), selection);
             else
-                CommandProcessor.Run(new TracksRemoveCommand(tracks), spoof: false);
+                CommandProcessor.Run(new TracksRemoveCommand(selection), spoof: false);
         }
 
         #endregion
@@ -247,7 +246,7 @@
         #region View
 
         private void ViewWindow_DropDownOpening(object sender, EventArgs e) => AppController.PopulateWindowMenu(View.WindowMenu);
-        private void ViewRefresh_Click(object sender, EventArgs e) => MediaController.Rescan();
+        private void ViewRefresh_Click(object sender, EventArgs e) { }
 
         #endregion
 
@@ -275,10 +274,9 @@
 
         #region Popup Menus
 
-        private void GridPopupMenu_Opening(object sender, CancelEventArgs e) => View.GridPopupMoreActions.Enabled = LibraryGridController.Selection.SelectedFoldersCount == 1;
+        private void GridPopupMenu_Opening(object sender, CancelEventArgs e) => View.TablePopupMoreActions.Enabled = LibraryGridController.Selection.SelectedFoldersCount == 1;
         private void GridPopupMoreOptions_Click(object sender, EventArgs e) => LibraryGridController.PopupShellContextMenu();
         private void PopupTags_Click(object sender, EventArgs e) => LibraryGridController.EditTagVisibility();
-        private void PropertyGridPopupTagVisibility_Click(object sender, EventArgs e) => SelectPropertyGridTags();
 
         #endregion
 
@@ -286,8 +284,8 @@
 
         private void LibraryGridController_SelectionChanged(object sender, EventArgs e) => UpdateUI();
         private void Model_ModifiedChanged(object sender, EventArgs e) => ModifiedChanged();
-        private void Model_TracksAdd(object sender, TracksEventArgs e) => TracksAdd(e.Tracks);
-        private void Model_TracksEdit(object sender, TracksEditEventArgs e) => TracksEdit(e.Tag, e.Tracks, e.Values);
+        private void Model_TracksAdd(object sender, SelectionEventArgs e) => TracksAdd(e.Selection);
+        private void Model_TracksEdit(object sender, SelectionEditEventArgs e) => TracksEdit(e.Selection, e.Tag, e.Values);
         private void PersistenceController_FileSaving(object sender, CancelEventArgs e) => e.Cancel = !ContinueSaving();
         private void View_FormClosed(object sender, FormClosedEventArgs e) => AppController.CloseWindow(this);
 
@@ -334,8 +332,7 @@
         {
             using (var stream = new MemoryStream())
             {
-                var data = Selection.Tracks.ToList();
-                Streamer.SaveToStream(stream, data, StreamFormat.Xml);
+                Streamer.SaveToStream(stream, Selection.Tracks, StreamFormat.Xml);
                 stream.Seek(0, SeekOrigin.Begin);
                 using (var streamReader = new StreamReader(stream))
                 {
@@ -348,7 +345,7 @@
 
         private void Cut() { Copy(); Delete(); }
 
-        private void Delete() => TracksRemove(Selection.Tracks.ToList());
+        private void Delete() => TracksRemove(Selection);
 
         private void ModifiedChanged() => UpdateUI();
 
@@ -375,7 +372,7 @@
                 {
                     var value = Streamer.LoadFromStream(stream, typeof(List<Track>), StreamFormat.Xml);
                     if (value is List<Track> tracks)
-                        TracksAdd(tracks);
+                        TracksAdd(new Selection(tracks));
                 }
                 catch (Exception exception)
                 {
@@ -410,17 +407,6 @@
             var count = tracks.Count(t => (t.FileStatus & status) != 0);
             if (count > 0)
                 message.AppendFormat(format, count);
-        }
-
-        private void SelectPropertyGridTags()
-        {
-            var visibleTags = Tags.BrowsableTags;
-            var ok = new TagsController(this).Execute("Select the Tags to display in the Details Panel", visibleTags);
-            if (ok)
-            {
-                Tags.WriteBrowsableTags(visibleTags);
-                UpdateUI();
-            }
         }
 
         private void UpdateUI() => AppController.UpdateUI(this);

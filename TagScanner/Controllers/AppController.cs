@@ -17,7 +17,7 @@
         static AppController()
         {
             SplashForm = new SplashForm();
-            Controllers = new List<LibraryFormController>();
+            Controllers = new List<MainFormController>();
             SplashForm.FormClosing += MainForm_FormClosing;
             NewWindow();
             new SplashController().Run(SplashForm);
@@ -28,7 +28,7 @@
 
         #region Public Methods
 
-        public static void CloseWindow(LibraryFormController controller)
+        public static void CloseWindow(MainFormController controller)
         {
             Controllers.Remove(controller);
             if (!Controllers.Any())
@@ -48,7 +48,7 @@
 
         public static void NewWindow()
         {
-            var controller = new LibraryFormController();
+            var controller = new MainFormController();
             Controllers.Add(controller);
             controller.FilePath = GetTempFileName();
             controller.View.Show();
@@ -123,7 +123,7 @@
         #region Private Fields
 
         private static SplashForm SplashForm { get; }
-        private static List<LibraryFormController> Controllers { get; }
+        private static List<MainFormController> Controllers { get; }
 
         #endregion
 
@@ -143,15 +143,15 @@
 
         private static void WindowClick(object sender, EventArgs e)
         {
-            var form = (LibraryForm)((ToolStripMenuItem)sender).Tag;
+            var form = (MainForm)((ToolStripMenuItem)sender).Tag;
             form.BringToFront();
             form.Focus();
         }
 
-        public static void UpdateUI(LibraryFormController libraryFormController)
+        public static void UpdateUI(MainFormController mainFormController)
         {
-            libraryFormController.UpdateLocalUI();
-            libraryFormController.CommandProcessor.UpdateLocalUI();
+            mainFormController.UpdateLocalUI();
+            mainFormController.CommandProcessor.UpdateLocalUI();
         }
 
         #endregion

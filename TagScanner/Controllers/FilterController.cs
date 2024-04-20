@@ -19,9 +19,9 @@
         }
 
         private FilterFormController FilterFormController;
-        private LibraryFormController LibraryFormController => (LibraryFormController)Parent;
-        private LibraryGridController LibraryGridController => LibraryFormController.LibraryGridController; 
-        private LibraryForm View => LibraryFormController.View;
+        private MainFormController MainFormController => (MainFormController)Parent;
+        private TableController LibraryGridController => MainFormController.LibraryGridController; 
+        private MainForm View => MainFormController.View;
 
         private void ApplyButton_Click(object sender, EventArgs e) => UpdateFilter();
         private void ClearButton_Click(object sender, EventArgs e) => ClearFilter();

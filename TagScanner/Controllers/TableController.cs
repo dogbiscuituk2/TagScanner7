@@ -15,11 +15,11 @@
     using ValueConverters;
     using Views;
 
-    public class LibraryGridController : GridController
+    public class TableController : GridController
     {
         #region Constructor
 
-        public LibraryGridController(Controller parent, ElementHost view) : base(parent)
+        public TableController(Controller parent, ElementHost view) : base(parent)
         {
             Model.TracksChanged += Model_TracksChanged;
             View = view;
@@ -29,9 +29,9 @@
 
         #region Properties
 
-        private LibraryForm LibraryForm => LibraryFormController.View;
-        private LibraryFormController LibraryFormController => (LibraryFormController)Parent;
-        private Model Model => LibraryFormController.Model;
+        private MainForm MainForm => MainFormController.View;
+        private MainFormController MainFormController => (MainFormController)Parent;
+        private Model Model => MainFormController.Model;
 
         #endregion
 
@@ -51,12 +51,12 @@
             {
                 _view = value;
 
-                LibraryForm.ViewByArtistAlbum.Click += ViewByArtistAlbum_Click;
-                LibraryForm.ViewByArtist.Click += ViewByArtist_Click;
-                LibraryForm.ViewByGenre.Click += ViewByGenre_Click;
-                LibraryForm.ViewByYear.Click += ViewByYear_Click;
-                LibraryForm.ViewByAlbum.Click += ViewByAlbum_Click;
-                LibraryForm.ViewByNoGrouping.Click += ViewByNone_Click;
+                MainForm.ViewByArtistAlbum.Click += ViewByArtistAlbum_Click;
+                MainForm.ViewByArtist.Click += ViewByArtist_Click;
+                MainForm.ViewByGenre.Click += ViewByGenre_Click;
+                MainForm.ViewByYear.Click += ViewByYear_Click;
+                MainForm.ViewByAlbum.Click += ViewByAlbum_Click;
+                MainForm.ViewByNoGrouping.Click += ViewByNone_Click;
 
                 View.Child = new GridElement();
                 InitColumns();
@@ -282,8 +282,8 @@
 
         private void Grid_SelectionChanged(object sender, SelectionChangedEventArgs e) => OnSelectionChanged();
 
-        private void Selection_TracksEdit(object sender, TracksEditEventArgs e) =>
-            LibraryFormController.TracksEdit(e.Tag, e.Tracks, e.Values);
+        private void Selection_TracksEdit(object sender, SelectionEditEventArgs e) =>
+            MainFormController.TracksEdit(e.Selection, e.Tag, e.Values);
 
         #endregion
 

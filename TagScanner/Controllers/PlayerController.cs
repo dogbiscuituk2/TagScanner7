@@ -12,10 +12,10 @@
 
     public class PlayerController : GridController
     {
-        public PlayerController(LibraryFormController libraryFormController) : base(libraryFormController)
+        public PlayerController(MainFormController mainFormController) : base(mainFormController)
         {
-            View.GridPopupPlayAddToQueue.Click += PlaylistAddToQueue_Click;
-            View.GridPopupPlayNewPlaylist.Click += PlaylistCreateNew_Click;
+            View.TablePopupPlayAddToQueue.Click += PlaylistAddToQueue_Click;
+            View.TablePopupPlayNewPlaylist.Click += PlaylistCreateNew_Click;
             View.PlaylistElementHost.Child = new GridElement();
             DataGrid.AutoGenerateColumns = false;
             InitColumns();
@@ -25,9 +25,9 @@
 
         public System.Windows.Controls.DataGrid PlaylistGrid => DataGrid;
 
-        private LibraryFormController LibraryFormController => (LibraryFormController)Parent;
+        private MainFormController MainFormController => (MainFormController)Parent;
 
-        private LibraryForm View => LibraryFormController.View;
+        private MainForm View => MainFormController.View;
 
         private AxWindowsMediaPlayer Player => View.MediaPlayer;
 
@@ -41,16 +41,15 @@
 
         private void PlaySelection(bool newPlaylist)
         {
-            var tracks = LibraryFormController.LibraryGridController.Selection.Tracks;
-            var tracksArray = tracks as Track[] ?? tracks.ToArray();
-            if (!tracksArray.Any())
+            var tracks = MainFormController.LibraryGridController.Selection.Tracks.ToArray();
+            if (!tracks.Any())
                 return;
             if (newPlaylist)
             {
                 _currentPlaylist.Clear();
                 Player.currentPlaylist = Player.newPlaylist(string.Empty, string.Empty);
             }
-            foreach (var track in tracksArray)
+            foreach (var track in tracks)
             {
                 _currentPlaylist.Add(track);
                 Player.currentPlaylist.appendItem(Player.newMedia(track.FilePath));
