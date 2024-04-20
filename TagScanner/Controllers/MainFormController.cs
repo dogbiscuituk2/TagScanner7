@@ -16,19 +16,19 @@
     using Utils;
     using Views;
 
-    public class LibraryFormController : Controller
+    public class MainFormController : Controller
     {
         #region Constructor
 
-        public LibraryFormController() : base(null)
+        public MainFormController() : base(null)
         {
-            View = new LibraryForm();
+            View = new MainForm();
             Model = new Model();
             Model.TracksAdd += Model_TracksAdd;
             Model.TracksEdit += Model_TracksEdit;
             CommandProcessor = new CommandProcessor(this);
             FilterController = new FilterController(this);
-            LibraryGridController = new LibraryGridController(this, View.GridElementHost);
+            LibraryGridController = new TableController(this, View.GridElementHost);
             LibraryGridController.SelectionChanged += LibraryGridController_SelectionChanged;
             MediaController = new MruMediaController(this, View.RecentFolderPopupMenu);
             MruLibraryController = new MruLibraryController(this, View.RecentLibraryPopupMenu);
@@ -47,8 +47,8 @@
 
         #region View
 
-        private LibraryForm _view;
-        public LibraryForm View
+        private MainForm _view;
+        public MainForm View
         {
             get => _view;
             set
@@ -135,7 +135,7 @@
 
         public readonly CommandProcessor CommandProcessor;
         public readonly FilterController FilterController;
-        public readonly LibraryGridController LibraryGridController;
+        public readonly TableController LibraryGridController;
         public readonly MruMediaController MediaController;
         public readonly MruLibraryController MruLibraryController;
         public readonly PictureController PictureController;

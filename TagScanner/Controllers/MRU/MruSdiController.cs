@@ -37,9 +37,9 @@
             }
         }
 
-        protected CommandProcessor CommandProcessor => LibraryFormController.CommandProcessor;
-        protected LibraryFormController LibraryFormController => (LibraryFormController)Parent;
-        protected Model Model => LibraryFormController.Model;
+        protected CommandProcessor CommandProcessor => MainFormController.CommandProcessor;
+        protected MainFormController MainFormController => (MainFormController)Parent;
+        protected Model Model => MainFormController.Model;
 
         private string _filePath = string.Empty;
         private readonly OpenFileDialog _openFileDialog;

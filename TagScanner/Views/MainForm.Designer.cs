@@ -1,6 +1,6 @@
 ﻿namespace TagScanner.Views
 {
-	partial class LibraryForm
+	partial class MainForm
 	{
 
 		/// <summary>
@@ -25,7 +25,7 @@
 		public void InitializeComponent()
 		{
             this.components = new System.ComponentModel.Container();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(LibraryForm));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.GridElementHost = new System.Windows.Forms.Integration.ElementHost();
             this.GridPopupMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
@@ -1185,7 +1185,7 @@
             this.toolStripMenuItem12.Name = "toolStripMenuItem12";
             this.toolStripMenuItem12.Size = new System.Drawing.Size(146, 6);
             // 
-            // LibraryForm
+            // MainForm
             // 
             this.AcceptButton = this.ApplyButton;
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 17F);
@@ -1198,7 +1198,7 @@
             this.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.MainMenuStrip = this.MainMenu;
             this.Margin = new System.Windows.Forms.Padding(4);
-            this.Name = "LibraryForm";
+            this.Name = "MainForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.WindowsDefaultBounds;
             this.Text = "ID3 Tag Explorer";
             this.splitContainer1.Panel1.ResumeLayout(false);

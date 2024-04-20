@@ -27,8 +27,8 @@
         private readonly FolderBrowserDialog _folderBrowserDialog;
         private readonly OpenFileDialog _openFileDialog;
 
-        private LibraryFormController LibraryFormController => (LibraryFormController)Parent;
-        private Model Model => LibraryFormController.Model;
+        private MainFormController MainFormController => (MainFormController)Parent;
+        private Model Model => MainFormController.Model;
 
         #endregion
 
@@ -61,7 +61,7 @@
             Task.Run(() => Model.AddFolder(folderPath, filter, progress));
         }
 
-        private IProgress<ProgressEventArgs> CreateNewProgress() => LibraryFormController.StatusController.CreateNewProgress();
+        private IProgress<ProgressEventArgs> CreateNewProgress() => MainFormController.StatusController.CreateNewProgress();
 
         private static string MakeItem(string folderPath, string filter) => string.Concat(folderPath, '|', filter);
 

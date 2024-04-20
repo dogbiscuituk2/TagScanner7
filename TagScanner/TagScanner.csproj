@@ -191,7 +191,7 @@
     <Compile Include="Menus\OperationEventArgs.cs" />
     <Compile Include="Models\GroupTagsBy.cs" />
     <Compile Include="Controllers\GridController.cs" />
-    <Compile Include="Controllers\LibraryFormController.cs" />
+    <Compile Include="Controllers\MainFormController.cs" />
     <Compile Include="Controllers\PlayerController.cs" />
     <Compile Include="Controllers\Mru\MruSdiController.cs" />
     <Compile Include="Controllers\TagPickerController.cs" />
@@ -227,7 +227,7 @@
     <Compile Include="ValueConverters\StringsConverter.cs" />
     <Compile Include="ValueConverters\TimeSpanConverter.cs" />
     <Compile Include="ValueConverters\GroupSummary.cs" />
-    <Compile Include="Controllers\LibraryGridController.cs" />
+    <Compile Include="Controllers\TableController.cs" />
     <Compile Include="ValueConverters\LogicalConverter.cs" />
     <Compile Include="Controllers\Mru\MruMediaController.cs" />
     <Compile Include="Controllers\Mru\MruLibraryController.cs" />
@@ -244,11 +244,11 @@
     <Compile Include="Views\GridElement.xaml.cs">
       <DependentUpon>GridElement.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\LibraryForm.cs">
+    <Compile Include="Views\MainForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Views\LibraryForm.Designer.cs">
-      <DependentUpon>LibraryForm.cs</DependentUpon>
+    <Compile Include="Views\MainForm.Designer.cs">
+      <DependentUpon>MainForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Controllers\Mru\MruMenuController.cs" />
     <Compile Include="Models\Picture.cs" />
@@ -272,8 +272,8 @@
     <Compile Include="Views\FilterForm.Designer.cs">
       <DependentUpon>FilterForm.cs</DependentUpon>
     </Compile>
-    <EmbeddedResource Include="Views\LibraryForm.resx">
-      <DependentUpon>LibraryForm.cs</DependentUpon>
+    <EmbeddedResource Include="Views\MainForm.resx">
+      <DependentUpon>MainForm.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
