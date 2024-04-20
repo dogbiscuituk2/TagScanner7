@@ -213,7 +213,7 @@
             this.GridPopupTags,
             this.GridPopupMoreActions});
             this.GridPopupMenu.Name = "PopupMenu";
-            this.GridPopupMenu.Size = new System.Drawing.Size(181, 192);
+            this.GridPopupMenu.Size = new System.Drawing.Size(166, 170);
             // 
             // GridPopupPlay
             // 
@@ -247,7 +247,7 @@
             this.GridPopupCut.Name = "GridPopupCut";
             this.GridPopupCut.ShortcutKeyDisplayString = "^X";
             this.GridPopupCut.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.X)));
-            this.GridPopupCut.Size = new System.Drawing.Size(180, 22);
+            this.GridPopupCut.Size = new System.Drawing.Size(165, 22);
             this.GridPopupCut.Text = "Cu&t";
             // 
             // GridPopupCopy
@@ -256,7 +256,7 @@
             this.GridPopupCopy.Name = "GridPopupCopy";
             this.GridPopupCopy.ShortcutKeyDisplayString = "^C";
             this.GridPopupCopy.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.C)));
-            this.GridPopupCopy.Size = new System.Drawing.Size(180, 22);
+            this.GridPopupCopy.Size = new System.Drawing.Size(165, 22);
             this.GridPopupCopy.Text = "&Copy";
             // 
             // GridPopupPaste
@@ -265,7 +265,7 @@
             this.GridPopupPaste.Name = "GridPopupPaste";
             this.GridPopupPaste.ShortcutKeyDisplayString = "^V";
             this.GridPopupPaste.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.V)));
-            this.GridPopupPaste.Size = new System.Drawing.Size(180, 22);
+            this.GridPopupPaste.Size = new System.Drawing.Size(165, 22);
             this.GridPopupPaste.Text = "&Paste";
             // 
             // GridPopupDelete
@@ -398,6 +398,7 @@
             // tabTags
             // 
             this.tabTags.BackColor = System.Drawing.SystemColors.Control;
+            this.tabTags.ContextMenuStrip = this.PropertyGridPopupMenu;
             this.tabTags.Controls.Add(this.PropertyGrid);
             this.tabTags.Location = new System.Drawing.Point(4, 26);
             this.tabTags.Margin = new System.Windows.Forms.Padding(0);
@@ -640,7 +641,7 @@
             this.EditUndo.Name = "EditUndo";
             this.EditUndo.ShortcutKeyDisplayString = "^Z";
             this.EditUndo.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Z)));
-            this.EditUndo.Size = new System.Drawing.Size(180, 22);
+            this.EditUndo.Size = new System.Drawing.Size(155, 22);
             this.EditUndo.Text = "&Undo";
             // 
             // EditRedo
@@ -649,13 +650,13 @@
             this.EditRedo.Name = "EditRedo";
             this.EditRedo.ShortcutKeyDisplayString = "^Y";
             this.EditRedo.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Y)));
-            this.EditRedo.Size = new System.Drawing.Size(180, 22);
+            this.EditRedo.Size = new System.Drawing.Size(155, 22);
             this.EditRedo.Text = "&Redo";
             // 
             // toolStripMenuItem10
             // 
             this.toolStripMenuItem10.Name = "toolStripMenuItem10";
-            this.toolStripMenuItem10.Size = new System.Drawing.Size(177, 6);
+            this.toolStripMenuItem10.Size = new System.Drawing.Size(152, 6);
             // 
             // EditCut
             // 
@@ -663,7 +664,7 @@
             this.EditCut.Name = "EditCut";
             this.EditCut.ShortcutKeyDisplayString = "^X";
             this.EditCut.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.X)));
-            this.EditCut.Size = new System.Drawing.Size(180, 22);
+            this.EditCut.Size = new System.Drawing.Size(155, 22);
             this.EditCut.Text = "Cu&t";
             // 
             // EditCopy
@@ -672,7 +673,7 @@
             this.EditCopy.Name = "EditCopy";
             this.EditCopy.ShortcutKeyDisplayString = "^C";
             this.EditCopy.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.C)));
-            this.EditCopy.Size = new System.Drawing.Size(180, 22);
+            this.EditCopy.Size = new System.Drawing.Size(155, 22);
             this.EditCopy.Text = "&Copy";
             // 
             // EditPaste
@@ -682,7 +683,7 @@
             this.EditPaste.Name = "EditPaste";
             this.EditPaste.ShortcutKeyDisplayString = "^V";
             this.EditPaste.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.V)));
-            this.EditPaste.Size = new System.Drawing.Size(180, 22);
+            this.EditPaste.Size = new System.Drawing.Size(155, 22);
             this.EditPaste.Text = "&Paste";
             // 
             // EditDelete
@@ -691,13 +692,13 @@
             this.EditDelete.ImageTransparentColor = System.Drawing.Color.White;
             this.EditDelete.Name = "EditDelete";
             this.EditDelete.ShortcutKeyDisplayString = "";
-            this.EditDelete.Size = new System.Drawing.Size(180, 22);
+            this.EditDelete.Size = new System.Drawing.Size(155, 22);
             this.EditDelete.Text = "&Delete";
             // 
             // toolStripMenuItem11
             // 
             this.toolStripMenuItem11.Name = "toolStripMenuItem11";
-            this.toolStripMenuItem11.Size = new System.Drawing.Size(177, 6);
+            this.toolStripMenuItem11.Size = new System.Drawing.Size(152, 6);
             // 
             // EditFind
             // 
@@ -705,7 +706,7 @@
             this.EditFind.Name = "EditFind";
             this.EditFind.ShortcutKeyDisplayString = "^F";
             this.EditFind.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.F)));
-            this.EditFind.Size = new System.Drawing.Size(180, 22);
+            this.EditFind.Size = new System.Drawing.Size(155, 22);
             this.EditFind.Text = "&Find...";
             // 
             // EditReplace
@@ -713,26 +714,26 @@
             this.EditReplace.Name = "EditReplace";
             this.EditReplace.ShortcutKeyDisplayString = "^H";
             this.EditReplace.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.H)));
-            this.EditReplace.Size = new System.Drawing.Size(180, 22);
+            this.EditReplace.Size = new System.Drawing.Size(155, 22);
             this.EditReplace.Text = "&Replace...";
             // 
             // toolStripMenuItem2
             // 
             this.toolStripMenuItem2.Name = "toolStripMenuItem2";
-            this.toolStripMenuItem2.Size = new System.Drawing.Size(177, 6);
+            this.toolStripMenuItem2.Size = new System.Drawing.Size(152, 6);
             // 
             // EditSelectAll
             // 
             this.EditSelectAll.Name = "EditSelectAll";
             this.EditSelectAll.ShortcutKeyDisplayString = "^A";
             this.EditSelectAll.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.A)));
-            this.EditSelectAll.Size = new System.Drawing.Size(180, 22);
+            this.EditSelectAll.Size = new System.Drawing.Size(155, 22);
             this.EditSelectAll.Text = "Select &All";
             // 
             // EditInvertSelection
             // 
             this.EditInvertSelection.Name = "EditInvertSelection";
-            this.EditInvertSelection.Size = new System.Drawing.Size(180, 22);
+            this.EditInvertSelection.Size = new System.Drawing.Size(155, 22);
             this.EditInvertSelection.Text = "&Invert Selection";
             // 
             // AddMenu

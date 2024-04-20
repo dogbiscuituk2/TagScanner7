@@ -146,6 +146,7 @@
     <Compile Include="Controllers\AppController.cs" />
     <Compile Include="Controllers\Mru\MruController.cs" />
     <Compile Include="Controllers\Mru\MruFilterController.cs" />
+    <Compile Include="Controllers\PropertyGridController.cs" />
     <Compile Include="Controllers\SplashController.cs" />
     <Compile Include="Controls\FirstClickHelper.cs" />
     <Compile Include="Controls\FirstClickMenuStrip.cs">

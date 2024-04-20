@@ -36,6 +36,7 @@
             MruLibraryController.FileSaving += PersistenceController_FileSaving;
             PlayerController = new PlayerController(this);
             PictureController = new PictureController(View.PictureBox, View.PropertyGrid, PlayerController.PlaylistGrid);
+            PropertyGridController = new PropertyGridController(this);
             StatusController = new StatusController(this);
             ModifiedChanged();
             UpdateUI();
@@ -140,6 +141,7 @@
         public readonly MruLibraryController MruLibraryController;
         public readonly PictureController PictureController;
         public readonly PlayerController PlayerController;
+        public readonly PropertyGridController PropertyGridController;
         public readonly StatusController StatusController;
 
         #endregion
@@ -179,7 +181,7 @@
                 View.EditDelete.Enabled = View.tbDelete.Enabled = View.GridPopupDelete.Enabled =
                 Selection.Tracks.Any();
             // Property Grid
-            View.PropertyGrid.SelectedObject = LibraryGridController.Selection;
+            PropertyGridController.SetSelection(LibraryGridController.Selection);
         }
 
         public void TracksAdd(Selection selection)

@@ -7,6 +7,7 @@
     using System.Linq;
 
     [DefaultProperty("Title")]
+    [RefreshProperties(RefreshProperties.All)]
     public class Selection : ITrack
     {
         #region Constructors
