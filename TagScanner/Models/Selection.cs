@@ -9,7 +9,7 @@
     [DefaultProperty("Title")]
     public class Selection : ITrack
     {
-        #region Constructor
+        #region Constructors
 
         public Selection(IEnumerable<Track> tracks) => Tracks = tracks.ToList();
 
@@ -17,7 +17,7 @@
 
         #region Public Fields
 
-        public readonly List<Track> Tracks;
+        public List<Track> Tracks { get; private set; }
 
         public const string
             Category = "Category",
@@ -1926,6 +1926,7 @@
 
         #region Events
 
+        [field: NonSerialized]
         public event EventHandler<SelectionEditEventArgs> TracksEdit;
 
         protected virtual void OnTracksEdit(Tag tag, List<object> values) =>

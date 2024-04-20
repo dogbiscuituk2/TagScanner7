@@ -1,6 +1,7 @@
 ﻿namespace TagScanner.Controllers.Mru
 {
     using System;
+    using System.Collections.Generic;
     using System.IO;
     using System.Linq;
     using System.Windows.Forms;
@@ -44,22 +45,23 @@
 
         protected override bool LoadFromStream(Stream stream, StreamFormat format)
         {
-            if (!(LoadDocument(stream, typeof(Selection), format) is Selection selection))
+            if (!(LoadDocument(stream, typeof(List<Track>), format) is List<Track> newTracks))
                 return false;
             if (ResetLibrary)
             {
-                Model.Library = selection;
+                Model.Library = new Selection(newTracks);
                 return true;
             }
-            var tracks = Model.Library.Tracks;
-            selection.Tracks.RemoveAll(p => tracks.Any(q => q.FilePath == p.FilePath));
-            if (!selection.Tracks.Any())
+            var oldTracks = Model.Library.Tracks;
+            newTracks.RemoveAll(p => oldTracks.Any(q => q.FilePath == p.FilePath));
+            if (!newTracks.Any())
                 return false;
-            CommandProcessor.Run(new TracksAddCommand(selection), spoof: false);
+            CommandProcessor.Run(new TracksAddCommand(new Selection(newTracks)), spoof: false);
             return true;
         }
 
-        protected override bool SaveToStream(Stream stream, StreamFormat format) => SaveDocument(stream, Model.Library, format);
+        protected override bool SaveToStream(Stream stream, StreamFormat format) =>
+            SaveDocument(stream, Model.Library.Tracks, format);
 
         #endregion
     }

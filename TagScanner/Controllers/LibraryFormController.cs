@@ -332,8 +332,7 @@
         {
             using (var stream = new MemoryStream())
             {
-                var data = Selection.Tracks.ToList();
-                Streamer.SaveToStream(stream, data, StreamFormat.Xml);
+                Streamer.SaveToStream(stream, Selection.Tracks, StreamFormat.Xml);
                 stream.Seek(0, SeekOrigin.Begin);
                 using (var streamReader = new StreamReader(stream))
                 {
@@ -371,9 +370,9 @@
             {
                 try
                 {
-                    var value = Streamer.LoadFromStream(stream, typeof(Selection), StreamFormat.Xml);
-                    if (value is Selection selection)
-                        TracksAdd(selection);
+                    var value = Streamer.LoadFromStream(stream, typeof(List<Track>), StreamFormat.Xml);
+                    if (value is List<Track> tracks)
+                        TracksAdd(new Selection(tracks));
                 }
                 catch (Exception exception)
                 {
