@@ -28,8 +28,8 @@
             Model.TracksEdit += Model_TracksEdit;
             CommandProcessor = new CommandProcessor(this);
             FilterController = new FilterController(this);
-            LibraryGridController = new TableController(this, View.GridElementHost);
-            LibraryGridController.SelectionChanged += LibraryGridController_SelectionChanged;
+            TableController = new TableController(this, View.GridElementHost);
+            TableController.SelectionChanged += LibraryGridController_SelectionChanged;
             DragDropController = new DragDropController(this);
             MediaController = new MruMediaController(this, View.RecentFolderPopupMenu);
             LibraryController = new MruLibraryController(this, View.RecentLibraryPopupMenu);
@@ -138,7 +138,7 @@
 
         public readonly CommandProcessor CommandProcessor;
         public readonly FilterController FilterController;
-        public readonly TableController LibraryGridController;
+        public readonly TableController TableController;
         public readonly MruMediaController MediaController;
         public readonly MruLibraryController LibraryController;
         public readonly PictureController PictureController;
@@ -158,7 +158,7 @@
             set => LibraryController.FilePath = value;
         }
 
-        private Selection Selection => LibraryGridController.Selection;
+        private Selection Selection => TableController.Selection;
 
         #endregion
 
@@ -185,7 +185,7 @@
                 View.EditDelete.Enabled = View.tbDelete.Enabled = View.TablePopupDelete.Enabled =
                 Selection.Tracks.Any();
             // Property Grid
-            PropertyGridController.SetSelection(LibraryGridController.Selection);
+            PropertyGridController.SetSelection(TableController.Selection);
         }
 
         public void TracksAdd(Selection selection)
@@ -243,8 +243,8 @@
         private void EditCopy_Click(object sender, EventArgs e) => Copy();
         private void EditPaste_Click(object sender, EventArgs e) => Paste();
         private void EditDelete_Click(object sender, EventArgs e) => Delete();
-        private void EditSelectAll_Click(object sender, EventArgs e) => LibraryGridController.SelectAll();
-        private void EditInvertSelection_Click(object sender, EventArgs e) => LibraryGridController.InvertSelection();
+        private void EditSelectAll_Click(object sender, EventArgs e) => TableController.SelectAll();
+        private void EditInvertSelection_Click(object sender, EventArgs e) => TableController.InvertSelection();
 
         #endregion
 
@@ -280,9 +280,9 @@
 
         #region Popup Menus
 
-        private void GridPopupMenu_Opening(object sender, CancelEventArgs e) => View.TablePopupMoreActions.Enabled = LibraryGridController.Selection.SelectedFoldersCount == 1;
-        private void GridPopupMoreOptions_Click(object sender, EventArgs e) => LibraryGridController.PopupShellContextMenu();
-        private void PopupTags_Click(object sender, EventArgs e) => LibraryGridController.EditTagVisibility();
+        private void GridPopupMenu_Opening(object sender, CancelEventArgs e) => View.TablePopupMoreActions.Enabled = TableController.Selection.SelectedFoldersCount == 1;
+        private void GridPopupMoreOptions_Click(object sender, EventArgs e) => TableController.PopupShellContextMenu();
+        private void PopupTags_Click(object sender, EventArgs e) => TableController.EditTagVisibility();
 
         #endregion
 

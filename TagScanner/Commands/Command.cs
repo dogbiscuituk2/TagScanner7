@@ -38,10 +38,10 @@
                 else
                     s.Append($"{Tracks.Count} tracks");
                 if (albums.Count() == 1)
-                    s.Append($"from '{album}'");
+                    s.Append($" from '{album}'");
                 if (artists.Count() > 0)
                 {
-                    s.Append($"by {artist}");
+                    s.Append($" by {artist}");
                     if (artists.Count() > 1)
                         s.Append(", etc.");
                 }
