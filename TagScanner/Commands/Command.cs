@@ -24,22 +24,27 @@
             get
             {
                 IEnumerable<string>
-                    albums = Tracks.Select(p => p.Album).Distinct(),
-                    artists = Tracks.Select(p => p.JoinedPerformers).Distinct();
+                    albums = Tracks.Select(p => p.Album).Where(p => !string.IsNullOrWhiteSpace(p)).Distinct(),
+                    artists = Tracks.Select(p => p.JoinedPerformers).Where(p => !string.IsNullOrWhiteSpace(p)).Distinct();
                 string
-                    album = albums.First(),
-                    artist = artists.First();
-                bool
-                    sameAlbum = albums.Count() == 1,
-                    sameArtist = artists.Count() == 1;
+                    album = albums.FirstOrDefault(),
+                    artist = artists.FirstOrDefault();
+                var s = new StringBuilder();
                 if (Tracks.Count == 1)
-                    return $"'{Tracks.First().Title}' by {artist} (from '{album}')";
-                var s = new StringBuilder($"{Tracks.Count} ");
-                if (sameAlbum)
-                    s.Append($"'{album}' ");
-                s.Append($"tracks by {artist}");
-                if (!sameArtist)
-                    s.Append(", etc.");
+                {
+                    var title = Tracks.First().Title;
+                    s.Append(!string.IsNullOrWhiteSpace(title) ? $"'{title}'" : "one track");
+                }
+                else
+                    s.Append($"{Tracks.Count} tracks");
+                if (albums.Count() == 1)
+                    s.Append($"from '{album}'");
+                if (artists.Count() > 0)
+                {
+                    s.Append($"by {artist}");
+                    if (artists.Count() > 1)
+                        s.Append(", etc.");
+                }
                 return s.ToString();
             }
         }

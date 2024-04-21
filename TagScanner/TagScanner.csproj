@@ -142,6 +142,7 @@
     <Compile Include="Commands\TracksEditCommand.cs" />
     <Compile Include="Commands\CommandProcessor.cs" />
     <Compile Include="Commands\TracksAddRemoveCommand.cs" />
+    <Compile Include="Controllers\DragDropController.cs" />
     <Compile Include="Controllers\FilterController.cs" />
     <Compile Include="Controllers\AppController.cs" />
     <Compile Include="Controllers\Mru\MruController.cs" />
@@ -213,7 +214,6 @@
     <Compile Include="Terms\Rank.cs" />
     <Compile Include="Terms\Tags.cs" />
     <Compile Include="Terms\Term.cs" />
-    <Compile Include="Logging\Logger.cs" />
     <Compile Include="Models\Alignment.cs" />
     <Compile Include="Models\Column.cs" />
     <Compile Include="Models\ColumnType.cs" />

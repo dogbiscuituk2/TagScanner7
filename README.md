@@ -1,4 +1,4 @@
-﻿# TagScanner - A Code Overview {#contents}
+﻿# TagScanner - Overview {#contents}
 
 TagScanner gathers ID3 tags and other available metadata from suitable files, e.g. MP3s, and stores them in a library file. Loaded metadata are editable, and when the library is re-saved, these edits can optionally be applied to the relevant media files.
 
@@ -8,35 +8,74 @@ A Find/Replace function operates across multiple tags, and optionally uses Regex
 
 The app is WinForms based, but uses embedded WPF grids to take advantage of their (free!) filtering, sorting and grouping operations.
 
-This document presents brief desciptions of the most important classes and other design elements of the TagScanner application.
+This document first describes the basic operation of the app from a user perspective, then presents brief desciptions of the most important classes and other design elements of TagScanner.
 
 ## Contents
 
-- <a href="#model">Model</a>
-  - <a href="#tags">Tags</a>
-  -  <a href="#itrack">_ITrack (interface)_</a>
-      - <a href="#track">Track</a>
-      - <a href="#selection">Selection</a>
-- <a href="#term">_Term (abstract)_</a>
-  - <a href="#constant">Constant</a>
-  - <a href="#field">Field</a>
-  - <a href="#param">Parameter</a>
-  - <a href="#termlist">TermList</a>
-    - <a href="#cast">Cast</a>
-    - <a href="#function">Function</a>
-    - <a href="#operation">Operation</a>
-      - <a href="#monad">Monadic Operation ( + - !</a> )
-      - <a href="#dyad">Dyadic Operation ( + - * / &amp; | \^ = ≠ &lt; ≤ ≥ &gt; )</a>
-      - <a href="#triad">Triadic Operation ( ? : )</a>
-- <a href="#grammar">Grammar</a>
-  - <a href="#tokenizer">Tokenizer</a>
-  - <a href="#parser">Parser</a>
-  - <a href="#parserstate">ParserState</a>
-- <a href="#dcs">Development Cheat Sheet</a>
-  - <a href="#cstags">Tags</a>
-  - <a href="#csfields">Fields</a>
-  - <a href="#csfuncs">Functions</a>
-  - <a href="#csops">Operations</a>
+- <a href="#userguide"><b>User Guide</b></a>
+  - <a href="#filenew">Creating a New Library</a>
+  - <a href="#addmedia">Adding Media Files to a Library</a>
+  - <a href="#edittags">Editing Tags</a>
+- <a href=""><b>Code Reference</b></a>
+  - <a href="#model">Model</a>
+    - <a href="#tags">Tags</a>
+    -  <a href="#itrack">_ITrack (interface)_</a>
+        - <a href="#track">Track</a>
+        - <a href="#selection">Selection</a>
+  - <a href="#term">_Term (abstract)_</a>
+    - <a href="#constant">Constant</a>
+    - <a href="#field">Field</a>
+    - <a href="#param">Parameter</a>
+    - <a href="#termlist">TermList</a>
+      - <a href="#cast">Cast</a>
+      - <a href="#function">Function</a>
+      - <a href="#operation">Operation</a>
+        - <a href="#monad">Monadic Operation ( + - !</a> )
+        - <a href="#dyad">Dyadic Operation ( + - * / &amp; | \^ = ≠ &lt; ≤ ≥ &gt; )</a>
+        - <a href="#triad">Triadic Operation ( ? : )</a>
+  - <a href="#grammar">Grammar</a>
+    - <a href="#tokenizer">Tokenizer</a>
+    - <a href="#parser">Parser</a>
+    - <a href="#parserstate">ParserState</a>
+  - <a href="#dcs">Development Cheat Sheet</a>
+    - <a href="#cstags">Tags</a>
+    - <a href="#csfields">Fields</a>
+    - <a href="#csfuncs">Functions</a>
+    - <a href="#csops">Operations</a>
+
+## User Guide {#userguide}
+
+## Creating a New Library {#filenew}
+
+When run, the app starts up with a new, empty library displayed, ready to add media files and/or folders. Later, when you have created and saved a library file, you can begin work on another by using the _File|New_ command to create a new, empty library.
+
+If the app window already contains a library which has not yet been saved (as indicated by a \* in the window caption bar), you will be prompted to do so:
+
+<img src="docs/file modified.png">
+
+Answer _Yes_ to save the existing library file, _No_ to discard it, or _Cancel_ to continue working on the existing library (cancelling the _File|New_ command).
+
+Another way to begin work on a new library, _without_ interrupting work on an existing one, is to use the _Window|New_ rather than _File|New_ command. This will simply create a new, empty copy of the app window. You may have any number of such windows open simultaneously, and switch between them using Alt+Tab.
+
+## Adding Media Files to a Library {#addmedia}
+
+The main methods of adding media files to a library are with the _Add|Media_ and _Add|Folder_ commands. Assuming a well ordered and curated media file collection, for example under a single folder (perhaps with subfolders for each artist, then each album), the _Add|Media_ command will be used much less frequently than the mighty, directory-traversing _Add|Folder_ command.
+
+_Add|Media_ lets you browse for individual media files, or groups of these under a common directory, and add them individually to the library. Notice the file type filter in the bottom right corner of this dialog, which is currently set to "Audio Files". This filter controls which types of files will be added to the library - not just here, but across the app.
+
+<img src="docs/add media.png">
+
+_Add|Folder_ lets you browse for a folder in the file system directory structure, and add all the relevant media files to the library, including all files in nested subfolders, sub-subfolders, etc.
+
+<img src="docs/add folder.png">
+
+The file types added will be controlled by the filter selected in the _Add|Media_ dialog, so it might be worth visiting that command, just to set this - for example, if you would like music video files to be included along with the audio files.
+
+## Editing Tags {#edittags}
+
+The main purpose of TagScanner is to make the maintenance of media metadata tags convenient and easy. Several tools are provided for this purpose. Tags can be edited in either the main table area of the app window, or in the properties pane at the bottom right, which can conveniently display far mode property tags simultaneously than the main table.
+
+Tags which are readonly appear in a greyed font, while those which can be edited are shown in black text.
 
 ## Model {#model}
 
@@ -186,7 +225,7 @@ The following is not a complete dyadic __Operation__ list, since several of them
   - __Disjunction__
   - __Concatenation__
 
-For example, the sum of 1+2+3 can be coded as any of the following (click to expand):
+For example, the sum of 1+2+3 can be coded as any of the following:
 
     new Sum(new Sum(1, 2), 3) // Nested dyads.
 

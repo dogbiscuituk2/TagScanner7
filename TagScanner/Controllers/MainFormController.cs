@@ -2,6 +2,7 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.Collections.Specialized;
     using System.ComponentModel;
     using System.IO;
     using System.Linq;
@@ -29,10 +30,11 @@
             FilterController = new FilterController(this);
             LibraryGridController = new TableController(this, View.GridElementHost);
             LibraryGridController.SelectionChanged += LibraryGridController_SelectionChanged;
+            DragDropController = new DragDropController(this);
             MediaController = new MruMediaController(this, View.RecentFolderPopupMenu);
-            MruLibraryController = new MruLibraryController(this, View.RecentLibraryPopupMenu);
-            MruLibraryController.FilePathChanged += PersistenceController_FilePathChanged;
-            MruLibraryController.FileSaving += PersistenceController_FileSaving;
+            LibraryController = new MruLibraryController(this, View.RecentLibraryPopupMenu);
+            LibraryController.FilePathChanged += PersistenceController_FilePathChanged;
+            LibraryController.FileSaving += PersistenceController_FileSaving;
             PlayerController = new PlayerController(this);
             PictureController = new PictureController(View.PictureBox, View.PropertyGrid, PlayerController.PlaylistGrid);
             PropertyGridController = new PropertyGridController(this);
@@ -138,11 +140,13 @@
         public readonly FilterController FilterController;
         public readonly TableController LibraryGridController;
         public readonly MruMediaController MediaController;
-        public readonly MruLibraryController MruLibraryController;
+        public readonly MruLibraryController LibraryController;
         public readonly PictureController PictureController;
         public readonly PlayerController PlayerController;
         public readonly PropertyGridController PropertyGridController;
         public readonly StatusController StatusController;
+
+        public DragDropController DragDropController;
 
         #endregion
 
@@ -150,8 +154,8 @@
 
         public string FilePath
         {
-            get => MruLibraryController.FilePath;
-            set => MruLibraryController.FilePath = value;
+            get => LibraryController.FilePath;
+            set => LibraryController.FilePath = value;
         }
 
         private Selection Selection => LibraryGridController.Selection;
@@ -166,7 +170,7 @@
         public void UpdateLocalUI()
         {
             // Window Caption
-            View.Text = MruLibraryController.WindowCaption;
+            View.Text = LibraryController.WindowCaption;
             // File Operations
             View.FileReopen.Enabled = View.tbReopen.Enabled =
                 View.AddRecentLibrary.Enabled = View.tbAddRecentLibrary.Enabled =
@@ -219,15 +223,15 @@
         private void FileNewLibrary_Click(object sender, EventArgs e)
         {
             var filePath = FilePath;
-            if (MruLibraryController.Clear())
+            if (LibraryController.Clear())
                 FilePath = filePath.IsValidFilePath() ? AppController.GetTempFileName() : filePath;
         }
 
         private void FileNewWindow_Click(object sender, EventArgs e) => AppController.NewWindow();
-        private void FileOpen_Click(object sender, EventArgs e) => MruLibraryController.Open();
-        private void FileReopen_DropDownOpening(object sender, EventArgs e) => MruLibraryController.ResetLibrary = true;
-        private void FileSave_Click(object sender, EventArgs e) => MruLibraryController.Save();
-        private void FileSaveAs_Click(object sender, EventArgs e) => MruLibraryController.SaveAs();
+        private void FileOpen_Click(object sender, EventArgs e) => LibraryController.Open();
+        private void FileReopen_DropDownOpening(object sender, EventArgs e) => LibraryController.Merging = false;
+        private void FileSave_Click(object sender, EventArgs e) => LibraryController.Save();
+        private void FileSaveAs_Click(object sender, EventArgs e) => LibraryController.SaveAs();
         private void FileClose_Click(object sender, EventArgs e) => View.Close();
         private void FileExit_Click(object sender, EventArgs e) => AppController.Shutdown();
 
@@ -255,8 +259,8 @@
 
         private void AddMedia_Click(object sender, EventArgs e) => MediaController.AddFiles();
         private void AddFolder_Click(object sender, EventArgs e) => MediaController.AddFolder();
-        private void AddLibrary_Click(object sender, EventArgs e) => MruLibraryController.AddLibrary();
-        private void AddRecentLibrary_DropDownOpening(object sender, EventArgs e) => MruLibraryController.ResetLibrary = false;
+        private void AddLibrary_Click(object sender, EventArgs e) => LibraryController.AddLibrary();
+        private void AddRecentLibrary_DropDownOpening(object sender, EventArgs e) => LibraryController.Merging = true;
         private void TbAdd_DropDownOpening(object sender, EventArgs e) => View.tbAddRecentFolder.Enabled = View.AddRecentFolder.Enabled;
 
         #endregion
@@ -293,7 +297,7 @@
 
         private void View_FormClosing(object sender, FormClosingEventArgs e)
         {
-            e.Cancel = !MruLibraryController.SaveIfModified();
+            e.Cancel = !LibraryController.SaveIfModified();
             if (!e.Cancel)
                 FilterController.RegistryWrite();
         }
@@ -353,10 +357,14 @@
 
         private void Paste() => PasteFromClipboard();
 
-        private void PasteFromClipboard()
+        private void PasteFileDropList()
         {
-            if (!Clipboard.ContainsText())
-                return;
+            StringCollection filePaths = Clipboard.GetFileDropList();
+            MediaController.AddFiles(filePaths.OfType<string>().ToArray());
+        }
+
+        private void PasteXmlDocument()
+        {
             var text = Clipboard.GetText();
             var tempFileName = Path.GetTempFileName();
             using (var stream = new FileStream(tempFileName, FileMode.OpenOrCreate, FileAccess.Write))
@@ -386,6 +394,14 @@
                     File.Delete(tempFileName);
                 }
             }
+        }
+
+        private void PasteFromClipboard()
+        {
+            if (Clipboard.ContainsFileDropList())
+                PasteFileDropList();
+            if (Clipboard.ContainsText())
+                PasteXmlDocument();
         }
 
         private void PersistenceController_FilePathChanged(object sender, EventArgs e) => UpdateUI();

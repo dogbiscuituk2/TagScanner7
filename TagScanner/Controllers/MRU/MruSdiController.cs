@@ -51,12 +51,10 @@
 
         public bool AddLibrary()
         {
-            ResetLibrary = false;
-            if (_openFileDialog.ShowDialog(Owner) != DialogResult.OK)
-                return false;
-            var fileName = _openFileDialog.FileName;
-            var format = fileName.GetStreamFormat();
-            return LoadFromFile(fileName, format);
+            Merging = true;
+            return _openFileDialog.ShowDialog(Owner) == DialogResult.OK
+                ? LoadFromFile(_openFileDialog.FileName)
+                : false;
         }
 
         public bool Clear()
@@ -74,18 +72,19 @@
         protected object LoadDocument(Stream stream, Type documentType, StreamFormat format)
         {
             var result = Streamer.LoadFromStream(stream, documentType, format);
-            if (ResetLibrary && result != null)
+            if (!Merging && result != null)
                 CommandProcessor.Clear();
             return result;
         }
 
-        private bool LoadFromFile(string filePath, StreamFormat format)
+        private bool LoadFromFile(string filePath)
         {
-            if (ResetLibrary && !OnFileLoading()) return false;
+            if (!Merging && !OnFileLoading()) return false;
+            var format = filePath.GetStreamFormat();
             using (var stream = new FileStream(filePath, FileMode.Open, FileAccess.Read))
                 if (!LoadFromStream(stream, format))
                     return false;
-            if (ResetLibrary)
+            if (!Merging)
                 FilePath = filePath;
             AddItem(filePath);
             return true;
@@ -95,12 +94,10 @@
 
         public bool Open()
         {
-            ResetLibrary = true;
-            if (!SaveIfModified() || _openFileDialog.ShowDialog(Owner) != DialogResult.OK)
-                return false;
-            var fileName = _openFileDialog.FileName;
-            var format = fileName.GetStreamFormat();
-            return LoadFromFile(fileName, format);
+            Merging = false;
+            return SaveIfModified()
+                && _openFileDialog.ShowDialog(Owner) == DialogResult.OK
+                && LoadFromFile(_openFileDialog.FileName);
         }
 
         protected override void Reuse(ToolStripItem menuItem)
@@ -114,9 +111,8 @@
                     MessageBoxButtons.YesNo) == DialogResult.Yes)
                     RemoveItem(filePath);
             }
-            var format = filePath.GetStreamFormat();
-            if (!ResetLibrary || SaveIfModified())
-                LoadFromFile(filePath, format);
+            if (Merging || SaveIfModified())
+                LoadFromFile(filePath);
         }
 
         public bool Save() =>
