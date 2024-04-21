@@ -47,11 +47,7 @@
 
         #region Private Methods
 
-        private void DragDrop(string[] paths)
-        {
-            if (MessageBox.Show("Are you sure?") == DialogResult.OK)
-                MediaController.AddFiles(paths);
-        }
+        private void DragDrop(string[] paths) => MediaController.AddFiles(paths);
 
         private bool DragOver(IDataObject dataObject) => PathsExist(GetFilePaths(dataObject));
 

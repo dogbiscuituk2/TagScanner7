@@ -12,16 +12,17 @@
 
         private MainForm MainForm => MainFormController.View;
         private MainFormController MainFormController => (MainFormController)Parent;
-        private Model Model => MainFormController.Model;
-        private StatusStrip StatusBar => MainForm.StatusBar;
-        private ToolStripItemCollection StatusBarItems => StatusBar.Items;
 
         public IProgress<ProgressEventArgs> CreateNewProgress()
         {
-            var progressBar = new ToolStripProgressBar { Style = ProgressBarStyle.Continuous };
+            var progressStrip = new StatusStrip();
             var cancelButton = new ToolStripSplitButton { DropDownButtonWidth = 0, Text = "Cancel" };
+            var progressBar = new ToolStripProgressBar { Style = ProgressBarStyle.Continuous };
             var statusLine = new ToolStripLabel();
-            StatusBarItems.AddRange(new ToolStripItem[] { cancelButton, progressBar, statusLine });
+            progressStrip.Items.AddRange(new ToolStripItem[] { cancelButton, progressBar, statusLine });
+            progressStrip.Dock = DockStyle.Bottom;
+            progressStrip.Visible = true;
+            MainForm.ToolStripContainer.BottomToolStripPanel.Controls.Add(progressStrip);
             cancelButton.ButtonClick += CancelButton_ButtonClick;
             var progress = new Progress<ProgressEventArgs>((e) =>
             {
@@ -37,9 +38,10 @@
                 else
                 {
                     cancelButton.ButtonClick -= CancelButton_ButtonClick;
-                    StatusBarItems.Remove(statusLine);
-                    StatusBarItems.Remove(progressBar);
-                    StatusBarItems.Remove(cancelButton);
+                    progressStrip.Items.Remove(statusLine);
+                    progressStrip.Items.Remove(progressBar);
+                    progressStrip.Items.Remove(cancelButton);
+                    MainForm.ToolStripContainer.BottomToolStripPanel.Controls.Remove(progressStrip);
                 }
             });
             return progress;

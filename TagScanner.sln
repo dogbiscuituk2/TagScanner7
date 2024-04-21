@@ -9,7 +9,9 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TagScanner.Tests", "TagScan
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{3A6E8D3E-4EEE-49EB-A32F-E3994C7910EC}"
 	ProjectSection(SolutionItems) = preProject
-		docs\File modified.png = docs\File modified.png
+		docs\add folder.png = docs\add folder.png
+		docs\add media.png = docs\add media.png
+		docs\file modified.png = docs\file modified.png
 		README.md = README.md
 	EndProjectSection
 EndProject
