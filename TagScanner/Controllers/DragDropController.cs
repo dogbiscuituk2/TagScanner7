@@ -11,13 +11,8 @@
 
         public DragDropController(Controller parent) : base(parent)
         {
-            MainForm.AllowDrop = true;
-            MainForm.DragDrop += MainForm_DragDrop;
-            MainForm.DragOver += MainForm_DragOver;
-
-            Table.AllowDrop = true;
-            Table.DragOver += Table_DragOver;
-            Table.Drop += Table_Drop;
+            PrepareMainForm();
+            PrepareTable();
         }
 
         #endregion
@@ -38,7 +33,7 @@
 
         private void MainForm_DragOver(object sender, DragEventArgs e) =>
             e.Effect = DragOver(e.Data)
-            ? DragDropEffects.Copy
+            ? DragDropEffects.Move
             : DragDropEffects.None;
 
         private void Table_Drop(object sender, System.Windows.DragEventArgs e) => DragDrop(GetFilePaths(e.Data));
@@ -67,6 +62,20 @@
         private string[] GetFilePaths(System.Windows.IDataObject dataObject) => dataObject.GetData("FileDrop") as string[];
 
         private bool PathsExist(string[] paths) => paths != null && paths.Any();
+
+        private void PrepareMainForm()
+        {
+            MainForm.AllowDrop = true;
+            MainForm.DragDrop += MainForm_DragDrop;
+            MainForm.DragOver += MainForm_DragOver;
+        }
+
+        private void PrepareTable()
+        {
+            Table.AllowDrop = true;
+            Table.DragOver += Table_DragOver;
+            Table.Drop += Table_Drop;
+        }
 
         #endregion
     }
