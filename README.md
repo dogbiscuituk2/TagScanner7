@@ -1,100 +1,99 @@
-﻿# TagScanner - A Code Overview {#contents}
+﻿# TagScanner - Overview {#contents}
 
-TagScanner gathers ID3 tags and other available metadata from suitable files, e.g. MP3s, and stores them in a library file. Loaded metadata are editable, and when the library file is re-saved, these edits can optionally be applied to the relevant media files.
+TagScanner gathers ID3 tags and other available metadata from suitable files, e.g. MP3s, and stores them in a library file. Loaded metadata are editable, and when the library is re-saved, these edits can optionally be applied to the relevant media files.
 
-There is a query builder allowing the construction of complex filters based on all metadata properties, and a Find/Replace function which operates across multiple tags and optionally uses Regex. The app is WinForms based, but uses embedded WPF grids to take advantage of their (free!) filtering, sorting & grouping operations.
+A query builder is provided to allow the construction of complex filters based on all metadata properties.
 
-This document presents brief desciptions of the most important classes and other design elements of the TagScanner application.
+A Find/Replace function operates across multiple tags, and optionally uses Regex.
 
-    When an edit is made to one or more Track items in the PropertyGrid editor, its Edit event is invoked:-
-     \
-      Track.Set<T>() -> Track.OnEdit() -> Track.Edit.Invoke() -> Model.Track_Edit() -> Model.TrackEdit.Invoke()
+The app is WinForms based, but uses embedded WPF grids to take advantage of their (free!) filtering, sorting and grouping operations.
 
-    Track.Edit was assigned a delegate in one of two ways, either of which will call Model.TrackEdit():
-    1. StatusController adds a delegate when loading from a live directory scan.
-    2. MruLibraryController adds a delegate when loading from a saved file.
-
-    This TrackEdit event is heard by LFC (the LibraryFormController), which calls its own TrackEdit() method:
-     \
-      LFC.TrackEdit() -> CP.Run(... spoof: true) -> CP.Redo(command, spoof);
-
-    The "spoof: true"" parameter tells CP (the CommandProcessor) that this edit has already occurred,
-    so there's no need to run the Command payload; just update the stacks & menus.
-
-    When a command is undone by selecting it on the Edit|Undo menu, the CommandProcessor does this:
-     \
-      CP.EditUndo_Click() -> CP.Undo() -> CP.CanUndo && CP.Undo(UndoStack.Pop()) ? CP.Undo(Command)
-       \
-        TrackPropertyCommand.Do() -> TrackPropertyCommand.Run()
-         \
-          Track.SetPropertyValue() -> Track.GetPropertyInfo().SetValue();
-
-    This takes us back into the Track property setter, which will call the Set method at the start of this section.
-    Clearly we don't want another spoof command generated!
+This document first describes the basic operation of the app from a user perspective, then presents brief desciptions of the most important classes and other design elements of TagScanner.
 
 ## Contents
 
-- <a href="#model">Model</a>
-  - <a href="#library">Library</a>
-  - <a href="#filter">Filter</a>
-  - <a href="#tags">Tags</a>
-  -  <a href="#itrack">_ITrack (interface)_</a>
-      - <a href="#track">Track</a>
-      - <a href="#selection">Selection</a>
-- <a href="#term">_Term (abstract)_</a>
-  - <a href="#constant">Constant</a>
-  - <a href="#field">Field</a>
-  - <a href="#param">Parameter</a>
-  - <a href="#termlist">TermList</a>
-    - <a href="#cast">Cast</a>
-    - <a href="#function">Function</a>
-    - <a href="#operation">Operation</a>
-      - <a href="#monad">Monadic Operation ( + - !</a> )
-      - <a href="#dyad">Dyadic Operation ( + - * / &amp; | \^ = != &lt; &lt;= &gt;= &gt; )</a>
-      - <a href="#triad">Triadic Operation ( ? : )</a>
-- <a href="#grammar">Grammar</a>
-  - <a href="#tokenizer">Tokenizer</a>
-  - <a href="#parser">Parser</a>
-  - <a href="#parserstate">ParserState</a>
-- <a href="#dcs">Development Cheat Sheet</a>
-  - <a href="#cstags">Tags</a>
-  - <a href="#csfields">Fields</a>
-  - <a href="#csfuncs">Functions</a>
-  - <a href="#csops">Operations</a>
+- <a href="#userguide"><b>User Guide</b></a>
+  - <a href="#filenew">Creating a New Library</a>
+  - <a href="#addmedia">Adding Media Files to a Library</a>
+  - <a href="#edittags">Editing Tags</a>
+- <a href=""><b>Code Reference</b></a>
+  - <a href="#model">Model</a>
+    - <a href="#tags">Tags</a>
+    -  <a href="#itrack">_ITrack (interface)_</a>
+        - <a href="#track">Track</a>
+        - <a href="#selection">Selection</a>
+  - <a href="#term">_Term (abstract)_</a>
+    - <a href="#constant">Constant</a>
+    - <a href="#field">Field</a>
+    - <a href="#param">Parameter</a>
+    - <a href="#termlist">TermList</a>
+      - <a href="#cast">Cast</a>
+      - <a href="#function">Function</a>
+      - <a href="#operation">Operation</a>
+        - <a href="#monad">Monadic Operation ( + - !</a> )
+        - <a href="#dyad">Dyadic Operation ( + - * / &amp; | \^ = ≠ &lt; ≤ ≥ &gt; )</a>
+        - <a href="#triad">Triadic Operation ( ? : )</a>
+  - <a href="#grammar">Grammar</a>
+    - <a href="#tokenizer">Tokenizer</a>
+    - <a href="#parser">Parser</a>
+    - <a href="#parserstate">ParserState</a>
+  - <a href="#dcs">Development Cheat Sheet</a>
+    - <a href="#cstags">Tags</a>
+    - <a href="#csfields">Fields</a>
+    - <a href="#csfuncs">Functions</a>
+    - <a href="#csops">Operations</a>
+
+## User Guide {#userguide}
+
+## Creating a New Library {#filenew}
+
+When run, the app starts up with a new, empty library displayed, ready to add media files and/or folders. Later, when you have created and saved a library file, you can begin work on another by using the _File|New_ command to create a new, empty library.
+
+If the app window already contains a library which has not yet been saved (as indicated by a \* in the window caption bar), you will be prompted to do so:
+
+<img src="docs/file modified.png">
+
+Answer _Yes_ to save the existing library file, _No_ to discard it, or _Cancel_ to continue working on the existing library (cancelling the _File|New_ command).
+
+Another way to begin work on a new library, _without_ interrupting work on an existing one, is to use the _Window|New_ rather than _File|New_ command. This will simply create a new, empty copy of the app window. You may have any number of such windows open simultaneously, and switch between them using Alt+Tab.
+
+## Adding Media Files to a Library {#addmedia}
+
+The main methods of adding media files to a library are with the _Add|Media_ and _Add|Folder_ commands. Assuming a well ordered and curated media file collection, for example under a single folder (perhaps with subfolders for each artist, then each album), the _Add|Media_ command will be used much less frequently than the mighty, directory-traversing _Add|Folder_ command.
+
+_Add|Media_ lets you browse for individual media files, or groups of these under a common directory, and add them individually to the library. Notice the file type filter in the bottom right corner of this dialog, which is currently set to "Audio Files". This filter controls which types of files will be added to the library - not just here, but across the app.
+
+<img src="docs/add media.png">
+
+_Add|Folder_ lets you browse for a folder in the file system directory structure, and add all the relevant media files to the library, including all files in nested subfolders, sub-subfolders, etc.
+
+<img src="docs/add folder.png">
+
+The file types added will be controlled by the filter selected in the _Add|Media_ dialog, so it might be worth visiting that command, just to set this - for example, if you would like music video files to be included along with the audio files.
+
+## Editing Tags {#edittags}
+
+The main purpose of TagScanner is to make the maintenance of media metadata tags convenient and easy. Several tools are provided for this purpose. Tags can be edited in either the main table area of the app window, or in the properties pane at the bottom right, which can conveniently display far mode property tags simultaneously than the main table.
+
+Tags which are readonly appear in a greyed font, while those which can be edited are shown in black text.
 
 ## Model {#model}
 
 The __Model__ class represents the collection of _data items_ (also known as _business objects_) used by the application.
 
-The most important property of the __Model__ is its <a href="#library">Library</a>.
-
 <a href="#contents">\^Contents</a>
 
-## Library {#library}
+## Tag {#tags}
 
-In the __Library__ class, the _Tracks_ property is the receptacle for a list of <a href="#track">Track</a> objects. These hold the ID3 Tag information and other metadata about your media files (music, pictures, videos). _Library_ also retains, in its _Folders__ property, a list of the filesystem folders from which these tracks were scanned.
+The __Tag__ enumeration lists just the names of all the properties of a __Track__ which may be interrogated. Values from this enumeration, rather than property names, are used to refer to these properties in code (enumerations being more efficient than strings).
 
-Finally, the Library has a property named <a href="#filter">Filter</a>, holding the current set of Term Filters for the media collection.
-
-The _Library_ class is the basis of persistence in the application. It can save its contents to file in various formats. Its native, _Binary_ format is the most space-efficient, but there are also _XML_ and _Json_ alternatives, provided for more human readable (or _data interchange friendly_) options.
-
-The Json implementation uses the Newtonsoft library, which tends to deserialize all integer types as _long_. This causes problems with the application's filter builder, which generally uses normal sized integers for media properties such as the number of artists on a recording, etc., with the only exception being filesystem-related metadata which use _long_ types.
-
-<a href="#contents">\^Contents</a>
-
-## Filter {#filter}
-
-The __Filter__ class is the receptacle for a collection of __Term__ objects, any _one_ of which may be selected to apply to the data. The _ResultType_ of a __Term__ in a __Filter__ must be _bool_.
-
-At runtime, the selected __Term__ is converted to a _Predicate_ and applied to the list of data in the __Model__. If the selected __Term__ returns _true_ for any given item, then the item is displayed normally in the set presented to the user. If it returns _false_, then depending on the currently chosen _Filter Action_, that item will either be grayed out, or entirely hidden.
-
-<a href="#contents">\^Contents</a>
-
-## Tags {#tags}
+Note that these values are generally hidden form the user, who instead will see their chosen DisplayName values in the UI. For example, the user will access a __Track__'s _Artist_, rather than the underlying _JoinedPerformers_ property.
 
 <a href="#contents">\^Contents</a>
 
 ## ITrack (interface) {#itrack}
+
+The __ITrack__ interface lists all the names and types of the tag and other metadata properties of a __Track__. This interface is of course implemented by the __Track__ class, but also by the __Selection__ class, where it gives information about the combined properties of a list of __Track__ objects.
 
 <a href="#contents">\^Contents</a>
 
@@ -103,6 +102,10 @@ At runtime, the selected __Term__ is converted to a _Predicate_ and applied to t
 <a href="#contents">\^Contents</a>
 
 ## Selection {#selection}
+
+The __Selection__ class is the main unit of transport for __Track__  lists being passed between the various models, views, controllers and commands in the general operation of the app. Its most important property is __Tracks__, the list of __Track__ objects that it references.
+
+The unit of persistence in the app is _not_ the __Selection__, but the __List&lt;Track&gt;__. Whenever a list of tracks is being saved to a file, exported as XML, copied to the clipboard etc., it is the raw __List&lt;Track&gt;__ object, and not their enclosing __Selection__, which is used to transfer them.
 
 <a href="#contents">\^Contents</a>
 
@@ -188,7 +191,7 @@ The available roster of __Function__s is currently found in the _Methods.cs_ fil
 
 ## Operation {#operation}
 
-The __Operation__ class represents a C# operator call, taking one or more __Term__s, applying an __Operator__ to them, and yielding a result __Term__. The currently available set includes monadic and dyadic operators, and one triadic sample. Although several subclasses are provided for various (not all) of the available operations, there are no specific base classes for monadic, dyadic, and triadic types.
+The __Operation__ class represents a C# operator call, taking one or more __Term__s, applying an __Operator__ to them, and yielding a result __Term__. The currently available set includes monadic and dyadic operators, and one triadic sample. Although several subclasses are provided for various (not all) of the available operations, there are no specific base classes for monadic & dyadic types.
 
 The available __Operator__ set is currently found in the _Operators.cs_ file, though the next stage of development will include moving these into readily available storage, free of recompilation requirements.
 
@@ -207,11 +210,11 @@ Each of these has its own specialized __Operation__ subclass, __Positive__, __Ne
 
 <a href="#operation">\^Operation</a> <a href="#termlist">\^TermList</a> <a href="#term">\^Term</a> <a href="#contents">\^Contents</a>
 
-## Dyadic Operation ( + - * / &amp; | \^ = != &lt; &lt;= &gt;= &gt; ) {#dyad}
+## Dyadic Operation ( + - * / &amp; | \^ = ≠ &lt; ≤ ≥ &gt; ) {#dyad}
 
 The classes in this category are labelled dyadic, not because they take exactly two operands, but rather because their underlying C# operators are themselves strictly dyadic. However, many of these __Operation__ subclasses can accept any number of operands. This freedom should be used carefully, and only when the precedence & associativity context is clear.
 
-The following is not a complete dyadic __Operation__ list, since several of them, such as the equalities ('=', '!=') and the relationals ('<', '<=', '>=', '>'), don't have their own dedicated subclasses.
+The following is not a complete dyadic __Operation__ list, since several of them, such as the equalities ('=', '≠') and the relationals ('<', '≤', '≥', '>'), do not have their own dedicated subclasses.
 
 - __Operation__
   - __Sum__
@@ -222,7 +225,7 @@ The following is not a complete dyadic __Operation__ list, since several of them
   - __Disjunction__
   - __Concatenation__
 
-For example, the sum of 1+2+3 can be coded as any of the following (click to expand):
+For example, the sum of 1+2+3 can be coded as any of the following:
 
     new Sum(new Sum(1, 2), 3) // Nested dyads.
 
@@ -241,16 +244,6 @@ As another example, the removal of the 2-term restriction on these operators mak
     new Operation('<', 1, 2, 3) // Returns true, since 1 < 2 < 3.
 
 Under the hood, this is implemented as a __Conjunction__ of _1 &lt; 2_ and _2 &lt; 3_.
-
-<a href="#operation">\^Operation</a> <a href="#termlist">\^TermList</a> <a href="#term">\^Term</a> <a href="#contents">\^Contents</a>
-
-## Triadic Operation ( ? : ) {#triad}
-
-The single provided triadic operation is of course the __Conditional__, the expression equivalent of a coding _if-then-else__ construct. Here is an example of its use, first in a coding context, then in a scripting, context:
-
-    var foo = new Conditional(Album Title.Contains("Pepper"), 10, 2); // Returns 10 for "Sgt. Pepper's", or else 2 for any pepperless title.
-
-    Album Title.Contains("Pepper") ? 10 : 2
 
 <a href="#operation">\^Operation</a> <a href="#termlist">\^TermList</a> <a href="#term">\^Term</a> <a href="#contents">\^Contents</a>
 
@@ -304,7 +297,7 @@ The single provided triadic operation is of course the __Conditional__, the expr
 
 - __Operator1:__ _one of_ + - !
 
-- __Operator2:__ _one of_ &amp; | \^ = != &lt; &lt;= &gt; &gt;= + - * /
+- __Operator2:__ _one of_ &amp; | \^ = ≠ &lt; ≤ ≥ &gt; + - * /
 
 </details>
 
@@ -318,13 +311,38 @@ The __Tokenizer__ class performs the first stage of expression parsing, separati
 
 ## Parser {#parser}
 
-The __Parser__ class, leaning heavily on the resources of the __Tokenizer__ class, implements a <a href="https://en.wikipedia.org/wiki/Recursive_descent_parser">recursive descent parser</a> to convert the input character stream into an executable expression.
+The __Parser__ class, leaning heavily on the resources of the __Tokenizer__ class, implements <a href="https://en.wikipedia.org/wiki/Recursive_descent_parser">recursive descent</a> to convert the input character stream into an executable expression. Its two main public methods are _Parse_ and _TryParse_.
+
+While broadly following the C# rules of operator precedence and associativity, as well as the language's conventions for type safety, literal values and method calls, the Parser does however allow some flexibility in certain areas of syntax:
+
+  - The names of static and member methods, operators, and track properties, are always case-insensitive.
+  - User entered data can be treated as case-sensitive or not, for the purposes of any individual query.
+  - Static methods are invoked without a qualifying class name, e.g.
+
+        Compare(Artist, "N")
+
+    rather than
+
+        string.Compare(Artist, "N");
+
+  - The dot operator, used to indicate member method calls, is optional.
+  - Parentheses are optional in method calls taking zero or one parameters.
+
+So, the following pairs are equivalent:
+
+    Album.Contains("Pepper")
+    Album contains "pepper"
+
+    Album.Length() > 0
+    album length > 0
+
+Numeric and other literal constants generally use C# syntax, including apostrophes and quotation marks for character and string constants respectively, and the usual type suffixes for integers, longs, doubles, and so on. An exception is made for TimeSpan and DateTime values, which have a standard format easily recognised by inclusion in square brackets.
 
 <a href="#contents">\^Contents</a>
 
 ## ParserState {#parserstate}
 
-Class ParserState isolates the steps of the parsing process from the messy details of its mechanical implementation, allowing its major steps to be targeted with special debugging tools, and so followed much more easily.
+Class __ParserState__ isolates the steps of the parsing process from the messy details of its mechanical implementation, allowing its major steps to be targeted with special debugging tools, and so followed much more easily.
 
 The essential operation of Recursive Descent Parsing is beautiful to watch. This class allows the capture of each Push, Pop, Enqueue and Dequeue action, and the display of the contents of the three chief dynamic data structures in play: the _Tokens_ queue, and the _Terms_ and _Operators_ stacks.
 
@@ -361,7 +379,7 @@ To get these internal state data dumps to appear at runtime, define the conditio
 
       var tagInfo = tag.TagInfo();
 
-- However, further extension methods are provided to access any other TagInfo member durectly, given just the _tag_:
+- However, further extension methods are provided to access any other TagInfo member directly, given just the _tag_:
 
       var category = tag.Category();
       var column = tag.Column(); // Width, Alignment & editor type (Text or CheckBox).
@@ -371,14 +389,11 @@ To get these internal state data dumps to appear at runtime, define the conditio
 
 ### __Functions__ {#csfuncs}
 
-- Available __Function__ instances are defined by a _Dictionary<string, MethodInfo>_ called _MethodDictionary_ in the static class _TagScanner.Terms.Methods_.
-- The dictionary exposes two arrays as properties of this static class: _string[] Keys_, and _MethodInfo[] Values_.
-- You may use the extension method _Methods.MethodInfo(this string key)_ to access the __Function__ metadata for a given _key_:
+- Available __Function__ instances are defined by a _Dictionary<Fn, FnInfo>_ called _FunctorDictionary_ in the static class _TagScanner.Terms.Functors_.
+- The dictionary exposes two arrays as properties of this static class: _Fn[] Keys_, and _FnInfo[] Values_.
+- You may use the extension method _Functors.FnInfo(this Fn fn)_ to access the __Function__ metadata for a given _fn_:
 
-      var methodInfo = key.MethodInfo();
-
-- If the _key_ contains an underscore, e.g. _Concat\_2_, _Concat\_3_, _Concat\_4_, the associated __Function__ is not displayed in the application UI.
-- If the _key_ ends in a dollar sign, e.g. _Match$_, _Replace$_, the underlying method is a member of static class _Regex_.
+      var fnInfo = fn.FnInfo();
 
 <a href="#contents">\^Contents</a>
 

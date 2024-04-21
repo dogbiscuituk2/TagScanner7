@@ -30,7 +30,7 @@
 
         #region Properties
 
-        public bool ResetLibrary { get; set; }
+        public bool Merging { get; set; }
 
         #endregion
 

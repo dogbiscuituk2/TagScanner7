@@ -47,7 +47,7 @@
         {
             if (!(LoadDocument(stream, typeof(List<Track>), format) is List<Track> newTracks))
                 return false;
-            if (ResetLibrary)
+            if (!Merging)
             {
                 Model.Library = new Selection(newTracks);
                 return true;

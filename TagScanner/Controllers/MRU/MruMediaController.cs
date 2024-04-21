@@ -1,12 +1,14 @@
 ﻿namespace TagScanner.Controllers.Mru
 {
     using System;
+    using System.Collections.Generic;
     using System.IO;
     using System.Linq;
     using System.Threading.Tasks;
     using System.Windows.Forms;
     using Models;
     using Properties;
+    using WMPLib;
 
     public class MruMediaController : MruMenuController
     {
@@ -40,20 +42,27 @@
                 AddFiles(_openFileDialog.FileNames);
         }
 
-        private void AddFiles(string[] filePaths)
+        public void AddFiles(string[] paths)
         {
+            var folders = paths.Where(p => Directory.Exists(p));
+            var files = paths.Except(folders);
+            var filter = GetFilter();
+            foreach (var folder in folders)
+                AddFolder(folder, filter);
             var progress = CreateNewProgress();
-            Task.Run(() => Model.AddFiles(filePaths, progress));
+            Task.Run(() => Model.AddFiles(files.ToArray(), progress));
         }
 
         public void AddFolder()
         {
             if (_folderBrowserDialog.ShowDialog(Owner) != DialogResult.OK) return;
             var folderPath = _folderBrowserDialog.SelectedPath;
-            var filter = _openFileDialog.Filter.Split('|')[2 * _openFileDialog.FilterIndex - 1];
+            var filter = GetFilter();
             AddItem(MakeItem(folderPath, filter));
             AddFolder(folderPath, filter);
         }
+
+        private string GetFilter() => _openFileDialog.Filter.Split('|')[2 * _openFileDialog.FilterIndex - 1];
 
         private void AddFolder(string folderPath, string filter)
         {

@@ -4,11 +4,10 @@
     using System.Collections.Generic;
     using System.Linq;
     using System.Windows.Forms;
+    using System.Xml;
     using WK.Libraries.SharpClipboardNS;
     using Utils;
     using Views;
-    using System.Xml;
-    using System.Xml.Schema;
 
     public static class AppController
     {
@@ -96,25 +95,27 @@
 
         private static void SharpClipboard_ClipboardChanged(object sender, SharpClipboard.ClipboardChangedEventArgs e)
         {
-            var text = Clipboard.GetText();
-            var doc = new XmlDocument();
-            try
-            {
-                doc.LoadXml(text);
-                if (doc.DocumentElement.Name == "ArrayOfTrack")
-                {
-                    EnablePaste(true);
-                    return;
-                }
-            }
-            catch { }
-            EnablePaste(false);
+            var canPaste = CanPaste();
+            foreach (var controller in Controllers)
+                controller.EnablePaste(canPaste);
             return;
 
-            void EnablePaste(bool enable)
+            bool CanPaste()
             {
-                foreach (var controller in Controllers)
-                    controller.EnablePaste(enable);
+                // An array of file paths can be pasted.
+                if (Clipboard.ContainsFileDropList())
+                    return true;
+                // An XML file containing a Track collection can be pasted.
+                var text = Clipboard.GetText();
+                var doc = new XmlDocument();
+                try
+                {
+                    doc.LoadXml(text);
+                    if (doc.DocumentElement.Name == "ArrayOfTrack")
+                        return true;
+                }
+                catch { } // Wrong format, details are of no interest.
+                return false;
             }
         }
 
