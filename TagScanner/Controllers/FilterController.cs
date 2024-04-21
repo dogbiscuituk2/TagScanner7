@@ -20,7 +20,7 @@
 
         private FilterFormController FilterFormController;
         private MainFormController MainFormController => (MainFormController)Parent;
-        private TableController LibraryGridController => MainFormController.LibraryGridController; 
+        private TableController LibraryGridController => MainFormController.TableController; 
         private MainForm View => MainFormController.View;
 
         private void ApplyButton_Click(object sender, EventArgs e) => UpdateFilter();
