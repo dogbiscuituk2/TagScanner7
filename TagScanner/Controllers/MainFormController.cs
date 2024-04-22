@@ -301,7 +301,7 @@
         {
             e.Cancel = !LibraryController.SaveIfModified();
             if (!e.Cancel)
-                FilterController.RegistryWrite();
+                new MruFilterController(this).RegistryWrite(View.FilterComboBox);
         }
 
         private void View_Shown(object sender, EventArgs e) => View.ActiveControl = View.FilterComboBox;

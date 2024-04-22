@@ -6,6 +6,7 @@
     using System.Windows.Forms;
     using System.Xml;
     using WK.Libraries.SharpClipboardNS;
+    using Mru;
     using Utils;
     using Views;
 
@@ -22,6 +23,13 @@
             new SplashController().Run(SplashForm);
             SplashForm.SharpClipboard.ClipboardChanged += SharpClipboard_ClipboardChanged;
         }
+
+        #endregion
+
+        #region Public Properties
+
+        public static MruStringsController MruFindController = new MruStringsController(null, "FindMRU");
+        public static MruStringsController MruReplaceController = new MruStringsController(null, "ReplaceMRU");
 
         #endregion
 

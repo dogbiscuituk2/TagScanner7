@@ -23,7 +23,7 @@
 
         protected readonly string _subKeyName;
 
-        protected Win32.RegistryKey User => Win32.Registry.CurrentUser;
+        protected static Win32.RegistryKey User => Win32.Registry.CurrentUser;
 
         #endregion
 

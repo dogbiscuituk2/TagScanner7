@@ -25,7 +25,7 @@
 
         private void ApplyButton_Click(object sender, EventArgs e) => UpdateFilter();
         private void ClearButton_Click(object sender, EventArgs e) => ClearFilter();
-        private void FilterComboBox_DropDown(object sender, EventArgs e) => RegistryRead();
+        private void FilterComboBox_DropDown(object sender, EventArgs e) => new MruFilterController(this).RegistryRead(View.FilterComboBox);
         private void ViewFilter_Click(object sender, EventArgs e) => LaunchFilterBuilder();
 
         private void ClearFilter()
@@ -36,15 +36,6 @@
         }
 
         private void LaunchFilterBuilder() => FilterFormController.Execute(View.FilterComboBox.Text);
-
-        public void RegistryRead()
-        {
-            var items = View.FilterComboBox.Items;
-            items.Clear();
-            items.AddRange(new MruFilterController(this).ReadValues().ToArray());
-        }
-
-        public void RegistryWrite() => new MruFilterController(this).WriteValues(View.FilterComboBox.Items.Cast<string>());
 
         private void UpdateFilter()
         {
@@ -57,7 +48,7 @@
                 UpdateFilterStatus(
                     $"{LibraryGridController.TracksCountVisible} of {LibraryGridController.TracksCountAll} Tracks shown.");
                 UpdateFilters();
-                RegistryWrite();
+                new MruFilterController(this).RegistryWrite(View.FilterComboBox);
             }
             else
                 UpdateFilterStatus(exception.GetAllInformation());

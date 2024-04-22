@@ -148,6 +148,7 @@
     <Compile Include="Controllers\FindReplaceController.cs" />
     <Compile Include="Controllers\Mru\MruController.cs" />
     <Compile Include="Controllers\Mru\MruFilterController.cs" />
+    <Compile Include="Controllers\Mru\MruStringsController.cs" />
     <Compile Include="Controllers\PropertyGridController.cs" />
     <Compile Include="Controllers\SplashController.cs" />
     <Compile Include="Controls\FirstClickHelper.cs" />
