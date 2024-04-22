@@ -31,7 +31,6 @@
             this.TagsListView = new System.Windows.Forms.ListView();
             this.btnFindAll = new System.Windows.Forms.Button();
             this.btnClose = new System.Windows.Forms.Button();
-            this.cbPreserveCase = new System.Windows.Forms.CheckBox();
             this.cbUseRegex = new System.Windows.Forms.CheckBox();
             this.cbMatchWholeWord = new System.Windows.Forms.CheckBox();
             this.cbMatchCase = new System.Windows.Forms.CheckBox();
@@ -77,8 +76,10 @@
             this.MediaPlayer = new AxWMPLib.AxWindowsMediaPlayer();
             this.FilterPopupMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.RecentLibraryPopupMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.AddRecentLibrary = new System.Windows.Forms.ToolStripMenuItem();
             this.FileReopen = new System.Windows.Forms.ToolStripMenuItem();
             this.RecentFolderPopupMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.tbAddRecentFolder = new System.Windows.Forms.ToolStripMenuItem();
             this.AddRecentFolder = new System.Windows.Forms.ToolStripMenuItem();
             this.UndoPopupMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.tbUndo = new System.Windows.Forms.ToolStripSplitButton();
@@ -113,7 +114,6 @@
             this.tbAddFolder = new System.Windows.Forms.ToolStripMenuItem();
             this.tbAddLibrary = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem12 = new System.Windows.Forms.ToolStripSeparator();
-            this.tbAddRecentFolder = new System.Windows.Forms.ToolStripMenuItem();
             this.tbAddRecentLibrary = new System.Windows.Forms.ToolStripMenuItem();
             this.MainMenu = new TagScanner.Controls.FirstClickMenuStrip();
             this.FileMenu = new System.Windows.Forms.ToolStripMenuItem();
@@ -146,7 +146,6 @@
             this.AddFolder = new System.Windows.Forms.ToolStripMenuItem();
             this.AddLibrary = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem3 = new System.Windows.Forms.ToolStripSeparator();
-            this.AddRecentLibrary = new System.Windows.Forms.ToolStripMenuItem();
             this.ViewMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.ViewFilter = new System.Windows.Forms.ToolStripMenuItem();
             this.ViewGroupBy = new System.Windows.Forms.ToolStripMenuItem();
@@ -233,7 +232,6 @@
             this.ClientSplitContainer.Panel1.Controls.Add(this.TagsListView);
             this.ClientSplitContainer.Panel1.Controls.Add(this.btnFindAll);
             this.ClientSplitContainer.Panel1.Controls.Add(this.btnClose);
-            this.ClientSplitContainer.Panel1.Controls.Add(this.cbPreserveCase);
             this.ClientSplitContainer.Panel1.Controls.Add(this.cbUseRegex);
             this.ClientSplitContainer.Panel1.Controls.Add(this.cbMatchWholeWord);
             this.ClientSplitContainer.Panel1.Controls.Add(this.cbMatchCase);
@@ -292,20 +290,11 @@
             this.btnClose.Text = "Close (Esc)";
             this.btnClose.UseVisualStyleBackColor = true;
             // 
-            // cbPreserveCase
-            // 
-            this.cbPreserveCase.AutoSize = true;
-            this.cbPreserveCase.Location = new System.Drawing.Point(6, 165);
-            this.cbPreserveCase.Name = "cbPreserveCase";
-            this.cbPreserveCase.Size = new System.Drawing.Size(107, 21);
-            this.cbPreserveCase.TabIndex = 48;
-            this.cbPreserveCase.Text = "Preser&ve case";
-            this.cbPreserveCase.UseVisualStyleBackColor = true;
-            // 
             // cbUseRegex
             // 
             this.cbUseRegex.AutoSize = true;
-            this.cbUseRegex.Location = new System.Drawing.Point(6, 142);
+            this.cbUseRegex.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.cbUseRegex.Location = new System.Drawing.Point(28, 174);
             this.cbUseRegex.Name = "cbUseRegex";
             this.cbUseRegex.Size = new System.Drawing.Size(86, 21);
             this.cbUseRegex.TabIndex = 47;
@@ -315,7 +304,8 @@
             // cbMatchWholeWord
             // 
             this.cbMatchWholeWord.AutoSize = true;
-            this.cbMatchWholeWord.Location = new System.Drawing.Point(6, 119);
+            this.cbMatchWholeWord.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.cbMatchWholeWord.Location = new System.Drawing.Point(16, 147);
             this.cbMatchWholeWord.Name = "cbMatchWholeWord";
             this.cbMatchWholeWord.Size = new System.Drawing.Size(98, 21);
             this.cbMatchWholeWord.TabIndex = 46;
@@ -325,7 +315,8 @@
             // cbMatchCase
             // 
             this.cbMatchCase.AutoSize = true;
-            this.cbMatchCase.Location = new System.Drawing.Point(6, 96);
+            this.cbMatchCase.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.cbMatchCase.Location = new System.Drawing.Point(6, 120);
             this.cbMatchCase.Name = "cbMatchCase";
             this.cbMatchCase.Size = new System.Drawing.Size(108, 21);
             this.cbMatchCase.TabIndex = 45;
@@ -355,7 +346,8 @@
             // rbReplace
             // 
             this.rbReplace.AutoSize = true;
-            this.rbReplace.Location = new System.Drawing.Point(6, 35);
+            this.rbReplace.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.rbReplace.Location = new System.Drawing.Point(9, 35);
             this.rbReplace.Name = "rbReplace";
             this.rbReplace.Size = new System.Drawing.Size(105, 21);
             this.rbReplace.TabIndex = 55;
@@ -366,7 +358,8 @@
             // rbFind
             // 
             this.rbFind.AutoSize = true;
-            this.rbFind.Location = new System.Drawing.Point(6, 6);
+            this.rbFind.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.rbFind.Location = new System.Drawing.Point(27, 6);
             this.rbFind.Name = "rbFind";
             this.rbFind.Size = new System.Drawing.Size(87, 21);
             this.rbFind.TabIndex = 54;
@@ -746,8 +739,15 @@
             // RecentLibraryPopupMenu
             // 
             this.RecentLibraryPopupMenu.Name = "RecentLibraryPopupMenu";
-            this.RecentLibraryPopupMenu.OwnerItem = this.AddRecentLibrary;
+            this.RecentLibraryPopupMenu.OwnerItem = this.tbAddRecentLibrary;
             this.RecentLibraryPopupMenu.Size = new System.Drawing.Size(61, 4);
+            // 
+            // AddRecentLibrary
+            // 
+            this.AddRecentLibrary.DropDown = this.RecentLibraryPopupMenu;
+            this.AddRecentLibrary.Name = "AddRecentLibrary";
+            this.AddRecentLibrary.Size = new System.Drawing.Size(149, 22);
+            this.AddRecentLibrary.Text = "R&ecent Library";
             // 
             // FileReopen
             // 
@@ -759,8 +759,15 @@
             // RecentFolderPopupMenu
             // 
             this.RecentFolderPopupMenu.Name = "RecentFolderPopupMenu";
-            this.RecentFolderPopupMenu.OwnerItem = this.tbAddRecentFolder;
+            this.RecentFolderPopupMenu.OwnerItem = this.AddRecentFolder;
             this.RecentFolderPopupMenu.Size = new System.Drawing.Size(61, 4);
+            // 
+            // tbAddRecentFolder
+            // 
+            this.tbAddRecentFolder.DropDown = this.RecentFolderPopupMenu;
+            this.tbAddRecentFolder.Name = "tbAddRecentFolder";
+            this.tbAddRecentFolder.Size = new System.Drawing.Size(149, 22);
+            this.tbAddRecentFolder.Text = "&Recent Folder";
             // 
             // AddRecentFolder
             // 
@@ -868,7 +875,7 @@
             this.ToolStrip.LayoutStyle = System.Windows.Forms.ToolStripLayoutStyle.VerticalStackWithOverflow;
             this.ToolStrip.Location = new System.Drawing.Point(0, 3);
             this.ToolStrip.Name = "ToolStrip";
-            this.ToolStrip.Size = new System.Drawing.Size(33, 307);
+            this.ToolStrip.Size = new System.Drawing.Size(33, 288);
             this.ToolStrip.TabIndex = 11;
             this.ToolStrip.Text = "toolStrip1";
             // 
@@ -1069,18 +1076,11 @@
             this.toolStripMenuItem12.Name = "toolStripMenuItem12";
             this.toolStripMenuItem12.Size = new System.Drawing.Size(146, 6);
             // 
-            // tbAddRecentFolder
-            // 
-            this.tbAddRecentFolder.DropDown = this.RecentFolderPopupMenu;
-            this.tbAddRecentFolder.Name = "tbAddRecentFolder";
-            this.tbAddRecentFolder.Size = new System.Drawing.Size(180, 22);
-            this.tbAddRecentFolder.Text = "&Recent Folder";
-            // 
             // tbAddRecentLibrary
             // 
             this.tbAddRecentLibrary.DropDown = this.RecentLibraryPopupMenu;
             this.tbAddRecentLibrary.Name = "tbAddRecentLibrary";
-            this.tbAddRecentLibrary.Size = new System.Drawing.Size(180, 22);
+            this.tbAddRecentLibrary.Size = new System.Drawing.Size(149, 22);
             this.tbAddRecentLibrary.Text = "R&ecent Library";
             // 
             // MainMenu
@@ -1347,13 +1347,6 @@
             // 
             this.toolStripMenuItem3.Name = "toolStripMenuItem3";
             this.toolStripMenuItem3.Size = new System.Drawing.Size(146, 6);
-            // 
-            // AddRecentLibrary
-            // 
-            this.AddRecentLibrary.DropDown = this.RecentLibraryPopupMenu;
-            this.AddRecentLibrary.Name = "AddRecentLibrary";
-            this.AddRecentLibrary.Size = new System.Drawing.Size(149, 22);
-            this.AddRecentLibrary.Text = "R&ecent Library";
             // 
             // ViewMenu
             // 
@@ -1668,7 +1661,6 @@
         public System.Windows.Forms.ListView TagsListView;
         public System.Windows.Forms.Button btnFindAll;
         public System.Windows.Forms.Button btnClose;
-        public System.Windows.Forms.CheckBox cbPreserveCase;
         public System.Windows.Forms.CheckBox cbUseRegex;
         public System.Windows.Forms.CheckBox cbMatchWholeWord;
         public System.Windows.Forms.CheckBox cbMatchCase;

@@ -58,7 +58,6 @@
         private CheckBox CaseSensitiveCheckBox => MainForm.cbMatchCase;
         private CheckBox WholeWordCheckBox => MainForm.cbMatchWholeWord;
         private CheckBox UseRegexCheckBox => MainForm.cbUseRegex;
-        private CheckBox PreserveCaseCheckBox => MainForm.cbPreserveCase;
 
         private ComboBox FindComboBox => MainForm.FindComboBox;
         private ComboBox ReplaceComboBox => MainForm.ReplaceComboBox;
@@ -76,7 +75,6 @@
         private bool CaseSensitive => CaseSensitiveCheckBox.Checked;
         private bool WholeWord => WholeWordCheckBox.Checked;
         private bool UseRegex => UseRegexCheckBox.Checked;
-        private bool PreserveCase => PreserveCaseCheckBox.Checked;
 
         private Term MakeCondition()
         {
@@ -86,7 +84,8 @@
             var value = FindComboBox.Text;
             if (string.IsNullOrWhiteSpace(value))
                 return Term.True;
-            value = Regex.Escape(value);
+            if (!UseRegex)
+                value = Regex.Escape(value);
             if (WholeWord)
                 value = $@"\W{value}\W";
             if (selectedTags.Count() == 1)
@@ -139,9 +138,18 @@
             UpdateFindItems();
         }
 
+        private void Replace()
+        {
+
+        }
+
         private void ReplaceAll()
         {
-            UpdateReplaceItems();
+            if (Find())
+            {
+
+            }
+
         }
 
         private void ReplaceNext()
@@ -174,7 +182,6 @@
             TagsListController.InitItems(!replacing);
             TagsListController.SetSelectedTags(new[] { Tag.Title, Tag.Album, Tag.JoinedPerformers });
             ReplaceComboBox.Enabled =
-                PreserveCaseCheckBox.Visible =
                 BtnReplaceNext.Visible =
                 BtnReplaceAll.Visible = replacing;
             BtnFindAll.Visible = !replacing;

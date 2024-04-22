@@ -5,7 +5,6 @@
     using System.ComponentModel;
     using System.IO;
     using System.Linq;
-    using TagScanner.Commands;
 
     [DefaultProperty("Title")]
     public class Selection : ITrack
@@ -38,8 +37,8 @@
         #region Public Methods
 
         public void Add(IEnumerable<Track> tracks) => Tracks.AddRange(tracks);
-
         public void Clear() => Tracks.Clear();
+        public void Remove(IEnumerable<Track> tracks) => Tracks.RemoveAll(p => tracks.Contains(p));
 
         public void Invalidate()
         {
