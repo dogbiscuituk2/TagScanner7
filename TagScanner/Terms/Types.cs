@@ -38,6 +38,6 @@
 
         public static string ToTypeName(this Type type) => type.IsArray
             ? $"{type.GetElementType().ToTypeName()}[]"
-            : TypeDictionary.Single(p => p.Value == type).Key;
+            : TypeDictionary.FirstOrDefault(p => p.Value == type).Key ?? type.Name;
     }
 }

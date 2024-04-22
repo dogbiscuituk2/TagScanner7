@@ -5,12 +5,14 @@
     using System.ComponentModel;
     using System.IO;
     using System.Linq;
+    using TagScanner.Commands;
 
     [DefaultProperty("Title")]
     public class Selection : ITrack
     {
         #region Constructors
 
+        public Selection() => Tracks = new List<Track>();
         public Selection(IEnumerable<Track> tracks) => Tracks = tracks.ToList();
 
         #endregion
@@ -34,6 +36,10 @@
         #endregion
 
         #region Public Methods
+
+        public void Add(IEnumerable<Track> tracks) => Tracks.AddRange(tracks);
+
+        public void Clear() => Tracks.Clear();
 
         public void Invalidate()
         {

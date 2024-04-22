@@ -181,10 +181,11 @@
             View.FileSave.Enabled = View.tbSaveLibrary.Enabled = enabled;
             View.AddRecentFolder.Enabled = View.tbAddRecentFolder.Enabled =
                 View.RecentFolderPopupMenu.Items.Count > 0;
-            // Clipboard Menu Items
+            // Edit Items
             View.EditCut.Enabled = View.tbCut.Enabled = View.TablePopupCut.Enabled =
                 View.EditCopy.Enabled = View.tbCopy.Enabled = View.TablePopupCopy.Enabled =
                 View.EditDelete.Enabled = View.tbDelete.Enabled = View.TablePopupDelete.Enabled =
+                View.EditFind.Enabled = View.tbFind.Enabled = View.EditReplace.Enabled =
                 Selection.Tracks.Any();
             // Property Grid
             PropertyGridController.SetSelection(TableController.Selection);

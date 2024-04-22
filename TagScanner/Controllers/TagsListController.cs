@@ -70,10 +70,10 @@
 
         private string GetValue(object o) => _sortColumn == 0 ? ((ListViewItem)o).Text : ((ListViewItem)o).SubItems[_sortColumn].Text;
 
-        public override List<Tag> GetSelectedTags()
+        public override IEnumerable<Tag> GetSelectedTags()
         {
             var result = new List<Tag>();
-            result.AddRange(Dialog.ListView.Items.Cast<ListViewItem>().Where(t => t.Checked).Select(t => (Tag)t.Tag));
+            result.AddRange(ListView.Items.Cast<ListViewItem>().Where(t => t.Checked).Select(t => (Tag)t.Tag));
             return result;
         }
 
@@ -98,7 +98,7 @@
 
         private static ListViewGroup NewGroup(string header) => new ListViewGroup(header) { HeaderAlignment = HorizontalAlignment.Right };
 
-        public override void SetVisibleTags(List<Tag> visibleTags)
+        public override void SetSelectedTags(IEnumerable<Tag> visibleTags)
         {
             var items = Items.Cast<ListViewItem>();
             foreach (var tag in Tags.Keys)

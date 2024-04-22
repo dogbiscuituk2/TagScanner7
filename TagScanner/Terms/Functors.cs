@@ -38,7 +38,7 @@
             AddFn(Fn.IndexOf, s, false, c);
             AddFn(Fn.Insert, s, false, i, s);
             AddFn(Fn.IsNull, "IsNullOrWhiteSpace", s, true, s); // "IsEmpty" already used as a Tag :-(
-            AddFn(Fn.Match_, "IsMatch", r, true, s, s);
+            AddFn(Fn.Match_, "IsMatch", r, true, s, s, typeof(RegexOptions));
             AddFn(Fn.LastIndexOf, s, false, c);
             AddFn(Fn.Lowercase, "ToLowerInvariant", s, false);
             AddFn(Fn.Max, m, true, d, d);

@@ -20,7 +20,7 @@
         public bool Execute(string caption, List<Tag> visibleTags)
         {
             Dialog.Text = caption;
-            _tagsListController.SetVisibleTags(visibleTags);
+            _tagsListController.SetSelectedTags(visibleTags);
             var ok = Dialog.ShowDialog(Owner) == DialogResult.OK;
             if (ok)
             {

@@ -30,6 +30,7 @@
             BtnReplaceNext.Click += BtnReplaceNext_Click;
         }
 
+        private readonly Selection Selection = new Selection();
         private readonly TagsListController TagsListController;
 
         private void FindComboBox_DropDown(object sender, EventArgs e) => AppController.GetFindItems(FindComboBox);
@@ -85,29 +86,47 @@
             var value = FindComboBox.Text;
             if (string.IsNullOrWhiteSpace(value))
                 return Term.True;
-
-            if (!UseRegex)
-                value = Regex.Escape(value);
-
+            value = Regex.Escape(value);
             if (WholeWord)
                 value = $@"\W{value}\W";
-
-            if (selectedTags.Count == 1)
+            if (selectedTags.Count() == 1)
                 return MakeSimpleCondition(selectedTags.First(), value);
-            var result = new Disjunction();
+            var term = new Disjunction();
+            term.Operands.Clear();
             foreach (var tag in selectedTags)
-                result.Operands.Add(MakeSimpleCondition(tag, value));
-            return result;
+                term.Operands.Add(MakeSimpleCondition(tag, value));
+            return term;
         }
+
+        private Func<Track, bool> MakePredicate() => MakeCondition().Predicate;
 
         private Term MakeSimpleCondition(Tag tag, string value)
         {
-            return new Function(tag, Fn.Contains, value);
+            var options = CaseSensitive ? RegexOptions.None : RegexOptions.IgnoreCase;
+            return new Function(Fn.Match_, tag, value, new Constant<RegexOptions>(options));
+        }
+
+        private bool Find()
+        {
+            UpdateFindItems();
+            var predicate = MakePredicate();
+            Selection.Clear();
+            Selection.Add(MainFormController.Model.Tracks.Where(p => predicate(p)));
+            var result = Selection.Tracks.Any();
+            if (!result)
+                MessageBox.Show(
+                    MainForm,
+                    $"The following specified text was not found:{Environment.NewLine}{FindComboBox.Text}",
+                    "Find and Replace",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Information);
+            return result;
         }
 
         private void FindAll()
         {
-            UpdateFindItems();
+            if (Find())
+                AppController.NewWindow(Selection);
         }
 
         private void FindNext()
@@ -131,6 +150,7 @@
         }
 
         private void Hide() => ShowFindReplace(visible: false);
+
         private void Show(bool replace) => ShowFindReplace(visible: true, replacing: replace);
 
         private void ShowFindReplace(bool visible, bool replacing = false)
@@ -152,6 +172,7 @@
         {
             var replacing = ReplaceRadioButton.Checked;
             TagsListController.InitItems(!replacing);
+            TagsListController.SetSelectedTags(new[] { Tag.Title, Tag.Album, Tag.JoinedPerformers });
             ReplaceComboBox.Enabled =
                 PreserveCaseCheckBox.Visible =
                 BtnReplaceNext.Visible =

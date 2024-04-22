@@ -6,6 +6,7 @@
     using System.Windows.Forms;
     using System.Xml;
     using WK.Libraries.SharpClipboardNS;
+    using Models;
     using Mru;
     using Utils;
     using Views;
@@ -54,11 +55,13 @@
             }
         }
 
-        public static void NewWindow()
+        public static void NewWindow(Selection selection = null)
         {
             var controller = new MainFormController();
             Controllers.Add(controller);
             controller.FilePath = GetTempFileName();
+            if (selection != null)
+                controller.TracksAdd(selection);
             controller.View.Show();
         }
 

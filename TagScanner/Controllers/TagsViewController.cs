@@ -43,9 +43,9 @@
             }
         }
 
-        public abstract List<Tag> GetSelectedTags();
+        public abstract IEnumerable<Tag> GetSelectedTags();
         protected abstract void InitGroups();
-        public abstract void SetVisibleTags(List<Tag> visibleTags);
+        public abstract void SetSelectedTags(IEnumerable<Tag> visibleTags);
 
         protected IEnumerable<TagInfo> SortTags()
         {
