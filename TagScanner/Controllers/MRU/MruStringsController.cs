@@ -29,6 +29,7 @@
                 if (filters.Contains(filter))
                     filters.Remove(filter);
                 filters.Insert(0, filter);
+                comboBox.Text = filter;
             }
             RegistryWrite(comboBox);
         }
