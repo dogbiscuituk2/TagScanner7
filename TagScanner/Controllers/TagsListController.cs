@@ -70,7 +70,7 @@
 
         private string GetValue(object o) => _sortColumn == 0 ? ((ListViewItem)o).Text : ((ListViewItem)o).SubItems[_sortColumn].Text;
 
-        public override List<Tag> GetVisibleTags()
+        public override List<Tag> GetSelectedTags()
         {
             var result = new List<Tag>();
             result.AddRange(Dialog.ListView.Items.Cast<ListViewItem>().Where(t => t.Checked).Select(t => (Tag)t.Tag));

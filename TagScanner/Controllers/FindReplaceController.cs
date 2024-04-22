@@ -1,7 +1,11 @@
 ﻿namespace TagScanner.Controllers
 {
     using System;
+    using System.Linq;
+    using System.Text.RegularExpressions;
     using System.Windows.Forms;
+    using Models;
+    using Terms;
     using Views;
 
     public class FindReplaceController : Controller
@@ -49,15 +53,57 @@
         private Button BtnReplaceAll => MainForm.btnReplaceAll;
         private Button BtnReplaceNext => MainForm.btnReplaceNext;
         private Button BtnSkipTrack => MainForm.btnSkipTrack;
-        private ComboBox FindComboBox => MainForm.FindComboBox;
+
+        private CheckBox CaseSensitiveCheckBox => MainForm.cbMatchCase;
+        private CheckBox WholeWordCheckBox => MainForm.cbMatchWholeWord;
+        private CheckBox UseRegexCheckBox => MainForm.cbUseRegex;
         private CheckBox PreserveCaseCheckBox => MainForm.cbPreserveCase;
+
+        private ComboBox FindComboBox => MainForm.FindComboBox;
         private ComboBox ReplaceComboBox => MainForm.ReplaceComboBox;
+
         private SplitContainer ClientSplitContainer => MainForm.ClientSplitContainer;
+
         private MainForm MainForm => MainFormController.View;
         private MainFormController MainFormController => (MainFormController)Parent;
+
         private RadioButton FindRadioButton => MainForm.rbFind;
         private RadioButton ReplaceRadioButton => MainForm.rbReplace;
+
         private ListView TagsListView => MainForm.TagsListView;
+
+        private bool CaseSensitive => CaseSensitiveCheckBox.Checked;
+        private bool WholeWord => WholeWordCheckBox.Checked;
+        private bool UseRegex => UseRegexCheckBox.Checked;
+        private bool PreserveCase => PreserveCaseCheckBox.Checked;
+
+        private Term MakeCondition()
+        {
+            var selectedTags = TagsListController.GetSelectedTags();
+            if (!selectedTags.Any())
+                return Term.True;
+            var value = FindComboBox.Text;
+            if (string.IsNullOrWhiteSpace(value))
+                return Term.True;
+
+            if (!UseRegex)
+                value = Regex.Escape(value);
+
+            if (WholeWord)
+                value = $@"\W{value}\W";
+
+            if (selectedTags.Count == 1)
+                return MakeSimpleCondition(selectedTags.First(), value);
+            var result = new Disjunction();
+            foreach (var tag in selectedTags)
+                result.Operands.Add(MakeSimpleCondition(tag, value));
+            return result;
+        }
+
+        private Term MakeSimpleCondition(Tag tag, string value)
+        {
+            return new Function(tag, Fn.Contains, value);
+        }
 
         private void FindAll()
         {

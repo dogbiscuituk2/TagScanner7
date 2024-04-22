@@ -25,7 +25,7 @@
             if (ok)
             {
                 visibleTags.Clear();
-                visibleTags.AddRange(_tagsListController.GetVisibleTags());
+                visibleTags.AddRange(_tagsListController.GetSelectedTags());
             }
             return ok;
         }

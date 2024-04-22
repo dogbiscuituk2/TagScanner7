@@ -43,7 +43,7 @@
             }
         }
 
-        public abstract List<Tag> GetVisibleTags();
+        public abstract List<Tag> GetSelectedTags();
         protected abstract void InitGroups();
         public abstract void SetVisibleTags(List<Tag> visibleTags);
 

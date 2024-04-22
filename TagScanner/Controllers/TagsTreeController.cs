@@ -50,7 +50,7 @@
             }
         }
 
-        public override List<Tag> GetVisibleTags()
+        public override List<Tag> GetSelectedTags()
         {
             return null;
         }
