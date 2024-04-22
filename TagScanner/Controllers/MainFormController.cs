@@ -39,6 +39,7 @@
             PictureController = new PictureController(View.PictureBox, View.PropertyGrid, PlayerController.PlaylistGrid);
             PropertyGridController = new PropertyGridController(this);
             StatusController = new StatusController(this);
+            FindReplaceController = new FindReplaceController(this);
             ModifiedChanged();
             UpdateUI();
         }
@@ -138,6 +139,7 @@
 
         public readonly CommandProcessor CommandProcessor;
         public readonly FilterController FilterController;
+        public readonly FindReplaceController FindReplaceController;
         public readonly TableController TableController;
         public readonly MruMediaController MediaController;
         public readonly MruLibraryController LibraryController;

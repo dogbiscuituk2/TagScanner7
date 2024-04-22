@@ -237,12 +237,6 @@
     <Compile Include="Models\Logical.cs" />
     <Compile Include="Models\Reader.cs" />
     <Compile Include="Models\ITrack.cs" />
-    <Compile Include="Views\FindReplaceDialog.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Views\FindReplaceDialog.Designer.cs">
-      <DependentUpon>FindReplaceDialog.cs</DependentUpon>
-    </Compile>
     <Compile Include="Views\SplashForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -280,9 +274,6 @@
     <Compile Include="Views\FilterForm.Designer.cs">
       <DependentUpon>FilterForm.cs</DependentUpon>
     </Compile>
-    <EmbeddedResource Include="Views\FindReplaceDialog.resx">
-      <DependentUpon>FindReplaceDialog.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="Views\MainForm.resx">
       <DependentUpon>MainForm.cs</DependentUpon>
       <SubType>Designer</SubType>
