@@ -28,11 +28,8 @@
 
         private readonly TagsListController TagsListController;
 
-        private void FindComboBox_DropDown(object sender, EventArgs e) =>
-            AppController.MruReplaceController.RegistryRead(FindComboBox);
-
-        private void ReplaceComboBox_DropDown(object sender, EventArgs e) =>
-            AppController.MruReplaceController.RegistryRead(ReplaceComboBox);
+        private void FindComboBox_DropDown(object sender, EventArgs e) => AppController.GetFindItems(FindComboBox);
+        private void ReplaceComboBox_DropDown(object sender, EventArgs e) => AppController.GetReplaceItems(ReplaceComboBox);
 
         private void BtnClose_Click(object sender, EventArgs e) => Hide();
         private void BtnFindAll_Click(object sender, EventArgs e) => FindAll();
@@ -56,7 +53,6 @@
         private CheckBox PreserveCaseCheckBox => MainForm.cbPreserveCase;
         private ComboBox ReplaceComboBox => MainForm.ReplaceComboBox;
         private SplitContainer ClientSplitContainer => MainForm.ClientSplitContainer;
-        private GroupBox FindReplace => MainForm.gbFindReplace;
         private MainForm MainForm => MainFormController.View;
         private MainFormController MainFormController => (MainFormController)Parent;
         private RadioButton FindRadioButton => MainForm.rbFind;
@@ -65,27 +61,27 @@
 
         private void FindAll()
         {
-            UpdateFind();
+            UpdateFindItems();
         }
 
         private void FindNext()
         {
-            UpdateFind();
+            UpdateFindItems();
         }
 
         private void FindPrevious()
         {
-            UpdateFind();
+            UpdateFindItems();
         }
 
         private void ReplaceAll()
         {
-            UpdateReplace();
+            UpdateReplaceItems();
         }
 
         private void ReplaceNext()
         {
-            UpdateReplace();
+            UpdateReplaceItems();
         }
 
         private void Hide() => ShowFindReplace(visible: false);
@@ -96,7 +92,6 @@
             ClientSplitContainer.Panel1Collapsed = !visible;
             if (visible)
             {
-                FindReplace.Visible = true;
                 FindRadioButton.Checked = !replacing;
                 ReplaceRadioButton.Checked = replacing;
                 FindComboBox.Focus();
@@ -104,8 +99,8 @@
             }
         }
 
-        private void UpdateFind() { }
-        private void UpdateReplace() { }
+        private void UpdateFindItems() => AppController.UpdateFindItems(FindComboBox);
+        private void UpdateReplaceItems() => AppController.UpdateReplaceItems(ReplaceComboBox);
 
         private void UpdateUI()
         {

@@ -11,8 +11,8 @@
     <vc:GroupSummary x:Key="groupSummary" />
   </UserControl.Resources>
   <Grid>
-    <DataGrid x:Name="DataGrid" IsReadOnly="True" AutoGenerateColumns="False">
-      <DataGrid.GroupStyle>
+    <DataGrid x:Name="DataGrid" IsReadOnly="True" AutoGenerateColumns="False" BorderThickness="0,0,0,0">
+            <DataGrid.GroupStyle>
         <GroupStyle>
           <GroupStyle.ContainerStyle>
             <Style TargetType="{x:Type GroupItem}">

@@ -28,7 +28,6 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.ClientSplitContainer = new System.Windows.Forms.SplitContainer();
-            this.gbFindReplace = new System.Windows.Forms.GroupBox();
             this.TagsListView = new System.Windows.Forms.ListView();
             this.btnFindAll = new System.Windows.Forms.Button();
             this.btnClose = new System.Windows.Forms.Button();
@@ -78,9 +77,9 @@
             this.MediaPlayer = new AxWMPLib.AxWindowsMediaPlayer();
             this.FilterPopupMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.RecentLibraryPopupMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.tbAddRecentLibrary = new System.Windows.Forms.ToolStripMenuItem();
+            this.FileReopen = new System.Windows.Forms.ToolStripMenuItem();
             this.RecentFolderPopupMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.tbAddRecentFolder = new System.Windows.Forms.ToolStripMenuItem();
+            this.AddRecentFolder = new System.Windows.Forms.ToolStripMenuItem();
             this.UndoPopupMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.tbUndo = new System.Windows.Forms.ToolStripSplitButton();
             this.RedoPopupMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
@@ -107,16 +106,19 @@
             this.tbPaste = new System.Windows.Forms.ToolStripButton();
             this.tbDelete = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
+            this.tbFind = new System.Windows.Forms.ToolStripButton();
+            this.toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
             this.tbAdd = new System.Windows.Forms.ToolStripSplitButton();
             this.tbAddMedia = new System.Windows.Forms.ToolStripMenuItem();
             this.tbAddFolder = new System.Windows.Forms.ToolStripMenuItem();
             this.tbAddLibrary = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem12 = new System.Windows.Forms.ToolStripSeparator();
+            this.tbAddRecentFolder = new System.Windows.Forms.ToolStripMenuItem();
+            this.tbAddRecentLibrary = new System.Windows.Forms.ToolStripMenuItem();
             this.MainMenu = new TagScanner.Controls.FirstClickMenuStrip();
             this.FileMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.FileNew = new System.Windows.Forms.ToolStripMenuItem();
             this.FileOpen = new System.Windows.Forms.ToolStripMenuItem();
-            this.FileReopen = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripSeparator();
             this.FileSave = new System.Windows.Forms.ToolStripMenuItem();
             this.FileSaveAs = new System.Windows.Forms.ToolStripMenuItem();
@@ -144,7 +146,6 @@
             this.AddFolder = new System.Windows.Forms.ToolStripMenuItem();
             this.AddLibrary = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem3 = new System.Windows.Forms.ToolStripSeparator();
-            this.AddRecentFolder = new System.Windows.Forms.ToolStripMenuItem();
             this.AddRecentLibrary = new System.Windows.Forms.ToolStripMenuItem();
             this.ViewMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.ViewFilter = new System.Windows.Forms.ToolStripMenuItem();
@@ -164,8 +165,6 @@
             this.toolStripMenuItem8 = new System.Windows.Forms.ToolStripSeparator();
             this.HelpMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.HelpAbout = new System.Windows.Forms.ToolStripMenuItem();
-            this.tbFind = new System.Windows.Forms.ToolStripButton();
-            this.toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -174,7 +173,6 @@
             this.ClientSplitContainer.Panel1.SuspendLayout();
             this.ClientSplitContainer.Panel2.SuspendLayout();
             this.ClientSplitContainer.SuspendLayout();
-            this.gbFindReplace.SuspendLayout();
             this.TablePopupMenu.SuspendLayout();
             this.FilterGroupBox.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer2)).BeginInit();
@@ -223,6 +221,7 @@
             // 
             // ClientSplitContainer
             // 
+            this.ClientSplitContainer.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.ClientSplitContainer.Dock = System.Windows.Forms.DockStyle.Fill;
             this.ClientSplitContainer.FixedPanel = System.Windows.Forms.FixedPanel.Panel1;
             this.ClientSplitContainer.Location = new System.Drawing.Point(4, 0);
@@ -231,44 +230,32 @@
             // 
             // ClientSplitContainer.Panel1
             // 
-            this.ClientSplitContainer.Panel1.Controls.Add(this.gbFindReplace);
-            this.ClientSplitContainer.Panel1MinSize = 228;
+            this.ClientSplitContainer.Panel1.Controls.Add(this.TagsListView);
+            this.ClientSplitContainer.Panel1.Controls.Add(this.btnFindAll);
+            this.ClientSplitContainer.Panel1.Controls.Add(this.btnClose);
+            this.ClientSplitContainer.Panel1.Controls.Add(this.cbPreserveCase);
+            this.ClientSplitContainer.Panel1.Controls.Add(this.cbUseRegex);
+            this.ClientSplitContainer.Panel1.Controls.Add(this.cbMatchWholeWord);
+            this.ClientSplitContainer.Panel1.Controls.Add(this.cbMatchCase);
+            this.ClientSplitContainer.Panel1.Controls.Add(this.ReplaceComboBox);
+            this.ClientSplitContainer.Panel1.Controls.Add(this.FindComboBox);
+            this.ClientSplitContainer.Panel1.Controls.Add(this.rbReplace);
+            this.ClientSplitContainer.Panel1.Controls.Add(this.rbFind);
+            this.ClientSplitContainer.Panel1.Controls.Add(this.btnReplaceAll);
+            this.ClientSplitContainer.Panel1.Controls.Add(this.btnReplaceNext);
+            this.ClientSplitContainer.Panel1.Controls.Add(this.btnSkipTrack);
+            this.ClientSplitContainer.Panel1.Controls.Add(this.btnFindNext);
+            this.ClientSplitContainer.Panel1.Controls.Add(this.btnFindPrevious);
+            this.ClientSplitContainer.Panel1.Controls.Add(this.label1);
+            this.ClientSplitContainer.Panel1MinSize = 202;
             // 
             // ClientSplitContainer.Panel2
             // 
             this.ClientSplitContainer.Panel2.Controls.Add(this.GridElementHost);
-            this.ClientSplitContainer.Panel2MinSize = 234;
+            this.ClientSplitContainer.Panel2MinSize = 260;
             this.ClientSplitContainer.Size = new System.Drawing.Size(514, 466);
-            this.ClientSplitContainer.SplitterDistance = 228;
+            this.ClientSplitContainer.SplitterDistance = 202;
             this.ClientSplitContainer.TabIndex = 3;
-            // 
-            // gbFindReplace
-            // 
-            this.gbFindReplace.Controls.Add(this.TagsListView);
-            this.gbFindReplace.Controls.Add(this.btnFindAll);
-            this.gbFindReplace.Controls.Add(this.btnClose);
-            this.gbFindReplace.Controls.Add(this.cbPreserveCase);
-            this.gbFindReplace.Controls.Add(this.cbUseRegex);
-            this.gbFindReplace.Controls.Add(this.cbMatchWholeWord);
-            this.gbFindReplace.Controls.Add(this.cbMatchCase);
-            this.gbFindReplace.Controls.Add(this.ReplaceComboBox);
-            this.gbFindReplace.Controls.Add(this.FindComboBox);
-            this.gbFindReplace.Controls.Add(this.rbReplace);
-            this.gbFindReplace.Controls.Add(this.rbFind);
-            this.gbFindReplace.Controls.Add(this.btnReplaceAll);
-            this.gbFindReplace.Controls.Add(this.btnReplaceNext);
-            this.gbFindReplace.Controls.Add(this.btnSkipTrack);
-            this.gbFindReplace.Controls.Add(this.btnFindNext);
-            this.gbFindReplace.Controls.Add(this.btnFindPrevious);
-            this.gbFindReplace.Controls.Add(this.label1);
-            this.gbFindReplace.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.gbFindReplace.Location = new System.Drawing.Point(0, 0);
-            this.gbFindReplace.Name = "gbFindReplace";
-            this.gbFindReplace.Size = new System.Drawing.Size(514, 228);
-            this.gbFindReplace.TabIndex = 2;
-            this.gbFindReplace.TabStop = false;
-            this.gbFindReplace.Text = "Find && Replace";
-            this.gbFindReplace.Visible = false;
             // 
             // TagsListView
             // 
@@ -277,20 +264,20 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.TagsListView.CheckBoxes = true;
             this.TagsListView.HideSelection = false;
-            this.TagsListView.Location = new System.Drawing.Point(120, 91);
+            this.TagsListView.Location = new System.Drawing.Point(120, 65);
             this.TagsListView.Name = "TagsListView";
-            this.TagsListView.Size = new System.Drawing.Size(274, 129);
-            this.TagsListView.TabIndex = 41;
+            this.TagsListView.Size = new System.Drawing.Size(278, 132);
+            this.TagsListView.TabIndex = 58;
             this.TagsListView.UseCompatibleStateImageBehavior = false;
             this.TagsListView.View = System.Windows.Forms.View.List;
             // 
             // btnFindAll
             // 
             this.btnFindAll.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnFindAll.Location = new System.Drawing.Point(403, 119);
+            this.btnFindAll.Location = new System.Drawing.Point(404, 135);
             this.btnFindAll.Name = "btnFindAll";
             this.btnFindAll.Size = new System.Drawing.Size(105, 27);
-            this.btnFindAll.TabIndex = 40;
+            this.btnFindAll.TabIndex = 57;
             this.btnFindAll.Text = "Find &All";
             this.btnFindAll.UseVisualStyleBackColor = true;
             // 
@@ -298,50 +285,50 @@
             // 
             this.btnClose.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.btnClose.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.btnClose.Location = new System.Drawing.Point(403, 185);
+            this.btnClose.Location = new System.Drawing.Point(404, 3);
             this.btnClose.Name = "btnClose";
             this.btnClose.Size = new System.Drawing.Size(105, 27);
-            this.btnClose.TabIndex = 38;
+            this.btnClose.TabIndex = 56;
             this.btnClose.Text = "Close (Esc)";
             this.btnClose.UseVisualStyleBackColor = true;
             // 
             // cbPreserveCase
             // 
             this.cbPreserveCase.AutoSize = true;
-            this.cbPreserveCase.Location = new System.Drawing.Point(6, 191);
+            this.cbPreserveCase.Location = new System.Drawing.Point(6, 165);
             this.cbPreserveCase.Name = "cbPreserveCase";
             this.cbPreserveCase.Size = new System.Drawing.Size(107, 21);
-            this.cbPreserveCase.TabIndex = 29;
+            this.cbPreserveCase.TabIndex = 48;
             this.cbPreserveCase.Text = "Preser&ve case";
             this.cbPreserveCase.UseVisualStyleBackColor = true;
             // 
             // cbUseRegex
             // 
             this.cbUseRegex.AutoSize = true;
-            this.cbUseRegex.Location = new System.Drawing.Point(6, 168);
+            this.cbUseRegex.Location = new System.Drawing.Point(6, 142);
             this.cbUseRegex.Name = "cbUseRegex";
             this.cbUseRegex.Size = new System.Drawing.Size(86, 21);
-            this.cbUseRegex.TabIndex = 28;
+            this.cbUseRegex.TabIndex = 47;
             this.cbUseRegex.Text = "Use rege&x";
             this.cbUseRegex.UseVisualStyleBackColor = true;
             // 
             // cbMatchWholeWord
             // 
             this.cbMatchWholeWord.AutoSize = true;
-            this.cbMatchWholeWord.Location = new System.Drawing.Point(6, 145);
+            this.cbMatchWholeWord.Location = new System.Drawing.Point(6, 119);
             this.cbMatchWholeWord.Name = "cbMatchWholeWord";
             this.cbMatchWholeWord.Size = new System.Drawing.Size(98, 21);
-            this.cbMatchWholeWord.TabIndex = 27;
+            this.cbMatchWholeWord.TabIndex = 46;
             this.cbMatchWholeWord.Text = "&Whole word";
             this.cbMatchWholeWord.UseVisualStyleBackColor = true;
             // 
             // cbMatchCase
             // 
             this.cbMatchCase.AutoSize = true;
-            this.cbMatchCase.Location = new System.Drawing.Point(6, 122);
+            this.cbMatchCase.Location = new System.Drawing.Point(6, 96);
             this.cbMatchCase.Name = "cbMatchCase";
             this.cbMatchCase.Size = new System.Drawing.Size(108, 21);
-            this.cbMatchCase.TabIndex = 26;
+            this.cbMatchCase.TabIndex = 45;
             this.cbMatchCase.Text = "&Case sensitive";
             this.cbMatchCase.UseVisualStyleBackColor = true;
             // 
@@ -350,28 +337,28 @@
             this.ReplaceComboBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.ReplaceComboBox.FormattingEnabled = true;
-            this.ReplaceComboBox.Location = new System.Drawing.Point(120, 55);
+            this.ReplaceComboBox.Location = new System.Drawing.Point(120, 34);
             this.ReplaceComboBox.Name = "ReplaceComboBox";
-            this.ReplaceComboBox.Size = new System.Drawing.Size(274, 25);
-            this.ReplaceComboBox.TabIndex = 25;
+            this.ReplaceComboBox.Size = new System.Drawing.Size(278, 25);
+            this.ReplaceComboBox.TabIndex = 44;
             // 
             // FindComboBox
             // 
             this.FindComboBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.FindComboBox.FormattingEnabled = true;
-            this.FindComboBox.Location = new System.Drawing.Point(120, 24);
+            this.FindComboBox.Location = new System.Drawing.Point(120, 3);
             this.FindComboBox.Name = "FindComboBox";
-            this.FindComboBox.Size = new System.Drawing.Size(274, 25);
-            this.FindComboBox.TabIndex = 24;
+            this.FindComboBox.Size = new System.Drawing.Size(278, 25);
+            this.FindComboBox.TabIndex = 43;
             // 
             // rbReplace
             // 
             this.rbReplace.AutoSize = true;
-            this.rbReplace.Location = new System.Drawing.Point(6, 56);
+            this.rbReplace.Location = new System.Drawing.Point(6, 35);
             this.rbReplace.Name = "rbReplace";
             this.rbReplace.Size = new System.Drawing.Size(105, 21);
-            this.rbReplace.TabIndex = 37;
+            this.rbReplace.TabIndex = 55;
             this.rbReplace.TabStop = true;
             this.rbReplace.Text = "&Replace with?";
             this.rbReplace.UseVisualStyleBackColor = true;
@@ -379,10 +366,10 @@
             // rbFind
             // 
             this.rbFind.AutoSize = true;
-            this.rbFind.Location = new System.Drawing.Point(6, 25);
+            this.rbFind.Location = new System.Drawing.Point(6, 6);
             this.rbFind.Name = "rbFind";
             this.rbFind.Size = new System.Drawing.Size(87, 21);
-            this.rbFind.TabIndex = 36;
+            this.rbFind.TabIndex = 54;
             this.rbFind.TabStop = true;
             this.rbFind.Text = "&Find what?";
             this.rbFind.UseVisualStyleBackColor = true;
@@ -390,60 +377,60 @@
             // btnReplaceAll
             // 
             this.btnReplaceAll.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnReplaceAll.Location = new System.Drawing.Point(403, 152);
+            this.btnReplaceAll.Location = new System.Drawing.Point(404, 168);
             this.btnReplaceAll.Name = "btnReplaceAll";
             this.btnReplaceAll.Size = new System.Drawing.Size(105, 27);
-            this.btnReplaceAll.TabIndex = 35;
+            this.btnReplaceAll.TabIndex = 53;
             this.btnReplaceAll.Text = "Replace &All";
             this.btnReplaceAll.UseVisualStyleBackColor = true;
             // 
             // btnReplaceNext
             // 
             this.btnReplaceNext.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnReplaceNext.Location = new System.Drawing.Point(403, 119);
+            this.btnReplaceNext.Location = new System.Drawing.Point(404, 134);
             this.btnReplaceNext.Name = "btnReplaceNext";
             this.btnReplaceNext.Size = new System.Drawing.Size(105, 27);
-            this.btnReplaceNext.TabIndex = 34;
+            this.btnReplaceNext.TabIndex = 52;
             this.btnReplaceNext.Text = "Replac&e Next";
             this.btnReplaceNext.UseVisualStyleBackColor = true;
             // 
             // btnSkipTrack
             // 
             this.btnSkipTrack.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnSkipTrack.Location = new System.Drawing.Point(403, 86);
+            this.btnSkipTrack.Location = new System.Drawing.Point(404, 102);
             this.btnSkipTrack.Name = "btnSkipTrack";
             this.btnSkipTrack.Size = new System.Drawing.Size(105, 27);
-            this.btnSkipTrack.TabIndex = 33;
+            this.btnSkipTrack.TabIndex = 51;
             this.btnSkipTrack.Text = "Sk&ip Track";
             this.btnSkipTrack.UseVisualStyleBackColor = true;
             // 
             // btnFindNext
             // 
             this.btnFindNext.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnFindNext.Location = new System.Drawing.Point(403, 53);
+            this.btnFindNext.Location = new System.Drawing.Point(404, 69);
             this.btnFindNext.Name = "btnFindNext";
             this.btnFindNext.Size = new System.Drawing.Size(105, 27);
-            this.btnFindNext.TabIndex = 32;
+            this.btnFindNext.TabIndex = 50;
             this.btnFindNext.Text = "Find &Next";
             this.btnFindNext.UseVisualStyleBackColor = true;
             // 
             // btnFindPrevious
             // 
             this.btnFindPrevious.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnFindPrevious.Location = new System.Drawing.Point(403, 22);
+            this.btnFindPrevious.Location = new System.Drawing.Point(404, 36);
             this.btnFindPrevious.Name = "btnFindPrevious";
             this.btnFindPrevious.Size = new System.Drawing.Size(105, 27);
-            this.btnFindPrevious.TabIndex = 31;
+            this.btnFindPrevious.TabIndex = 49;
             this.btnFindPrevious.Text = "Find &Previous";
             this.btnFindPrevious.UseVisualStyleBackColor = true;
             // 
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(6, 91);
+            this.label1.Location = new System.Drawing.Point(2, 65);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(116, 17);
-            this.label1.TabIndex = 1;
+            this.label1.TabIndex = 42;
             this.label1.Text = "Search these Tags:";
             // 
             // GridElementHost
@@ -454,7 +441,7 @@
             this.GridElementHost.Location = new System.Drawing.Point(0, 0);
             this.GridElementHost.Margin = new System.Windows.Forms.Padding(0);
             this.GridElementHost.Name = "GridElementHost";
-            this.GridElementHost.Size = new System.Drawing.Size(514, 234);
+            this.GridElementHost.Size = new System.Drawing.Size(512, 258);
             this.GridElementHost.TabIndex = 0;
             this.GridElementHost.Text = "GridContainerHost";
             this.GridElementHost.Child = null;
@@ -762,29 +749,30 @@
             this.RecentLibraryPopupMenu.OwnerItem = this.AddRecentLibrary;
             this.RecentLibraryPopupMenu.Size = new System.Drawing.Size(61, 4);
             // 
-            // tbAddRecentLibrary
+            // FileReopen
             // 
-            this.tbAddRecentLibrary.DropDown = this.RecentLibraryPopupMenu;
-            this.tbAddRecentLibrary.Name = "tbAddRecentLibrary";
-            this.tbAddRecentLibrary.Size = new System.Drawing.Size(149, 22);
-            this.tbAddRecentLibrary.Text = "R&ecent Library";
+            this.FileReopen.DropDown = this.RecentLibraryPopupMenu;
+            this.FileReopen.Name = "FileReopen";
+            this.FileReopen.Size = new System.Drawing.Size(161, 22);
+            this.FileReopen.Text = "&Reopen";
             // 
             // RecentFolderPopupMenu
             // 
             this.RecentFolderPopupMenu.Name = "RecentFolderPopupMenu";
-            this.RecentFolderPopupMenu.OwnerItem = this.AddRecentFolder;
+            this.RecentFolderPopupMenu.OwnerItem = this.tbAddRecentFolder;
             this.RecentFolderPopupMenu.Size = new System.Drawing.Size(61, 4);
             // 
-            // tbAddRecentFolder
+            // AddRecentFolder
             // 
-            this.tbAddRecentFolder.DropDown = this.RecentFolderPopupMenu;
-            this.tbAddRecentFolder.Name = "tbAddRecentFolder";
-            this.tbAddRecentFolder.Size = new System.Drawing.Size(149, 22);
-            this.tbAddRecentFolder.Text = "&Recent Folder";
+            this.AddRecentFolder.DropDown = this.RecentFolderPopupMenu;
+            this.AddRecentFolder.Name = "AddRecentFolder";
+            this.AddRecentFolder.Size = new System.Drawing.Size(149, 22);
+            this.AddRecentFolder.Text = "&Recent Folder";
             // 
             // UndoPopupMenu
             // 
             this.UndoPopupMenu.Name = "UndoPopupMenu";
+            this.UndoPopupMenu.OwnerItem = this.tbUndo;
             this.UndoPopupMenu.Size = new System.Drawing.Size(61, 4);
             // 
             // tbUndo
@@ -1028,6 +1016,20 @@
             this.toolStripSeparator2.Name = "toolStripSeparator2";
             this.toolStripSeparator2.Size = new System.Drawing.Size(31, 6);
             // 
+            // tbFind
+            // 
+            this.tbFind.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.tbFind.Image = global::TagScanner.Properties.Resources.ZoomHS;
+            this.tbFind.ImageTransparentColor = System.Drawing.Color.White;
+            this.tbFind.Name = "tbFind";
+            this.tbFind.Size = new System.Drawing.Size(31, 20);
+            this.tbFind.Text = "Find";
+            // 
+            // toolStripSeparator4
+            // 
+            this.toolStripSeparator4.Name = "toolStripSeparator4";
+            this.toolStripSeparator4.Size = new System.Drawing.Size(31, 6);
+            // 
             // tbAdd
             // 
             this.tbAdd.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
@@ -1042,7 +1044,7 @@
             this.tbAdd.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.tbAdd.Name = "tbAdd";
             this.tbAdd.Size = new System.Drawing.Size(31, 20);
-            this.tbAdd.Text = "toolStripSplitButton1";
+            this.tbAdd.Text = "Add";
             // 
             // tbAddMedia
             // 
@@ -1066,6 +1068,20 @@
             // 
             this.toolStripMenuItem12.Name = "toolStripMenuItem12";
             this.toolStripMenuItem12.Size = new System.Drawing.Size(146, 6);
+            // 
+            // tbAddRecentFolder
+            // 
+            this.tbAddRecentFolder.DropDown = this.RecentFolderPopupMenu;
+            this.tbAddRecentFolder.Name = "tbAddRecentFolder";
+            this.tbAddRecentFolder.Size = new System.Drawing.Size(180, 22);
+            this.tbAddRecentFolder.Text = "&Recent Folder";
+            // 
+            // tbAddRecentLibrary
+            // 
+            this.tbAddRecentLibrary.DropDown = this.RecentLibraryPopupMenu;
+            this.tbAddRecentLibrary.Name = "tbAddRecentLibrary";
+            this.tbAddRecentLibrary.Size = new System.Drawing.Size(180, 22);
+            this.tbAddRecentLibrary.Text = "R&ecent Library";
             // 
             // MainMenu
             // 
@@ -1120,13 +1136,6 @@
             this.FileOpen.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.O)));
             this.FileOpen.Size = new System.Drawing.Size(161, 22);
             this.FileOpen.Text = "&Open...";
-            // 
-            // FileReopen
-            // 
-            this.FileReopen.DropDown = this.RecentLibraryPopupMenu;
-            this.FileReopen.Name = "FileReopen";
-            this.FileReopen.Size = new System.Drawing.Size(161, 22);
-            this.FileReopen.Text = "&Reopen";
             // 
             // toolStripMenuItem1
             // 
@@ -1207,7 +1216,7 @@
             this.EditUndo.Name = "EditUndo";
             this.EditUndo.ShortcutKeyDisplayString = "^Z";
             this.EditUndo.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Z)));
-            this.EditUndo.Size = new System.Drawing.Size(180, 22);
+            this.EditUndo.Size = new System.Drawing.Size(155, 22);
             this.EditUndo.Text = "&Undo";
             // 
             // EditRedo
@@ -1216,13 +1225,13 @@
             this.EditRedo.Name = "EditRedo";
             this.EditRedo.ShortcutKeyDisplayString = "^Y";
             this.EditRedo.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Y)));
-            this.EditRedo.Size = new System.Drawing.Size(180, 22);
+            this.EditRedo.Size = new System.Drawing.Size(155, 22);
             this.EditRedo.Text = "&Redo";
             // 
             // toolStripMenuItem10
             // 
             this.toolStripMenuItem10.Name = "toolStripMenuItem10";
-            this.toolStripMenuItem10.Size = new System.Drawing.Size(177, 6);
+            this.toolStripMenuItem10.Size = new System.Drawing.Size(152, 6);
             // 
             // EditCut
             // 
@@ -1230,7 +1239,7 @@
             this.EditCut.Name = "EditCut";
             this.EditCut.ShortcutKeyDisplayString = "^X";
             this.EditCut.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.X)));
-            this.EditCut.Size = new System.Drawing.Size(180, 22);
+            this.EditCut.Size = new System.Drawing.Size(155, 22);
             this.EditCut.Text = "Cu&t";
             // 
             // EditCopy
@@ -1239,7 +1248,7 @@
             this.EditCopy.Name = "EditCopy";
             this.EditCopy.ShortcutKeyDisplayString = "^C";
             this.EditCopy.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.C)));
-            this.EditCopy.Size = new System.Drawing.Size(180, 22);
+            this.EditCopy.Size = new System.Drawing.Size(155, 22);
             this.EditCopy.Text = "&Copy";
             // 
             // EditPaste
@@ -1249,7 +1258,7 @@
             this.EditPaste.Name = "EditPaste";
             this.EditPaste.ShortcutKeyDisplayString = "^V";
             this.EditPaste.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.V)));
-            this.EditPaste.Size = new System.Drawing.Size(180, 22);
+            this.EditPaste.Size = new System.Drawing.Size(155, 22);
             this.EditPaste.Text = "&Paste";
             // 
             // EditDelete
@@ -1258,13 +1267,13 @@
             this.EditDelete.ImageTransparentColor = System.Drawing.Color.White;
             this.EditDelete.Name = "EditDelete";
             this.EditDelete.ShortcutKeyDisplayString = "";
-            this.EditDelete.Size = new System.Drawing.Size(180, 22);
+            this.EditDelete.Size = new System.Drawing.Size(155, 22);
             this.EditDelete.Text = "&Delete";
             // 
             // toolStripMenuItem11
             // 
             this.toolStripMenuItem11.Name = "toolStripMenuItem11";
-            this.toolStripMenuItem11.Size = new System.Drawing.Size(177, 6);
+            this.toolStripMenuItem11.Size = new System.Drawing.Size(152, 6);
             // 
             // EditFind
             // 
@@ -1272,7 +1281,7 @@
             this.EditFind.Name = "EditFind";
             this.EditFind.ShortcutKeyDisplayString = "^F";
             this.EditFind.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.F)));
-            this.EditFind.Size = new System.Drawing.Size(180, 22);
+            this.EditFind.Size = new System.Drawing.Size(155, 22);
             this.EditFind.Text = "&Find...";
             // 
             // EditReplace
@@ -1280,26 +1289,26 @@
             this.EditReplace.Name = "EditReplace";
             this.EditReplace.ShortcutKeyDisplayString = "^H";
             this.EditReplace.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.H)));
-            this.EditReplace.Size = new System.Drawing.Size(180, 22);
+            this.EditReplace.Size = new System.Drawing.Size(155, 22);
             this.EditReplace.Text = "&Replace...";
             // 
             // toolStripMenuItem2
             // 
             this.toolStripMenuItem2.Name = "toolStripMenuItem2";
-            this.toolStripMenuItem2.Size = new System.Drawing.Size(177, 6);
+            this.toolStripMenuItem2.Size = new System.Drawing.Size(152, 6);
             // 
             // EditSelectAll
             // 
             this.EditSelectAll.Name = "EditSelectAll";
             this.EditSelectAll.ShortcutKeyDisplayString = "^A";
             this.EditSelectAll.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.A)));
-            this.EditSelectAll.Size = new System.Drawing.Size(180, 22);
+            this.EditSelectAll.Size = new System.Drawing.Size(155, 22);
             this.EditSelectAll.Text = "Select &All";
             // 
             // EditInvertSelection
             // 
             this.EditInvertSelection.Name = "EditInvertSelection";
-            this.EditInvertSelection.Size = new System.Drawing.Size(180, 22);
+            this.EditInvertSelection.Size = new System.Drawing.Size(155, 22);
             this.EditInvertSelection.Text = "&Invert Selection";
             // 
             // AddMenu
@@ -1338,13 +1347,6 @@
             // 
             this.toolStripMenuItem3.Name = "toolStripMenuItem3";
             this.toolStripMenuItem3.Size = new System.Drawing.Size(146, 6);
-            // 
-            // AddRecentFolder
-            // 
-            this.AddRecentFolder.DropDown = this.RecentFolderPopupMenu;
-            this.AddRecentFolder.Name = "AddRecentFolder";
-            this.AddRecentFolder.Size = new System.Drawing.Size(149, 22);
-            this.AddRecentFolder.Text = "&Recent Folder";
             // 
             // AddRecentLibrary
             // 
@@ -1482,26 +1484,11 @@
             this.HelpAbout.Size = new System.Drawing.Size(126, 22);
             this.HelpAbout.Text = "&About";
             // 
-            // tbFind
-            // 
-            this.tbFind.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.tbFind.Image = global::TagScanner.Properties.Resources.ZoomHS;
-            this.tbFind.ImageTransparentColor = System.Drawing.Color.White;
-            this.tbFind.Name = "tbFind";
-            this.tbFind.Size = new System.Drawing.Size(31, 20);
-            this.tbFind.Text = "toolStripButton1";
-            // 
-            // toolStripSeparator4
-            // 
-            this.toolStripSeparator4.Name = "toolStripSeparator4";
-            this.toolStripSeparator4.Size = new System.Drawing.Size(31, 6);
-            // 
             // MainForm
             // 
             this.AcceptButton = this.ApplyButton;
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 17F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.CancelButton = this.btnClose;
             this.ClientSize = new System.Drawing.Size(784, 561);
             this.Controls.Add(this.ToolStripContainer);
             this.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -1515,11 +1502,10 @@
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
             this.splitContainer1.ResumeLayout(false);
             this.ClientSplitContainer.Panel1.ResumeLayout(false);
+            this.ClientSplitContainer.Panel1.PerformLayout();
             this.ClientSplitContainer.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.ClientSplitContainer)).EndInit();
             this.ClientSplitContainer.ResumeLayout(false);
-            this.gbFindReplace.ResumeLayout(false);
-            this.gbFindReplace.PerformLayout();
             this.TablePopupMenu.ResumeLayout(false);
             this.FilterGroupBox.ResumeLayout(false);
             this.FilterGroupBox.PerformLayout();
@@ -1675,7 +1661,13 @@
         public System.Windows.Forms.ToolStripMenuItem HelpAbout;
         public System.Windows.Forms.StatusStrip StatusBar;
         public System.Windows.Forms.ToolStripContainer ToolStripContainer;
-        public System.Windows.Forms.GroupBox gbFindReplace;
+        public System.Windows.Forms.SplitContainer ClientSplitContainer;
+        private System.ComponentModel.IContainer components;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator4;
+        public System.Windows.Forms.ToolStripButton tbFind;
+        public System.Windows.Forms.ListView TagsListView;
+        public System.Windows.Forms.Button btnFindAll;
+        public System.Windows.Forms.Button btnClose;
         public System.Windows.Forms.CheckBox cbPreserveCase;
         public System.Windows.Forms.CheckBox cbUseRegex;
         public System.Windows.Forms.CheckBox cbMatchWholeWord;
@@ -1689,14 +1681,7 @@
         public System.Windows.Forms.Button btnSkipTrack;
         public System.Windows.Forms.Button btnFindNext;
         public System.Windows.Forms.Button btnFindPrevious;
-        public System.Windows.Forms.Button btnClose;
-        public System.Windows.Forms.Button btnFindAll;
-        public System.Windows.Forms.ListView TagsListView;
-        public System.Windows.Forms.SplitContainer ClientSplitContainer;
-        private System.ComponentModel.IContainer components;
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.ToolStripSeparator toolStripSeparator4;
-        public System.Windows.Forms.ToolStripButton tbFind;
     }
 }
 

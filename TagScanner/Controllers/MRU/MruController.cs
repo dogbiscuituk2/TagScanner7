@@ -95,7 +95,7 @@
             try
             {
                 key = OpenSubKey(false);
-                return true;
+                return key != null;
             }
             catch (Exception exception)
             {

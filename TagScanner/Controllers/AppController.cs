@@ -28,6 +28,7 @@
 
         #region Public Properties
 
+        public static MruFilterController MruFilterController = new MruFilterController(null);
         public static MruStringsController MruFindController = new MruStringsController(null, "FindMRU");
         public static MruStringsController MruReplaceController = new MruStringsController(null, "ReplaceMRU");
 
@@ -96,6 +97,13 @@
             }
             return true;
         }
+
+        public static void GetFilterItems(ComboBox comboBox) => MruFilterController.RegistryRead(comboBox);
+        public static void GetFindItems(ComboBox comboBox) => MruFindController.RegistryRead(comboBox);
+        public static void GetReplaceItems(ComboBox comboBox) => MruReplaceController.RegistryRead(comboBox);
+        public static void UpdateFilterItems(ComboBox comboBox) => MruFilterController.UpdateItems(comboBox);
+        public static void UpdateFindItems(ComboBox comboBox) => MruFindController.UpdateItems(comboBox);
+        public static void UpdateReplaceItems(ComboBox comboBox) => MruReplaceController.UpdateItems(comboBox);
 
         #endregion
 
