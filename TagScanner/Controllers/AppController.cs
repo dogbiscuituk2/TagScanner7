@@ -44,25 +44,27 @@
                 SplashForm.Close();
         }
 
-        public static string GetTempFileName()
+        public static string GetTempFileName(string nameFormat = LibraryNameFormat)
         {
             var filePaths = Controllers.Select(p => p.FilePath);
             for (var index = 1; true; index++)
             {
-                var filePath = $"<untitled #{index}>";
+                var filePath = string.Format(nameFormat, index);
                 if (!filePaths.Contains(filePath))
                     return filePath;
             }
         }
 
-        public static void NewWindow(Selection selection = null)
+        public static void NewWindow(string nameFormat = LibraryNameFormat, Selection selection = null, bool modified = true)
         {
             var controller = new MainFormController();
             Controllers.Add(controller);
-            controller.FilePath = GetTempFileName();
+            controller.FilePath = GetTempFileName(nameFormat);
             if (selection != null)
                 controller.TracksAdd(selection);
             controller.View.Show();
+            if (!modified)
+                controller.CommandProcessor.Clear();
         }
 
         public static void PopulateWindowMenu(ToolStripMenuItem menu)
@@ -142,8 +144,12 @@
 
         #region Private Fields
 
-        private static SplashForm SplashForm { get; }
+        private const string LibraryNameFormat = "<untitled #{0}>";
+        private const string FindResultsNameFormat = "<find results #{0}>";
+        private const string ReplaceResultsNameFormat = "<replace results #{0}>";
+
         private static List<MainFormController> Controllers { get; }
+        private static SplashForm SplashForm { get; }
 
         #endregion
 

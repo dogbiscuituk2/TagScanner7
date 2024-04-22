@@ -28,14 +28,14 @@
             Model.TracksEdit += Model_TracksEdit;
             CommandProcessor = new CommandProcessor(this);
             FilterController = new FilterController(this);
-            TableController = new TableController(this, View.GridElementHost);
+            TableController = new WpfTableController(this, View.GridElementHost);
             TableController.SelectionChanged += LibraryGridController_SelectionChanged;
             DragDropController = new DragDropController(this);
             MediaController = new MruMediaController(this, View.RecentFolderPopupMenu);
             LibraryController = new MruLibraryController(this, View.RecentLibraryPopupMenu);
             LibraryController.FilePathChanged += PersistenceController_FilePathChanged;
             LibraryController.FileSaving += PersistenceController_FileSaving;
-            PlayerController = new PlayerController(this);
+            PlayerController = new WpfPlayerController(this);
             PictureController = new PictureController(View.PictureBox, View.PropertyGrid, PlayerController.PlaylistGrid);
             PropertyGridController = new PropertyGridController(this);
             StatusController = new StatusController(this);
@@ -104,8 +104,6 @@
                 View.EditSelectAll.Click += EditSelectAll_Click;
                 View.EditInvertSelection.Click += EditInvertSelection_Click;
 
-                View.ViewRefresh.Click += ViewRefresh_Click;
-
                 View.WindowMenu.DropDownOpening += ViewWindow_DropDownOpening;
 
                 View.AddMedia.Click += AddMedia_Click;
@@ -140,11 +138,11 @@
         public readonly CommandProcessor CommandProcessor;
         public readonly FilterController FilterController;
         public readonly FindReplaceController FindReplaceController;
-        public readonly TableController TableController;
+        public readonly WpfTableController TableController;
         public readonly MruMediaController MediaController;
         public readonly MruLibraryController LibraryController;
         public readonly PictureController PictureController;
-        public readonly PlayerController PlayerController;
+        public readonly WpfPlayerController PlayerController;
         public readonly PropertyGridController PropertyGridController;
         public readonly StatusController StatusController;
 
@@ -254,7 +252,6 @@
         #region View
 
         private void ViewWindow_DropDownOpening(object sender, EventArgs e) => AppController.PopulateWindowMenu(View.WindowMenu);
-        private void ViewRefresh_Click(object sender, EventArgs e) { }
 
         #endregion
 

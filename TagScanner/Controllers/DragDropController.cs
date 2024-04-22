@@ -23,7 +23,7 @@
         private MainFormController MainFormController => (MainFormController)Parent;
         private MruMediaController MediaController => MainFormController.MediaController;
         private System.Windows.Controls.DataGrid Table => TableController.DataGrid;
-        private TableController TableController => MainFormController.TableController;
+        private WpfTableController TableController => MainFormController.TableController;
 
         #endregion
 

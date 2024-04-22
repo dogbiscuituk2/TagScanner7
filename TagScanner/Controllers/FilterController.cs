@@ -10,7 +10,7 @@
     {
         public FilterController(Controller parent) : base(parent)
         {
-            View.ViewFilter.Click += ViewFilter_Click;
+            //View.ViewFilter.Click += ViewFilter_Click;
             View.ApplyButton.Click += ApplyButton_Click;
             View.ClearButton.Click += ClearButton_Click;
             FilterComboBox.DropDown += FilterComboBox_DropDown;
@@ -20,13 +20,13 @@
         private ComboBox FilterComboBox => View.FilterComboBox;
         private FilterFormController FilterFormController;
         private MainFormController MainFormController => (MainFormController)Parent;
-        private TableController LibraryGridController => MainFormController.TableController; 
+        private WpfTableController LibraryGridController => MainFormController.TableController; 
         private MainForm View => MainFormController.View;
 
         private void ApplyButton_Click(object sender, EventArgs e) => UpdateFilter();
         private void ClearButton_Click(object sender, EventArgs e) => ClearFilter();
         private void FilterComboBox_DropDown(object sender, EventArgs e) => AppController.GetFilterItems(FilterComboBox);
-        private void ViewFilter_Click(object sender, EventArgs e) => LaunchFilterBuilder();
+        //private void ViewFilter_Click(object sender, EventArgs e) => LaunchFilterBuilder();
 
         private void ClearFilter()
         {

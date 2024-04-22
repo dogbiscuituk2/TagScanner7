@@ -125,7 +125,10 @@
         private void FindAll()
         {
             if (Find())
-                AppController.NewWindow(Selection);
+                AppController.NewWindow(
+                    nameFormat: "<find results {0}>",
+                    selection: Selection,
+                    modified: false);
         }
 
         private void FindNext()

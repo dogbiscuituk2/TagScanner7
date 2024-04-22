@@ -194,9 +194,9 @@
     <Compile Include="Menus\MenuRouter.cs" />
     <Compile Include="Menus\OperationEventArgs.cs" />
     <Compile Include="Models\GroupTagsBy.cs" />
-    <Compile Include="Controllers\GridController.cs" />
+    <Compile Include="Controllers\WpfGridController.cs" />
     <Compile Include="Controllers\MainFormController.cs" />
-    <Compile Include="Controllers\PlayerController.cs" />
+    <Compile Include="Controllers\WpfPlayerController.cs" />
     <Compile Include="Controllers\Mru\MruSdiController.cs" />
     <Compile Include="Controllers\TagPickerController.cs" />
     <Compile Include="Controllers\TagsController.cs" />
@@ -230,7 +230,7 @@
     <Compile Include="ValueConverters\StringsConverter.cs" />
     <Compile Include="ValueConverters\TimeSpanConverter.cs" />
     <Compile Include="ValueConverters\GroupSummary.cs" />
-    <Compile Include="Controllers\TableController.cs" />
+    <Compile Include="Controllers\WpfTableController.cs" />
     <Compile Include="ValueConverters\LogicalConverter.cs" />
     <Compile Include="Controllers\Mru\MruMediaController.cs" />
     <Compile Include="Controllers\Mru\MruLibraryController.cs" />
@@ -244,8 +244,8 @@
     <Compile Include="Views\SplashForm.Designer.cs">
       <DependentUpon>SplashForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="Views\GridElement.xaml.cs">
-      <DependentUpon>GridElement.xaml</DependentUpon>
+    <Compile Include="Views\WpfGridElement.xaml.cs">
+      <DependentUpon>WpfGridElement.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\MainForm.cs">
       <SubType>Form</SubType>
@@ -483,7 +483,7 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
-    <Page Include="Views\GridElement.xaml">
+    <Page Include="Views\WpfGridElement.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
