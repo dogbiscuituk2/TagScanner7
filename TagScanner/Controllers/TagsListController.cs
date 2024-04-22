@@ -12,15 +12,29 @@
     {
         #region Public Interface
 
-        public TagsListController(Controller parent) : base(parent) { }
+        public TagsListController(Controller parent, ListView listView = null) : base(parent)
+        {
+            _listView = listView;
+        }
+
+        private ListView _listView;
 
         public override Control Control => ListView;
-        public ListView ListView => Dialog.ListView;
+        public ListView ListView => _listView ?? Dialog.ListView;
 
         public void InitListView()
         {
+            InitItems(includeReadOnly: true);
+            ListView.ColumnClick += (sender, e) => SortByColumn(e.Column);
+            ListView.ListViewItemSorter = this;
+            if (Dialog != null)
+                Dialog.ListMenu.DropDownOpening += (sender, e) => InitListMenu();
+        }
+
+        public void InitItems(bool includeReadOnly)
+        {
             Items.Clear();
-            foreach (var tag in Tags.Keys)
+            foreach (var tag in includeReadOnly ? Tags.Keys : Tags.Keys.Where(p => p.CanWrite()))
             {
                 var item = Items.Add(tag.DisplayName());
                 item.Name = tag.Name();
@@ -33,9 +47,6 @@
                 if (!tag.CanWrite())
                     item.ForeColor = Color.FromKnownColor(KnownColor.GrayText);
             }
-            ListView.ColumnClick += (sender, e) => SortByColumn(e.Column);
-            ListView.ListViewItemSorter = this;
-            Dialog.ListMenu.DropDownOpening += (sender, e) => InitListMenu();
         }
 
         #endregion

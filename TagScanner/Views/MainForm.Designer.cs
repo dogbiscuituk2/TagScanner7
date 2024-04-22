@@ -27,21 +27,10 @@
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
-            this.GridElementHost = new System.Windows.Forms.Integration.ElementHost();
-            this.TablePopupMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.TablePopupPlay = new System.Windows.Forms.ToolStripMenuItem();
-            this.TablePopupPlayAddToQueue = new System.Windows.Forms.ToolStripMenuItem();
-            this.TablePopupPlayNewPlaylist = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripMenuItem6 = new System.Windows.Forms.ToolStripSeparator();
-            this.TablePopupCut = new System.Windows.Forms.ToolStripMenuItem();
-            this.TablePopupCopy = new System.Windows.Forms.ToolStripMenuItem();
-            this.TablePopupPaste = new System.Windows.Forms.ToolStripMenuItem();
-            this.TablePopupDelete = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripMenuItem14 = new System.Windows.Forms.ToolStripSeparator();
-            this.TablePopupTags = new System.Windows.Forms.ToolStripMenuItem();
-            this.TablePopupMoreActions = new System.Windows.Forms.ToolStripMenuItem();
+            this.ClientSplitContainer = new System.Windows.Forms.SplitContainer();
             this.gbFindReplace = new System.Windows.Forms.GroupBox();
-            this.TagsCheckListBox = new System.Windows.Forms.CheckedListBox();
+            this.TagsListView = new System.Windows.Forms.ListView();
+            this.btnFindAll = new System.Windows.Forms.Button();
             this.btnClose = new System.Windows.Forms.Button();
             this.cbPreserveCase = new System.Windows.Forms.CheckBox();
             this.cbUseRegex = new System.Windows.Forms.CheckBox();
@@ -56,6 +45,20 @@
             this.btnSkipTrack = new System.Windows.Forms.Button();
             this.btnFindNext = new System.Windows.Forms.Button();
             this.btnFindPrevious = new System.Windows.Forms.Button();
+            this.label1 = new System.Windows.Forms.Label();
+            this.GridElementHost = new System.Windows.Forms.Integration.ElementHost();
+            this.TablePopupMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.TablePopupPlay = new System.Windows.Forms.ToolStripMenuItem();
+            this.TablePopupPlayAddToQueue = new System.Windows.Forms.ToolStripMenuItem();
+            this.TablePopupPlayNewPlaylist = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItem6 = new System.Windows.Forms.ToolStripSeparator();
+            this.TablePopupCut = new System.Windows.Forms.ToolStripMenuItem();
+            this.TablePopupCopy = new System.Windows.Forms.ToolStripMenuItem();
+            this.TablePopupPaste = new System.Windows.Forms.ToolStripMenuItem();
+            this.TablePopupDelete = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItem14 = new System.Windows.Forms.ToolStripSeparator();
+            this.TablePopupTags = new System.Windows.Forms.ToolStripMenuItem();
+            this.TablePopupMoreActions = new System.Windows.Forms.ToolStripMenuItem();
             this.FilterGroupBox = new System.Windows.Forms.GroupBox();
             this.FilterComboBox = new System.Windows.Forms.ComboBox();
             this.CaseSensitiveCheckBox = new System.Windows.Forms.CheckBox();
@@ -161,13 +164,16 @@
             this.toolStripMenuItem8 = new System.Windows.Forms.ToolStripSeparator();
             this.HelpMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.HelpAbout = new System.Windows.Forms.ToolStripMenuItem();
-            this.btnFindAll = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
             this.splitContainer1.SuspendLayout();
-            this.TablePopupMenu.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.ClientSplitContainer)).BeginInit();
+            this.ClientSplitContainer.Panel1.SuspendLayout();
+            this.ClientSplitContainer.Panel2.SuspendLayout();
+            this.ClientSplitContainer.SuspendLayout();
             this.gbFindReplace.SuspendLayout();
+            this.TablePopupMenu.SuspendLayout();
             this.FilterGroupBox.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer2)).BeginInit();
             this.splitContainer2.Panel1.SuspendLayout();
@@ -201,8 +207,7 @@
             // 
             // splitContainer1.Panel1
             // 
-            this.splitContainer1.Panel1.Controls.Add(this.GridElementHost);
-            this.splitContainer1.Panel1.Controls.Add(this.gbFindReplace);
+            this.splitContainer1.Panel1.Controls.Add(this.ClientSplitContainer);
             this.splitContainer1.Panel1.Controls.Add(this.FilterGroupBox);
             this.splitContainer1.Panel1.Padding = new System.Windows.Forms.Padding(4, 0, 0, 0);
             // 
@@ -210,19 +215,244 @@
             // 
             this.splitContainer1.Panel2.Controls.Add(this.splitContainer2);
             this.splitContainer1.Size = new System.Drawing.Size(751, 514);
-            this.splitContainer1.SplitterDistance = 519;
+            this.splitContainer1.SplitterDistance = 518;
             this.splitContainer1.SplitterWidth = 5;
             this.splitContainer1.TabIndex = 7;
+            // 
+            // ClientSplitContainer
+            // 
+            this.ClientSplitContainer.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.ClientSplitContainer.FixedPanel = System.Windows.Forms.FixedPanel.Panel1;
+            this.ClientSplitContainer.Location = new System.Drawing.Point(4, 0);
+            this.ClientSplitContainer.Name = "ClientSplitContainer";
+            this.ClientSplitContainer.Orientation = System.Windows.Forms.Orientation.Horizontal;
+            // 
+            // ClientSplitContainer.Panel1
+            // 
+            this.ClientSplitContainer.Panel1.Controls.Add(this.gbFindReplace);
+            this.ClientSplitContainer.Panel1MinSize = 228;
+            // 
+            // ClientSplitContainer.Panel2
+            // 
+            this.ClientSplitContainer.Panel2.Controls.Add(this.GridElementHost);
+            this.ClientSplitContainer.Panel2MinSize = 234;
+            this.ClientSplitContainer.Size = new System.Drawing.Size(514, 466);
+            this.ClientSplitContainer.SplitterDistance = 228;
+            this.ClientSplitContainer.TabIndex = 3;
+            // 
+            // gbFindReplace
+            // 
+            this.gbFindReplace.Controls.Add(this.TagsListView);
+            this.gbFindReplace.Controls.Add(this.btnFindAll);
+            this.gbFindReplace.Controls.Add(this.btnClose);
+            this.gbFindReplace.Controls.Add(this.cbPreserveCase);
+            this.gbFindReplace.Controls.Add(this.cbUseRegex);
+            this.gbFindReplace.Controls.Add(this.cbMatchWholeWord);
+            this.gbFindReplace.Controls.Add(this.cbMatchCase);
+            this.gbFindReplace.Controls.Add(this.ReplaceComboBox);
+            this.gbFindReplace.Controls.Add(this.FindComboBox);
+            this.gbFindReplace.Controls.Add(this.rbReplace);
+            this.gbFindReplace.Controls.Add(this.rbFind);
+            this.gbFindReplace.Controls.Add(this.btnReplaceAll);
+            this.gbFindReplace.Controls.Add(this.btnReplaceNext);
+            this.gbFindReplace.Controls.Add(this.btnSkipTrack);
+            this.gbFindReplace.Controls.Add(this.btnFindNext);
+            this.gbFindReplace.Controls.Add(this.btnFindPrevious);
+            this.gbFindReplace.Controls.Add(this.label1);
+            this.gbFindReplace.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.gbFindReplace.Location = new System.Drawing.Point(0, 0);
+            this.gbFindReplace.Name = "gbFindReplace";
+            this.gbFindReplace.Size = new System.Drawing.Size(514, 228);
+            this.gbFindReplace.TabIndex = 2;
+            this.gbFindReplace.TabStop = false;
+            this.gbFindReplace.Text = "Find && Replace";
+            this.gbFindReplace.Visible = false;
+            // 
+            // TagsListView
+            // 
+            this.TagsListView.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.TagsListView.CheckBoxes = true;
+            this.TagsListView.HideSelection = false;
+            this.TagsListView.Location = new System.Drawing.Point(120, 91);
+            this.TagsListView.Name = "TagsListView";
+            this.TagsListView.Size = new System.Drawing.Size(274, 129);
+            this.TagsListView.TabIndex = 41;
+            this.TagsListView.UseCompatibleStateImageBehavior = false;
+            this.TagsListView.View = System.Windows.Forms.View.List;
+            // 
+            // btnFindAll
+            // 
+            this.btnFindAll.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnFindAll.Location = new System.Drawing.Point(403, 119);
+            this.btnFindAll.Name = "btnFindAll";
+            this.btnFindAll.Size = new System.Drawing.Size(105, 27);
+            this.btnFindAll.TabIndex = 40;
+            this.btnFindAll.Text = "Find &All";
+            this.btnFindAll.UseVisualStyleBackColor = true;
+            // 
+            // btnClose
+            // 
+            this.btnClose.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnClose.DialogResult = System.Windows.Forms.DialogResult.Cancel;
+            this.btnClose.Location = new System.Drawing.Point(403, 185);
+            this.btnClose.Name = "btnClose";
+            this.btnClose.Size = new System.Drawing.Size(105, 27);
+            this.btnClose.TabIndex = 38;
+            this.btnClose.Text = "Close (Esc)";
+            this.btnClose.UseVisualStyleBackColor = true;
+            // 
+            // cbPreserveCase
+            // 
+            this.cbPreserveCase.AutoSize = true;
+            this.cbPreserveCase.Location = new System.Drawing.Point(6, 191);
+            this.cbPreserveCase.Name = "cbPreserveCase";
+            this.cbPreserveCase.Size = new System.Drawing.Size(107, 21);
+            this.cbPreserveCase.TabIndex = 29;
+            this.cbPreserveCase.Text = "Preser&ve case";
+            this.cbPreserveCase.UseVisualStyleBackColor = true;
+            // 
+            // cbUseRegex
+            // 
+            this.cbUseRegex.AutoSize = true;
+            this.cbUseRegex.Location = new System.Drawing.Point(6, 168);
+            this.cbUseRegex.Name = "cbUseRegex";
+            this.cbUseRegex.Size = new System.Drawing.Size(86, 21);
+            this.cbUseRegex.TabIndex = 28;
+            this.cbUseRegex.Text = "Use rege&x";
+            this.cbUseRegex.UseVisualStyleBackColor = true;
+            // 
+            // cbMatchWholeWord
+            // 
+            this.cbMatchWholeWord.AutoSize = true;
+            this.cbMatchWholeWord.Location = new System.Drawing.Point(6, 145);
+            this.cbMatchWholeWord.Name = "cbMatchWholeWord";
+            this.cbMatchWholeWord.Size = new System.Drawing.Size(98, 21);
+            this.cbMatchWholeWord.TabIndex = 27;
+            this.cbMatchWholeWord.Text = "&Whole word";
+            this.cbMatchWholeWord.UseVisualStyleBackColor = true;
+            // 
+            // cbMatchCase
+            // 
+            this.cbMatchCase.AutoSize = true;
+            this.cbMatchCase.Location = new System.Drawing.Point(6, 122);
+            this.cbMatchCase.Name = "cbMatchCase";
+            this.cbMatchCase.Size = new System.Drawing.Size(108, 21);
+            this.cbMatchCase.TabIndex = 26;
+            this.cbMatchCase.Text = "&Case sensitive";
+            this.cbMatchCase.UseVisualStyleBackColor = true;
+            // 
+            // ReplaceComboBox
+            // 
+            this.ReplaceComboBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.ReplaceComboBox.FormattingEnabled = true;
+            this.ReplaceComboBox.Location = new System.Drawing.Point(120, 55);
+            this.ReplaceComboBox.Name = "ReplaceComboBox";
+            this.ReplaceComboBox.Size = new System.Drawing.Size(274, 25);
+            this.ReplaceComboBox.TabIndex = 25;
+            // 
+            // FindComboBox
+            // 
+            this.FindComboBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.FindComboBox.FormattingEnabled = true;
+            this.FindComboBox.Location = new System.Drawing.Point(120, 24);
+            this.FindComboBox.Name = "FindComboBox";
+            this.FindComboBox.Size = new System.Drawing.Size(274, 25);
+            this.FindComboBox.TabIndex = 24;
+            // 
+            // rbReplace
+            // 
+            this.rbReplace.AutoSize = true;
+            this.rbReplace.Location = new System.Drawing.Point(6, 56);
+            this.rbReplace.Name = "rbReplace";
+            this.rbReplace.Size = new System.Drawing.Size(105, 21);
+            this.rbReplace.TabIndex = 37;
+            this.rbReplace.TabStop = true;
+            this.rbReplace.Text = "&Replace with?";
+            this.rbReplace.UseVisualStyleBackColor = true;
+            // 
+            // rbFind
+            // 
+            this.rbFind.AutoSize = true;
+            this.rbFind.Location = new System.Drawing.Point(6, 25);
+            this.rbFind.Name = "rbFind";
+            this.rbFind.Size = new System.Drawing.Size(87, 21);
+            this.rbFind.TabIndex = 36;
+            this.rbFind.TabStop = true;
+            this.rbFind.Text = "&Find what?";
+            this.rbFind.UseVisualStyleBackColor = true;
+            // 
+            // btnReplaceAll
+            // 
+            this.btnReplaceAll.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnReplaceAll.Location = new System.Drawing.Point(403, 152);
+            this.btnReplaceAll.Name = "btnReplaceAll";
+            this.btnReplaceAll.Size = new System.Drawing.Size(105, 27);
+            this.btnReplaceAll.TabIndex = 35;
+            this.btnReplaceAll.Text = "Replace &All";
+            this.btnReplaceAll.UseVisualStyleBackColor = true;
+            // 
+            // btnReplaceNext
+            // 
+            this.btnReplaceNext.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnReplaceNext.Location = new System.Drawing.Point(403, 119);
+            this.btnReplaceNext.Name = "btnReplaceNext";
+            this.btnReplaceNext.Size = new System.Drawing.Size(105, 27);
+            this.btnReplaceNext.TabIndex = 34;
+            this.btnReplaceNext.Text = "Replac&e Next";
+            this.btnReplaceNext.UseVisualStyleBackColor = true;
+            // 
+            // btnSkipTrack
+            // 
+            this.btnSkipTrack.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnSkipTrack.Location = new System.Drawing.Point(403, 86);
+            this.btnSkipTrack.Name = "btnSkipTrack";
+            this.btnSkipTrack.Size = new System.Drawing.Size(105, 27);
+            this.btnSkipTrack.TabIndex = 33;
+            this.btnSkipTrack.Text = "Sk&ip Track";
+            this.btnSkipTrack.UseVisualStyleBackColor = true;
+            // 
+            // btnFindNext
+            // 
+            this.btnFindNext.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnFindNext.Location = new System.Drawing.Point(403, 53);
+            this.btnFindNext.Name = "btnFindNext";
+            this.btnFindNext.Size = new System.Drawing.Size(105, 27);
+            this.btnFindNext.TabIndex = 32;
+            this.btnFindNext.Text = "Find &Next";
+            this.btnFindNext.UseVisualStyleBackColor = true;
+            // 
+            // btnFindPrevious
+            // 
+            this.btnFindPrevious.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnFindPrevious.Location = new System.Drawing.Point(403, 22);
+            this.btnFindPrevious.Name = "btnFindPrevious";
+            this.btnFindPrevious.Size = new System.Drawing.Size(105, 27);
+            this.btnFindPrevious.TabIndex = 31;
+            this.btnFindPrevious.Text = "Find &Previous";
+            this.btnFindPrevious.UseVisualStyleBackColor = true;
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(6, 91);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(116, 17);
+            this.label1.TabIndex = 1;
+            this.label1.Text = "Search these Tags:";
             // 
             // GridElementHost
             // 
             this.GridElementHost.AllowDrop = true;
             this.GridElementHost.ContextMenuStrip = this.TablePopupMenu;
             this.GridElementHost.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.GridElementHost.Location = new System.Drawing.Point(4, 219);
+            this.GridElementHost.Location = new System.Drawing.Point(0, 0);
             this.GridElementHost.Margin = new System.Windows.Forms.Padding(0);
             this.GridElementHost.Name = "GridElementHost";
-            this.GridElementHost.Size = new System.Drawing.Size(515, 247);
+            this.GridElementHost.Size = new System.Drawing.Size(514, 234);
             this.GridElementHost.TabIndex = 0;
             this.GridElementHost.Text = "GridContainerHost";
             this.GridElementHost.Child = null;
@@ -320,192 +550,6 @@
             this.TablePopupMoreActions.Size = new System.Drawing.Size(165, 22);
             this.TablePopupMoreActions.Text = "&File Operations...";
             // 
-            // gbFindReplace
-            // 
-            this.gbFindReplace.Controls.Add(this.btnFindAll);
-            this.gbFindReplace.Controls.Add(this.TagsCheckListBox);
-            this.gbFindReplace.Controls.Add(this.btnClose);
-            this.gbFindReplace.Controls.Add(this.cbPreserveCase);
-            this.gbFindReplace.Controls.Add(this.cbUseRegex);
-            this.gbFindReplace.Controls.Add(this.cbMatchWholeWord);
-            this.gbFindReplace.Controls.Add(this.cbMatchCase);
-            this.gbFindReplace.Controls.Add(this.ReplaceComboBox);
-            this.gbFindReplace.Controls.Add(this.FindComboBox);
-            this.gbFindReplace.Controls.Add(this.rbReplace);
-            this.gbFindReplace.Controls.Add(this.rbFind);
-            this.gbFindReplace.Controls.Add(this.btnReplaceAll);
-            this.gbFindReplace.Controls.Add(this.btnReplaceNext);
-            this.gbFindReplace.Controls.Add(this.btnSkipTrack);
-            this.gbFindReplace.Controls.Add(this.btnFindNext);
-            this.gbFindReplace.Controls.Add(this.btnFindPrevious);
-            this.gbFindReplace.Dock = System.Windows.Forms.DockStyle.Top;
-            this.gbFindReplace.Location = new System.Drawing.Point(4, 0);
-            this.gbFindReplace.Name = "gbFindReplace";
-            this.gbFindReplace.Size = new System.Drawing.Size(515, 219);
-            this.gbFindReplace.TabIndex = 2;
-            this.gbFindReplace.TabStop = false;
-            this.gbFindReplace.Text = "Find && Replace";
-            this.gbFindReplace.Visible = false;
-            // 
-            // TagsCheckListBox
-            // 
-            this.TagsCheckListBox.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.TagsCheckListBox.FormattingEnabled = true;
-            this.TagsCheckListBox.Items.AddRange(new object[] {
-            "Album",
-            "Artist",
-            "Title"});
-            this.TagsCheckListBox.Location = new System.Drawing.Point(180, 86);
-            this.TagsCheckListBox.MultiColumn = true;
-            this.TagsCheckListBox.Name = "TagsCheckListBox";
-            this.TagsCheckListBox.Size = new System.Drawing.Size(215, 124);
-            this.TagsCheckListBox.TabIndex = 39;
-            // 
-            // btnClose
-            // 
-            this.btnClose.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnClose.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.btnClose.Location = new System.Drawing.Point(401, 184);
-            this.btnClose.Name = "btnClose";
-            this.btnClose.Size = new System.Drawing.Size(105, 27);
-            this.btnClose.TabIndex = 38;
-            this.btnClose.Text = "Close (Esc)";
-            this.btnClose.UseVisualStyleBackColor = true;
-            // 
-            // cbPreserveCase
-            // 
-            this.cbPreserveCase.AutoSize = true;
-            this.cbPreserveCase.Location = new System.Drawing.Point(6, 174);
-            this.cbPreserveCase.Name = "cbPreserveCase";
-            this.cbPreserveCase.Size = new System.Drawing.Size(107, 21);
-            this.cbPreserveCase.TabIndex = 29;
-            this.cbPreserveCase.Text = "Preser&ve case";
-            this.cbPreserveCase.UseVisualStyleBackColor = true;
-            // 
-            // cbUseRegex
-            // 
-            this.cbUseRegex.AutoSize = true;
-            this.cbUseRegex.Location = new System.Drawing.Point(6, 151);
-            this.cbUseRegex.Name = "cbUseRegex";
-            this.cbUseRegex.Size = new System.Drawing.Size(168, 21);
-            this.cbUseRegex.TabIndex = 28;
-            this.cbUseRegex.Text = "Use regular e&xpressions";
-            this.cbUseRegex.UseVisualStyleBackColor = true;
-            // 
-            // cbMatchWholeWord
-            // 
-            this.cbMatchWholeWord.AutoSize = true;
-            this.cbMatchWholeWord.Location = new System.Drawing.Point(6, 128);
-            this.cbMatchWholeWord.Name = "cbMatchWholeWord";
-            this.cbMatchWholeWord.Size = new System.Drawing.Size(135, 21);
-            this.cbMatchWholeWord.TabIndex = 27;
-            this.cbMatchWholeWord.Text = "Match &whole word";
-            this.cbMatchWholeWord.UseVisualStyleBackColor = true;
-            // 
-            // cbMatchCase
-            // 
-            this.cbMatchCase.AutoSize = true;
-            this.cbMatchCase.Location = new System.Drawing.Point(6, 105);
-            this.cbMatchCase.Name = "cbMatchCase";
-            this.cbMatchCase.Size = new System.Drawing.Size(93, 21);
-            this.cbMatchCase.TabIndex = 26;
-            this.cbMatchCase.Text = "Match &case";
-            this.cbMatchCase.UseVisualStyleBackColor = true;
-            // 
-            // ReplaceComboBox
-            // 
-            this.ReplaceComboBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.ReplaceComboBox.FormattingEnabled = true;
-            this.ReplaceComboBox.Location = new System.Drawing.Point(84, 55);
-            this.ReplaceComboBox.Name = "ReplaceComboBox";
-            this.ReplaceComboBox.Size = new System.Drawing.Size(311, 25);
-            this.ReplaceComboBox.TabIndex = 25;
-            // 
-            // FindComboBox
-            // 
-            this.FindComboBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.FindComboBox.FormattingEnabled = true;
-            this.FindComboBox.Location = new System.Drawing.Point(84, 24);
-            this.FindComboBox.Name = "FindComboBox";
-            this.FindComboBox.Size = new System.Drawing.Size(311, 25);
-            this.FindComboBox.TabIndex = 24;
-            // 
-            // rbReplace
-            // 
-            this.rbReplace.AutoSize = true;
-            this.rbReplace.Location = new System.Drawing.Point(6, 56);
-            this.rbReplace.Name = "rbReplace";
-            this.rbReplace.Size = new System.Drawing.Size(72, 21);
-            this.rbReplace.TabIndex = 37;
-            this.rbReplace.TabStop = true;
-            this.rbReplace.Text = "&Replace";
-            this.rbReplace.UseVisualStyleBackColor = true;
-            // 
-            // rbFind
-            // 
-            this.rbFind.AutoSize = true;
-            this.rbFind.Location = new System.Drawing.Point(6, 25);
-            this.rbFind.Name = "rbFind";
-            this.rbFind.Size = new System.Drawing.Size(50, 21);
-            this.rbFind.TabIndex = 36;
-            this.rbFind.TabStop = true;
-            this.rbFind.Text = "&Find";
-            this.rbFind.UseVisualStyleBackColor = true;
-            // 
-            // btnReplaceAll
-            // 
-            this.btnReplaceAll.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnReplaceAll.Location = new System.Drawing.Point(401, 151);
-            this.btnReplaceAll.Name = "btnReplaceAll";
-            this.btnReplaceAll.Size = new System.Drawing.Size(105, 27);
-            this.btnReplaceAll.TabIndex = 35;
-            this.btnReplaceAll.Text = "Replace &All";
-            this.btnReplaceAll.UseVisualStyleBackColor = true;
-            // 
-            // btnReplaceNext
-            // 
-            this.btnReplaceNext.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnReplaceNext.Location = new System.Drawing.Point(401, 118);
-            this.btnReplaceNext.Name = "btnReplaceNext";
-            this.btnReplaceNext.Size = new System.Drawing.Size(105, 27);
-            this.btnReplaceNext.TabIndex = 34;
-            this.btnReplaceNext.Text = "Replac&e Next";
-            this.btnReplaceNext.UseVisualStyleBackColor = true;
-            // 
-            // btnSkipTrack
-            // 
-            this.btnSkipTrack.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnSkipTrack.Location = new System.Drawing.Point(401, 85);
-            this.btnSkipTrack.Name = "btnSkipTrack";
-            this.btnSkipTrack.Size = new System.Drawing.Size(105, 27);
-            this.btnSkipTrack.TabIndex = 33;
-            this.btnSkipTrack.Text = "Sk&ip Track";
-            this.btnSkipTrack.UseVisualStyleBackColor = true;
-            // 
-            // btnFindNext
-            // 
-            this.btnFindNext.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnFindNext.Location = new System.Drawing.Point(401, 52);
-            this.btnFindNext.Name = "btnFindNext";
-            this.btnFindNext.Size = new System.Drawing.Size(105, 27);
-            this.btnFindNext.TabIndex = 32;
-            this.btnFindNext.Text = "Find &Next";
-            this.btnFindNext.UseVisualStyleBackColor = true;
-            // 
-            // btnFindPrevious
-            // 
-            this.btnFindPrevious.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnFindPrevious.Location = new System.Drawing.Point(401, 19);
-            this.btnFindPrevious.Name = "btnFindPrevious";
-            this.btnFindPrevious.Size = new System.Drawing.Size(105, 27);
-            this.btnFindPrevious.TabIndex = 31;
-            this.btnFindPrevious.Text = "Find &Previous";
-            this.btnFindPrevious.UseVisualStyleBackColor = true;
-            // 
             // FilterGroupBox
             // 
             this.FilterGroupBox.Controls.Add(this.FilterComboBox);
@@ -516,7 +560,7 @@
             this.FilterGroupBox.Location = new System.Drawing.Point(4, 466);
             this.FilterGroupBox.Name = "FilterGroupBox";
             this.FilterGroupBox.Padding = new System.Windows.Forms.Padding(0, 0, 0, 4);
-            this.FilterGroupBox.Size = new System.Drawing.Size(515, 48);
+            this.FilterGroupBox.Size = new System.Drawing.Size(514, 48);
             this.FilterGroupBox.TabIndex = 1;
             this.FilterGroupBox.TabStop = false;
             this.FilterGroupBox.Text = "Filter";
@@ -527,7 +571,7 @@
             this.FilterComboBox.FormattingEnabled = true;
             this.FilterComboBox.Location = new System.Drawing.Point(115, 18);
             this.FilterComboBox.Name = "FilterComboBox";
-            this.FilterComboBox.Size = new System.Drawing.Size(301, 25);
+            this.FilterComboBox.Size = new System.Drawing.Size(300, 25);
             this.FilterComboBox.TabIndex = 0;
             // 
             // CaseSensitiveCheckBox
@@ -546,7 +590,7 @@
             // 
             this.ApplyButton.AutoSize = true;
             this.ApplyButton.Dock = System.Windows.Forms.DockStyle.Right;
-            this.ApplyButton.Location = new System.Drawing.Point(416, 18);
+            this.ApplyButton.Location = new System.Drawing.Point(415, 18);
             this.ApplyButton.Name = "ApplyButton";
             this.ApplyButton.Size = new System.Drawing.Size(51, 26);
             this.ApplyButton.TabIndex = 1;
@@ -557,7 +601,7 @@
             // 
             this.ClearButton.AutoSize = true;
             this.ClearButton.Dock = System.Windows.Forms.DockStyle.Right;
-            this.ClearButton.Location = new System.Drawing.Point(467, 18);
+            this.ClearButton.Location = new System.Drawing.Point(466, 18);
             this.ClearButton.Name = "ClearButton";
             this.ClearButton.Size = new System.Drawing.Size(48, 26);
             this.ClearButton.TabIndex = 3;
@@ -579,8 +623,8 @@
             // splitContainer2.Panel2
             // 
             this.splitContainer2.Panel2.Controls.Add(this.TabControl);
-            this.splitContainer2.Size = new System.Drawing.Size(227, 514);
-            this.splitContainer2.SplitterDistance = 130;
+            this.splitContainer2.Size = new System.Drawing.Size(228, 514);
+            this.splitContainer2.SplitterDistance = 129;
             this.splitContainer2.SplitterWidth = 5;
             this.splitContainer2.TabIndex = 0;
             // 
@@ -590,7 +634,7 @@
             this.PictureBox.Location = new System.Drawing.Point(0, 0);
             this.PictureBox.Margin = new System.Windows.Forms.Padding(4);
             this.PictureBox.Name = "PictureBox";
-            this.PictureBox.Size = new System.Drawing.Size(227, 130);
+            this.PictureBox.Size = new System.Drawing.Size(228, 129);
             this.PictureBox.TabIndex = 0;
             this.PictureBox.TabStop = false;
             // 
@@ -605,7 +649,7 @@
             this.TabControl.Name = "TabControl";
             this.TabControl.Padding = new System.Drawing.Point(0, 0);
             this.TabControl.SelectedIndex = 0;
-            this.TabControl.Size = new System.Drawing.Size(227, 379);
+            this.TabControl.Size = new System.Drawing.Size(228, 380);
             this.TabControl.TabIndex = 0;
             // 
             // tabTags
@@ -616,7 +660,7 @@
             this.tabTags.Location = new System.Drawing.Point(4, 26);
             this.tabTags.Margin = new System.Windows.Forms.Padding(0);
             this.tabTags.Name = "tabTags";
-            this.tabTags.Size = new System.Drawing.Size(219, 349);
+            this.tabTags.Size = new System.Drawing.Size(220, 350);
             this.tabTags.TabIndex = 0;
             this.tabTags.Text = "Tags";
             // 
@@ -648,7 +692,7 @@
             this.PropertyGrid.Location = new System.Drawing.Point(0, 0);
             this.PropertyGrid.Margin = new System.Windows.Forms.Padding(0);
             this.PropertyGrid.Name = "PropertyGrid";
-            this.PropertyGrid.Size = new System.Drawing.Size(219, 349);
+            this.PropertyGrid.Size = new System.Drawing.Size(220, 350);
             this.PropertyGrid.TabIndex = 0;
             // 
             // tabPlayer
@@ -658,7 +702,7 @@
             this.tabPlayer.Margin = new System.Windows.Forms.Padding(4);
             this.tabPlayer.Name = "tabPlayer";
             this.tabPlayer.Padding = new System.Windows.Forms.Padding(4);
-            this.tabPlayer.Size = new System.Drawing.Size(219, 349);
+            this.tabPlayer.Size = new System.Drawing.Size(220, 350);
             this.tabPlayer.TabIndex = 4;
             this.tabPlayer.Text = "Player";
             this.tabPlayer.UseVisualStyleBackColor = true;
@@ -678,7 +722,7 @@
             // splitContainer3.Panel2
             // 
             this.splitContainer3.Panel2.Controls.Add(this.MediaPlayer);
-            this.splitContainer3.Size = new System.Drawing.Size(211, 341);
+            this.splitContainer3.Size = new System.Drawing.Size(212, 346);
             this.splitContainer3.SplitterDistance = 90;
             this.splitContainer3.SplitterWidth = 5;
             this.splitContainer3.TabIndex = 1;
@@ -689,7 +733,7 @@
             this.PlaylistElementHost.Location = new System.Drawing.Point(0, 0);
             this.PlaylistElementHost.Margin = new System.Windows.Forms.Padding(4);
             this.PlaylistElementHost.Name = "PlaylistElementHost";
-            this.PlaylistElementHost.Size = new System.Drawing.Size(211, 90);
+            this.PlaylistElementHost.Size = new System.Drawing.Size(212, 90);
             this.PlaylistElementHost.TabIndex = 0;
             this.PlaylistElementHost.Text = "elementHost1";
             this.PlaylistElementHost.Child = null;
@@ -702,7 +746,7 @@
             // RecentLibraryPopupMenu
             // 
             this.RecentLibraryPopupMenu.Name = "RecentLibraryPopupMenu";
-            this.RecentLibraryPopupMenu.OwnerItem = this.FileReopen;
+            this.RecentLibraryPopupMenu.OwnerItem = this.tbAddRecentLibrary;
             this.RecentLibraryPopupMenu.Size = new System.Drawing.Size(61, 4);
             // 
             // RecentFolderPopupMenu
@@ -776,7 +820,7 @@
             this.MediaPlayer.Margin = new System.Windows.Forms.Padding(4);
             this.MediaPlayer.Name = "MediaPlayer";
             this.MediaPlayer.OcxState = ((System.Windows.Forms.AxHost.State)(resources.GetObject("MediaPlayer.OcxState")));
-            this.MediaPlayer.Size = new System.Drawing.Size(211, 246);
+            this.MediaPlayer.Size = new System.Drawing.Size(212, 251);
             this.MediaPlayer.TabIndex = 0;
             // 
             // ToolStrip
@@ -1435,16 +1479,6 @@
             this.HelpAbout.Size = new System.Drawing.Size(126, 22);
             this.HelpAbout.Text = "&About";
             // 
-            // btnFindAll
-            // 
-            this.btnFindAll.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnFindAll.Location = new System.Drawing.Point(401, 118);
-            this.btnFindAll.Name = "btnFindAll";
-            this.btnFindAll.Size = new System.Drawing.Size(105, 27);
-            this.btnFindAll.TabIndex = 40;
-            this.btnFindAll.Text = "Find &All";
-            this.btnFindAll.UseVisualStyleBackColor = true;
-            // 
             // MainForm
             // 
             this.AcceptButton = this.ApplyButton;
@@ -1463,9 +1497,13 @@
             this.splitContainer1.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
             this.splitContainer1.ResumeLayout(false);
-            this.TablePopupMenu.ResumeLayout(false);
+            this.ClientSplitContainer.Panel1.ResumeLayout(false);
+            this.ClientSplitContainer.Panel2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.ClientSplitContainer)).EndInit();
+            this.ClientSplitContainer.ResumeLayout(false);
             this.gbFindReplace.ResumeLayout(false);
             this.gbFindReplace.PerformLayout();
+            this.TablePopupMenu.ResumeLayout(false);
             this.FilterGroupBox.ResumeLayout(false);
             this.FilterGroupBox.PerformLayout();
             this.splitContainer2.Panel1.ResumeLayout(false);
@@ -1635,9 +1673,11 @@
         public System.Windows.Forms.Button btnFindNext;
         public System.Windows.Forms.Button btnFindPrevious;
         public System.Windows.Forms.Button btnClose;
-        private System.ComponentModel.IContainer components;
-        public System.Windows.Forms.CheckedListBox TagsCheckListBox;
         public System.Windows.Forms.Button btnFindAll;
+        public System.Windows.Forms.ListView TagsListView;
+        public System.Windows.Forms.SplitContainer ClientSplitContainer;
+        private System.ComponentModel.IContainer components;
+        private System.Windows.Forms.Label label1;
     }
 }
 
