@@ -139,9 +139,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Commands\Command.cs" />
-    <Compile Include="Commands\TracksEditCommand.cs" />
+    <Compile Include="Commands\EditCommand.cs" />
     <Compile Include="Commands\CommandProcessor.cs" />
-    <Compile Include="Commands\TracksAddRemoveCommand.cs" />
+    <Compile Include="Commands\AddRemoveCommand.cs" />
+    <Compile Include="Commands\ReplaceCommand.cs" />
     <Compile Include="Controllers\DragDropController.cs" />
     <Compile Include="Controllers\FilterController.cs" />
     <Compile Include="Controllers\AppController.cs" />

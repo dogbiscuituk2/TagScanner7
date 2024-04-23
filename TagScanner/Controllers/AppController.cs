@@ -37,6 +37,8 @@
 
         #region Public Methods
 
+        public static void AddFilter(string value) => MruFilterController.AddValue(value);
+
         public static void CloseWindow(MainFormController controller)
         {
             Controllers.Remove(controller);

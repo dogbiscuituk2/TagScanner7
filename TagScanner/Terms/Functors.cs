@@ -38,15 +38,15 @@
             AddFn(Fn.IndexOf, s, false, c);
             AddFn(Fn.Insert, s, false, i, s);
             AddFn(Fn.IsNull, "IsNullOrWhiteSpace", s, true, s); // "IsEmpty" already used as a Tag :-(
-            AddFn(Fn.Match_, "IsMatch", r, true, s, s, typeof(RegexOptions));
+            AddFn(Fn.Match, "IsMatch", r, true, s, s, typeof(RegexOptions));
             AddFn(Fn.LastIndexOf, s, false, c);
             AddFn(Fn.Lowercase, "ToLowerInvariant", s, false);
             AddFn(Fn.Max, m, true, d, d);
             AddFn(Fn.Min, m, true, d, d);
             AddFn(Fn.Pow, m, true, d, d);
+            AddFn(Fn.RegexReplace, "Replace", r, true, s, s, s);
             AddFn(Fn.Remove, s, false, i, i);
             AddFn(Fn.Replace, s, false, s, s);
-            AddFn(Fn.Replace_, "Replace", r, true, s, s, s);
             AddFn(Fn.Round, m, true, d);
             AddFn(Fn.Sign, m, true, d);
             AddFn(Fn.StartsWith, s, false, s);

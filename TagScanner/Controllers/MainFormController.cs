@@ -194,7 +194,7 @@
             if (View.InvokeRequired)
                 View.Invoke(new Action<Selection>(TracksAdd), selection);
             else
-                CommandProcessor.Run(new TracksAddCommand(selection), spoof: false);
+                CommandProcessor.Run(new AddCommand(selection), spoof: false);
         }
 
         public void TracksEdit(Selection selection, Tag tag, List<object> values)
@@ -202,7 +202,7 @@
             if (View.InvokeRequired)
                 View.Invoke(new Action<Selection, Tag, List<object>>(TracksEdit), tag, selection, values);
             else
-                CommandProcessor.Run(new TracksEditCommand(selection, tag, values), spoof: true);
+                CommandProcessor.Run(new EditCommand(selection, tag, values), spoof: true);
         }
 
         public void TracksRemove(Selection selection)
@@ -210,7 +210,7 @@
             if (View.InvokeRequired)
                 View.Invoke(new Action<Selection>(TracksRemove), selection);
             else
-                CommandProcessor.Run(new TracksRemoveCommand(selection), spoof: false);
+                CommandProcessor.Run(new RemoveCommand(selection), spoof: false);
         }
 
         #endregion
@@ -298,8 +298,8 @@
         private void View_FormClosing(object sender, FormClosingEventArgs e)
         {
             e.Cancel = !LibraryController.SaveIfModified();
-            if (!e.Cancel)
-                new MruFilterController(this).RegistryWrite(View.FilterComboBox);
+            //if (!e.Cancel)
+            //    new MruFilterController(this).RegistryWrite(View.FilterComboBox);
         }
 
         private void View_Shown(object sender, EventArgs e) => View.ActiveControl = View.FilterComboBox;

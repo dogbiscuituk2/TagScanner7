@@ -1,15 +1,19 @@
 ﻿namespace TagScanner.Controllers
 {
     using System;
+    using System.Collections.Generic;
     using System.Linq;
     using System.Text.RegularExpressions;
     using System.Windows.Forms;
     using Models;
+    using Commands;
     using Terms;
     using Views;
 
     public class FindReplaceController : Controller
     {
+        #region Constructor
+
         public FindReplaceController(Controller parent) : base(parent)
         {
             Hide();
@@ -30,22 +34,38 @@
             BtnReplaceNext.Click += BtnReplaceNext_Click;
         }
 
+        #endregion
+
+        #region Fields
+
         private readonly Selection Selection = new Selection();
         private readonly TagsListController TagsListController;
 
-        private void FindComboBox_DropDown(object sender, EventArgs e) => AppController.GetFindItems(FindComboBox);
-        private void ReplaceComboBox_DropDown(object sender, EventArgs e) => AppController.GetReplaceItems(ReplaceComboBox);
+        #endregion
 
-        private void BtnClose_Click(object sender, EventArgs e) => Hide();
-        private void BtnFindAll_Click(object sender, EventArgs e) => FindAll();
-        private void BtnFindNext_Click(object sender, EventArgs e) => FindNext();
-        private void BtnFindPrevious_Click(object sender, EventArgs e) => FindPrevious();
-        private void BtnReplaceAll_Click(object sender, EventArgs e) => ReplaceAll();
-        private void BtnReplaceNext_Click(object sender, EventArgs e) => ReplaceNext();
+        #region Properties
 
-        private void EditFind_Click(object sender, EventArgs e) => Show(replace: false);
-        private void EditReplace_Click(object sender, EventArgs e) => Show(replace: true);
-        private void Option_CheckedChanged(object sender, EventArgs e) => UpdateUI();
+        private CommandProcessor CommandProcessor => MainFormController.CommandProcessor;
+        private MainFormController MainFormController => (MainFormController)Parent;
+
+        private bool CaseSensitive => CaseSensitiveCheckBox.Checked;
+        private int Options => CaseSensitive ? 0 : 1;
+        private IEnumerable<Tag> SelectedTags => TagsListController.GetSelectedTags();
+        private bool UseRegex => UseRegexCheckBox.Checked;
+        private bool WholeWord => WholeWordCheckBox.Checked;
+
+        private string Pattern
+        {
+            get
+            {
+                var pattern = FindComboBox.Text;
+                if (!UseRegex)
+                    pattern = Regex.Escape(pattern);
+                if (WholeWord)
+                    pattern = $@"\W{pattern}\W";
+                return pattern;
+            }
+        }
 
         private Button BtnClose => MainForm.btnClose;
         private Button BtnFindAll => MainForm.btnFindAll;
@@ -62,55 +82,47 @@
         private ComboBox FindComboBox => MainForm.FindComboBox;
         private ComboBox ReplaceComboBox => MainForm.ReplaceComboBox;
 
-        private SplitContainer ClientSplitContainer => MainForm.ClientSplitContainer;
-
-        private MainForm MainForm => MainFormController.View;
-        private MainFormController MainFormController => (MainFormController)Parent;
-
         private RadioButton FindRadioButton => MainForm.rbFind;
         private RadioButton ReplaceRadioButton => MainForm.rbReplace;
 
+        private SplitContainer ClientSplitContainer => MainForm.ClientSplitContainer;
+        private MainForm MainForm => MainFormController.View;
         private ListView TagsListView => MainForm.TagsListView;
 
-        private bool CaseSensitive => CaseSensitiveCheckBox.Checked;
-        private bool WholeWord => WholeWordCheckBox.Checked;
-        private bool UseRegex => UseRegexCheckBox.Checked;
+        #endregion
 
-        private Term MakeCondition()
-        {
-            var selectedTags = TagsListController.GetSelectedTags();
-            if (!selectedTags.Any())
-                return Term.True;
-            var value = FindComboBox.Text;
-            if (string.IsNullOrWhiteSpace(value))
-                return Term.True;
-            if (!UseRegex)
-                value = Regex.Escape(value);
-            if (WholeWord)
-                value = $@"\W{value}\W";
-            if (selectedTags.Count() == 1)
-                return MakeSimpleCondition(selectedTags.First(), value);
-            var term = new Disjunction();
-            term.Operands.Clear();
-            foreach (var tag in selectedTags)
-                term.Operands.Add(MakeSimpleCondition(tag, value));
-            return term;
-        }
+        #region Event Handlers
 
-        private Func<Track, bool> MakePredicate() => MakeCondition().Predicate;
+        private void FindComboBox_DropDown(object sender, EventArgs e) => AppController.GetFindItems(FindComboBox);
+        private void ReplaceComboBox_DropDown(object sender, EventArgs e) => AppController.GetReplaceItems(ReplaceComboBox);
 
-        private Term MakeSimpleCondition(Tag tag, string value)
-        {
-            var options = CaseSensitive ? RegexOptions.None : RegexOptions.IgnoreCase;
-            return new Function(Fn.Match_, tag, value, new Constant<RegexOptions>(options));
-        }
+        private void Option_CheckedChanged(object sender, EventArgs e) => UpdateUI();
+
+        private void BtnClose_Click(object sender, EventArgs e) => Hide();
+        private void BtnFindAll_Click(object sender, EventArgs e) => FindAll();
+        private void BtnFindNext_Click(object sender, EventArgs e) => FindNext();
+        private void BtnFindPrevious_Click(object sender, EventArgs e) => FindPrevious();
+        private void BtnReplaceAll_Click(object sender, EventArgs e) => ReplaceAll();
+        private void BtnReplaceNext_Click(object sender, EventArgs e) => ReplaceNext();
+
+        private void EditFind_Click(object sender, EventArgs e) => Show(replace: false);
+        private void EditReplace_Click(object sender, EventArgs e) => Show(replace: true);
+
+        #endregion
+
+        #region Methods
 
         private bool Find()
         {
             UpdateFindItems();
-            var predicate = MakePredicate();
+            var term = MakeCondition();
+            AppController.AddFilter(term.ToString());
+            var predicate = term.Predicate;
+            var allTracks = MainFormController.Model.Tracks;
+            var tracks = allTracks.Where(p => predicate(p));
+            var tracksArray = tracks.ToArray();
             Selection.Clear();
-            Selection.Add(MainFormController.Model.Tracks.Where(p => predicate(p)));
+            Selection.Add(tracksArray);
             var result = Selection.Tracks.Any();
             if (!result)
                 MessageBox.Show(
@@ -141,6 +153,28 @@
             UpdateFindItems();
         }
 
+        private void Hide() => ShowFindReplace(visible: false);
+
+        private Term MakeCondition()
+        {
+            var selectedTags = SelectedTags;
+            if (!selectedTags.Any())
+                return Term.True;
+            if (string.IsNullOrWhiteSpace(FindComboBox.Text))
+                return Term.True;
+            var pattern = Pattern;
+            if (selectedTags.Count() == 1)
+                return MakeSimpleCondition(selectedTags.First(), pattern);
+            var term = new Disjunction();
+            term.Operands.Clear();
+            foreach (var tag in selectedTags)
+                term.Operands.Add(MakeSimpleCondition(tag, pattern));
+            return term;
+        }
+
+        private Term MakeSimpleCondition(Tag tag, string pattern) =>
+            new Function(Fn.Match, tag, pattern, new Constant<int>(Options));
+
         private void Replace()
         {
 
@@ -150,17 +184,34 @@
         {
             if (Find())
             {
-
+                var tracks = Selection.Tracks;
+                var tracksCount = tracks.Count;
+                var tags = SelectedTags.ToList();
+                var tagsCount = tags.Count();
+                var values = new object[tracksCount, tagsCount];
+                var pattern = Pattern;
+                var options = (RegexOptions)Options;
+                for (var trackIndex = 0; trackIndex < tracksCount; trackIndex++)
+                {
+                    var track = tracks[trackIndex];
+                    for (var tagIndex = 0; tagIndex < tagsCount; tagIndex++)
+                    {
+                        var tag = tags[tagIndex];
+                        var value = track.GetPropertyValue(tag).ToString();
+                        if (Regex.IsMatch(value, pattern, options))
+                            value = Regex.Replace(value, pattern, ReplaceComboBox.Text, options);
+                        values[trackIndex, tagIndex] = value;
+                    }
+                }
+                var command = new ReplaceCommand(Selection, tags.ToArray(), values);
+                CommandProcessor.Run(command);
             }
-
         }
 
         private void ReplaceNext()
         {
             UpdateReplaceItems();
         }
-
-        private void Hide() => ShowFindReplace(visible: false);
 
         private void Show(bool replace) => ShowFindReplace(visible: true, replacing: replace);
 
@@ -189,5 +240,7 @@
                 BtnReplaceAll.Visible = replacing;
             BtnFindAll.Visible = !replacing;
         }
+
+        #endregion
     }
 }

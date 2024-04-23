@@ -11,38 +11,43 @@
     {
         public MruStringsController(Controller parent, string subKeyName) : base(parent, subKeyName) { }
 
+        public void AddValue(string value) => RegistryWrite(new[] { value });
+
         public void RegistryRead(ComboBox comboBox)
         {
-            var items = comboBox.Items;
-            items.Clear();
-            items.AddRange(ReadValues().ToArray());
+            var values = comboBox.Items;
+            values.Clear();
+            values.AddRange(ReadValues().ToArray());
         }
 
-        public void RegistryWrite(ComboBox comboBox) => WriteValues(comboBox.Items.Cast<string>());
+        private void RegistryWrite(ComboBox comboBox) => RegistryWrite(comboBox.Items.Cast<string>());
+
+        private void RegistryWrite(IEnumerable<string> values) =>
+            WriteValues(values.Union(ReadValues()).Where(p => !string.IsNullOrWhiteSpace(p)));
 
         public void UpdateItems(ComboBox comboBox)
         {
-            var filter = comboBox.Text;
-            if (!string.IsNullOrWhiteSpace(filter))
+            string value = comboBox.Text;
+            if (!string.IsNullOrWhiteSpace(value))
             {
-                var filters = comboBox.Items;
-                if (filters.Contains(filter))
-                    filters.Remove(filter);
-                filters.Insert(0, filter);
-                comboBox.Text = filter;
+                var values = comboBox.Items;
+                if (values.Contains(value))
+                    values.Remove(value);
+                values.Insert(0, value);
+                comboBox.Text = value;
             }
             RegistryWrite(comboBox);
         }
 
         private IEnumerable<string> ReadValues()
         {
-            string[] strings = Array.Empty<string>();
+            string[] values = Array.Empty<string>();
             if (TryReadKey(out Win32.RegistryKey key))
             {
-                strings = key?.GetValue("Filter")?.ToString()?.TextToStrings() ?? Array.Empty<string>(); ;
+                values = key?.GetValue("Filter")?.ToString()?.TextToStrings() ?? Array.Empty<string>(); ;
                 key?.Close();
             }
-            return strings;
+            return values;
         }
 
         private void WriteValues(IEnumerable<string> values) => AddItem("Filter", values.StringsToText());

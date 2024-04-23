@@ -56,7 +56,7 @@
             newTracks.RemoveAll(p => oldTracks.Any(q => q.FilePath == p.FilePath));
             if (!newTracks.Any())
                 return false;
-            CommandProcessor.Run(new TracksAddCommand(new Selection(newTracks)), spoof: false);
+            CommandProcessor.Run(new AddCommand(new Selection(newTracks)), spoof: false);
             return true;
         }
 
