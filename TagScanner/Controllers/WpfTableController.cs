@@ -15,11 +15,11 @@
     using ValueConverters;
     using Views;
 
-    public class TableController : GridController
+    public class WpfTableController : WpfGridController
     {
         #region Constructor
 
-        public TableController(Controller parent, ElementHost view) : base(parent)
+        public WpfTableController(Controller parent, ElementHost view) : base(parent)
         {
             Model.TracksChanged += Model_TracksChanged;
             View = view;
@@ -50,21 +50,29 @@
             set
             {
                 _view = value;
-
-                MainForm.ViewByArtistAlbum.Click += ViewByArtistAlbum_Click;
-                MainForm.ViewByArtist.Click += ViewByArtist_Click;
-                MainForm.ViewByGenre.Click += ViewByGenre_Click;
-                MainForm.ViewByYear.Click += ViewByYear_Click;
-                MainForm.ViewByAlbum.Click += ViewByAlbum_Click;
-                MainForm.ViewByNoGrouping.Click += ViewByNone_Click;
-
+                MainForm.GroupByMenu.DropDownOpening += GroupByMenu_DropDownOpening;
+                MainForm.GroupByArtistAlbum.Click += ViewByArtistAlbum_Click;
+                MainForm.GroupByArtist.Click += ViewByArtist_Click;
+                MainForm.GroupByAlbum.Click += ViewByAlbum_Click;
+                MainForm.GroupByYear.Click += ViewByYear_Click;
+                MainForm.GroupByGenre.Click += ViewByGenre_Click;
+                MainForm.GroupByNone.Click += ViewByNone_Click;
                 View.Child = new GridElement();
                 InitColumns();
                 DataGrid.SelectionChanged += Grid_SelectionChanged;
                 RefreshDataSource();
-
-                SetQuery(Query.ByArtistAlbum);
+                SetQuery(Query.ByNone);
             }
+        }
+
+        private void GroupByMenu_DropDownOpening(object sender, EventArgs e)
+        {
+            MainForm.GroupByArtistAlbum.Checked = QueryMatches(Query.ByArtistAlbum);
+            MainForm.GroupByArtist.Checked = QueryMatches(Query.ByArtist);
+            MainForm.GroupByAlbum.Checked = QueryMatches(Query.ByAlbum);
+            MainForm.GroupByYear.Checked = QueryMatches(Query.ByYear);
+            MainForm.GroupByGenre.Checked = QueryMatches(Query.ByGenre);
+            MainForm.GroupByNone.Checked = QueryMatches(Query.ByNone);
         }
 
         public override DataGrid DataGrid => ((GridElement)View.Child).DataGrid;
@@ -74,6 +82,8 @@
             get => (ListCollectionView)DataGrid.ItemsSource;
             set => DataGrid.ItemsSource = value;
         }
+
+        private bool QueryMatches(Query query) => Groups.SequenceEqual(query.Groups);
 
         private void RefreshDataSource()
         {
@@ -89,9 +99,9 @@
         private void ViewByArtistAlbum_Click(object sender, EventArgs e) => SetQuery(Query.ByArtistAlbum);
         private void ViewByArtist_Click(object sender, EventArgs e) => SetQuery(Query.ByArtist);
         private void ViewByAlbum_Click(object sender, EventArgs e) => SetQuery(Query.ByAlbum);
-        private void ViewByNone_Click(object sender, EventArgs e) => SetQuery(Query.ByNone);
-        private void ViewByGenre_Click(object sender, EventArgs e) => SetQuery(Query.ByGenre);
         private void ViewByYear_Click(object sender, EventArgs e) => SetQuery(Query.ByYear);
+        private void ViewByGenre_Click(object sender, EventArgs e) => SetQuery(Query.ByGenre);
+        private void ViewByNone_Click(object sender, EventArgs e) => SetQuery(Query.ByNone);
 
         #endregion
 

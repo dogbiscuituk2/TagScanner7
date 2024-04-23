@@ -28,17 +28,18 @@
             Model.TracksEdit += Model_TracksEdit;
             CommandProcessor = new CommandProcessor(this);
             FilterController = new FilterController(this);
-            TableController = new TableController(this, View.GridElementHost);
+            TableController = new WpfTableController(this, View.GridElementHost);
             TableController.SelectionChanged += LibraryGridController_SelectionChanged;
             DragDropController = new DragDropController(this);
             MediaController = new MruMediaController(this, View.RecentFolderPopupMenu);
             LibraryController = new MruLibraryController(this, View.RecentLibraryPopupMenu);
             LibraryController.FilePathChanged += PersistenceController_FilePathChanged;
             LibraryController.FileSaving += PersistenceController_FileSaving;
-            PlayerController = new PlayerController(this);
+            PlayerController = new WpfPlayerController(this);
             PictureController = new PictureController(View.PictureBox, View.PropertyGrid, PlayerController.PlaylistGrid);
             PropertyGridController = new PropertyGridController(this);
             StatusController = new StatusController(this);
+            FindReplaceController = new FindReplaceController(this);
             ModifiedChanged();
             UpdateUI();
         }
@@ -103,8 +104,6 @@
                 View.EditSelectAll.Click += EditSelectAll_Click;
                 View.EditInvertSelection.Click += EditInvertSelection_Click;
 
-                View.ViewRefresh.Click += ViewRefresh_Click;
-
                 View.WindowMenu.DropDownOpening += ViewWindow_DropDownOpening;
 
                 View.AddMedia.Click += AddMedia_Click;
@@ -138,11 +137,12 @@
 
         public readonly CommandProcessor CommandProcessor;
         public readonly FilterController FilterController;
-        public readonly TableController TableController;
+        public readonly FindReplaceController FindReplaceController;
+        public readonly WpfTableController TableController;
         public readonly MruMediaController MediaController;
         public readonly MruLibraryController LibraryController;
         public readonly PictureController PictureController;
-        public readonly PlayerController PlayerController;
+        public readonly WpfPlayerController PlayerController;
         public readonly PropertyGridController PropertyGridController;
         public readonly StatusController StatusController;
 
@@ -179,10 +179,11 @@
             View.FileSave.Enabled = View.tbSaveLibrary.Enabled = enabled;
             View.AddRecentFolder.Enabled = View.tbAddRecentFolder.Enabled =
                 View.RecentFolderPopupMenu.Items.Count > 0;
-            // Clipboard Menu Items
+            // Edit Items
             View.EditCut.Enabled = View.tbCut.Enabled = View.TablePopupCut.Enabled =
                 View.EditCopy.Enabled = View.tbCopy.Enabled = View.TablePopupCopy.Enabled =
                 View.EditDelete.Enabled = View.tbDelete.Enabled = View.TablePopupDelete.Enabled =
+                View.EditFind.Enabled = View.tbFind.Enabled = View.EditReplace.Enabled =
                 Selection.Tracks.Any();
             // Property Grid
             PropertyGridController.SetSelection(TableController.Selection);
@@ -193,7 +194,7 @@
             if (View.InvokeRequired)
                 View.Invoke(new Action<Selection>(TracksAdd), selection);
             else
-                CommandProcessor.Run(new TracksAddCommand(selection), spoof: false);
+                CommandProcessor.Run(new AddCommand(selection), spoof: false);
         }
 
         public void TracksEdit(Selection selection, Tag tag, List<object> values)
@@ -201,7 +202,7 @@
             if (View.InvokeRequired)
                 View.Invoke(new Action<Selection, Tag, List<object>>(TracksEdit), tag, selection, values);
             else
-                CommandProcessor.Run(new TracksEditCommand(selection, tag, values), spoof: true);
+                CommandProcessor.Run(new EditCommand(selection, tag, values), spoof: true);
         }
 
         public void TracksRemove(Selection selection)
@@ -209,7 +210,7 @@
             if (View.InvokeRequired)
                 View.Invoke(new Action<Selection>(TracksRemove), selection);
             else
-                CommandProcessor.Run(new TracksRemoveCommand(selection), spoof: false);
+                CommandProcessor.Run(new RemoveCommand(selection), spoof: false);
         }
 
         #endregion
@@ -251,7 +252,6 @@
         #region View
 
         private void ViewWindow_DropDownOpening(object sender, EventArgs e) => AppController.PopulateWindowMenu(View.WindowMenu);
-        private void ViewRefresh_Click(object sender, EventArgs e) { }
 
         #endregion
 
@@ -298,8 +298,8 @@
         private void View_FormClosing(object sender, FormClosingEventArgs e)
         {
             e.Cancel = !LibraryController.SaveIfModified();
-            if (!e.Cancel)
-                FilterController.RegistryWrite();
+            //if (!e.Cancel)
+            //    new MruFilterController(this).RegistryWrite(View.FilterComboBox);
         }
 
         private void View_Shown(object sender, EventArgs e) => View.ActiveControl = View.FilterComboBox;

@@ -8,9 +8,9 @@
     using Terms;
     using ValueConverters;
 
-    public abstract class GridController: Controller
+    public abstract class WpfGridController: Controller
     {
-        protected GridController(Controller parent) : base(parent) { }
+        protected WpfGridController(Controller parent) : base(parent) { }
 
         public abstract DataGrid DataGrid { get; }
 

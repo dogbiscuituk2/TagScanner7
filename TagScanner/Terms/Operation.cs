@@ -148,6 +148,7 @@
         private void SetOperator(Op op)
         {
             _op = op;
+            /*
             var paramType = op.GetParamType();
             if (paramType == null)
                 return;
@@ -155,6 +156,7 @@
                 InitParameters(paramType);
             else if (op.IsBinary())
                 InitParameters(paramType, paramType);
+            */
         }
 
         #endregion

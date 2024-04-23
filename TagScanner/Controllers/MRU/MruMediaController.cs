@@ -1,14 +1,12 @@
 ﻿namespace TagScanner.Controllers.Mru
 {
     using System;
-    using System.Collections.Generic;
     using System.IO;
     using System.Linq;
     using System.Threading.Tasks;
     using System.Windows.Forms;
     using Models;
     using Properties;
-    using WMPLib;
 
     public class MruMediaController : MruMenuController
     {
@@ -46,11 +44,17 @@
         {
             var folders = paths.Where(p => Directory.Exists(p));
             var files = paths.Except(folders);
-            var filter = GetFilter();
-            foreach (var folder in folders)
-                AddFolder(folder, filter);
-            var progress = CreateNewProgress();
-            Task.Run(() => Model.AddFiles(files.ToArray(), progress));
+            if (files.Any())
+            {
+                var progress = CreateNewProgress();
+                Task.Run(() => Model.AddFiles(files.ToArray(), progress));
+            }
+            if (folders.Any())
+            {
+                var filter = GetFilter();
+                foreach (var folder in folders)
+                    AddFolder(folder, filter);
+            }
         }
 
         public void AddFolder()
@@ -88,14 +92,6 @@
                     Resources.Add_Recent_Folder, MessageBoxButtons.YesNo) == DialogResult.Yes)
                 RemoveItem(item);
         }
-
-        /*
-        public void Rescan()
-        {
-            foreach (var folderParts in Model.Folders.Select(folder => folder.Split('|')))
-                AddFolder(folderParts[0], folderParts[1]);
-        }
-        */
 
         #endregion
     }

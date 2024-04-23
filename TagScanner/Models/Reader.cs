@@ -22,8 +22,15 @@
             foreach (var searchPattern in searchPatterns)
             {
                 var filePathList = Directory.EnumerateFiles(folderPath, searchPattern, SearchOption.AllDirectories);
-                _trackCount += filePathList.Count();
-                filePathLists.Add(filePathList);
+                try
+                {
+                    filePathLists.Add(filePathList);
+                    _trackCount += filePathList.Count();
+                }
+                catch (Exception exception)
+                {
+                    exception.LogException();
+                }
             }
             foreach (var filePathList in filePathLists.Where(filePathList => !DoAddTracks(filePathList)))
                 break;
@@ -67,6 +74,17 @@
             return progressEventArgs.Continue;
         }
 
-        private bool DoAddTracks(IEnumerable<string> filePathList) => filePathList.FirstOrDefault(p => !DoAddTrack(p)) == null;
+        private bool DoAddTracks(IEnumerable<string> filePathList)
+        {
+            try
+            {
+                return filePathList.FirstOrDefault(p => !DoAddTrack(p)) == null;
+            }
+            catch (Exception exception)
+            {
+                exception.LogException();
+                return false;
+            }
+        }
     }
 }

@@ -69,15 +69,14 @@
         /// If false, the relevant properties have already been changed on the target, 
         /// so just log the memento to the Undo stack.</param>
         /// <returns>True if the command was run, and actually caused a property change.</returns>
-        public bool Run(Command command, bool spoof = false)
+        public int Run(Command command, bool spoof = false)
         {
             if (Busy || command == null)
-                return false;
+                return 0;
             if (LastSave > UndoStack.Count)
                 LastSave = -1;
             RedoStack.Clear();
-            var result = Redo(command, spoof);
-            return result;
+            return Redo(command, spoof);
         }
 
         public void UpdateLocalUI()
@@ -116,17 +115,22 @@
 
         private void BeginUpdate() { ++UpdateCount; }
 
-        private bool DoCommand(Command command, bool undo, bool spoof = false)
+        private int DoCommand(Command command, bool undo, bool spoof = false)
         {
-            Busy = true;
-            var result = spoof || command.Do(Model);
-            Busy = false;
-            if (!result)
-                return false;
-            var stack = undo ? RedoStack : UndoStack;
-            stack.Push(command);
-            UpdateUI();
-            return true;
+            var result = command.TracksCount;
+            if (!spoof)
+            {
+                Busy = true;
+                result = command.Do(Model);
+                Busy = false;
+            }
+            if (result > 0)
+            {
+                var stack = undo ? RedoStack : UndoStack;
+                stack.Push(command);
+                UpdateUI();
+            }
+            return result;
         }
 
         private void EndUpdate()
@@ -164,11 +168,11 @@
             }
         }
 
-        private bool Undo() => CanUndo && Undo(UndoStack.Pop());
-        private bool Redo() => CanRedo && Redo(RedoStack.Pop());
+        private int Undo() => CanUndo ? Undo(UndoStack.Pop()) : 0;
+        private int Redo() => CanRedo ? Redo(RedoStack.Pop()) : 0;
 
-        private bool Undo(Command command) => DoCommand(command, undo: true, spoof: false);
-        private bool Redo(Command command, bool spoof = false) => DoCommand(command, undo: false, spoof);
+        private int Undo(Command command) => DoCommand(command, undo: true, spoof: false);
+        private int Redo(Command command, bool spoof = false) => DoCommand(command, undo: false, spoof);
 
         private void RedoMultiple(object sender, EventArgs e)
         {

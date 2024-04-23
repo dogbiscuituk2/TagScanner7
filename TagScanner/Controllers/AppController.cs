@@ -6,6 +6,8 @@
     using System.Windows.Forms;
     using System.Xml;
     using WK.Libraries.SharpClipboardNS;
+    using Models;
+    using Mru;
     using Utils;
     using Views;
 
@@ -25,7 +27,17 @@
 
         #endregion
 
+        #region Public Properties
+
+        public static MruFilterController MruFilterController = new MruFilterController(null);
+        public static MruStringsController MruFindController = new MruStringsController(null, "FindMRU");
+        public static MruStringsController MruReplaceController = new MruStringsController(null, "ReplaceMRU");
+
+        #endregion
+
         #region Public Methods
+
+        public static void AddFilter(string value) => MruFilterController.AddValue(value);
 
         public static void CloseWindow(MainFormController controller)
         {
@@ -34,23 +46,27 @@
                 SplashForm.Close();
         }
 
-        public static string GetTempFileName()
+        public static string GetTempFileName(string nameFormat = LibraryNameFormat)
         {
             var filePaths = Controllers.Select(p => p.FilePath);
             for (var index = 1; true; index++)
             {
-                var filePath = $"<untitled #{index}>";
+                var filePath = string.Format(nameFormat, index);
                 if (!filePaths.Contains(filePath))
                     return filePath;
             }
         }
 
-        public static void NewWindow()
+        public static void NewWindow(string nameFormat = LibraryNameFormat, Selection selection = null, bool modified = true)
         {
             var controller = new MainFormController();
             Controllers.Add(controller);
-            controller.FilePath = GetTempFileName();
+            controller.FilePath = GetTempFileName(nameFormat);
+            if (selection != null)
+                controller.TracksAdd(selection);
             controller.View.Show();
+            if (!modified)
+                controller.CommandProcessor.Clear();
         }
 
         public static void PopulateWindowMenu(ToolStripMenuItem menu)
@@ -89,6 +105,13 @@
             return true;
         }
 
+        public static void GetFilterItems(ComboBox comboBox) => MruFilterController.RegistryRead(comboBox);
+        public static void GetFindItems(ComboBox comboBox) => MruFindController.RegistryRead(comboBox);
+        public static void GetReplaceItems(ComboBox comboBox) => MruReplaceController.RegistryRead(comboBox);
+        public static void UpdateFilterItems(ComboBox comboBox) => MruFilterController.UpdateItems(comboBox);
+        public static void UpdateFindItems(ComboBox comboBox) => MruFindController.UpdateItems(comboBox);
+        public static void UpdateReplaceItems(ComboBox comboBox) => MruReplaceController.UpdateItems(comboBox);
+
         #endregion
 
         #region Events
@@ -123,8 +146,12 @@
 
         #region Private Fields
 
-        private static SplashForm SplashForm { get; }
+        private const string LibraryNameFormat = "<untitled #{0}>";
+        private const string FindResultsNameFormat = "<find results #{0}>";
+        private const string ReplaceResultsNameFormat = "<replace results #{0}>";
+
         private static List<MainFormController> Controllers { get; }
+        private static SplashForm SplashForm { get; }
 
         #endregion
 

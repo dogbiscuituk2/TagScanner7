@@ -30,13 +30,14 @@
             return ReadTracks(p => p.AddFolder(folderPath, fileFilter.Split(';')), progress);
         }
 
-        public void AddRemoveTracks(List<Track> tracks, bool add)
+        public int AddRemoveTracks(List<Track> tracks, bool add)
         {
             if (add)
                 Tracks.AddRange(tracks);
             else
                 Tracks.RemoveAll(p => tracks.Contains(p));
             OnTracksChanged();
+            return tracks.Count;
         }
 
         public void Clear()

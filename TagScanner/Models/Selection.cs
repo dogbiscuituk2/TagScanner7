@@ -11,6 +11,7 @@
     {
         #region Constructors
 
+        public Selection() => Tracks = new List<Track>();
         public Selection(IEnumerable<Track> tracks) => Tracks = tracks.ToList();
 
         #endregion
@@ -34,6 +35,10 @@
         #endregion
 
         #region Public Methods
+
+        public void Add(IEnumerable<Track> tracks) => Tracks.AddRange(tracks);
+        public void Clear() => Tracks.Clear();
+        public void Remove(IEnumerable<Track> tracks) => Tracks.RemoveAll(p => tracks.Contains(p));
 
         public void Invalidate()
         {

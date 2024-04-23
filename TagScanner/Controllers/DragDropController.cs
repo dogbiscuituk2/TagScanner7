@@ -23,7 +23,7 @@
         private MainFormController MainFormController => (MainFormController)Parent;
         private MruMediaController MediaController => MainFormController.MediaController;
         private System.Windows.Controls.DataGrid Table => TableController.DataGrid;
-        private TableController TableController => MainFormController.TableController;
+        private WpfTableController TableController => MainFormController.TableController;
 
         #endregion
 
@@ -47,11 +47,7 @@
 
         #region Private Methods
 
-        private void DragDrop(string[] paths)
-        {
-            if (MessageBox.Show("Are you sure?") == DialogResult.OK)
-                MediaController.AddFiles(paths);
-        }
+        private void DragDrop(string[] paths) => MediaController.AddFiles(paths);
 
         private bool DragOver(IDataObject dataObject) => PathsExist(GetFilePaths(dataObject));
 

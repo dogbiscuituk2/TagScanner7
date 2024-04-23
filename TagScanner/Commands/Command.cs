@@ -9,12 +9,14 @@
     {
         protected Command(Selection selection) => Selection = selection;
 
-        public virtual bool Do(Model model)
+        public virtual int Do(Model model)
         {
             var result = Run(model);
             Invert();
             return result;
         }
+
+        public int TracksCount => Tracks.Count;
 
         protected Selection Selection { get; }
         protected List<Track> Tracks => Selection.Tracks;
@@ -51,6 +53,6 @@
 
         protected virtual void Invert() { }
 
-        public abstract bool Run(Model model);
+        public abstract int Run(Model model);
     }
 }

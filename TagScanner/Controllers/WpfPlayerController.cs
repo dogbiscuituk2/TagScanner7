@@ -10,9 +10,9 @@
     using Models;
     using Views;
 
-    public class PlayerController : GridController
+    public class WpfPlayerController : WpfGridController
     {
-        public PlayerController(MainFormController mainFormController) : base(mainFormController)
+        public WpfPlayerController(MainFormController mainFormController) : base(mainFormController)
         {
             View.TablePopupPlayAddToQueue.Click += PlaylistAddToQueue_Click;
             View.TablePopupPlayNewPlaylist.Click += PlaylistCreateNew_Click;

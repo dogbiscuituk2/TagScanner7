@@ -5,9 +5,9 @@
     using Models;
     using Terms;
 
-    public class TracksEditCommand : Command
+    public class EditCommand : Command
     {
-        public TracksEditCommand(Selection selection, Tag tag, List<object> values) : base(selection)
+        public EditCommand(Selection selection, Tag tag, List<object> values) : base(selection)
         {
             Tag = tag;
             Values = values;
@@ -16,14 +16,17 @@
         public Tag Tag { get; set; }
         public List<object> Values { get; set; }
 
-        public override bool Run(Model model)
+        public override int Run(Model model)
         {
-            var result = false;
+            var result = 0;
             for (var index = 0; index < Tracks.Count; index++)
             {
                 var value = Values[index];
-                result |= Tracks[index].ChangeValue(Tag, ref value);
-                Values[index] = value;
+                if (Tracks[index].ChangeValue(Tag, ref value))
+                {
+                    result++;
+                    Values[index] = value;
+                }
             }
             return result;
         }

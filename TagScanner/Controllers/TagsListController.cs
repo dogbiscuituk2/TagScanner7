@@ -12,15 +12,29 @@
     {
         #region Public Interface
 
-        public TagsListController(Controller parent) : base(parent) { }
+        public TagsListController(Controller parent, ListView listView = null) : base(parent)
+        {
+            _listView = listView;
+        }
+
+        private ListView _listView;
 
         public override Control Control => ListView;
-        public ListView ListView => Dialog.ListView;
+        public ListView ListView => _listView ?? Dialog.ListView;
 
         public void InitListView()
         {
+            InitItems(includeReadOnly: true);
+            ListView.ColumnClick += (sender, e) => SortByColumn(e.Column);
+            ListView.ListViewItemSorter = this;
+            if (Dialog != null)
+                Dialog.ListMenu.DropDownOpening += (sender, e) => InitListMenu();
+        }
+
+        public void InitItems(bool includeReadOnly)
+        {
             Items.Clear();
-            foreach (var tag in Tags.Keys)
+            foreach (var tag in includeReadOnly ? Tags.Keys : Tags.Keys.Where(p => p.CanWrite()))
             {
                 var item = Items.Add(tag.DisplayName());
                 item.Name = tag.Name();
@@ -33,9 +47,6 @@
                 if (!tag.CanWrite())
                     item.ForeColor = Color.FromKnownColor(KnownColor.GrayText);
             }
-            ListView.ColumnClick += (sender, e) => SortByColumn(e.Column);
-            ListView.ListViewItemSorter = this;
-            Dialog.ListMenu.DropDownOpening += (sender, e) => InitListMenu();
         }
 
         #endregion
@@ -59,10 +70,10 @@
 
         private string GetValue(object o) => _sortColumn == 0 ? ((ListViewItem)o).Text : ((ListViewItem)o).SubItems[_sortColumn].Text;
 
-        public override List<Tag> GetVisibleTags()
+        public override IEnumerable<Tag> GetSelectedTags()
         {
             var result = new List<Tag>();
-            result.AddRange(Dialog.ListView.Items.Cast<ListViewItem>().Where(t => t.Checked).Select(t => (Tag)t.Tag));
+            result.AddRange(ListView.Items.Cast<ListViewItem>().Where(t => t.Checked).Select(t => (Tag)t.Tag));
             return result;
         }
 
@@ -87,7 +98,7 @@
 
         private static ListViewGroup NewGroup(string header) => new ListViewGroup(header) { HeaderAlignment = HorizontalAlignment.Right };
 
-        public override void SetVisibleTags(List<Tag> visibleTags)
+        public override void SetSelectedTags(IEnumerable<Tag> visibleTags)
         {
             var items = Items.Cast<ListViewItem>();
             foreach (var tag in Tags.Keys)
