@@ -15,6 +15,7 @@
     using Streaming;
     using Utils;
     using Views;
+    using Wpf;
 
     public class MainFormController : Controller
     {

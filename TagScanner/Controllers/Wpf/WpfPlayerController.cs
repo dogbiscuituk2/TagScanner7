@@ -1,4 +1,4 @@
-﻿namespace TagScanner.Controllers
+﻿namespace TagScanner.Controllers.Wpf
 {
     using System;
     using System.Collections.ObjectModel;

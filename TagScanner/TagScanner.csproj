@@ -195,9 +195,9 @@
     <Compile Include="Menus\MenuRouter.cs" />
     <Compile Include="Menus\OperationEventArgs.cs" />
     <Compile Include="Models\GroupTagsBy.cs" />
-    <Compile Include="Controllers\WpfGridController.cs" />
+    <Compile Include="Controllers\Wpf\WpfGridController.cs" />
     <Compile Include="Controllers\MainFormController.cs" />
-    <Compile Include="Controllers\WpfPlayerController.cs" />
+    <Compile Include="Controllers\Wpf\WpfPlayerController.cs" />
     <Compile Include="Controllers\Mru\MruSdiController.cs" />
     <Compile Include="Controllers\TagPickerController.cs" />
     <Compile Include="Controllers\TagsController.cs" />
@@ -231,7 +231,7 @@
     <Compile Include="ValueConverters\StringsConverter.cs" />
     <Compile Include="ValueConverters\TimeSpanConverter.cs" />
     <Compile Include="ValueConverters\GroupSummary.cs" />
-    <Compile Include="Controllers\WpfTableController.cs" />
+    <Compile Include="Controllers\Wpf\WpfTableController.cs" />
     <Compile Include="ValueConverters\LogicalConverter.cs" />
     <Compile Include="Controllers\Mru\MruMediaController.cs" />
     <Compile Include="Controllers\Mru\MruLibraryController.cs" />

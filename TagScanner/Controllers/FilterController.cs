@@ -5,6 +5,7 @@
     using Terms;
     using Utils;
     using Views;
+    using Wpf;
 
     public class FilterController : Controller
     {

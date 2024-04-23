@@ -9,6 +9,7 @@
     using Commands;
     using Terms;
     using Views;
+    using TagScanner.Controllers.Wpf;
 
     public class FindReplaceController : Controller
     {
@@ -47,6 +48,7 @@
 
         private CommandProcessor CommandProcessor => MainFormController.CommandProcessor;
         private MainFormController MainFormController => (MainFormController)Parent;
+        private WpfTableController TableController => MainFormController.TableController;
 
         private bool CaseSensitive => CaseSensitiveCheckBox.Checked;
         private int Options => CaseSensitive ? 0 : 1;
@@ -137,10 +139,15 @@
         private void FindAll()
         {
             if (Find())
+            {
                 AppController.NewWindow(
                     nameFormat: "<find results {0}>",
                     selection: Selection,
                     modified: false);
+                TableController.Selection = Selection;
+                TableController.DataGrid.Focus();
+                TableController.DataGrid.ScrollIntoView(Selection.Tracks[0]);
+            }
         }
 
         private void FindNext()

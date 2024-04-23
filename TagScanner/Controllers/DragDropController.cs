@@ -2,8 +2,9 @@
 {
     using System.Linq;
     using System.Windows.Forms;
-    using TagScanner.Controllers.Mru;
+    using Mru;
     using Views;
+    using Wpf;
 
     public class DragDropController : Controller
     {

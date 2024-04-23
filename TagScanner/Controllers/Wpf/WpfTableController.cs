@@ -1,4 +1,4 @@
-﻿namespace TagScanner.Controllers
+﻿namespace TagScanner.Controllers.Wpf
 {
     using System;
     using System.Collections.Generic;
@@ -220,7 +220,18 @@
         #region Selection
 
         private Selection _selection;
-        public Selection Selection => _selection ?? (_selection = GetSelection());
+        public Selection Selection
+        {
+            get => _selection ?? (_selection = GetSelection());
+            set
+            {
+                BeginUpdateSelection();
+                DataGrid.SelectedItems.Clear();
+                foreach (var track in value.Tracks)
+                    DataGrid.SelectedItems.Add(track);
+                EndUpdateSelection();
+            }
+        }
 
         public event EventHandler SelectionChanged;
 
