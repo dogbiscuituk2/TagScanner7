@@ -25,6 +25,7 @@
 
             FunctorDictionary = new Dictionary<Fn, FnInfo>();
 
+            AddFn(Fn.Change, "Replace", s, false, s, s);
             AddFn(Fn.Compare, s, true, s, s);
             AddFn(Fn.Concat_2, "Concat", s, true, s, s);
             AddFn(Fn.Concat_3, "Concat", s, true, s, s, s);
@@ -44,9 +45,8 @@
             AddFn(Fn.Max, m, true, d, d);
             AddFn(Fn.Min, m, true, d, d);
             AddFn(Fn.Pow, m, true, d, d);
-            AddFn(Fn.RegexReplace, "Replace", r, true, s, s, s);
             AddFn(Fn.Remove, s, false, i, i);
-            AddFn(Fn.Replace, s, false, s, s);
+            AddFn(Fn.Replace, r, true, s, s, s, typeof(RegexOptions));
             AddFn(Fn.Round, m, true, d);
             AddFn(Fn.Sign, m, true, d);
             AddFn(Fn.StartsWith, s, false, s);

@@ -114,6 +114,14 @@
         {
             _fn = fn;
             FnInfo = Fn.FnInfo();
+            var paramTypes = ParameterTypes.ToList();
+            for (var index = 0; index < Operands.Count; index++)
+            {
+                var paramType = paramTypes[index];
+                var operand = Operands[index];
+                if (operand.ResultType != paramType)
+                    Operands[index] = new Cast(paramType, operand);
+            }
         }
 
         #endregion

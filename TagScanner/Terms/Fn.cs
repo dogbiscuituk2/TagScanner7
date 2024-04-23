@@ -2,6 +2,7 @@
 {
     public enum Fn
     {
+        Change,
         Compare,
         Concat_2,
         Concat_3,
@@ -23,7 +24,6 @@
         Pow,
         Remove,
         Replace,
-        RegexReplace,
         Round,
         Sign,
         StartsWith,

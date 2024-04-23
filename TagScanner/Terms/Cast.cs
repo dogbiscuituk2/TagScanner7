@@ -10,12 +10,12 @@
         public Cast(Type newType) => SetNewType(newType);
         public Cast(Type newType, Term operand) : base(operand) => SetNewType(newType);
 
-        public string NewTypeName { get; set; }
+        public Type NewType { get; set; }
 
         public override int Arity => 1;
         public override Expression Expression => Expression.Convert(FirstSubExpression, ResultType);
         public override Rank Rank => Rank.Unary;
-        public override Type ResultType => Type.GetType(NewTypeName);
+        public override Type ResultType => NewType;
 
         protected override IEnumerable<Type> GetParameterTypes() => new[] { typeof(object) };
         public override int Start(int index) => ResultType.Say().Length + (UseParens(0) ? 3 : 2);
@@ -24,7 +24,7 @@
 
         private void SetNewType(Type newType)
         {
-            NewTypeName = newType.FullName; ;
+            NewType = newType;
             InitParameters(typeof(object));
         }
     }
