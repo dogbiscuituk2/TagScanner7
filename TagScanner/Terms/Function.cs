@@ -9,7 +9,19 @@
     {
         #region Constructors
 
+        /// <summary>
+        /// Constructor for static function instances (including user functions with no MethodInfo).
+        /// </summary>
+        /// <param name="fn">The functor specifier.</param>
+        /// <param name="operands">The arguments to the function.</param>
         public Function(Fn fn, params Term[] operands) : base(operands) => SetFn(fn);
+
+        /// <summary>
+        /// Constructor for member function instances.
+        /// </summary>
+        /// <param name="self">The instance supplying the membver function implementation.</param>
+        /// <param name="fn">The functor specifier.</param>
+        /// <param name="operands">The remaining arguments to the function.</param>
         public Function(Term self, Fn fn, params Term[] operands) : this(fn, new[] { self }.Union(operands).ToArray()) { }
 
         #endregion
@@ -19,11 +31,7 @@
         public FnInfo FnInfo
         {
             get => _fnInfo ?? (_fnInfo = Fn.FnInfo());
-            set
-            {
-                _fnInfo = value;
-                InitParameters(ParameterTypes.ToArray());
-            }
+            set => _fnInfo = value;
         }
 
         public Fn Fn
@@ -33,7 +41,6 @@
             {
                 _fn = value;
                 FnInfo = Fn.FnInfo();
-                InitParameters(GetParameterTypes().ToArray());
             }
         }
 
@@ -41,6 +48,7 @@
         public override Expression Expression => GetExpression();
         public bool IsStatic => FnInfo.IsStatic;
         public string Name => $"{Fn}";
+        public override bool ParamArray => FnInfo.ParamArray;
         public override Type ResultType => FnInfo.ReturnType;
 
         #endregion
@@ -114,6 +122,7 @@
         {
             _fn = fn;
             FnInfo = Fn.FnInfo();
+            /*
             var paramTypes = ParameterTypes.ToList();
             var operandsCount = Operands.Count;
             for (var index = 0; index < operandsCount; index++)
@@ -124,6 +133,7 @@
                 if (operandType != paramType)
                     Operands[index] = new Cast(paramType, operand);
             }
+            */
         }
 
         #endregion

@@ -46,6 +46,9 @@
 
             Keys = OperatorDictionary.Keys.ToArray();
             Values = OperatorDictionary.Values.ToArray();
+
+            foreach (var entry in OperatorDictionary)
+                entry.Value.Op = entry.Key;
         }
 
         #endregion
@@ -67,11 +70,12 @@
         public static Image GetImage(this Op op) => OperatorDictionary[op].Image;
         public static string GetLabel(this Op op) => OperatorDictionary[op].Label;
         public static OpInfo GetOpInfo(this Op op) => OperatorDictionary[op];
+        public static Type GetParamType(this Op op) => OperatorDictionary[op].ParamType;
         public static Rank GetRank(this Op op) => OperatorDictionary[op].Rank;
         public static Type GetResultType(this Op op) => OperatorDictionary[op].ResultType;
         public static bool IsBinary(this Op op) => (op & Op.Binary) != 0;
         public static bool IsUnary(this Op op) => (op & Op.Unary) != 0;
-        public static Type GetParamType(this Op op) => OperatorDictionary[op].ParamType;
+        public static bool ParamArray(this Op op) => (op & Op.ParamArray) != 0;
 
         public static Op ToOperator(this string symbol, bool unary)
         {

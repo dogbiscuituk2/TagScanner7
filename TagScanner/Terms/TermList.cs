@@ -21,6 +21,7 @@
         public virtual int Arity => -1;
         public override Expression Expression => null;
         public virtual Op Op => Op.Comma;
+        public virtual bool ParamArray => true;
         public IEnumerable<Type> ParameterTypes => GetParameterTypes();
         public override Type ResultType => null;
 
@@ -105,13 +106,6 @@
         #region Protected Methods
 
         protected virtual IEnumerable<Type> GetParameterTypes() => new[] { typeof(object) };
-
-        protected void InitParameters(params Type[] types)
-        {
-            for (var index = 0; index < types.Length; index++)
-                if (Operands.Count <= index)
-                    Operands.Add(new Parameter(types[index]));
-        }
 
         public override string ToString()
         {

@@ -30,6 +30,8 @@
         public string Format;
         public Image Image;
         public string Label;
+        public Op Op;
+        public bool ParamArray;
         public Type ParamType;
         public Rank Rank;
         public Type ResultType;

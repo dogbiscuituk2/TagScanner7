@@ -5,6 +5,7 @@
     using System.Drawing;
     using System.Linq.Expressions;
     using Models;
+    using TagScanner.Utils;
 
     public abstract class Term
     {
@@ -34,9 +35,26 @@
                 {
                     return Expression.Lambda<Func<Track, bool>>(Expression, Track).Compile();
                 }
-                catch
+                catch (Exception exception)
                 {
+                    exception.LogException();
                     return track => true;
+                }
+            }
+        }
+
+        public object Result
+        {
+            get
+            {
+                try
+                {
+                    return Expression.Lambda<Func<object>>(Expression).Compile().Invoke();
+                }
+                catch (Exception exception)
+                {
+                    exception.LogException();
+                    return null;
                 }
             }
         }

@@ -14,6 +14,7 @@
 
         public override int Arity => 1;
         public override Expression Expression => Expression.Convert(FirstSubExpression, ResultType);
+        public override bool ParamArray => false;
         public override Rank Rank => Rank.Unary;
         public override Type ResultType => NewType;
 
@@ -22,10 +23,6 @@
         public override string ToString() => $"({ResultType.Say()}){WrapTerm(0)}";
         protected override bool UseParens(int index) => Operands.First().Rank < Rank.Unary;
 
-        private void SetNewType(Type newType)
-        {
-            NewType = newType;
-            InitParameters(typeof(object));
-        }
+        private void SetNewType(Type newType) => NewType = newType;
     }
 }

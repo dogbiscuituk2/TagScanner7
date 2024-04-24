@@ -34,5 +34,6 @@
         Relational = LessThan | NotLessThan | GreaterThan | NotGreaterThan,
         Chains = EqualTo | Relational,
         Associative = Comma | And | Or | Xor | Chains | Concatenate | Add | Multiply,
+        ParamArray = Associative,
     }
 }

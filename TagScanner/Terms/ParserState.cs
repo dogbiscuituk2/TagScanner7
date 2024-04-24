@@ -16,7 +16,7 @@
         public bool AnyTokens() => _tokens.Any();
 
         public void AcceptToken(string caller, int line, string expected) => Process(caller, line, p => AcceptToken(expected));
-        public void BeginParse(string caller, int line, string text) => Process(caller, line, p => Reset(text));
+        public void BeginParse(string caller, int line, string text) => Process(caller, line, p => Reset(caller, line, text));
         public Operation Consolidate(string caller, int line, Term right) => (Operation)Process(caller, line, p => Consolidate(right));
         public Token DequeueToken(string caller, int line) => (Token)Process(caller, line, p => _tokens.Dequeue());
         public Term EndParse(string caller, int line, Term term) => (Term)Process(caller, line, p => EndParse(term));
@@ -113,8 +113,9 @@
             return value;
         }
 
-        private string Reset(string text)
+        private string Reset(string caller, int line, string text)
         {
+            Dump(caller, line, text);
             _tokens.Clear();
             _terms.Clear();
             _operators.Clear();

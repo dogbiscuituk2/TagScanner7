@@ -2,7 +2,6 @@
 {
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using System.Linq;
-    using System.Linq.Expressions;
     using Models;
     using Terms;
 
@@ -10,6 +9,19 @@
     {
         [TestMethod]
         public void TestOperations()
+        {
+            foreach (var op in Operators.Keys.Where(p => p != 0))
+            {
+                var operation = new Operation(op);
+                Assert.IsNotNull(operation);
+                Assert.AreEqual(expected: op.GetRank(), actual: operation.Rank);
+                AddDefaultValues(operation);
+                TestTerm(operation);
+            }
+        }
+
+        [TestMethod]
+        public void TestOperations2()
         {
             foreach (var op in Operators.Keys.Where(p => p.GetImage() != null))
             {

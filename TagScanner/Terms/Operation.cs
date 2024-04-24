@@ -28,6 +28,7 @@
         public override int Arity => Op.Arity();
         public override Expression Expression => GetExpression();
         public bool IsAssociative => Op.Associates();
+        public override bool ParamArray => Op.ParamArray();
         public override Rank Rank => Op.GetRank();
         public override Type ResultType => Op.GetResultType() ?? GetCommonResultType(Operands.ToArray());
 
@@ -37,9 +38,18 @@
 
         protected override IEnumerable<Type> GetParameterTypes()
         {
-            var type = GetCommonResultType();
-            for (var index = 0; index < Operands.Count(); index++)
-                yield return type;
+            /*
+            if (Operands.Any())
+            {
+                var type = GetCommonResultType();
+                for (var index = 0; index < Operands.Count(); index++)
+                    yield return type;
+            }
+            else
+                yield return Op.GetParamType();
+            */
+            yield return Op.GetParamType();
+            yield break;
         }
 
         protected override bool UseParens(int index) => Operands[index].Rank < Rank;

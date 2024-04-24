@@ -26,7 +26,7 @@
             var parameters = _methodInfo.GetParameters();
             DeclaringType = _methodInfo.DeclaringType;
             IsStatic = _methodInfo.IsStatic;
-            ParamArray = _methodInfo.GetParameters().LastOrDefault()?.GetCustomAttribute(typeof(ParamArrayAttribute)) != null;
+            ParamArray = parameters.LastOrDefault()?.GetCustomAttribute(typeof(ParamArrayAttribute)) != null;
             ParamCount = parameters.Length;
             ParamTypes = parameters.Select(p => p.ParameterType);
             ReturnType = _methodInfo.ReturnType;
