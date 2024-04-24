@@ -16,7 +16,7 @@
             IsStatic = true;
             ParamArray = paramArray;
             ParamCount = paramTypes.Length;
-            ParamTypes = _paramTypes;
+            ParamTypes = paramTypes;
             ReturnType = returnType;
         }
 
@@ -83,9 +83,7 @@
         #region Private Fields
 
         private readonly Fn _fn;
-        private readonly bool _isStatic;
         private readonly MethodInfo _methodInfo;
-        private readonly Type[] _paramTypes;
 
         #endregion
     }
