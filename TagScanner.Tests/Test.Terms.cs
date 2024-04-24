@@ -1,8 +1,6 @@
 ﻿namespace TagScanner.Tests
 {
     using Microsoft.VisualStudio.TestTools.UnitTesting;
-    using System.IO;
-    using System.Linq;
     using Terms;
 
     public partial class Test

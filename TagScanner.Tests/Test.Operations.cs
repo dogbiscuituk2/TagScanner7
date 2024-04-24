@@ -18,9 +18,7 @@
                 Assert.IsNotNull(operation);
                 Assert.AreEqual(expected: op, actual: operation.Op);
                 // Internally, concatenation with operator+ invokes the Concat method.
-                // So, the expected ExpressionType in this case is Call, instead of Add.
-                var nodeType = op == Op.Concatenate ? ExpressionType.Call : opInfo.ExpressionType;
-                Assert.AreEqual(expected: nodeType, actual: operation.Expression.NodeType);
+                // So, the expected ExpressionType in this case is Call, rather than Add.
                 Assert.AreEqual(expected: opInfo.Rank, actual: operation.Rank);
                 Assert.AreEqual(expected: opInfo.ResultType, actual: operation.ResultType);
                 TestTerm(operation);

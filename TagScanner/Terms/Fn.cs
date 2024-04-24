@@ -16,6 +16,7 @@
         IndexOf,
         Insert,
         IsNull,
+        Join,
         Match,
         LastIndexOf,
         Lowercase,

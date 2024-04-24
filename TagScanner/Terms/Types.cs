@@ -1,8 +1,9 @@
 ﻿namespace TagScanner.Terms
 {
-    using System.Collections.Generic;
     using System;
+    using System.Collections.Generic;
     using System.Linq;
+    using System.Text.RegularExpressions;
 
     public static class Types
     {
@@ -18,6 +19,7 @@
             { "int", typeof(int) },
             { "long", typeof(long) },
             { "object", typeof(object) },
+            { "RegexOptions", typeof(RegexOptions) },
             { "sbyte", typeof(sbyte) },
             { "short", typeof(short) },
             { "string", typeof(string) },
@@ -32,12 +34,12 @@
 
         public static string Say(this Type type) => type.ToTypeName();
 
-        public static Type ToType(this string typeName) => !typeName.EndsWith("[]")
-            ? TypeDictionary[typeName]
-            : typeName.Substring(0, typeName.Length - 2).ToType().MakeArrayType();
+        public static Type ToType(this string typeName) => typeName.EndsWith("[]")
+            ? typeName.Substring(0, typeName.Length - 2).ToType().MakeArrayType()
+            : TypeDictionary[typeName];
 
         public static string ToTypeName(this Type type) => type.IsArray
             ? $"{type.GetElementType().ToTypeName()}[]"
-            : TypeDictionary.FirstOrDefault(p => p.Value == type).Key ?? type.Name;
+            : TypeDictionary.FirstOrDefault(p => p.Value == type).Key;
     }
 }

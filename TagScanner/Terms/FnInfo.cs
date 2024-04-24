@@ -10,13 +10,26 @@
     {
         #region Constructors
 
-        public FnInfo(Fn fn, MethodInfo methodInfo) : this(fn) => _methodInfo = methodInfo;
-
-        public FnInfo(Fn fn, bool isStatic, params Type[] paramTypes) : this(fn)
+        public FnInfo(Fn fn, Type returnType, bool paramArray, params Type[] paramTypes) : this(fn)
         {
-            _isStatic = isStatic;
-            _methodInfo = null;
-            _paramTypes = paramTypes;
+            DeclaringType = typeof(object);
+            IsStatic = true;
+            ParamArray = paramArray;
+            ParamCount = paramTypes.Length;
+            ParamTypes = _paramTypes;
+            ReturnType = returnType;
+        }
+
+        public FnInfo(Fn fn, MethodInfo methodInfo) : this(fn)
+        {
+            _methodInfo = methodInfo;
+            var parameters = _methodInfo.GetParameters();
+            DeclaringType = _methodInfo.DeclaringType;
+            IsStatic = _methodInfo.IsStatic;
+            ParamArray = _methodInfo.GetParameters().LastOrDefault()?.GetCustomAttribute(typeof(ParamArrayAttribute)) != null;
+            ParamCount = parameters.Length;
+            ParamTypes = parameters.Select(p => p.ParameterType);
+            ReturnType = _methodInfo.ReturnType;
         }
 
         private FnInfo(Fn fn) => _fn = fn;
@@ -25,11 +38,12 @@
 
         #region Public Properties
 
-        public Type DeclaringType => _methodInfo?.DeclaringType ?? typeof(object);
-        public bool IsStatic => _methodInfo?.IsStatic ?? _isStatic;
-        public int ParamCount => _methodInfo?.GetParameters()?.Length ?? _paramTypes.Length;
-        public IEnumerable<Type> ParamTypes => _methodInfo?.GetParameters().Select(p => p.ParameterType) ?? _paramTypes;
-        public Type ReturnType => _methodInfo?.ReturnType ?? typeof(object);
+        public Type DeclaringType { get; }
+        public bool IsStatic { get; }
+        public bool ParamArray { get; }
+        public int ParamCount { get; }
+        public IEnumerable<Type> ParamTypes { get; }
+        public Type ReturnType { get; }
 
         #endregion
 
@@ -47,7 +61,8 @@
                         for (var index = 0; index < operands.Count; index++)
                         {
                             var operand = operands[index];
-                            if (operand.ResultType != typeof(string))
+                            var operandType = operand.ResultType;
+                            if (operandType != typeof(string))
                             {
                                 operand = new Function(Fn.ToString, operand);
                                 expressions[index] = operand.Expression;

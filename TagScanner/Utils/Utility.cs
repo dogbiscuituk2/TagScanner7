@@ -15,7 +15,6 @@
         #region Public Interface
 
         public static Logical AsLogical(this bool value) => value ? Logical.Yes : Logical.No;
-
         public static string AsOrdinal(this long number) => string.Concat(number, GetSuffix(number));
 
         /// <summary>
@@ -172,20 +171,15 @@
 
         public static string Range(this string s, CharacterRange range) => s.Substring(range.First, range.Length);
 
-        public static string StringsToText(this IEnumerable<string> strings)
-        {
-            if (strings == null || !strings.Any()) return string.Empty;
-            return strings.Aggregate((p, q) => $"{p}{Environment.NewLine}{q}");
-        }
+        public static string StringsToText(this IEnumerable<string> strings) => strings == null || !strings.Any()
+            ? string.Empty
+            : strings.Aggregate((p, q) => $"{p}{Environment.NewLine}{q}");
 
         public static Tag TagFromString(this string tag) => (Tag)Enum.Parse(typeof(Tag), tag);
 
-        public static string[] TextToStrings(this string s)
-        {
-            return s == null
-                ? Array.Empty<string>()
-                : s.Split(new[] { Environment.NewLine }, StringSplitOptions.None);
-        }
+        public static string[] TextToStrings(this string text) => text == null
+            ? Array.Empty<string>()
+            : text.Split(new[] { Environment.NewLine }, StringSplitOptions.None);
 
         #endregion
 

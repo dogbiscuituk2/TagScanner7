@@ -1,15 +1,17 @@
 ﻿namespace TagScanner.Controllers
 {
     using System;
+    using System.Collections;
     using System.Collections.Generic;
     using System.Linq;
     using System.Text.RegularExpressions;
+    using System.Windows.Data;
     using System.Windows.Forms;
     using Models;
     using Commands;
     using Terms;
     using Views;
-    using TagScanner.Controllers.Wpf;
+    using Wpf;
 
     public class FindReplaceController : Controller
     {
@@ -49,9 +51,10 @@
         private CommandProcessor CommandProcessor => MainFormController.CommandProcessor;
         private MainFormController MainFormController => (MainFormController)Parent;
         private WpfTableController TableController => MainFormController.TableController;
+        private ListCollectionView ListCollectionView => TableController.ListCollectionView;
 
         private bool CaseSensitive => CaseSensitiveCheckBox.Checked;
-        private int Options => CaseSensitive ? 0 : 1;
+        private RegexOptions Options => CaseSensitive ? RegexOptions.None : RegexOptions.IgnoreCase;
         private IEnumerable<Tag> SelectedTags => TagsListController.GetSelectedTags();
         private bool UseRegex => UseRegexCheckBox.Checked;
         private bool WholeWord => WholeWordCheckBox.Checked;
@@ -114,14 +117,29 @@
 
         #region Methods
 
+        private IEnumerable<Track> VisibleTracks
+        {
+            get
+            {
+                var enumerator = ((IEnumerable)ListCollectionView).GetEnumerator();
+                while (true)
+                {
+                    if (enumerator.MoveNext())
+                        yield return (Track)enumerator.Current;
+                    else
+                        yield break;
+                }
+            }
+        }
+
         private bool Find()
         {
             UpdateFindItems();
             var term = MakeCondition();
             AppController.AddFilter(term.ToString());
             var predicate = term.Predicate;
-            var allTracks = MainFormController.Model.Tracks;
-            var tracks = allTracks.Where(p => predicate(p));
+            var visibleTracks = VisibleTracks;
+            var tracks = visibleTracks.Where(p => predicate(p));
             var tracksArray = tracks.ToArray();
             Selection.Clear();
             Selection.Add(tracksArray);
@@ -180,7 +198,7 @@
         }
 
         private Term MakeSimpleCondition(Tag tag, string pattern) =>
-            new Function(Fn.Match, tag, pattern, new Constant<int>(Options));
+            new Function(Fn.Match, tag, pattern, new Constant<RegexOptions>(Options));
 
         private void Replace()
         {
@@ -197,7 +215,7 @@
                 var tagsCount = tags.Count();
                 var values = new object[tracksCount, tagsCount];
                 var pattern = Pattern;
-                var options = (RegexOptions)Options;
+                var options = Options;
                 for (var trackIndex = 0; trackIndex < tracksCount; trackIndex++)
                 {
                     var track = tracks[trackIndex];

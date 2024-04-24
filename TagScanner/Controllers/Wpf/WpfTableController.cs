@@ -65,19 +65,9 @@
             }
         }
 
-        private void GroupByMenu_DropDownOpening(object sender, EventArgs e)
-        {
-            MainForm.GroupByArtistAlbum.Checked = QueryMatches(Query.ByArtistAlbum);
-            MainForm.GroupByArtist.Checked = QueryMatches(Query.ByArtist);
-            MainForm.GroupByAlbum.Checked = QueryMatches(Query.ByAlbum);
-            MainForm.GroupByYear.Checked = QueryMatches(Query.ByYear);
-            MainForm.GroupByGenre.Checked = QueryMatches(Query.ByGenre);
-            MainForm.GroupByNone.Checked = QueryMatches(Query.ByNone);
-        }
-
         public override DataGrid DataGrid => ((GridElement)View.Child).DataGrid;
 
-        private ListCollectionView ListCollectionView
+        public ListCollectionView ListCollectionView
         {
             get => (ListCollectionView)DataGrid.ItemsSource;
             set => DataGrid.ItemsSource = value;
@@ -94,6 +84,16 @@
                 ListCollectionView = new ListCollectionView(Model.Tracks);
                 InitSortsAndGroups();
             }
+        }
+
+        private void GroupByMenu_DropDownOpening(object sender, EventArgs e)
+        {
+            MainForm.GroupByArtistAlbum.Checked = QueryMatches(Query.ByArtistAlbum);
+            MainForm.GroupByArtist.Checked = QueryMatches(Query.ByArtist);
+            MainForm.GroupByAlbum.Checked = QueryMatches(Query.ByAlbum);
+            MainForm.GroupByYear.Checked = QueryMatches(Query.ByYear);
+            MainForm.GroupByGenre.Checked = QueryMatches(Query.ByGenre);
+            MainForm.GroupByNone.Checked = QueryMatches(Query.ByNone);
         }
 
         private void ViewByArtistAlbum_Click(object sender, EventArgs e) => SetQuery(Query.ByArtistAlbum);
