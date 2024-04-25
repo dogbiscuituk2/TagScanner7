@@ -54,7 +54,7 @@
         private ListCollectionView ListCollectionView => TableController.ListCollectionView;
 
         private bool CaseSensitive => CaseSensitiveCheckBox.Checked;
-        private RegexOptions Options => CaseSensitive ? RegexOptions.None : RegexOptions.IgnoreCase;
+        private RegexOptions RegexOptions => CaseSensitive ? RegexOptions.None : RegexOptions.IgnoreCase;
         private IEnumerable<Tag> SelectedTags => TagsListController.GetSelectedTags();
         private bool UseRegex => UseRegexCheckBox.Checked;
         private bool WholeWord => WholeWordCheckBox.Checked;
@@ -151,6 +151,7 @@
                     "Find and Replace",
                     MessageBoxButtons.OK,
                     MessageBoxIcon.Information);
+            
             return result;
         }
 
@@ -189,7 +190,7 @@
                 return Term.True;
             var pattern = Pattern;
             var fields = new Function(Fn.ToText, selectedTags.Select(p => new Field(p)).ToArray());
-            return new Function(Fn.Match, fields, pattern, new Constant<RegexOptions>(Options));
+            return new Function(Fn.Match, fields, pattern, new Constant<RegexOptions>(RegexOptions));
         }
 
         private void Replace()
@@ -207,7 +208,7 @@
                 var tagsCount = tags.Count();
                 var values = new object[tracksCount, tagsCount];
                 var pattern = Pattern;
-                var options = Options;
+                var options = RegexOptions;
                 for (var trackIndex = 0; trackIndex < tracksCount; trackIndex++)
                 {
                     var track = tracks[trackIndex];
