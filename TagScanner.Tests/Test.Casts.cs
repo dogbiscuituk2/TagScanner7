@@ -1,6 +1,7 @@
 ﻿namespace TagScanner.Tests
 {
     using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using System;
     using Terms;
 
     public partial class Test
@@ -18,7 +19,6 @@
                 AddTestValues(cast);
                 Assert.AreEqual(expected: 1, actual: cast.Operands.Count);
                 TestTerm(cast);
-                var result = cast.Result;
             }
         }
     }

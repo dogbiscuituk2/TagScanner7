@@ -4,7 +4,6 @@
     using System.Collections.Generic;
     using System.Drawing;
     using System.Linq.Expressions;
-    using System.Text.RegularExpressions;
     using Models;
     using TagScanner.Utils;
 
@@ -51,26 +50,12 @@
                 try
                 {
                     return Expression.Lambda(Expression).Compile().DynamicInvoke();
-
-                    if (ResultType == typeof(bool)) return GetResult<bool>();
-                    if (ResultType == typeof(char)) return GetResult<char>();
-                    if (ResultType == typeof(DateTime)) return GetResult<DateTime>();
-                    if (ResultType == typeof(double)) return GetResult<double>();
-                    if (ResultType == typeof(int)) return GetResult<int>();
-                    if (ResultType == typeof(long)) return GetResult<long>();
-                    if (ResultType == typeof(object)) return GetResult<object>();
-                    if (ResultType == typeof(RegexOptions)) return GetResult<RegexOptions>();
-                    if (ResultType == typeof(string)) return GetResult<string>();
-                    if (ResultType == typeof(TimeSpan)) return GetResult<TimeSpan>();
-                    throw new NotImplementedException();
                 }
                 catch (Exception exception)
                 {
                     exception.LogException();
                     return null;
-
                 }
-                T GetResult<T>() => Expression.Lambda<Func<T>>(Expression).Compile().Invoke();
             }
         }
 
