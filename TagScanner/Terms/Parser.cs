@@ -117,10 +117,6 @@
         }
 
         private static Term ParseNumber(string token) =>
-            token.EndsWith("UL") ||
-            token.EndsWith("LU") ? new Constant<ulong>(ulong.Parse(token.TrimEnd('U', 'L'))) :
-            token.EndsWith("U") ? new Constant<uint>(uint.Parse(token.TrimEnd('U'))) :
-            token.EndsWith("M") ? new Constant<decimal>(decimal.Parse(token.TrimEnd('M'))) :
             token.EndsWith("L") ? new Constant<long>(long.Parse(token.TrimEnd('L'))) :
             token.EndsWith("D") ? new Constant<double>(double.Parse(token.TrimEnd('D'))) :
             token.Contains(".") ? new Constant<double>(double.Parse(token)) :

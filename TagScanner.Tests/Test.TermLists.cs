@@ -46,10 +46,7 @@
             type == typeof(object) ? "object" :
             type == typeof(RegexOptions) ? 1 :
             type == typeof(string) ? "string" :
-            type == typeof(TimeSpan) ? TimeSpanForTest :
-            type == typeof(uint) ? 123456789 :
-            type == typeof(ulong) ? (Term)9876543210L :
-            type == typeof(ushort) ? new Constant<ushort>(65535) :
+            type == typeof(TimeSpan) ? (Term)TimeSpanForTest :
             throw new NotImplementedException();
           
     }

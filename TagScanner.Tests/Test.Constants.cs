@@ -28,9 +28,6 @@
             TestConstant(new Constant<int>(0x7FFFFFFF), "2147483647");
             TestConstant(new Constant<long>(0x7FFFFFFFFFFFFFFFL), "9223372036854775807");
             TestConstant(new Constant<string>("Hello World!"), "\"Hello World!\"");
-            TestConstant(new Constant<uint>(0xFFFFFFFFU), "4294967295");
-            TestConstant(new Constant<ulong>(0xFFFFFFFFFFFFFFFFUL), "18446744073709551615");
-            TestConstant(new Constant<ushort>(0xFFFF), "65535");
         }
 
         [TestMethod]

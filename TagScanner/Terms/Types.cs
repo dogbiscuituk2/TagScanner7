@@ -19,9 +19,6 @@
             { "RegexOptions", typeof(RegexOptions) },
             { "string", typeof(string) },
             { "TimeSpan", typeof(TimeSpan) },
-            { "uint", typeof(uint) },
-            { "ulong", typeof(ulong) },
-            { "ushort", typeof(ushort) },
         };
 
         public static IEnumerable<string> TypeNames => TypeDictionary.Keys;
