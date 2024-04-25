@@ -188,17 +188,9 @@
             if (string.IsNullOrWhiteSpace(FindComboBox.Text))
                 return Term.True;
             var pattern = Pattern;
-            if (selectedTags.Count() == 1)
-                return MakeSimpleCondition(selectedTags.First(), pattern);
-            var term = new Disjunction();
-            term.Operands.Clear();
-            foreach (var tag in selectedTags)
-                term.Operands.Add(MakeSimpleCondition(tag, pattern));
-            return term;
+            var fields = new Function(Fn.ToText, selectedTags.Select(p => new Field(p)).ToArray());
+            return new Function(Fn.Match, fields, pattern, new Constant<RegexOptions>(Options));
         }
-
-        private Term MakeSimpleCondition(Tag tag, string pattern) =>
-            new Function(Fn.Match, tag, pattern, new Constant<RegexOptions>(Options));
 
         private void Replace()
         {
