@@ -134,13 +134,17 @@
         #region Private Properties
 
         private static IEnumerable<string> Booleans => new[] { "false", "true" };
-
-        private static IEnumerable<string> UnaryOperators => new[]
-        {
-            "+", "＋",
-            "-", "－",
-            "!", "not",
-        };
+        private static IEnumerable<string> Fields => Tags.Keys.Select(p => p.DisplayName());
+        private static IEnumerable<string> FunctionNames => Functors.Keys.Select(fn => $"{fn}");
+        private static IEnumerable<string> LogicalNot => new[] { "!", "not" };
+        private static IEnumerable<string> MemberFunctionNames => Functors.Keys.Where(p => !p.IsStatic()).Select(p => $"{p}");
+        private static IEnumerable<string> Operators => UnaryOperators.Union(BinaryOperators);
+        private static IEnumerable<string> StaticFunctionNames => Functors.Keys.Where(p => p.IsStatic()).Select(p => $"{p}");
+        private static IEnumerable<string> Symbols => Operators.Union(new[] { "(", ")" });
+        private static IEnumerable<string> TypeNames => Types.TypeNames;
+        private static IEnumerable<string> UnaryMinus => new[] { "-", "－" };
+        private static IEnumerable<string> UnaryOperators => UnaryPlus.Union(UnaryMinus).Union(LogicalNot);
+        private static IEnumerable<string> UnaryPlus => new[] { "+", "＋" };
 
         private static IEnumerable<string> BinaryOperators => new[]
         {
@@ -161,14 +165,6 @@
             "%",
             "."
         };
-
-        private static IEnumerable<string> Fields => Tags.Keys.Select(p => p.DisplayName());
-        private static IEnumerable<string> FunctionNames => Functors.Keys.Select(fn => $"{fn}");
-        private static IEnumerable<string> MemberFunctionNames => Functors.Keys.Where(p => !p.IsStatic()).Select(p => p.ToString());
-        private static IEnumerable<string> Operators => UnaryOperators.Union(BinaryOperators);
-        private static IEnumerable<string> StaticFunctionNames => Functors.Keys.Where(p => p.IsStatic()).Select(p => p.ToString());
-        private static IEnumerable<string> Symbols => Operators.Union(new[] { "(", ")" });
-        private static IEnumerable<string> TypeNames => Types.TypeNames;
 
         #endregion
     }

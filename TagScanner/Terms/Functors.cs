@@ -80,11 +80,10 @@
         }
 
         public static FnInfo FnInfo(this Fn fn) => FunctorDictionary[fn];
-
         public static bool IsStatic(this Fn fn) => fn.FnInfo().IsStatic;
-
+        public static bool ParamArray(this Fn fn) => fn.FnInfo().ParamArray;
         public static int ParamCount(this Fn fn) => fn.FnInfo().ParamCount;
-
+        public static Type ResultType(this Fn fn) => fn.FnInfo().ReturnType;
         public static Fn ToFunction(this string name) => Keys.Single(p => $"{p}" == name);
 
         #endregion

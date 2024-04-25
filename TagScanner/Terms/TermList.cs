@@ -75,7 +75,7 @@
         public override int Start(int index)
         {
             int result;
-            var format = Op.GetFormat();
+            var format = Op.Format();
             var delta = format.IndexOf("{0}");
             var up = UseParens(0);
             if (index == 0)
@@ -109,7 +109,7 @@
 
         public override string ToString()
         {
-            var format = Op.GetFormat();
+            var format = Op.Format();
             var count = Operands.Count;
             if (count < 1)
                 return string.Empty;

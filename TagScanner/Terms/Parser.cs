@@ -17,11 +17,9 @@
         /// <returns>The Term obtained from parsing.</returns>
         public Term Parse(string text, bool caseSensitive)
         {
-            BeginParse(text);
+            BeginParse(text, caseSensitive);
             var term = ParseCompoundTerm();
             EndParse(term);
-            if (!caseSensitive)
-                term = term.IgnoreCase();
             return term;
         }
 
@@ -124,7 +122,6 @@
             token.EndsWith("U") ? new Constant<uint>(uint.Parse(token.TrimEnd('U'))) :
             token.EndsWith("M") ? new Constant<decimal>(decimal.Parse(token.TrimEnd('M'))) :
             token.EndsWith("L") ? new Constant<long>(long.Parse(token.TrimEnd('L'))) :
-            token.EndsWith("F") ? new Constant<float>(float.Parse(token.TrimEnd('F'))) :
             token.EndsWith("D") ? new Constant<double>(double.Parse(token.TrimEnd('D'))) :
             token.Contains(".") ? new Constant<double>(double.Parse(token)) :
             (Term)new Constant<int>(int.Parse(token));
@@ -191,7 +188,7 @@
 
         #region ParserState Calls
 
-        private void BeginParse(string text, [CallerMemberName] string caller = "", [CallerLineNumber] int line = 0) => State.BeginParse(caller, line, text);
+        private void BeginParse(string text, bool caseSensitive, [CallerMemberName] string caller = "", [CallerLineNumber] int line = 0) => State.BeginParse(caller, line, text, caseSensitive);
         private void EndParse(Term term, [CallerMemberName] string caller = "", [CallerLineNumber] int line = 0) => State.EndParse(caller, line, term);
         private Term NewTerm(Term term, [CallerMemberName] string caller = "", [CallerLineNumber] int line = 0) => State.NewTerm(caller, line, term);
         private object UnexpectedToken(Token token, [CallerMemberName] string caller = "", [CallerLineNumber] int line = 0) => State.UnexpectedToken(caller, line, token);
@@ -206,9 +203,7 @@
         #endregion
         #region Terms
 
-        //  private bool AnyTerms() => _state.AnyTerms();
         private Operation Consolidate(Term right, [CallerMemberName] string caller = "", [CallerLineNumber] int line = 0) => State.Consolidate(caller, line, right);
-    //  private Term PeekTerm([CallerMemberName] string caller = "", [CallerLineNumber] int line = 0) => _state.PeekTerm(caller, line);
         private Term PopTerm([CallerMemberName] string caller = "", [CallerLineNumber] int line = 0) => State.PopTerm(caller, line);
         private void PushTerm(Term term, [CallerMemberName] string caller = "", [CallerLineNumber] int line = 0) => State.PushTerm(caller, line, term);
 
@@ -218,7 +213,6 @@
         private void AcceptToken(string expected, [CallerMemberName] string caller = "", [CallerLineNumber] int line = 0) => State.AcceptToken(caller, line, expected);
         private bool AnyTokens() => State.AnyTokens();
         private Token DequeueToken([CallerMemberName] string caller = "", [CallerLineNumber] int line = 0) => State.DequeueToken(caller, line);
-    //  private void EnqueueToken(Token token, [CallerMemberName] string caller = "", [CallerLineNumber] int line = 0) => _state.EnqueueToken(caller, line, token);
         private Token PeekToken([CallerMemberName] string caller = "", [CallerLineNumber] int line = 0) => State.PeekToken(caller, line);
 
         #endregion

@@ -68,7 +68,7 @@
             foreach (var op in Operators.Keys)
             {
                 var text = op.ToString();
-                var opInfo = op.GetOpInfo();
+                var opInfo = op.OpInfo();
                 var image = opInfo.Image;
                 if (image != null)
                     items.Append(text, op, click, image);

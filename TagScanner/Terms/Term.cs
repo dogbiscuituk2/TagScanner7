@@ -49,13 +49,20 @@
             {
                 try
                 {
-                    return Expression.Lambda<Func<object>>(Expression).Compile().Invoke();
+                    if (ResultType == typeof(bool)) return GetResult<bool>();
+                    if (ResultType == typeof(double)) return GetResult<double>();
+                    if (ResultType == typeof(int)) return GetResult<int>();
+                    if (ResultType == typeof(object)) return GetResult<object>();
+                    if (ResultType == typeof(string)) return GetResult<string>();
+                    throw new NotImplementedException();
                 }
                 catch (Exception exception)
                 {
                     exception.LogException();
                     return null;
+
                 }
+                T GetResult<T>() => Expression.Lambda<Func<T>>(Expression).Compile().Invoke();
             }
         }
 
@@ -131,12 +138,15 @@
         public static implicit operator Term(bool value) => new Constant<bool>(value);
         public static implicit operator Term(char value) => new Constant<char>(value);
         public static implicit operator Term(DateTime value) => new Constant<DateTime>(value);
+        public static implicit operator Term(decimal value) => new Constant<decimal>(value);
         public static implicit operator Term(double value) => new Constant<double>(value);
         public static implicit operator Term(int value) => new Constant<int>(value);
         public static implicit operator Term(long value) => new Constant<long>(value);
         public static implicit operator Term(string value) => new Constant<string>(value);
         public static implicit operator Term(Tag tag) => new Field(tag);
         public static implicit operator Term(TimeSpan value) => new Constant<TimeSpan>(value);
+        public static implicit operator Term(uint value) => new Constant<uint>(value);
+        public static implicit operator Term(ulong value) => new Constant<ulong>(value);
 
         public static Term operator -(Term term) => Minus(term);
         public static Term operator !(Term term) => Not(term);

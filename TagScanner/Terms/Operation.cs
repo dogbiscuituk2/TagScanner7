@@ -30,7 +30,7 @@
         public bool IsAssociative => Op.Associates();
         public override bool ParamArray => Op.ParamArray();
         public override Rank Rank => Op.GetRank();
-        public override Type ResultType => Op.GetResultType() ?? GetCommonResultType(Operands.ToArray());
+        public override Type ResultType => Op.ResultType() ?? GetCommonResultType(Operands.ToArray());
 
         #endregion
 
@@ -38,18 +38,8 @@
 
         protected override IEnumerable<Type> GetParameterTypes()
         {
-            /*
-            if (Operands.Any())
-            {
-                var type = GetCommonResultType();
-                for (var index = 0; index < Operands.Count(); index++)
-                    yield return type;
-            }
-            else
-                yield return Op.GetParamType();
-            */
-            yield return Op.GetParamType();
-            yield break;
+            var type = Op.ParamType();
+            return Op.IsUnary() ? (new[] { type }) : (IEnumerable<Type>)(new[] { type, type });
         }
 
         protected override bool UseParens(int index) => Operands[index].Rank < Rank;
@@ -104,8 +94,8 @@
                 return MakeChain();
             switch (Op.Arity())
             {
-                case 1: return Expression.MakeUnary(Op.GetExpType(), FirstSubExpression, null);
-                default: return Expression.MakeBinary(Op.GetExpType(), FirstSubExpression, SecondSubExpression);
+                case 1: return Expression.MakeUnary(Op.ExpType(), FirstSubExpression, null);
+                default: return Expression.MakeBinary(Op.ExpType(), FirstSubExpression, SecondSubExpression);
             }
         }
 
@@ -132,7 +122,7 @@
         }
 
         private BinaryExpression MakeBinaryExpression(Expression left, Expression right) => MakeBinaryExpression(Op, left, right);
-        private static BinaryExpression MakeBinaryExpression(Op op, Expression left, Expression right) => Expression.MakeBinary(op.GetExpType(), left, right);
+        private static BinaryExpression MakeBinaryExpression(Op op, Expression left, Expression right) => Expression.MakeBinary(op.ExpType(), left, right);
 
         private Expression MakeChain()
         {
@@ -152,22 +142,9 @@
             }
         }
 
+        private void SetOperator(Op op) => _op = op;
         private void SetOperator(char c, bool unary) => SetOperator(c.ToString(), unary);
         private void SetOperator(string symbol, bool unary) => SetOperator(symbol.ToOperator(unary));
-
-        private void SetOperator(Op op)
-        {
-            _op = op;
-            /*
-            var paramType = op.GetParamType();
-            if (paramType == null)
-                return;
-            if (op.IsUnary())
-                InitParameters(paramType);
-            else if (op.IsBinary())
-                InitParameters(paramType, paramType);
-            */
-        }
 
         #endregion
     }

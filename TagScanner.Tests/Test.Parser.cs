@@ -27,7 +27,6 @@
         [DataRow("123456789U", typeof(Constant<uint>), typeof(uint))]
         [DataRow("1234567890123456789L", typeof(Constant<long>), typeof(long))]
         [DataRow("1234567890123456789UL", typeof(Constant<ulong>), typeof(ulong))]
-        [DataRow("12345.67F", typeof(Constant<float>), typeof(float))]
         [DataRow("12345.67M", typeof(Constant<decimal>), typeof(decimal))]
         [DataRow("12345.67D", typeof(Constant<double>), typeof(double))]
         [DataRow("12345.67", typeof(Constant<double>), typeof(double), "12345.67D")]

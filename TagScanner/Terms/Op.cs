@@ -35,5 +35,6 @@
         Chains = EqualTo | Relational,
         Associative = Comma | And | Or | Xor | Chains | Concatenate | Add | Multiply,
         ParamArray = Associative,
+        Visible = ~Dot, // Also excludes None.
     }
 }

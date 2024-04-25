@@ -15,7 +15,7 @@
             Assert.AreEqual(expected: "1, '2', \"3\", true, false, If(true, 4, 5)", actual: termList.ToString());
         }
 
-        private void AddDefaultValues(TermList termList)
+        private void AddTestValues(TermList termList)
         {
             var operands = termList.Operands;
             var operandsCount = operands.Count;
@@ -26,21 +26,31 @@
                 var paramType = paramTypes[index];
                 if (paramType.IsArray)
                     paramType = paramType.GetElementType();
-                var term = GetTestterm(paramType);
+                var term = GetTestValue(paramType);
                 operands.Add(term);
                 if (index == paramsCount - 1 && termList.ParamArray)
                     operands.AddRange(new[] { term, term });
             }
         }
 
-        private Term GetTestterm(Type type) =>
+        private DateTime DateTimeForTest = new DateTime(1920, 11, 30, 12, 34, 56, 789);
+        private TimeSpan TimeSpanForTest = new TimeSpan(12, 34, 56, 789);
+
+        private Term GetTestValue(Type type) =>
             type == typeof(bool) ? true :
             type == typeof(char) ? 'A' :
-            type == typeof(double) ? 3.14D :
-            type == typeof(int) ? 123 :
-            type == typeof(object) ||
-            type == typeof(string) ? (Term)"abc" :
+            type == typeof(DateTime) ? DateTimeForTest :
+            type == typeof(double) ? 3.1415D :
+            type == typeof(int) ? 123456789 :
+            type == typeof(long) ? 9876543210L :
+            type == typeof(object) ? "object" :
             type == typeof(RegexOptions) ? 1 :
+            type == typeof(string) ? "string" :
+            type == typeof(TimeSpan) ? TimeSpanForTest :
+            type == typeof(uint) ? 123456789 :
+            type == typeof(ulong) ? (Term)9876543210L :
+            type == typeof(ushort) ? new Constant<ushort>(65535) :
             throw new NotImplementedException();
+          
     }
 }

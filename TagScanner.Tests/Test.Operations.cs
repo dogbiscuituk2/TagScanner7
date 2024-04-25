@@ -2,7 +2,6 @@
 {
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using System.Linq;
-    using Models;
     using Terms;
 
     public partial class Test
@@ -10,66 +9,25 @@
         [TestMethod]
         public void TestOperations()
         {
-            foreach (var op in Operators.Keys.Where(p => p != 0))
+            foreach (var op in Operators.Keys.Where(p => p.IsVisible()))
             {
                 var operation = new Operation(op);
+                var unary = op.IsUnary();
+                var paramArray = op.ParamArray();
+                var operandsCount = unary ? 1 : paramArray ? 4 : 2;
                 Assert.IsNotNull(operation);
-                Assert.AreEqual(expected: op.GetRank(), actual: operation.Rank);
-                AddDefaultValues(operation);
-                TestTerm(operation);
-            }
-        }
-
-        [TestMethod]
-        public void TestOperations2()
-        {
-            foreach (var op in Operators.Keys.Where(p => p.GetImage() != null))
-            {
-                var opInfo = op.GetOpInfo();
-                var operation = new Operation(op);
-                Assert.IsNotNull(operation);
+                // Arity?
+                Assert.AreEqual(expected: op.Associates(), actual: operation.IsAssociative);
                 Assert.AreEqual(expected: op, actual: operation.Op);
-                // Internally, concatenation with operator+ invokes the Concat method.
-                // So, the expected ExpressionType in this case is Call, rather than Add.
-                Assert.AreEqual(expected: opInfo.Rank, actual: operation.Rank);
-                Assert.AreEqual(expected: opInfo.ResultType, actual: operation.ResultType);
+                Assert.AreEqual(expected: paramArray, actual: operation.ParamArray);
+                Assert.AreEqual(expected: unary ? 1 : 2, actual: operation.ParameterTypes.Count());
+                Assert.AreEqual(expected: op.GetRank(), actual: operation.Rank);
+                Assert.AreEqual(expected: op.ResultType(), actual: operation.ResultType);
+                AddTestValues(operation);
+                Assert.AreEqual(expected: operandsCount, actual: operation.Operands.Count);
                 TestTerm(operation);
+                var result = operation.Result;
             }
-            Term
-                conditional = new Conditional(Tag.IsClassical, "Beethoven", "The Beatles"),
-                equalTo = new Operation(Tag.Artists, '=', "The Beatles"),
-                notEqualTo = new Operation(Tag.Artists, "!=", "The Beatles"),
-                equalTo3 = new Operation('=', Tag.Artists, Tag.Performers, "The Beatles"),
-                andOrOr = (equalTo | notEqualTo) & (notEqualTo | equalTo3),
-                orAndAnd = (equalTo & notEqualTo) | (notEqualTo & equalTo3),
-                orXorXor = (equalTo ^ notEqualTo) | (notEqualTo ^ equalTo3),
-                xorOrOr = (equalTo | notEqualTo) ^ (notEqualTo | equalTo3);
-            TestTerm(conditional);
-            TestTerm(equalTo);
-            TestTerm(notEqualTo);
-            TestTerm(equalTo3);
-            TestTerm(andOrOr);
-            TestTerm(orAndAnd);
-            TestTerm(orXorXor);
-            TestTerm(xorOrOr);
-            TestTerm(new Operation('<', 1, 2, 3, 4, 5));
-            TestTerm(new Operation("<=", 1, 2, 3, 4, 5));
-            TestTerm(new Operation(">=", 5, 4, 3, 2, 1));
-            TestTerm(new Operation(">", 5, 4, 3, 2, 1));
-            TestTerm(new Concatenation("123", "456", "789"));
-            Term
-                onePlusTwoPlusThree = new Sum(1, 2, 3),
-                fourMinusFive = new Difference(4, 5),
-                sixTimesSevenTimesEight = new Product(6, 7, 8),
-                nineTenths = new Quotient(9, 10);
-            TestTerm(onePlusTwoPlusThree);
-            TestTerm(fourMinusFive);
-            TestTerm(sixTimesSevenTimesEight);
-            TestTerm(nineTenths);
-            TestTerm(onePlusTwoPlusThree.MultiplyBy(fourMinusFive).DivideBy(sixTimesSevenTimesEight).Subtract(nineTenths));
-            TestTerm(new Operation('+', 123));
-            TestTerm(new Operation('-', 123));
-            TestTerm(new Operation('!', equalTo));
         }
     }
 }

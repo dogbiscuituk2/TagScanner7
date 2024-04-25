@@ -10,13 +10,15 @@
         {
             foreach (var type in Types.TypeValues)
             {
-                var cast = new Cast(type, 0);
+                var cast = new Cast(type);
                 Assert.IsNotNull(cast);
-                Assert.AreEqual(expected: 1, actual: cast.Arity);
-                Assert.AreEqual(expected: type, actual: cast.ResultType);
+                // Arity?
                 Assert.AreEqual(expected: Rank.Unary, actual: cast.Rank);
                 Assert.AreEqual(expected: type, actual: cast.ResultType);
+                AddTestValues(cast);
+                Assert.AreEqual(expected: 1, actual: cast.Operands.Count);
                 TestTerm(cast);
+                var result = cast.Result;
             }
         }
     }

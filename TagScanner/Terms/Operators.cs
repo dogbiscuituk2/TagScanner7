@@ -65,17 +65,18 @@
         public static int Arity(this Op op) => op.Associates() ? int.MaxValue : op.IsBinary() ? 2 : op.IsUnary() ? 1 : 0;
         public static bool Associates(this Op op) => (op & Op.Associative) != 0;
         public static bool CanChain(this Op op) => (op & Op.Chains) != 0;
-        public static ExpressionType GetExpType(this Op op) => OperatorDictionary[op].ExpressionType;
-        public static string GetFormat(this Op op) => OperatorDictionary[op].Format;
-        public static Image GetImage(this Op op) => OperatorDictionary[op].Image;
-        public static string GetLabel(this Op op) => OperatorDictionary[op].Label;
-        public static OpInfo GetOpInfo(this Op op) => OperatorDictionary[op];
-        public static Type GetParamType(this Op op) => OperatorDictionary[op].ParamType;
+        public static ExpressionType ExpType(this Op op) => OperatorDictionary[op].ExpressionType;
+        public static string Format(this Op op) => OperatorDictionary[op].Format;
         public static Rank GetRank(this Op op) => OperatorDictionary[op].Rank;
-        public static Type GetResultType(this Op op) => OperatorDictionary[op].ResultType;
+        public static Image Image(this Op op) => OperatorDictionary[op].Image;
         public static bool IsBinary(this Op op) => (op & Op.Binary) != 0;
         public static bool IsUnary(this Op op) => (op & Op.Unary) != 0;
+        public static bool IsVisible(this Op op) => (op & Op.Visible) != 0;
+        public static string Label(this Op op) => OperatorDictionary[op].Label;
+        public static OpInfo OpInfo(this Op op) => OperatorDictionary[op];
         public static bool ParamArray(this Op op) => (op & Op.ParamArray) != 0;
+        public static Type ParamType(this Op op) => OperatorDictionary[op].ParamType;
+        public static Type ResultType(this Op op) => OperatorDictionary[op].ResultType;
 
         public static Op ToOperator(this string symbol, bool unary)
         {
