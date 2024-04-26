@@ -163,9 +163,10 @@
                     nameFormat: "<find results {0}>",
                     selection: Selection,
                     modified: false);
-                TableController.Selection = Selection;
+                //TableController.Selection = Selection;
+                //TableController.DataGrid.ScrollIntoView(Selection.Tracks[0]);
                 TableController.DataGrid.Focus();
-                TableController.DataGrid.ScrollIntoView(Selection.Tracks[0]);
+                TableController.FindResults = Selection;
             }
         }
 

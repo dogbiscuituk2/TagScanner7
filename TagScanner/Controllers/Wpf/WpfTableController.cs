@@ -308,6 +308,17 @@
 
         #endregion
 
+        #region Find / Replace
+
+        private Selection _findResults;
+        public Selection FindResults
+        {
+            get => _selection;
+            set => _selection = value;
+        }
+
+        #endregion
+
         #region Presets
 
         private void SetQuery(Query query)
