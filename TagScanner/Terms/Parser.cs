@@ -1,6 +1,7 @@
 ﻿namespace TagScanner.Terms
 {
     using System;
+    using System.Collections.Generic;
     using System.Linq;
     using System.Runtime.CompilerServices;
 
@@ -113,7 +114,7 @@
         {
             var function = DequeueToken().Value.ToFunction();
             var parameters = ParseParameters();
-            return NewTerm(new Function(term, function, parameters));
+            return NewTerm(new Function(term, function, parameters.ToArray()));
         }
 
         private static Term ParseNumber(string token) =>
@@ -122,20 +123,26 @@
             token.Contains(".") ? new Constant<double>(double.Parse(token)) :
             (Term)new Constant<int>(int.Parse(token));
 
-        private Term[] ParseParameters()
+        private List<Term> ParseParameters()
         {
-            if (!AnyTokens() || PeekToken().Value.IsBinaryOperator())
-                return Array.Empty<Term>();
-            if (PeekToken().Value == "(")
-            {
-                AcceptToken("(");
-                PushOperator();
-                var term = PeekToken().Value != ")" ? NewTerm(ParseCompoundTerm()) : null;
-                PopOperator();
-                AcceptToken(")");
-                return MakeArray(term);
-            }
-            return MakeArray(NewTerm(ParseSimpleTerm())); // Parentheses are optional for single parameters.
+            var parameters = new List<Term>();
+            if (AnyTokens() && !PeekToken().Value.IsBinaryOperator())
+                if (PeekToken().Value == "(")
+                {
+                    AcceptToken("(");
+                    PushOperator();
+                    var term = PeekToken().Value != ")" ? NewTerm(ParseCompoundTerm()) : null;
+                    PopOperator();
+                    AcceptToken(")");
+                    if (term is TermList termList)
+                        parameters.AddRange(termList.Operands);
+                    else if (term is Term)
+                        parameters.Add(term);
+                    return parameters;
+                }
+                else
+                    parameters.Add(NewTerm(ParseSimpleTerm())); // Parentheses are optional for single parameters.
+            return parameters;
         }
 
         private Term ParseSimpleTerm()
@@ -166,7 +173,11 @@
                 (Term)UnexpectedToken(token);
         }
 
-        private Term ParseStaticFunction(string token) => NewTerm(new Function(token.ToFunction(), ParseParameters()));
+        private Term ParseStaticFunction(string token)
+        {
+            var parameters = ParseParameters();
+            return NewTerm(new Function(token.ToFunction(), parameters.ToArray()));
+        }
 
         private Term ParseUnaryOperation(string token)
         {
