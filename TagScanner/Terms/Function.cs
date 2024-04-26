@@ -122,18 +122,6 @@
         {
             _fn = fn;
             FnInfo = Fn.FnInfo();
-            /*
-            var paramTypes = ParameterTypes.ToList();
-            var operandsCount = Operands.Count;
-            for (var index = 0; index < operandsCount; index++)
-            {
-                var operand = Operands[index];
-                var operandType = operand.ResultType;
-                var paramType = paramTypes[Math.Min(index, operandsCount - 1)];
-                if (operandType != paramType)
-                    Operands[index] = new Cast(paramType, operand);
-            }
-            */
         }
 
         #endregion
@@ -149,3 +137,5 @@
 
     #endregion
 }
+
+3

@@ -18,7 +18,6 @@
         public override Rank Rank => Rank.Unary;
         public override Type ResultType => NewType;
 
-        protected override IEnumerable<Type> GetParameterTypes() => new[] { typeof(object) };
         public override int Start(int index) => ResultType.Say().Length + (UseParens(0) ? 3 : 2);
         public override string ToString() => $"({ResultType.Say()}){WrapTerm(0)}";
         protected override bool UseParens(int index) => Operands.First().Rank < Rank.Unary;

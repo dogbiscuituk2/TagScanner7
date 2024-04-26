@@ -26,7 +26,7 @@
                 Assert.AreEqual(expected: fn.ResultType(), actual: function.ResultType);
                 AddTestValues(function);
                 Assert.AreEqual(expected: operandsCount, actual: function.Operands.Count);
-                TestTerm(function);
+                TestParse(function);
                 var result = function.Result;
             }
         }

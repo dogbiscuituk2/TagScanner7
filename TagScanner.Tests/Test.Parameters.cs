@@ -14,7 +14,7 @@
                 Assert.IsNotNull(parameter);
                 Assert.AreEqual(expected: Rank.Unary, actual: parameter.Rank);
                 Assert.AreEqual(expected: type, actual: parameter.ResultType);
-                TestTerm(parameter);
+                TestParse(parameter);
             }
         }
     }

@@ -19,6 +19,7 @@
                 Assert.AreEqual(expected: 1, actual: cast.Arity);
                 Assert.AreEqual(expected: type, actual: cast.NewType);
                 Assert.AreEqual(expected: false, actual: cast.ParamArray);
+                Assert.IsTrue(cast.ParameterTypes.SequenceEqual(new[] { typeof(object) }));
                 Assert.AreEqual(expected: Rank.Unary, actual: cast.Rank);
                 Assert.AreEqual(expected: type, actual: cast.ResultType);
 
@@ -45,7 +46,7 @@
 
                 var result = cast.Result;
 
-                TestTerm(cast);
+                TestParse(cast);
 
                 //var foo = cast.
             }

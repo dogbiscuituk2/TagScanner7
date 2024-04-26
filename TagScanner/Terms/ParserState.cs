@@ -90,8 +90,6 @@
         {
             if (AnyTokens())
                 UnexpectedToken(Tokens.Peek());
-            if (!CaseSensitive)
-                term = term.IgnoreCase();
             return term;
         }
 

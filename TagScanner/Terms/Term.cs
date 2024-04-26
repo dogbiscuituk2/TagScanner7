@@ -43,6 +43,8 @@
             }
         }
 
+        public Term Parent { get; private set; }
+
         public object Result
         {
             get

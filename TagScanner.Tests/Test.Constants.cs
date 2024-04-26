@@ -11,7 +11,7 @@
         {
             Assert.AreEqual(expected: Rank.Unary, actual: constant.Rank);
             Assert.AreEqual(expected: expression, actual: constant.Expression.ToString());
-            TestTerm(constant);
+            TestParse(constant);
         }
 
         [TestMethod]

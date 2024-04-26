@@ -25,7 +25,7 @@
                 Assert.AreEqual(expected: op.ResultType(), actual: operation.ResultType);
                 AddTestValues(operation);
                 Assert.AreEqual(expected: operandsCount, actual: operation.Operands.Count);
-                TestTerm(operation);
+                TestParse(operation);
                 var result = operation.Result;
             }
         }

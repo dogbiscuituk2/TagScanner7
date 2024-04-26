@@ -5,54 +5,33 @@
 
     public partial class Test
     {
-        public void TestTerm(Term term)
+        private void TestParse(Term term)
         {
-            TestRoundTrip(term);
-            if (!(term is TermList termList)) return;
-            for (var index = 0; index < termList.Operands.Count; index++)
-            {
-                var start = termList.Start(index);
-                var subTerm = termList.Operands[index];
-                var length = subTerm.Length;
-                Assert.AreEqual(expected: subTerm.ToString(), actual: termList.ToString().Substring(start, length));
-                var range = termList.CharacterRanges[2 * index + 1];
-                Assert.AreEqual(expected: start, actual: range.First);
-                Assert.AreEqual(expected: length, actual: range.Length);
-                TestTerm(subTerm);
-            }
+            TestParseRoundTrip(term);
+            if (term is TermList termList)
+                for (var index = 0; index < termList.Operands.Count; index++)
+                {
+                    term = termList.Operands[index];
+                    var start = termList.Start(index);
+                    var length = term.Length;
+                    Assert.AreEqual(expected: term.ToString(), actual: termList.ToString().Substring(start, length));
+                    var range = termList.CharacterRanges[2 * index + 1];
+                    Assert.AreEqual(expected: start, actual: range.First);
+                    Assert.AreEqual(expected: length, actual: range.Length);
+                    TestParse(term);
+                }
         }
 
-        public void TestRoundTrip(Term term)
+        private void TestParseRoundTrip(Term term)
         {
-            TestRoundTripCaseSensitive(term);
-            TestRoundTripCaseInsensitive(term);
-        }
-
-        public void TestRoundTripCaseSensitive(Term term)
-        {
+            // Case sensitive
             var before = term?.ToString();
-            term = new Parser().Parse(before, caseSensitive: true);
-            var after = term?.ToString();
+            var after = new Parser().Parse(before, caseSensitive: true)?.ToString();
             Assert.AreEqual(expected: before, actual: after);
-        }
-
-        public void TestRoundTripCaseInsensitive(Term term)
-        {
-            var original = term?.ToString();
-            term = new Parser().Parse(original, caseSensitive: false);
-            var before = term?.ToString();
-            term = new Parser().Parse(original, caseSensitive: false);
-            var after = term?.ToString();
+            // Ignore case
+            before = new Parser().Parse(before, caseSensitive: false)?.ToString();
+            after = new Parser().Parse(before, caseSensitive: false)?.ToString();
             Assert.AreEqual(expected: before, actual: after);
-        }
-
-        [TestMethod]
-        public void TestParser()
-        {
-            var parser = new Parser();
-            var text = "Compare(\"1\", \"2\")";
-            var term = parser.Parse(text, caseSensitive: false);
-            System.Diagnostics.Debug.WriteLine(term.Expression.ToString());
         }
     }
 }
