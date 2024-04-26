@@ -4,6 +4,7 @@
     using System.Collections.Generic;
     using System.Linq;
     using System.Runtime.CompilerServices;
+    using Utils;
 
     public class Parser
     {
@@ -18,7 +19,8 @@
         /// <returns>The Term obtained from parsing.</returns>
         public Term Parse(string text, bool caseSensitive)
         {
-            BeginParse(text, caseSensitive);
+            CaseSensitive = caseSensitive;
+            BeginParse(text);
             var term = ParseCompoundTerm();
             EndParse(term);
             return term;
@@ -54,18 +56,39 @@
 
         #region Private Fields
 
+        private bool CaseSensitive;
         private ParserState State { get; } = new ParserState();
 
         #endregion
 
         #region Private Methods
 
-        private static Term[] MakeArray(Term terms) =>
-            terms is TermList termList
-                ? termList.Operands.ToArray()
-                : terms != null
-                    ? new[] { terms }
-                    : Array.Empty<Term>();
+        private void AdjustFunctionParameters(Fn fn, List<Term> parameters)
+        {
+            switch (fn)
+            {
+                case Fn.Compare:
+                    parameters[2] = !CaseSensitive; // bool ignoreCase
+                    break;
+                case Fn.EndsWith:
+                case Fn.Equals:
+                case Fn.IndexOf:
+                case Fn.StartsWith:
+                    parameters[1] = GetStringComparison();
+                    break;
+                case Fn.Contains:
+                case Fn.ContainsX:
+                    parameters[2] = GetRegexOptions();
+                    break;
+                case Fn.Replace:
+                case Fn.ReplaceX:
+                    parameters[3] = GetRegexOptions();
+                    break;
+            }
+
+            Term GetRegexOptions() => (int)CaseSensitive.AsRegexOptions();
+            Term GetStringComparison() => (int)CaseSensitive.AsStringComparison();
+        }
 
         private Term ParseCast()
         {
@@ -110,11 +133,11 @@
             return term;
         }
 
-        private Term ParseMemberFunction(Term term)
+        private Term ParseMemberFunction(Term self)
         {
-            var function = DequeueToken().Value.ToFunction();
-            var parameters = ParseParameters();
-            return NewTerm(new Function(term, function, parameters.ToArray()));
+            var fn = DequeueToken().Value.ToFunction();
+            var parameters = ParseParameters(fn, self);
+            return NewTerm(new Function(fn, parameters));
         }
 
         private static Term ParseNumber(string token) =>
@@ -123,9 +146,11 @@
             token.Contains(".") ? new Constant<double>(double.Parse(token)) :
             (Term)new Constant<int>(int.Parse(token));
 
-        private List<Term> ParseParameters()
+        private Term[] ParseParameters(Fn fn, Term self = null)
         {
             var parameters = new List<Term>();
+            if (self != null)
+                parameters.Add(self);
             if (AnyTokens() && !PeekToken().Value.IsBinaryOperator())
                 if (PeekToken().Value == "(")
                 {
@@ -138,11 +163,14 @@
                         parameters.AddRange(termList.Operands);
                     else if (term is Term)
                         parameters.Add(term);
-                    return parameters;
                 }
                 else
                     parameters.Add(NewTerm(ParseSimpleTerm())); // Parentheses are optional for single parameters.
-            return parameters;
+            var paramTypes = fn.ParamTypes();
+            for (var index = parameters.Count; index < paramTypes.Count(); index++)
+                parameters.Add(new Parameter(paramTypes[index]));
+            AdjustFunctionParameters(fn, parameters);
+            return parameters.ToArray();
         }
 
         private Term ParseSimpleTerm()
@@ -175,8 +203,9 @@
 
         private Term ParseStaticFunction(string token)
         {
-            var parameters = ParseParameters();
-            return NewTerm(new Function(token.ToFunction(), parameters.ToArray()));
+            var fn = token.ToFunction();
+            var parameters = ParseParameters(fn);
+            return NewTerm(new Function(fn, parameters));
         }
 
         private Term ParseUnaryOperation(string token)
@@ -195,7 +224,7 @@
 
         #region ParserState Calls
 
-        private void BeginParse(string text, bool caseSensitive, [CallerMemberName] string caller = "", [CallerLineNumber] int line = 0) => State.BeginParse(caller, line, text, caseSensitive);
+        private void BeginParse(string text, [CallerMemberName] string caller = "", [CallerLineNumber] int line = 0) => State.BeginParse(caller, line, text);
         private void EndParse(Term term, [CallerMemberName] string caller = "", [CallerLineNumber] int line = 0) => State.EndParse(caller, line, term);
         private Term NewTerm(Term term, [CallerMemberName] string caller = "", [CallerLineNumber] int line = 0) => State.NewTerm(caller, line, term);
         private object UnexpectedToken(Token token, [CallerMemberName] string caller = "", [CallerLineNumber] int line = 0) => State.UnexpectedToken(caller, line, token);

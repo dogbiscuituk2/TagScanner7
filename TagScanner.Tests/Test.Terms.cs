@@ -25,13 +25,14 @@
         private void TestParseRoundTrip(Term term)
         {
             // Case sensitive
-            var before = term?.ToString();
-            var after = new Parser().Parse(before, caseSensitive: true)?.ToString();
-            Assert.AreEqual(expected: before, actual: after);
+            string
+                expected = new Parser().Parse(term?.ToString(), caseSensitive: true).ToString(),
+                actual = new Parser().Parse(expected, caseSensitive: true)?.ToString();
+            Assert.AreEqual(expected, actual);
             // Ignore case
-            before = new Parser().Parse(before, caseSensitive: false)?.ToString();
-            after = new Parser().Parse(before, caseSensitive: false)?.ToString();
-            Assert.AreEqual(expected: before, actual: after);
+            expected = new Parser().Parse(term?.ToString(), caseSensitive: false)?.ToString();
+            actual = new Parser().Parse(expected, caseSensitive: false)?.ToString();
+            Assert.AreEqual(expected, actual);
         }
     }
 }

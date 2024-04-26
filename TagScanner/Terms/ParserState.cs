@@ -15,7 +15,7 @@
         public bool AnyTokens() => Tokens.Any();
 
         public void AcceptToken(string caller, int line, string expected) => Process(caller, line, p => AcceptToken(expected));
-        public void BeginParse(string caller, int line, string text, bool caseSensitive) => Process(caller, line, p => Reset(caller, line, text, caseSensitive));
+        public void BeginParse(string caller, int line, string text) => Process(caller, line, p => Reset(caller, line, text));
         public Operation Consolidate(string caller, int line, Term right) => (Operation)Process(caller, line, p => Consolidate(right));
         public Token DequeueToken(string caller, int line) => (Token)Process(caller, line, p => Tokens.Dequeue());
         public Term EndParse(string caller, int line, Term term) => (Term)Process(caller, line, p => EndParse(term));
@@ -33,7 +33,6 @@
         #region Private Fields
 
         private static readonly string _ = string.Empty;
-        private bool CaseSensitive;
         private bool HeaderShown;
         private readonly Stack<Op> Operators = new Stack<Op>();
         private readonly Stack<Term> Terms = new Stack<Term>();
@@ -111,12 +110,11 @@
             return value;
         }
 
-        private string Reset(string caller, int line, string text, bool caseSensitive)
+        private string Reset(string caller, int line, string text)
         {
             Tokens.Clear();
             Terms.Clear();
             Operators.Clear();
-            CaseSensitive = caseSensitive;
             HeaderShown = false;
             Dump(caller, line, text);
             foreach (var token in Tokenizer.GetTokens(text))

@@ -10,6 +10,7 @@
     using Models;
     using Commands;
     using Terms;
+    using Utils;
     using Views;
     using Wpf;
 
@@ -54,7 +55,7 @@
         private ListCollectionView ListCollectionView => TableController.ListCollectionView;
 
         private bool CaseSensitive => CaseSensitiveCheckBox.Checked;
-        private RegexOptions RegexOptions => CaseSensitive ? RegexOptions.None : RegexOptions.IgnoreCase;
+        private RegexOptions RegexOptions => CaseSensitive.AsRegexOptions();
         private IEnumerable<Tag> SelectedTags => TagsListController.GetSelectedTags();
         private bool UseRegex => UseRegexCheckBox.Checked;
         private bool WholeWord => WholeWordCheckBox.Checked;
@@ -191,7 +192,7 @@
                 return Term.True;
             var pattern = Pattern;
             var fields = new Function(Fn.ToText, selectedTags.Select(p => new Field(p)).ToArray());
-            return new Function(Fn.Match, fields, pattern, new Constant<RegexOptions>(RegexOptions));
+            return new Function(Fn.ContainsX, fields, pattern, new Constant<RegexOptions>(RegexOptions));
         }
 
         private void Replace()

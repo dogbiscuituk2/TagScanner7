@@ -56,12 +56,12 @@
                 MainForm.GroupByAlbum.Click += ViewByAlbum_Click;
                 MainForm.GroupByYear.Click += ViewByYear_Click;
                 MainForm.GroupByGenre.Click += ViewByGenre_Click;
-                MainForm.GroupByNone.Click += ViewByNone_Click;
+                MainForm.GroupByTitle.Click += ViewByTitle_Click;
                 View.Child = new GridElement();
                 InitColumns();
                 DataGrid.SelectionChanged += Grid_SelectionChanged;
                 RefreshDataSource();
-                SetQuery(Query.ByNone);
+                SetQuery(Query.ByTitle);
             }
         }
 
@@ -93,7 +93,7 @@
             MainForm.GroupByAlbum.Checked = QueryMatches(Query.ByAlbum);
             MainForm.GroupByYear.Checked = QueryMatches(Query.ByYear);
             MainForm.GroupByGenre.Checked = QueryMatches(Query.ByGenre);
-            MainForm.GroupByNone.Checked = QueryMatches(Query.ByNone);
+            MainForm.GroupByTitle.Checked = QueryMatches(Query.ByTitle);
         }
 
         private void ViewByArtistAlbum_Click(object sender, EventArgs e) => SetQuery(Query.ByArtistAlbum);
@@ -101,7 +101,7 @@
         private void ViewByAlbum_Click(object sender, EventArgs e) => SetQuery(Query.ByAlbum);
         private void ViewByYear_Click(object sender, EventArgs e) => SetQuery(Query.ByYear);
         private void ViewByGenre_Click(object sender, EventArgs e) => SetQuery(Query.ByGenre);
-        private void ViewByNone_Click(object sender, EventArgs e) => SetQuery(Query.ByNone);
+        private void ViewByTitle_Click(object sender, EventArgs e) => SetQuery(Query.ByTitle);
 
         #endregion
 

@@ -28,7 +28,7 @@
             IsStatic = _methodInfo.IsStatic;
             ParamArray = parameters.LastOrDefault()?.GetCustomAttribute(typeof(ParamArrayAttribute)) != null;
             ParamCount = parameters.Length;
-            ParamTypes = parameters.Select(p => p.ParameterType);
+            ParamTypes = parameters.Select(p => p.ParameterType).ToArray();
             ReturnType = _methodInfo.ReturnType;
         }
 
@@ -42,7 +42,7 @@
         public bool IsStatic { get; }
         public bool ParamArray { get; }
         public int ParamCount { get; }
-        public IEnumerable<Type> ParamTypes { get; }
+        public Type[] ParamTypes { get; }
         public Type ReturnType { get; }
 
         #endregion

@@ -51,7 +51,7 @@
             GroupByArtist = { artist },
             GroupByArtistAlbum = { artist, yearAlbum },
             GroupByGenre = { genre, artist, yearAlbum },
-            GroupByNone = Array.Empty<Tag>(),
+            GroupByTitle = Array.Empty<Tag>(),
             GroupByYear = { decade, year, artist, album },
             SortByAlbum = { yearAlbum, number },
             SortByNumber = { number },
@@ -67,7 +67,7 @@
             ByAlbum = new Query(Data1, GroupByAlbum, SortByNumber),
             ByYear = new Query(Data2, GroupByYear, SortByNumber),
             ByGenre = new Query(Data1, GroupByGenre, SortByNumber),
-            ByNone = new Query(Data4, GroupByNone, SortByTitle);
+            ByTitle = new Query(Data4, GroupByTitle, SortByTitle);
 
         #endregion
     }

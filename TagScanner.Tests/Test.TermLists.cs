@@ -46,8 +46,7 @@
             type == typeof(object) ? "object" :
             type == typeof(RegexOptions) ? 1 :
             type == typeof(string) ? "string" :
-            type == typeof(TimeSpan) ? (Term)TimeSpanForTest :
-            throw new NotImplementedException();
-          
+            type == typeof(TimeSpan) ? TimeSpanForTest :
+            (Term)0;
     }
 }

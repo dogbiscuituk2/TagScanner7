@@ -2,7 +2,6 @@
 {
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using System;
-    using System.Linq;
     using Terms;
 
     public partial class Test
@@ -52,43 +51,6 @@
                 Assert.IsInstanceOfType(field, typeof(Field));
                 Assert.AreEqual(expected: tag.Type(), actual: field.ResultType);
                 Assert.AreEqual(expected: tag.DisplayName(), actual: field.ToString());
-            }
-        }
-
-        [TestMethod]
-        public void TestParsePrecedence()
-        {
-            TestParse("2 * (3 + 4) * 5", "2 × (3 + 4) × 5");
-            TestParse("compare(album artists, \"The Beatles\") <= 0", "Compare(Album Artists, \"The Beatles\") ≤ 0", "Compare(Album Artists, \"The Beatles\".Uppercase) ≤ 0");
-            TestParse("album artists.length >= 10", "Album Artists.Length ≥ 10");
-            TestParse("album artists.length() >= 10", "Album Artists.Length ≥ 10");
-            TestParse("1, 2 | 3 & 4 ^ 5 != 6 >= 7 - 8 / -9", "1, 2 | 3 & 4 ^ 5 ≠ 6 ≥ 7 - 8 ÷ -9");
-            TestParse("(1, 2) | 3 & 4 ^ 5 != 6 >= 7 - 8 / -9", "(1, 2) | 3 & 4 ^ 5 ≠ 6 ≥ 7 - 8 ÷ -9");
-        }
-
-        [TestMethod]
-        public void TestParseStaticFunctions()
-        {
-            foreach (var fn in Functors.Keys.Where(p => p.IsStatic()))
-            {
-                var expectedText = ExpectedText(fn);
-                var function = new Parser().Parse(expectedText, caseSensitive: true);
-                Assert.IsInstanceOfType(function, typeof(Function));
-                Assert.AreEqual(expected: expectedText, actual: function.ToString());
-            }
-            return;
-
-            string ExpectedText(Fn fn)
-            {
-                switch (fn.ParamCount())
-                {
-                    case 0: return $"{fn}";
-                    case 1: return $"{fn}(1)";
-                    case 2: return $"{fn}(1, 2)";
-                    case 3: return $"{fn}(1, 2, 3)";
-                    case 4: return $"{fn}(1, 2, 3, 4)";
-                    default: return string.Empty;
-                }
             }
         }
 

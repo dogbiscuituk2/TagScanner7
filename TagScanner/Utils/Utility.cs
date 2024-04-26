@@ -7,6 +7,7 @@
     using System.IO;
     using System.Linq;
     using System.Runtime.CompilerServices;
+    using System.Text.RegularExpressions;
     using System.Windows.Forms;
     using Models;
 
@@ -16,6 +17,12 @@
 
         public static Logical AsLogical(this bool value) => value ? Logical.Yes : Logical.No;
         public static string AsOrdinal(this long number) => string.Concat(number, GetSuffix(number));
+
+        public static RegexOptions AsRegexOptions(this bool caseSensitive) =>
+            caseSensitive ? RegexOptions.None : RegexOptions.IgnoreCase;
+
+        public static StringComparison AsStringComparison(this bool caseSensitive) =>
+            caseSensitive ? StringComparison.Ordinal : StringComparison.OrdinalIgnoreCase;
 
         /// <summary>
         /// Approximate a byte count to three significant figures, using the most suitable prefix as necessary.
