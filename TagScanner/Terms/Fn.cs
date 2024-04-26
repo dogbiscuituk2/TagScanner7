@@ -28,7 +28,6 @@
         Remove,
         Replace,
         ReplaceX,
-        Change,
         Round,
         Sign,
         StartsWith,
