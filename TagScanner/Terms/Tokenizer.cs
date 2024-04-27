@@ -63,7 +63,7 @@
 
             string MatchCharacter() => MatchRegex(@"^'.'");
             string MatchDateTime() => MatchRegex(DateTimeParser.DateTimePattern);
-            string MatchNumber() => MatchRegex(@"^(\d+\.?\d*(UL|LU|D|F|L|M|U)?)");
+            string MatchNumber() => MatchRegex(@"^-?(\d+\.?\d*(UL|LU|D|F|L|M|U)?)");
             string MatchParameter() => MatchRegex(@"^\{\w+(\[\])?\}");
             string MatchTimeSpan() => MatchRegex(DateTimeParser.TimeSpanPattern);
 

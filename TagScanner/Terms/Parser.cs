@@ -239,11 +239,24 @@
             var term = ParseSimpleTerm();
             switch (token)
             {
-                case "+": case "＋": return NewTerm(new Positive(term));
-                case "-": case "－": return NewTerm(new Negative(term));
-                case "!": case "not": return NewTerm(new Negation(term));
+                case "+": case "＋":
+                    term = new Positive(term);
+                    break;
+                case "-": case "－":
+                    term =
+                        term is Constant<int> cint
+                        ? new Constant<int>(-cint.Value)
+                        : term is Constant<double> cdouble
+                        ? new Constant<double>(-cdouble.Value)
+                        : (Term)new Negative(term);
+                    break;
+                case "!": case "not":
+                    term = new Negation(term);
+                    break;
+                default:
+                    return null;
             }
-            return null;
+            return NewTerm(term);
         }
 
         #endregion

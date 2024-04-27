@@ -183,7 +183,7 @@
         [TestMethod]
         public void TestFunctionZ()
         {
-            var text = "Min(2, -3)";
+            var text = "-3";
             var term = new Parser().Parse(text, caseSensitive: true);
             var result = term.Result;
             return;
