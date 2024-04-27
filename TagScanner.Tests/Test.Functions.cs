@@ -135,6 +135,7 @@
         // Pow
         [DataRow("Pow(2, 8)", 256D)]
         [DataRow("2 pow 8", 256D)]
+        [DataRow("2 pow -8", 1D / 256)]
         [DataRow("2 pow 16", 65536D)]
         // Remove
         [DataRow("Remove(\"One Two Three\", 3, 4)", "One Three")]
@@ -180,13 +181,17 @@
             Assert.AreEqual(expected: nonsense, actual: term.Result);
         }
 
+        [DataRow("Substring(\"One Two Three\", 3, 4)", " Two")]
         [TestMethod]
-        public void TestFunctionZ()
+        public void TestFunctionX(string text, object sense, object nonsense = null)
         {
-            var text = "-3";
             var term = new Parser().Parse(text, caseSensitive: true);
-            var result = term.Result;
-            return;
+            Assert.AreEqual(expected: sense, actual: term.Result);
+            if (nonsense == null)
+                nonsense = sense;
+            term = new Parser().Parse(text, caseSensitive: false);
+            Assert.AreEqual(expected: nonsense, actual: term.Result);
         }
+
     }
 }

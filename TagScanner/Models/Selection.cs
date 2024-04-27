@@ -740,7 +740,7 @@
         [Category(Personnel)]
         [Column(160)]
         [Description("A string containing the first band or artist who is credited in the creation of the entire album or collection containing the media described by the selected item(s), or an empty string if no value is present.")]
-        [DisplayName("1st Album Artist")]
+        [DisplayName("First Album Artist")]
         [ReadOnly(true)]
         [Uses(Tag.AlbumArtists)]
         public string FirstAlbumArtist => GetString(p => p.FirstAlbumArtist, ref _firstAlbumArtist);
@@ -753,7 +753,7 @@
         [Category(Personnel)]
         [Column(160)]
         [Description("A string containing the sort names for the first band or artist who is credited in the creation of the entire album or collection containing the media described by the selected item(s), or an empty string if no value is present.")]
-        [DisplayName("1st Album Artist (sorted)")]
+        [DisplayName("First Album Artist (sorted)")]
         [ReadOnly(true)]
         [Uses(Tag.AlbumArtistsSort)]
         public string FirstAlbumArtistSort => GetString(p => p.FirstAlbumArtistSort, ref _firstAlbumArtistSort);
@@ -766,7 +766,7 @@
         [Category(Personnel)]
         [Column(160)]
         [Description("A string containing the sort name for the first performer or artist who performed in the media described by the selected item(s), or an empty string if no value is present. (Obsolete. For album artists, use FirstAlbumArtist. For track artists, use FirstPerformer.)")]
-        [DisplayName("1st Artist")]
+        [DisplayName("First Artist")]
         [Obsolete("Obsolete. For album artists, use FirstAlbumArtist. For track artists, use FirstPerformer.")]
         [ReadOnly(true)]
         [Uses(Tag.Artists)]
@@ -780,7 +780,7 @@
         [Category(Personnel)]
         [Column(160)]
         [Description("A string containing the first composer of the media represented by the selected item(s), or an empty string if no value is present.")]
-        [DisplayName("1st Composer")]
+        [DisplayName("First Composer")]
         [ReadOnly(true)]
         [Uses(Tag.Composers)]
         public string FirstComposer => GetString(p => p.FirstComposer, ref _firstComposer);
@@ -793,7 +793,7 @@
         [Category(Personnel)]
         [Column(160)]
         [Description("A string containing the sort name for first composer of the media represented by the selected item(s), or an empty string if no value is present.")]
-        [DisplayName("1st Composer (sorted)")]
+        [DisplayName("First Composer (sorted)")]
         [ReadOnly(true)]
         [Uses(Tag.ComposersSort)]
         public string FirstComposerSort => GetString(p => p.FirstComposerSort, ref _firstComposerSort);
@@ -806,7 +806,7 @@
         [Category(Category)]
         [Column(160)]
         [Description("A string containing the first genre of the media represented by the selected item(s), or an empty string if no value is present.")]
-        [DisplayName("1st Genre")]
+        [DisplayName("First Genre")]
         [ReadOnly(true)]
         [Uses(Tag.Genres)]
         public string FirstGenre => GetString(p => p.FirstGenre, ref _firstGenre);
@@ -819,7 +819,7 @@
         [Category(Personnel)]
         [Column(160)]
         [Description("A string containing the first performer or artist who performed in the media described by the selected item(s), or an empty string if no value is present.")]
-        [DisplayName("1st Performer")]
+        [DisplayName("First Performer")]
         [ReadOnly(true)]
         [Uses(Tag.Performers)]
         public string FirstPerformer => GetString(p => p.FirstPerformer, ref _firstPerformer);
@@ -832,7 +832,7 @@
         [Category(Personnel)]
         [Column(160)]
         [Description("A string containing the sort name for the first performer or artist who performed in the media described by the selected item(s), or an empty string if no value is present.")]
-        [DisplayName("1st Performer (sorted)")]
+        [DisplayName("First Performer (sorted)")]
         [ReadOnly(true)]
         [Uses(Tag.PerformersSort)]
         public string FirstPerformerSort => GetString(p => p.FirstPerformerSort, ref _firstPerformerSort);

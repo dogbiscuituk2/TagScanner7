@@ -22,6 +22,8 @@
             {
                 while (index < count && text[index] <= ' ')
                     index++;
+                if (index >= count)
+                    break;
                 var match = Match();
                 if (string.IsNullOrWhiteSpace(match))
                     break;
@@ -38,7 +40,11 @@
 
             string Match()
             {
-                var result = AllTokens.FirstOrDefault(p => text.Substring(index).StartsWith(p, StringComparison.OrdinalIgnoreCase));
+                var remainingText = RemainingText();
+                if (remainingText.IsNumber())
+                    return MatchNumber();
+
+                var result = AllTokens.FirstOrDefault(p => remainingText.StartsWith(p, StringComparison.OrdinalIgnoreCase));
                 if (!string.IsNullOrWhiteSpace(result))
                     return result;
                 switch (index < count ? text[index] : Nul)
@@ -47,8 +53,6 @@
                         return MatchCharacter();
                     case DoubleQuote:
                         return MatchString();
-                    case char digit when char.IsDigit(digit):
-                        return MatchNumber();
                     case LeftBracket:
                         var dateTime = MatchDateTime();
                         return !string.IsNullOrWhiteSpace(dateTime) ? dateTime : MatchTimeSpan();
@@ -63,12 +67,12 @@
 
             string MatchCharacter() => MatchRegex(@"^'.'");
             string MatchDateTime() => MatchRegex(DateTimeParser.DateTimePattern);
-            string MatchNumber() => MatchRegex(@"^-?(\d+\.?\d*(UL|LU|D|F|L|M|U)?)");
+            string MatchNumber() => MatchRegex(NumberPattern);
             string MatchParameter() => MatchRegex(@"^\{\w+(\[\])?\}");
             string MatchTimeSpan() => MatchRegex(DateTimeParser.TimeSpanPattern);
 
             string MatchRegex(string pattern, RegexOptions options = RegexOptions.IgnoreCase) =>
-                Regex.Match(text.Substring(index), pattern, options).Value;
+                Regex.Match(RemainingText(), pattern, options).Value;
 
             string MatchString()
             {
@@ -82,7 +86,8 @@
                 return string.Empty;
             }
 
-            void SyntaxError() => throw new FormatException($"Unrecognised term at character position {index}: {text.Substring(index)}");
+            string RemainingText() => text.Substring(index);
+            void SyntaxError() => throw new FormatException($"Unrecognised term at character position {index}: {RemainingText()}");
         }
 
         public static bool IsBinaryOperator(this string token) => BinaryOperators.Contains(token, IgnoreCase);
@@ -94,7 +99,7 @@
         public static bool IsFunction(this string token) => FunctionNames.Contains(token, IgnoreCase);
         public static bool IsMemberFunction(this string token) => MemberFunctionNames.Contains(token, IgnoreCase);
         public static bool IsMonadicOperator(this string token) => UnaryOperators.Contains(token, IgnoreCase);
-        public static bool IsNumber(this string token) => char.IsDigit(token[0]);
+        public static bool IsNumber(this string token) => Regex.IsMatch(token, $@"{NumberPattern}\W");
         public static bool IsOperator(this string token) => Operators.Contains(token, IgnoreCase);
         public static bool IsParameter(this string token) => token[0] == '{';
         public static bool IsStaticFunction(this string token) => StaticFunctionNames.Contains(token, IgnoreCase);
@@ -104,6 +109,8 @@
         public static bool IsType(this string token) => TypeNames.Contains(token, IgnoreCase);
         public static bool IsUnaryOperator(this string token) => UnaryOperators.Contains(token, IgnoreCase);
         public static Rank Rank(this string token, bool unary) => token.ToOperator(unary).GetRank();
+
+        private const string NumberPattern = @"^[-+]?(\d+\.?\d*(UL|LU|D|F|L|M|U)?)";
 
         #endregion
 
