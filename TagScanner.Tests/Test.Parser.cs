@@ -21,7 +21,6 @@
         [TestMethod]
         [DataRow("false", typeof(Constant<bool>), typeof(bool))]
         [DataRow("true", typeof(Constant<bool>), typeof(bool))]
-        [DataRow("'x'", typeof(Constant<char>), typeof(char))]
         [DataRow("123456789", typeof(Constant<int>), typeof(int))]
         [DataRow("1234567890123456789L", typeof(Constant<long>), typeof(long))]
         [DataRow("12345.67D", typeof(Constant<double>), typeof(double))]

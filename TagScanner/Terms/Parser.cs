@@ -77,26 +77,24 @@
             switch (fn)
             {
                 case Fn.Compare:
-                    parameters[2] = !CaseSensitive; // bool ignoreCase
-                    break;
-                case Fn.EndsWith:
-                case Fn.Equals:
-                case Fn.IndexOf:
-                case Fn.StartsWith:
-                    parameters[1] = GetStringComparison();
-                    break;
                 case Fn.Contains:
                 case Fn.ContainsX:
-                    parameters[2] = GetRegexOptions();
+                case Fn.EndsWith:
+                case Fn.EndsWithX:
+                case Fn.Equals:
+                case Fn.EqualsX:
+                case Fn.StartsWith:
+                case Fn.StartsWithX:
+                    parameters[2] = CaseSensitive;
                     break;
                 case Fn.Replace:
                 case Fn.ReplaceX:
-                    parameters[3] = GetRegexOptions();
+                    parameters[3] = CaseSensitive;
+                    break;
+                case Fn.ToString:
+                    parameters[0] = new Cast(typeof(object), parameters[0]);
                     break;
             }
-
-            Term GetRegexOptions() => (int)CaseSensitive.AsRegexOptions();
-            Term GetStringComparison() => (int)CaseSensitive.AsStringComparison();
         }
 
         private Term ParseCast()
