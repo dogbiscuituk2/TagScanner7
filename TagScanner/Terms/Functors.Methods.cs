@@ -34,6 +34,9 @@
         public static bool EqualsX(this string input, string pattern, bool caseSensitive) =>
             input.ContainsX($"^{pattern}$", caseSensitive);
 
+        public static string Format(this string format, params object[] args) =>
+            string.Format(format, args);
+
         public static int IndexOf(string input, string pattern, bool caseSensitive) =>
             input.IndexOf(pattern, caseSensitive, useRegex: false, first: true);
 
@@ -51,7 +54,7 @@
 
         public static int Length(this string input) => input.Length;
 
-        public static string Lowercase(this string input) => input.ToLowerInvariant();
+        public static string Lower(this string input) => input.ToLowerInvariant();
 
         public static string Remove(this string input, int startIndex, int count) =>
             input.Remove(startIndex, count);
@@ -75,7 +78,7 @@
 
         public static string Trim(this string input) => input?.Trim() ?? string.Empty;
 
-        public static string Uppercase(this string input) => input.ToUpperInvariant();
+        public static string Upper(this string input) => input.ToUpperInvariant();
 
         #endregion
 

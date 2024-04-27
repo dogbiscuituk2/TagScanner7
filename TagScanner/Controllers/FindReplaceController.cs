@@ -125,8 +125,8 @@
                 var enumerator = ((IEnumerable)ListCollectionView).GetEnumerator();
                 while (true)
                 {
-                    if (enumerator.MoveNext())
-                        yield return (Track)enumerator.Current;
+                    if (enumerator.MoveNext() && enumerator.Current is Track track)
+                        yield return track;
                     else
                         yield break;
                 }

@@ -15,7 +15,7 @@
         Join,
         LastIndexOf, LastIndexOfX,
         Length,
-        Lowercase,
+        Lower,
         Max,
         Min,
         Pow,
@@ -29,6 +29,6 @@
         ToText,
         Trim,
         Truncate,
-        Uppercase,
+        Upper,
     }
 }

@@ -176,7 +176,9 @@
     <Compile Include="Streaming\Streamer.cs" />
     <Compile Include="Terms\Fn.cs" />
     <Compile Include="Terms\FnInfo.cs" />
-    <Compile Include="Terms\Functors.Methods.cs" />
+    <Compile Include="Terms\Functors.Methods.cs">
+      <DependentUpon>Functors.cs</DependentUpon>
+    </Compile>
     <Compile Include="Terms\Parser.cs" />
     <Compile Include="Terms\ParserState.cs" />
     <Compile Include="Terms\Token.cs" />

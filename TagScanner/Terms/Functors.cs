@@ -32,7 +32,7 @@
             Add(Fn.EndsWithX, f, s, s, b);
             Add(Fn.Equals, f, s, s, b);
             Add(Fn.EqualsX, f, s, s, b);
-            Add(Fn.Format, s, s, oo);
+            Add(Fn.Format, f, s, oo);
             AddUser(Fn.If, o, paramArray: false, b, o, o);
             Add(Fn.IndexOf, f, s, s, b);
             Add(Fn.IndexOfX, f, s, s, b);
@@ -41,7 +41,7 @@
             Add(Fn.LastIndexOf, f, s, s, b);
             Add(Fn.LastIndexOfX, f, s, s, b);
             Add(Fn.Length, f, s);
-            Add(Fn.Lowercase, f, s);
+            Add(Fn.Lower, f, s);
             Add(Fn.Max, m, d, d);
             Add(Fn.Min, m, d, d);
             Add(Fn.Pow, m, d, d);
@@ -57,7 +57,7 @@
             AddUser(Fn.ToText, s, paramArray: true, oo);
             Add(Fn.Trim, f, s);
             Add(Fn.Truncate, m, d);
-            Add(Fn.Uppercase, f, s);
+            Add(Fn.Upper, f, s);
 
             Keys = FunctorDictionary.Keys.ToArray();
             Values = FunctorDictionary.Values.ToArray();

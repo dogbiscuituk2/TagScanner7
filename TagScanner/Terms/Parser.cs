@@ -4,7 +4,6 @@
     using System.Collections.Generic;
     using System.Linq;
     using System.Runtime.CompilerServices;
-    using Utils;
 
     public class Parser
     {
@@ -91,9 +90,20 @@
                 case Fn.ReplaceX:
                     parameters[3] = CaseSensitive;
                     break;
-                case Fn.ToString:
-                    parameters[0] = new Cast(typeof(object), parameters[0]);
+                case Fn.Format:
+                    for (var index = 1; index < parameters.Count; index++)
+                        ToObject(index);
                     break;
+                case Fn.ToString:
+                    ToObject(0);
+                    break;
+            }
+
+            void ToObject(int index)
+            {
+                var term = parameters[index];
+                if (term.ResultType != typeof(object))
+                    parameters[index] = new Cast(typeof(object), term);
             }
         }
 

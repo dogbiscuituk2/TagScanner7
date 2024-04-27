@@ -60,10 +60,10 @@
             for (var index = 0; index < operands.Count; index++)
             {
                 var operand = operands[index];
-                if (operand.ResultType == typeof(string) && !(operand is Function function && function.Fn == Fn.Uppercase))
+                if (operand.ResultType == typeof(string) && !(operand is Function function && function.Fn == Fn.Upper))
                     operands[index] = operand is Constant<string> constantString
                         ? new Constant<string>(constantString.Value.ToUpperInvariant())
-                        : (Term)new Function(Fn.Uppercase, operand);
+                        : (Term)new Function(Fn.Upper, operand);
             }
         }
 

@@ -31,74 +31,71 @@
             }
         }
 
+        // Compare
         [DataRow("Compare(\"Abc\", \"Def\")", -1, -1)]
         [DataRow("Compare(\"Def\", \"Abc\")", +1, +1)]
         [DataRow("Compare(\"Abc\", \"ABC\")", -1, 0)]
-
         [DataRow("\"Abc\" compare \"Def\"", -1, -1)]
         [DataRow("\"Def\" compare \"Abc\"", +1, +1)]
         [DataRow("\"Abc\" compare \"ABC\"", -1, 0)]
-
+        // Concat
         [DataRow("Concat_2(\"A\", \"B\")", "AB")]
         [DataRow("Concat_3(\"A\", \"B\", \"C\")", "ABC")]
         [DataRow("Concat_4(\"A\", \"B\", \"C\", \"D\")", "ABCD")]
-
+        // Contains
         [DataRow("Contains(\"Gloves\", \"love\")", true, true)]
         [DataRow("Contains(\"Gloves\", \"Love\")", false, true)]
-
         [DataRow("\"Gloves\" contains \"love\"", true, true)]
         [DataRow("\"Gloves\" contains \"Love\"", false, true)]
-
+        // ContainsX
         [DataRow("ContainsX(\"Gloves\", \"l.v[aeiou]\")", true, true)]
         [DataRow("ContainsX(\"Gloves\", \"L.v[aeiou]\")", false, true)]
         [DataRow("ContainsX(\"Gloves\", \"l.v[AEIOU]\")", false, true)]
         [DataRow("ContainsX(\"Gloves\", \"l.v[D-F]\")", false, true)]
         [DataRow("ContainsX(\"Gloves\", \"l.v[D-f]\")", true, true)]
         [DataRow("ContainsX(\"Gloves\", \"l.v[d-f]\")", true, true)]
-
         [DataRow("\"Gloves\" containsx \"l.v[aeiou]\"", true, true)]
         [DataRow("\"Gloves\" containsx \"L.v[aeiou]\"", false, true)]
         [DataRow("\"Gloves\" containsx \"l.v[AEIOU]\"", false, true)]
         [DataRow("\"Gloves\" containsx \"l.v[D-F]\"", false, true)]
         [DataRow("\"Gloves\" containsx \"l.v[D-f]\"", true, true)]
         [DataRow("\"Gloves\" containsx \"l.v[d-f]\"", true, true)]
-
+        // Empty
         [DataRow("Empty(\"Abc\")", false)]
         [DataRow("Empty(\"   \")", true)]
-
         [DataRow("\"Abc\" Empty()", false)]
         [DataRow("\"Abc\" empty", false)]
         [DataRow("\"   \" Empty()", true)]
         [DataRow("\"   \" empty", true)]
-
+        // EndsWith
         [DataRow("EndsWith(\"Gloves\", \"ves\")", true, true)]
         [DataRow("EndsWith(\"Gloves\", \"VES\")", false, true)]
-
         [DataRow("\"Gloves\" endswith \"ves\"", true, true)]
         [DataRow("\"Gloves\" endswith \"VES\"", false, true)]
-
+        // EndsWithX
         [DataRow("EndsWithX(\"Gloves\", \"v[aeiou]s\")", true, true)]
         [DataRow("EndsWithX(\"Gloves\", \"V[AEIOU]s\")", false, true)]
         [DataRow("EndsWithX(\"Gloves\", \"v[aeiou]\")", false, false)]
         [DataRow("EndsWithX(\"Gloves\", \"V[AEIOU]\")", false, false)]
-
         [DataRow("\"Gloves\" endswithx \"v[aeiou]s\"", true, true)]
         [DataRow("\"Gloves\" endswithx \"V[AEIOU]s\"", false, true)]
         [DataRow("\"Gloves\" endswithx \"v[aeiou]\"", false, false)]
         [DataRow("\"Gloves\" endswithx \"V[AEIOU]\"", false, false)]
-
+        // Format
+        [DataRow("Format(\"{0}, {1), {2}\", 1, 2, 3)", "1, 2, 3")]
+        // Insert
         [DataRow("Insert(\"One Three\", 3, \" Two\")", "One Two Three")]
         [DataRow("\"One Three\" insert(3, \" Two\")", "One Two Three")]
-
+        // Length
         [DataRow("Length(\"Abc\")", 3)]
         [DataRow("Length \"Abc\"", 3)]
-
-        [DataRow("Lowercase(\"Abc\")", "abc")]
-        [DataRow("\"Abc\" Lowercase()", "abc")]
-        [DataRow("\"Abc\" lowercase", "abc")]
-
         [DataRow("\"Abc\" Length()", 3)]
         [DataRow("\"Abc\" length", 3)]
+        // Lower
+        [DataRow("Lower(\"Abc\")", "abc")]
+        [DataRow("\"Abc\" Lower()", "abc")]
+        [DataRow("\"Abc\" lower", "abc")]
+
 
         [DataRow("Remove(\"One Two Three\", 3, 4)", "One Three")]
         [DataRow("\"One Two Three\" remove(3, 4)", "One Three")]
@@ -130,9 +127,9 @@
         [DataRow("\"   Abc   \" trim()", "Abc")]
         [DataRow("\"   Abc   \" trim", "Abc")]
 
-        [DataRow("Uppercase(\"Abc\")", "ABC")]
-        [DataRow("\"Abc\" Uppercase()", "ABC")]
-        [DataRow("\"Abc\" uppercase", "ABC")]
+        [DataRow("Upper(\"Abc\")", "ABC")]
+        [DataRow("\"Abc\" Upper()", "ABC")]
+        [DataRow("\"Abc\" upper", "ABC")]
 
         [TestMethod]
         public void TestFunction(string text, object sense, object nonsense = null)
