@@ -86,24 +86,37 @@
                 case Fn.StartsWithX:
                     parameters[2] = CaseSensitive;
                     break;
+                case Fn.Max:
+                case Fn.Min:
+                case Fn.Pow:
+                    Cast(1, typeof(double));
+                    goto case Fn.Round;
+
                 case Fn.Replace:
                 case Fn.ReplaceX:
                     parameters[3] = CaseSensitive;
                     break;
-                case Fn.Format:
-                    for (var index = 1; index < parameters.Count; index++)
-                        ToObject(index);
+
+                //case Fn.Format:
+                //    for (var index = 1; index < parameters.Count; index++)
+                //        ToObject(index);
+                //    break;
+
+                case Fn.Round:
+                case Fn.Sign:
+                    Cast(0, typeof(double));
                     break;
+
                 case Fn.ToString:
-                    ToObject(0);
+                    Cast(0, typeof(object));
                     break;
             }
 
-            void ToObject(int index)
+            void Cast(int index, Type type)
             {
                 var term = parameters[index];
-                if (term.ResultType != typeof(object))
-                    parameters[index] = new Cast(typeof(object), term);
+                if (term.ResultType != type)
+                    parameters[index] = new Cast(type, term);
             }
         }
 

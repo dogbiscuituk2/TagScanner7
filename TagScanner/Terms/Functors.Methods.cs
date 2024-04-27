@@ -1,11 +1,23 @@
 ﻿namespace TagScanner.Terms
 {
+    using System;
     using System.Text.RegularExpressions;
     using Utils;
 
     public partial class Functors
     {
-        #region Public Extension Methods
+        #region Public Extension Methods - Math
+
+        public static double Max(this double x, double y) => Math.Max(x, y);
+        public static double Min(this double x, double y) => Math.Min(x, y);
+        public static double Pow(this double x, double y) => Math.Pow(x, y);
+        public static double Round(this double value) => Math.Round(value);
+        public static int Sign(this double value) => Math.Sign(value);
+        public static double Truncate(this double value) => Math.Truncate(value);
+
+        #endregion
+
+        #region Public Extension Methods - String
 
         public static int Compare(this string strA, string strB, bool caseSensitive) =>
             string.Compare(strA, strB, ignoreCase: !caseSensitive);

@@ -14,50 +14,48 @@
             Type
                 b = typeof(bool),
                 d = typeof(double),
-                f = typeof(Functors),
                 i = typeof(int),
-                m = typeof(Math),
                 o = typeof(object),
                 oo = typeof(object[]),
                 s = typeof(string);
 
-            Add(Fn.Compare, f, s, s, b);
-            Add(Fn.Concat_2, "Concat", f, s, s);
-            Add(Fn.Concat_3, "Concat", f, s, s, s);
-            Add(Fn.Concat_4, "Concat", f, s, s, s, s);
-            Add(Fn.Contains, f, s, s, b);
-            Add(Fn.ContainsX, f, s, s, b);
-            Add(Fn.Empty, f, s); // "IsEmpty" already used as a Tag :-(
-            Add(Fn.EndsWith, f, s, s, b);
-            Add(Fn.EndsWithX, f, s, s, b);
-            Add(Fn.Equals, f, s, s, b);
-            Add(Fn.EqualsX, f, s, s, b);
-            Add(Fn.Format, f, s, oo);
+            Add(Fn.Compare, s, s, b);
+            Add(Fn.Concat_2, "Concat", s, s);
+            Add(Fn.Concat_3, "Concat", s, s, s);
+            Add(Fn.Concat_4, "Concat", s, s, s, s);
+            Add(Fn.Contains, s, s, b);
+            Add(Fn.ContainsX, s, s, b);
+            Add(Fn.Empty, s); // "IsEmpty" already used as a Tag :-(
+            Add(Fn.EndsWith, s, s, b);
+            Add(Fn.EndsWithX, s, s, b);
+            Add(Fn.Equals, s, s, b);
+            Add(Fn.EqualsX, s, s, b);
+            //Add(Fn.Format, s, oo);
             AddUser(Fn.If, o, paramArray: false, b, o, o);
-            Add(Fn.IndexOf, f, s, s, b);
-            Add(Fn.IndexOfX, f, s, s, b);
-            Add(Fn.Insert, f, s, i, s);
-            Add(Fn.Join, s, s, oo);
-            Add(Fn.LastIndexOf, f, s, s, b);
-            Add(Fn.LastIndexOfX, f, s, s, b);
-            Add(Fn.Length, f, s);
-            Add(Fn.Lower, f, s);
-            Add(Fn.Max, m, d, d);
-            Add(Fn.Min, m, d, d);
-            Add(Fn.Pow, m, d, d);
-            Add(Fn.Remove, f, s, i, i);
-            Add(Fn.Replace, f, s, s, s, b);
-            Add(Fn.ReplaceX, f, s, s, s, b);
-            Add(Fn.Round, m, d);
-            Add(Fn.Sign, m, d);
-            Add(Fn.StartsWith, f, s, s, b);
-            Add(Fn.StartsWithX, f, s, s, b);
-            Add(Fn.Substring, f, s, i, i);
-            Add(Fn.ToString, f, o);
+            Add(Fn.IndexOf, s, s, b);
+            Add(Fn.IndexOfX, s, s, b);
+            Add(Fn.Insert, s, i, s);
+            //Add(Fn.Join, s, s, oo);
+            Add(Fn.LastIndexOf, s, s, b);
+            Add(Fn.LastIndexOfX, s, s, b);
+            Add(Fn.Length, s);
+            Add(Fn.Lower, s);
+            Add(Fn.Max, d, d);
+            Add(Fn.Min, d, d);
+            Add(Fn.Pow, d, d);
+            Add(Fn.Remove, s, i, i);
+            Add(Fn.Replace, s, s, s, b);
+            Add(Fn.ReplaceX, s, s, s, b);
+            Add(Fn.Round, d);
+            Add(Fn.Sign, d);
+            Add(Fn.StartsWith, s, s, b);
+            Add(Fn.StartsWithX, s, s, b);
+            Add(Fn.Substring, s, i, i);
+            Add(Fn.ToString, o);
             AddUser(Fn.ToText, s, paramArray: true, oo);
-            Add(Fn.Trim, f, s);
-            Add(Fn.Truncate, m, d);
-            Add(Fn.Upper, f, s);
+            Add(Fn.Trim, s);
+            Add(Fn.Truncate, d);
+            Add(Fn.Upper, s);
 
             Keys = FunctorDictionary.Keys.ToArray();
             Values = FunctorDictionary.Values.ToArray();
@@ -99,22 +97,14 @@
 
         #region Private Methods
 
-        private static void AddFn(Fn fn, string name, Type declaringType, bool isStatic, params Type[] paramTypes) =>
+        private static void AddFn(Fn fn, string name, params Type[] paramTypes) =>
             FunctorDictionary.Add(fn, new FnInfo(fn,
-                declaringType.GetMethods(BindingFlags.Public | (isStatic ? BindingFlags.Static : BindingFlags.Instance))
+                typeof(Functors).GetMethods(BindingFlags.Public | BindingFlags.Static)
                 .Single(p => p.Name == name && p.GetParamTypes().SequenceEqual(paramTypes))));
 
-        private static void AddMember(Fn fn, Type declaringType, params Type[] paramTypes) =>
-            AddMember(fn, $"{fn}", declaringType, paramTypes);
+        private static void Add(Fn fn, params Type[] paramTypes) => Add(fn, $"{fn}", paramTypes);
 
-        private static void AddMember(Fn fn, string name, Type declaringType, params Type[] paramTypes) =>
-            AddFn(fn, name, declaringType, isStatic: false, paramTypes);
-
-        private static void Add(Fn fn, Type declaringType, params Type[] paramTypes) =>
-            Add(fn, $"{fn}", declaringType, paramTypes);
-
-        private static void Add(Fn fn, string name, Type declaringType, params Type[] paramTypes) =>
-            AddFn(fn, name, declaringType, isStatic: true, paramTypes);
+        private static void Add(Fn fn, string name, params Type[] paramTypes) => AddFn(fn, name, paramTypes);
 
         private static void AddUser(Fn fn, Type returnType, bool paramArray, params Type[] paramTypes) =>
             FunctorDictionary.Add(fn, new FnInfo(fn, returnType, paramArray, paramTypes));
