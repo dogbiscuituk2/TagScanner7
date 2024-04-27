@@ -95,7 +95,7 @@
                     : value.ToString();
         }*/
 
-        public static string Escape(this string s) => s.Replace("&", "&&");
+        public static string Escape(this string s, char c = '&') => s.Replace($"{c}", $"{c}{c}");
         public static RectangleF Expand(this RectangleF r) => r.IsEmpty ? r : new RectangleF(r.X, r.Y, r.Width + 99, r.Height);
         public static string GetIndex(this string s) => string.IsNullOrWhiteSpace(s) ? " " : (s.ToUpper() + " ").Substring(0, 1);
 

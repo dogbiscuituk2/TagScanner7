@@ -195,7 +195,6 @@
                 }
             return
                 match.IsBoolean() ? NewTerm(match == "true" ? Term.True : Term.False) :
-                match.IsChar() ? NewTerm(new Constant<char>(char.Parse(match.Substring(1, match.Length - 2)))) :
                 match.IsString() ? NewTerm(new Constant<string>(match.Substring(1, match.Length - 2))) :
                 match.IsField() ? NewTerm(new Field(Tags.Values.Single(p => p.DisplayName == match).Tag)) :
                 match.IsMonadicOperator() ? ParseUnaryOperation(match) :

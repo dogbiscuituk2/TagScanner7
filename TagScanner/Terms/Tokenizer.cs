@@ -87,8 +87,7 @@
 
         public static bool IsBinaryOperator(this string token) => BinaryOperators.Contains(token, IgnoreCase);
         public static bool IsBoolean(this string token) => Booleans.Contains(token, IgnoreCase);
-        public static bool IsChar(this string token) => token[0] == SingleQuote;
-        public static bool IsConstant(this string token) => token.IsBoolean() || token.IsChar() || token.IsNumber() || token.IsString();
+        public static bool IsConstant(this string token) => token.IsBoolean() || token.IsNumber() || token.IsString();
         public static bool IsDateTime(this string token) => Regex.IsMatch(token, DateTimeParser.DateTimePattern);
         public static bool IsDyadicOperator(this string token) => BinaryOperators.Contains(token);
         public static bool IsField(this string token) => Fields.Contains(token, IgnoreCase);

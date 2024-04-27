@@ -3,6 +3,7 @@
     using System;
     using System.Linq.Expressions;
     using System.Text;
+    using Utils;
 
     public class Constant<T> : Term
     {
@@ -39,7 +40,6 @@
         {
             if (Value == null) return "(?)";
             if (ResultType == typeof(bool)) return Value.ToString().ToLower();
-            if (ResultType == typeof(char)) return $"'{Value}'";
             if (ResultType == typeof(double)) return $"{Value}D";
             if (ResultType == typeof(int)) return $"{Value}";
             if (ResultType == typeof(long)) return $"{Value}L";

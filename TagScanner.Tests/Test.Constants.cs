@@ -23,7 +23,6 @@
             TestConstant(Term.Zero, "0");
             TestConstant(new Constant<bool>(false), "False");
             TestConstant(new Constant<bool>(true), "True");
-            TestConstant(new Constant<char>('c'), "c");
             TestConstant(new Constant<double>(123.45D), "123.45");
             TestConstant(new Constant<int>(0x7FFFFFFF), "2147483647");
             TestConstant(new Constant<long>(0x7FFFFFFFFFFFFFFFL), "9223372036854775807");

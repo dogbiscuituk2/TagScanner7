@@ -30,5 +30,20 @@
                 var result = function.Result;
             }
         }
+
+        [TestMethod]
+        [DataRow("Compare(\"Abc\", \"Def\")", -1, -1)]
+        [DataRow("\"Abc\" Compare \"Def\"", -1, -1)]
+        [DataRow("Concat(\"A\", \"B\", \"C\", \"D\", \"E\")", "ABCDE")]
+        public void TestFunction(string text, object sense, object nonsense = null)
+        {
+            var term = new Parser().Parse(text, caseSensitive: true);
+            Assert.AreEqual(expected: sense, actual: term.Result);
+            if (nonsense != null)
+            {
+                term = new Parser().Parse(text, caseSensitive: false);
+                Assert.AreEqual(expected: nonsense, actual: term.Result);
+            }
+        }
     }
 }
