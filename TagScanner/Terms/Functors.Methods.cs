@@ -1,6 +1,5 @@
 ﻿namespace TagScanner.Terms
 {
-    using Microsoft.CodeAnalysis.CSharp.Syntax;
     using System.Text.RegularExpressions;
     using Utils;
 
@@ -11,9 +10,9 @@
         public static int Compare(this string strA, string strB, bool caseSensitive) =>
             string.Compare(strA, strB, ignoreCase: !caseSensitive);
 
-        public static string Concat_2(this string s, string t) => string.Concat(s, t);
-        public static string Concat_3(this string s, string t, string u) => string.Concat(s, t, u);
-        public static string Concat_4(this string s, string t, string u, string v) => string.Concat(s, t, u, v);
+        public static string Concat(this string s, string t) => string.Concat(s, t);
+        public static string Concat(this string s, string t, string u) => string.Concat(s, t, u);
+        public static string Concat(this string s, string t, string u, string v) => string.Concat(s, t, u, v);
 
         public static bool Contains(this string input, string pattern, bool caseSensitive) =>
             input.ContainsX(Regex.Escape(pattern), caseSensitive);

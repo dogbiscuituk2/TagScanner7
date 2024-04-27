@@ -11,8 +11,8 @@
         [TestMethod]
         public void TestTermLists()
         {
-            var termList = new TermList(1, '2', "3", true, false, new Conditional(true, 4, 5));
-            Assert.AreEqual(expected: "1, '2', \"3\", true, false, If(true, 4, 5)", actual: termList.ToString());
+            var termList = new TermList(1, 2.5, "3", true, false, new Conditional(true, 4, 5));
+            Assert.AreEqual(expected: "1, 2.5, \"3\", true, false, If(true, 4, 5)", actual: termList.ToString());
         }
 
         private void AddTestValues(TermList termList)
