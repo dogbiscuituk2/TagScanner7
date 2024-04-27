@@ -37,12 +37,12 @@
             AddUser(Fn.If, o, paramArray: false, b, o, o);
             AddMember(Fn.Length, "get_Length", s);
             AddMember(Fn.IndexOf, s, s, sc);
-            AddMember(Fn.IndexOfX, f, s, b);
+            AddStatic(Fn.IndexOfX, f, s, s, b);
             AddMember(Fn.Insert, s, i, s);
             AddStatic(Fn.IsNull, "IsNullOrWhiteSpace", s, s); // "IsEmpty" already used as a Tag :-(
             AddStatic(Fn.Join, s, s, oo);
             AddMember(Fn.LastIndexOf, s, s, sc);
-            AddMember(Fn.LastIndexOfX, s, s, b);
+            AddStatic(Fn.LastIndexOfX, f, s, s, b);
             AddMember(Fn.Lowercase, "ToLowerInvariant", s);
             AddStatic(Fn.Max, m, d, d);
             AddStatic(Fn.Min, m, d, d);

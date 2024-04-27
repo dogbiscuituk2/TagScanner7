@@ -9,6 +9,12 @@
 
     public class ParserState
     {
+        #region Public Properties
+
+        public bool CaseSensitive { get; set; }
+
+        #endregion
+
         #region Public Methods
 
         public bool AnyOperators() => Operators.Any();
@@ -48,6 +54,19 @@
             return token.Value == expected ? token : UnexpectedToken(token, expected);
         }
 
+        private void AdjustOperands(Operation operation)
+        {
+            var operands = operation.Operands;
+            for (var index = 0; index < operands.Count; index++)
+            {
+                var operand = operands[index];
+                if (operand.ResultType == typeof(string) && !(operand is Function function && function.Fn == Fn.Uppercase))
+                    operands[index] = operand is Constant<string> constantString
+                        ? new Constant<string>(constantString.Value.ToUpperInvariant())
+                        : (Term)new Function(Fn.Uppercase, operand);
+            }
+        }
+
         private Operation Consolidate(Term right)
         {
             var left = Terms.Pop();
@@ -59,7 +78,10 @@
             IEnumerable<Term>
                 leftOps = lop ? ((Operation)left).Operands.ToArray() : new[] { left },
                 rightOps = rop ? ((Operation)right).Operands.ToArray() : new[] { right };
-            return new Operation(op, leftOps.Concat(rightOps).ToArray());
+            var operation = new Operation(op, leftOps.Concat(rightOps).ToArray());
+            if (!CaseSensitive && op.CanChain())
+                AdjustOperands(operation);
+            return operation;
         }
 
         private void Dump(string caller, int line, object value, [CallerMemberName] string action = "")

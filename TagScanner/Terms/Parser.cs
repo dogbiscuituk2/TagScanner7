@@ -56,15 +56,24 @@
 
         #region Private Fields
 
-        private bool CaseSensitive;
+
+        public bool CaseSensitive
+        {
+            get => State.CaseSensitive;
+            set => State.CaseSensitive = value;
+        }
+
         private ParserState State { get; } = new ParserState();
 
         #endregion
 
         #region Private Methods
 
-        private void AdjustFunctionParameters(Fn fn, List<Term> parameters)
+        private void AdjustParameters(Fn fn, List<Term> parameters)
         {
+            var paramTypes = fn.ParamTypes();
+            for (var index = parameters.Count; index < paramTypes.Count(); index++)
+                parameters.Add(new Parameter(paramTypes[index]));
             switch (fn)
             {
                 case Fn.Compare:
@@ -166,10 +175,7 @@
                 }
                 else
                     parameters.Add(NewTerm(ParseSimpleTerm())); // Parentheses are optional for single parameters.
-            var paramTypes = fn.ParamTypes();
-            for (var index = parameters.Count; index < paramTypes.Count(); index++)
-                parameters.Add(new Parameter(paramTypes[index]));
-            AdjustFunctionParameters(fn, parameters);
+            AdjustParameters(fn, parameters);
             return parameters.ToArray();
         }
 
