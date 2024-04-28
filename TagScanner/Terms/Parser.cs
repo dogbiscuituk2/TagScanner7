@@ -3,6 +3,7 @@
     using System;
     using System.Collections.Generic;
     using System.Linq;
+    using System.Linq.Expressions;
     using System.Runtime.CompilerServices;
 
     public class Parser
@@ -82,6 +83,10 @@
                 case Fn.EndsWithX:
                 case Fn.Equals:
                 case Fn.EqualsX:
+                case Fn.IndexOf:
+                case Fn.IndexOfX:
+                case Fn.LastIndexOf:
+                case Fn.LastIndexOfX:
                 case Fn.StartsWith:
                 case Fn.StartsWithX:
                     parameters[2] = CaseSensitive;
@@ -91,6 +96,11 @@
                 case Fn.Pow:
                     Cast(1, typeof(double));
                     goto case Fn.Round;
+
+                case Fn.Join:
+                case Fn.Format:
+                    CastAll(1, typeof(object));
+                    break;
 
                 case Fn.Replace:
                 case Fn.ReplaceX:
@@ -117,6 +127,12 @@
                 var term = parameters[index];
                 if (term.ResultType != type)
                     parameters[index] = new Cast(type, term);
+            }
+
+            void CastAll(int first, Type type)
+            {
+                for (var index = first; index < parameters.Count; index++)
+                    Cast(index, type);
             }
         }
 

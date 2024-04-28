@@ -2,6 +2,7 @@
 {
     using System;
     using System.Text.RegularExpressions;
+    using System.Windows.Markup;
     using Utils;
 
     public partial class Functors
@@ -58,6 +59,9 @@
         public static string Insert(this string input, int startIndex, string value) =>
             input.Insert(startIndex, value);
 
+        public static string Join(this string separator, params object[] values) =>
+            string.Join(separator, values);
+
         public static int LastIndexOf(string input, string pattern, bool caseSensitive) =>
             input.IndexOf(pattern, caseSensitive, useRegex: false, first: false);
 
@@ -100,7 +104,8 @@
         {
             if (!useRegex)
                 pattern = Regex.Escape(pattern);
-            var matches = Regex.Matches(input, pattern, caseSensitive.AsRegexOptions());
+            var options = caseSensitive.AsRegexOptions();
+            var matches = Regex.Matches(input, pattern, options);
             var count = matches.Count;
             return count == 0 ? -1 : matches[first ? 0 : count - 1].Index;
         }

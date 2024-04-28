@@ -30,12 +30,12 @@
             Add(Fn.EndsWithX, s, s, b);
             Add(Fn.Equals, s, s, b);
             Add(Fn.EqualsX, s, s, b);
-            //Add(Fn.Format, s, oo);
+            Add(Fn.Format, s, oo);
             AddUser(Fn.If, o, paramArray: false, b, o, o);
             Add(Fn.IndexOf, s, s, b);
             Add(Fn.IndexOfX, s, s, b);
             Add(Fn.Insert, s, i, s);
-            //Add(Fn.Join, s, s, oo);
+            Add(Fn.Join, s, oo);
             Add(Fn.LastIndexOf, s, s, b);
             Add(Fn.LastIndexOfX, s, s, b);
             Add(Fn.Length, s);

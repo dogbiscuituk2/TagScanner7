@@ -296,7 +296,7 @@
 
         private Selection GetSelection()
         {
-            var selection = new Selection(DataGrid.SelectedItems.Cast<Track>());
+            var selection = new Selection(DataGrid.SelectedItems.OfType<Track>());
             selection.TracksEdit += Selection_TracksEdit;
             return selection;
         }
