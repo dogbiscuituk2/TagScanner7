@@ -2,7 +2,6 @@
 {
     using System;
     using System.Text.RegularExpressions;
-    using System.Windows.Markup;
     using Utils;
 
     public partial class Functors
@@ -22,6 +21,9 @@
 
         public static int Compare(this string strA, string strB, bool caseSensitive) =>
             string.Compare(strA, strB, ignoreCase: !caseSensitive);
+
+        public static string Concat(params object[] values) =>
+            Join(string.Empty, values);
 
         public static string Concat(this string s, string t) => string.Concat(s, t);
         public static string Concat(this string s, string t, string u) => string.Concat(s, t, u);

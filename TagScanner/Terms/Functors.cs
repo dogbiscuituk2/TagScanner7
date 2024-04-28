@@ -20,6 +20,7 @@
                 s = typeof(string);
 
             Add(Fn.Compare, s, s, b);
+            Add(Fn.Concat, oo);
             Add(Fn.Concat_2, "Concat", s, s);
             Add(Fn.Concat_3, "Concat", s, s, s);
             Add(Fn.Concat_4, "Concat", s, s, s, s);

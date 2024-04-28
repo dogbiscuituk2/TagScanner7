@@ -71,9 +71,14 @@
                         newOperands.Add(operand);
                     }
                     return new Concatenation(newOperands.ToArray()).Expression;
+                case Fn.Concat:
+                    return Expression.Call(
+                        _methodInfo,
+                        Expression.NewArrayInit(typeof(object), expressions));
                 case Fn.Format:
                 case Fn.Join:
-                    return Expression.Call(_methodInfo,
+                    return Expression.Call(
+                        _methodInfo,
                         expressions.First(),
                         Expression.NewArrayInit(typeof(object), expressions.Skip(1)));
             }

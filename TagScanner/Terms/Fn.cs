@@ -3,7 +3,7 @@
     public enum Fn
     {
         Compare,
-        Concat_2, Concat_3, Concat_4,
+        Concat, Concat_2, Concat_3, Concat_4,
         Contains, ContainsX,
         Empty,
         EndsWith, EndsWithX,

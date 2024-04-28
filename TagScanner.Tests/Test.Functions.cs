@@ -27,7 +27,6 @@
                 AddTestValues(function);
                 Assert.AreEqual(expected: operandsCount, actual: function.Operands.Count);
                 TestParse(function);
-                var result = function.Result;
             }
         }
 
@@ -39,6 +38,7 @@
         [DataRow("\"Def\" compare \"Abc\"", +1, +1)]
         [DataRow("\"Abc\" compare \"ABC\"", -1, 0)]
         // Concat
+        [DataRow("Concat(2, 4, 6, 8, \" It's never too late.\")", "2468 It's never too late.")]
         [DataRow("Concat_2(\"A\", \"B\")", "AB")]
         [DataRow("Concat_3(\"A\", \"B\", \"C\")", "ABC")]
         [DataRow("Concat_4(\"A\", \"B\", \"C\", \"D\")", "ABCD")]

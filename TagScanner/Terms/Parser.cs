@@ -97,6 +97,10 @@
                     Cast(1, typeof(double));
                     goto case Fn.Round;
 
+                case Fn.Concat:
+                    CastAll(0, typeof(object));
+                    break;
+
                 case Fn.Join:
                 case Fn.Format:
                     CastAll(1, typeof(object));
@@ -106,11 +110,6 @@
                 case Fn.ReplaceX:
                     parameters[3] = CaseSensitive;
                     break;
-
-                //case Fn.Format:
-                //    for (var index = 1; index < parameters.Count; index++)
-                //        ToObject(index);
-                //    break;
 
                 case Fn.Round:
                 case Fn.Sign:
