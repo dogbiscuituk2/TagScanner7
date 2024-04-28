@@ -153,6 +153,7 @@
     <Compile Include="Test.Tags.cs" />
     <Compile Include="Test.Casts.cs" />
     <Compile Include="Test.ParseTerm.cs" />
+    <Compile Include="Test.TermResults.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
