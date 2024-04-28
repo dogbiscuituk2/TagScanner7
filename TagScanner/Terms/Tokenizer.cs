@@ -41,7 +41,7 @@
             string Match()
             {
                 var remainingText = RemainingText();
-                if (remainingText.IsNumber())
+                if (remainingText.StartsWithNumber())
                     return MatchNumber();
 
                 var result = AllTokens.FirstOrDefault(p => remainingText.StartsWith(p, StringComparison.OrdinalIgnoreCase));
@@ -99,7 +99,7 @@
         public static bool IsFunction(this string token) => FunctionNames.Contains(token, IgnoreCase);
         public static bool IsMemberFunction(this string token) => MemberFunctionNames.Contains(token, IgnoreCase);
         public static bool IsMonadicOperator(this string token) => UnaryOperators.Contains(token, IgnoreCase);
-        public static bool IsNumber(this string token) => Regex.IsMatch(token, $@"{NumberPattern}\W");
+        public static bool IsNumber(this string token) => Regex.IsMatch(token, $"{NumberPattern}$");
         public static bool IsOperator(this string token) => Operators.Contains(token, IgnoreCase);
         public static bool IsParameter(this string token) => token[0] == '{';
         public static bool IsStaticFunction(this string token) => StaticFunctionNames.Contains(token, IgnoreCase);
@@ -109,6 +109,7 @@
         public static bool IsType(this string token) => TypeNames.Contains(token, IgnoreCase);
         public static bool IsUnaryOperator(this string token) => UnaryOperators.Contains(token, IgnoreCase);
         public static Rank Rank(this string token, bool unary) => token.ToOperator(unary).GetRank();
+        public static bool StartsWithNumber(this string token) => Regex.IsMatch(token, NumberPattern);
 
         private const string NumberPattern = @"^[-+]?(\d+\.?\d*(UL|LU|D|F|L|M|U)?)";
 
