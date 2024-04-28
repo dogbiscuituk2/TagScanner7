@@ -190,9 +190,13 @@
                 return Term.True;
             if (string.IsNullOrWhiteSpace(FindComboBox.Text))
                 return Term.True;
-            var pattern = Pattern;
-            var fields = new Function(Fn.ToText, selectedTags.Select(p => new Field(p)).ToArray());
-            return new Function(Fn.ContainsX, fields, pattern, new Constant<RegexOptions>(RegexOptions));
+            var terms = new List<Term> { Environment.NewLine };
+            terms.AddRange(selectedTags.Select(p => new Field(p)));
+            return new Function(
+                Fn.ContainsX,
+                new Function(Fn.Join, terms.ToArray()),
+                Pattern,
+                CaseSensitive);
         }
 
         private void Replace()

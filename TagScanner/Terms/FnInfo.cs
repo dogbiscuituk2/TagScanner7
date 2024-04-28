@@ -54,6 +54,7 @@
             {
                 case Fn.If:
                     return Expression.Condition(expressions[0], expressions[1], expressions[2]);
+                    /*                      l
                 case Fn.ToText:
                     var newOperands = new List<Term>();
                     var newLine = new Constant<string>(Environment.NewLine);
@@ -71,6 +72,7 @@
                         newOperands.Add(operand);
                     }
                     return new Concatenation(newOperands.ToArray()).Expression;
+                    */
                 case Fn.Concat:
                     return Expression.Call(
                         _methodInfo,

@@ -26,7 +26,6 @@
         StartsWith, StartsWithX,
         Substring,
         ToString,
-        ToText,
         Trim,
         Truncate,
         Upper,

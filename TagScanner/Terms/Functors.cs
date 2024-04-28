@@ -53,7 +53,6 @@
             Add(Fn.StartsWithX, s, s, b);
             Add(Fn.Substring, s, i, i);
             Add(Fn.ToString, o);
-            AddUser(Fn.ToText, s, paramArray: true, oo);
             Add(Fn.Trim, s);
             Add(Fn.Truncate, d);
             Add(Fn.Upper, s);
