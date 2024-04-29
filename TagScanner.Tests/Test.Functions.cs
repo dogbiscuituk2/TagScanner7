@@ -336,7 +336,7 @@
         public void TestFunctionResult(string text, object sense, object nonsense = null) =>
             TestResult(text, sense, nonsense);
 
-        [DataRow("Concat_3(\"A\", \"B\", \"C\")", "ABC")]
+        [DataRow("Join(\"; \", 2, 4, 6, 8, 10)", "2; 4; 6; 8; 10")]
         [TestMethod]
         public void ScratchTestFunctionResult(string text, object sense, object nonsense = null) =>
             TestResult(text, sense, nonsense);

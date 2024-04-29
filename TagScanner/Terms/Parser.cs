@@ -291,7 +291,7 @@
         #endregion
         #region Terms
 
-        private Operation Consolidate(Term right, [CallerMemberName] string caller = "", [CallerLineNumber] int line = 0) => State.Consolidate(caller, line, right);
+        private TermList Consolidate(Term right, [CallerMemberName] string caller = "", [CallerLineNumber] int line = 0) => State.Consolidate(caller, line, right);
         private Term PopTerm([CallerMemberName] string caller = "", [CallerLineNumber] int line = 0) => State.PopTerm(caller, line);
         private void PushTerm(Term term, [CallerMemberName] string caller = "", [CallerLineNumber] int line = 0) => State.PushTerm(caller, line, term);
 
