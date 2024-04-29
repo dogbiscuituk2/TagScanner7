@@ -62,8 +62,26 @@
 
         #region Public Extension Methods
 
-        public static int Arity(this Op op) => op.Associates() ? int.MaxValue : op.IsBinary() ? 2 : op.IsUnary() ? 1 : 0;
-        public static bool Associates(this Op op) => (op & Op.Associative) != 0;
+        public static bool IsAssociative(this Op op) => (op & Op.Associative) != 0;
+        public static bool IsLeftAssociative(this Op op) => (op & Op.LeftAssociative) != 0;
+        public static bool IsNonAssociative(this Op op) => (op & Op.NonAssociative) != 0;
+        public static bool IsRightAssociative(this Op op) => (op & Op.RightAssociative) != 0;
+
+        public static int Arity(this Op op) => !op.IsNonAssociative() ? int.MaxValue : op.IsBinary() ? 2 : op.IsUnary() ? 1 : 0;
+
+        public static Associativity GetAssociativity(this Op op)
+        {
+            switch (op)
+            {
+                case Op.Subtract:
+                case Op.Divide:
+                case Op.Modulo:
+                    return Associativity.Left;
+                default:
+                    return Associativity.Full;
+            }
+        }
+
         public static bool CanChain(this Op op) => (op & Op.Chains) != 0;
         public static ExpressionType ExpType(this Op op) => OperatorDictionary[op].ExpressionType;
         public static string Format(this Op op) => OperatorDictionary[op].Format;
@@ -80,20 +98,20 @@
 
         public static Op ToOperator(this string symbol, bool unary)
         {
-            switch (symbol.ToLower())
+            switch (symbol.ToUpper())
             {
                 case ",":
                     return Op.Comma;
                 case "&":
                 case "&&":
-                case "and":
+                case "AND":
                     return Op.And;
                 case "|":
                 case "||":
-                case "or":
+                case "OR":
                     return Op.Or;
                 case "^":
-                case "xor":
+                case "XOR":
                     return Op.Xor;
                 case "=":
                 case "==":
@@ -131,7 +149,7 @@
                 case "%":
                     return Op.Modulo;
                 case "!":
-                case "not":
+                case "NOT":
                     return Op.Not;
                 case ".":
                     return Op.Dot;

@@ -56,14 +56,20 @@
 
         private void AdjustOperands(Operation operation)
         {
+            var op = operation.Op;
             var operands = operation.Operands;
-            for (var index = 0; index < operands.Count; index++)
+            var count = operands.Count;
+            var adjustCase = !CaseSensitive && op.CanChain();
+            var type = Utility.GetCompatibleType(operands.Select(p => p.ResultType).ToArray());
+            for (var index = 0; index < count; index++)
             {
                 var operand = operands[index];
-                if (operand.ResultType == typeof(string) && !(operand is Function function && function.Fn == Fn.Upper))
+                if (adjustCase && operand.ResultType == typeof(string) && !(operand is Function function && function.Fn == Fn.Upper))
                     operands[index] = operand is Constant<string> constantString
                         ? new Constant<string>(constantString.Value.ToUpperInvariant())
                         : (Term)new Function(Fn.Upper, operand);
+                if (operand.ResultType != type)
+                    operands[index] = new Cast(type, operand);
             }
         }
 
@@ -72,15 +78,14 @@
             var left = Terms.Pop();
             var op = Operators.Pop();
             bool
-                ass = op.Associates(),
+                ass = op.IsLeftAssociative(),
                 lop = ass && left is Operation leftOp && leftOp.Op == op,
                 rop = ass && right is Operation rightOp && rightOp.Op == op;
             IEnumerable<Term>
                 leftOps = lop ? ((Operation)left).Operands.ToArray() : new[] { left },
                 rightOps = rop ? ((Operation)right).Operands.ToArray() : new[] { right };
             var operation = new Operation(op, leftOps.Concat(rightOps).ToArray());
-            if (!CaseSensitive && op.CanChain())
-                AdjustOperands(operation);
+            AdjustOperands(operation);
             return operation;
         }
 

@@ -9,6 +9,7 @@
     using System.Runtime.CompilerServices;
     using System.Text.RegularExpressions;
     using System.Windows.Forms;
+    using Microsoft.CodeAnalysis.CSharp.Syntax;
     using Models;
 
     public static class Utility
@@ -97,6 +98,45 @@
 
         public static string Escape(this string s, char c = '&') => s.Replace($"{c}", $"{c}{c}");
         public static RectangleF Expand(this RectangleF r) => r.IsEmpty ? r : new RectangleF(r.X, r.Y, r.Width + 99, r.Height);
+
+        /// <summary>
+        /// Find the "best" type to represent the result of a dyadic operation using the given operands.
+        /// </summary>
+        /// <param name="type1">The first term of the dyadic operation.</param>
+        /// <param name="type2">The second term of the dyadic operation.</param>
+        /// <returns>Type that can be used to hold the operation's result.</returns>
+        public static Type GetCommonType(this Type type1, Type type2)
+        {
+            // If these two types are the same, then just use that common type.
+            if (type1 == type2) return type1;
+            // If either type is null, then use the other.
+            if (type1 == null) return type2;
+            if (type2 == null) return type1;
+            // Otherwise, use the "wider" of the two different non-null types.
+            return MatchType(typeof(double), type1, type2) // Type "double" absorbs any "float", "int" or "long".
+                ?? MatchType(typeof(float), type1, type2) // Type "float" absorbs any "long" or "int".
+                ?? MatchType(typeof(long), type1, type2) // Type "long" absorbs any "int".
+                ?? MatchType(typeof(string), type1, type2); // Type "string" absorbs any "char".
+
+            Type MatchType(Type t, Type t1, Type t2) => t == t1 || t == t2 ? t : null;
+        }
+
+        public static Type GetCompatibleType(params Type[] types)
+        {
+            switch (types.Length)
+            {
+                case 0:
+                    return null;
+                case 1:
+                    return types[0];
+                default:
+                    var type = types[0].GetCommonType(types[1]);
+                    for (int index = 2; index < types.Length; index++)
+                        type = type.GetCommonType(types[index]);
+                    return type;
+            }
+        }
+
         public static string GetIndex(this string s) => string.IsNullOrWhiteSpace(s) ? " " : (s.ToUpper() + " ").Substring(0, 1);
 
         /// <summary>

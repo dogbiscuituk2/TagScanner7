@@ -34,7 +34,10 @@
         Relational = LessThan | NotLessThan | GreaterThan | NotGreaterThan,
         Chains = EqualTo | Relational,
         Associative = Comma | And | Or | Xor | Chains | Concatenate | Add | Multiply,
-        ParamArray = Associative,
+        LeftAssociative = Subtract | Divide | Modulo,
+        RightAssociative = None,
+        NonAssociative = ~(Associative | LeftAssociative | RightAssociative),
+        ParamArray = Associative | LeftAssociative,
         Visible = ~Dot, // Also excludes None.
     }
 }

@@ -17,7 +17,10 @@
                 var operandsCount = unary ? 1 : paramArray ? 4 : 2;
                 Assert.IsNotNull(operation);
                 // Arity?
-                Assert.AreEqual(expected: op.Associates(), actual: operation.IsAssociative);
+                Assert.AreEqual(expected: op.IsAssociative(), actual: operation.IsAssociative);
+                Assert.AreEqual(expected: op.IsLeftAssociative(), actual: operation.IsLeftAssociative);
+                Assert.AreEqual(expected: op.IsNonAssociative(), actual: operation.IsNonAssociative);
+                Assert.AreEqual(expected: op.IsRightAssociative(), actual: operation.IsRightAssociative);
                 Assert.AreEqual(expected: op, actual: operation.Op);
                 Assert.AreEqual(expected: paramArray, actual: operation.ParamArray);
                 Assert.AreEqual(expected: unary ? 1 : 2, actual: operation.ParameterTypes.Count());
@@ -32,28 +35,48 @@
         #region Unary Operations
 
         [DataRow("+123", 123)]
+        [DataRow("+123.0", 123D)]
         [DataRow("+ 123", 123)]
+        [DataRow("+ 123.0", 123D)]
         [DataRow("-123", -123)]
+        [DataRow("-123.0", -123D)]
         [DataRow("- 123", -123)]
+        [DataRow("- 123.0", -123D)]
         [DataRow("----123", 123)]
+        [DataRow("----123.0", 123D)]
         [DataRow("!true", false)]
         [DataRow("! false", true)]
         [DataRow("not false", true)]
         [DataRow("NOT! False", false)]
 
         #endregion
-        #region Binary Operations
+        #region Arithmetic Operations
 
         [DataRow("2 + 3", 5)]
-        [DataRow("3 + 2", 5)]
+        [DataRow("2 + 3.5", 5.5)]
+        [DataRow("3.5 + 2", 5.5)]
+        [DataRow("3.5 + 2.5", 6D)]
         [DataRow("12 - 3", 9)]
-        [DataRow("3 - 12", -9)]
+        [DataRow("12 - 3.5", 8.5)]
+        [DataRow("3.5 - 12", -8.5)]
+        [DataRow("3.5 - 12.5", -9D)]
+        [DataRow("2 * 3", 6)]
         [DataRow("2 * 3", 6)]
         [DataRow("3 * 2", 6)]
+        [DataRow("3 * 2", 6)]
+        [DataRow("12 / 3", 4)]
         [DataRow("12 / 3", 4)]
         [DataRow("3 / 12", 0)]
+        [DataRow("3 / 12", 0)]
+        [DataRow("12 % 3", 0)]
         [DataRow("12 % 3", 0)]
         [DataRow("3 % 12", 3)]
+        [DataRow("3 % 12", 3)]
+
+        #endregion
+        #region Relational Operations
+
+
 
         #endregion
         #region Associativity
@@ -83,6 +106,11 @@
 
         [TestMethod]
         public void TestOperationResult(string text, object sense, object nonsense = null) =>
+            TestResult(text, sense, nonsense);
+
+        [DataRow("2 - 3 - 5", -6)]
+        [TestMethod]
+        public void ScratchTestOperationResult(string text, object sense, object nonsense = null) =>
             TestResult(text, sense, nonsense);
     }
 }

@@ -137,29 +137,7 @@
 
         #region Protected Static Methods
 
-        /// <summary>
-        /// Find the "best" type to represent the result of a dyadic operation using the given operands.
-        /// </summary>
-        /// <param name="type1">The first term of the dyadic operation.</param>
-        /// <param name="type2">The second term of the dyadic operation.</param>
-        /// <returns>Type that can be used to hold the operation's result.</returns>
-        protected static Type GetCommonType(Type type1, Type type2)
-        {
-            // If these two types are the same, then just use that common type.
-            if (type1 == type2) return type1;
-            // If either type is null, then use the other.
-            if (type1 == null) return type2;
-            if (type2 == null) return type1;
-            // Otherwise, use the "wider" of the two different non-null types.
-            return MatchType(typeof(double), type1, type2) // Type "double" absorbs any "int", "long" or "float".
-                ?? MatchType(typeof(float), type1, type2) // Type "float" absorbs any "int" or "long".
-                ?? MatchType(typeof(long), type1, type2) // Type "long" absorbs any "int".
-                ?? MatchType(typeof(string), type1, type2); // Type "string" absorbs any "char".
-        }
-
         protected static Type GetQualifiedType(string typeName) => GetQualifiedType(typeName, ".", ".Globalization.", ".Text.", ".Text.RegularExpressions.");
-
-        protected static Type MatchType(Type t, Type t1, Type t2) => t == t1 || t == t2 ? t : null;
 
         #endregion
 

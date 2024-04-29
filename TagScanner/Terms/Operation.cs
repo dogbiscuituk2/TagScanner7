@@ -4,6 +4,7 @@
     using System.Collections.Generic;
     using System.Linq;
     using System.Linq.Expressions;
+    using Utils;
 
     public class Operation : TermList
     {
@@ -27,7 +28,10 @@
 
         public override int Arity => Op.Arity();
         public override Expression Expression => GetExpression();
-        public bool IsAssociative => Op.Associates();
+        public bool IsAssociative => Op.IsAssociative();
+        public bool IsLeftAssociative => Op.IsLeftAssociative();
+        public bool IsNonAssociative => Op.IsNonAssociative();
+        public bool IsRightAssociative => Op.IsRightAssociative();
         public override bool ParamArray => Op.ParamArray();
         public override Rank Rank => Op.GetRank();
         public override Type ResultType => Op.ResultType() ?? GetCommonResultType(Operands.ToArray());
@@ -82,20 +86,20 @@
         }
 
         private static Type GetCommonResultType(params Term[] operands) =>
-            operands.Aggregate<Term, Type>(null, (current, t) => GetCommonType(current, t?.ResultType));
+            operands.Aggregate<Term, Type>(null, (current, t) => current.GetCommonType(t?.ResultType));
 
         private Expression GetExpression()
         {
             if (Op == Op.Add && ResultType == typeof(string))
                 return Concatenate(Operands.ToArray()).Expression;
-            if (IsAssociative)
+            if (IsLeftAssociative)
                 return MakeAssociation(Operands);
             if (Op.CanChain())
                 return MakeChain();
             switch (Op.Arity())
             {
                 case 1: return Expression.MakeUnary(Op.ExpType(), FirstSubExpression, null);
-                default: return Expression.MakeBinary(Op.ExpType(), FirstSubExpression, SecondSubExpression);
+                default: return MakeBinaryExpression(Op, FirstSubExpression, SecondSubExpression);
             }
         }
 
@@ -122,6 +126,7 @@
         }
 
         private BinaryExpression MakeBinaryExpression(Expression left, Expression right) => MakeBinaryExpression(Op, left, right);
+
         private static BinaryExpression MakeBinaryExpression(Op op, Expression left, Expression right) => Expression.MakeBinary(op.ExpType(), left, right);
 
         private Expression MakeChain()

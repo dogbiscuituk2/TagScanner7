@@ -55,7 +55,6 @@
 
         #region Private Fields
 
-
         public bool CaseSensitive
         {
             get => State.CaseSensitive;
