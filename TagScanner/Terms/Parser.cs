@@ -99,8 +99,8 @@
                     CastAll(0, typeof(object));
                     break;
 
-                case Fn.Join:
                 case Fn.Format:
+                case Fn.Join:
                     CastAll(1, typeof(object));
                     break;
 

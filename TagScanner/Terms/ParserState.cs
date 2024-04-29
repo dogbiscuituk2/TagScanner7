@@ -60,7 +60,7 @@
             var operands = operation.Operands;
             var count = operands.Count;
             var adjustCase = !CaseSensitive && op.CanChain();
-            var type = Utility.GetCompatibleType(operands.Select(p => p.ResultType).ToArray());
+            //var type = Utility.GetCompatibleType(operands.Select(p => p.ResultType).ToArray());
             for (var index = 0; index < count; index++)
             {
                 var operand = operands[index];
@@ -68,8 +68,8 @@
                     operands[index] = operand is Constant<string> constantString
                         ? new Constant<string>(constantString.Value.ToUpperInvariant())
                         : (Term)new Function(Fn.Upper, operand);
-                if (operand.ResultType != type)
-                    operands[index] = new Cast(type, operand);
+            //    if (operand.ResultType != type)
+            //        operands[index] = new Cast(type, operand);
             }
         }
 
@@ -104,11 +104,15 @@
             if (action.StartsWith("New") || action.StartsWith("Peek"))
                 return;
             Debug.WriteLine(format, _, _, "Tokens", Say(Tokens.Select(p => p.Value)));
-            Debug.WriteLine(format, _, _, "Terms", Say(Terms));
             Debug.WriteLine(format, _, _, "Operators", Say(Operators.Select(p => p.Label())));
+            Debug.WriteLine(format, _, _, "Terms", Terms.Any() ? Terms.First() : string.Empty);
+            if (Terms.Count > 1)
+                foreach (var term in Terms?.Skip(1))
+                    Debug.WriteLine(format, _, _, _, term);
             Debug.WriteLine(_);
 
             void DrawLine() => Debug.WriteLine(new string('_', 80) + Environment.NewLine);
+            void SayTerm(Term term) => Debug.WriteLine(format, _, _, _, $"{term.GetType().Name} {term}");
 #endif
         }
 

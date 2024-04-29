@@ -335,5 +335,11 @@
         [TestMethod]
         public void TestFunctionResult(string text, object sense, object nonsense = null) =>
             TestResult(text, sense, nonsense);
+
+        [DataRow("Concat_3(\"A\", \"B\", \"C\")", "ABC")]
+        [TestMethod]
+        public void ScratchTestFunctionResult(string text, object sense, object nonsense = null) =>
+            TestResult(text, sense, nonsense);
+
     }
 }

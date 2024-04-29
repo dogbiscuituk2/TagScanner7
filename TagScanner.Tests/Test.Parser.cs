@@ -80,6 +80,5 @@
             term = new Parser().Parse(text, caseSensitive: false);
             Assert.AreEqual(expected: nonsense, actual: term.Result);
         }
-
     }
 }
