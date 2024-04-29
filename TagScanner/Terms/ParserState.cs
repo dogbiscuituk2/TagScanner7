@@ -99,19 +99,21 @@
                 DrawLine();
                 HeaderShown = true;
             }
+            if (action == "NewTerm")
+                value = TermInfo(value);
             Debug.WriteLine(format, caller, line, action, value);
             if (action.StartsWith("New") || action.StartsWith("Peek"))
                 return;
             Debug.WriteLine(format, _, _, "Tokens", Say(Tokens.Select(p => p.Value)));
             Debug.WriteLine(format, _, _, "Operators", Say(Operators.Select(p => p.Label())));
-            Debug.WriteLine(format, _, _, "Terms", Terms.Any() ? Terms.First() : string.Empty);
+            Debug.WriteLine(format, _, _, "Terms", Terms.Any() ? TermInfo(Terms.First()) : string.Empty);
             if (Terms.Count > 1)
                 foreach (var term in Terms?.Skip(1))
-                    Debug.WriteLine(format, _, _, _, term);
+                    Debug.WriteLine(format, _, _, _, TermInfo(term));
             Debug.WriteLine(_);
 
             void DrawLine() => Debug.WriteLine(new string('_', 80) + Environment.NewLine);
-            void SayTerm(Term term) => Debug.WriteLine(format, _, _, _, $"{term.GetType().Name} {term}");
+            string TermInfo(object term) => $"{term.GetType().Name}: {term}";
 #endif
         }
 
