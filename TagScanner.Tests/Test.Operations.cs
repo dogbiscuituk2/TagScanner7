@@ -28,5 +28,61 @@
                 TestParse(operation);
             }
         }
+
+        #region Unary Operations
+
+        [DataRow("+123", 123)]
+        [DataRow("+ 123", 123)]
+        [DataRow("-123", -123)]
+        [DataRow("- 123", -123)]
+        [DataRow("----123", 123)]
+        [DataRow("!true", false)]
+        [DataRow("! false", true)]
+        [DataRow("not false", true)]
+        [DataRow("NOT! False", false)]
+
+        #endregion
+        #region Binary Operations
+
+        [DataRow("2 + 3", 5)]
+        [DataRow("3 + 2", 5)]
+        [DataRow("12 - 3", 9)]
+        [DataRow("3 - 12", -9)]
+        [DataRow("2 * 3", 6)]
+        [DataRow("3 * 2", 6)]
+        [DataRow("12 / 3", 4)]
+        [DataRow("3 / 12", 0)]
+        [DataRow("12 % 3", 0)]
+        [DataRow("3 % 12", 3)]
+
+        #endregion
+        #region Associativity
+
+        [DataRow("2 + 3 + 5", 10)]
+        [DataRow("2 + (3 + 5)", 10)]
+        [DataRow("(2 + 3) + 5", 10)]
+        [DataRow("2 - 3 - 5", -6)]
+        [DataRow("2 - (3 - 5)", 4)]
+        [DataRow("(2 - 3) - 5", -6)]
+        [DataRow("2 * 3 * 5", 30)]
+        [DataRow("2 * (3 * 5)", 30)]
+        [DataRow("(2 * 3) * 5", 30)]
+        [DataRow("2 / 3 / 5", 0)]
+        [DataRow("2 / (3 / 5)", null)]
+        [DataRow("(2 / 3) / 5", 0)]
+
+        #endregion
+        #region Distributivity
+
+        [DataRow("2 * 3 + 5", 11)]
+        [DataRow("2 * (3 + 5)", 16)]
+        [DataRow("2 + 3 * 5", 17)]
+        [DataRow("(2 + 3) * 5", 25)]
+
+        #endregion
+
+        [TestMethod]
+        public void TestOperationResult(string text, object sense, object nonsense = null) =>
+            TestResult(text, sense, nonsense);
     }
 }

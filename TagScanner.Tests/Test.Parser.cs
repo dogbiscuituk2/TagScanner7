@@ -70,5 +70,16 @@
             }
             while (!caseSensitive);
         }
+
+        private void TestResult(string text, object sense, object nonsense = null)
+        {
+            var term = new Parser().Parse(text, caseSensitive: true);
+            Assert.AreEqual(expected: sense, actual: term.Result);
+            if (nonsense == null)
+                nonsense = sense;
+            term = new Parser().Parse(text, caseSensitive: false);
+            Assert.AreEqual(expected: nonsense, actual: term.Result);
+        }
+
     }
 }
