@@ -53,10 +53,10 @@
             }
         }
 
-        private void TestParse(string original, string cs, string ci = null)
+        private void TestParse(string original, string sense, string nonsense = null)
         {
-            if (ci == null) ci = cs;
-            var expected = cs;
+            if (nonsense == null) nonsense = sense;
+            var expected = sense;
             var caseSensitive = true;
             do
             {
@@ -65,7 +65,7 @@
                 var term = new Parser().Parse(original, caseSensitive);
                 var actual = term.ToString();
                 Assert.AreEqual(expected, actual);
-                expected = ci;
+                expected = nonsense;
                 caseSensitive = !caseSensitive;
             }
             while (!caseSensitive);

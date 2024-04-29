@@ -27,11 +27,8 @@
         public override Op Op => _op;
 
         public override int Arity => Op.Arity();
+        public Associativity Associativity => Op.GetAssociativity();
         public override Expression Expression => GetExpression();
-        public bool IsAssociative => Op.IsAssociative();
-        public bool IsLeftAssociative => Op.IsLeftAssociative();
-        public bool IsNonAssociative => Op.IsNonAssociative();
-        public bool IsRightAssociative => Op.IsRightAssociative();
         public override bool ParamArray => Op.ParamArray();
         public override Rank Rank => Op.GetRank();
         public override Type ResultType => Op.ResultType() ?? GetCommonResultType(Operands.ToArray());
@@ -92,7 +89,7 @@
         {
             if (Op == Op.Add && ResultType == typeof(string))
                 return Concatenate(Operands.ToArray()).Expression;
-            if (IsLeftAssociative)
+            if ((Associativity & Associativity.Left) != 0)
                 return MakeAssociation(Operands);
             if (Op.CanChain())
                 return MakeChain();
