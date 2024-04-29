@@ -14,7 +14,9 @@
                     term = termList.Operands[index];
                     var start = termList.Start(index);
                     var length = term.Length;
-                    Assert.AreEqual(expected: term.ToString(), actual: termList.ToString().Substring(start, length));
+                    var termToString = term.ToString();
+                    var termListToString = termList.ToString();
+                    Assert.AreEqual(expected: termToString, actual: termListToString.Substring(start, length));
                     var range = termList.CharacterRanges[2 * index + 1];
                     Assert.AreEqual(expected: start, actual: range.First);
                     Assert.AreEqual(expected: length, actual: range.Length);

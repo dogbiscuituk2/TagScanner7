@@ -116,6 +116,8 @@
             for (var index = 0; index < Operands.Count; index++)
                 operands[index] = WrapTerm(index);
             var result = operands[0];
+            if (Op.IsUnary())
+                return string.Format(format, result);
             for (var index = 1; index < count; index++)
                 result = string.Format(format, result, operands[index]);
             return result;
