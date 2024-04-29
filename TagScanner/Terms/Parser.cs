@@ -174,7 +174,7 @@
                 return NewTerm(ParseNumber(match.ToUpperInvariant()));
             if (match.IsParameter())
                 return NewTerm(new Parameter(match.Substring(1, match.Length - 2).ToType()));
-            if (match.IsStaticFunction())
+            if (match.IsFunction())
                 return ParseStaticFunction(match);
             if (match.IsDateTime())
                 return NewTerm(new Constant<DateTime>(DateTimeParser.ParseDateTime(match)));

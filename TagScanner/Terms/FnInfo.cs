@@ -13,7 +13,6 @@
         public FnInfo(Fn fn, Type returnType, bool paramArray, params Type[] paramTypes) : this(fn)
         {
             DeclaringType = typeof(object);
-            IsStatic = true;
             ParamArray = paramArray;
             ParamCount = paramTypes.Length;
             ParamTypes = paramTypes;
@@ -25,7 +24,6 @@
             _methodInfo = methodInfo;
             var parameters = _methodInfo.GetParameters();
             DeclaringType = _methodInfo.DeclaringType;
-            IsStatic = _methodInfo.IsStatic;
             ParamArray = parameters.LastOrDefault()?.GetCustomAttribute(typeof(ParamArrayAttribute)) != null;
             ParamCount = parameters.Length;
             ParamTypes = parameters.Select(p => p.ParameterType).ToArray();
@@ -39,7 +37,6 @@
         #region Public Properties
 
         public Type DeclaringType { get; }
-        public bool IsStatic { get; }
         public bool ParamArray { get; }
         public int ParamCount { get; }
         public Type[] ParamTypes { get; }
@@ -65,9 +62,7 @@
                         expressions.First(),
                         Expression.NewArrayInit(typeof(object), expressions.Skip(1)));
             }
-            return IsStatic 
-                ? Expression.Call(_methodInfo, expressions) 
-                : (Expression)Expression.Call(expressions[0], _methodInfo, expressions.Skip(1));
+            return Expression.Call(_methodInfo, expressions);
         }
 
         #region Private Fields

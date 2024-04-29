@@ -67,8 +67,6 @@
         public static bool IsNonAssociative(this Op op) => (op & Op.NonAssociative) != 0;
         public static bool IsRightAssociative(this Op op) => (op & Op.RightAssociative) != 0;
 
-        public static int Arity(this Op op) => !op.IsNonAssociative() ? int.MaxValue : op.IsBinary() ? 2 : op.IsUnary() ? 1 : 0;
-
         public static Associativity GetAssociativity(this Op op)
         {
             switch (op)

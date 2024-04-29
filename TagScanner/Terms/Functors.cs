@@ -75,12 +75,10 @@
         public static string GetPrototype(this Fn fn)
         {
             var fnInfo = fn.FnInfo();
-            var fullName = fnInfo.IsStatic ? $"{fn}" : $"({fnInfo.DeclaringType.Say()}).{fn}";
-            return $"{fnInfo.ReturnType.Say()} {fullName}({fnInfo.SayParamTypes()})";
+            return $"{fnInfo.ReturnType.Say()} {fn}({fnInfo.SayParamTypes()})";
         }
 
         public static FnInfo FnInfo(this Fn fn) => FunctorDictionary[fn];
-        public static bool IsStatic(this Fn fn) => fn.FnInfo().IsStatic;
         public static bool ParamArray(this Fn fn) => fn.FnInfo().ParamArray;
         public static int ParamCount(this Fn fn) => fn.FnInfo().ParamCount;
         public static Type[] ParamTypes(this Fn fn) => fn.FnInfo().ParamTypes;

@@ -44,9 +44,7 @@
             }
         }
 
-        public override int Arity => FnInfo.ParamCount + (IsStatic ? 0 : 1);
         public override Expression Expression => GetExpression();
-        public bool IsStatic => FnInfo.IsStatic;
         public string Name => $"{Fn}";
         public override bool ParamArray => FnInfo.ParamArray;
         public override Type ResultType => FnInfo.ReturnType;
@@ -55,35 +53,13 @@
 
         #region Public Methods
 
-        public override int Start(int index)
-        {
-            switch (IsStatic)
-            {
-                case true when index == 0:
-                    return Name.Length + 1;
-                case false:
-                {
-                    var up = UseParens(0);
-                    switch (index)
-                    {
-                        case 0: return up ? 1 : 0;
-                        case 1: return Operands.First().Length + Name.Length + (up ? 4 : 2);
-                    }
-                    break;
-                }
-            }
-            return Start(index - 1) + Operands[index - 1].Length + 2;
-        }
+        public override int Start(int index) =>
+            index == 0 ? Name.Length + 1 : Start(index - 1) + Operands[index - 1].Length + 2;
 
         public override string ToString()
         {
             var result = Name;
             var skip = 0;
-            if (!IsStatic)
-            {
-                result = $"{WrapTerm(0)}.{result}";
-                skip = 1;
-            }
             var count = Operands.Count;
             if (count <= skip)
                 return result;
@@ -97,13 +73,11 @@
 
         protected override IEnumerable<Type> GetParameterTypes()
         {
-            if (!IsStatic)
-                yield return FnInfo.DeclaringType;
             foreach (var paramType in FnInfo.ParamTypes)
                 yield return paramType;
         }
 
-        protected override bool UseParens(int index) => !IsStatic && index == 0 && Operands.First().Rank < Rank.Unary;
+        protected override bool UseParens(int index) => false;
 
         #endregion
 

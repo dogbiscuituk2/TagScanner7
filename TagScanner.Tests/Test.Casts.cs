@@ -16,7 +16,6 @@
                 var cast = new Cast(type);
 
                 Assert.IsNotNull(cast);
-                Assert.AreEqual(expected: 1, actual: cast.Arity);
                 Assert.AreEqual(expected: type, actual: cast.NewType);
                 Assert.AreEqual(expected: false, actual: cast.ParamArray);
                 Assert.IsTrue(cast.ParameterTypes.SequenceEqual(new[] { typeof(object) }));

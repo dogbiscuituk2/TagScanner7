@@ -16,7 +16,6 @@
                 var paramArray = op.ParamArray();
                 var operandsCount = unary ? 1 : paramArray ? 4 : 2;
                 Assert.IsNotNull(operation);
-                // Arity?
                 Assert.AreEqual(expected: op.GetAssociativity(), actual: operation.Associativity);
                 Assert.AreEqual(expected: op, actual: operation.Op);
                 Assert.AreEqual(expected: paramArray, actual: operation.ParamArray);

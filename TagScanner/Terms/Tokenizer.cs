@@ -97,12 +97,10 @@
         public static bool IsDyadicOperator(this string token) => BinaryOperators.Contains(token);
         public static bool IsField(this string token) => Fields.Contains(token, IgnoreCase);
         public static bool IsFunction(this string token) => FunctionNames.Contains(token, IgnoreCase);
-        public static bool IsMemberFunction(this string token) => MemberFunctionNames.Contains(token, IgnoreCase);
         public static bool IsMonadicOperator(this string token) => UnaryOperators.Contains(token, IgnoreCase);
         public static bool IsNumber(this string token) => Regex.IsMatch(token, $"{NumberPattern}$");
         public static bool IsOperator(this string token) => Operators.Contains(token, IgnoreCase);
         public static bool IsParameter(this string token) => token[0] == '{';
-        public static bool IsStaticFunction(this string token) => StaticFunctionNames.Contains(token, IgnoreCase);
         public static bool IsString(this string token) => token[0] == DoubleQuote;
         public static bool IsSymbol(this string token) => Symbols.Contains(token, IgnoreCase);
         public static bool IsTimeSpan(this string token) => Regex.IsMatch(token, DateTimeParser.TimeSpanPattern);
@@ -144,9 +142,7 @@
         private static IEnumerable<string> Fields => Tags.Keys.Select(p => p.DisplayName());
         private static IEnumerable<string> FunctionNames => Functors.Keys.Select(fn => $"{fn}");
         private static IEnumerable<string> LogicalNot => new[] { "!", "not" };
-        private static IEnumerable<string> MemberFunctionNames => Functors.Keys.Where(p => !p.IsStatic()).Select(p => $"{p}");
         private static IEnumerable<string> Operators => UnaryOperators.Union(BinaryOperators);
-        private static IEnumerable<string> StaticFunctionNames => Functors.Keys.Where(p => p.IsStatic()).Select(p => $"{p}");
         private static IEnumerable<string> Symbols => Operators.Union(new[] { "(", ")" });
         private static IEnumerable<string> TypeNames => Types.TypeNames;
         private static IEnumerable<string> UnaryMinus => new[] { "-", "－" };

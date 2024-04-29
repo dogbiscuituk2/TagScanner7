@@ -12,7 +12,6 @@
 
         public Type NewType { get; set; }
 
-        public override int Arity => 1;
         public override Expression Expression => Expression.Convert(FirstSubExpression, ResultType);
         public override bool ParamArray => false;
         public override Rank Rank => Rank.Unary;

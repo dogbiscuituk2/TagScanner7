@@ -26,7 +26,6 @@
         private Op _op;
         public override Op Op => _op;
 
-        public override int Arity => Op.Arity();
         public Associativity Associativity => Op.GetAssociativity();
         public override Expression Expression => GetExpression();
         public override bool ParamArray => Op.ParamArray();
@@ -85,20 +84,16 @@
         private static Type GetCommonResultType(params Term[] operands) =>
             operands.Aggregate<Term, Type>(null, (current, t) => current.GetCommonType(t?.ResultType));
 
-        private Expression GetExpression()
-        {
-            if (Op == Op.Add && ResultType == typeof(string))
-                return Concatenate(Operands.ToArray()).Expression;
-            if ((Associativity & Associativity.Left) != 0)
-                return MakeAssociation(Operands);
-            if (Op.CanChain())
-                return MakeChain();
-            switch (Op.Arity())
-            {
-                case 1: return Expression.MakeUnary(Op.ExpType(), FirstSubExpression, null);
-                default: return MakeBinaryExpression(Op, FirstSubExpression, SecondSubExpression);
-            }
-        }
+        private Expression GetExpression() =>
+            Op == Op.Add && ResultType == typeof(string)
+            ? Concatenate(Operands.ToArray()).Expression
+            : (Associativity & Associativity.Left) != 0
+            ? MakeAssociation(Operands)
+            : Op.CanChain()
+            ? MakeChain()
+            : Op.IsUnary()
+            ? Expression.MakeUnary(Op.ExpType(), FirstSubExpression, null)
+            : (Expression)MakeBinaryExpression(Op, FirstSubExpression, SecondSubExpression);
 
         private Expression MakeAssociation(IEnumerable<Term> operands) => MakeAssociation(Op, operands);
 

@@ -18,7 +18,6 @@
 
         #region Public Properties
 
-        public virtual int Arity => -1;
         public override Expression Expression => null;
         public virtual Op Op => Op.Comma;
         public virtual bool ParamArray => true;
@@ -116,8 +115,6 @@
             var operands = new string[count];
             for (var index = 0; index < Operands.Count; index++)
                 operands[index] = WrapTerm(index);
-            if (count == Op.Arity())
-                return string.Format(format, operands);
             var result = operands[0];
             for (var index = 1; index < count; index++)
                 result = string.Format(format, result, operands[index]);
