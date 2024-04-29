@@ -78,7 +78,7 @@
             var left = Terms.Pop();
             var op = Operators.Pop();
             bool
-                ass = op.IsLeftAssociative(),
+                ass = (op.GetAssociativity() & Associativity.Left) != 0,
                 lop = ass && left is TermList leftOp && leftOp.Op == op,
                 rop = ass && right is TermList rightOp && rightOp.Op == op;
             IEnumerable<Term>

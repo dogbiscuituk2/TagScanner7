@@ -54,25 +54,6 @@
             {
                 case Fn.If:
                     return Expression.Condition(expressions[0], expressions[1], expressions[2]);
-                    /*                      l
-                case Fn.ToText:
-                    var newOperands = new List<Term>();
-                    var newLine = new Constant<string>(Environment.NewLine);
-                    for (var index = 0; index < operands.Count; index++)
-                    {
-                        var operand = operands[index];
-                        var operandType = operand.ResultType;
-                        if (operandType != typeof(string))
-                        {
-                            operand = new Function(Fn.ToString, operand);
-                            expressions[index] = operand.Expression;
-                        }
-                        if (index > 0)
-                            newOperands.Add(newLine);
-                        newOperands.Add(operand);
-                    }
-                    return new Concatenation(newOperands.ToArray()).Expression;
-                    */
                 case Fn.Concat:
                     return Expression.Call(
                         _methodInfo,

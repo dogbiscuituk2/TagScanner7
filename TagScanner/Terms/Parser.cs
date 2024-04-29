@@ -67,72 +67,6 @@
 
         #region Private Methods
 
-        private void AdjustParameters(Fn fn, List<Term> parameters)
-        {
-            var paramTypes = fn.ParamTypes();
-            for (var index = parameters.Count; index < paramTypes.Count(); index++)
-                parameters.Add(new Parameter(paramTypes[index]));
-            switch (fn)
-            {
-                case Fn.Compare:
-                case Fn.Contains:
-                case Fn.ContainsX:
-                case Fn.EndsWith:
-                case Fn.EndsWithX:
-                case Fn.Equals:
-                case Fn.EqualsX:
-                case Fn.IndexOf:
-                case Fn.IndexOfX:
-                case Fn.LastIndexOf:
-                case Fn.LastIndexOfX:
-                case Fn.StartsWith:
-                case Fn.StartsWithX:
-                    parameters[2] = CaseSensitive;
-                    break;
-                case Fn.Max:
-                case Fn.Min:
-                case Fn.Pow:
-                    Cast(1, typeof(double));
-                    goto case Fn.Round;
-
-                case Fn.Concat:
-                    CastAll(0, typeof(object));
-                    break;
-
-                case Fn.Format:
-                case Fn.Join:
-                    CastAll(1, typeof(object));
-                    break;
-
-                case Fn.Replace:
-                case Fn.ReplaceX:
-                    parameters[3] = CaseSensitive;
-                    break;
-
-                case Fn.Round:
-                case Fn.Sign:
-                    Cast(0, typeof(double));
-                    break;
-
-                case Fn.ToString:
-                    Cast(0, typeof(object));
-                    break;
-            }
-
-            void Cast(int index, Type type)
-            {
-                var term = parameters[index];
-                if (term.ResultType != type)
-                    parameters[index] = new Cast(type, term);
-            }
-
-            void CastAll(int first, Type type)
-            {
-                for (var index = first; index < parameters.Count; index++)
-                    Cast(index, type);
-            }
-        }
-
         private Term ParseCast()
         {
             var type = DequeueToken().Value.ToType();
@@ -209,7 +143,7 @@
                 }
                 else
                     parameters.Add(NewTerm(ParseSimpleTerm())); // Parentheses are optional for single parameters.
-            AdjustParameters(fn, parameters);
+            PrepareFunctionArgs(fn, parameters);
             return parameters.ToArray();
         }
 
@@ -218,7 +152,8 @@
             var token = DequeueToken();
             var match = token.Value;
             if (match == "(")
-                if (PeekToken().Value.IsType()) return ParseCast();
+                if (PeekToken().Value.IsType())
+                    return ParseCast();
                 else
                 {
                     PushOperator();
@@ -227,17 +162,26 @@
                     AcceptToken(")");
                     return term;
                 }
-            return
-                match.IsBoolean() ? NewTerm(match == "true" ? Term.True : Term.False) :
-                match.IsString() ? NewTerm(new Constant<string>(match.Substring(1, match.Length - 2))) :
-                match.IsField() ? NewTerm(new Field(Tags.Values.Single(p => p.DisplayName == match).Tag)) :
-                match.IsMonadicOperator() ? ParseUnaryOperation(match) :
-                match.IsNumber() ? NewTerm(ParseNumber(match.ToUpperInvariant())) :
-                match.IsParameter() ? NewTerm(new Parameter(match.Substring(1, match.Length - 2).ToType())) :
-                match.IsStaticFunction() ? ParseStaticFunction(match) :
-                match.IsDateTime() ? NewTerm(new Constant<DateTime>(DateTimeParser.ParseDateTime(match))) :
-                match.IsTimeSpan() ? NewTerm(new Constant<TimeSpan>(DateTimeParser.ParseTimeSpan(match))) :
-                (Term)UnexpectedToken(token);
+            if (match.IsBoolean())
+                return NewTerm(match == "true" ? Term.True : Term.False);
+            if (match.IsString())
+                return NewTerm(new Constant<string>(match.Substring(1, match.Length - 2)));
+            if (match.IsField())
+                return NewTerm(new Field(Tags.Values.Single(p => p.DisplayName == match).Tag));
+            if (match.IsMonadicOperator())
+                return ParseUnaryOperation(match);
+            if (match.IsNumber())
+                return NewTerm(ParseNumber(match.ToUpperInvariant()));
+            if (match.IsParameter())
+                return NewTerm(new Parameter(match.Substring(1, match.Length - 2).ToType()));
+            if (match.IsStaticFunction())
+                return ParseStaticFunction(match);
+            if (match.IsDateTime())
+                return NewTerm(new Constant<DateTime>(DateTimeParser.ParseDateTime(match)));
+            if (match.IsTimeSpan())
+                return NewTerm(new Constant<TimeSpan>(DateTimeParser.ParseTimeSpan(match)));
+            UnexpectedToken(token);
+            return null;
         }
 
         private Term ParseStaticFunction(string token)
@@ -270,6 +214,72 @@
                     return null;
             }
             return NewTerm(term);
+        }
+
+        private void PrepareFunctionArgs(Fn fn, List<Term> parameters)
+        {
+            var paramTypes = fn.ParamTypes();
+            for (var index = parameters.Count; index < paramTypes.Count(); index++)
+                parameters.Add(new Parameter(paramTypes[index]));
+            switch (fn)
+            {
+                case Fn.Compare:
+                case Fn.Contains:
+                case Fn.ContainsX:
+                case Fn.EndsWith:
+                case Fn.EndsWithX:
+                case Fn.Equals:
+                case Fn.EqualsX:
+                case Fn.IndexOf:
+                case Fn.IndexOfX:
+                case Fn.LastIndexOf:
+                case Fn.LastIndexOfX:
+                case Fn.StartsWith:
+                case Fn.StartsWithX:
+                    parameters[2] = CaseSensitive;
+                    break;
+                case Fn.Max:
+                case Fn.Min:
+                case Fn.Pow:
+                    Cast(1, typeof(double));
+                    goto case Fn.Round;
+
+                case Fn.Concat:
+                    CastAll(0, typeof(object));
+                    break;
+
+                case Fn.Format:
+                case Fn.Join:
+                    CastAll(1, typeof(object));
+                    break;
+
+                case Fn.Replace:
+                case Fn.ReplaceX:
+                    parameters[3] = CaseSensitive;
+                    break;
+
+                case Fn.Round:
+                case Fn.Sign:
+                    Cast(0, typeof(double));
+                    break;
+
+                case Fn.ToString:
+                    Cast(0, typeof(object));
+                    break;
+            }
+
+            void Cast(int index, Type type)
+            {
+                var term = parameters[index];
+                if (term.ResultType != type)
+                    parameters[index] = new Cast(type, term);
+            }
+
+            void CastAll(int first, Type type)
+            {
+                for (var index = first; index < parameters.Count; index++)
+                    Cast(index, type);
+            }
         }
 
         #endregion
