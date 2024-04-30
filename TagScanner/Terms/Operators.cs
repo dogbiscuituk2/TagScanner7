@@ -19,7 +19,7 @@
                 o = typeof(object),
                 s = typeof(string);
 
-            OperatorDictionary = new Dictionary<Op, OpInfo>
+            OperationDictionary = new Dictionary<Op, OpInfo>
             {
                 { 0, new OpInfo('(', null, 0, 0, null) },
                 { Op.Comma, new OpInfo(',', "{0}, {1}", ExpressionType.MemberAccess, Rank.Comma, o) },
@@ -44,11 +44,37 @@
                 { Op.Dot, new OpInfo('.', "{0}.{1}", ExpressionType.MemberAccess, Rank.Primary, o) },
             };
 
-            Keys = OperatorDictionary.Keys.ToArray();
-            Values = OperatorDictionary.Values.ToArray();
+            Keys = OperationDictionary.Keys.ToArray();
+            Values = OperationDictionary.Values.ToArray();
 
-            foreach (var entry in OperatorDictionary)
+            foreach (var entry in OperationDictionary)
                 entry.Value.Op = entry.Key;
+
+            OperatorDictionary = new Dictionary<string, Op>();
+
+            Add(Op.Comma, ",");
+            Add(Op.And, "&", "&&", "AND");
+            Add(Op.Or, "|", "||", "OR");
+            Add(Op.Xor, "^", "XOR");
+            Add(Op.EqualTo, "=", "==");
+            Add(Op.NotEqualTo, "!=", "<>", "≠");
+            Add(Op.LessThan, "<");
+            Add(Op.NotLessThan, ">=", "≥", "≮");
+            Add(Op.GreaterThan, ">");
+            Add(Op.NotGreaterThan, "<=", "≤", "≯");
+            Add(Op.Add, "+", "＋"); // Op.Positive when Unary.
+            Add(Op.Subtract, "-", "－");  // Op.Negative when Unary.
+            Add(Op.Multiply, "*", "×", "✕");
+            Add(Op.Divide, "/", "÷", "／");
+            Add(Op.Modulo, "%");
+            Add(Op.Not, "!", "NOT");
+            Add(Op.Dot, ".");
+
+            void Add(Op op, params string[] symbols)
+            {
+                foreach (var symbol in symbols)
+                    OperatorDictionary.Add(symbol, op);
+            }
         }
 
         #endregion
@@ -78,66 +104,44 @@
         }
 
         public static bool CanChain(this Op op) => (op & Op.Chains) != 0;
-        public static ExpressionType ExpType(this Op op) => OperatorDictionary[op].ExpressionType;
-        public static string Format(this Op op) => OperatorDictionary[op].Format;
-        public static Rank GetRank(this Op op) => OperatorDictionary[op].Rank;
-        public static Image Image(this Op op) => OperatorDictionary[op].Image;
+        public static ExpressionType ExpType(this Op op) => OperationDictionary[op].ExpressionType;
+        public static string Format(this Op op) => OperationDictionary[op].Format;
+        public static Rank GetRank(this Op op) => OperationDictionary[op].Rank;
+        public static Image Image(this Op op) => OperationDictionary[op].Image;
         public static bool IsBinary(this Op op) => (op & Op.Binary) != 0;
         public static bool IsLogical(this Op op) => (op & Op.Logical) != 0;
         public static bool IsUnary(this Op op) => (op & Op.Unary) != 0;
         public static bool IsVisible(this Op op) => (op & Op.Visible) != 0;
-        public static string Label(this Op op) => OperatorDictionary[op].Label;
-        public static OpInfo OpInfo(this Op op) => OperatorDictionary[op];
+        public static string Label(this Op op) => OperationDictionary[op].Label;
+        public static OpInfo OpInfo(this Op op) => OperationDictionary[op];
         public static bool ParamArray(this Op op) => (op & Op.ParamArray) != 0;
-        public static Type ParamType(this Op op) => OperatorDictionary[op].ParamType;
+        public static Type ParamType(this Op op) => OperationDictionary[op].ParamType;
 
         public static Type ResultType(this Op op) =>
             op.IsLogical() ? typeof(bool) :
             op == Op.Concatenate ? typeof(string) :
             null; // Determined by arg types at runtime.
 
-        public struct OpSymbols
-        {
-            public OpSymbols(Op op, string[] symbols)
-            {
-                Op = op;
-                Symbols = symbols;
-            }
-
-            Op Op;
-            string[] Symbols;
-        }
-
         public static Op ToOperator(this string symbol, bool unary)
         {
-            switch (symbol.ToUpper())
-            {
-                case ",": return Op.Comma;
-                case "&": case "&&": case "AND": return Op.And;
-                case "|": case "||": case "OR": return Op.Or;
-                case "^": case "XOR": return Op.Xor;
-                case "=": case "==": return Op.EqualTo;
-                case "!=": case "<>": case "≠": return Op.NotEqualTo;
-                case "<": return Op.LessThan;
-                case ">=": case "≥": case "≮": return Op.NotLessThan;
-                case ">": return Op.GreaterThan;
-                case "<=": case "≤": case "≯": return Op.NotGreaterThan;
-                case "+": case "＋": return unary ? Op.Positive : Op.Add;
-                case "-": case "－": return unary ? Op.Negative : Op.Subtract;
-                case "*": case "×": case "✕": return Op.Multiply;
-                case "/": case "÷": case "／": return Op.Divide;
-                case "%": return Op.Modulo;
-                case "!": case "NOT": return Op.Not;
-                case ".": return Op.Dot;
-            }
-            throw new FormatException($"The symbol '{symbol}' does not represent a known operator.");
+            var op = OperatorDictionary[symbol];
+            if (unary)
+                switch (op)
+                {
+                    case Op.Add:
+                        return Op.Positive;
+                    case Op.Subtract:
+                        return Op.Negative;
+                }
+            return op;
         }
 
         #endregion
 
         #region Private Fields
 
-        private static readonly Dictionary<Op, OpInfo> OperatorDictionary;
+        private static readonly Dictionary<string, Op> OperatorDictionary;
+        private static readonly Dictionary<Op, OpInfo> OperationDictionary;
 
         #endregion
     }

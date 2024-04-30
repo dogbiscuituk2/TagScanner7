@@ -57,8 +57,8 @@
             Add(Fn.Truncate, d);
             Add(Fn.Upper, s);
 
-            Keys = FunctorDictionary.Keys.ToArray();
-            Values = FunctorDictionary.Values.ToArray();
+            Keys = FunctionDictionary.Keys.ToArray();
+            Values = FunctionDictionary.Values.ToArray();
         }
 
         #endregion
@@ -78,7 +78,7 @@
             return $"{fnInfo.ReturnType.Say()} {fn}({fnInfo.SayParamTypes()})";
         }
 
-        public static FnInfo FnInfo(this Fn fn) => FunctorDictionary[fn];
+        public static FnInfo FnInfo(this Fn fn) => FunctionDictionary[fn];
         public static bool ParamArray(this Fn fn) => fn.FnInfo().ParamArray;
         public static int ParamCount(this Fn fn) => fn.FnInfo().ParamCount;
         public static Type[] ParamTypes(this Fn fn) => fn.FnInfo().ParamTypes;
@@ -89,14 +89,14 @@
 
         #region Private Fields
 
-        private static readonly Dictionary<Fn, FnInfo> FunctorDictionary = new Dictionary<Fn, FnInfo>();
+        private static readonly Dictionary<Fn, FnInfo> FunctionDictionary = new Dictionary<Fn, FnInfo>();
 
         #endregion
 
         #region Private Methods
 
         private static void AddFn(Fn fn, string name, params Type[] paramTypes) =>
-            FunctorDictionary.Add(fn, new FnInfo(fn,
+            FunctionDictionary.Add(fn, new FnInfo(fn,
                 typeof(Functors).GetMethods(BindingFlags.Public | BindingFlags.Static)
                 .Single(p => p.Name == name && p.GetParamTypes().SequenceEqual(paramTypes))));
 
@@ -105,7 +105,7 @@
         private static void Add(Fn fn, string name, params Type[] paramTypes) => AddFn(fn, name, paramTypes);
 
         private static void AddUser(Fn fn, Type returnType, bool paramArray, params Type[] paramTypes) =>
-            FunctorDictionary.Add(fn, new FnInfo(fn, returnType, paramArray, paramTypes));
+            FunctionDictionary.Add(fn, new FnInfo(fn, returnType, paramArray, paramTypes));
 
         private static IEnumerable<Type> GetParamTypes(this MethodInfo methodInfo) =>
             methodInfo.GetParameters().Select(p => p.ParameterType);
