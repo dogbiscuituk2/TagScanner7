@@ -4,6 +4,7 @@
     using System.Collections.Generic;
     using System.Linq;
     using System.Runtime.CompilerServices;
+    using TagScanner.Utils;
 
     public class Parser
     {
@@ -103,7 +104,7 @@
                 term = Consolidate(term);
             }
             if (term is Operation operation)
-                PrepareOperationArgs(operation);
+                PrepareArgs(operation.Op, operation.Operands);
             return term;
         }
 
@@ -135,7 +136,7 @@
                 }
                 else
                     parameters.Add(NewTerm(ParseSimpleTerm())); // Parentheses are optional for single parameters.
-            PrepareFunctionArgs(fn, parameters);
+            PrepareArgs(fn, parameters);
             return NewTerm(new Function(fn, parameters.ToArray()));
         }
 
@@ -203,11 +204,11 @@
             return NewTerm(term);
         }
 
-        private void PrepareFunctionArgs(Fn fn, List<Term> parameters)
+        private void PrepareArgs(Fn fn, List<Term> args)
         {
             var paramTypes = fn.ParamTypes();
-            for (var index = parameters.Count; index < paramTypes.Count(); index++)
-                parameters.Add(new Parameter(paramTypes[index]));
+            for (var index = args.Count; index < paramTypes.Count(); index++)
+                args.Add(new Parameter(paramTypes[index]));
             switch (fn)
             {
                 case Fn.Compare:
@@ -217,7 +218,7 @@
                 case Fn.IndexOf: case Fn.IndexOfX:
                 case Fn.LastIndexOf: case Fn.LastIndexOfX:
                 case Fn.StartsWith: case Fn.StartsWithX:
-                    parameters[2] = CaseSensitive;
+                    args[2] = CaseSensitive;
                     break;
 
                 case Fn.Max:
@@ -237,7 +238,7 @@
 
                 case Fn.Replace:
                 case Fn.ReplaceX:
-                    parameters[3] = CaseSensitive;
+                    args[3] = CaseSensitive;
                     break;
 
                 case Fn.Round:
@@ -252,40 +253,38 @@
 
             void Cast(int index, Type type)
             {
-                var term = parameters[index];
+                var term = args[index];
                 if (term.ResultType != type)
-                    parameters[index] = new Cast(type, term);
+                    args[index] = new Cast(type, term);
             }
 
             void CastAll(int first, Type type)
             {
-                for (var index = first; index < parameters.Count; index++)
+                for (var index = first; index < args.Count; index++)
                     Cast(index, type);
             }
         }
 
-        private void PrepareOperationArgs(Operation operation)
+        private void PrepareArgs(Op op, List<Term> args)
         {
-            var op = operation.Op;
             if (op.IsUnary())
                 return;
-            var operands = operation.Operands;
-            var count = operands.Count;
-            var commonType = operation.CommonType;
+            var count = args.Count;
+            var commonType = Utility.GetCompatibleType(args.Select(p => p.ResultType).ToArray());
             var adjustCase = !CaseSensitive && op.CanChain();
             for (var index = 0; index < count; index++)
             {
-                var operand = operands[index];
+                var operand = args[index];
                 if (operand.ResultType != commonType)
                     operand = new Cast(commonType, operand);
                 if (adjustCase)
                 {
-                    if (operand.ResultType == typeof(string) && !(operand is Function function && function.Fn == Fn.Upper))
+                    if (operand.ResultType == typeof(string) && !(operand is Function f && f.Fn == Fn.Upper))
                         operand = operand is Constant<string> constantString
                             ? new Constant<string>(constantString.Value.ToUpperInvariant())
                             : (Term)new Function(Fn.Upper, operand);
                 }
-                operands[index] = operand;
+                args[index] = operand;
             }
         }
 
