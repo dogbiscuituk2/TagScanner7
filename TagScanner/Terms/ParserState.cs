@@ -9,12 +9,6 @@
 
     public class ParserState
     {
-        #region Public Properties
-
-        public bool CaseSensitive { get; set; }
-
-        #endregion
-
         #region Public Methods
 
         public bool AnyOperators() => Operators.Any();

@@ -3,7 +3,6 @@
     using System;
     using System.Collections.Generic;
     using System.Linq;
-    using System.Reflection;
     using System.Runtime.CompilerServices;
 
     public class Parser
@@ -56,13 +55,8 @@
 
         #region Private Fields
 
-        public bool CaseSensitive
-        {
-            get => State.CaseSensitive;
-            set => State.CaseSensitive = value;
-        }
-
-        private ParserState State { get; } = new ParserState();
+        public bool CaseSensitive;
+        private readonly ParserState State = new ParserState();
 
         #endregion
 
@@ -217,20 +211,15 @@
             switch (fn)
             {
                 case Fn.Compare:
-                case Fn.Contains:
-                case Fn.ContainsX:
-                case Fn.EndsWith:
-                case Fn.EndsWithX:
-                case Fn.Equals:
-                case Fn.EqualsX:
-                case Fn.IndexOf:
-                case Fn.IndexOfX:
-                case Fn.LastIndexOf:
-                case Fn.LastIndexOfX:
-                case Fn.StartsWith:
-                case Fn.StartsWithX:
+                case Fn.Contains: case Fn.ContainsX:
+                case Fn.EndsWith: case Fn.EndsWithX:
+                case Fn.Equals: case Fn.EqualsX:
+                case Fn.IndexOf: case Fn.IndexOfX:
+                case Fn.LastIndexOf: case Fn.LastIndexOfX:
+                case Fn.StartsWith: case Fn.StartsWithX:
                     parameters[2] = CaseSensitive;
                     break;
+
                 case Fn.Max:
                 case Fn.Min:
                 case Fn.Pow:

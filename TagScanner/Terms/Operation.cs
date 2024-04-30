@@ -70,20 +70,26 @@
         {
             switch (op)
             {
-                case Op.Concatenate: return string.Empty;
-                case Op.And: return true;
+                case Op.Concatenate:
+                    return string.Empty;
+                case Op.And:
+                    return true;
                 case Op.Or:
-                case Op.Xor: return false;
+                case Op.Xor:
+                    return false;
                 case Op.Add:
-                case Op.Subtract: return 0;
+                case Op.Subtract:
+                    return 0;
                 case Op.Multiply:
-                case Op.Divide: return 1;
-                default: return null;
+                case Op.Divide:
+                    return 1;
+                default:
+                    return null;
             }
         }
 
         private static Type GetCommonType(params Term[] operands) =>
-            operands.Aggregate<Term, Type>(null, (current, t) => current.GetCommonType(t?.ResultType));
+            operands.Aggregate<Term, Type>(null, (p, q) => p.GetCommonType(q?.ResultType));
 
         private Expression GetExpression()
         {
