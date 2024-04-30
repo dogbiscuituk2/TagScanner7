@@ -62,11 +62,6 @@
 
         #region Public Extension Methods
 
-        public static bool IsAssociative(this Op op) => (op & Op.Associative) != 0;
-        public static bool IsLeftAssociative(this Op op) => (op & Op.LeftAssociative) != 0;
-        public static bool IsNonAssociative(this Op op) => (op & Op.NonAssociative) != 0;
-        public static bool IsRightAssociative(this Op op) => (op & Op.RightAssociative) != 0;
-
         public static Associativity GetAssociativity(this Op op)
         {
             if (op.IsUnary())
@@ -88,13 +83,18 @@
         public static Rank GetRank(this Op op) => OperatorDictionary[op].Rank;
         public static Image Image(this Op op) => OperatorDictionary[op].Image;
         public static bool IsBinary(this Op op) => (op & Op.Binary) != 0;
+        public static bool IsLogical(this Op op) => (op & Op.Logical) != 0;
         public static bool IsUnary(this Op op) => (op & Op.Unary) != 0;
         public static bool IsVisible(this Op op) => (op & Op.Visible) != 0;
         public static string Label(this Op op) => OperatorDictionary[op].Label;
         public static OpInfo OpInfo(this Op op) => OperatorDictionary[op];
         public static bool ParamArray(this Op op) => (op & Op.ParamArray) != 0;
         public static Type ParamType(this Op op) => OperatorDictionary[op].ParamType;
-        public static Type ResultType(this Op op) => OperatorDictionary[op].ResultType;
+
+        public static Type ResultType(this Op op) =>
+            op.IsLogical() ? typeof(bool) :
+            op == Op.Concatenate ? typeof(string) :
+            null; // Determined by arg types at runtime.
 
         public struct OpSymbols
         {

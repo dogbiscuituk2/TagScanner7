@@ -33,6 +33,7 @@
         Equality = EqualTo | NotEqualTo,
         Relational = LessThan | NotLessThan | GreaterThan | NotGreaterThan,
         Chains = EqualTo | Relational,
+        Logical = And | Or | Xor | Chains | Not,
         Associative = Comma | And | Or | Xor | Chains | Concatenate | Add | Multiply,
         LeftAssociative = Subtract | Divide | Modulo,
         RightAssociative = None,

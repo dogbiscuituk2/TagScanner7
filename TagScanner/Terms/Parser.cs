@@ -3,6 +3,7 @@
     using System;
     using System.Collections.Generic;
     using System.Linq;
+    using System.Reflection;
     using System.Runtime.CompilerServices;
 
     public class Parser
@@ -107,15 +108,12 @@
                 if (op == 0) break;
                 term = Consolidate(term);
             }
+            if (term is Operation operation)
+                PrepareOperationArgs(operation);
             return term;
         }
 
-        private Term ParseMemberFunction(Term self)
-        {
-            var fn = DequeueToken().Value.ToFunction();
-            var parameters = ParseParameters(fn, self);
-            return NewTerm(new Function(fn, parameters));
-        }
+        private Term ParseMemberFunction(Term self) => ParseParameters(DequeueToken().Value.ToFunction(), self);
 
         private static Term ParseNumber(string token) =>
             token.EndsWith("L") ? new Constant<long>(long.Parse(token.TrimEnd('L'))) :
@@ -123,7 +121,7 @@
             token.Contains(".") ? new Constant<double>(double.Parse(token)) :
             (Term)new Constant<int>(int.Parse(token));
 
-        private Term[] ParseParameters(Fn fn, Term self = null)
+        private Term ParseParameters(Fn fn, Term self = null)
         {
             var parameters = new List<Term>();
             if (self != null)
@@ -144,7 +142,7 @@
                 else
                     parameters.Add(NewTerm(ParseSimpleTerm())); // Parentheses are optional for single parameters.
             PrepareFunctionArgs(fn, parameters);
-            return parameters.ToArray();
+            return NewTerm(new Function(fn, parameters.ToArray()));
         }
 
         private Term ParseSimpleTerm()
@@ -184,13 +182,8 @@
             return null;
         }
 
-        private Term ParseStaticFunction(string token)
-        {
-            var fn = token.ToFunction();
-            var parameters = ParseParameters(fn);
-            return NewTerm(new Function(fn, parameters));
-        }
-
+        private Term ParseStaticFunction(string token) => ParseParameters(token.ToFunction());
+        
         private Term ParseUnaryOperation(string token)
         {
             var term = ParseSimpleTerm();
@@ -279,6 +272,31 @@
             {
                 for (var index = first; index < parameters.Count; index++)
                     Cast(index, type);
+            }
+        }
+
+        private void PrepareOperationArgs(Operation operation)
+        {
+            var op = operation.Op;
+            if (op.IsUnary())
+                return;
+            var operands = operation.Operands;
+            var count = operands.Count;
+            var commonType = operation.CommonType;
+            var adjustCase = !CaseSensitive && op.CanChain();
+            for (var index = 0; index < count; index++)
+            {
+                var operand = operands[index];
+                if (operand.ResultType != commonType)
+                    operand = new Cast(commonType, operand);
+                if (adjustCase)
+                {
+                    if (operand.ResultType == typeof(string) && !(operand is Function function && function.Fn == Fn.Upper))
+                        operand = operand is Constant<string> constantString
+                            ? new Constant<string>(constantString.Value.ToUpperInvariant())
+                            : (Term)new Function(Fn.Upper, operand);
+                }
+                operands[index] = operand;
             }
         }
 

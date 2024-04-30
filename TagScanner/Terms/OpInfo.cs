@@ -23,7 +23,7 @@
             Label = label.ToString();
             ParamType = paramType;
             Rank = rank;
-            ResultType = resultType ?? paramType;
+            //ResultType = resultType ?? paramType;
         }
 
         public ExpressionType ExpressionType;
@@ -34,6 +34,6 @@
         public bool ParamArray;
         public Type ParamType;
         public Rank Rank;
-        public Type ResultType;
+        //public Type ResultType;
     }
 }

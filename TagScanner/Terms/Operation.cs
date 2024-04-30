@@ -4,7 +4,6 @@
     using System.Collections.Generic;
     using System.Linq;
     using System.Linq.Expressions;
-    using TagLib.IFD;
     using Utils;
 
     public class Operation : TermList
@@ -28,10 +27,11 @@
         public override Op Op => _op;
 
         public Associativity Associativity => Op.GetAssociativity();
+        public Type CommonType => GetCommonType(Operands.ToArray());
         public override Expression Expression => GetExpression();
         public override bool ParamArray => Op.ParamArray();
         public override Rank Rank => Op.GetRank();
-        public override Type ResultType => Op.ResultType() ?? GetCommonResultType(Operands.ToArray());
+        public override Type ResultType => Op.ResultType() ?? CommonType;
 
         #endregion
 
@@ -82,7 +82,7 @@
             }
         }
 
-        private static Type GetCommonResultType(params Term[] operands) =>
+        private static Type GetCommonType(params Term[] operands) =>
             operands.Aggregate<Term, Type>(null, (current, t) => current.GetCommonType(t?.ResultType));
 
         private Expression GetExpression()

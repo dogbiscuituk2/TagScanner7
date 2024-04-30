@@ -54,36 +54,26 @@
             return token.Value == expected ? token : UnexpectedToken(token, expected);
         }
 
-        private void AdjustOperands(Operation operation)
-        {
-            var op = operation.Op;
-            var operands = operation.Operands;
-            var count = operands.Count;
-            var adjustCase = !CaseSensitive && op.CanChain();
-            //var type = Utility.GetCompatibleType(operands.Select(p => p.ResultType).ToArray());
-            for (var index = 0; index < count; index++)
-            {
-                var operand = operands[index];
-                if (adjustCase && operand.ResultType == typeof(string) && !(operand is Function function && function.Fn == Fn.Upper))
-                    operands[index] = operand is Constant<string> constantString
-                        ? new Constant<string>(constantString.Value.ToUpperInvariant())
-                        : (Term)new Function(Fn.Upper, operand);
-            //    if (operand.ResultType != type)
-            //        operands[index] = new Cast(type, operand);
-            }
-        }
-
-        private TermList Consolidate(Term right)
+        /// <summary>
+        /// Merge a new Term with the current Term, respecting the Associativity of the current Op.
+        /// When the Op has Associativity.Full, these two terms (or term lists) can have their operands merged freely.
+        /// When the Op has just Associativity.Left, the operand list of the new added term cannot be merged.
+        /// When the Op has just Associativity.Right, the operand list of the new added term cannot be merged.
+        /// When the Op has Associativity.None, the operands cannot be merged at all..
+        /// </summary>
+        /// <param name="term">The Term to be merged with the current Term.</param>
+        /// <returns>The new Term resulting from the merge.</returns>
+        private TermList Consolidate(Term term)
         {
             var left = Terms.Pop();
             var op = Operators.Pop();
+            var ass = op.GetAssociativity();
             bool
-                ass = (op.GetAssociativity() & Associativity.Left) != 0,
-                lop = ass && left is TermList leftOp && leftOp.Op == op,
-                rop = ass && right is TermList rightOp && rightOp.Op == op;
+                lop = (ass & Associativity.Left) != 0 && left is TermList leftOp && leftOp.Op == op,
+                rop = (ass & Associativity.Right) != 0 && term is TermList rightOp && rightOp.Op == op;
             IEnumerable<Term>
                 leftOps = lop ? ((TermList)left).Operands.ToArray() : new[] { left },
-                rightOps = rop ? ((TermList)right).Operands.ToArray() : new[] { right };
+                rightOps = rop ? ((TermList)term).Operands.ToArray() : new[] { term };
             var operands = leftOps.Concat(rightOps).ToArray();
             return op == Op.Comma ? new TermList(operands) : new Operation(op, operands);
         }
