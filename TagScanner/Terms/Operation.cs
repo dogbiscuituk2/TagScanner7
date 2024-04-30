@@ -27,11 +27,10 @@
         public override Op Op => _op;
 
         public Associativity Associativity => Op.GetAssociativity();
-        public Type CommonType => GetCommonType(Operands.ToArray());
         public override Expression Expression => GetExpression();
         public override bool ParamArray => Op.ParamArray();
         public override Rank Rank => Op.GetRank();
-        public override Type ResultType => Op.ResultType() ?? CommonType;
+        public override Type ResultType => Op.ResultType() ?? Utility.GetCompatibleType(Operands.Select(p => p.ResultType).ToArray());
 
         #endregion
 
@@ -87,9 +86,6 @@
                     return null;
             }
         }
-
-        private static Type GetCommonType(params Term[] operands) =>
-            operands.Aggregate<Term, Type>(null, (p, q) => p.GetCommonType(q?.ResultType));
 
         private Expression GetExpression()
         {
