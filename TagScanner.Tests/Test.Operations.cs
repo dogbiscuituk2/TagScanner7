@@ -179,6 +179,17 @@
         [DataRow("2 = 1+1 = 2", true)]
         [DataRow("2 != 1 != 2", true)]
 
+        [DataRow("2 < 3 < 5", true)]
+        [DataRow("2 < 3 < 1", false)]
+        [DataRow("2 <= 3 <= 5", true)]
+        [DataRow("2 <= 3 <= 1", false)]
+        [DataRow("5 > 3 > 2", true)]
+        [DataRow("5 > 3 > 3", false)]
+        [DataRow("5 >= 3 >= 3", true)]
+        [DataRow("2 >= 3 >= 1", false)]
+
+        [DataRow("(\"a\" + \"b\") + \"c\" + (\"d\" + \"e\")", "abcde")]
+
         [DataRow("2 + 3 + 5", 10)]
         [DataRow("2 + (3 + 5)", 10)]
         [DataRow("(2 + 3) + 5", 10)]
@@ -195,6 +206,10 @@
         [DataRow("2 / (3 / 5)", null)]
         [DataRow("(2 / 3) / 5", 0)]
 
+        [DataRow("65 % 6 % 3", 2)]
+        [DataRow("65 % (5 % 3)", 1)]
+        [DataRow("(65 % 11) % 5", 0)]
+
         #endregion
         #region Distributivity
 
@@ -202,6 +217,11 @@
         [DataRow("2 * (3 + 5)", 16)]
         [DataRow("2 + 3 * 5", 17)]
         [DataRow("(2 + 3) * 5", 25)]
+
+        [DataRow("2 * 3 - 5", 1)]
+        [DataRow("2 * (3 - 5)", -4)]
+        [DataRow("2 - 3 * 5", -13)]
+        [DataRow("(2 - 3) * 5", -5)]
 
         #endregion
 
