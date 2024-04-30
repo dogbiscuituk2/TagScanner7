@@ -6,6 +6,8 @@
 
     public class OpInfo
     {
+        #region Constructors
+
         public OpInfo(char label, string format, ExpressionType expressionType, Rank rank, Type paramType)
             : this(label, format, expressionType, rank, paramType, null, null) { }
 
@@ -23,8 +25,10 @@
             Label = label.ToString();
             ParamType = paramType;
             Rank = rank;
-            //ResultType = resultType ?? paramType;
         }
+
+        #endregion
+        #region Fields
 
         public ExpressionType ExpressionType;
         public string Format;
@@ -34,6 +38,7 @@
         public bool ParamArray;
         public Type ParamType;
         public Rank Rank;
-        //public Type ResultType;
+
+        #endregion
     }
 }
