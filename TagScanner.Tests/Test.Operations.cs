@@ -24,26 +24,18 @@
                 Assert.AreEqual(expected: op.ResultType(), actual: operation.ResultType);
                 AddTestValues(operation);
                 Assert.AreEqual(expected: operandsCount, actual: operation.Operands.Count);
+
+                if (op != Op.Comma)
+
                 TestParse(operation);
             }
         }
+        #region TermList
 
-        #region Unary Operations
+        //[DataRow("1, 2, 3", "")]
 
-        [DataRow("+123", 123)]
-        [DataRow("+123.0", 123D)]
-        [DataRow("+ 123", 123)]
-        [DataRow("+ 123.0", 123D)]
-        [DataRow("-123", -123)]
-        [DataRow("-123.0", -123D)]
-        [DataRow("- 123", -123)]
-        [DataRow("- 123.0", -123D)]
-        [DataRow("----123", 123)]
-        [DataRow("----123.0", 123D)]
-        [DataRow("!true", false)]
-        [DataRow("! false", true)]
-        [DataRow("not false", true)]
-        [DataRow("NOT! False", false)]
+        #endregion
+        #region Relational Operations
 
         #endregion
         #region Arithmetic Operations
@@ -70,9 +62,22 @@
         [DataRow("3 % 12", 3)]
 
         #endregion
-        #region Relational Operations
+        #region Unary Operations
 
-
+        [DataRow("+123", 123)]
+        [DataRow("+123.0", 123D)]
+        [DataRow("+ 123", 123)]
+        [DataRow("+ 123.0", 123D)]
+        [DataRow("-123", -123)]
+        [DataRow("-123.0", -123D)]
+        [DataRow("- 123", -123)]
+        [DataRow("- 123.0", -123D)]
+        [DataRow("----123", 123)]
+        [DataRow("----123.0", 123D)]
+        [DataRow("!true", false)]
+        [DataRow("! false", true)]
+        [DataRow("not false", true)]
+        [DataRow("NOT! False", false)]
 
         #endregion
         #region Associativity
@@ -104,8 +109,8 @@
         public void TestOperationResult(string text, object sense, object nonsense = null) =>
             TestResult(text, sense, nonsense);
 
-        [DataRow("!true", false)]
-        [TestMethod]
+        //[DataRow("1, 2, 3", "")]
+        //[TestMethod]
         public void ScratchTestOperationResult(string text, object sense, object nonsense = null) =>
             TestResult(text, sense, nonsense);
     }

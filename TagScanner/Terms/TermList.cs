@@ -18,7 +18,7 @@
 
         #region Public Properties
 
-        public override Expression Expression => null;
+        public override Expression Expression => GetExpression();
         public virtual Op Op => Op.Comma;
         public virtual bool ParamArray => true;
         public IEnumerable<Type> ParameterTypes => GetParameterTypes();
@@ -29,6 +29,56 @@
         #endregion
 
         #region Public Methods
+
+        public override int Start(int index)
+        {
+            int result;
+            var format = Op.Format();
+            var delta = format.IndexOf("{0}");
+            var up = UseParens(0);
+            if (index == 0)
+                result = delta + (up ? 1 : 0);
+            else
+            {
+                delta = format.IndexOf("{1}") - delta - 3;
+                result =
+                    Start(index - 1)
+                    + Operands[index - 1].Length
+                    + (UseParens(index - 1) ? 1 : 0)
+                    + delta
+                    + (UseParens(index) ? 1 : 0);
+            }
+            return result;
+        }
+
+        public override string ToString()
+        {
+            var format = Op.Format();
+            var count = Operands.Count;
+            if (count < 1)
+                return string.Empty;
+            var operands = new string[count];
+            for (var index = 0; index < Operands.Count; index++)
+                operands[index] = WrapTerm(index);
+            var result = operands[0];
+            if (Op.IsUnary())
+                return string.Format(format, result);
+            for (var index = 1; index < count; index++)
+                result = string.Format(format, result, operands[index]);
+            return result;
+        }
+
+        #endregion
+
+        #region Protected Properties
+
+        protected Expression FirstSubExpression => Operands?.First()?.Expression;
+        protected Expression SecondSubExpression => Operands?.Skip(1)?.First()?.Expression;
+        protected Expression ThirdSubExpression => Operands?.Skip(2)?.First()?.Expression;
+
+        #endregion
+
+        #region Protected Methods
 
         protected override List<CharacterRange> GetCharacterRangesAll()
         {
@@ -71,57 +121,7 @@
             }
         }
 
-        public override int Start(int index)
-        {
-            int result;
-            var format = Op.Format();
-            var delta = format.IndexOf("{0}");
-            var up = UseParens(0);
-            if (index == 0)
-                result = delta + (up ? 1 : 0);
-            else
-            {
-                delta = format.IndexOf("{1}") - delta - 3;
-                result =
-                    Start(index - 1)
-                    + Operands[index - 1].Length
-                    + (UseParens(index - 1) ? 1 : 0)
-                    + delta
-                    + (UseParens(index) ? 1 : 0);
-            }
-            return result;
-        }
-
-        #endregion
-
-        #region Protected Properties
-
-        protected Expression FirstSubExpression => Operands?.First()?.Expression;
-        protected Expression SecondSubExpression => Operands?.Skip(1)?.First()?.Expression;
-        protected Expression ThirdSubExpression => Operands?.Skip(2)?.First()?.Expression;
-
-        #endregion
-
-        #region Protected Methods
-
         protected virtual IEnumerable<Type> GetParameterTypes() => new[] { typeof(object) };
-
-        public override string ToString()
-        {
-            var format = Op.Format();
-            var count = Operands.Count;
-            if (count < 1)
-                return string.Empty;
-            var operands = new string[count];
-            for (var index = 0; index < Operands.Count; index++)
-                operands[index] = WrapTerm(index);
-            var result = operands[0];
-            if (Op.IsUnary())
-                return string.Format(format, result);
-            for (var index = 1; index < count; index++)
-                result = string.Format(format, result, operands[index]);
-            return result;
-        }
 
         protected virtual bool UseParens(int index) => false;
 
@@ -152,6 +152,12 @@
         {
             if (operands != null)
                 Operands.AddRange(operands);
+        }
+
+        private Expression GetExpression()
+        {
+            var expressions = Operands.Select(p => p.Expression).ToList();
+            return Expression.NewArrayInit(typeof(object), expressions);
         }
 
         private static Type GetQualifiedType(string typeName, params string[] nameSpaces)

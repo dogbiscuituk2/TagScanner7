@@ -112,12 +112,19 @@
             // If either type is null, then use the other.
             if (type1 == null) return type2;
             if (type2 == null) return type1;
+            // If either type is "object", then use "object".
+            if (IsType(typeof(object), type1, type2))
+                return typeof(object);
+            // If one is a value type and the other not, then use "object".
+            if (type1.IsValueType ^ type2.IsValueType)
+                    return typeof(object);
             // Otherwise, use the "wider" of the two different non-null types.
             return MatchType(typeof(double), type1, type2) // Type "double" absorbs any "float", "int" or "long".
                 ?? MatchType(typeof(float), type1, type2) // Type "float" absorbs any "long" or "int".
                 ?? MatchType(typeof(long), type1, type2) // Type "long" absorbs any "int".
                 ?? MatchType(typeof(string), type1, type2); // Type "string" absorbs any "char".
 
+            bool IsType(Type t, Type t1, Type t2) => t == t1 || t == t2;
             Type MatchType(Type t, Type t1, Type t2) => t == t1 || t == t2 ? t : null;
         }
 
