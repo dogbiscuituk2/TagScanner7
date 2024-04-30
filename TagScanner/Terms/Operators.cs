@@ -69,6 +69,8 @@
 
         public static Associativity GetAssociativity(this Op op)
         {
+            if (op.IsUnary())
+                return Associativity.None;
             switch (op)
             {
                 case Op.Subtract:
@@ -94,63 +96,39 @@
         public static Type ParamType(this Op op) => OperatorDictionary[op].ParamType;
         public static Type ResultType(this Op op) => OperatorDictionary[op].ResultType;
 
+        public struct OpSymbols
+        {
+            public OpSymbols(Op op, string[] symbols)
+            {
+                Op = op;
+                Symbols = symbols;
+            }
+
+            Op Op;
+            string[] Symbols;
+        }
+
         public static Op ToOperator(this string symbol, bool unary)
         {
             switch (symbol.ToUpper())
             {
-                case ",":
-                    return Op.Comma;
-                case "&":
-                case "&&":
-                case "AND":
-                    return Op.And;
-                case "|":
-                case "||":
-                case "OR":
-                    return Op.Or;
-                case "^":
-                case "XOR":
-                    return Op.Xor;
-                case "=":
-                case "==":
-                    return Op.EqualTo;
-                case "!=":
-                case "<>":
-                case "≠":
-                    return Op.NotEqualTo;
-                case "<":
-                    return Op.LessThan;
-                case ">=":
-                case "≥":
-                case "≮":
-                    return Op.NotLessThan;
-                case ">":
-                    return Op.GreaterThan;
-                case "<=":
-                case "≤":
-                case "≯":
-                    return Op.NotGreaterThan;
-                case "+":
-                case "＋":
-                    return unary ? Op.Positive : Op.Add;
-                case "-":
-                case "－":
-                    return unary ? Op.Negative : Op.Subtract;
-                case "*":
-                case "×":
-                case "✕":
-                    return Op.Multiply;
-                case "/":
-                case "÷":
-                case "／":
-                    return Op.Divide;
-                case "%":
-                    return Op.Modulo;
-                case "!":
-                case "NOT":
-                    return Op.Not;
-                case ".":
-                    return Op.Dot;
+                case ",": return Op.Comma;
+                case "&": case "&&": case "AND": return Op.And;
+                case "|": case "||": case "OR": return Op.Or;
+                case "^": case "XOR": return Op.Xor;
+                case "=": case "==": return Op.EqualTo;
+                case "!=": case "<>": case "≠": return Op.NotEqualTo;
+                case "<": return Op.LessThan;
+                case ">=": case "≥": case "≮": return Op.NotLessThan;
+                case ">": return Op.GreaterThan;
+                case "<=": case "≤": case "≯": return Op.NotGreaterThan;
+                case "+": case "＋": return unary ? Op.Positive : Op.Add;
+                case "-": case "－": return unary ? Op.Negative : Op.Subtract;
+                case "*": case "×": case "✕": return Op.Multiply;
+                case "/": case "÷": case "／": return Op.Divide;
+                case "%": return Op.Modulo;
+                case "!": case "NOT": return Op.Not;
+                case ".": return Op.Dot;
             }
             throw new FormatException($"The symbol '{symbol}' does not represent a known operator.");
         }

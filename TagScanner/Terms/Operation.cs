@@ -4,6 +4,7 @@
     using System.Collections.Generic;
     using System.Linq;
     using System.Linq.Expressions;
+    using TagLib.IFD;
     using Utils;
 
     public class Operation : TermList
@@ -84,16 +85,18 @@
         private static Type GetCommonResultType(params Term[] operands) =>
             operands.Aggregate<Term, Type>(null, (current, t) => current.GetCommonType(t?.ResultType));
 
-        private Expression GetExpression() =>
-            Op == Op.Add && ResultType == typeof(string)
-            ? Concatenate(Operands.ToArray()).Expression
-            : (Associativity & Associativity.Left) != 0
-            ? MakeAssociation(Operands)
-            : Op.CanChain()
-            ? MakeChain()
-            : Op.IsUnary()
-            ? Expression.MakeUnary(Op.ExpType(), FirstSubExpression, null)
-            : (Expression)MakeBinaryExpression(Op, FirstSubExpression, SecondSubExpression);
+        private Expression GetExpression()
+        {
+            if (Op == Op.Add && ResultType == typeof(string))
+                return Concatenate(Operands.ToArray()).Expression;
+            if ((Associativity & Associativity.Left) != 0)
+                return MakeAssociation(Operands);
+            if (Op.CanChain())
+                return MakeChain();
+            if (Op.IsUnary())
+                return Expression.MakeUnary(Op.ExpType(), FirstSubExpression, null);
+            return MakeBinaryExpression(Op, FirstSubExpression, SecondSubExpression);
+        }
 
         private Expression MakeAssociation(IEnumerable<Term> operands) => MakeAssociation(Op, operands);
 
