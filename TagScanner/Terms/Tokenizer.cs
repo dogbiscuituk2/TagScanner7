@@ -109,7 +109,8 @@
         public static Rank Rank(this string token, bool unary) => token.ToOperator(unary).GetRank();
         public static bool StartsWithNumber(this string token) => Regex.IsMatch(token, NumberPattern);
 
-        private const string NumberPattern = @"^[-+]?(\d+\.?\d*(UL|LU|D|F|L|M|U)?)";
+        private const string NumberPattern = @"^(\d+\.?\d*(UL|LU|D|F|L|M|U)?)";
+        //private const string NumberPattern = @"^[-+]?(\d+\.?\d*(UL|LU|D|F|L|M|U)?)";
 
         #endregion
 

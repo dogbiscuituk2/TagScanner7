@@ -121,7 +121,7 @@
             var parameters = new List<Term>();
             if (self != null)
                 parameters.Add(self);
-            if (AnyTokens() && !PeekToken().Value.IsBinaryOperator())
+            if (AnyTokens() /*&& !PeekToken().Value.IsBinaryOperator()*/)
                 if (PeekToken().Value == "(")
                 {
                     AcceptToken("(");

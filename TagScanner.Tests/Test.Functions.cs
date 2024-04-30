@@ -332,5 +332,12 @@
         [TestMethod]
         public void TestFunctionResult(string text, object sense, object nonsense = null) =>
             TestResult(text, sense, nonsense);
+
+        /*
+        [DataRow("2 pow -8", 1D / 256)]
+        [TestMethod]
+        public void ScratchTestFunctionResult(string text, object sense, object nonsense = null) =>
+            TestResult(text, sense, nonsense);
+        */
     }
 }
