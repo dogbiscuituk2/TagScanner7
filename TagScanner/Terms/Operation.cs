@@ -91,10 +91,10 @@
         {
             if (Op == Op.Add && ResultType == typeof(string))
                 return Concatenate(Operands.ToArray()).Expression;
-            if ((Associativity & Associativity.Left) != 0)
-                return MakeAssociation(Operands);
             if (Op.CanChain())
                 return MakeChain();
+            if ((Associativity & Associativity.Left) != 0)
+                return MakeAssociation(Operands);
             if (Op.IsUnary())
                 return Expression.MakeUnary(Op.ExpType(), FirstSubExpression, null);
             return MakeBinaryExpression(Op, FirstSubExpression, SecondSubExpression);

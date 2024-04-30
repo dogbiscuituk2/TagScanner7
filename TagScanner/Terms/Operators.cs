@@ -124,7 +124,7 @@
 
         public static Op ToOperator(this string symbol, bool unary)
         {
-            var op = OperatorDictionary[symbol];
+            var op = OperatorDictionary[symbol.ToUpperInvariant()];
             if (unary)
                 switch (op)
                 {

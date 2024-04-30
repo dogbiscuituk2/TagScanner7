@@ -24,18 +24,98 @@
                 Assert.AreEqual(expected: op.ResultType(), actual: operation.ResultType);
                 AddTestValues(operation);
                 Assert.AreEqual(expected: operandsCount, actual: operation.Operands.Count);
-
-                if (op != Op.Comma)
-
                 TestParse(operation);
             }
         }
-        #region TermList
 
-        //[DataRow("1, 2, 3", "")]
+        #region Logical Operators
+
+        [DataRow("false & false", false)]
+        [DataRow("False & True", false)]
+        [DataRow("truE & falsE", false)]
+        [DataRow("TRUE & TRUE", true)]
+
+        [DataRow("false && false", false)]
+        [DataRow("False && True", false)]
+        [DataRow("truE && falsE", false)]
+        [DataRow("TRUE && TRUE", true)]
+
+        [DataRow("false and false", false)]
+        [DataRow("False And True", false)]
+        [DataRow("truE anD falsE", false)]
+        [DataRow("TRUE AND TRUE", true)]
+
+        [DataRow("false | false", false)]
+        [DataRow("False | True", true)]
+        [DataRow("truE | falsE", true)]
+        [DataRow("TRUE | TRUE", true)]
+
+        [DataRow("false || false", false)]
+        [DataRow("False || True", true)]
+        [DataRow("truE || falsE", true)]
+        [DataRow("TRUE || TRUE", true)]
+
+        [DataRow("false or false", false)]
+        [DataRow("False Or True", true)]
+        [DataRow("truE oR falsE", true)]
+        [DataRow("TRUE OR TRUE", true)]
+
+        [DataRow("false ^ false", false)]
+        [DataRow("False ^ True", true)]
+        [DataRow("truE ^ falsE", true)]
+        [DataRow("TRUE ^ TRUE", false)]
+
+        [DataRow("false ^ false", false)]
+        [DataRow("False ^ True", true)]
+        [DataRow("truE ^ falsE", true)]
+        [DataRow("TRUE ^ TRUE", false)]
+
+        [DataRow("false xor false", false)]
+        [DataRow("False Xor True", true)]
+        [DataRow("truE xoR falsE", true)]
+        [DataRow("TRUE XOR TRUE", false)]
 
         #endregion
-        #region Relational Operations
+        #region Equality | Relational Operations
+
+        [DataRow("2 = 2", true)]
+        [DataRow("2 = 2.0", true)]
+        [DataRow("2.0 = 2", true)]
+        [DataRow("2.5 = 2.5", true)]
+        [DataRow("\"Abc\" = \"abc\"", false, true)]
+        [DataRow("\"123\" = 123", false)]
+
+        [DataRow("2 != 2", false)]
+        [DataRow("2 != 2.0", false)]
+        [DataRow("2.0 != 2", false)]
+        [DataRow("2.5 != 2.5", false)]
+        [DataRow("\"Abc\" != \"abc\"", true, false)]
+        [DataRow("\"123\" != 123", true)]
+
+        [DataRow("2 < 3", true)]
+        [DataRow("2 < 3.0", true)]
+        [DataRow("4.0 < 3", false)]
+        [DataRow("3.5 < 2.5", false)]
+
+        [DataRow("2 <= 3", true)]
+        [DataRow("2 <= 3.0", true)]
+        [DataRow("4.0 <= 3", false)]
+        [DataRow("3.5 <= 2.5", false)]
+
+        [DataRow("2 >= 3", false)]
+        [DataRow("2 >= 3.0", false)]
+        [DataRow("4.0 >= 3", true)]
+        [DataRow("3.5 >= 2.5", true)]
+
+        [DataRow("2 > 3", false)]
+        [DataRow("2 > 3.0", false)]
+        [DataRow("4.0 > 3", true)]
+        [DataRow("3.5 > 2.5", true)]
+
+        #endregion
+        #region Concatenation
+
+        [DataRow("\"1\" + \"2\" + \"3\" + \"4\" + \"5\"", "12345")]
 
         #endregion
         #region Arithmetic Operations
@@ -82,15 +162,35 @@
         #endregion
         #region Associativity
 
+        [DataRow("true and true and true", true)]
+        [DataRow("true And true AND false", false)]
+        [DataRow("true & false & true", false)]
+        [DataRow("false && true && true", false)]
+
+        [DataRow("true or true or true", true)]
+        [DataRow("true Or true OR false", true)]
+        [DataRow("true | false | true", true)]
+        [DataRow("false || true || true", true)]
+
+        [DataRow("true xor true xor true", true)]
+        [DataRow("true Xor true XOR false", false)]
+        [DataRow("true ^ false ^ true", false)]
+
+        [DataRow("2 = 1+1 = 2", true)]
+        [DataRow("2 != 1 != 2", true)]
+
         [DataRow("2 + 3 + 5", 10)]
         [DataRow("2 + (3 + 5)", 10)]
         [DataRow("(2 + 3) + 5", 10)]
+
         [DataRow("2 - 3 - 5", -6)]
         [DataRow("2 - (3 - 5)", 4)]
         [DataRow("(2 - 3) - 5", -6)]
+
         [DataRow("2 * 3 * 5", 30)]
         [DataRow("2 * (3 * 5)", 30)]
         [DataRow("(2 * 3) * 5", 30)]
+
         [DataRow("2 / 3 / 5", 0)]
         [DataRow("2 / (3 / 5)", null)]
         [DataRow("(2 / 3) / 5", 0)]
@@ -109,8 +209,8 @@
         public void TestOperationResult(string text, object sense, object nonsense = null) =>
             TestResult(text, sense, nonsense);
 
-        //[DataRow("1, 2, 3", "")]
-        //[TestMethod]
+        [DataRow("2 != 1 != 2", true)]
+        [TestMethod]
         public void ScratchTestOperationResult(string text, object sense, object nonsense = null) =>
             TestResult(text, sense, nonsense);
     }
