@@ -6,18 +6,9 @@
 
     public class OpInfo
     {
-        #region Constructors
+        #region Constructor
 
-        public OpInfo(char label, string format, ExpressionType expressionType, Rank rank, Type paramType)
-            : this(label, format, expressionType, rank, paramType, null, null) { }
-
-        public OpInfo(char label, string format, ExpressionType expressionType, Rank rank, Type paramType, Type resultType)
-            : this(label, format, expressionType, rank, paramType, resultType, null) { }
-
-        public OpInfo(char label, string format, ExpressionType expressionType, Rank rank, Type paramType, Image image)
-            : this(label, format, expressionType, rank, paramType, null, image) { }
-
-        public OpInfo(char label, string format, ExpressionType expressionType, Rank rank, Type paramType, Type resultType, Image image)
+        public OpInfo(char label, string format, ExpressionType expressionType, Rank rank, Type paramType, Image image = null)
         {
             ExpressionType = expressionType;
             Format = format;
@@ -28,6 +19,7 @@
         }
 
         #endregion
+
         #region Fields
 
         public ExpressionType ExpressionType;
