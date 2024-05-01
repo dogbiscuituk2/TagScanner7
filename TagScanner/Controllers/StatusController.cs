@@ -19,6 +19,7 @@
             var cancelButton = new ToolStripSplitButton { DropDownButtonWidth = 0, Text = "Cancel" };
             var progressBar = new ToolStripProgressBar { Style = ProgressBarStyle.Continuous };
             var statusLine = new ToolStripLabel();
+            statusLine.Text = "Locating files...";
             progressStrip.Items.AddRange(new ToolStripItem[] { cancelButton, progressBar, statusLine });
             progressStrip.Dock = DockStyle.Bottom;
             progressStrip.Visible = true;

@@ -9,7 +9,6 @@
     using System.Runtime.CompilerServices;
     using System.Text.RegularExpressions;
     using System.Windows.Forms;
-    using Microsoft.CodeAnalysis.CSharp.Syntax;
     using Models;
 
     public static class Utility
