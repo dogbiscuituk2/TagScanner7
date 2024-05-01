@@ -69,22 +69,11 @@
             string MatchDateTime() => MatchRegex(DateTimeParser.DateTimePattern);
             string MatchNumber() => MatchRegex(NumberPattern);
             string MatchParameter() => MatchRegex(@"^\{\w+(\[\])?\}");
+            string MatchString() => MatchRegex("\"[^\"|\\\"]*\"");
             string MatchTimeSpan() => MatchRegex(DateTimeParser.TimeSpanPattern);
 
             string MatchRegex(string pattern, RegexOptions options = RegexOptions.IgnoreCase) =>
                 Regex.Match(RemainingText(), pattern, options).Value;
-
-            string MatchString()
-            {
-                var p = index;
-                while (p >= 0)
-                {
-                    p = text.IndexOf('"', p + 1);
-                    if (p > 0 && text[p - 1] != '\\')
-                        return text.Substring(index, p - index + 1);
-                }
-                return string.Empty;
-            }
 
             string RemainingText() => text.Substring(index);
             void SyntaxError() => throw new FormatException($"Unrecognised term at character position {index}: {RemainingText()}");

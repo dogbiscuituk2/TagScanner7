@@ -26,6 +26,8 @@
             Add(Fn.Concat_4, "Concat", s, s, s, s);
             Add(Fn.Contains, s, s, b);
             Add(Fn.ContainsX, s, s, b);
+            Add(Fn.Count, s, s, b);
+            Add(Fn.CountX, s, s, b);
             Add(Fn.Empty, s); // "IsEmpty" already used as a Tag :-(
             Add(Fn.EndsWith, s, s, b);
             Add(Fn.EndsWithX, s, s, b);

@@ -5,6 +5,7 @@
         Compare,
         Concat, Concat_2, Concat_3, Concat_4,
         Contains, ContainsX,
+        Count, CountX,
         Empty,
         EndsWith, EndsWithX,
         Equals, EqualsX,

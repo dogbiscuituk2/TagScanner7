@@ -35,6 +35,12 @@
         public static bool ContainsX(this string input, string pattern, bool caseSensitive) =>
             Regex.IsMatch(input, pattern, caseSensitive.AsRegexOptions());
 
+        public static int Count(this string input, string pattern, bool caseSensitive) =>
+            input.CountX(Regex.Escape(pattern), caseSensitive);
+
+        public static int CountX(this string input, string pattern, bool caseSensitive) =>
+            Regex.Matches(input, pattern, caseSensitive.AsRegexOptions()).Count;
+
         public static bool Empty(this string input) => string.IsNullOrWhiteSpace(input);
 
         public static bool EndsWith(this string input, string pattern, bool caseSensitive) =>

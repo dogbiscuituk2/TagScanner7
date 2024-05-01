@@ -213,6 +213,7 @@
             {
                 case Fn.Compare:
                 case Fn.Contains: case Fn.ContainsX:
+                case Fn.Count: case Fn.CountX:
                 case Fn.EndsWith: case Fn.EndsWithX:
                 case Fn.Equals: case Fn.EqualsX:
                 case Fn.IndexOf: case Fn.IndexOfX:

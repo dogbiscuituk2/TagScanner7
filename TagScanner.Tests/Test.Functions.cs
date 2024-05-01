@@ -53,7 +53,7 @@
         [DataRow("\"Gloves\" contains \"Love\"", false, true)]
 
         #endregion
-        #region Contains
+        #region ContainsX
 
         [DataRow("ContainsX(\"Gloves\", \"l.v[aeiou]\")", true, true)]
         [DataRow("ContainsX(\"Gloves\", \"L.v[aeiou]\")", false, true)]
@@ -67,6 +67,11 @@
         [DataRow("\"Gloves\" containsx \"l.v[D-F]\"", false, true)]
         [DataRow("\"Gloves\" containsx \"l.v[D-f]\"", true, true)]
         [DataRow("\"Gloves\" containsx \"l.v[d-f]\"", true, true)]
+
+        #endregion
+        #region Count
+
+        [DataRow("Count(\"C:\\Media\\Music\\Song.mp3\", \"M\")", 3)]
 
         #endregion
         #region Empty
@@ -333,11 +338,9 @@
         public void TestFunctionResult(string text, object sense, object nonsense = null) =>
             TestResult(text, sense, nonsense);
 
-        /*
-        [DataRow("2 pow -8", 1D / 256)]
+        [DataRow("Count(\"C:\\Media\\Music\\Song.mp3\", \"\\\")", 3)]
         [TestMethod]
         public void ScratchTestFunctionResult(string text, object sense, object nonsense = null) =>
             TestResult(text, sense, nonsense);
-        */
     }
 }
