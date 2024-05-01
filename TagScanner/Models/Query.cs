@@ -12,7 +12,10 @@
             Sorts = sorts;
         }
 
-        public Tag[] Tags, Groups, Sorts;
+        public Tag[]
+            Tags,
+            Groups,
+            Sorts;
 
         public override bool Equals(object obj) => obj is Query query &&
             Tags.SequenceEqual(query.Tags) &&
@@ -35,7 +38,6 @@
             decade = Tag.Decade,
             genre = Tag.JoinedGenres,
             number = Tag.DiscTrack,
-            path = Tag.FilePath,
             size = Tag.FileSize,
             time = Tag.Duration,
             title = Tag.Title,

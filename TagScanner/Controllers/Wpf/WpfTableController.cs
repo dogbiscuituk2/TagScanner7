@@ -51,12 +51,12 @@
             {
                 _view = value;
                 MainForm.GroupByMenu.DropDownOpening += GroupByMenu_DropDownOpening;
-                MainForm.GroupByArtistAlbum.Click += ViewByArtistAlbum_Click;
-                MainForm.GroupByArtist.Click += ViewByArtist_Click;
-                MainForm.GroupByAlbum.Click += ViewByAlbum_Click;
-                MainForm.GroupByYear.Click += ViewByYear_Click;
-                MainForm.GroupByGenre.Click += ViewByGenre_Click;
-                MainForm.GroupByTitle.Click += ViewByTitle_Click;
+                MainForm.GroupByArtistAlbum.Click += GroupByArtistAlbum_Click;
+                MainForm.GroupByArtist.Click += GroupByArtist_Click;
+                MainForm.GroupByAlbum.Click += GroupByAlbum_Click;
+                MainForm.GroupByYear.Click += GroupByYear_Click;
+                MainForm.GroupByGenre.Click += GroupByGenre_Click;
+                MainForm.GroupByTitle.Click += GroupByTitle_Click;
                 View.Child = new GridElement();
                 InitColumns();
                 DataGrid.SelectionChanged += Grid_SelectionChanged;
@@ -96,12 +96,12 @@
             MainForm.GroupByTitle.Checked = QueryMatches(Query.ByTitle);
         }
 
-        private void ViewByArtistAlbum_Click(object sender, EventArgs e) => SetQuery(Query.ByArtistAlbum);
-        private void ViewByArtist_Click(object sender, EventArgs e) => SetQuery(Query.ByArtist);
-        private void ViewByAlbum_Click(object sender, EventArgs e) => SetQuery(Query.ByAlbum);
-        private void ViewByYear_Click(object sender, EventArgs e) => SetQuery(Query.ByYear);
-        private void ViewByGenre_Click(object sender, EventArgs e) => SetQuery(Query.ByGenre);
-        private void ViewByTitle_Click(object sender, EventArgs e) => SetQuery(Query.ByTitle);
+        private void GroupByArtistAlbum_Click(object sender, EventArgs e) => SetQuery(Query.ByArtistAlbum);
+        private void GroupByArtist_Click(object sender, EventArgs e) => SetQuery(Query.ByArtist);
+        private void GroupByAlbum_Click(object sender, EventArgs e) => SetQuery(Query.ByAlbum);
+        private void GroupByYear_Click(object sender, EventArgs e) => SetQuery(Query.ByYear);
+        private void GroupByGenre_Click(object sender, EventArgs e) => SetQuery(Query.ByGenre);
+        private void GroupByTitle_Click(object sender, EventArgs e) => SetQuery(Query.ByTitle);
 
         #endregion
 
@@ -167,7 +167,7 @@
 
         #region Sorting and Grouping
 
-        private IEnumerable<SortDescription> _sorts = Array.Empty<SortDescription>();
+        private IEnumerable<SortDescription> _sorts = new List<SortDescription>();
         public IEnumerable<SortDescription> Sorts
         {
             get => _sorts;
@@ -179,7 +179,7 @@
             }
         }
 
-        private IEnumerable<Tag> _groups = Array.Empty<Tag>();
+        private IEnumerable<Tag> _groups = new List<Tag>();
         public IEnumerable<Tag> Groups
         {
             get => _groups;
@@ -197,7 +197,7 @@
             if (groups == null) return;
             groups.Clear();
             foreach (var group in Groups)
-                groups.Add(new PropertyGroupDescription(group.ToString()));
+                groups.Add(new PropertyGroupDescription($"{group}"));
         }
 
         private void InitSorts()
