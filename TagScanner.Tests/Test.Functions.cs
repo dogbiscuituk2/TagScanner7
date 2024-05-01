@@ -71,7 +71,9 @@
         #endregion
         #region Count
 
-        [DataRow("Count(\"C:\\Media\\Music\\Song.mp3\", \"M\")", 3)]
+        [DataRow("Count(\"C:\\Media\\Music\\Song.mp3\", \"\\\")", 3)]
+        [DataRow("Count(\"C:\\Media\\Music\\Song.mp3\", \"s\")", 1, 2)]
+        [DataRow("CountX(\"C:\\Media\\Music\\Song.mp3\", \"m..i.\")", 0, 2)]
 
         #endregion
         #region Empty
