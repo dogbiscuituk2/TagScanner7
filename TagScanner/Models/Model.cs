@@ -3,10 +3,14 @@
     using System;
     using System.Collections.Generic;
     using System.Linq;
+    using Utils;
 
     public class Model
     {
-        #region Public Interface
+        #region Fields & Properties
+
+        private string _commonPath;
+        public string CommonPath => _commonPath ?? (_commonPath = Utility.GetCommonPath(Tracks?.Select(p => p.FilePath)));
 
         private Selection _library = new Selection(new List<Track>());
         public Selection Library
@@ -19,8 +23,11 @@
             }
         }
 
-        //public List<string> Folders => Library.Folders;
         public List<Track> Tracks => Library.Tracks;
+
+        #endregion
+
+        #region Public Methods
 
         public int AddFiles(string[] filePaths, IProgress<ProgressEventArgs> progress) => ReadTracks(p => p.AddTracks(filePaths), progress);
 
@@ -59,13 +66,17 @@
             }
         }
 
+        #endregion
+
+        #region Events
+
         public event EventHandler<SelectionEventArgs> TracksAdd;
         public event EventHandler<SelectionEditEventArgs> TracksEdit;
         public event EventHandler TracksChanged;
 
         #endregion
 
-        #region Private Implementation
+        #region Private Methods
 
         private bool AddTrack(Track track)
         {
@@ -91,8 +102,8 @@
 
         protected virtual void OnTracksChanged()
         {
-            var tracksChanged = TracksChanged;
-            tracksChanged?.Invoke(this, EventArgs.Empty);
+            _commonPath = null;
+            TracksChanged?.Invoke(this, EventArgs.Empty);
         }
 
         private int ReadTracks(Action<Reader> action, IProgress<ProgressEventArgs> progress)

@@ -5,6 +5,7 @@
     using System.ComponentModel;
     using System.IO;
     using System.Linq;
+    using Utils;
 
     [DefaultProperty("Title")]
     public class Selection : ITrack
@@ -693,7 +694,7 @@
         [Description("A string containing the full path to the media file or folder in the filesystem.")]
         [DisplayName("File Path")]
         [ReadOnly(true)]
-        public string FilePath => GetFileOrCommonFolderPath(p => p.FilePath, ref _filePath);
+        public string FilePath => _filePath ?? (_filePath = Utility.GetCommonPath(Tracks?.Select(p => p.FilePath)));
 
         #endregion
         #region FileSize
@@ -2024,32 +2025,6 @@
                             break;
                         }
                     }
-                }
-            }
-            return result;
-        }
-
-        private string GetFileOrCommonFolderPath(Func<Track, string> getString, ref string result)
-        {
-            if (result == null)
-            {
-                result = string.Empty;
-                if (Tracks != null && Tracks.Any())
-                {
-                    // The following adapted from http://rosettacode.org/wiki/Find_common_directory_path#C.23
-                    var path = result;
-                    var paths = Tracks.Select(getString).ToList();
-                    var segments = paths.First(s => s.Length == paths.Max(t => t.Length)).Split('\\').ToList();
-                    for (var index = 0; index < segments.Count; index++)
-                    {
-                        var segment = segments[index];
-                        if (!paths.All(s => s.StartsWith(path + segment)))
-                            break;
-                        path += segment;
-                        if (index < segments.Count - 1)
-                            path += "\\";
-                    }
-                    result = path;
                 }
             }
             return result;
