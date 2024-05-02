@@ -5,7 +5,7 @@
     using System.Linq;
     using Utils;
 
-    public class Model
+    public class Model : IModel
     {
         #region Fields & Properties
 

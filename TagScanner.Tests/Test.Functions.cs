@@ -32,9 +32,16 @@
         [DataRow("Compare(\"Abc\", \"Def\")", -1, -1)]
         [DataRow("Compare(\"Def\", \"Abc\")", +1, +1)]
         [DataRow("Compare(\"Abc\", \"ABC\")", -1, 0)]
+
+        [DataRow("Compare(\"Abc\", \"ABC\", true)", -1)]
+        [DataRow("Compare(\"Abc\", \"ABC\", false)", 0)]
+
         [DataRow("\"Abc\" compare \"Def\"", -1, -1)]
         [DataRow("\"Def\" compare \"Abc\"", +1, +1)]
         [DataRow("\"Abc\" compare \"ABC\"", -1, 0)]
+
+        [DataRow("\"Abc\" compare(\"ABC\", true)", -1)]
+        [DataRow("\"Abc\" compare(\"ABC\", false)", 0)]
 
         #endregion
         #region Concat
@@ -49,8 +56,15 @@
 
         [DataRow("Contains(\"Gloves\", \"love\")", true, true)]
         [DataRow("Contains(\"Gloves\", \"Love\")", false, true)]
+
+        [DataRow("Contains(\"Gloves\", \"Love\", true)", false)]
+        [DataRow("Contains(\"Gloves\", \"Love\", false)", true)]
+
         [DataRow("\"Gloves\" contains \"love\"", true, true)]
         [DataRow("\"Gloves\" contains \"Love\"", false, true)]
+
+        [DataRow("\"Gloves\" contains(\"Love\", true)", false)]
+        [DataRow("\"Gloves\" contains(\"Love\", false)", true)]
 
         #endregion
         #region ContainsX
@@ -61,6 +75,10 @@
         [DataRow("ContainsX(\"Gloves\", \"l.v[D-F]\")", false, true)]
         [DataRow("ContainsX(\"Gloves\", \"l.v[D-f]\")", true, true)]
         [DataRow("ContainsX(\"Gloves\", \"l.v[d-f]\")", true, true)]
+
+        [DataRow("ContainsX(\"Gloves\", \"l.v[D-F]\", true)", false)]
+        [DataRow("ContainsX(\"Gloves\", \"l.v[D-F]\", false)", true)]
+
         [DataRow("\"Gloves\" containsx \"l.v[aeiou]\"", true, true)]
         [DataRow("\"Gloves\" containsx \"L.v[aeiou]\"", false, true)]
         [DataRow("\"Gloves\" containsx \"l.v[AEIOU]\"", false, true)]
@@ -68,12 +86,30 @@
         [DataRow("\"Gloves\" containsx \"l.v[D-f]\"", true, true)]
         [DataRow("\"Gloves\" containsx \"l.v[d-f]\"", true, true)]
 
+        [DataRow("\"Gloves\" containsx(\"l.v[D-F]\", true)", false)]
+        [DataRow("\"Gloves\" containsx(\"l.v[D-F]\", false)", true)]
+
         #endregion
         #region Count
 
         [DataRow("Count(\"C:\\Media\\Music\\Song.mp3\", \"\\\")", 3)]
         [DataRow("Count(\"C:\\Media\\Music\\Song.mp3\", \"s\")", 1, 2)]
+        [DataRow("\"C:\\Media\\Music\\Song.mp3\" count \"\\\"", 3)]
+        [DataRow("\"C:\\Media\\Music\\Song.mp3\" count \"s\"", 1, 2)]
+
+        [DataRow("Count(\"C:\\Media\\Music\\Song.mp3\", \"s\", true)", 1)]
+        [DataRow("Count(\"C:\\Media\\Music\\Song.mp3\", \"s\", false)", 2)]
+
+        #endregion
+        #region CountX
+
         [DataRow("CountX(\"C:\\Media\\Music\\Song.mp3\", \"m..i.\")", 0, 2)]
+        [DataRow("\"C:\\Media\\Music\\Song.mp3\" countx \"m..i.\"", 0, 2)]
+
+        [DataRow("CountX(\"C:\\Media\\Music\\Song.mp3\", \"m..i.\", true)", 0)]
+        [DataRow("CountX(\"C:\\Media\\Music\\Song.mp3\", \"m..i.\", false)", 2)]
+        [DataRow("\"C:\\Media\\Music\\Song.mp3\" countx(\"m..i.\", true)", 0)]
+        [DataRow("\"C:\\Media\\Music\\Song.mp3\" countx(\"m..i.\", false)", 2)]
 
         #endregion
         #region Empty
@@ -90,8 +126,15 @@
 
         [DataRow("EndsWith(\"Gloves\", \"ves\")", true, true)]
         [DataRow("EndsWith(\"Gloves\", \"VES\")", false, true)]
+
+        [DataRow("EndsWith(\"Gloves\", \"VES\", true)", false)]
+        [DataRow("EndsWith(\"Gloves\", \"VES\", false)", true)]
+
         [DataRow("\"Gloves\" endswith \"ves\"", true, true)]
         [DataRow("\"Gloves\" endswith \"VES\"", false, true)]
+
+        [DataRow("\"Gloves\" endswith(\"VES\", true)", false)]
+        [DataRow("\"Gloves\" endswith(\"VES\", false)", true)]
 
         #endregion
         #region EndsWithX
@@ -100,6 +143,7 @@
         [DataRow("EndsWithX(\"Gloves\", \"V[AEIOU]s\")", false, true)]
         [DataRow("EndsWithX(\"Gloves\", \"v[aeiou]\")", false, false)]
         [DataRow("EndsWithX(\"Gloves\", \"V[AEIOU]\")", false, false)]
+
         [DataRow("\"Gloves\" endswithx \"v[aeiou]s\"", true, true)]
         [DataRow("\"Gloves\" endswithx \"V[AEIOU]s\"", false, true)]
         [DataRow("\"Gloves\" endswithx \"v[aeiou]\"", false, false)]
@@ -249,16 +293,24 @@
 
         [DataRow("Replace(\"Call me Ishmael\", \"ishmael\", \"a cab\")", "Call me Ishmael", "Call me a cab")]
         [DataRow("Replace(\"Run and run\", \"Run\", \"Stop\")", "Stop and run", "Stop and Stop")]
+
         [DataRow("\"Call me Ishmael\" replace(\"ishmael\", \"a cab\")", "Call me Ishmael", "Call me a cab")]
         [DataRow("\"Run and run\" replace(\"Run\", \"Stop\")", "Stop and run", "Stop and Stop")]
+
+        [DataRow("Replace(\"Call me Ishmael\", \"ishmael\", \"a cab\", true)", "Call me Ishmael")]
+        [DataRow("Replace(\"Call me Ishmael\", \"ishmael\", \"a cab\", false)", "Call me a cab")]
 
         #endregion
         #region ReplaceX
 
         [DataRow("ReplaceX(\"Call me Ishmael\", \"ishm[aeiou]{2}l\", \"a cab\")", "Call me Ishmael", "Call me a cab")]
         [DataRow("ReplaceX(\"Run and run\", \"R.n\", \"Stop\")", "Stop and run", "Stop and Stop")]
+
         [DataRow("\"Call me Ishmael\" replacex(\"ishm[aeiou]{2}l\", \"a cab\")", "Call me Ishmael", "Call me a cab")]
         [DataRow("\"Run and run\" replacex(\"R.n\", \"Stop\")", "Stop and run", "Stop and Stop")]
+
+        [DataRow("\"Run and run\" replacex(\"R.n\", \"Stop\", true)", "Stop and run")]
+        [DataRow("\"Run and run\" replacex(\"R.n\", \"Stop\", false)", "Stop and Stop")]
 
         #endregion
         #region Round

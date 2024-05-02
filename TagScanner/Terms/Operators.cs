@@ -23,6 +23,7 @@
             {
                 { 0, new OpInfo('(', null, 0, 0, null) },
                 { Op.Comma, new OpInfo(',', "{0}, {1}", ExpressionType.MemberAccess, Rank.Comma, o) },
+                { Op.Let, new OpInfo('←', "{0} ← {1}", ExpressionType.Assign, Rank.Assignment, o) },
                 { Op.And, new OpInfo('&', "{0} & {1}", ExpressionType.AndAlso, Rank.ConditionalAnd, b, Icons.Op2_And) },
                 { Op.Or, new OpInfo('|', "{0} | {1}", ExpressionType.OrElse, Rank.ConditionalOr, b, Icons.Op2_Or) },
                 { Op.Xor, new OpInfo('^', "{0} ^ {1}", ExpressionType.ExclusiveOr, Rank.BitwiseXor, b, Icons.Op2_Xor) },
@@ -53,6 +54,7 @@
             OperatorDictionary = new Dictionary<string, Op>();
 
             Add(Op.Comma, ",");
+            Add(Op.Let, "<-", ":=", "←");
             Add(Op.And, "&", "&&", "AND");
             Add(Op.Or, "|", "||", "OR");
             Add(Op.Xor, "^", "XOR");
@@ -94,6 +96,8 @@
                 return Associativity.None;
             switch (op)
             {
+                case Op.Let:
+                    return Associativity.Right;
                 case Op.Subtract:
                 case Op.Divide:
                 case Op.Modulo:

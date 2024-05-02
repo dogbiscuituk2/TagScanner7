@@ -219,7 +219,7 @@
                 case Fn.IndexOf: case Fn.IndexOfX:
                 case Fn.LastIndexOf: case Fn.LastIndexOfX:
                 case Fn.StartsWith: case Fn.StartsWithX:
-                    args[2] = CaseSensitive;
+                    CheckCase(2);
                     break;
 
                 case Fn.Max:
@@ -239,7 +239,7 @@
 
                 case Fn.Replace:
                 case Fn.ReplaceX:
-                    args[3] = CaseSensitive;
+                    CheckCase(3);
                     break;
 
                 case Fn.Round:
@@ -263,6 +263,13 @@
             {
                 for (var index = first; index < args.Count; index++)
                     Cast(index, type);
+            }
+
+            void CheckCase(int index)
+            {
+                if (args[index] is Parameter)
+                    args[index] = CaseSensitive;
+
             }
         }
 

@@ -395,6 +395,15 @@ To get these internal state data dumps to appear at runtime, define the conditio
 
       var fnInfo = fn.FnInfo();
 
+### __Adding a new Function to the code__
+
+- Add the functor enum value(s) to the Fn enumeration.
+- Add the Functor specification(s) to the Functors class.
+- Add the public static implementation(s) to the Functors partial (Functors.Methods.cs) class.
+- Add any necessary entries to the switch statement in Parser.PrepareArgs(Fn fn,..).
+- Add suitable test cases (data rows) to partial class Test (Test.Functions.cs).
+- Remember to include test cases for any user overrides of bool caseSensitive parameters.
+
 <a href="#contents">\^Contents</a>
 
 ### __Operations__ {#csops}

@@ -1444,7 +1444,7 @@ namespace TagScanner.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to -- {0:n0} new work(s) will be added to the library file.
+        ///   Looks up a localized string similar to -- {0:n0} new track(s) will be added to the library file.
         ///.
         /// </summary>
         internal static string TracksAdded {
@@ -1465,7 +1465,7 @@ namespace TagScanner.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to -- The previously loaded ID3 tag data of {0:n0} missing work(s) will be removed from the library file.
+        ///   Looks up a localized string similar to -- The previously loaded ID3 tag data of {0:n0} missing track(s) will be removed from the library file.
         ///.
         /// </summary>
         internal static string TracksDeleted {
@@ -1475,7 +1475,7 @@ namespace TagScanner.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to -- The embedded ID3 tag data of {0:n0} work(s) will be overwritten to match the current contents of the library file.
+        ///   Looks up a localized string similar to -- The embedded ID3 tag data of {0:n0} track(s) will be overwritten to match the current contents of the library file.
         ///.
         /// </summary>
         internal static string TracksPending {
@@ -1485,7 +1485,7 @@ namespace TagScanner.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to -- The contents of the library file will be updated to match the currently embedded ID3 tag data of {0:n0} work(s).
+        ///   Looks up a localized string similar to -- The contents of the library file will be updated to match the currently embedded ID3 tag data of {0:n0} track(s).
         ///.
         /// </summary>
         internal static string TracksUpdated {
