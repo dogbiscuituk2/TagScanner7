@@ -3,6 +3,7 @@
     using System;
     using System.Collections.Generic;
     using System.Drawing;
+    using System.Linq;
     using System.Linq.Expressions;
     using Models;
     using TagScanner.Utils;
@@ -45,19 +46,22 @@
 
         public Term Parent { get; private set; }
 
-        public object Result
+        public object GetResult(IEnumerable<Variable> variables = null)
         {
-            get
+            var parameters = variables
+                ?.Select(p => (ParameterExpression)p.Expression)
+                ?? new List<ParameterExpression>();
+            try
             {
-                try
-                {
-                    return Expression.Lambda(Expression).Compile().DynamicInvoke();
-                }
-                catch (Exception exception)
-                {
-                    exception.LogException();
-                    return null;
-                }
+                var lambdaExpression = Expression.Lambda(Expression, parameters);
+                var lambdaDelegate = lambdaExpression.Compile();
+                var result = lambdaDelegate.DynamicInvoke();
+                return result;
+            }
+            catch (Exception exception)
+            {
+                exception.LogException();
+                return null;
             }
         }
 

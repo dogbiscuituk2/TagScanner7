@@ -9,6 +9,13 @@
 
     public class Parser
     {
+        #region Public Properties
+
+        private readonly Dictionary<string, Variable> _variables = new Dictionary<string, Variable>();
+        public IEnumerable<Variable> Variables => _variables.Values;
+
+        #endregion
+
         #region Public Methods
 
         /// <summary>
@@ -57,9 +64,8 @@
 
         #region Private Fields
 
-        public bool CaseSensitive;
+        private bool CaseSensitive;
         private readonly ParserState State = new ParserState();
-        private readonly Dictionary<string, Term> Names = new Dictionary<string, Term>();
 
         #endregion
 
@@ -111,14 +117,6 @@
         }
 
         private Term ParseMemberFunction(Term self) => ParseParameters(DequeueToken().Value.ToFunction(), self);
-
-        private Term ParseName(string name)
-        {
-            var key = name.ToUpperInvariant();
-            if (!Names.ContainsKey(key))
-                Names.Add(key, NewTerm(new Variable(name)));
-            return Names[key];
-        }
 
         private static Term ParseNumber(string token) =>
             token.EndsWith("L") ? new Constant<long>(long.Parse(token.TrimEnd('L'))) :
@@ -184,7 +182,7 @@
             if (match.IsTimeSpan())
                 return NewTerm(new Constant<TimeSpan>(DateTimeParser.ParseTimeSpan(match)));
             if (match.IsName())
-                return ParseName(match);
+                return ParseVariableName(match);
             UnexpectedToken(token);
             return null;
         }
@@ -214,6 +212,14 @@
                     return null;
             }
             return NewTerm(term);
+        }
+
+        private Term ParseVariableName(string name)
+        {
+            var key = name.ToUpperInvariant();
+            if (!_variables.ContainsKey(key))
+                _variables.Add(key, (Variable)NewTerm(new Variable(name)));
+            return _variables[key];
         }
 
         private void PrepareArgs(Fn fn, List<Term> args)

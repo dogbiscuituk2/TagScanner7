@@ -42,7 +42,7 @@
                 Assert.IsTrue(ranges.SequenceEqual(expectedRanges));
                 Assert.IsTrue(rangesAll.SequenceEqual(expectedRanges));
 
-                var result = cast.Result;
+                var result = cast.GetResult();
 
                 TestParse(cast);
 

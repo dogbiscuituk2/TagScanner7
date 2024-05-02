@@ -53,9 +53,10 @@
             }
         }
 
-        private void TestParse(string original, string sense, string nonsense = null)
+        private void TestParse(string original, string sense) => TestParse(original, sense, sense);
+
+        private void TestParse(string original, string sense, string nonsense)
         {
-            if (nonsense == null) nonsense = sense;
             var expected = sense;
             var caseSensitive = true;
             do
@@ -73,12 +74,13 @@
 
         private void TestResult(string text, object sense, object nonsense = null)
         {
-            var term = new Parser().Parse(text, caseSensitive: true);
-            Assert.AreEqual(expected: sense, actual: term.Result);
+            var parser = new Parser();
+            var term = parser.Parse(text, caseSensitive: true);
+            Assert.AreEqual(expected: sense, actual: term.GetResult(parser.Variables));
             if (nonsense == null)
                 nonsense = sense;
-            term = new Parser().Parse(text, caseSensitive: false);
-            Assert.AreEqual(expected: nonsense, actual: term.Result);
+            term = parser.Parse(text, caseSensitive: false);
+            Assert.AreEqual(expected: nonsense, actual: term.GetResult(parser.Variables));
         }
     }
 }

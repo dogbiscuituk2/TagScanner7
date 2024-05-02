@@ -26,14 +26,15 @@
 
         private void TestParseRoundTrip(Term term)
         {
+            var parser = new Parser();
             // Case sensitive
             string
-                expected = new Parser().Parse(term?.ToString(), caseSensitive: true).ToString(),
-                actual = new Parser().Parse(expected, caseSensitive: true)?.ToString();
+                expected = parser.Parse(term?.ToString(), caseSensitive: true).ToString(),
+                actual = parser.Parse(expected, caseSensitive: true)?.ToString();
             Assert.AreEqual(expected, actual);
             // Ignore case
-            expected = new Parser().Parse(term?.ToString(), caseSensitive: false)?.ToString();
-            actual = new Parser().Parse(expected, caseSensitive: false)?.ToString();
+            expected = parser.Parse(term?.ToString(), caseSensitive: false)?.ToString();
+            actual = parser.Parse(expected, caseSensitive: false)?.ToString();
             Assert.AreEqual(expected, actual);
         }
     }
