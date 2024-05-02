@@ -231,8 +231,7 @@
         public void TestOperationResult(string text, object sense, object nonsense = null) =>
             TestResult(text, sense, nonsense);
 
-        //[DataRow("X := Y := Z := \"In My Time of Dying\"", true)]
-        [DataRow("-1", -1)]
+        [DataRow("X := Y := Z := \"In My Time of Dying\"", true)]
         [TestMethod]
         public void ScratchTestOperationResult(string text, object sense, object nonsense = null) =>
             TestResult(text, sense, nonsense);

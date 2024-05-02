@@ -194,12 +194,12 @@
         private Term ParseUnaryOperation(string token)
         {
             var term = ParseSimpleTerm();
-            switch (token)
+            switch (token.ToOperator(unary: true))
             {
-                case "+": case "＋":
+                case Op.Positive:
                     term = new Positive(term);
                     break;
-                case "-": case "－":
+                case Op.Negative:
                     term =
                         term is Constant<int> cint
                         ? new Constant<int>(-cint.Value)
@@ -207,7 +207,7 @@
                         ? new Constant<double>(-cdouble.Value)
                         : (Term)new Negative(term);
                     break;
-                case "!": case "not":
+                case Op.Not:
                     term = new Negation(term);
                     break;
                 default:
@@ -294,7 +294,9 @@
             {
                 Debug.Assert(args.Count >= 2);
                 foreach (var arg in args.Take(count - 1))
-                    Debug.Assert(arg is Variable);
+                    if (!(arg is Variable))
+                        throw new ArgumentException("LValue required");
+                Cast(count - 1, typeof(object));
                 return;
             }
             var commonType = Utility.GetCompatibleType(args.Select(p => p.ResultType).ToArray());
@@ -312,6 +314,14 @@
                             : (Term)new Function(Fn.Upper, operand);
                 }
                 args[index] = operand;
+            }
+
+
+            void Cast(int index, Type type)
+            {
+                var term = args[index];
+                if (term.ResultType != type)
+                    args[index] = new Cast(type, term);
             }
         }
 
