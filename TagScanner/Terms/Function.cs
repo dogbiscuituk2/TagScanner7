@@ -45,8 +45,8 @@
         }
 
         public override Expression Expression => GetExpression();
+        public override bool IsInfinitary => FnInfo.IsInfinitary;
         public string Name => $"{Fn}";
-        public override bool ParamArray => FnInfo.ParamArray;
         public override Type ResultType => FnInfo.ReturnType;
 
         #endregion

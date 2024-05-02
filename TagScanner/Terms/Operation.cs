@@ -26,9 +26,10 @@
         private Op _op;
         public override Op Op => _op;
 
+        public bool Associates => Associativity != 0;
         public Associativity Associativity => Op.GetAssociativity();
         public override Expression Expression => GetExpression();
-        public override bool ParamArray => Op.ParamArray();
+        public override bool IsInfinitary => Op.IsInfinitary();
         public override Rank Rank => Op.GetRank();
         public override Type ResultType => Op.ResultType() ?? Utility.GetCompatibleType(Operands.Select(p => p.ResultType).ToArray());
 

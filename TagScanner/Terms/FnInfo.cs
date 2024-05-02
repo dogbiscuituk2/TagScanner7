@@ -10,10 +10,9 @@
     {
         #region Constructors
 
-        public FnInfo(Fn fn, Type returnType, bool paramArray, params Type[] paramTypes) : this(fn)
+        public FnInfo(Fn fn, Type returnType, bool isInfinitary, params Type[] paramTypes) : this(fn)
         {
-            DeclaringType = typeof(object);
-            ParamArray = paramArray;
+            IsInfinitary = isInfinitary;
             ParamCount = paramTypes.Length;
             ParamTypes = paramTypes;
             ReturnType = returnType;
@@ -23,8 +22,7 @@
         {
             _methodInfo = methodInfo;
             var parameters = _methodInfo.GetParameters();
-            DeclaringType = _methodInfo.DeclaringType;
-            ParamArray = parameters.LastOrDefault()?.GetCustomAttribute(typeof(ParamArrayAttribute)) != null;
+            IsInfinitary = parameters.LastOrDefault()?.GetCustomAttribute(typeof(ParamArrayAttribute)) != null;
             ParamCount = parameters.Length;
             ParamTypes = parameters.Select(p => p.ParameterType).ToArray();
             ReturnType = _methodInfo.ReturnType;
@@ -36,8 +34,7 @@
 
         #region Public Properties
 
-        public Type DeclaringType { get; }
-        public bool ParamArray { get; }
+        public bool IsInfinitary { get; }
         public int ParamCount { get; }
         public Type[] ParamTypes { get; }
         public Type ReturnType { get; }

@@ -12,12 +12,11 @@
             foreach (var fn in Functors.Keys)
             {
                 var function = new Function(fn);
-                var paramArray = fn.ParamArray();
+                var isInfinitary = fn.IsInfinitary();
                 var paramTypesCount = fn.ParamCount();
-                var operandsCount = paramTypesCount + (paramArray ? 2 : 0);
+                var operandsCount = paramTypesCount + (isInfinitary ? 2 : 0);
                 Assert.IsNotNull(function);
                 Assert.AreEqual(expected: fn, actual: function.Fn);
-                Assert.AreEqual(expected: paramArray, actual: function.ParamArray);
                 Assert.AreEqual(expected: paramTypesCount, actual: function.ParameterTypes.Count());
                 Assert.AreEqual(expected: Rank.Unary, actual: function.Rank);
                 Assert.AreEqual(expected: fn.ResultType(), actual: function.ResultType);

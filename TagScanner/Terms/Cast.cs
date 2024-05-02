@@ -13,7 +13,7 @@
         public Type NewType { get; set; }
 
         public override Expression Expression => Expression.Convert(FirstSubExpression, ResultType);
-        public override bool ParamArray => false;
+        public override bool IsInfinitary => false;
         public override Rank Rank => Rank.Unary;
         public override Type ResultType => NewType;
 

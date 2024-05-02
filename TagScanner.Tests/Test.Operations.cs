@@ -12,13 +12,15 @@
             foreach (var op in Operators.Keys.Where(p => p.IsVisible()))
             {
                 var operation = new Operation(op);
+                var infinitary = op.IsInfinitary();
                 var unary = op.IsUnary();
-                var paramArray = op.ParamArray();
-                var operandsCount = unary ? 1 : paramArray ? 4 : 2;
+                var associativity = op.GetAssociativity();
+                var associates = associativity != 0;
+                var operandsCount = unary ? 1 : associates ? 4 : 2;
                 Assert.IsNotNull(operation);
-                Assert.AreEqual(expected: op.GetAssociativity(), actual: operation.Associativity);
+                Assert.AreEqual(expected: associates, actual: operation.Associates);
+                Assert.AreEqual(expected: associativity, actual: operation.Associativity);
                 Assert.AreEqual(expected: op, actual: operation.Op);
-                Assert.AreEqual(expected: paramArray, actual: operation.ParamArray);
                 Assert.AreEqual(expected: unary ? 1 : 2, actual: operation.ParameterTypes.Count());
                 Assert.AreEqual(expected: op.GetRank(), actual: operation.Rank);
                 Assert.AreEqual(expected: op.ResultType(), actual: operation.ResultType);

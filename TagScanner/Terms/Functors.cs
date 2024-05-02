@@ -34,7 +34,7 @@
             Add(Fn.Equals, s, s, b);
             Add(Fn.EqualsX, s, s, b);
             Add(Fn.Format, s, oo);
-            AddUser(Fn.If, o, paramArray: false, b, o, o);
+            AddUser(Fn.If, o, isInfinitary: false, b, o, o);
             Add(Fn.IndexOf, s, s, b);
             Add(Fn.IndexOfX, s, s, b);
             Add(Fn.Insert, s, i, s);
@@ -81,7 +81,7 @@
         }
 
         public static FnInfo FnInfo(this Fn fn) => FunctionDictionary[fn];
-        public static bool ParamArray(this Fn fn) => fn.FnInfo().ParamArray;
+        public static bool IsInfinitary(this Fn fn) => fn.FnInfo().IsInfinitary;
         public static int ParamCount(this Fn fn) => fn.FnInfo().ParamCount;
         public static Type[] ParamTypes(this Fn fn) => fn.FnInfo().ParamTypes;
         public static Type ResultType(this Fn fn) => fn.FnInfo().ReturnType;
@@ -106,8 +106,8 @@
 
         private static void Add(Fn fn, string name, params Type[] paramTypes) => AddFn(fn, name, paramTypes);
 
-        private static void AddUser(Fn fn, Type returnType, bool paramArray, params Type[] paramTypes) =>
-            FunctionDictionary.Add(fn, new FnInfo(fn, returnType, paramArray, paramTypes));
+        private static void AddUser(Fn fn, Type returnType, bool isInfinitary, params Type[] paramTypes) =>
+            FunctionDictionary.Add(fn, new FnInfo(fn, returnType, isInfinitary, paramTypes));
 
         private static IEnumerable<Type> GetParamTypes(this MethodInfo methodInfo) =>
             methodInfo.GetParameters().Select(p => p.ParameterType);

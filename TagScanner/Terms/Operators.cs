@@ -101,6 +101,7 @@
                 case Op.Subtract:
                 case Op.Divide:
                 case Op.Modulo:
+                case Op.Dot:
                     return Associativity.Left;
                 default:
                     return Associativity.Full;
@@ -113,12 +114,12 @@
         public static Rank GetRank(this Op op) => OperationDictionary[op].Rank;
         public static Image Image(this Op op) => OperationDictionary[op].Image;
         public static bool IsBinary(this Op op) => (op & Op.Binary) != 0;
+        public static bool IsInfinitary(this Op op) => op.GetAssociativity() != 0;
         public static bool IsLogical(this Op op) => (op & Op.Logical) != 0;
         public static bool IsUnary(this Op op) => (op & Op.Unary) != 0;
         public static bool IsVisible(this Op op) => (op & Op.Visible) != 0;
         public static string Label(this Op op) => OperationDictionary[op].Label;
         public static OpInfo OpInfo(this Op op) => OperationDictionary[op];
-        public static bool ParamArray(this Op op) => (op & Op.ParamArray) != 0;
         public static Type ParamType(this Op op) => OperationDictionary[op].ParamType;
 
         public static Type ResultType(this Op op) =>

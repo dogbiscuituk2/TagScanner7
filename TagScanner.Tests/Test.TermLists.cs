@@ -28,7 +28,7 @@
                     paramType = paramType.GetElementType();
                 var term = GetTestValue(paramType);
                 operands.Add(term);
-                if (index == paramsCount - 1 && termList.ParamArray)
+                if (index == paramsCount - 1 && termList.IsInfinitary)
                     operands.AddRange(new[] { term, term });
             }
         }

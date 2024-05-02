@@ -39,7 +39,6 @@
         LeftAssociative = Subtract | Divide | Modulo,
         RightAssociative = None,
         NonAssociative = ~(Associative | LeftAssociative | RightAssociative),
-        ParamArray = Associative | LeftAssociative,
         Visible = ~Dot, // Also excludes "None".
     }
 }

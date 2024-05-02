@@ -19,8 +19,8 @@
         #region Public Properties
 
         public override Expression Expression => GetExpression();
+        public virtual bool IsInfinitary => true;
         public virtual Op Op => Op.Comma;
-        public virtual bool ParamArray => true;
         public IEnumerable<Type> ParameterTypes => GetParameterTypes();
         public override Type ResultType => null;
 
