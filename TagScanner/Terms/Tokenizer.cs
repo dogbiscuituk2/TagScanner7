@@ -58,6 +58,8 @@
                         return !string.IsNullOrWhiteSpace(dateTime) ? dateTime : MatchTimeSpan();
                     case LeftBrace:
                         return MatchParameter();
+                    case char c when char.IsLetter(c):
+                        return MatchVariable();
                     case Nul:
                         return string.Empty;
                 }
@@ -65,12 +67,13 @@
                 return string.Empty;
             }
 
-            string MatchCharacter() => MatchRegex(@"^'.'");
+            string MatchCharacter() => MatchRegex("^'.'");
             string MatchDateTime() => MatchRegex(DateTimeParser.DateTimePattern);
             string MatchNumber() => MatchRegex(NumberPattern);
             string MatchParameter() => MatchRegex(@"^\{\w+(\[\])?\}");
             string MatchString() => MatchRegex("\"[^\"|\\\"]*\"");
             string MatchTimeSpan() => MatchRegex(DateTimeParser.TimeSpanPattern);
+            string MatchVariable() => MatchRegex(@"[\w]+");
 
             string MatchRegex(string pattern, RegexOptions options = RegexOptions.IgnoreCase) =>
                 Regex.Match(RemainingText(), pattern, options).Value;
@@ -79,27 +82,26 @@
             void SyntaxError() => throw new FormatException($"Unrecognised term at character position {index}: {RemainingText()}");
         }
 
-        public static bool IsBinaryOperator(this string token) => BinaryOperators.Contains(token, IgnoreCase);
+        public static bool IsBinaryOperator(this string token) => Operators.BinarySymbols.Contains(token, IgnoreCase);
         public static bool IsBoolean(this string token) => Booleans.Contains(token, IgnoreCase);
         public static bool IsConstant(this string token) => token.IsBoolean() || token.IsNumber() || token.IsString();
         public static bool IsDateTime(this string token) => Regex.IsMatch(token, DateTimeParser.DateTimePattern);
-        public static bool IsDyadicOperator(this string token) => BinaryOperators.Contains(token);
         public static bool IsField(this string token) => Fields.Contains(token, IgnoreCase);
         public static bool IsFunction(this string token) => FunctionNames.Contains(token, IgnoreCase);
-        public static bool IsMonadicOperator(this string token) => UnaryOperators.Contains(token, IgnoreCase);
+        public static bool IsName(this string token) => Regex.IsMatch(token, $"{NamePattern}$");
         public static bool IsNumber(this string token) => Regex.IsMatch(token, $"{NumberPattern}$");
-        public static bool IsOperator(this string token) => Operators.Contains(token, IgnoreCase);
+        public static bool IsOperator(this string token) => Operators.Symbols.Contains(token, IgnoreCase);
         public static bool IsParameter(this string token) => token[0] == '{';
         public static bool IsString(this string token) => token[0] == DoubleQuote;
         public static bool IsSymbol(this string token) => Symbols.Contains(token, IgnoreCase);
         public static bool IsTimeSpan(this string token) => Regex.IsMatch(token, DateTimeParser.TimeSpanPattern);
         public static bool IsType(this string token) => TypeNames.Contains(token, IgnoreCase);
-        public static bool IsUnaryOperator(this string token) => UnaryOperators.Contains(token, IgnoreCase);
+        public static bool IsUnaryOperator(this string token) => Operators.UnarySymbols.Contains(token, IgnoreCase);
         public static Rank Rank(this string token, bool unary) => token.ToOperator(unary).GetRank();
         public static bool StartsWithNumber(this string token) => Regex.IsMatch(token, NumberPattern);
 
+        private const string NamePattern = @"\w+";
         private const string NumberPattern = @"^(\d+\.?\d*(UL|LU|D|F|L|M|U)?)";
-        //private const string NumberPattern = @"^[-+]?(\d+\.?\d*(UL|LU|D|F|L|M|U)?)";
 
         #endregion
 
@@ -122,7 +124,12 @@
         /// Names are ordered descending to that, for example, "Album Artists" is matched before "Artists".
         /// If these were sorted in ascending or other order, "Album Artists" might never be matched.
         /// </summary>
-        private static readonly string[] AllTokens = Booleans.Union(Fields).Union(FunctionNames).Union(Symbols).Union(TypeNames).OrderByDescending(p => p).ToArray();
+        private static readonly string[] AllTokens = Booleans
+            .Union(Fields)
+            .Union(FunctionNames)
+            .Union(Symbols)
+            .Union(TypeNames)
+            .OrderByDescending(p => p).ToArray();
 
         #endregion
 
@@ -131,33 +138,8 @@
         private static IEnumerable<string> Booleans => new[] { "false", "true" };
         private static IEnumerable<string> Fields => Tags.Keys.Select(p => p.DisplayName());
         private static IEnumerable<string> FunctionNames => Functors.Keys.Select(fn => $"{fn}");
-        private static IEnumerable<string> LogicalNot => new[] { "!", "not" };
-        private static IEnumerable<string> Operators => UnaryOperators.Union(BinaryOperators);
-        private static IEnumerable<string> Symbols => Operators.Union(new[] { "(", ")" });
+        private static IEnumerable<string> Symbols => Operators.Symbols.Union(new[] { "(", ")" });
         private static IEnumerable<string> TypeNames => Types.TypeNames;
-        private static IEnumerable<string> UnaryMinus => new[] { "-", "－" };
-        private static IEnumerable<string> UnaryOperators => UnaryPlus.Union(UnaryMinus).Union(LogicalNot);
-        private static IEnumerable<string> UnaryPlus => new[] { "+", "＋" };
-
-        private static IEnumerable<string> BinaryOperators => new[]
-        {
-            ",",
-            "&&", "&", "and",
-            "||", "|", "or",
-            "^", "xor",
-            "==", "=",
-            "!=", "<>", "≠",
-            "<",
-            ">",
-            "<=", "≤", "≯",
-            ">=", "≥", "≮",
-            "+", "＋",
-            "-", "－",
-            "*", "×", "✕",
-            "/", "÷", "／",
-            "%",
-            "."
-        };
 
         #endregion
     }

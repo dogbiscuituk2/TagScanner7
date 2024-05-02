@@ -45,13 +45,11 @@
                 { Op.Dot, new OpInfo('.', "{0}.{1}", ExpressionType.MemberAccess, Rank.Primary, o) },
             };
 
-            Keys = OperationDictionary.Keys.ToArray();
-            Values = OperationDictionary.Values.ToArray();
-
             foreach (var entry in OperationDictionary)
                 entry.Value.Op = entry.Key;
 
-            OperatorDictionary = new Dictionary<string, Op>();
+            UnaryOperatorDictionary = new Dictionary<string, Op>();
+            BinaryOperatorDictionary = new Dictionary<string, Op>();
 
             Add(Op.Comma, ",");
             Add(Op.Let, "<-", ":=", "←");
@@ -69,13 +67,20 @@
             Add(Op.Multiply, "*", "×", "✕");
             Add(Op.Divide, "/", "÷", "／");
             Add(Op.Modulo, "%");
+            Add(Op.Positive, "+", "＋");
+            Add(Op.Negative, "-", "－");
             Add(Op.Not, "!", "NOT");
             Add(Op.Dot, ".");
 
+            Symbols.AddRange(UnarySymbols.Union(BinarySymbols));
+
             void Add(Op op, params string[] symbols)
             {
+                var unary = op.IsUnary();
+                var dictionary = unary ? UnaryOperatorDictionary : BinaryOperatorDictionary;
                 foreach (var symbol in symbols)
-                    OperatorDictionary.Add(symbol, op);
+                    dictionary.Add(symbol, op);
+                (unary ? UnarySymbols : BinarySymbols).AddRange(symbols);
             }
         }
 
@@ -83,8 +88,17 @@
 
         #region Public Properties
 
-        public static Op[] Keys { get; }
-        public static OpInfo[] Values { get; }
+        public static Op[] Keys => OperationDictionary.Keys.ToArray();
+        public static OpInfo[] Values => OperationDictionary.Values.ToArray();
+
+        public static List<string>
+            UnarySymbols = new List<string>(),
+            BinarySymbols = new List<string>(),
+            Symbols = new List<string>();
+
+        #endregion
+
+        #region Private Fields
 
         #endregion
 
@@ -129,23 +143,18 @@
 
         public static Op ToOperator(this string symbol, bool unary)
         {
-            var op = OperatorDictionary[symbol.ToUpperInvariant()];
-            if (unary)
-                switch (op)
-                {
-                    case Op.Add:
-                        return Op.Positive;
-                    case Op.Subtract:
-                        return Op.Negative;
-                }
-            return op;
+            var dictionary = unary ? UnaryOperatorDictionary : BinaryOperatorDictionary;
+            return dictionary[symbol.ToUpperInvariant()];
         }
 
         #endregion
 
         #region Private Fields
 
-        private static readonly Dictionary<string, Op> OperatorDictionary;
+        private static readonly Dictionary<string, Op>
+            UnaryOperatorDictionary,
+            BinaryOperatorDictionary;
+
         private static readonly Dictionary<Op, OpInfo> OperationDictionary;
 
         #endregion

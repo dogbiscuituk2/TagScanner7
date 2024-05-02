@@ -2,6 +2,7 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.Diagnostics;
     using System.Linq;
     using System.Runtime.CompilerServices;
     using Utils;
@@ -58,6 +59,7 @@
 
         public bool CaseSensitive;
         private readonly ParserState State = new ParserState();
+        private readonly Dictionary<string, Term> Names = new Dictionary<string, Term>();
 
         #endregion
 
@@ -110,6 +112,14 @@
 
         private Term ParseMemberFunction(Term self) => ParseParameters(DequeueToken().Value.ToFunction(), self);
 
+        private Term ParseName(string name)
+        {
+            var key = name.ToUpperInvariant();
+            if (!Names.ContainsKey(key))
+                Names.Add(key, NewTerm(new Variable(name)));
+            return Names[key];
+        }
+
         private static Term ParseNumber(string token) =>
             token.EndsWith("L") ? new Constant<long>(long.Parse(token.TrimEnd('L'))) :
             token.EndsWith("D") ? new Constant<double>(double.Parse(token.TrimEnd('D'))) :
@@ -161,7 +171,7 @@
                 return NewTerm(new Constant<string>(match.Substring(1, match.Length - 2)));
             if (match.IsField())
                 return NewTerm(new Field(Tags.Values.Single(p => p.DisplayName == match).Tag));
-            if (match.IsMonadicOperator())
+            if (match.IsUnaryOperator())
                 return ParseUnaryOperation(match);
             if (match.IsNumber())
                 return NewTerm(ParseNumber(match.ToUpperInvariant()));
@@ -173,6 +183,8 @@
                 return NewTerm(new Constant<DateTime>(DateTimeParser.ParseDateTime(match)));
             if (match.IsTimeSpan())
                 return NewTerm(new Constant<TimeSpan>(DateTimeParser.ParseTimeSpan(match)));
+            if (match.IsName())
+                return ParseName(match);
             UnexpectedToken(token);
             return null;
         }
@@ -275,9 +287,16 @@
 
         private void PrepareArgs(Op op, List<Term> args)
         {
+            var count = args.Count;
             if (op.IsUnary())
                 return;
-            var count = args.Count;
+            if (op == Op.Let)
+            {
+                Debug.Assert(args.Count >= 2);
+                foreach (var arg in args.Take(count - 1))
+                    Debug.Assert(arg is Variable);
+                return;
+            }
             var commonType = Utility.GetCompatibleType(args.Select(p => p.ResultType).ToArray());
             var adjustCase = !CaseSensitive && op.CanChain();
             for (var index = 0; index < count; index++)

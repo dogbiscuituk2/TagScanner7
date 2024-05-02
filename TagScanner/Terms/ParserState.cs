@@ -55,19 +55,19 @@
         /// When the Op has just Associativity.Right, the operand list of the new added term cannot be merged.
         /// When the Op has Associativity.None, the operands cannot be merged at all..
         /// </summary>
-        /// <param name="term">The Term to be merged with the current Term.</param>
+        /// <param name="right">The Term to be merged with the current Term.</param>
         /// <returns>The new Term resulting from the merge.</returns>
-        private TermList Consolidate(Term term)
+        private TermList Consolidate(Term right)
         {
             var left = Terms.Pop();
             var op = Operators.Pop();
             var ass = op.GetAssociativity();
             bool
-                lop = (ass & Associativity.Left) != 0 && left is TermList leftOp && leftOp.Op == op,
-                rop = (ass & Associativity.Right) != 0 && term is TermList rightOp && rightOp.Op == op;
+                lop = /*(ass & Associativity.Left) != 0 &&*/ left is TermList leftOp && leftOp.Op == op,
+                rop = (ass & Associativity.Right) != 0 && right is TermList rightOp && rightOp.Op == op;
             IEnumerable<Term>
                 leftOps = lop ? ((TermList)left).Operands.ToArray() : new[] { left },
-                rightOps = rop ? ((TermList)term).Operands.ToArray() : new[] { term };
+                rightOps = rop ? ((TermList)right).Operands.ToArray() : new[] { right };
             var operands = leftOps.Concat(rightOps).ToArray();
             return op == Op.Comma ? new TermList(operands) : new Operation(op, operands);
         }

@@ -231,11 +231,10 @@
         public void TestOperationResult(string text, object sense, object nonsense = null) =>
             TestResult(text, sense, nonsense);
 
-        /*
-        [DataRow("2 = 1+1 = 2", true)]
+        //[DataRow("X := Y := Z := \"In My Time of Dying\"", true)]
+        [DataRow("-1", -1)]
         [TestMethod]
         public void ScratchTestOperationResult(string text, object sense, object nonsense = null) =>
             TestResult(text, sense, nonsense);
-        */
     }
 }

@@ -94,7 +94,7 @@
                 return Concatenate(Operands.ToArray()).Expression;
             if (Op.CanChain())
                 return MakeChain();
-            if ((Associativity & Associativity.Left) != 0)
+            if (Associates)
                 return MakeAssociation(Operands);
             if (Op.IsUnary())
                 return Expression.MakeUnary(Op.ExpType(), FirstSubExpression, null);
@@ -107,19 +107,24 @@
         {
             if (op == Op.Concatenate)
                 return Concatenate(operands.ToArray()).Expression;
-            var operandsArray = operands.ToArray();
-            var count = operandsArray.Length;
+            var operandsArray = operands.ToList();
+            var count = operandsArray.Count;
             if (count == 0)
                 return Expression.Constant(Default(op));
-            var last = operandsArray.Last().Expression;
+            Expression
+                first = operandsArray.First().Expression,
+                last = operandsArray.Last().Expression;
             switch (count)
             {
                 case 1:
-                    return last;
+                    return first;
                 case 2:
-                    return MakeBinaryExpression(op, operandsArray[0].Expression, last);
+                    return MakeBinaryExpression(op, first, last);
                 default:
-                    return MakeBinaryExpression(op, MakeAssociation(op, operandsArray.Take(count - 1)), last);
+                    if ((op.GetAssociativity() & Associativity.Left) != 0)
+                        return MakeBinaryExpression(op, MakeAssociation(op, operandsArray.Take(count - 1)), last);
+                    else
+                        return MakeBinaryExpression(op, first, MakeAssociation(op, operandsArray.Skip(1)));
             }
         }
 
