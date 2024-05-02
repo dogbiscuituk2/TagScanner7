@@ -298,7 +298,8 @@
                 return;
             if (op == Op.Let)
             {
-                Debug.Assert(args.Count >= 2);
+                if (count < 2)
+                    throw new ArgumentException("Missing parameter(s)");
                 foreach (var arg in args.Take(count - 1))
                     if (!(arg is Variable))
                         throw new ArgumentException("LValue required");

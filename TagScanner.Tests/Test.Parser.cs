@@ -81,6 +81,16 @@
                 nonsense = sense;
             term = parser.Parse(text, caseSensitive: false);
             Assert.AreEqual(expected: nonsense, actual: term.GetResult(parser.Variables));
+            /*
+            text = $"X := {text}";
+
+            term = parser.Parse(text, caseSensitive: true);
+            Assert.AreEqual(expected: sense, actual: term.GetResult(parser.Variables));
+            if (nonsense == null)
+                nonsense = sense;
+            term = parser.Parse(text, caseSensitive: false);
+            Assert.AreEqual(expected: nonsense, actual: term.GetResult(parser.Variables));
+            */
         }
     }
 }

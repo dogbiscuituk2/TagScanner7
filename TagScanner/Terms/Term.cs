@@ -5,6 +5,7 @@
     using System.Drawing;
     using System.Linq;
     using System.Linq.Expressions;
+    using System.Web.UI.WebControls.WebParts;
     using Models;
     using TagScanner.Utils;
 
@@ -46,17 +47,38 @@
 
         public Term Parent { get; private set; }
 
-        public object GetResult(IEnumerable<Variable> variables = null)
+        public object GetResult()
         {
-            var parameters = variables
-                ?.Select(p => (ParameterExpression)p.Expression)
-                ?? new List<ParameterExpression>();
             try
             {
-                var lambdaExpression = Expression.Lambda(Expression, parameters);
+                var lambdaExpression = Expression.Lambda(Expression);
                 var lambdaDelegate = lambdaExpression.Compile();
-                var result = lambdaDelegate.DynamicInvoke();
-                return result;
+                return lambdaDelegate.DynamicInvoke();
+            }
+            catch (Exception exception)
+            {
+                exception.LogException();
+                return null;
+            }
+        }
+
+        public object GetResult(IEnumerable<Variable> variables)
+        {
+            try
+            {
+                if (variables == null || !variables.Any())
+                {
+                    var lambdaExpression = Expression.Lambda(Expression);
+                    var lambdaDelegate = lambdaExpression.Compile();
+                    return lambdaDelegate.DynamicInvoke();
+                }
+                else
+                {
+                    var parameters = variables.Select(p => (ParameterExpression)p.Expression);
+                    var lambdaExpression = Expression.Lambda(Expression, parameters);
+                    var lambdaDelegate = lambdaExpression.Compile();
+                    return lambdaDelegate.DynamicInvoke(parameters);
+                }
             }
             catch (Exception exception)
             {

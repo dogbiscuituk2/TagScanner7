@@ -13,6 +13,7 @@
         {
             var termList = new TermList(1, 2.5, "3", true, false, new Conditional(true, 4, 5));
             Assert.AreEqual(expected: "1, 2.5D, \"3\", true, false, If(true, 4, 5)", actual: termList.ToString());
+            Assert.AreEqual(expected: 4, actual: termList.GetResult());
         }
 
         private void AddTestValues(TermList termList)

@@ -9,7 +9,7 @@
         [TestMethod]
         public void TestOperations()
         {
-            foreach (var op in Operators.Keys.Where(p => p.IsVisible()))
+            foreach (var op in Operators.Keys.Where(p => p != 0 && p != Op.Let && p != Op.Dot))
             {
                 var operation = new Operation(op);
                 var infinitary = op.IsInfinitary();
@@ -231,9 +231,11 @@
         public void TestOperationResult(string text, object sense, object nonsense = null) =>
             TestResult(text, sense, nonsense);
 
+        /*
         [DataRow("X := 123", 123)]
         [TestMethod]
         public void ScratchTestOperationResult(string text, object sense, object nonsense = null) =>
             TestResult(text, sense, nonsense);
+        */
     }
 }

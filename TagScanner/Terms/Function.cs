@@ -4,6 +4,7 @@
     using System.Collections.Generic;
     using System.Linq;
     using System.Linq.Expressions;
+    using TagScanner.Utils;
 
     public class Function : TermList
     {
@@ -47,11 +48,24 @@
         public override Expression Expression => GetExpression();
         public override bool IsInfinitary => FnInfo.IsInfinitary;
         public string Name => $"{Fn}";
-        public override Type ResultType => FnInfo.ReturnType;
+
+        public override Type ResultType
+        {
+            get
+            {
+                switch (Fn)
+                {
+                    case Fn.If:
+                        return Utility.GetCommonType(Operands[1].ResultType, Operands[2].ResultType);
+                    default:
+                        return FnInfo.ReturnType;
+                }
+            }
+        }
 
         #endregion
 
-        #region Public Methods
+                #region Public Methods
 
         public override int Start(int index) =>
             index == 0 ? Name.Length + 1 : Start(index - 1) + Operands[index - 1].Length + 2;

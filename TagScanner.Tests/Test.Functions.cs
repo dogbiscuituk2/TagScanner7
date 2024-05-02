@@ -19,7 +19,6 @@
                 Assert.AreEqual(expected: fn, actual: function.Fn);
                 Assert.AreEqual(expected: paramTypesCount, actual: function.ParameterTypes.Count());
                 Assert.AreEqual(expected: Rank.Unary, actual: function.Rank);
-                Assert.AreEqual(expected: fn.ResultType(), actual: function.ResultType);
                 AddTestValues(function);
                 Assert.AreEqual(expected: operandsCount, actual: function.Operands.Count);
                 TestParse(function);
@@ -391,7 +390,7 @@
         public void TestFunctionResult(string text, object sense, object nonsense = null) =>
             TestResult(text, sense, nonsense);
 
-        [DataRow("Count(\"C:\\Media\\Music\\Song.mp3\", \"\\\")", 3)]
+        [DataRow("(1 + 1 = 2) if(1, 2)", 1)]
         [TestMethod]
         public void ScratchTestFunctionResult(string text, object sense, object nonsense = null) =>
             TestResult(text, sense, nonsense);

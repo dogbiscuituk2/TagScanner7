@@ -154,11 +154,7 @@
                 Operands.AddRange(operands);
         }
 
-        private Expression GetExpression()
-        {
-            var expressions = Operands.Select(p => p.Expression).ToList();
-            return Expression.NewArrayInit(typeof(object), expressions);
-        }
+        private Expression GetExpression() => Expression.Block(Operands.Select(p => p.Expression));
 
         private static Type GetQualifiedType(string typeName, params string[] nameSpaces)
         {

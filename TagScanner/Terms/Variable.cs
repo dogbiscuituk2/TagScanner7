@@ -4,12 +4,18 @@
 
     public class Variable : Term
     {
-        public Variable(string name) : base() { Name = name; }
+        public Variable(string name) : base()
+        {
+            Name = name;
+            _expression = Expression.Parameter(typeof(object), name);
+        }
 
         public string Name { get; }
         public object Value { get; set; }
 
-        public override Expression Expression => Expression.Variable(typeof(object), Name);
+        private Expression _expression;
+
+        public override Expression Expression => _expression;
 
         public override string ToString() => Name;
     }

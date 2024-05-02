@@ -130,7 +130,12 @@
 
         private BinaryExpression MakeBinaryExpression(Expression left, Expression right) => MakeBinaryExpression(Op, left, right);
 
-        private static BinaryExpression MakeBinaryExpression(Op op, Expression left, Expression right) => Expression.MakeBinary(op.ExpType(), left, right);
+        private static BinaryExpression MakeBinaryExpression(Op op, Expression left, Expression right)
+        {
+            var expressionType = op.ExpType();
+            var expression = Expression.MakeBinary(expressionType, left, right);
+            return expression;
+        }
 
         private Expression MakeChain()
         {
