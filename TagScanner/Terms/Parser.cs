@@ -242,6 +242,7 @@
         {
             var args = termList.Operands;
             var count = args.Count;
+            // Depth first traversal.
             foreach (var arg in args)
             {
                 if (arg is Function f)
