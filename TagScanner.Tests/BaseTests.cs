@@ -2,7 +2,6 @@
 {
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using System;
-    using System.Collections.Generic;
     using System.Linq;
     using System.Text.RegularExpressions;
     using Terms;
@@ -115,15 +114,14 @@
             Assert.AreEqual(expected: sense, actual: term.GetResult(parser.State));
             term = parser.Parse(text, caseSensitive: false);
             Assert.AreEqual(expected: nonsense, actual: term.GetResult(parser.State));
-
         }
 
         #endregion
 
         #region Private Fields
 
-        private DateTime DateTimeForTest = new DateTime(1920, 11, 30, 12, 34, 56, 789);
-        private TimeSpan TimeSpanForTest = new TimeSpan(12, 34, 56, 789);
+        private readonly DateTime DateTimeForTest = new DateTime(1920, 11, 30, 12, 34, 56, 789);
+        private readonly TimeSpan TimeSpanForTest = new TimeSpan(12, 34, 56, 789);
 
         #endregion
     }
