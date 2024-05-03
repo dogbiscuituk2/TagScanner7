@@ -238,66 +238,109 @@
             return _variables[key];
         }
 
-        private void PrepareArgs(List<Term> operands)
+        private void PrepareArgs(TermList termList)
         {
-            foreach (var operand in operands)
+            var args = termList.Operands;
+            var count = args.Count;
+            foreach (var arg in args)
             {
-                if (operand is Function function)
-                    PrepareArgs(function);
-                else if (operand is Operation operation)
-                    PrepareArgs(operation);
+                if (arg is Function f)
+                    PrepareArgs(f);
+                else if (arg is Operation o)
+                    PrepareArgs(o);
             }
-        }
+            if (termList is Function function)
+                PrepareFunction(function);
+            else if (termList is Operation operation)
+                PrepareOperation(operation);
+            return;
 
-        private void PrepareArgs(Function function)
-        {
-            var fn = function.Fn;
-            var args = function.Operands;
-            PrepareArgs(args);
-            var paramTypes = fn.ParamTypes();
-            for (var index = args.Count; index < paramTypes.Count(); index++)
-                args.Add(new Parameter(paramTypes[index]));
-            switch (fn)
+            void PrepareFunction(Function f)
             {
-                case Fn.Compare:
-                case Fn.Contains: case Fn.ContainsX:
-                case Fn.Count: case Fn.CountX:
-                case Fn.EndsWith: case Fn.EndsWithX:
-                case Fn.Equals: case Fn.EqualsX:
-                case Fn.IndexOf: case Fn.IndexOfX:
-                case Fn.LastIndexOf: case Fn.LastIndexOfX:
-                case Fn.StartsWith: case Fn.StartsWithX:
-                    CheckCase(2);
-                    break;
+                var fn = f.Fn;
+                var paramTypes = fn.ParamTypes();
+                for (var index = count; index < paramTypes.Count(); index++)
+                    args.Add(new Parameter(paramTypes[index]));
+                switch (fn)
+                {
+                    case Fn.Compare:
+                    case Fn.Contains:
+                    case Fn.ContainsX:
+                    case Fn.Count:
+                    case Fn.CountX:
+                    case Fn.EndsWith:
+                    case Fn.EndsWithX:
+                    case Fn.Equals:
+                    case Fn.EqualsX:
+                    case Fn.IndexOf:
+                    case Fn.IndexOfX:
+                    case Fn.LastIndexOf:
+                    case Fn.LastIndexOfX:
+                    case Fn.StartsWith:
+                    case Fn.StartsWithX:
+                        CheckCase(2);
+                        break;
 
-                case Fn.Max:
-                case Fn.Min:
-                case Fn.Pow:
-                    Cast(1, typeof(double));
-                    goto case Fn.Round;
+                    case Fn.Max:
+                    case Fn.Min:
+                    case Fn.Pow:
+                        Cast(1, typeof(double));
+                        goto case Fn.Round;
 
-                case Fn.Concat:
-                    CastAll(0, typeof(object));
-                    break;
+                    case Fn.Concat:
+                        CastAll(0, typeof(object));
+                        break;
 
-                case Fn.Format:
-                case Fn.Join:
-                    CastAll(1, typeof(object));
-                    break;
+                    case Fn.Format:
+                    case Fn.Join:
+                        CastAll(1, typeof(object));
+                        break;
 
-                case Fn.Replace:
-                case Fn.ReplaceX:
-                    CheckCase(3);
-                    break;
+                    case Fn.Replace:
+                    case Fn.ReplaceX:
+                        CheckCase(3);
+                        break;
 
-                case Fn.Round:
-                case Fn.Sign:
-                    Cast(0, typeof(double));
-                    break;
+                    case Fn.Round:
+                    case Fn.Sign:
+                        Cast(0, typeof(double));
+                        break;
 
-                case Fn.ToString:
-                    Cast(0, typeof(object));
-                    break;
+                    case Fn.ToString:
+                        Cast(0, typeof(object));
+                        break;
+                }
+            }
+
+            void PrepareOperation(Operation operation)
+            {
+                var op = operation.Op;
+                if (op == Op.Let)
+                {
+                    if (count < 2)
+                        throw new ArgumentException("Missing parameter(s)");
+                    foreach (var arg in args.Take(count - 1))
+                        if (!(arg is Variable))
+                            throw new ArgumentException("LValue required");
+                    Cast(count - 1, typeof(object));
+                    return;
+                }
+                var commonType = Utility.GetCompatibleType(args.Select(p => p.ResultType).ToArray());
+                var adjustCase = !CaseSensitive && op.CanChain();
+                for (var index = 0; index < count; index++)
+                {
+                    var operand = args[index];
+                    if (operand.ResultType != commonType)
+                        operand = new Cast(commonType, operand);
+                    if (adjustCase)
+                    {
+                        if (operand.ResultType == typeof(string) && !(operand is Function f && f.Fn == Fn.Upper))
+                            operand = operand is Constant<string> constantString
+                                ? new Constant<string>(constantString.Value.ToUpperInvariant())
+                                : (Term)new Function(Fn.Upper, operand);
+                    }
+                    args[index] = operand;
+                }
             }
 
             void Cast(int index, Type type)
@@ -317,48 +360,6 @@
             {
                 if (args[index] is Parameter)
                     args[index] = CaseSensitive;
-
-            }
-        }
-
-        private void PrepareArgs(Operation operation)
-        {
-            var op = operation.Op;
-            var args = operation.Operands;
-            PrepareArgs(args);
-            var count = args.Count;
-            if (op == Op.Let)
-            {
-                if (count < 2)
-                    throw new ArgumentException("Missing parameter(s)");
-                foreach (var arg in args.Take(count - 1))
-                    if (!(arg is Variable))
-                        throw new ArgumentException("LValue required");
-                Cast(count - 1, typeof(object));
-                return;
-            }
-            var commonType = Utility.GetCompatibleType(args.Select(p => p.ResultType).ToArray());
-            var adjustCase = !CaseSensitive && op.CanChain();
-            for (var index = 0; index < count; index++)
-            {
-                var operand = args[index];
-                if (operand.ResultType != commonType)
-                    operand = new Cast(commonType, operand);
-                if (adjustCase)
-                {
-                    if (operand.ResultType == typeof(string) && !(operand is Function f && f.Fn == Fn.Upper))
-                        operand = operand is Constant<string> constantString
-                            ? new Constant<string>(constantString.Value.ToUpperInvariant())
-                            : (Term)new Function(Fn.Upper, operand);
-                }
-                args[index] = operand;
-            }
-
-            void Cast(int index, Type type)
-            {
-                var term = args[index];
-                if (term.ResultType != type)
-                    args[index] = new Cast(type, term);
             }
         }
 
