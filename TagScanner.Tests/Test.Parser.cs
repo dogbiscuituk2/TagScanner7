@@ -9,7 +9,7 @@
         [TestMethod]
         public void TestParseCasts()
         {
-            foreach (var type in Types.TypeValues)
+            foreach (var type in Types.Values)
             {
                 var expectedText = $"({type.Say()})123";
                 var cast = new Parser().Parse(expectedText, caseSensitive: true);

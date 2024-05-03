@@ -119,10 +119,14 @@
         private Term ParseMemberFunction(Term self) => ParseParameters(DequeueToken().Value.ToFunction(), self);
 
         private static Term ParseNumber(string token) =>
-            token.EndsWith("L") ? new Constant<long>(long.Parse(token.TrimEnd('L'))) :
-            token.EndsWith("D") ? new Constant<double>(double.Parse(token.TrimEnd('D'))) :
-            token.Contains(".") ? new Constant<double>(double.Parse(token)) :
-            (Term)new Constant<int>(int.Parse(token));
+            token.EndsWith("UL") ? ulong.Parse(token.TrimEnd('U', 'L')) :
+            token.EndsWith("D") ? double.Parse(token.TrimEnd('D')) :
+            token.EndsWith("F") ? float.Parse(token.TrimEnd('F')) :
+            token.EndsWith("L") ? long.Parse(token.TrimEnd('L')) :
+            token.EndsWith("M") ? decimal.Parse(token.TrimEnd('M')) :
+            token.EndsWith("U") ? uint.Parse(token.TrimEnd('U')) :
+            token.Contains(".") ? double.Parse(token) :
+            (Term)int.Parse(token);
 
         private Term ParseParameters(Fn fn, Term self = null)
         {
@@ -164,11 +168,13 @@
                     return term;
                 }
             if (match.IsBoolean())
-                return NewTerm(match == "true" ? Term.True : Term.False);
+                return NewTerm(match == "true");
+            if (match.IsChar())
+                return NewTerm(char.Parse(match.Substring(1, match.Length - 2)));
             if (match.IsString())
-                return NewTerm(new Constant<string>(match.Substring(1, match.Length - 2)));
+                return NewTerm(match.Substring(1, match.Length - 2));
             if (match.IsField())
-                return NewTerm(new Field(Tags.Values.Single(p => p.DisplayName == match).Tag));
+                return NewTerm(Tags.Values.Single(p => p.DisplayName == match).Tag);
             if (match.IsUnaryOperator())
                 return ParseUnaryOperation(match);
             if (match.IsNumber())
@@ -178,9 +184,9 @@
             if (match.IsFunction())
                 return ParseStaticFunction(match);
             if (match.IsDateTime())
-                return NewTerm(new Constant<DateTime>(DateTimeParser.ParseDateTime(match)));
+                return NewTerm(DateTimeParser.ParseDateTime(match));
             if (match.IsTimeSpan())
-                return NewTerm(new Constant<TimeSpan>(DateTimeParser.ParseTimeSpan(match)));
+                return NewTerm(DateTimeParser.ParseTimeSpan(match));
             if (match.IsName())
                 return ParseVariableName(match);
             UnexpectedToken(token);

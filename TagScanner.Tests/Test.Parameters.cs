@@ -8,7 +8,7 @@
         [TestMethod]
         public void TestParameters()
         {
-            foreach (var type in Types.TypeValues)
+            foreach (var type in Types.Values)
             {
                 var parameter = new Parameter(type);
                 Assert.IsNotNull(parameter);

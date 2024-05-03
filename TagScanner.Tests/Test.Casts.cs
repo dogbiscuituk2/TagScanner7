@@ -11,7 +11,7 @@
         [TestMethod]
         public void TestCasts()
         {
-            foreach (var type in Types.TypeValues)
+            foreach (var type in Types.Values)
             {
                 var cast = new Cast(type);
 
@@ -42,11 +42,7 @@
                 Assert.IsTrue(ranges.SequenceEqual(expectedRanges));
                 Assert.IsTrue(rangesAll.SequenceEqual(expectedRanges));
 
-                var result = cast.GetResult();
-
                 TestParse(cast);
-
-                //var foo = cast.
             }
         }
     }

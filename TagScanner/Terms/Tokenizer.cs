@@ -7,12 +7,6 @@
 
     public static class Tokenizer
     {
-        #region Public Properties
-
-        public static EqualityComparer IgnoreCase = new EqualityComparer(caseSensitive: false);
-
-        #endregion
-
         #region Public Methods
 
         public static IEnumerable<Token> GetTokens(string text)
@@ -82,21 +76,22 @@
             void SyntaxError() => throw new FormatException($"Unrecognised term at character position {index}: {RemainingText()}");
         }
 
-        public static bool IsBinaryOperator(this string token) => Operators.BinarySymbols.Contains(token, IgnoreCase);
+        public static bool IsBinaryOperator(this string token) => Operators.ContainsBinarySymbol(token);
         public static bool IsBoolean(this string token) => Booleans.Contains(token, IgnoreCase);
+        public static bool IsChar(this string token) => token[0] == SingleQuote;
         public static bool IsConstant(this string token) => token.IsBoolean() || token.IsNumber() || token.IsString();
         public static bool IsDateTime(this string token) => Regex.IsMatch(token, DateTimeParser.DateTimePattern);
         public static bool IsField(this string token) => Fields.Contains(token, IgnoreCase);
         public static bool IsFunction(this string token) => FunctionNames.Contains(token, IgnoreCase);
         public static bool IsName(this string token) => Regex.IsMatch(token, $"{NamePattern}$");
         public static bool IsNumber(this string token) => Regex.IsMatch(token, $"{NumberPattern}$");
-        public static bool IsOperator(this string token) => Operators.Symbols.Contains(token, IgnoreCase);
+        public static bool IsOperator(this string token) => Operators.ContainsSymbol(token);
         public static bool IsParameter(this string token) => token[0] == '{';
         public static bool IsString(this string token) => token[0] == DoubleQuote;
         public static bool IsSymbol(this string token) => Symbols.Contains(token, IgnoreCase);
         public static bool IsTimeSpan(this string token) => Regex.IsMatch(token, DateTimeParser.TimeSpanPattern);
         public static bool IsType(this string token) => TypeNames.Contains(token, IgnoreCase);
-        public static bool IsUnaryOperator(this string token) => Operators.UnarySymbols.Contains(token, IgnoreCase);
+        public static bool IsUnaryOperator(this string token) => Operators.ContainsUnarySymbol(token);
         public static Rank Rank(this string token, bool unary) => token.ToOperator(unary).GetRank();
         public static bool StartsWithNumber(this string token) => Regex.IsMatch(token, NumberPattern);
 
@@ -131,6 +126,8 @@
             .Union(TypeNames)
             .OrderByDescending(p => p).ToArray();
 
+        private static EqualityComparer IgnoreCase = new EqualityComparer(caseSensitive: false);
+
         #endregion
 
         #region Private Properties
@@ -138,8 +135,8 @@
         private static IEnumerable<string> Booleans => new[] { "false", "true" };
         private static IEnumerable<string> Fields => Tags.Keys.Select(p => p.DisplayName());
         private static IEnumerable<string> FunctionNames => Functors.Keys.Select(fn => $"{fn}");
-        private static IEnumerable<string> Symbols => Operators.Symbols.Union(new[] { "(", ")" });
-        private static IEnumerable<string> TypeNames => Types.TypeNames;
+        private static IEnumerable<string> Symbols => Operators.GetAllSymbols();
+        private static IEnumerable<string> TypeNames => Types.Names;
 
         #endregion
     }

@@ -159,10 +159,14 @@
         public static implicit operator Term(bool value) => new Constant<bool>(value);
         public static implicit operator Term(char value) => new Constant<char>(value);
         public static implicit operator Term(DateTime value) => new Constant<DateTime>(value);
+        public static implicit operator Term(decimal value) => new Constant<decimal>(value);
         public static implicit operator Term(double value) => new Constant<double>(value);
+        public static implicit operator Term(float value) => new Constant<float>(value);
         public static implicit operator Term(int value) => new Constant<int>(value);
         public static implicit operator Term(long value) => new Constant<long>(value);
         public static implicit operator Term(string value) => new Constant<string>(value);
+        public static implicit operator Term(uint value) => new Constant<uint>(value);
+        public static implicit operator Term(ulong value) => new Constant<ulong>(value);
         public static implicit operator Term(Tag tag) => new Field(tag);
         public static implicit operator Term(TimeSpan value) => new Constant<TimeSpan>(value);
 
