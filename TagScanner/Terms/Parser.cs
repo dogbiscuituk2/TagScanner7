@@ -121,7 +121,7 @@
                 term = Consolidate(term);
             }
             if (term is Operation operation)
-                PrepareArgs(operation);
+                PrepareTerms(operation);
             return term;
         }
 
@@ -158,7 +158,7 @@
                 else
                     parameters.Add(NewTerm(ParseSimpleTerm())); // Parentheses are optional for single parameters.
             var function = new Function(fn, parameters.ToArray());
-            PrepareArgs(function);
+            PrepareTerms(function);
             return NewTerm(function);
         }
 
@@ -238,30 +238,24 @@
             return _variables[key];
         }
 
-        private void PrepareArgs(TermList termList)
+        private Term PrepareTerms(TermList terms)
         {
-            var args = termList.Operands;
-            var count = args.Count;
-            // Depth first traversal.
-            foreach (var arg in args)
-            {
-                if (arg is Function f)
-                    PrepareArgs(f);
-                else if (arg is Operation o)
-                    PrepareArgs(o);
-            }
-            if (termList is Function function)
+            var operands = terms.Operands;
+            var count = operands.Count;
+            foreach (var term in operands.OfType<TermList>())
+                PrepareTerms(term);
+            if (terms is Function function)
                 PrepareFunction(function);
-            else if (termList is Operation operation)
+            else if (terms is Operation operation)
                 PrepareOperation(operation);
-            return;
+            return NewTerm(terms);
 
             void PrepareFunction(Function f)
             {
                 var fn = f.Fn;
                 var paramTypes = fn.ParamTypes();
                 for (var index = count; index < paramTypes.Count(); index++)
-                    args.Add(new Parameter(paramTypes[index]));
+                    operands.Add(new Parameter(paramTypes[index]));
                 switch (fn)
                 {
                     case Fn.Compare:
@@ -320,17 +314,17 @@
                 {
                     if (count < 2)
                         throw new ArgumentException("Missing parameter(s)");
-                    foreach (var arg in args.Take(count - 1))
+                    foreach (var arg in operands.Take(count - 1))
                         if (!(arg is Variable))
                             throw new ArgumentException("LValue required");
                     Cast(count - 1, typeof(object));
                     return;
                 }
-                var commonType = Utility.GetCompatibleType(args.Select(p => p.ResultType).ToArray());
+                var commonType = Utility.GetCompatibleType(operands.Select(p => p.ResultType).ToArray());
                 var adjustCase = !CaseSensitive && op.CanChain();
                 for (var index = 0; index < count; index++)
                 {
-                    var operand = args[index];
+                    var operand = operands[index];
                     if (operand.ResultType != commonType)
                         operand = new Cast(commonType, operand);
                     if (adjustCase)
@@ -340,27 +334,27 @@
                                 ? new Constant<string>(constantString.Value.ToUpperInvariant())
                                 : (Term)new Function(Fn.Upper, operand);
                     }
-                    args[index] = operand;
+                    operands[index] = operand;
                 }
             }
 
             void Cast(int index, Type type)
             {
-                var term = args[index];
+                var term = operands[index];
                 if (term.ResultType != type)
-                    args[index] = new Cast(type, term);
+                    operands[index] = new Cast(type, term);
             }
 
             void CastAll(int first, Type type)
             {
-                for (var index = first; index < args.Count; index++)
+                for (var index = first; index < operands.Count; index++)
                     Cast(index, type);
             }
 
             void CheckCase(int index)
             {
-                if (args[index] is Parameter)
-                    args[index] = CaseSensitive;
+                if (operands[index] is Parameter)
+                    operands[index] = CaseSensitive;
             }
         }
 
