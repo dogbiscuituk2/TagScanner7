@@ -1,17 +1,10 @@
 ﻿namespace TagScanner.Tests
 {
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
     using System;
     using Models;
 
-    [TestClass]
-    public partial class Test
+    public class TestTracks
     {
-        [ClassInitialize] public static void ClassInitialize(TestContext _) { }
-        [TestInitialize] public void TestInitialize() { }
-        [TestCleanup] public void TestCleanup() { }
-        [ClassCleanup] public static void ClassCleanup() { }
-
         private class TestTrack : Track
         {
             internal TestTrack(string artist, int year, string album, int trackNumber, string duration, string title) : base()

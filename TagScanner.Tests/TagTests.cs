@@ -6,7 +6,8 @@
     using Models;
     using Terms;
 
-    public partial class Test
+    [TestClass]
+    public class TagTests : BaseTests
     {
         private static readonly Type[] SortableTypes = { typeof(DateTime), typeof(double), typeof(int), typeof(long), typeof(string), typeof(TimeSpan) };
 

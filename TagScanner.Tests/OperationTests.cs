@@ -1,10 +1,12 @@
 ﻿namespace TagScanner.Tests
+
 {
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using System.Linq;
     using Terms;
 
-    public partial class Test
+    [TestClass]
+    public class OperationTests : BaseTests
     {
         [TestMethod]
         public void TestOperations()
@@ -229,13 +231,11 @@
 
         [TestMethod]
         public void TestOperationResult(string text, object sense, object nonsense = null) =>
-            TestResult(text, sense, nonsense);
+            TestResult(text, sense, nonsense ?? sense);
 
-        /*
-        [DataRow("X := 123", 123)]
+        [DataRow("\"Abc\" != \"abc\"", true, false)]
         [TestMethod]
         public void ScratchTestOperationResult(string text, object sense, object nonsense = null) =>
-            TestResult(text, sense, nonsense);
-        */
+            TestResult(text, sense, nonsense ?? sense);
     }
 }

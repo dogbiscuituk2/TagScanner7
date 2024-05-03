@@ -4,7 +4,8 @@
     using System.Linq;
     using Terms;
 
-    public partial class Test
+    [TestClass]
+    public class FunctionTests : BaseTests
     {
         [TestMethod]
         public void TestFunctions()
@@ -388,11 +389,11 @@
 
         [TestMethod]
         public void TestFunctionResult(string text, object sense, object nonsense = null) =>
-            TestResult(text, sense, nonsense);
+            TestResult(text, sense, nonsense ?? sense);
 
         [DataRow("(1 + 1 = 2) if(1, 2)", 1)]
         [TestMethod]
         public void ScratchTestFunctionResult(string text, object sense, object nonsense = null) =>
-            TestResult(text, sense, nonsense);
+            TestResult(text, sense, nonsense ?? sense);
     }
 }

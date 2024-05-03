@@ -6,7 +6,8 @@
     using System.Linq;
     using Terms;
 
-    public partial class Test
+    [TestClass]
+    public class CastTests : BaseTests
     {
         [TestMethod]
         public void TestCasts()

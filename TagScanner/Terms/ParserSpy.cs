@@ -7,7 +7,7 @@
     using System.Runtime.CompilerServices;
     using Utils;
 
-    public class ParserState
+    public class ParserSpy
     {
         #region Public Methods
 

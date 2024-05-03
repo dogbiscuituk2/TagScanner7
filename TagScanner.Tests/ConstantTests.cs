@@ -5,7 +5,8 @@
     using System.Globalization;
     using Terms;
 
-    public partial class Test
+    [TestClass]
+    public class ConstantTests : BaseTests
     {
         [TestMethod]
         public void TestConstants()

@@ -3,7 +3,8 @@
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using Terms;
 
-    public partial class Test
+    [TestClass]
+    public class ParameterTests : BaseTests
     {
         [TestMethod]
         public void TestParameters()

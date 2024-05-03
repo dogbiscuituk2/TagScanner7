@@ -2,7 +2,6 @@
 {
     using System;
     using System.Collections.Generic;
-    using System.Diagnostics;
     using System.Linq;
     using System.Runtime.CompilerServices;
     using Utils;
@@ -11,8 +10,16 @@
     {
         #region Public Properties
 
-        private readonly Dictionary<string, Variable> _variables = new Dictionary<string, Variable>();
-        public IEnumerable<Variable> Variables => _variables.Values;
+        public IEnumerable<Variable> State
+        {
+            get => _variables.Values;
+            set
+            {
+                _variables.Clear();
+                foreach (var variable in value)
+                    _variables.Add(variable.Name, variable);
+            }
+        }
 
         #endregion
 
@@ -35,13 +42,14 @@
         }
 
         /// <summary>
-        ///  Parse an arbitrary string into a Term,catching any exceptions and forwarding their information.
+        ///  Parse an arbitrary string into a Term, catching any exceptions and forwarding their information.
         /// </summary>
         /// <param name="text">The string to parse.</param>
         /// <param name="term">The Term obtained from parsing, assuming no exceptions occurred.</param>
         /// <param name="exception">The exception that did, in fact, occur.</param>
-        /// <param name="caseSensitive">Matching of data field & function names, type casts, operators and other syntactical elements, is always insensitive to case. 
-        /// The caseSensitive parameter applies only to the user data, such as track titles, album names, performers, and so on.</param>
+        /// <param name="caseSensitive">Matching of data field & function names, type casts, operators and other syntactical elements,
+        /// is always insensitive to case. The caseSensitive parameter applies only to the user data, such as track titles, album names,
+        /// performers, and so on.</param>
         /// <returns>True if the parsing succeeded, and the result is returned in the out parameter term.
         /// False if an exception occurred, and the exception is returned in the out parameter exception.</returns>
         public bool TryParse(string text, out Term term, out Exception exception, bool caseSensitive)
@@ -65,7 +73,8 @@
         #region Private Fields
 
         private bool CaseSensitive;
-        private readonly ParserState State = new ParserState();
+        private readonly ParserSpy Spy = new ParserSpy();
+        private readonly Dictionary<string, Variable> _variables = new Dictionary<string, Variable>();
 
         #endregion
 
@@ -112,7 +121,7 @@
                 term = Consolidate(term);
             }
             if (term is Operation operation)
-                PrepareArgs(operation.Op, operation.Operands);
+                PrepareArgs(operation);
             return term;
         }
 
@@ -148,8 +157,9 @@
                 }
                 else
                     parameters.Add(NewTerm(ParseSimpleTerm())); // Parentheses are optional for single parameters.
-            PrepareArgs(fn, parameters);
-            return NewTerm(new Function(fn, parameters.ToArray()));
+            var function = new Function(fn, parameters.ToArray());
+            PrepareArgs(function);
+            return NewTerm(function);
         }
 
         private Term ParseSimpleTerm()
@@ -228,8 +238,22 @@
             return _variables[key];
         }
 
-        private void PrepareArgs(Fn fn, List<Term> args)
+        private void PrepareArgs(List<Term> operands)
         {
+            foreach (var operand in operands)
+            {
+                if (operand is Function function)
+                    PrepareArgs(function);
+                else if (operand is Operation operation)
+                    PrepareArgs(operation);
+            }
+        }
+
+        private void PrepareArgs(Function function)
+        {
+            var fn = function.Fn;
+            var args = function.Operands;
+            PrepareArgs(args);
             var paramTypes = fn.ParamTypes();
             for (var index = args.Count; index < paramTypes.Count(); index++)
                 args.Add(new Parameter(paramTypes[index]));
@@ -297,11 +321,12 @@
             }
         }
 
-        private void PrepareArgs(Op op, List<Term> args)
+        private void PrepareArgs(Operation operation)
         {
+            var op = operation.Op;
+            var args = operation.Operands;
+            PrepareArgs(args);
             var count = args.Count;
-            if (op.IsUnary())
-                return;
             if (op == Op.Let)
             {
                 if (count < 2)
@@ -329,7 +354,6 @@
                 args[index] = operand;
             }
 
-
             void Cast(int index, Type type)
             {
                 var term = args[index];
@@ -342,32 +366,32 @@
 
         #region ParserState Calls
 
-        private void BeginParse(string text, [CallerMemberName] string caller = "", [CallerLineNumber] int line = 0) => State.BeginParse(caller, line, text);
-        private void EndParse(Term term, [CallerMemberName] string caller = "", [CallerLineNumber] int line = 0) => State.EndParse(caller, line, term);
-        private Term NewTerm(Term term, [CallerMemberName] string caller = "", [CallerLineNumber] int line = 0) => State.NewTerm(caller, line, term);
-        private object UnexpectedToken(Token token, [CallerMemberName] string caller = "", [CallerLineNumber] int line = 0) => State.UnexpectedToken(caller, line, token);
+        private void BeginParse(string text, [CallerMemberName] string caller = "", [CallerLineNumber] int line = 0) => Spy.BeginParse(caller, line, text);
+        private void EndParse(Term term, [CallerMemberName] string caller = "", [CallerLineNumber] int line = 0) => Spy.EndParse(caller, line, term);
+        private Term NewTerm(Term term, [CallerMemberName] string caller = "", [CallerLineNumber] int line = 0) => Spy.NewTerm(caller, line, term);
+        private object UnexpectedToken(Token token, [CallerMemberName] string caller = "", [CallerLineNumber] int line = 0) => Spy.UnexpectedToken(caller, line, token);
 
         #region Operators
 
-        private bool AnyOperators() => State.AnyOperators();
-        private Op PeekOperator([CallerMemberName] string caller = "", [CallerLineNumber] int line = 0) => State.PeekOperator(caller, line);
-        private Op PopOperator([CallerMemberName] string caller = "", [CallerLineNumber] int line = 0) => State.PopOperator(caller, line);
-        private void PushOperator(Op op = 0, [CallerMemberName] string caller = "", [CallerLineNumber] int line = 0) => State.PushOperator(caller, line, op);
+        private bool AnyOperators() => Spy.AnyOperators();
+        private Op PeekOperator([CallerMemberName] string caller = "", [CallerLineNumber] int line = 0) => Spy.PeekOperator(caller, line);
+        private Op PopOperator([CallerMemberName] string caller = "", [CallerLineNumber] int line = 0) => Spy.PopOperator(caller, line);
+        private void PushOperator(Op op = 0, [CallerMemberName] string caller = "", [CallerLineNumber] int line = 0) => Spy.PushOperator(caller, line, op);
 
         #endregion
         #region Terms
 
-        private TermList Consolidate(Term right, [CallerMemberName] string caller = "", [CallerLineNumber] int line = 0) => State.Consolidate(caller, line, right);
-        private Term PopTerm([CallerMemberName] string caller = "", [CallerLineNumber] int line = 0) => State.PopTerm(caller, line);
-        private void PushTerm(Term term, [CallerMemberName] string caller = "", [CallerLineNumber] int line = 0) => State.PushTerm(caller, line, term);
+        private TermList Consolidate(Term right, [CallerMemberName] string caller = "", [CallerLineNumber] int line = 0) => Spy.Consolidate(caller, line, right);
+        private Term PopTerm([CallerMemberName] string caller = "", [CallerLineNumber] int line = 0) => Spy.PopTerm(caller, line);
+        private void PushTerm(Term term, [CallerMemberName] string caller = "", [CallerLineNumber] int line = 0) => Spy.PushTerm(caller, line, term);
 
         #endregion
         #region Tokens
 
-        private void AcceptToken(string expected, [CallerMemberName] string caller = "", [CallerLineNumber] int line = 0) => State.AcceptToken(caller, line, expected);
-        private bool AnyTokens() => State.AnyTokens();
-        private Token DequeueToken([CallerMemberName] string caller = "", [CallerLineNumber] int line = 0) => State.DequeueToken(caller, line);
-        private Token PeekToken([CallerMemberName] string caller = "", [CallerLineNumber] int line = 0) => State.PeekToken(caller, line);
+        private void AcceptToken(string expected, [CallerMemberName] string caller = "", [CallerLineNumber] int line = 0) => Spy.AcceptToken(caller, line, expected);
+        private bool AnyTokens() => Spy.AnyTokens();
+        private Token DequeueToken([CallerMemberName] string caller = "", [CallerLineNumber] int line = 0) => Spy.DequeueToken(caller, line);
+        private Token PeekToken([CallerMemberName] string caller = "", [CallerLineNumber] int line = 0) => Spy.PeekToken(caller, line);
 
         #endregion
 

@@ -4,7 +4,8 @@
     using System;
     using Terms;
 
-    public partial class Test
+    [TestClass]
+    public class ParserTests : BaseTests
     {
         [TestMethod]
         public void TestParseCasts()
@@ -51,46 +52,6 @@
                 Assert.AreEqual(expected: tag.Type(), actual: field.ResultType);
                 Assert.AreEqual(expected: tag.DisplayName(), actual: field.ToString());
             }
-        }
-
-        private void TestParse(string original, string sense) => TestParse(original, sense, sense);
-
-        private void TestParse(string original, string sense, string nonsense)
-        {
-            var expected = sense;
-            var caseSensitive = true;
-            do
-            {
-                if (expected == null)
-                    expected = original;
-                var term = new Parser().Parse(original, caseSensitive);
-                var actual = term.ToString();
-                Assert.AreEqual(expected, actual);
-                expected = nonsense;
-                caseSensitive = !caseSensitive;
-            }
-            while (!caseSensitive);
-        }
-
-        private void TestResult(string text, object sense, object nonsense = null)
-        {
-            var parser = new Parser();
-            var term = parser.Parse(text, caseSensitive: true);
-            Assert.AreEqual(expected: sense, actual: term.GetResult(parser.Variables));
-            if (nonsense == null)
-                nonsense = sense;
-            term = parser.Parse(text, caseSensitive: false);
-            Assert.AreEqual(expected: nonsense, actual: term.GetResult(parser.Variables));
-            /*
-            text = $"X := {text}";
-
-            term = parser.Parse(text, caseSensitive: true);
-            Assert.AreEqual(expected: sense, actual: term.GetResult(parser.Variables));
-            if (nonsense == null)
-                nonsense = sense;
-            term = parser.Parse(text, caseSensitive: false);
-            Assert.AreEqual(expected: nonsense, actual: term.GetResult(parser.Variables));
-            */
         }
     }
 }
