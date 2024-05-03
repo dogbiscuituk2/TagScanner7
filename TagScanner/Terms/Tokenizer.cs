@@ -96,7 +96,7 @@
         public static bool StartsWithNumber(this string token) => Regex.IsMatch(token, NumberPattern);
 
         private const string NamePattern = @"\w+";
-        private const string NumberPattern = @"^(\d+\.?\d*(UL|LU|D|F|L|M|U)?)";
+        private const string NumberPattern = @"^(\d+\.?\d*([Ee][-+]\d+)?(UL|LU|D|F|L|M|U)?)";
 
         #endregion
 

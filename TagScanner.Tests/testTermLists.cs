@@ -41,13 +41,17 @@
             type == typeof(bool) ? true :
             type == typeof(char) ? 'A' :
             type == typeof(DateTime) ? DateTimeForTest :
-            type == typeof(double) ? 3.1415D :
-            type == typeof(int) ? 123456789 :
-            type == typeof(long) ? 9876543210L :
+            type == typeof(decimal) ? decimal.MaxValue / 4 :
+            type == typeof(double) ? double.MaxValue / 4 :
+            type == typeof(float) ? float.MaxValue / 4 :
+            type == typeof(int) ? int.MaxValue / 4 :
+            type == typeof(long) ? long.MaxValue / 4 :
             type == typeof(object) ? "object" :
             type == typeof(RegexOptions) ? 1 :
             type == typeof(string) ? "string" :
             type == typeof(TimeSpan) ? TimeSpanForTest :
+            type == typeof(uint) ? uint.MaxValue / 4 :
+            type == typeof(ulong) ? ulong.MaxValue / 4 :
             (Term)0;
     }
 }

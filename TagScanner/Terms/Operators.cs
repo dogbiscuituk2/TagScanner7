@@ -111,15 +111,6 @@
 
         #endregion
 
-        #region Private Fields
-
-        private static List<string>
-            _unarySymbols = new List<string>(),
-            _binarySymbols = new List<string>(),
-            _symbols = new List<string>();
-
-        #endregion
-
         #region Public Extension Methods
 
         public static Associativity GetAssociativity(this Op op)
@@ -157,13 +148,18 @@
         public static Type ResultType(this Op op) =>
             op.IsLogical() ? typeof(bool) :
             op == Op.Concatenate ? typeof(string) :
-            null; // Determined by arg types at runtime.
+            null; // Otherwise determined by arg types at runtime.
 
         public static Op ToOperator(this string symbol, bool unary) => GetDictionary(unary)[symbol.ToUpperInvariant()];
 
         #endregion
 
         #region Private Fields
+
+        private static List<string>
+            _unarySymbols = new List<string>(),
+            _binarySymbols = new List<string>(),
+            _symbols = new List<string>();
 
         private static readonly Dictionary<string, Op>
             _unaryOperators = new Dictionary<string, Op>(),
