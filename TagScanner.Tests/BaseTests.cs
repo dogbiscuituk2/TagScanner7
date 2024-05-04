@@ -114,6 +114,13 @@
             Assert.AreEqual(expected: sense, actual: term.GetResult(parser.State));
             term = parser.Parse(text, caseSensitive: false);
             Assert.AreEqual(expected: nonsense, actual: term.GetResult(parser.State));
+
+            text = $"Y := {text}";
+
+            term = parser.Parse(text, caseSensitive: true);
+            Assert.AreEqual(expected: sense, actual: term.GetResult(parser.State));
+            term = parser.Parse(text, caseSensitive: false);
+            Assert.AreEqual(expected: nonsense, actual: term.GetResult(parser.State));
         }
 
         #endregion

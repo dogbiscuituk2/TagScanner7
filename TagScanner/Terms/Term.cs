@@ -62,7 +62,7 @@
             }
         }
 
-        public object GetResult(IEnumerable<Variable> variables)
+        public object GetResult(List<Variable> variables)
         {
             try
             {
@@ -78,7 +78,18 @@
                     var parameters = variables.Select(p => (ParameterExpression)p.Expression);
                     var lambdaExpression = Expression.Lambda(Expression, parameters);
                     var lambdaDelegate = lambdaExpression.Compile();
-                    var values = variables.Select(p => p.Value);
+                    var count = variables.Count();
+                    var values = new object[count];
+                    for (var index = 0; index < count; index++)
+                    {
+                        var type = variables[index].ResultType;
+                        if (type == typeof(bool))
+                            values[index] = false;
+                        else if (type == typeof(int))
+                            values[index] = 0;
+                        else if (type == typeof(string))
+                            values[index] = string.Empty;
+                    }
                     result = lambdaDelegate.DynamicInvoke(values);
                 }
                 return result;

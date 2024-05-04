@@ -10,9 +10,9 @@
     {
         #region Public Properties
 
-        public IEnumerable<Variable> State
+        public List<Variable> State
         {
-            get => _variables.Values;
+            get => _variables.Values.ToList();
             set
             {
                 _variables.Clear();
