@@ -107,7 +107,7 @@
                     var op = PeekOperator();
                     if (op == 0) break;
                     var priorRank = op.GetRank();
-                    if (priorRank >= tokenRank) term = Consolidate(term);
+                    if (priorRank >= tokenRank) term = Merge(term);
                     else break;
                 }
                 PushTerm(term);
@@ -118,11 +118,13 @@
             {
                 var op = PeekOperator();
                 if (op == 0) break;
-                term = Consolidate(term);
+                term = Merge(term);
             }
             if (term is Operation operation)
-                PrepareTerms(operation);
+                PrepareTermList(operation);
             return term;
+
+            Term Merge(Term right) => PrepareTermList(Consolidate(right));
         }
 
         private Term ParseMemberFunction(Term self) => ParseParameters(DequeueToken().Value.ToFunction(), self);
@@ -157,9 +159,8 @@
                 }
                 else
                     parameters.Add(NewTerm(ParseSimpleTerm())); // Parentheses are optional for single parameters.
-            var function = new Function(fn, parameters.ToArray());
-            PrepareTerms(function);
-            return NewTerm(function);
+            var function = (Function)NewTerm(new Function(fn, parameters.ToArray()));
+            return PrepareTermList(function);
         }
 
         private Term ParseSimpleTerm()
@@ -238,17 +239,17 @@
             return _variables[key];
         }
 
-        private Term PrepareTerms(TermList terms)
+        private Term PrepareTermList(TermList termList)
         {
-            var operands = terms.Operands;
+            var operands = termList.Operands;
             var count = operands.Count;
             foreach (var term in operands.OfType<TermList>())
-                PrepareTerms(term);
-            if (terms is Function function)
+                PrepareTermList(term);
+            if (termList is Function function)
                 PrepareFunction(function);
-            else if (terms is Operation operation)
+            else if (termList is Operation operation)
                 PrepareOperation(operation);
-            return NewTerm(terms);
+            return NewTerm(termList);
 
             void PrepareFunction(Function f)
             {
@@ -314,10 +315,13 @@
                 {
                     if (count < 2)
                         throw new ArgumentException("Missing parameter(s)");
+                    var type = operands[count - 1].ResultType;
                     foreach (var arg in operands.Take(count - 1))
-                        if (!(arg is Variable))
+                    {
+                        if (!(arg is Variable variable))
                             throw new ArgumentException("LValue required");
-                    Cast(count - 1, typeof(object));
+                        variable.ResultType = type;
+                    }
                     return;
                 }
                 var commonType = Utility.GetCompatibleType(operands.Select(p => p.ResultType).ToArray());

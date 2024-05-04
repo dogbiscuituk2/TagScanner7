@@ -1,22 +1,43 @@
 ﻿namespace TagScanner.Terms
 {
+    using System;
     using System.Linq.Expressions;
 
     public class Variable : Term
     {
-        public Variable(string name) : base()
-        {
-            Name = name;
-            _expression = Expression.Parameter(typeof(object), name);
-        }
+        #region Constructor
 
-        public string Name { get; }
-        public object Value { get; set; }
+        public Variable(string name) : base() { Name = name; }
+
+        #endregion
+
+        #region Private Fields
 
         private Expression _expression;
 
-        public override Expression Expression => _expression;
+        #endregion
+
+        #region Public Properties
+
+        public override Expression Expression
+        {
+            get
+            {
+                if (ResultType == null)
+                    throw new TypeAccessException();
+                return _expression ?? (_expression = Expression.Parameter(ResultType, Name));
+            }
+        }
+
+        public string Name { get; }
+        public override Type ResultType { get; set; } = null;
+
+        #endregion
+
+        #region Public Methods
 
         public override string ToString() => Name;
+
+        #endregion
     }
 }

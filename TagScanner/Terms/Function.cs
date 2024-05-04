@@ -65,7 +65,7 @@
 
         #endregion
 
-                #region Public Methods
+        #region Public Methods
 
         public override int Start(int index) =>
             index == 0 ? Name.Length + 1 : Start(index - 1) + Operands[index - 1].Length + 2;

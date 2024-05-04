@@ -53,7 +53,8 @@
             {
                 var lambdaExpression = Expression.Lambda(Expression);
                 var lambdaDelegate = lambdaExpression.Compile();
-                return lambdaDelegate.DynamicInvoke();
+                var result = lambdaDelegate.DynamicInvoke();
+                return result;
             }
             catch (Exception exception)
             {
@@ -66,19 +67,21 @@
         {
             try
             {
+                object result;
                 if (variables == null || !variables.Any())
                 {
                     var lambdaExpression = Expression.Lambda(Expression);
                     var lambdaDelegate = lambdaExpression.Compile();
-                    return lambdaDelegate.DynamicInvoke();
+                    result = lambdaDelegate.DynamicInvoke();
                 }
                 else
                 {
                     var parameters = variables.Select(p => (ParameterExpression)p.Expression);
                     var lambdaExpression = Expression.Lambda(Expression, parameters);
                     var lambdaDelegate = lambdaExpression.Compile();
-                    return lambdaDelegate.DynamicInvoke(parameters);
+                    result = lambdaDelegate.DynamicInvoke(parameters.ToArray());
                 }
+                return result;
             }
             catch (Exception exception)
             {
