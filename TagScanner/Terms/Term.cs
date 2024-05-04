@@ -5,9 +5,8 @@
     using System.Drawing;
     using System.Linq;
     using System.Linq.Expressions;
-    using System.Web.UI.WebControls.WebParts;
     using Models;
-    using TagScanner.Utils;
+    using Utils;
 
     public abstract class Term
     {
@@ -79,7 +78,8 @@
                     var parameters = variables.Select(p => (ParameterExpression)p.Expression);
                     var lambdaExpression = Expression.Lambda(Expression, parameters);
                     var lambdaDelegate = lambdaExpression.Compile();
-                    result = lambdaDelegate.DynamicInvoke(parameters.ToArray());
+                    var values = variables.Select(p => p.Value);
+                    result = lambdaDelegate.DynamicInvoke(values);
                 }
                 return result;
             }
