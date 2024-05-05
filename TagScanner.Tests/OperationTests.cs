@@ -11,7 +11,7 @@
         [TestMethod]
         public void TestOperations()
         {
-            foreach (var op in Operators.Keys.Where(p => p != 0 && p != Op.Let && p != Op.Dot))
+            foreach (var op in Operators.Keys.Where(p => p != 0 && !p.IsAssignment() && p != Op.Dot))
             {
                 var operation = new Operation(op);
                 var infinitary = op.IsInfinitary();

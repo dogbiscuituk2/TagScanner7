@@ -33,45 +33,61 @@
 
             _operators = new Dictionary<Op, OpInfo>
             {
-                { 0, new OpInfo('(', null, 0, 0, null) },
-                { Op.Comma, new OpInfo(',', "{0}, {1}", ExpressionType.MemberAccess, c, o) },
-                { Op.Let, new OpInfo('←', "{0} ← {1}", ExpressionType.Assign, ass, o) },
-                { Op.And, new OpInfo('&', "{0} & {1}", ExpressionType.AndAlso, and, b, Icons.Op2_And) },
-                { Op.Or, new OpInfo('|', "{0} | {1}", ExpressionType.OrElse, or, b, Icons.Op2_Or) },
-                { Op.Xor, new OpInfo('^', "{0} ^ {1}", ExpressionType.ExclusiveOr, x, b, Icons.Op2_Xor) },
-                { Op.EqualTo, new OpInfo('=', "{0} = {1}", ExpressionType.Equal, e, o, Icons.Op2_EqualTo) },
-                { Op.NotEqualTo, new OpInfo('≠', "{0} ≠ {1}", ExpressionType.NotEqual, e, o, Icons.Op2_NotEqualTo) },
-                { Op.LessThan, new OpInfo('<', "{0} < {1}", ExpressionType.LessThan, r, d, Icons.Op2_LessThan) },
-                { Op.NotLessThan, new OpInfo('≥', "{0} ≥ {1}", ExpressionType.GreaterThanOrEqual, r, d, Icons.Op2_NotLessThan) },
-                { Op.GreaterThan, new OpInfo('>', "{0} > {1}", ExpressionType.GreaterThan, r, d, Icons.Op2_GreaterThan) },
-                { Op.NotGreaterThan, new OpInfo('≤', "{0} ≤ {1}", ExpressionType.LessThanOrEqual, r, d, Icons.Op2_NotGreaterThan) },
-                { Op.Concatenate, new OpInfo('+', "{0} + {1}", ExpressionType.Add, add, s, Icons.Op2_Add) },
-                { Op.Add, new OpInfo('+', "{0} + {1}", ExpressionType.Add, add, d, Icons.Op2_Add) },
-                { Op.Subtract, new OpInfo('-', "{0} - {1}", ExpressionType.Subtract, add, d, Icons.Op2_Subtract) },
-                { Op.Multiply, new OpInfo('×', "{0} × {1}", ExpressionType.Multiply, m, d, Icons.Op2_Multiply) },
-                { Op.Divide, new OpInfo('÷', "{0} ÷ {1}", ExpressionType.Divide, m, d, Icons.Op2_Divide) },
-                { Op.Modulo, new OpInfo('%', "{0} % {1}", ExpressionType.Modulo, m, d, Icons.Op2_Modulo) },
-                { Op.Positive, new OpInfo('+', "+{0}", ExpressionType.UnaryPlus, u, d, Icons.Op2_Add) },
-                { Op.Negative, new OpInfo('-', "-{0}", ExpressionType.Negate, u, d, Icons.Op2_Subtract) },
-                { Op.Not, new OpInfo('!', "!{0}", ExpressionType.Not, u, b, Icons.Op2_Not) },
-                { Op.Dot, new OpInfo('.', "{0}.{1}", ExpressionType.MemberAccess, p, o) },
+                { 0, new OpInfo("(", null, 0, 0, null) },
+                { Op.Comma, new OpInfo(",", "{0}, {1}", ExpressionType.MemberAccess, c, o) },
+                { Op.Assign, new OpInfo("←", "{0} ← {1}", ExpressionType.Assign, ass, o) },
+                { Op.AddAssign, new OpInfo("+=", "{0} += {1}", ExpressionType.AddAssign, ass, o) },
+                { Op.SubtractAssign, new OpInfo("-=", "{0} -= {1}", ExpressionType.SubtractAssign, ass, o) },
+                { Op.MultiplyAssign, new OpInfo("*=", "{0} *= {1}", ExpressionType.MultiplyAssign, ass, o) },
+                { Op.DivideAssign, new OpInfo("/=", "{0} /= {1}", ExpressionType.DivideAssign, ass, o) },
+                { Op.ModuloAssign, new OpInfo("%=", "{0} %= {1}", ExpressionType.ModuloAssign, ass, o) },
+                { Op.AndAssign, new OpInfo("&=", "{0} &= {1}", ExpressionType.AndAssign, ass, o) },
+                { Op.OrAssign, new OpInfo("|=", "{0} |= {1}", ExpressionType.OrAssign, ass, o) },
+                { Op.XorAssign, new OpInfo("^=", "{0} ^= {1}", ExpressionType.ExclusiveOrAssign, ass, o) },
+                { Op.And, new OpInfo("&", "{0} & {1}", ExpressionType.AndAlso, and, b, Icons.Op2_And) },
+                { Op.Or, new OpInfo("|", "{0} | {1}", ExpressionType.OrElse, or, b, Icons.Op2_Or) },
+                { Op.Xor, new OpInfo("^", "{0} ^ {1}", ExpressionType.ExclusiveOr, x, b, Icons.Op2_Xor) },
+                { Op.EqualTo, new OpInfo("=", "{0} = {1}", ExpressionType.Equal, e, o, Icons.Op2_EqualTo) },
+                { Op.NotEqualTo, new OpInfo("≠", "{0} ≠ {1}", ExpressionType.NotEqual, e, o, Icons.Op2_NotEqualTo) },
+                { Op.LessThan, new OpInfo("<", "{0} < {1}", ExpressionType.LessThan, r, d, Icons.Op2_LessThan) },
+                { Op.NotLessThan, new OpInfo("≥", "{0} ≥ {1}", ExpressionType.GreaterThanOrEqual, r, d, Icons.Op2_NotLessThan) },
+                { Op.GreaterThan, new OpInfo(">", "{0} > {1}", ExpressionType.GreaterThan, r, d, Icons.Op2_GreaterThan) },
+                { Op.NotGreaterThan, new OpInfo("≤", "{0} ≤ {1}", ExpressionType.LessThanOrEqual, r, d, Icons.Op2_NotGreaterThan) },
+                { Op.Concatenate, new OpInfo("+", "{0} + {1}", ExpressionType.Add, add, s, Icons.Op2_Add) },
+                { Op.Add, new OpInfo("+", "{0} + {1}", ExpressionType.Add, add, d, Icons.Op2_Add) },
+                { Op.Subtract, new OpInfo("-", "{0} - {1}", ExpressionType.Subtract, add, d, Icons.Op2_Subtract) },
+                { Op.Multiply, new OpInfo("×", "{0} × {1}", ExpressionType.Multiply, m, d, Icons.Op2_Multiply) },
+                { Op.Divide, new OpInfo("÷", "{0} ÷ {1}", ExpressionType.Divide, m, d, Icons.Op2_Divide) },
+                { Op.Modulo, new OpInfo("%", "{0} % {1}", ExpressionType.Modulo, m, d, Icons.Op2_Modulo) },
+                { Op.Positive, new OpInfo("+", "+{0}", ExpressionType.UnaryPlus, u, d, Icons.Op2_Add) },
+                { Op.Negative, new OpInfo("-", "-{0}", ExpressionType.Negate, u, d, Icons.Op2_Subtract) },
+                { Op.Not, new OpInfo("!", "!{0}", ExpressionType.Not, u, b, Icons.Op2_Not) },
+                { Op.Dot, new OpInfo(".", "{0}.{1}", ExpressionType.MemberAccess, p, o) },
             };
 
             foreach (var op in _operators)
                 op.Value.Op = op.Key;
 
             Add(Op.Comma, ",");
-            Add(Op.Let, "<-", ":=", "←");
+            Add(Op.Assign, "<-", ":=", "←");
+            Add(Op.AddAssign, "+=");
+            Add(Op.SubtractAssign, "-=");
+            Add(Op.MultiplyAssign, "*=");
+            Add(Op.DivideAssign, "/=");
+            Add(Op.ModuloAssign, "%=");
+            Add(Op.AndAssign, "&=");
+            Add(Op.OrAssign, "|=");
+            Add(Op.XorAssign, "^=");
             Add(Op.And, "&", "&&", "AND");
             Add(Op.Or, "|", "||", "OR");
             Add(Op.Xor, "^", "XOR");
             Add(Op.EqualTo, "=", "==");
-            Add(Op.NotEqualTo, "!=", "<>", "≠");
+            Add(Op.NotEqualTo, "!=", "<>", "#", "≠");
             Add(Op.LessThan, "<");
             Add(Op.NotLessThan, ">=", "≥", "≮");
             Add(Op.GreaterThan, ">");
             Add(Op.NotGreaterThan, "<=", "≤", "≯");
-            Add(Op.Add, "+", "＋"); // Op.Positive when Unary.
+            Add(Op.Add, "+", "＋"); // Op.Positive when Unary, Op.Concatenate in string context.
             Add(Op.Subtract, "-", "－");  // Op.Negative when Unary.
             Add(Op.Multiply, "*", "×", "✕");
             Add(Op.Divide, "/", "÷", "／");
@@ -117,10 +133,10 @@
         {
             if (op.IsUnary())
                 return Associativity.None;
+            if (op.IsAssignment())
+                return Associativity.Right;
             switch (op)
             {
-                case Op.Let:
-                    return Associativity.Right;
                 case Op.Subtract:
                 case Op.Divide:
                 case Op.Modulo:
@@ -136,6 +152,7 @@
         public static string Format(this Op op) => _operators[op].Format;
         public static Rank GetRank(this Op op) => _operators[op].Rank;
         public static Image Image(this Op op) => _operators[op].Image;
+        public static bool IsAssignment(this Op op) => (op & Op.Assignment) != 0;
         public static bool IsBinary(this Op op) => (op & Op.Binary) != 0;
         public static bool IsInfinitary(this Op op) => op.GetAssociativity() != 0;
         public static bool IsLogical(this Op op) => (op & Op.Logical) != 0;

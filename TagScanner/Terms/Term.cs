@@ -5,6 +5,7 @@
     using System.Drawing;
     using System.Linq;
     using System.Linq.Expressions;
+    using System.Text.RegularExpressions;
     using Models;
     using Utils;
 
@@ -81,15 +82,7 @@
                     var count = variables.Count();
                     var values = new object[count];
                     for (var index = 0; index < count; index++)
-                    {
-                        var type = variables[index].ResultType;
-                        if (type == typeof(bool))
-                            values[index] = false;
-                        else if (type == typeof(int))
-                            values[index] = 0;
-                        else if (type == typeof(string))
-                            values[index] = string.Empty;
-                    }
+                        values[index] = variables[index].ResultType.GetDefaultValue();
                     result = lambdaDelegate.DynamicInvoke(values);
                 }
                 return result;

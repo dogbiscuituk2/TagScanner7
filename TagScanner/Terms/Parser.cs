@@ -311,7 +311,7 @@
             void PrepareOperation(Operation operation)
             {
                 var op = operation.Op;
-                if (op == Op.Let)
+                if (op.IsAssignment())
                 {
                     if (count < 2)
                         throw new ArgumentException("Missing parameter(s)");

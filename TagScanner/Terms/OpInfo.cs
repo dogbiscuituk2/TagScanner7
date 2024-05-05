@@ -8,12 +8,12 @@
     {
         #region Constructor
 
-        public OpInfo(char label, string format, ExpressionType expressionType, Rank rank, Type paramType, Image image = null)
+        public OpInfo(string label, string format, ExpressionType expressionType, Rank rank, Type paramType, Image image = null)
         {
             ExpressionType = expressionType;
             Format = format;
             Image = image;
-            Label = label.ToString();
+            Label = label;
             ParamType = paramType;
             Rank = rank;
         }
