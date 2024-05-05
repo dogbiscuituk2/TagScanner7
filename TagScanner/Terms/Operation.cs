@@ -37,9 +37,9 @@
 
         #region Protected Methods
 
-        protected override IEnumerable<Type> GetParameterTypes()
+        protected override IEnumerable<Type> GetOperandTypes()
         {
-            var type = Op.ParamType();
+            var type = Op.OperandType();
             return Op.IsUnary() ? (new[] { type }) : (IEnumerable<Type>)(new[] { type, type });
         }
 

@@ -8,13 +8,13 @@
     {
         #region Constructor
 
-        public OpInfo(string label, string format, ExpressionType expressionType, Rank rank, Type paramType, Image image = null)
+        public OpInfo(string label, string format, ExpressionType expressionType, Rank rank, Type operandType, Image image = null)
         {
             ExpressionType = expressionType;
             Format = format;
             Image = image;
             Label = label;
-            ParamType = paramType;
+            OperandType = operandType;
             Rank = rank;
         }
 
@@ -27,7 +27,7 @@
         public Image Image;
         public string Label;
         public Op Op;
-        public Type ParamType;
+        public Type OperandType;
         public Rank Rank;
 
         #endregion

@@ -10,21 +10,21 @@
     {
         #region Constructors
 
-        public FnInfo(Fn fn, Type returnType, bool isInfinitary, params Type[] paramTypes) : this(fn)
+        public FnInfo(Fn fn, Type returnType, bool isInfinitary, params Type[] operandTypes) : this(fn)
         {
             IsInfinitary = isInfinitary;
-            ParamCount = paramTypes.Length;
-            ParamTypes = paramTypes;
+            OperandCount = operandTypes.Length;
+            OperandTypes = operandTypes;
             ReturnType = returnType;
         }
 
         public FnInfo(Fn fn, MethodInfo methodInfo) : this(fn)
         {
             _methodInfo = methodInfo;
-            var parameters = _methodInfo.GetParameters();
-            IsInfinitary = parameters.LastOrDefault()?.GetCustomAttribute(typeof(ParamArrayAttribute)) != null;
-            ParamCount = parameters.Length;
-            ParamTypes = parameters.Select(p => p.ParameterType).ToArray();
+            var operands = _methodInfo.GetParameters();
+            IsInfinitary = operands.LastOrDefault()?.GetCustomAttribute(typeof(ParamArrayAttribute)) != null;
+            OperandCount = operands.Length;
+            OperandTypes = operands.Select(p => p.ParameterType).ToArray();
             ReturnType = _methodInfo.ReturnType;
         }
 
@@ -35,8 +35,8 @@
         #region Public Properties
 
         public bool IsInfinitary { get; }
-        public int ParamCount { get; }
-        public Type[] ParamTypes { get; }
+        public int OperandCount { get; }
+        public Type[] OperandTypes { get; }
         public Type ReturnType { get; }
 
         #endregion

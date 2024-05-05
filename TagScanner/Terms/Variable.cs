@@ -1,6 +1,8 @@
 ﻿namespace TagScanner.Terms
 {
     using System;
+    using System.Collections.Generic;
+    using System.Linq;
     using System.Linq.Expressions;
 
     public class Variable : Term
@@ -25,6 +27,10 @@
             : _expression ?? (_expression = Expression.Parameter(ResultType, Name));
 
         public string Name { get; }
+
+        public override IEnumerable<ParameterExpression> Parameters =>
+            base.Parameters.Union(new[] { (ParameterExpression)Expression });
+
         public override Type ResultType { get; set; } = null;
 
         #endregion

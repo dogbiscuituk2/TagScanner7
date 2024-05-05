@@ -18,7 +18,7 @@
 
                 Assert.IsNotNull(cast);
                 Assert.AreEqual(expected: type, actual: cast.NewType);
-                Assert.IsTrue(cast.ParameterTypes.SequenceEqual(new[] { typeof(object) }));
+                Assert.IsTrue(cast.OperandTypes.SequenceEqual(new[] { typeof(object) }));
                 Assert.AreEqual(expected: Rank.Unary, actual: cast.Rank);
                 Assert.AreEqual(expected: type, actual: cast.ResultType);
 

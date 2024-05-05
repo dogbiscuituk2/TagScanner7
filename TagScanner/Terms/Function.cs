@@ -85,10 +85,10 @@
 
         #region Protected Methods
 
-        protected override IEnumerable<Type> GetParameterTypes()
+        protected override IEnumerable<Type> GetOperandTypes()
         {
-            foreach (var paramType in FnInfo.ParamTypes)
-                yield return paramType;
+            foreach (var type in FnInfo.OperandTypes)
+                yield return type;
         }
 
         protected override bool UseParens(int index) => false;

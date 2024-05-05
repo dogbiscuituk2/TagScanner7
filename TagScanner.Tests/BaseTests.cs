@@ -14,16 +14,16 @@
         {
             var operands = termList.Operands;
             var operandsCount = operands.Count;
-            var paramTypes = termList.ParameterTypes.ToList();
-            var paramsCount = paramTypes.Count;
-            for (var index = operandsCount; index < paramsCount; index++)
+            var types = termList.OperandTypes.ToList();
+            var typesCount = types.Count;
+            for (var index = operandsCount; index < typesCount; index++)
             {
-                var paramType = paramTypes[index];
-                if (paramType.IsArray)
-                    paramType = paramType.GetElementType();
-                var term = GetTestValue(paramType);
+                var type = types[index];
+                if (type.IsArray)
+                    type = type.GetElementType();
+                var term = GetTestValue(type);
                 operands.Add(term);
-                if (index == paramsCount - 1 && termList.IsInfinitary)
+                if (index == typesCount - 1 && termList.IsInfinitary)
                     operands.AddRange(new[] { term, term });
             }
         }

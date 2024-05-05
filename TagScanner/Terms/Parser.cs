@@ -254,9 +254,9 @@
             void PrepareFunction(Function f)
             {
                 var fn = f.Fn;
-                var paramTypes = fn.ParamTypes();
-                for (var index = count; index < paramTypes.Count(); index++)
-                    operands.Add(new Parameter(paramTypes[index]));
+                var operandTypes = fn.OperandTypes();
+                for (var index = count; index < operandTypes.Count(); index++)
+                    operands.Add(new Parameter(operandTypes[index]));
                 switch (fn)
                 {
                     case Fn.Compare:

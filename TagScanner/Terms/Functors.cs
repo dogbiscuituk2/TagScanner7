@@ -77,13 +77,13 @@
         public static string GetPrototype(this Fn fn)
         {
             var fnInfo = fn.FnInfo();
-            return $"{fnInfo.ReturnType.Say()} {fn}({fnInfo.SayParamTypes()})";
+            return $"{fnInfo.ReturnType.Say()} {fn}({fnInfo.SayOperandTypes()})";
         }
 
         public static FnInfo FnInfo(this Fn fn) => _functors[fn];
         public static bool IsInfinitary(this Fn fn) => fn.FnInfo().IsInfinitary;
-        public static int ParamCount(this Fn fn) => fn.FnInfo().ParamCount;
-        public static Type[] ParamTypes(this Fn fn) => fn.FnInfo().ParamTypes;
+        public static int OperandCount(this Fn fn) => fn.FnInfo().OperandCount;
+        public static Type[] OperandTypes(this Fn fn) => fn.FnInfo().OperandTypes;
         public static Type ResultType(this Fn fn) => fn.FnInfo().ReturnType;
         public static Fn ToFunction(this string name) => Keys.Single(p => $"{p}" == name);
 
@@ -97,24 +97,24 @@
 
         #region Private Methods
 
-        private static void AddFn(Fn fn, string name, params Type[] paramTypes) =>
+        private static void AddFn(Fn fn, string name, params Type[] operandTypes) =>
             _functors.Add(fn, new FnInfo(fn,
                 typeof(Functors).GetMethods(BindingFlags.Public | BindingFlags.Static)
-                .Single(p => p.Name == name && p.GetParamTypes().SequenceEqual(paramTypes))));
+                .Single(p => p.Name == name && p.GetOperandTypes().SequenceEqual(operandTypes))));
 
-        private static void Add(Fn fn, params Type[] paramTypes) => Add(fn, $"{fn}", paramTypes);
+        private static void Add(Fn fn, params Type[] operandTypes) => Add(fn, $"{fn}", operandTypes);
 
-        private static void Add(Fn fn, string name, params Type[] paramTypes) => AddFn(fn, name, paramTypes);
+        private static void Add(Fn fn, string name, params Type[] operandTypes) => AddFn(fn, name, operandTypes);
 
-        private static void AddUser(Fn fn, Type returnType, bool isInfinitary, params Type[] paramTypes) =>
-            _functors.Add(fn, new FnInfo(fn, returnType, isInfinitary, paramTypes));
+        private static void AddUser(Fn fn, Type returnType, bool isInfinitary, params Type[] operandTypes) =>
+            _functors.Add(fn, new FnInfo(fn, returnType, isInfinitary, operandTypes));
 
-        private static IEnumerable<Type> GetParamTypes(this MethodInfo methodInfo) =>
+        private static IEnumerable<Type> GetOperandTypes(this MethodInfo methodInfo) =>
             methodInfo.GetParameters().Select(p => p.ParameterType);
 
-        private static string SayParamTypes(this FnInfo fnInfo)
+        private static string SayOperandTypes(this FnInfo fnInfo)
         {
-            var types = fnInfo.ParamTypes;
+            var types = fnInfo.OperandTypes;
             return types.Any() ? types.Select(p => p.Say()).Aggregate((p, q) => $"{p}, {q}") : string.Empty;
         }
 

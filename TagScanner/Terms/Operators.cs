@@ -159,8 +159,8 @@
         public static bool IsUnary(this Op op) => (op & Op.Unary) != 0;
         public static bool IsVisible(this Op op) => (op & Op.Visible) != 0;
         public static string Label(this Op op) => _operators[op].Label;
+        public static Type OperandType(this Op op) => _operators[op].OperandType;
         public static OpInfo OpInfo(this Op op) => _operators[op];
-        public static Type ParamType(this Op op) => _operators[op].ParamType;
 
         public static Type ResultType(this Op op) =>
             op.IsLogical() ? typeof(bool) :

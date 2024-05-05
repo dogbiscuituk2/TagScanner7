@@ -23,7 +23,7 @@
                 Assert.AreEqual(expected: associates, actual: operation.Associates);
                 Assert.AreEqual(expected: associativity, actual: operation.Associativity);
                 Assert.AreEqual(expected: op, actual: operation.Op);
-                Assert.AreEqual(expected: unary ? 1 : 2, actual: operation.ParameterTypes.Count());
+                Assert.AreEqual(expected: unary ? 1 : 2, actual: operation.OperandTypes.Count());
                 Assert.AreEqual(expected: op.GetRank(), actual: operation.Rank);
                 Assert.AreEqual(expected: op.ResultType(), actual: operation.ResultType);
                 AddTestValues(operation);

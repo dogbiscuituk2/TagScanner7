@@ -14,11 +14,11 @@
             {
                 var function = new Function(fn);
                 var isInfinitary = fn.IsInfinitary();
-                var paramTypesCount = fn.ParamCount();
-                var operandsCount = paramTypesCount + (isInfinitary ? 2 : 0);
+                var typesCount = fn.OperandCount();
+                var operandsCount = typesCount + (isInfinitary ? 2 : 0);
                 Assert.IsNotNull(function);
                 Assert.AreEqual(expected: fn, actual: function.Fn);
-                Assert.AreEqual(expected: paramTypesCount, actual: function.ParameterTypes.Count());
+                Assert.AreEqual(expected: typesCount, actual: function.OperandTypes.Count());
                 Assert.AreEqual(expected: Rank.Unary, actual: function.Rank);
                 AddTestValues(function);
                 Assert.AreEqual(expected: operandsCount, actual: function.Operands.Count);

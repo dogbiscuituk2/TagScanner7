@@ -25,7 +25,20 @@
 
         public List<CharacterRange> CharacterRanges => GetCharacterRanges();
         public List<CharacterRange> CharacterRangesAll => GetCharacterRangesAll();
+
+        public Delegate Delegate
+        {
+            get
+            {
+                var expression = Expression;
+                var parameters = Parameters;
+                var lambda = Expression.Lambda(expression, parameters);
+                return lambda.Compile();
+            }
+        }
+
         public abstract Expression Expression { get; }
+
         public int Length => ToString().Length;
 
         public Func<Track, bool> Predicate
@@ -34,7 +47,9 @@
             {
                 try
                 {
-                    return Expression.Lambda<Func<Track, bool>>(Expression, Track).Compile();
+                    //return Expression.Lambda<Func<Track, bool>>(Expression, Track).Compile();
+                    var func = Delegate;
+                    return (Func<Track, bool>)func;
                 }
                 catch (Exception exception)
                 {
@@ -43,6 +58,9 @@
                 }
             }
         }
+
+        public virtual IEnumerable<ParameterExpression> Parameters =>
+            new List<ParameterExpression>(new[] { Track });
 
         public virtual Rank Rank => Rank.Unary;
         public object Result => GetResult();
@@ -163,10 +181,27 @@
 
         #endregion
 
+        #region Protected Properties
+
+        private object[] ParameterDefaultValues
+        {
+            get
+            {
+                var parameters = Parameters.ToList();
+                var count = Parameters.Count();
+                var values = new object[count];
+                for (var index = 0; index < count; index++)
+                    values[index] = parameters[index].Type.GetDefaultValue();
+                return values;
+            }
+        }
+
+        #endregion
+
         #region Private Fields
 
-        [NonSerialized] protected List<CharacterRange> _characterRanges = new List<CharacterRange>();
-        [NonSerialized] private bool _characterRangesValid;
+        protected List<CharacterRange> _characterRanges = new List<CharacterRange>();
+        private bool _characterRangesValid;
 
         #endregion
     }

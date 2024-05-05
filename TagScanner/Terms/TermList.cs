@@ -21,10 +21,21 @@
         public override Expression Expression => GetExpression();
         public virtual bool IsInfinitary => true;
         public virtual Op Op => Op.Comma;
-        public IEnumerable<Type> ParameterTypes => GetParameterTypes();
-        public override Type ResultType => null;
-
         public List<Term> Operands { get; set; } = new List<Term>();
+        public IEnumerable<Type> OperandTypes => GetOperandTypes();
+
+        public override IEnumerable<ParameterExpression> Parameters
+        {
+            get
+            {
+                var parameters = base.Parameters;
+                foreach (var operand in Operands)
+                    parameters = parameters.Union(operand.Parameters);
+                return parameters;
+            }
+        }
+
+        public override Type ResultType => null;
 
         #endregion
 
@@ -121,7 +132,7 @@
             }
         }
 
-        protected virtual IEnumerable<Type> GetParameterTypes() => new[] { typeof(object) };
+        protected virtual IEnumerable<Type> GetOperandTypes() => new[] { typeof(object) };
 
         protected virtual bool UseParens(int index) => false;
 
