@@ -59,7 +59,7 @@
         private void TestConstant(Term constant, string expression)
         {
             Assert.AreEqual(expected: Rank.Unary, actual: constant.Rank);
-            Assert.AreEqual(expected: expression, actual: constant.Expression.ToString());
+            Assert.AreEqual(expected: expression, actual: constant.Expression?.ToString());
             TestParse(constant);
         }
     }

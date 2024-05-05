@@ -3,38 +3,24 @@
     using System;
     using System.Linq.Expressions;
     using System.Text;
-    using System.Text.RegularExpressions;
 
     public class Constant<T> : Term
     {
+        #region Constructor
+
         public Constant(T value) { Value = value; }
+
+        #endregion
+
+        #region Public Properties
 
         public override Expression Expression => Expression.Constant(Value);
         public override Type ResultType => typeof(T);
         public T Value { get; set; }
 
-        private static string FormatDateTime(DateTime dateTime)
-        {
-            var format = new StringBuilder("yyyy-MM-dd");
-            var timeSpan = dateTime.TimeOfDay;
-            if (timeSpan.Ticks > 0)
-            {
-                format.Append(" HH:mm:ss");
-                if (timeSpan.Milliseconds > 0)
-                    format.Append(".fff");
-            }
-            return dateTime.ToString($"[{format}]");
-        }
+        #endregion
 
-        private static string FormatTimeSpan(TimeSpan timeSpan)
-        {
-            var format = new StringBuilder(@"hh\:mm\:ss");
-            if (timeSpan.Days > 0)
-                format.Insert(0, @"d\.");
-            if (timeSpan.Milliseconds > 0)
-                format.Append(@"\.fff");
-            return string.Format($"[{{0:{format}}}]", timeSpan);
-        }
+        #region Public Methods
 
         public override string ToString()
         {
@@ -59,5 +45,34 @@
                     return Value.ToString();
             }
         }
+
+        #endregion
+
+        #region Private Methods
+
+        private static string FormatDateTime(DateTime dateTime)
+        {
+            var format = new StringBuilder("yyyy-MM-dd");
+            var timeSpan = dateTime.TimeOfDay;
+            if (timeSpan.Ticks > 0)
+            {
+                format.Append(" HH:mm:ss");
+                if (timeSpan.Milliseconds > 0)
+                    format.Append(".fff");
+            }
+            return dateTime.ToString($"[{format}]");
+        }
+
+        private static string FormatTimeSpan(TimeSpan timeSpan)
+        {
+            var format = new StringBuilder(@"hh\:mm\:ss");
+            if (timeSpan.Days > 0)
+                format.Insert(0, @"d\.");
+            if (timeSpan.Milliseconds > 0)
+                format.Append(@"\.fff");
+            return string.Format($"[{{0:{format}}}]", timeSpan);
+        }
+
+        #endregion
     }
 }

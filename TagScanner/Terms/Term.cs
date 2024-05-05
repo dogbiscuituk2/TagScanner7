@@ -5,7 +5,6 @@
     using System.Drawing;
     using System.Linq;
     using System.Linq.Expressions;
-    using System.Text.RegularExpressions;
     using Models;
     using Utils;
 
@@ -45,56 +44,8 @@
             }
         }
 
-        public Term Parent { get; private set; }
-
-        public object GetResult()
-        {
-            try
-            {
-                var lambdaExpression = Expression.Lambda(Expression);
-                var lambdaDelegate = lambdaExpression.Compile();
-                var result = lambdaDelegate.DynamicInvoke();
-                return result;
-            }
-            catch (Exception exception)
-            {
-                exception.LogException();
-                return null;
-            }
-        }
-
-        public object GetResult(List<Variable> variables)
-        {
-            try
-            {
-                object result;
-                if (variables == null || !variables.Any())
-                {
-                    var lambdaExpression = Expression.Lambda(Expression);
-                    var lambdaDelegate = lambdaExpression.Compile();
-                    result = lambdaDelegate.DynamicInvoke();
-                }
-                else
-                {
-                    var parameters = variables.Select(p => (ParameterExpression)p.Expression);
-                    var lambdaExpression = Expression.Lambda(Expression, parameters);
-                    var lambdaDelegate = lambdaExpression.Compile();
-                    var count = variables.Count();
-                    var values = new object[count];
-                    for (var index = 0; index < count; index++)
-                        values[index] = variables[index].ResultType.GetDefaultValue();
-                    result = lambdaDelegate.DynamicInvoke(values);
-                }
-                return result;
-            }
-            catch (Exception exception)
-            {
-                exception.LogException();
-                return null;
-            }
-        }
-
         public virtual Rank Rank => Rank.Unary;
+        public object Result => GetResult();
 
         public virtual Type ResultType
         {
@@ -121,6 +72,27 @@
         }
 
         protected virtual List<CharacterRange> GetCharacterRangesAll() => GetCharacterRanges();
+
+        public object GetResult(List<Variable> variables = null)
+        {
+            try
+            {
+                var parameters = variables?.Select(p => (ParameterExpression)p.Expression);
+                var count = variables?.Count() ?? 0;
+                var values = new object[count];
+                for (var index = 0; index < count; index++)
+                    values[index] = variables[index].ResultType.GetDefaultValue();
+                var lambdaExpression = Expression.Lambda(Expression, parameters);
+                var lambdaDelegate = lambdaExpression.Compile();
+                var result = lambdaDelegate.DynamicInvoke(values);
+                return result;
+            }
+            catch (Exception exception)
+            {
+                exception.LogException();
+                return null;
+            }
+        }
 
         protected virtual void InitCharacterRanges()
         {

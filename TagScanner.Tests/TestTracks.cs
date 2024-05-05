@@ -5,12 +5,12 @@
 
     public class TestTracks
     {
-        private class TestTrack : Track
+        public class TestTrack : Track
         {
-            internal TestTrack(string artist, int year, string album, int trackNumber, string duration, string title) : base()
+            public TestTrack(string artist, int year, string album, int trackNumber, string duration, string title) : base()
             {
                 Album = album;
-                Duration = TimeSpan.Parse($"00:0{duration}");
+                Duration = TimeSpan.Parse($"{"00:00:00".Substring(0, 8 - duration.Length)}{duration}");
                 JoinedAlbumArtists = artist;
                 JoinedArtists = artist;
                 JoinedComposers = artist;
@@ -22,20 +22,7 @@
             }
         }
 
-        private const string
-            TB = "The Beatles",
-            SP = "Sgt. Pepper's Lonely Hearts Club Band",
-            LIB = "Let It Be",
-            RS = "The Rolling Stones",
-            SF = "Sticky Fingers",
-            HD = "Hackney Diamonds",
-            LZ = "Led Zeppelin",
-            LZii = "Led Zeppelin II",
-            LZiii = "Led Zeppelin III",
-            LZiv = "Led Zeppelin IV",
-            HH = "Houses of the Holy";
-
-        private static readonly TestTrack[] Tracks = new[]
+        public static readonly TestTrack[] Tracks = new[]
         {
             new TestTrack(TB, 1967, SP, 1, "2:00", SP),
             new TestTrack(TB, 1967, SP, 2, "2:42", "With a Little Help from My Friends") { AlbumArtists = new[] { "John", "Paul", "George", "Ringo" } },
@@ -137,5 +124,18 @@
             new TestTrack(LZ, 1973, HH, 7, "7:00", "No Quarter") { VideoHeight = 480 },
             new TestTrack(LZ, 1973, HH, 8, "4:31", "The Ocean") { VideoWidth = 640 },
         };
+
+        private const string
+            TB = "The Beatles",
+            SP = "Sgt. Pepper's Lonely Hearts Club Band",
+            LIB = "Let It Be",
+            RS = "The Rolling Stones",
+            SF = "Sticky Fingers",
+            HD = "Hackney Diamonds",
+            LZ = "Led Zeppelin",
+            LZii = "Led Zeppelin II",
+            LZiii = "Led Zeppelin III",
+            LZiv = "Led Zeppelin IV",
+            HH = "Houses of the Holy";
     }
 }
