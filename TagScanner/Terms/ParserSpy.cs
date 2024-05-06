@@ -134,7 +134,8 @@
             HeaderShown = false;
             Dump(caller, line, text);
             foreach (var token in Tokenizer.GetTokens(text))
-                Tokens.Enqueue(token);
+                if (!token.Value.IsComment())
+                    Tokens.Enqueue(token);
             return text;
         }
 

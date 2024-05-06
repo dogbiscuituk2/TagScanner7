@@ -175,6 +175,8 @@
 
         public static string GetIndex(this string s) => string.IsNullOrWhiteSpace(s) ? " " : (s.ToUpper() + " ").Substring(0, 1);
 
+        public static bool IsComment(this string text) => text.StartsWith("/*") || text.StartsWith("//");
+
         /// <summary>
         /// Note that Path.GetInvalidFileNameChars() returns all the same characters as Path.GetInvalidPathChars() used in the companion method IsValidFilePath(),
         /// but with the additions that the colon : asterisk * question mark ? slash / and backslash \ are also considered invalid.

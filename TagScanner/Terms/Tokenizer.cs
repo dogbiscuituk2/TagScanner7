@@ -4,6 +4,7 @@
     using System.Collections.Generic;
     using System.Linq;
     using System.Text.RegularExpressions;
+    using Utils;
 
     public static class Tokenizer
     {
@@ -35,12 +36,15 @@
             string Match()
             {
                 var remainingText = RemainingText();
+                if (remainingText.IsComment())
+                    return MatchComment();
                 if (remainingText.StartsWithNumber())
                     return MatchNumber();
 
                 var result = AllTokens.FirstOrDefault(p => remainingText.StartsWith(p, StringComparison.OrdinalIgnoreCase));
                 if (!string.IsNullOrWhiteSpace(result))
                     return result;
+
                 switch (index < count ? text[index] : Nul)
                 {
                     case SingleQuote:
@@ -62,6 +66,7 @@
             }
 
             string MatchCharacter() => MatchRegex("^'.'");
+
             string MatchDateTime() => MatchRegex(DateTimeParser.DateTimePattern);
             string MatchNumber() => MatchRegex(NumberPattern);
             string MatchParameter() => MatchRegex(@"^\{\w+(\[\])?\}");
@@ -69,8 +74,17 @@
             string MatchTimeSpan() => MatchRegex(DateTimeParser.TimeSpanPattern);
             string MatchVariable() => MatchRegex(@"[\w]+");
 
+            string MatchComment()
+            {
+                var remainingText = RemainingText();
+                return remainingText.Substring(0,
+                    remainingText.StartsWith("/*")
+                    ? remainingText.IndexOf("*/") + 2
+                    : $"{remainingText}\n".IndexOf("\n"));
+            }
+
             string MatchRegex(string pattern, RegexOptions options = RegexOptions.IgnoreCase) =>
-                Regex.Match(RemainingText(), pattern, options).Value;
+                Regex.Match(RemainingText(), $"^{pattern}", options).Value;
 
             string RemainingText() => text.Substring(index);
             void SyntaxError() => throw new FormatException($"Unrecognised term at character position {index}: {RemainingText()}");

@@ -58,8 +58,9 @@
             this.TablePopupMoreActions = new System.Windows.Forms.ToolStripMenuItem();
             this.FilterGroupBox = new System.Windows.Forms.GroupBox();
             this.FilterComboBox = new System.Windows.Forms.ComboBox();
-            this.CaseSensitiveCheckBox = new System.Windows.Forms.CheckBox();
+            this.EditButton = new System.Windows.Forms.Button();
             this.ApplyButton = new System.Windows.Forms.Button();
+            this.CaseSensitiveCheckBox = new System.Windows.Forms.CheckBox();
             this.ClearButton = new System.Windows.Forms.Button();
             this.splitContainer2 = new System.Windows.Forms.SplitContainer();
             this.PictureBox = new System.Windows.Forms.PictureBox();
@@ -75,13 +76,13 @@
             this.MediaPlayer = new AxWMPLib.AxWindowsMediaPlayer();
             this.FilterPopupMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.RecentLibraryPopupMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.tbReopen = new System.Windows.Forms.ToolStripMenuItem();
             this.tbAddRecentLibrary = new System.Windows.Forms.ToolStripMenuItem();
             this.AddRecentLibrary = new System.Windows.Forms.ToolStripMenuItem();
             this.FileReopen = new System.Windows.Forms.ToolStripMenuItem();
-            this.tbReopen = new System.Windows.Forms.ToolStripMenuItem();
             this.RecentFolderPopupMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.AddRecentFolder = new System.Windows.Forms.ToolStripMenuItem();
             this.tbAddRecentFolder = new System.Windows.Forms.ToolStripMenuItem();
+            this.AddRecentFolder = new System.Windows.Forms.ToolStripMenuItem();
             this.UndoPopupMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.tbUndo = new System.Windows.Forms.ToolStripSplitButton();
             this.RedoPopupMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
@@ -159,7 +160,6 @@
             this.toolStripMenuItem8 = new System.Windows.Forms.ToolStripSeparator();
             this.HelpMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.HelpAbout = new System.Windows.Forms.ToolStripMenuItem();
-            this.EditButton = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -521,10 +521,10 @@
             // FilterGroupBox
             // 
             this.FilterGroupBox.Controls.Add(this.FilterComboBox);
-            this.FilterGroupBox.Controls.Add(this.EditButton);
             this.FilterGroupBox.Controls.Add(this.ApplyButton);
-            this.FilterGroupBox.Controls.Add(this.CaseSensitiveCheckBox);
             this.FilterGroupBox.Controls.Add(this.ClearButton);
+            this.FilterGroupBox.Controls.Add(this.EditButton);
+            this.FilterGroupBox.Controls.Add(this.CaseSensitiveCheckBox);
             this.FilterGroupBox.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.FilterGroupBox.Location = new System.Drawing.Point(4, 466);
             this.FilterGroupBox.Name = "FilterGroupBox";
@@ -543,6 +543,28 @@
             this.FilterComboBox.Size = new System.Drawing.Size(252, 25);
             this.FilterComboBox.TabIndex = 0;
             // 
+            // EditButton
+            // 
+            this.EditButton.AutoSize = true;
+            this.EditButton.Dock = System.Windows.Forms.DockStyle.Right;
+            this.EditButton.Location = new System.Drawing.Point(466, 18);
+            this.EditButton.Name = "EditButton";
+            this.EditButton.Size = new System.Drawing.Size(48, 26);
+            this.EditButton.TabIndex = 4;
+            this.EditButton.Text = "Edit";
+            this.EditButton.UseVisualStyleBackColor = true;
+            // 
+            // ApplyButton
+            // 
+            this.ApplyButton.AutoSize = true;
+            this.ApplyButton.Dock = System.Windows.Forms.DockStyle.Right;
+            this.ApplyButton.Location = new System.Drawing.Point(367, 18);
+            this.ApplyButton.Name = "ApplyButton";
+            this.ApplyButton.Size = new System.Drawing.Size(51, 26);
+            this.ApplyButton.TabIndex = 1;
+            this.ApplyButton.Text = "Apply";
+            this.ApplyButton.UseVisualStyleBackColor = true;
+            // 
             // CaseSensitiveCheckBox
             // 
             this.CaseSensitiveCheckBox.AutoSize = true;
@@ -555,22 +577,11 @@
             this.CaseSensitiveCheckBox.Text = "Case Sensitive";
             this.CaseSensitiveCheckBox.UseVisualStyleBackColor = true;
             // 
-            // ApplyButton
-            // 
-            this.ApplyButton.AutoSize = true;
-            this.ApplyButton.Dock = System.Windows.Forms.DockStyle.Right;
-            this.ApplyButton.Location = new System.Drawing.Point(415, 18);
-            this.ApplyButton.Name = "ApplyButton";
-            this.ApplyButton.Size = new System.Drawing.Size(51, 26);
-            this.ApplyButton.TabIndex = 1;
-            this.ApplyButton.Text = "Apply";
-            this.ApplyButton.UseVisualStyleBackColor = true;
-            // 
             // ClearButton
             // 
             this.ClearButton.AutoSize = true;
             this.ClearButton.Dock = System.Windows.Forms.DockStyle.Right;
-            this.ClearButton.Location = new System.Drawing.Point(466, 18);
+            this.ClearButton.Location = new System.Drawing.Point(418, 18);
             this.ClearButton.Name = "ClearButton";
             this.ClearButton.Size = new System.Drawing.Size(48, 26);
             this.ClearButton.TabIndex = 3;
@@ -726,8 +737,15 @@
             // RecentLibraryPopupMenu
             // 
             this.RecentLibraryPopupMenu.Name = "RecentLibraryPopupMenu";
-            this.RecentLibraryPopupMenu.OwnerItem = this.tbReopen;
+            this.RecentLibraryPopupMenu.OwnerItem = this.FileReopen;
             this.RecentLibraryPopupMenu.Size = new System.Drawing.Size(61, 4);
+            // 
+            // tbReopen
+            // 
+            this.tbReopen.DropDown = this.RecentLibraryPopupMenu;
+            this.tbReopen.Name = "tbReopen";
+            this.tbReopen.Size = new System.Drawing.Size(136, 22);
+            this.tbReopen.Text = "&Reopen";
             // 
             // tbAddRecentLibrary
             // 
@@ -750,25 +768,11 @@
             this.FileReopen.Size = new System.Drawing.Size(161, 22);
             this.FileReopen.Text = "&Reopen";
             // 
-            // tbReopen
-            // 
-            this.tbReopen.DropDown = this.RecentLibraryPopupMenu;
-            this.tbReopen.Name = "tbReopen";
-            this.tbReopen.Size = new System.Drawing.Size(136, 22);
-            this.tbReopen.Text = "&Reopen";
-            // 
             // RecentFolderPopupMenu
             // 
             this.RecentFolderPopupMenu.Name = "RecentFolderPopupMenu";
-            this.RecentFolderPopupMenu.OwnerItem = this.tbAddRecentFolder;
+            this.RecentFolderPopupMenu.OwnerItem = this.AddRecentFolder;
             this.RecentFolderPopupMenu.Size = new System.Drawing.Size(61, 4);
-            // 
-            // AddRecentFolder
-            // 
-            this.AddRecentFolder.DropDown = this.RecentFolderPopupMenu;
-            this.AddRecentFolder.Name = "AddRecentFolder";
-            this.AddRecentFolder.Size = new System.Drawing.Size(149, 22);
-            this.AddRecentFolder.Text = "&Recent Folder";
             // 
             // tbAddRecentFolder
             // 
@@ -776,6 +780,13 @@
             this.tbAddRecentFolder.Name = "tbAddRecentFolder";
             this.tbAddRecentFolder.Size = new System.Drawing.Size(149, 22);
             this.tbAddRecentFolder.Text = "&Recent Folder";
+            // 
+            // AddRecentFolder
+            // 
+            this.AddRecentFolder.DropDown = this.RecentFolderPopupMenu;
+            this.AddRecentFolder.Name = "AddRecentFolder";
+            this.AddRecentFolder.Size = new System.Drawing.Size(149, 22);
+            this.AddRecentFolder.Text = "&Recent Folder";
             // 
             // UndoPopupMenu
             // 
@@ -1434,17 +1445,6 @@
             this.HelpAbout.ShortcutKeys = System.Windows.Forms.Keys.F1;
             this.HelpAbout.Size = new System.Drawing.Size(126, 22);
             this.HelpAbout.Text = "&About";
-            // 
-            // EditButton
-            // 
-            this.EditButton.AutoSize = true;
-            this.EditButton.Dock = System.Windows.Forms.DockStyle.Right;
-            this.EditButton.Location = new System.Drawing.Point(367, 18);
-            this.EditButton.Name = "EditButton";
-            this.EditButton.Size = new System.Drawing.Size(48, 26);
-            this.EditButton.TabIndex = 4;
-            this.EditButton.Text = "Edit";
-            this.EditButton.UseVisualStyleBackColor = true;
             // 
             // MainForm
             // 

@@ -1,11 +1,12 @@
 ﻿namespace TagScanner.Controllers
 {
+    using System.Collections.Generic;
     using System.Drawing;
     using System.Linq;
     using System.Text.RegularExpressions;
     using System.Windows.Forms;
     using FastColoredTextBoxNS;
-    using TagScanner.Terms;
+    using Terms;
     using Views;
 
     public class ScriptFormController : Controller
@@ -32,17 +33,22 @@
             return _scriptForm;
         }
 
+        private static string MakeRegex(IEnumerable<string> strings) => strings
+            .OrderByDescending(p => p)
+            .Select(p => Regex.Escape(p))
+            .Aggregate((p, q) => $"{p}|{q}");
+
         private static FontStyle style => FontStyle.Regular;
 
         private static TextStyle
-            blue = new TextStyle(Brushes.Blue, null, style),
+            blue = new TextStyle(Brushes.LightBlue, null, style),
             red = new TextStyle(Brushes.Red, null, style),
-            green = new TextStyle(Brushes.Green, null, style);
+            green = new TextStyle(Brushes.LightGreen, null, style);
 
         private string
-            functors = Functors.Keys.Select(p => $"{p}").Aggregate((p, q) => $"{p}|{q}"),
-            operators = Operators.Keys.Select(p => $"{p}").Aggregate((p, q) => $"{p}|{q}"),
-            tags = Tags.Keys.Select(p => p.DisplayName()).Aggregate((p, q) => $"{p}|{q}");
+            functors = MakeRegex(Functors.Keys.Select(p => $"{p}")),
+            operators = MakeRegex(Operators.Symbols),
+            tags = MakeRegex(Tags.Keys.Select(p => p.DisplayName()));
 
         private void ColourTextBox_TextChanged(object sender, TextChangedEventArgs e)
         {

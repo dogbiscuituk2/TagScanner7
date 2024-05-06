@@ -115,6 +115,7 @@
 
         public static Op[] Keys => _operators.Keys.ToArray();
         public static OpInfo[] Values => _operators.Values.ToArray();
+        public static IEnumerable<string> Symbols => _symbols;
 
         #endregion
 
