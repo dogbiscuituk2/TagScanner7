@@ -3,6 +3,7 @@
     using System;
     using System.Collections.Generic;
     using System.Linq;
+    using System.Text;
     using System.Text.RegularExpressions;
 
     public static class Types
@@ -17,16 +18,33 @@
             ? _defaultValues[type]
             : null;
 
-        public static string Say(this Type type) => type.ToTypeName();
+        public static string Say(this Type type)
+        {
+            if (type == null)
+                return string.Empty;
+            if (type.IsArray)
+                return $"{type.GetElementType().Say()}[]";
+            var name = type.Name;
+            if (type.IsGenericType)
+            {
+                var result = new StringBuilder(name.Substring(0, name.IndexOf('`')));
+                result.Append('<');
+                var first = true;
+                foreach (var t in type.GetGenericArguments())
+                {
+                    if (!first) result.Append(',');
+                    result.Append(t.Say());
+                    first = false;
+                }
+                result.Append('>');
+                return result.ToString();
+            }
+            return _types.FirstOrDefault(p => p.Value == type).Key ?? name;
+        }
 
         public static Type ToType(this string typeName) => typeName.EndsWith("[]")
             ? typeName.TrimEnd('[', ']').ToType().MakeArrayType()
             : _types[typeName];
-
-        public static string ToTypeName(this Type type) =>
-            type.IsArray
-            ? $"{type.GetElementType().ToTypeName()}[]"
-            : _types.FirstOrDefault(p => p.Value == type).Key;
 
         private static readonly Dictionary<string, Type> _types = new Dictionary<string, Type>
         {

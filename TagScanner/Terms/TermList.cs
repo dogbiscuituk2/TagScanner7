@@ -35,7 +35,7 @@
             }
         }
 
-        public override object Result => Op == Op.Comma ? (Operands.Last()?.Result) : base.Result;
+        //public override object Result => Op == Op.Comma ? (Operands.Last()?.Result) : base.Result;
 
         public override Type ResultType => null;
 

@@ -97,7 +97,7 @@
             Debug.WriteLine(_);
 
             void DrawLine() => Debug.WriteLine(new string('_', 80) + Environment.NewLine);
-            string TermInfo(object term) => $"{term.GetType().Name}: {term}";
+            string TermInfo(object term) => $"{term.GetType().Say()}: {term}";
 #endif
         }
 
