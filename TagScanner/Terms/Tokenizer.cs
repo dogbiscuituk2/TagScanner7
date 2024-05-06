@@ -10,6 +10,22 @@
     {
         #region Public Methods
 
+        public static bool TryGetTokens(string text, ref List<Token> tokens)
+        {
+            bool ok = true;
+            try
+            {
+                foreach (var token in GetTokens(text))
+                    tokens.Add(token);
+            }
+            catch (Exception exception)
+            {
+                exception.LogException();
+                ok = false;
+            }
+            return ok;
+        }
+
         public static IEnumerable<Token> GetTokens(string text)
         {
             int count = text.Length, index = 0;
@@ -19,11 +35,12 @@
                     index++;
                 if (index >= count)
                     break;
-                var match = Match();
-                if (string.IsNullOrWhiteSpace(match))
+                var token = Match();
+                if (token.Length == 0)
+                    token = UnexpectedCharacter();
+                if (string.IsNullOrWhiteSpace(token.Value))
                     break;
-                var token = new Token(index, match);
-                index += match.Length;
+                index += token.Length;
 #if DEBUG_TOKENIZER
                 System.Diagnostics.Debug.WriteLine(token);
 #endif
@@ -33,7 +50,9 @@
                 SyntaxError();
             yield break;
 
-            string Match()
+            Token UnexpectedCharacter() => new Token(0, index, $"{text[index]}");
+
+            Token Match()
             {
                 var remainingText = RemainingText();
                 if (remainingText.IsComment())
@@ -41,9 +60,12 @@
                 if (remainingText.StartsWithNumber())
                     return MatchNumber();
 
-                var result = AllTokens.FirstOrDefault(p => remainingText.StartsWith(p, StringComparison.OrdinalIgnoreCase));
-                if (!string.IsNullOrWhiteSpace(result))
-                    return result;
+                Token token = null;
+                if (MatchKeyword(ref token, TokenType.Boolean, Booleans)) return token;
+                if (MatchKeyword(ref token, TokenType.Field, Fields)) return token;
+                if (MatchKeyword(ref token, TokenType.Function, FunctionNames)) return token;
+                if (MatchKeyword(ref token, TokenType.Symbol, Symbols)) return token;
+                if (MatchKeyword(ref token, TokenType.TypeName, TypeNames)) return token;
 
                 switch (index < count ? text[index] : Nul)
                 {
@@ -53,38 +75,49 @@
                         return MatchString();
                     case LeftBracket:
                         var dateTime = MatchDateTime();
-                        return !string.IsNullOrWhiteSpace(dateTime) ? dateTime : MatchTimeSpan();
+                        return !string.IsNullOrWhiteSpace(dateTime.Value) ? dateTime : MatchTimeSpan();
                     case LeftBrace:
                         return MatchParameter();
                     case char c when char.IsLetter(c):
                         return MatchVariable();
-                    case Nul:
-                        return string.Empty;
                 }
-                SyntaxError();
-                return string.Empty;
+                return UnexpectedCharacter();
             }
 
-            string MatchCharacter() => MatchRegex("^'.'");
-
-            string MatchDateTime() => MatchRegex(DateTimeParser.DateTimePattern);
-            string MatchNumber() => MatchRegex(NumberPattern);
-            string MatchParameter() => MatchRegex(@"^\{\w+(\[\])?\}");
-            string MatchString() => MatchRegex("\"[^\"|\\\"]*\"");
-            string MatchTimeSpan() => MatchRegex(DateTimeParser.TimeSpanPattern);
-            string MatchVariable() => MatchRegex(@"[\w]+");
-
-            string MatchComment()
+            bool MatchKeyword(ref Token token, TokenType tokenType, IEnumerable<string> keywords)
             {
                 var remainingText = RemainingText();
-                return remainingText.Substring(0,
-                    remainingText.StartsWith("/*")
-                    ? remainingText.IndexOf("*/") + 2
-                    : $"{remainingText}\n".IndexOf("\n"));
+                var value = keywords
+                    .OrderByDescending(p => p).
+                    FirstOrDefault(p => remainingText.StartsWith(p, StringComparison.OrdinalIgnoreCase));
+                var ok = !string.IsNullOrWhiteSpace(value);
+                if (ok)
+                    token = new Token(tokenType, index, value);
+                return ok;
             }
 
-            string MatchRegex(string pattern, RegexOptions options = RegexOptions.IgnoreCase) =>
-                Regex.Match(RemainingText(), $"^{pattern}", options).Value;
+            Token MatchCharacter() => MatchRegex(TokenType.Character, "^'.'");
+            Token MatchDateTime() => MatchRegex(TokenType.DateTime, DateTimeParser.DateTimePattern);
+            Token MatchNumber() => MatchRegex(TokenType.Number, NumberPattern);
+            Token MatchParameter() => MatchRegex(TokenType.Parameter, @"^\{\w+(\[\])?\}");
+            Token MatchString() => MatchRegex(TokenType.String, "\"[^\"|\\\"]*\"");
+            Token MatchTimeSpan() => MatchRegex(TokenType.TimeSpan, DateTimeParser.TimeSpanPattern);
+            Token MatchVariable() => MatchRegex(TokenType.Variable, @"[\w]+");
+
+            Token MatchComment()
+            {
+                var remainingText = RemainingText();
+                return new Token(
+                    TokenType.Comment,
+                    index,
+                    remainingText.Substring(0,
+                    remainingText.StartsWith("/*")
+                    ? remainingText.IndexOf("*/") + 2
+                    : $"{remainingText}\n".IndexOf("\n")));
+            }
+
+            Token MatchRegex(TokenType tokenType, string pattern, RegexOptions options = RegexOptions.IgnoreCase) =>
+                new Token(tokenType, index, Regex.Match(RemainingText(), $"^{pattern}", options).Value);
 
             string RemainingText() => text.Substring(index);
             void SyntaxError() => throw new FormatException($"Unrecognised term at character position {index}: {RemainingText()}");
