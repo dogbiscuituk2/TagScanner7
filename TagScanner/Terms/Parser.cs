@@ -107,8 +107,9 @@
                     var op = PeekOperator();
                     if (op == 0) break;
                     var priorRank = op.GetRank();
-                    if (priorRank >= tokenRank) term = Merge(term);
-                    else break;
+                    if (priorRank < tokenRank || priorRank == tokenRank && op.GetAssociativity() == Associativity.Right)
+                        break;
+                    term = Merge(term);
                 }
                 PushTerm(term);
                 PushOperator(token.ToOperator(unary: false));

@@ -104,23 +104,23 @@
             var parser = new Parser();
 
             var term = parser.Parse(text, caseSensitive: true);
-            Assert.AreEqual(expected: sense, actual: term.GetResult(parser.State));
+            Assert.AreEqual(expected: sense, actual: term.Result);
             term = parser.Parse(text, caseSensitive: false);
-            Assert.AreEqual(expected: nonsense, actual: term.GetResult(parser.State));
+            Assert.AreEqual(expected: nonsense, actual: term.Result);
 
             text = $"X := {text}";
 
             term = parser.Parse(text, caseSensitive: true);
-            Assert.AreEqual(expected: sense, actual: term.GetResult(parser.State));
+            Assert.AreEqual(expected: sense, actual: term.Result);
             term = parser.Parse(text, caseSensitive: false);
-            Assert.AreEqual(expected: nonsense, actual: term.GetResult(parser.State));
+            Assert.AreEqual(expected: nonsense, actual: term.Result);
 
             text = $"Y := {text}";
 
             term = parser.Parse(text, caseSensitive: true);
-            Assert.AreEqual(expected: sense, actual: term.GetResult(parser.State));
+            Assert.AreEqual(expected: sense, actual: term.Result);
             term = parser.Parse(text, caseSensitive: false);
-            Assert.AreEqual(expected: nonsense, actual: term.GetResult(parser.State));
+            Assert.AreEqual(expected: nonsense, actual: term.Result);
         }
 
         #endregion

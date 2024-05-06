@@ -13,7 +13,9 @@
         public static object GetDefaultValue(this Type type) =>
             type.IsArray
             ? (new[] { GetDefaultValue(type.GetElementType()) })
-            : _defaultValues[type];
+            : _defaultValues.ContainsKey(type)
+            ? _defaultValues[type]
+            : null;
 
         public static string Say(this Type type) => type.ToTypeName();
 
@@ -54,9 +56,7 @@
             { typeof(float), 0F },
             { typeof(int), 0 },
             { typeof(long), 0L },
-            { typeof(object), null },
             { typeof(RegexOptions), 0 },
-            { typeof(string), null },
             { typeof(TimeSpan), TimeSpan.MinValue },
             { typeof(uint), 0U },
             { typeof(ulong), 0UL },

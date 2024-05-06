@@ -63,7 +63,23 @@
             new List<ParameterExpression>(new[] { Track });
 
         public virtual Rank Rank => Rank.Unary;
-        public object Result => GetResult();
+
+        public virtual object Result
+        {
+            get
+            {
+                try
+                {
+                    var func = Delegate;
+                    return func.DynamicInvoke(ParameterDefaultValues);
+                }
+                catch (Exception exception)
+                {
+                    exception.LogException();
+                    return null;
+                }
+            }
+        }
 
         public virtual Type ResultType
         {
@@ -90,27 +106,6 @@
         }
 
         protected virtual List<CharacterRange> GetCharacterRangesAll() => GetCharacterRanges();
-
-        public object GetResult(List<Variable> variables = null)
-        {
-            try
-            {
-                var parameters = variables?.Select(p => (ParameterExpression)p.Expression);
-                var count = variables?.Count() ?? 0;
-                var values = new object[count];
-                for (var index = 0; index < count; index++)
-                    values[index] = variables[index].ResultType.GetDefaultValue();
-                var lambdaExpression = Expression.Lambda(Expression, parameters);
-                var lambdaDelegate = lambdaExpression.Compile();
-                var result = lambdaDelegate.DynamicInvoke(values);
-                return result;
-            }
-            catch (Exception exception)
-            {
-                exception.LogException();
-                return null;
-            }
-        }
 
         protected virtual void InitCharacterRanges()
         {
