@@ -63,8 +63,8 @@
             var op = Operators.Pop();
             var ass = op.GetAssociativity();
             bool
-                lop = /*(ass & Associativity.Left) != 0 &&*/ left is TermList leftOp && leftOp.Op == op,
-                rop = (ass & Associativity.Right) != 0 && right is TermList rightOp && rightOp.Op == op;
+                lop = left is TermList leftOp && leftOp.Op == op,
+                rop = right is TermList rightOp && rightOp.Op == op && (ass & Associativity.Right) != 0;
             IEnumerable<Term>
                 leftOps = lop ? ((TermList)left).Operands.ToArray() : new[] { left },
                 rightOps = rop ? ((TermList)right).Operands.ToArray() : new[] { right };
