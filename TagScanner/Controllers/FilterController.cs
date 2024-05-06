@@ -14,18 +14,23 @@
             //View.ViewFilter.Click += ViewFilter_Click;
             View.ApplyButton.Click += ApplyButton_Click;
             View.ClearButton.Click += ClearButton_Click;
+            View.EditButton.Click += EditButton_Click;
             FilterComboBox.DropDown += FilterComboBox_DropDown;
             FilterFormController = new FilterFormController(this);
+            ScriptFormController = new ScriptFormController(this);
         }
 
         private ComboBox FilterComboBox => View.FilterComboBox;
         private FilterFormController FilterFormController;
+        private WpfTableController LibraryGridController => MainFormController.TableController;
         private MainFormController MainFormController => (MainFormController)Parent;
-        private WpfTableController LibraryGridController => MainFormController.TableController; 
         private MainForm View => MainFormController.View;
+        private ScriptFormController ScriptFormController;
 
         private void ApplyButton_Click(object sender, EventArgs e) => UpdateFilter();
         private void ClearButton_Click(object sender, EventArgs e) => ClearFilter();
+        private void EditButton_Click(object sender, EventArgs e) => EditFilter();
+
         private void FilterComboBox_DropDown(object sender, EventArgs e) => AppController.GetFilterItems(FilterComboBox);
         //private void ViewFilter_Click(object sender, EventArgs e) => LaunchFilterBuilder();
 
@@ -34,6 +39,11 @@
             FilterComboBox.Text = string.Empty;
             LibraryGridController.ClearFilter();
             UpdateFilterStatus($"{LibraryGridController.TracksCountAll} Tracks shown.");
+        }
+
+        private void EditFilter()
+        {
+            ScriptFormController.Execute();
         }
 
         private void LaunchFilterBuilder() => FilterFormController.Execute(FilterComboBox.Text);
