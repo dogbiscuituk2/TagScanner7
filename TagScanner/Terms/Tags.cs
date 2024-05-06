@@ -17,7 +17,7 @@
             var props = typeof(Selection).GetProperties();
             foreach (Tag tag in Enum.GetValues(typeof(Tag)))
             {
-                var name = tag.ToString();
+                var name = $"{tag}";
                 var prop = props.Single(p => p.Name == name);
                 var category = GetCategory(tag);
                 if (category == Selection.Selected)

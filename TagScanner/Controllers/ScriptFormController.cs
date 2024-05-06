@@ -2,6 +2,7 @@
 {
     using System.Drawing;
     using System.Linq;
+    using System.Text.RegularExpressions;
     using System.Windows.Forms;
     using FastColoredTextBoxNS;
     using TagScanner.Terms;
@@ -32,21 +33,23 @@
         }
 
         private static FontStyle style => FontStyle.Regular;
+
         private static TextStyle
-            blue = new TextStyle(Brushes.LightBlue, null, style),
+            blue = new TextStyle(Brushes.Blue, null, style),
             red = new TextStyle(Brushes.Red, null, style),
             green = new TextStyle(Brushes.Green, null, style);
 
         private string
             functors = Functors.Keys.Select(p => $"{p}").Aggregate((p, q) => $"{p}|{q}"),
-            operators = Operators.Keys.Select(p => $"{p}").Aggregate((p, q) => $"{p}|{q}");
+            operators = Operators.Keys.Select(p => $"{p}").Aggregate((p, q) => $"{p}|{q}"),
+            tags = Tags.Keys.Select(p => p.DisplayName()).Aggregate((p, q) => $"{p}|{q}");
 
         private void ColourTextBox_TextChanged(object sender, TextChangedEventArgs e)
         {
             e.ChangedRange.ClearStyle(blue, red, green);
-            e.ChangedRange.SetStyle(blue, functors);
-            e.ChangedRange.SetStyle(red, operators);
-            e.ChangedRange.SetStyle(green, "{{! .*? }}");
+            e.ChangedRange.SetStyle(blue, functors, RegexOptions.IgnoreCase);
+            e.ChangedRange.SetStyle(red, operators, RegexOptions.IgnoreCase);
+            e.ChangedRange.SetStyle(green, tags, RegexOptions.IgnoreCase);
         }
     }
 }
