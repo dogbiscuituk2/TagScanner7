@@ -30,67 +30,110 @@
             Assert.AreEqual(expected: 0, actual: tokens.Count());
         }
 
-        [DataRow(" /* This is a failed comment ", TokenType.Comment, 1, "/*", "Unterminated comment")]
-        [DataRow(" /*This is a failed comment ", TokenType.Comment, 1, "/*This", "Unterminated comment")]
-        [DataRow(" /*This is a failed comment * / ", TokenType.Comment, 1, "/*This", "Unterminated comment")]
+        [DataRow(" /* This is a failed comment ", TokenType.Comment, "/*", "Unterminated comment")]
+        [DataRow(" /*This is a failed comment ", TokenType.Comment, "/*This", "Unterminated comment")]
+        [DataRow(" /*This is a failed comment * / ", TokenType.Comment, "/*This", "Unterminated comment")]
         [TestMethod]
-        public void TestSingleTokenFail(string text, TokenType tokenType, int index, string value, string error)
+        public void TestSingleTokenFail(string text, TokenType tokenType, string value, string error)
         {
             var tokens = Tokenizer.GetTokens(text);
             Assert.IsTrue(tokens.Count() > 0);
             var token = tokens.First();
             Assert.AreEqual(expected: tokenType, actual: token.TokenType);
-            Assert.AreEqual(expected: index, actual: token.Index);
+            Assert.AreEqual(expected: 1, actual: token.Index);
             Assert.AreEqual(expected: value, actual: token.Value);
             Assert.AreEqual(expected: error, actual: token.Error);
         }
 
-        #region Comment
-
-        [DataRow(" // This is a comment ", TokenType.Comment, 1, "// This is a comment ")]
-        [DataRow(" /* This is a comment */ ", TokenType.Comment, 1, "/* This is a comment */")]
-        [DataRow(" /* This is a\r\nmulti-line comment */ ", TokenType.Comment, 1, "/* This is a\r\nmulti-line comment */")]
-
-        #endregion
-        #region Number
-
-        [DataRow(" 1 ", TokenType.Number, 1, "1")]
-        [DataRow(" 1.23 ", TokenType.Number, 1, "1.23")]
-        [DataRow(" 1.23f ", TokenType.Number, 1, "1.23f")]
-        [DataRow(" 1.23D ", TokenType.Number, 1, "1.23D")]
-        [DataRow(" 1.23M ", TokenType.Number, 1, "1.23M")]
-        [DataRow(" 1.23u ", TokenType.Number, 1, "1.23u")]
-        [DataRow(" 1.23L ", TokenType.Number, 1, "1.23L")]
-        [DataRow(" 1.23uL ", TokenType.Number, 1, "1.23uL")]
-        [DataRow(" 1.23e+4 ", TokenType.Number, 1, "1.23e+4")]
-        [DataRow(" 1.23E-5 ", TokenType.Number, 1, "1.23E-5")]
-        [DataRow(" 1.23e+4F ", TokenType.Number, 1, "1.23e+4F")]
-        [DataRow(" 1.23E-5d ", TokenType.Number, 1, "1.23E-5d")]
-
-        #endregion
         #region Boolean
 
-        [DataRow(" true ", TokenType.Boolean, 1, "true")]
-        [DataRow(" True ", TokenType.Boolean, 1, "true")]
-        [DataRow(" TRUE ", TokenType.Boolean, 1, "true")]
+        [DataRow(" true ", TokenType.Boolean, "true")]
+        [DataRow(" True ", TokenType.Boolean, "true")]
+        [DataRow(" TRUE ", TokenType.Boolean, "true")]
+
+        #endregion
+        #region Character
+
+        [DataRow(" 'A' ", TokenType.Character, "'A'")]
+        [DataRow(" '.' ", TokenType.Character, "'.'")] // Period
+        [DataRow(" '\'' ", TokenType.Character, "'\''")] // Apostrophe
+        [DataRow(" '\t' ", TokenType.Character, "'\t'")] // Tab
+        [DataRow(" '\r' ", TokenType.Character, "'\r'")] // CR
+        [DataRow(" '\n' ", TokenType.Character, "'\n'")] // LF
+
+        #endregion
+        #region Comment
+
+        [DataRow(" // This is a comment ", TokenType.Comment, "// This is a comment ")]
+        [DataRow(" /* This is a comment */ ", TokenType.Comment, "/* This is a comment */")]
+        [DataRow(" /* This is a\r\nmulti-line comment */ ", TokenType.Comment, "/* This is a\r\nmulti-line comment */")]
+
+        #endregion
+        #region DateTime
+
+        [DataRow(" [1975-11-22] ", TokenType.DateTime, "[1975-11-22]")]
+        [DataRow(" [1975-11-22 12:34] ", TokenType.DateTime, "[1975-11-22 12:34]")]
+        [DataRow(" [1975-11-22 12:34:56] ", TokenType.DateTime, "[1975-11-22 12:34:56]")]
+        [DataRow(" [1975-11-22 12:34:56.789] ", TokenType.DateTime, "[1975-11-22 12:34:56.789]")]
+        [DataRow(" [1975-1-2] ", TokenType.DateTime, "[1975-1-2]")]
+        [DataRow(" [1975-1-2 2:3] ", TokenType.DateTime, "[1975-1-2 2:3]")]
+        [DataRow(" [1975-1-2 2:3:4] ", TokenType.DateTime, "[1975-1-2 2:3:4]")]
+        [DataRow(" [1975-1-2 2:3:4.5] ", TokenType.DateTime, "[1975-1-2 2:3:4.5]")]
 
         #endregion
         #region Field
 
-        [DataRow(" Artist ", TokenType.Field, 1, "Artist")]
-        [DataRow(" title ", TokenType.Field, 1, "Title")]
-        [DataRow(" ALBUM ", TokenType.Field, 1, "Album")]
-        [DataRow(" Album Artist ", TokenType.Field, 1, "Album Artist")]
+        [DataRow(" Artist ", TokenType.Field, "Artist")]
+        [DataRow(" title ", TokenType.Field, "Title")]
+        [DataRow(" ALBUM ", TokenType.Field, "Album")]
+        [DataRow(" Album Artist ", TokenType.Field, "Album Artist")]
+
+        #endregion
+        #region Number
+
+        [DataRow(" 1 ", TokenType.Number, "1")]
+        [DataRow(" 1.23 ", TokenType.Number, "1.23")]
+        [DataRow(" 1.23f ", TokenType.Number, "1.23f")]
+        [DataRow(" 1.23D ", TokenType.Number, "1.23D")]
+        [DataRow(" 1.23M ", TokenType.Number, "1.23M")]
+        [DataRow(" 1.23u ", TokenType.Number, "1.23u")]
+        [DataRow(" 1.23L ", TokenType.Number, "1.23L")]
+        [DataRow(" 1.23uL ", TokenType.Number, "1.23uL")]
+        [DataRow(" 1.23e+4 ", TokenType.Number, "1.23e+4")]
+        [DataRow(" 1.23E-5 ", TokenType.Number, "1.23E-5")]
+        [DataRow(" 1.23e+4F ", TokenType.Number, "1.23e+4F")]
+        [DataRow(" 1.23E-5d ", TokenType.Number, "1.23E-5d")]
+
+        #endregion
+        #region Parameter
+
+        [DataRow(" {int} ", TokenType.Parameter, "{int}")]
+
+        #endregion
+        #region String
+
+        [DataRow(" \"Abc Def\"", TokenType.String, "\"Abc Def\"")]
+        [DataRow(" \"Abc\r\nDef\"", TokenType.String, "\"Abc\r\nDef\"")]
+
+        #endregion
+        #region TimeSpan
+
+        [DataRow(" [12:34] ", TokenType.TimeSpan, "[12:34]")]
+        [DataRow(" [12:34:56] ", TokenType.TimeSpan, "[12:34:56]")]
+        [DataRow(" [12:34:56.789] ", TokenType.TimeSpan, "[12:34:56.789]")]
+        [DataRow(" [2:3] ", TokenType.TimeSpan, "[2:3]")]
+        [DataRow(" [2:3:4] ", TokenType.TimeSpan, "[2:3:4]")]
+        [DataRow(" [2:3:4.5] ", TokenType.TimeSpan, "[2:3:4.5]")]
 
         #endregion
         [TestMethod]
-        public void TestSingleTokenPass(string text, TokenType tokenType, int index, string value)
+        public void TestSingleTokenPass(string text, TokenType tokenType, string value)
         {
             var tokens = Tokenizer.GetTokens(text);
             Assert.AreEqual(expected: 1, actual: tokens.Count());
             var token = tokens.First();
             Assert.AreEqual(expected: null, actual: token.Error);
-            Assert.AreEqual(expected: index, actual: token.Index);
+            Assert.AreEqual(expected: 1, actual: token.Index);
             Assert.AreEqual(expected: tokenType, actual: token.TokenType);
             Assert.AreEqual(expected: true, actual: token.Valid);
             Assert.AreEqual(expected: value, actual: token.Value);
@@ -125,23 +168,3 @@
         #endregion
     }
 }
-/*
-Implemented Tested
-			vv	vv
-			
-Comment		OK	OK
-Number		OK	OK
-
-Boolean		OK	OK
-Field		OK	OK
-Function	OK	OK
-Symbol		OK	OK
-TypeName	OK	OK
-
-Character	OK
-String		OK
-DateTime	OK
-TimeSpan	OK
-Parameter	OK
-Variable	OK
-*/

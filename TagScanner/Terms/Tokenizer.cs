@@ -73,7 +73,7 @@
                 return UnexpectedCharacter();
             }
 
-            Token MatchCharacter() => MatchRegex(TokenType.Character, "^'.'", "Unterminated character constant");
+            Token MatchCharacter() => MatchRegex(TokenType.Character, @"^'(.|\.|\n)'", "Unterminated character constant");
             Token MatchDateTime() => MatchRegex(TokenType.DateTime, DateTimeParser.DateTimePattern, "Invalid DateTime format");
             Token MatchNumber() => MatchRegex(TokenType.Number, NumberPattern, "Always succeeds");
             Token MatchParameter() => MatchRegex(TokenType.Parameter, @"^\{\w+(\[\])?\}", "Invalid parameter");
