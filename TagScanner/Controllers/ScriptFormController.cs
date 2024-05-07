@@ -2,8 +2,6 @@
 {
     using System.Collections.Generic;
     using System.Drawing;
-    using System.Linq;
-    using System.Text.RegularExpressions;
     using System.Windows.Forms;
     using FastColoredTextBoxNS;
     using Terms;
@@ -34,32 +32,20 @@
         private static readonly FontStyle fontStyle = FontStyle.Regular;
 
         private static readonly TextStyle
-            TextStyleBlack = new TextStyle(Brushes.Black, null, fontStyle),
-            TextStyleBrown = new TextStyle(Brushes.Brown, null, fontStyle),
-            TextStyleRed = new TextStyle(Brushes.Red, null, fontStyle),
-            TextStyleOrange = new TextStyle(Brushes.DarkOrange, null, fontStyle),
-            TextStyleYellow = new TextStyle(Brushes.Red, Brushes.Yellow, fontStyle),
-            TextStyleGreen = new TextStyle(Brushes.Green, null, fontStyle),
-            TextStyleCyan = new TextStyle(Brushes.DarkCyan, null, fontStyle),
-            TextStyleBlue = new TextStyle(Brushes.Blue, null, fontStyle),
-            TextStyleViolet = new TextStyle(Brushes.Violet, null, fontStyle),
-            TextStyleGrey = new TextStyle(Brushes.DarkGray, null, fontStyle),
-            TextStyleWhite = new TextStyle(Brushes.White, Brushes.OrangeRed, fontStyle);
+            Black = new TextStyle(Brushes.Black, null, fontStyle),
+            Brown = new TextStyle(Brushes.Brown, null, fontStyle),
+            Red = new TextStyle(Brushes.Red, null, fontStyle),
+            Orange = new TextStyle(Brushes.DarkOrange, null, fontStyle),
+            Yellow = new TextStyle(Brushes.Red, Brushes.Yellow, fontStyle),
+            Green = new TextStyle(Brushes.Green, null, fontStyle),
+            Cyan = new TextStyle(Brushes.DarkCyan, null, fontStyle),
+            Blue = new TextStyle(Brushes.Blue, null, fontStyle),
+            Magenta = new TextStyle(Brushes.Magenta, null, fontStyle),
+            Grey = new TextStyle(Brushes.DarkGray, null, fontStyle),
+            White = new TextStyle(Brushes.White, Brushes.OrangeRed, fontStyle);
 
-            private static readonly TextStyle[] TextStyles = new TextStyle[]
-            {
-                TextStyleBlack,
-                TextStyleBrown,
-                TextStyleRed,
-                TextStyleOrange,
-                TextStyleYellow,
-                TextStyleGreen,
-                TextStyleCyan,
-                TextStyleBlue,
-                TextStyleViolet,
-                TextStyleGrey,
-                TextStyleWhite,
-            };
+        private static readonly TextStyle[] TextStyles = new[]
+        { Black, Brown, Red, Orange, Yellow, Green, Cyan, Blue, Magenta, Grey, White };
 
         #endregion
 
@@ -89,26 +75,21 @@
 
         private TextStyle GetTextStyle(TokenType tokenType)
         {
+            if ((tokenType & TokenType.Constant) != 0)
+                return Orange;
             switch (tokenType)
             {
-                case TokenType.Comment:
-                    return TextStyleGreen;
-                case TokenType.Function:
-                    return TextStyleCyan;
-                case TokenType.Field:
-                    return TextStyleBlue;
-                case TokenType.None:
-                    return TextStyleWhite;
+                case TokenType.Comment: return Green;
+                case TokenType.Function: return Cyan;
+                case TokenType.Field: return Blue;
+                case TokenType.None: return White;
+                case TokenType.Parameter: return Brown;
+                case TokenType.Symbol: return Black;
+                case TokenType.TypeName: return Red;
+                case TokenType.Variable: return Magenta;
+                default: return Black;
             }
-            if ((tokenType & TokenType.Constant) != 0)
-                return TextStyleOrange;
-            return TextStyleBlack;
         }
-
-        private static string MakeRegex(IEnumerable<string> strings) => strings
-            .OrderByDescending(p => p)
-            .Select(p => Regex.Escape(p))
-            .Aggregate((p, q) => $"{p}|{q}");
 
         private void UpdateStyles(Range range)
         {

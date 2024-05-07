@@ -9,10 +9,9 @@
     {
         public Field(Tag tag) { Tag = tag; }
 
-        public Tag Tag { get; set; }
-
         public override Expression Expression => Expression.Property(Track, Tag.ToString());
         public override Type ResultType => Tag.Type();
+        public Tag Tag { get; set; }
 
         public override string ToString() => Tag.DisplayName();
     }

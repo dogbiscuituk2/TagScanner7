@@ -12,6 +12,7 @@
     {
         #region Public Fields
 
+        public static readonly ParameterExpression Collection = Expression.Parameter(typeof(List<Track>), "Collection");
         public static readonly ParameterExpression Track = Expression.Parameter(typeof(Track), "Track");
 
         public static readonly Constant<string> Empty = new Constant<string>(string.Empty);
@@ -47,7 +48,6 @@
             {
                 try
                 {
-                    //return Expression.Lambda<Func<Track, bool>>(Expression, Track).Compile();
                     var func = Delegate;
                     return (Func<Track, bool>)func;
                 }

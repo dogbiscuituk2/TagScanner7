@@ -17,7 +17,7 @@
 
         #endregion
 
-        #region Public Extension Methods - String
+        #region Public Extension Methods
 
         public static int Compare(this string strA, string strB, bool caseSensitive) =>
             string.Compare(strA, strB, ignoreCase: !caseSensitive);
