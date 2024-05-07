@@ -10,28 +10,20 @@
     {
         #region Public Methods
 
-        public static bool TryGetTokens(string text, ref List<Token> tokens)
-        {
-            bool ok = true;
-            try
-            {
-                foreach (var token in GetTokens(text))
-                    tokens.Add(token);
-            }
-            catch (Exception exception)
-            {
-                exception.LogException();
-                ok = false;
-            }
-            return ok;
-        }
-
+        /// <summary>
+        /// Convert a string into a sequence of Token objects.
+        /// This method never throws an exception. In the case of any error, it will output a Token object with
+        /// TokenType of 0 ("None") and a suitable Error message attached (e.g., "Unexpected character", or
+        /// "Unterminated comment"), letting the iteration continue to completion.
+        /// </summary>
+        /// <param name="text">The string to tokenize.</param>
+        /// <returns>An IEnumerable sequence of Token objects.</returns>
         public static IEnumerable<Token> GetTokens(string text)
         {
-            int count = text.Length, index = 0;
+            int count = text?.Length ?? 0, index = 0;
             while (true)
             {
-                while (index < count && text[index] <= ' ')
+                while (index < count && text[index] <= Space)
                     index++;
                 if (index >= count)
                     break;
@@ -46,26 +38,23 @@
 #endif
                 yield return token;
             }
-            if (index < count)
-                SyntaxError();
             yield break;
 
-            Token UnexpectedCharacter() => new Token(0, index, $"{text[index]}");
+            Token UnexpectedCharacter() => new Token(0, index, $"{text[index]}") { Error = "Unexpected character" };
 
             Token Match()
             {
                 var remainingText = RemainingText();
-                if (remainingText.IsComment())
-                    return MatchComment();
-                if (remainingText.StartsWithNumber())
-                    return MatchNumber();
+
+                if (remainingText.IsComment()) return MatchComment();
+                if (remainingText.StartsWithNumber()) return MatchNumber();
 
                 Token token = null;
-                if (MatchKeyword(ref token, TokenType.Boolean, Booleans)) return token;
-                if (MatchKeyword(ref token, TokenType.Field, Fields)) return token;
-                if (MatchKeyword(ref token, TokenType.Function, FunctionNames)) return token;
-                if (MatchKeyword(ref token, TokenType.Symbol, Symbols)) return token;
-                if (MatchKeyword(ref token, TokenType.TypeName, TypeNames)) return token;
+                if (MatchKeyword(ref token, TokenType.Boolean, Term.Booleans)) return token;
+                if (MatchKeyword(ref token, TokenType.Field, Tags.FieldNames)) return token;
+                if (MatchKeyword(ref token, TokenType.Function, Functors.FunctionNames)) return token;
+                if (MatchKeyword(ref token, TokenType.Symbol, Operators.Symbols)) return token;
+                if (MatchKeyword(ref token, TokenType.TypeName, Types.Names)) return token;
 
                 switch (index < count ? text[index] : Nul)
                 {
@@ -75,13 +64,39 @@
                         return MatchString();
                     case LeftBracket:
                         var dateTime = MatchDateTime();
-                        return !string.IsNullOrWhiteSpace(dateTime.Value) ? dateTime : MatchTimeSpan();
+                        return dateTime.Valid ? dateTime : MatchTimeSpan();
                     case LeftBrace:
                         return MatchParameter();
                     case char c when char.IsLetter(c):
                         return MatchVariable();
                 }
                 return UnexpectedCharacter();
+            }
+
+            Token MatchCharacter() => MatchRegex(TokenType.Character, "^'.'", "Unterminated character constant");
+            Token MatchDateTime() => MatchRegex(TokenType.DateTime, DateTimeParser.DateTimePattern, "Invalid DateTime format");
+            Token MatchNumber() => MatchRegex(TokenType.Number, NumberPattern, "Always succeeds");
+            Token MatchParameter() => MatchRegex(TokenType.Parameter, @"^\{\w+(\[\])?\}", "Invalid parameter");
+            Token MatchString() => MatchRegex(TokenType.String, "\"[^\"|\\\"]*\"", "Unterminated string constant");
+            Token MatchTimeSpan() => MatchRegex(TokenType.TimeSpan, DateTimeParser.TimeSpanPattern, "Invalid TimeSpan format");
+            Token MatchVariable() => MatchRegex(TokenType.Variable, @"[\w]+", "Always succeeds");
+
+            Token MatchComment()
+            {
+                var remainingText = RemainingText();
+                var token = new Token(
+                    TokenType.Comment,
+                    index,
+                    remainingText.Substring(0,
+                    remainingText.StartsWith("/*")
+                    ? remainingText.IndexOf("*/") + 2
+                    : $"{remainingText}\n".IndexOf("\n")));
+                if (token.Length < 2)
+                {
+                    token.Value = remainingText.Split(Space, Tab, CR, LF)[0];
+                    token.Error = "Unterminated comment";
+                }
+                return token;
             }
 
             bool MatchKeyword(ref Token token, TokenType tokenType, IEnumerable<string> keywords)
@@ -96,54 +111,42 @@
                 return ok;
             }
 
-            Token MatchCharacter() => MatchRegex(TokenType.Character, "^'.'");
-            Token MatchDateTime() => MatchRegex(TokenType.DateTime, DateTimeParser.DateTimePattern);
-            Token MatchNumber() => MatchRegex(TokenType.Number, NumberPattern);
-            Token MatchParameter() => MatchRegex(TokenType.Parameter, @"^\{\w+(\[\])?\}");
-            Token MatchString() => MatchRegex(TokenType.String, "\"[^\"|\\\"]*\"");
-            Token MatchTimeSpan() => MatchRegex(TokenType.TimeSpan, DateTimeParser.TimeSpanPattern);
-            Token MatchVariable() => MatchRegex(TokenType.Variable, @"[\w]+");
-
-            Token MatchComment()
+            Token MatchRegex(TokenType tokenType, string pattern, string error)
             {
-                var remainingText = RemainingText();
-                return new Token(
-                    TokenType.Comment,
-                    index,
-                    remainingText.Substring(0,
-                    remainingText.StartsWith("/*")
-                    ? remainingText.IndexOf("*/") + 2
-                    : $"{remainingText}\n".IndexOf("\n")));
+                var token = new Token(tokenType, index,
+                    Regex.Match(RemainingText(), $"^{pattern}", RegexOptions.IgnoreCase).Value);
+                if (token.Length < 1)
+                {
+                    token.Value = RemainingText().Substring(0, 1);
+                    token.Error = error;
+                }
+                return token;
             }
 
-            Token MatchRegex(TokenType tokenType, string pattern, RegexOptions options = RegexOptions.IgnoreCase) =>
-                new Token(tokenType, index, Regex.Match(RemainingText(), $"^{pattern}", options).Value);
-
             string RemainingText() => text.Substring(index);
-            void SyntaxError() => throw new FormatException($"Unrecognised term at character position {index}: {RemainingText()}");
         }
 
         public static bool IsBinaryOperator(this string token) => Operators.ContainsBinarySymbol(token);
-        public static bool IsBoolean(this string token) => Booleans.Contains(token, IgnoreCase);
+        public static bool IsBoolean(this string token) => Term.Booleans.Contains(token, IgnoreCase);
         public static bool IsChar(this string token) => token[0] == SingleQuote;
         public static bool IsConstant(this string token) => token.IsBoolean() || token.IsNumber() || token.IsString();
         public static bool IsDateTime(this string token) => Regex.IsMatch(token, DateTimeParser.DateTimePattern);
-        public static bool IsField(this string token) => Fields.Contains(token, IgnoreCase);
-        public static bool IsFunction(this string token) => FunctionNames.Contains(token, IgnoreCase);
+        public static bool IsField(this string token) => Tags.FieldNames.Contains(token, IgnoreCase);
+        public static bool IsFunction(this string token) => Functors.FunctionNames.Contains(token, IgnoreCase);
         public static bool IsName(this string token) => Regex.IsMatch(token, $"{NamePattern}$");
         public static bool IsNumber(this string token) => Regex.IsMatch(token, $"{NumberPattern}$");
         public static bool IsOperator(this string token) => Operators.ContainsSymbol(token);
-        public static bool IsParameter(this string token) => token[0] == '{';
+        public static bool IsParameter(this string token) => token[0] == LeftBrace;
         public static bool IsString(this string token) => token[0] == DoubleQuote;
-        public static bool IsSymbol(this string token) => Symbols.Contains(token, IgnoreCase);
+        public static bool IsSymbol(this string token) => Operators.Symbols.Contains(token, IgnoreCase);
         public static bool IsTimeSpan(this string token) => Regex.IsMatch(token, DateTimeParser.TimeSpanPattern);
-        public static bool IsType(this string token) => TypeNames.Contains(token, IgnoreCase);
+        public static bool IsType(this string token) => Types.Names.Contains(token, IgnoreCase);
         public static bool IsUnaryOperator(this string token) => Operators.ContainsUnarySymbol(token);
         public static Rank Rank(this string token, bool unary) => token.ToOperator(unary).GetRank();
         public static bool StartsWithNumber(this string token) => Regex.IsMatch(token, NumberPattern);
 
         private const string NamePattern = @"\w+";
-        private const string NumberPattern = @"^(\d+\.?\d*([Ee][-+]\d+)?(UL|LU|D|F|L|M|U)?)";
+        private const string NumberPattern = @"^\d+\.?\d*([Ee][-+]\d+)?(UL|LU|D|F|L|M|U)?";
 
         #endregion
 
@@ -151,6 +154,10 @@
 
         private const char
             Nul = (char)0,
+            Tab = '\t',
+            CR = '\r',
+            LF = '\n',
+            Space = ' ',
             SingleQuote = '\'',
             DoubleQuote = '"',
             LeftAngle = '<',
@@ -162,28 +169,7 @@
             RightBracket = ']',
             RightParen = ')';
 
-        /// <summary>
-        /// Names are ordered descending to that, for example, "Album Artists" is matched before "Artists".
-        /// If these were sorted in ascending or other order, "Album Artists" might never be matched.
-        /// </summary>
-        private static readonly string[] AllTokens = Booleans
-            .Union(Fields)
-            .Union(FunctionNames)
-            .Union(Symbols)
-            .Union(TypeNames)
-            .OrderByDescending(p => p).ToArray();
-
         private static EqualityComparer IgnoreCase = new EqualityComparer(caseSensitive: false);
-
-        #endregion
-
-        #region Private Properties
-
-        private static IEnumerable<string> Booleans => new[] { "false", "true" };
-        private static IEnumerable<string> Fields => Tags.Keys.Select(p => p.DisplayName());
-        private static IEnumerable<string> FunctionNames => Functors.Keys.Select(fn => $"{fn}");
-        private static IEnumerable<string> Symbols => Operators.GetAllSymbols();
-        private static IEnumerable<string> TypeNames => Types.Names;
 
         #endregion
     }

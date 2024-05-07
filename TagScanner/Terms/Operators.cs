@@ -97,7 +97,7 @@
             Add(Op.Not, "!", "NOT");
             Add(Op.Dot, ".");
 
-            _symbols.AddRange(_unarySymbols.Union(_binarySymbols));
+            _symbols.AddRange(_unarySymbols.Union(_binarySymbols).Union(new[] { "(", ")" }));
 
             void Add(Op op, params string[] symbols)
             {
@@ -124,7 +124,6 @@
         public static bool ContainsBinarySymbol(string token) => _binarySymbols.Contains(token.ToUpperInvariant());
         public static bool ContainsSymbol(string token) => _symbols.Contains(token.ToUpperInvariant());
         public static bool ContainsUnarySymbol(string token) => _unarySymbols.Contains(token.ToUpperInvariant());
-        public static IEnumerable<string> GetAllSymbols() => _symbols.Union(new[] { "(", ")" });
 
         #endregion
 

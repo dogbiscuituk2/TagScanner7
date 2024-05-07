@@ -69,6 +69,7 @@
 
         public static Fn[] Keys { get; }
         public static FnInfo[] Values { get; }
+        public static IEnumerable<string> FunctionNames => Keys.Select(fn => $"{fn}");
 
         #endregion
 

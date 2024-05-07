@@ -40,11 +40,6 @@
             blue = new TextStyle(Brushes.Blue, null, fontStyle),
             black = new TextStyle(Brushes.Black, null, fontStyle);
 
-        private string
-            functors = MakeRegex(Functors.Keys.Select(p => $"{p}")),
-            operators = MakeRegex(Operators.Symbols),
-            tags = MakeRegex(Tags.Keys.Select(p => p.DisplayName()));
-
         #endregion
 
         #region Private Properties
@@ -94,8 +89,7 @@
 
         private void UpdateStyles(Range range)
         {
-            var tokens = new List<Token>();
-            Tokenizer.TryGetTokens(Text, ref tokens);
+            var tokens = new List<Token>(Tokenizer.GetTokens(Text));
             range.ClearStyle(black, red, green, cyan, blue, black);
             foreach (var token in tokens)
             {

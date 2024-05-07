@@ -51,6 +51,7 @@
         public static List<Tag> BrowsableTags => Keys.Where(p => p.Browsable()).ToList();
         public static Tag[] Keys { get; }
         public static TagInfo[] Values { get; }
+        public static IEnumerable<string> FieldNames => Keys.Select(p => p.DisplayName());
 
         #endregion
 

@@ -9,11 +9,12 @@
             Value = value;
         }
 
-        public TokenType TokenType { get; set; }
+        public string Error { get; set; }
         public int Index { get; set; }
-        public string Value { get; set; }
-
         public int Length => Value?.Length ?? 0;
+        public TokenType TokenType { get; set; }
+        public bool Valid => Error == null;
+        public string Value { get; set; }
 
         public override string ToString() => Value;
     }

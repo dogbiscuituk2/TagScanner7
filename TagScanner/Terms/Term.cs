@@ -87,6 +87,8 @@
             set { }
         }
 
+        public static IEnumerable<string> Booleans => new[] { "false", "true" };
+
         #endregion
 
         #region Public Methods
