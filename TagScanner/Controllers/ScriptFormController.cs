@@ -31,14 +31,35 @@
 
         private ScriptForm _scriptForm;
 
-        private static FontStyle fontStyle = FontStyle.Regular;
+        private static readonly FontStyle fontStyle = FontStyle.Regular;
 
-        private static TextStyle
-            red = new TextStyle(Brushes.Red, null, fontStyle),
-            green = new TextStyle(Brushes.Green, null, fontStyle),
-            cyan = new TextStyle(Brushes.DarkCyan, null, fontStyle),
-            blue = new TextStyle(Brushes.Blue, null, fontStyle),
-            black = new TextStyle(Brushes.Black, null, fontStyle);
+        private static readonly TextStyle
+            TextStyleBlack = new TextStyle(Brushes.Black, null, fontStyle),
+            TextStyleBrown = new TextStyle(Brushes.Brown, null, fontStyle),
+            TextStyleRed = new TextStyle(Brushes.Red, null, fontStyle),
+            TextStyleOrange = new TextStyle(Brushes.DarkOrange, null, fontStyle),
+            TextStyleYellow = new TextStyle(Brushes.Yellow, Brushes.Red, fontStyle),
+            TextStyleGreen = new TextStyle(Brushes.Green, null, fontStyle),
+            TextStyleCyan = new TextStyle(Brushes.DarkCyan, null, fontStyle),
+            TextStyleBlue = new TextStyle(Brushes.Blue, null, fontStyle),
+            TextStyleViolet = new TextStyle(Brushes.Violet, null, fontStyle),
+            TextStyleGrey = new TextStyle(Brushes.DarkGray, null, fontStyle),
+            TextStyleWhite = new TextStyle(Brushes.White, Brushes.Red, fontStyle);
+
+            private static readonly TextStyle[] TextStyles = new TextStyle[]
+            {
+                TextStyleBlack,
+                TextStyleBrown,
+                TextStyleRed,
+                TextStyleOrange,
+                TextStyleYellow,
+                TextStyleGreen,
+                TextStyleCyan,
+                TextStyleBlue,
+                TextStyleViolet,
+                TextStyleGrey,
+                TextStyleWhite,
+            };
 
         #endregion
 
@@ -71,15 +92,15 @@
             switch (tokenType)
             {
                 case TokenType.Comment:
-                    return green;
+                    return TextStyleGreen;
                 case TokenType.Function:
-                    return cyan;
+                    return TextStyleCyan;
                 case TokenType.Field:
-                    return blue;
+                    return TextStyleBlue;
             }
             if ((tokenType & TokenType.Constant) != 0)
-                return red;
-            return black;
+                return TextStyleWhite;
+            return TextStyleBlack;
         }
 
         private static string MakeRegex(IEnumerable<string> strings) => strings
@@ -90,7 +111,7 @@
         private void UpdateStyles(Range range)
         {
             var tokens = new List<Token>(Tokenizer.GetTokens(Text));
-            range.ClearStyle(black, red, green, cyan, blue, black);
+            range.ClearStyle(TextStyles);
             foreach (var token in tokens)
             {
                 var index = token.Index;
