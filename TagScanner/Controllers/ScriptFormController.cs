@@ -38,13 +38,13 @@
             TextStyleBrown = new TextStyle(Brushes.Brown, null, fontStyle),
             TextStyleRed = new TextStyle(Brushes.Red, null, fontStyle),
             TextStyleOrange = new TextStyle(Brushes.DarkOrange, null, fontStyle),
-            TextStyleYellow = new TextStyle(Brushes.Yellow, Brushes.Red, fontStyle),
+            TextStyleYellow = new TextStyle(Brushes.Red, Brushes.Yellow, fontStyle),
             TextStyleGreen = new TextStyle(Brushes.Green, null, fontStyle),
             TextStyleCyan = new TextStyle(Brushes.DarkCyan, null, fontStyle),
             TextStyleBlue = new TextStyle(Brushes.Blue, null, fontStyle),
             TextStyleViolet = new TextStyle(Brushes.Violet, null, fontStyle),
             TextStyleGrey = new TextStyle(Brushes.DarkGray, null, fontStyle),
-            TextStyleWhite = new TextStyle(Brushes.White, Brushes.Red, fontStyle);
+            TextStyleWhite = new TextStyle(Brushes.White, Brushes.OrangeRed, fontStyle);
 
             private static readonly TextStyle[] TextStyles = new TextStyle[]
             {
@@ -97,9 +97,11 @@
                     return TextStyleCyan;
                 case TokenType.Field:
                     return TextStyleBlue;
+                case TokenType.None:
+                    return TextStyleWhite;
             }
             if ((tokenType & TokenType.Constant) != 0)
-                return TextStyleWhite;
+                return TextStyleOrange;
             return TextStyleBlack;
         }
 
