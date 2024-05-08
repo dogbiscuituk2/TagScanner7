@@ -14,7 +14,7 @@
         public MruScriptController(Controller parent, ToolStripMenuItem parentMenu)
             : base(parent, Properties.Settings.Default.ScriptFilter, "ScriptMRU", parentMenu.DropDownItems) { }
 
-        protected override bool DocumentIsModified => true;
+        protected override bool DocumentIsModified => ScriptFormController.DocumentIsModified;
 
         private ScriptForm ScriptForm => ScriptFormController.View;
         private ScriptFormController ScriptFormController => (ScriptFormController)Parent;

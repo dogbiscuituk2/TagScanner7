@@ -29,7 +29,6 @@
 
         #region Properties
 
-        private MainForm MainForm => MainFormController.View;
         private Model Model => MainFormController.Model;
 
         #endregion

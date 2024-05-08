@@ -9,6 +9,7 @@
     using System.Runtime.CompilerServices;
     using System.Text.RegularExpressions;
     using System.Windows.Forms;
+    using FastColoredTextBoxNS;
     using Models;
 
     public static class Utility
@@ -174,6 +175,23 @@
         }
 
         public static string GetIndex(this string s) => string.IsNullOrWhiteSpace(s) ? " " : (s.ToUpper() + " ").Substring(0, 1);
+
+        public static Language GetLanguage(this string fileName)
+        {
+            var ext = Path.GetExtension(fileName);
+            switch (ext.ToLowerInvariant())
+            {
+                case ".cs": return Language.CSharp;
+                case ".vb": return Language.VB;
+                case ".html": return Language.HTML;
+                case ".xml": return Language.XML;
+                case ".sql": return Language.SQL;
+                case ".php": return Language.PHP;
+                case ".js": return Language.JS;
+                case ".lua": return Language.Lua;
+                default: return Language.Custom;
+            }
+        }
 
         public static bool IsComment(this string text) => text.StartsWith("/*") || text.StartsWith("//");
 

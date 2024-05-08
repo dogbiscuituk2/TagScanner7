@@ -12,18 +12,17 @@
         public FilterController(Controller parent) : base(parent)
         {
             //View.ViewFilter.Click += ViewFilter_Click;
-            View.ApplyButton.Click += ApplyButton_Click;
-            View.ClearButton.Click += ClearButton_Click;
-            View.EditButton.Click += EditButton_Click;
+            MainForm.ApplyButton.Click += ApplyButton_Click;
+            MainForm.ClearButton.Click += ClearButton_Click;
+            MainForm.EditButton.Click += EditButton_Click;
             FilterComboBox.DropDown += FilterComboBox_DropDown;
             FilterFormController = new FilterFormController(this);
             ScriptFormController = new ScriptFormController(this);
         }
 
-        private ComboBox FilterComboBox => View.FilterComboBox;
+        private ComboBox FilterComboBox => MainForm.FilterComboBox;
         private FilterFormController FilterFormController;
         private WpfTableController LibraryGridController => MainFormController.TableController;
-        private MainForm View => MainFormController.View;
         private ScriptFormController ScriptFormController;
 
         private void ApplyButton_Click(object sender, EventArgs e) => UpdateFilter();
@@ -52,7 +51,7 @@
             var filter = FilterComboBox.Text;
             if (string.IsNullOrWhiteSpace(filter))
                 return;
-            if (new Parser().TryParse(filter, out var term, out var exception, caseSensitive: View.CaseSensitiveCheckBox.Checked))
+            if (new Parser().TryParse(filter, out var term, out var exception, caseSensitive: MainForm.CaseSensitiveCheckBox.Checked))
             {
                 LibraryGridController.SetFilter(term);
                 UpdateFilterStatus($"{LibraryGridController.TracksCountVisible} of {LibraryGridController.TracksCountAll} Tracks shown.");
@@ -62,6 +61,6 @@
                 UpdateFilterStatus(exception.GetAllInformation());
         }
 
-        private void UpdateFilterStatus(string status) => View.FilterGroupBox.Text = $"Filter: {status}";
+        private void UpdateFilterStatus(string status) => MainForm.FilterGroupBox.Text = $"Filter: {status}";
     }
 }

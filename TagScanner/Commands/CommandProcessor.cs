@@ -17,8 +17,8 @@
         {
             UndoStack = new Stack<Command>();
             RedoStack = new Stack<Command>();
-            AddHandlers(View.EditUndo, View.tbUndo, EditUndo_Click, EditUndo_DropDownOpening);
-            AddHandlers(View.EditRedo, View.tbRedo, EditRedo_Click, EditRedo_DropDownOpening);
+            AddHandlers(MainForm.EditUndo, MainForm.tbUndo, EditUndo_Click, EditUndo_DropDownOpening);
+            AddHandlers(MainForm.EditRedo, MainForm.tbRedo, EditRedo_Click, EditRedo_DropDownOpening);
 
             void AddHandlers(ToolStripMenuItem item, ToolStripSplitButton button, EventHandler click, EventHandler dropDownOpening)
             {
@@ -44,7 +44,6 @@
         public bool IsModified => LastSave != UndoStack.Count;
 
         private Model Model => MainFormController.Model;
-        private MainForm View => MainFormController.View;
         private List<Track> Tracks => Model.Tracks;
 
         #endregion
@@ -82,15 +81,15 @@
         {
             if (UpdateCount > 0)
                 return;
-            View.EditUndo.Enabled = View.tbUndo.Enabled = CanUndo;
-            View.EditRedo.Enabled = View.tbRedo.Enabled = CanRedo;
+            MainForm.EditUndo.Enabled = MainForm.tbUndo.Enabled = CanUndo;
+            MainForm.EditRedo.Enabled = MainForm.tbRedo.Enabled = CanRedo;
             string
                 undo = CanUndo ? UndoAction : "Undo",
                 redo = CanRedo ? RedoAction : "Redo";
-            View.EditUndo.Text = $"&{undo}";
-            View.EditRedo.Text = $"&{redo}";
-            View.tbUndo.ToolTipText = $"{undo}";
-            View.tbRedo.ToolTipText = $"{redo}";
+            MainForm.EditUndo.Text = $"&{undo}";
+            MainForm.EditRedo.Text = $"&{redo}";
+            MainForm.tbUndo.ToolTipText = $"{undo}";
+            MainForm.tbRedo.ToolTipText = $"{redo}";
         }
 
         #endregion
@@ -153,7 +152,7 @@
         private void PopulateMenu(bool undo)
         {
             var commands = (undo ? UndoStack : RedoStack).ToArray();
-            var menuItems = (undo ? View.UndoPopupMenu : View.RedoPopupMenu).Items; ;
+            var menuItems = (undo ? MainForm.UndoPopupMenu : MainForm.RedoPopupMenu).Items; ;
             var handler = undo ? (EventHandler)UndoMultiple : RedoMultiple;
             const int MaxItems = 20;
             menuItems.Clear();

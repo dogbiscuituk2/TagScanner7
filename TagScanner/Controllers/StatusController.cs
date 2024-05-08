@@ -10,8 +10,6 @@
     {
         public StatusController(Controller parent) : base(parent) { }
 
-        private MainForm MainForm => MainFormController.View;
-
         public IProgress<ProgressEventArgs> CreateNewProgress()
         {
             var progressStrip = new StatusStrip();

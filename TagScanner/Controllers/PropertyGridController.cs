@@ -15,8 +15,7 @@
             MainForm.PropertyGridPopupRefresh.Click += PropertyGridPopupRefresh_Click;
         }
 
-        private MainForm MainForm => MainFormController.View;
-        private PropertyGrid PropertyGrid => MainFormController.View.PropertyGrid;
+        private PropertyGrid PropertyGrid => MainForm.PropertyGrid;
 
         public void SetSelection(Selection selection)
         {

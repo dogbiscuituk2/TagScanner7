@@ -14,9 +14,9 @@
     {
         public WpfPlayerController(Controller parent) : base(parent)
         {
-            View.TablePopupPlayAddToQueue.Click += PlaylistAddToQueue_Click;
-            View.TablePopupPlayNewPlaylist.Click += PlaylistCreateNew_Click;
-            View.PlaylistElementHost.Child = new GridElement();
+            MainForm.TablePopupPlayAddToQueue.Click += PlaylistAddToQueue_Click;
+            MainForm.TablePopupPlayNewPlaylist.Click += PlaylistCreateNew_Click;
+            MainForm.PlaylistElementHost.Child = new GridElement();
             DataGrid.AutoGenerateColumns = false;
             InitColumns();
             DataGrid.ItemsSource = new ListCollectionView(_currentPlaylist);
@@ -25,11 +25,9 @@
 
         public System.Windows.Controls.DataGrid PlaylistGrid => DataGrid;
 
-        private MainForm View => MainFormController.View;
+        private AxWindowsMediaPlayer Player => MainForm.MediaPlayer;
 
-        private AxWindowsMediaPlayer Player => View.MediaPlayer;
-
-        public override System.Windows.Controls.DataGrid DataGrid => ((GridElement)View.PlaylistElementHost.Child).DataGrid;
+        public override System.Windows.Controls.DataGrid DataGrid => ((GridElement)MainForm.PlaylistElementHost.Child).DataGrid;
 
         private readonly ObservableCollection<Track> _currentPlaylist = new ObservableCollection<Track>();
 
@@ -53,7 +51,7 @@
                 Player.currentPlaylist.appendItem(Player.newMedia(track.FilePath));
             }
             Player.Ctlcontrols.play();
-            View.TabControl.SelectedTab = View.tabPlayer;
+            MainForm.TabControl.SelectedTab = MainForm.tabPlayer;
         }
 
         private void Player_CurrentItemChange(object sender, _WMPOCXEvents_CurrentItemChangeEvent e) => UpdatePlaylist(e.pdispMedia as IWMPMedia);

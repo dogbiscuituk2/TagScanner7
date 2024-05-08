@@ -19,6 +19,19 @@
 
         #region Public Properties
 
+        public bool DocumentIsModified
+        {
+            get => _documentIsModified;
+            set
+            {
+                if (_documentIsModified != value)
+                {
+                    _documentIsModified = value;
+                    UpdateUI();
+                }
+            }
+        }
+
         public ScriptForm View => _view ?? CreateScriptForm();
 
         #endregion
@@ -35,7 +48,8 @@
 
         #region Private Fields
 
-        private MruScriptController MruScriptController;
+        private bool _documentIsModified;
+        private MruScriptController _scriptController;
         private ScriptForm _view;
 
         private static readonly FontStyle fontStyle = FontStyle.Regular;
@@ -65,11 +79,8 @@
             get => TextBox.Language;
             set
             {
-                TextBox.TextChanged -= ColourTextBox_TextChanged;
                 TextBox.Language = value;
                 TextBox.OnTextChanged();
-                if (Language == Language.Custom)
-                    TextBox.TextChanged += ColourTextBox_TextChanged;
                 foreach (var item in Languages)
                     item.Checked = (int)item.Tag == (int)Language;
             }
@@ -85,7 +96,15 @@
 
         #region Event Handlers
 
-        private void ColourTextBox_TextChanged(object sender, TextChangedEventArgs e) => UpdateStyles(e.ChangedRange);
+        private void ColourTextBox_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            DocumentIsModified = true;
+            if (Language == Language.Custom)
+                UpdateStyles(e.ChangedRange);
+        }
+
+        private void Language_Click(object sender, System.EventArgs e) =>
+            Language = (Language)((ToolStripItem)sender).Tag;
 
         #endregion
 
@@ -100,17 +119,15 @@
                 language.Click += Language_Click;
                 language.Tag = index++;
             }
-            MruScriptController = new MruScriptController(this, View.FileReopen);
-            View.FileNew.Click += (sender, e) => MruScriptController.Clear();
-            View.FileOpen.Click += (sender, e) => MruScriptController.Open();
-            View.FileSave.Click += (sender, e) => MruScriptController.Save();
-            View.FileSaveAs.Click += (sender, e) => MruScriptController.SaveAs();
+            _scriptController = new MruScriptController(this, View.FileReopen);
+            View.FileNew.Click += (sender, e) => _scriptController.Clear();
+            View.FileOpen.Click += (sender, e) => _scriptController.Open();
+            View.FileSave.Click += (sender, e) => _scriptController.Save();
+            View.FileSaveAs.Click += (sender, e) => _scriptController.SaveAs();
             Language = Language.Custom;
+            TextBox.TextChanged += ColourTextBox_TextChanged;
             return _view;
         }
-
-        private void Language_Click(object sender, System.EventArgs e) =>
-            Language = (Language)((ToolStripItem)sender).Tag;
 
         private TextStyle GetTextStyle(TokenType tokenType)
         {
@@ -144,6 +161,8 @@
                 range.SetStyle(GetTextStyle(token.TokenType));
             }
         }
+
+        private void UpdateUI() => View.Text = _scriptController.WindowCaption;
 
         #endregion
     }

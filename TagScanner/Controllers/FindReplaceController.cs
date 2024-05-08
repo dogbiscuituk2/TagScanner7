@@ -91,7 +91,6 @@
         private RadioButton ReplaceRadioButton => MainForm.rbReplace;
 
         private SplitContainer ClientSplitContainer => MainForm.ClientSplitContainer;
-        private MainForm MainForm => MainFormController.View;
         private ListView TagsListView => MainForm.TagsListView;
 
         #endregion
