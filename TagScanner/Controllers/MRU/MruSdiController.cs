@@ -4,8 +4,6 @@
     using System.ComponentModel;
     using System.IO;
     using System.Windows.Forms;
-    using Commands;
-    using Models;
     using Properties;
     using Streaming;
     using Utils;
@@ -37,9 +35,7 @@
             }
         }
 
-        protected CommandProcessor CommandProcessor => MainFormController.CommandProcessor;
-        protected virtual bool DocumentIsModified => CommandProcessor.IsModified;
-        protected Model Model => MainFormController.Model;
+        protected virtual bool DocumentIsModified => MainCommandProcessor.IsModified;
 
         public string WindowCaption
         {
@@ -79,7 +75,7 @@
             if (!SaveIfModified())
                 return false;
             ClearDocument();
-            CommandProcessor.Clear();
+            MainCommandProcessor.Clear();
             FilePath = string.Empty;
             return true;
         }
@@ -90,7 +86,7 @@
         {
             var result = Streamer.LoadFromStream(stream, documentType, format);
             if (!Merging && result != null)
-                CommandProcessor.Clear();
+                MainCommandProcessor.Clear();
             return result;
         }
 
@@ -150,7 +146,7 @@
         {
             var result = Streamer.SaveToStream(stream, document, format);
             if (result)
-                CommandProcessor.Clear();
+                MainCommandProcessor.Clear();
             return result;
         }
 

@@ -6,7 +6,7 @@
     using System.Windows.Forms;
     using Controllers;
     using Models;
-    using TagScanner.Utils;
+    using Utils;
     using Views;
 
     public class CommandProcessor : Controller
@@ -43,8 +43,7 @@
 
         public bool IsModified => LastSave != UndoStack.Count;
 
-        private Model Model => MainFormController.Model;
-        private List<Track> Tracks => Model.Tracks;
+        private List<Track> Tracks => MainModel.Tracks;
 
         #endregion
 
@@ -119,7 +118,7 @@
             if (!spoof)
             {
                 Busy = true;
-                result = command.Do(Model);
+                result = command.Do(MainModel);
                 Busy = false;
             }
             if (result > 0)

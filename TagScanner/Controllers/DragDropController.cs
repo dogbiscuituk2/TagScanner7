@@ -21,8 +21,7 @@
         #region Private Properties
 
         private MruMediaController MediaController => MainFormController.MediaController;
-        private System.Windows.Controls.DataGrid Table => TableController.DataGrid;
-        private WpfTableController TableController => MainFormController.TableController;
+        private System.Windows.Controls.DataGrid Table => MainTableController.DataGrid;
 
         #endregion
 

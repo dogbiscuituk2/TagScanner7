@@ -37,7 +37,7 @@
 
         private void PlaySelection(bool newPlaylist)
         {
-            var tracks = MainFormController.TableController.Selection.Tracks.ToArray();
+            var tracks = MainTableController.Selection.Tracks.ToArray();
             if (!tracks.Any())
                 return;
             if (newPlaylist)

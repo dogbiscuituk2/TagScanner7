@@ -40,7 +40,7 @@
             Assert.IsTrue(tokens.Count() > 0);
             var token = tokens.First();
             Assert.AreEqual(expected: tokenType, actual: token.TokenType);
-            Assert.AreEqual(expected: 1, actual: token.Index);
+            Assert.AreEqual(expected: 1, actual: token.StartIndex);
             Assert.AreEqual(expected: value, actual: token.Value);
             Assert.AreEqual(expected: error, actual: token.Error);
         }
@@ -133,7 +133,7 @@
             Assert.AreEqual(expected: 1, actual: tokens.Count());
             var token = tokens.First();
             Assert.AreEqual(expected: null, actual: token.Error);
-            Assert.AreEqual(expected: 1, actual: token.Index);
+            Assert.AreEqual(expected: 1, actual: token.StartIndex);
             Assert.AreEqual(expected: tokenType, actual: token.TokenType);
             Assert.AreEqual(expected: true, actual: token.Valid);
             Assert.AreEqual(expected: value, actual: token.Value);
@@ -158,7 +158,7 @@
                 Assert.AreEqual(expected: 1, actual: tokens.Count());
                 var token = tokens.First();
                 Assert.AreEqual(expected: null, actual: token.Error);
-                Assert.AreEqual(expected: 1, actual: token.Index);
+                Assert.AreEqual(expected: 1, actual: token.StartIndex);
                 Assert.AreEqual(expected: tokenType, actual: token.TokenType);
                 Assert.AreEqual(expected: true, actual: token.Valid);
                 Assert.AreEqual(expected: s, actual: token.Value);

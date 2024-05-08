@@ -5,12 +5,13 @@
         public Token(TokenType tokenType, int index, string value)
         {
             TokenType = tokenType;
-            Index = index;
+            StartIndex = index;
             Value = value;
         }
 
+        public int EndIndex => StartIndex + Length;
         public string Error { get; set; }
-        public int Index { get; set; }
+        public int StartIndex { get; set; }
         public int Length => Value?.Length ?? 0;
         public TokenType TokenType { get; set; }
         public bool Valid => Error == null;

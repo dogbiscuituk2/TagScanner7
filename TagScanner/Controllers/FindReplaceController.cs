@@ -12,7 +12,6 @@
     using Terms;
     using Utils;
     using Views;
-    using Wpf;
 
     public class FindReplaceController : Controller
     {
@@ -49,9 +48,7 @@
 
         #region Properties
 
-        private CommandProcessor CommandProcessor => MainFormController.CommandProcessor;
-        private WpfTableController TableController => MainFormController.TableController;
-        private ListCollectionView ListCollectionView => TableController.ListCollectionView;
+        private ListCollectionView ListCollectionView => MainTableController.ListCollectionView;
 
         private bool CaseSensitive => CaseSensitiveCheckBox.Checked;
         private RegexOptions RegexOptions => CaseSensitive.AsRegexOptions();
@@ -164,8 +161,8 @@
                     modified: false);
                 //TableController.Selection = Selection;
                 //TableController.DataGrid.ScrollIntoView(Selection.Tracks[0]);
-                TableController.DataGrid.Focus();
-                TableController.FindResults = Selection;
+                MainTableController.DataGrid.Focus();
+                MainTableController.FindResults = Selection;
             }
         }
 
@@ -226,7 +223,7 @@
                     }
                 }
                 var command = new ReplaceCommand(Selection, tags.ToArray(), values);
-                CommandProcessor.Run(command);
+                MainCommandProcessor.Run(command);
             }
         }
 

@@ -22,7 +22,6 @@
 
         private ComboBox FilterComboBox => MainForm.FilterComboBox;
         private FilterFormController FilterFormController;
-        private WpfTableController LibraryGridController => MainFormController.TableController;
         private ScriptFormController ScriptFormController;
 
         private void ApplyButton_Click(object sender, EventArgs e) => UpdateFilter();
@@ -35,8 +34,8 @@
         private void ClearFilter()
         {
             FilterComboBox.Text = string.Empty;
-            LibraryGridController.ClearFilter();
-            UpdateFilterStatus($"{LibraryGridController.TracksCountAll} Tracks shown.");
+            MainTableController.ClearFilter();
+            UpdateFilterStatus($"{MainTableController.TracksCountAll} Tracks shown.");
         }
 
         private void EditFilter()
@@ -53,8 +52,8 @@
                 return;
             if (new Parser().TryParse(filter, out var term, out var exception, caseSensitive: MainForm.CaseSensitiveCheckBox.Checked))
             {
-                LibraryGridController.SetFilter(term);
-                UpdateFilterStatus($"{LibraryGridController.TracksCountVisible} of {LibraryGridController.TracksCountAll} Tracks shown.");
+                MainTableController.SetFilter(term);
+                UpdateFilterStatus($"{MainTableController.TracksCountVisible} of {MainTableController.TracksCountAll} Tracks shown.");
                 AppController.UpdateFilterItems(FilterComboBox);
             }
             else

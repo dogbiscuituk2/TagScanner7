@@ -21,15 +21,9 @@
 
         public WpfTableController(Controller parent, ElementHost view) : base(parent)
         {
-            Model.TracksChanged += Model_TracksChanged;
+            MainModel.TracksChanged += Model_TracksChanged;
             View = view;
         }
-
-        #endregion
-
-        #region Properties
-
-        private Model Model => MainFormController.Model;
 
         #endregion
 
@@ -79,7 +73,7 @@
                 View.Invoke(new Action(RefreshDataSource));
             else
             {
-                ListCollectionView = new ListCollectionView(Model.Tracks);
+                ListCollectionView = new ListCollectionView(MainModel.Tracks);
                 InitSortsAndGroups();
             }
         }
@@ -163,7 +157,7 @@
             ListCollectionView.Filter = p => predicate((Track)p);
         }
 
-        public int TracksCountAll => Model.Tracks.Count;
+        public int TracksCountAll => MainModel.Tracks.Count;
         public int TracksCountVisible => ListCollectionView.Count;
 
         #endregion

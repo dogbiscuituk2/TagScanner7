@@ -27,8 +27,6 @@
         private readonly FolderBrowserDialog _folderBrowserDialog;
         private readonly OpenFileDialog _openFileDialog;
 
-        private Model Model => MainFormController.Model;
-
         #endregion
 
         #region Methods
@@ -46,7 +44,7 @@
             if (files.Any())
             {
                 var progress = CreateNewProgress();
-                Task.Run(() => Model.AddFiles(files.ToArray(), progress));
+                Task.Run(() => MainModel.AddFiles(files.ToArray(), progress));
             }
             if (folders.Any())
             {
@@ -70,7 +68,7 @@
         private void AddFolder(string folderPath, string filter)
         {
             var progress = CreateNewProgress();
-            Task.Run(() => Model.AddFolder(folderPath, filter, progress));
+            Task.Run(() => MainModel.AddFolder(folderPath, filter, progress));
         }
 
         private IProgress<ProgressEventArgs> CreateNewProgress() => MainFormController.StatusController.CreateNewProgress();

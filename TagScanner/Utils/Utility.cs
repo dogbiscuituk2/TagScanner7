@@ -11,6 +11,7 @@
     using System.Windows.Forms;
     using FastColoredTextBoxNS;
     using Models;
+    using TagScanner.Terms;
 
     public static class Utility
     {
@@ -98,6 +99,39 @@
 
         public static string Escape(this string s, char c = '&') => s.Replace($"{c}", $"{c}{c}");
         public static RectangleF Expand(this RectangleF r) => r.IsEmpty ? r : new RectangleF(r.X, r.Y, r.Width + 99, r.Height);
+
+        public static string GetAllExceptionTypes(this Exception exception)
+        {
+            var result = exception.GetType().Name;
+            while (exception.InnerException != null)
+            {
+                exception = exception.InnerException;
+                result = $"{result} ({exception.GetType().Name})";
+            }
+            return result;
+        }
+
+        public static string GetAllInformation(this Exception exception)
+        {
+            var result = $"{exception.GetType().Name}: {exception.Message}";
+            while (exception.InnerException != null)
+            {
+                exception = exception.InnerException;
+                result = $"{result} ({exception.GetType().Name}: {exception.Message})";
+            }
+            return result;
+        }
+
+        public static string GetAllMessages(this Exception exception)
+        {
+            var result = exception.Message;
+            while (exception.InnerException != null)
+            {
+                exception = exception.InnerException;
+                result = $"{result} ({exception.Message})";
+            }
+            return result;
+        }
 
         /// <summary>
         /// Find the longest initial segment of filesystem path shared by a given set of paths.
@@ -229,6 +263,8 @@
             }
         }
 
+        public static string Range(this string s, CharacterRange range) => s.Substring(range.First, range.Length);
+
         public static void ShowDialog(this Exception exception, IWin32Window owner = null) => exception.ShowDialog(owner, string.Empty);
         public static void ShowDialog(this Exception exception, string text) => exception.ShowDialog(null, text);
 
@@ -238,41 +274,6 @@
                 exception.GetAllExceptionTypes(),
                 MessageBoxButtons.OK,
                 MessageBoxIcon.Error);
-
-        public static string GetAllExceptionTypes(this Exception exception)
-        {
-            var result = exception.GetType().Name;
-            while (exception.InnerException != null)
-            {
-                exception = exception.InnerException;
-                result = $"{result} ({exception.GetType().Name})";
-            }
-            return result;
-        }
-
-        public static string GetAllInformation(this Exception exception)
-        {
-            var result = $"{exception.GetType().Name}: {exception.Message}";
-            while (exception.InnerException != null)
-            {
-                exception = exception.InnerException;
-                result = $"{result} ({exception.GetType().Name}: {exception.Message})";
-            }
-            return result;
-        }
-
-        public static string GetAllMessages(this Exception exception)
-        {
-            var result = exception.Message;
-            while (exception.InnerException != null)
-            {
-                exception = exception.InnerException;
-                result = $"{result} ({exception.Message})";
-            }
-            return result;
-        }
-
-        public static string Range(this string s, CharacterRange range) => s.Substring(range.First, range.Length);
 
         public static string StringsToText(this IEnumerable<string> strings) => strings == null || !strings.Any()
             ? string.Empty

@@ -23,7 +23,7 @@
 
         #region Methods
 
-        protected override void ClearDocument() => Model.Clear();
+        protected override void ClearDocument() => MainModel.Clear();
 
         protected override bool LoadFromStream(Stream stream, StreamFormat format)
         {
@@ -31,19 +31,19 @@
                 return false;
             if (!Merging)
             {
-                Model.Library = new Selection(newTracks);
+                MainModel.Library = new Selection(newTracks);
                 return true;
             }
-            var oldTracks = Model.Library.Tracks;
+            var oldTracks = MainModel.Library.Tracks;
             newTracks.RemoveAll(p => oldTracks.Any(q => q.FilePath == p.FilePath));
             if (!newTracks.Any())
                 return false;
-            CommandProcessor.Run(new AddCommand(new Selection(newTracks)), spoof: false);
+            MainCommandProcessor.Run(new AddCommand(new Selection(newTracks)), spoof: false);
             return true;
         }
 
         protected override bool SaveToStream(Stream stream, StreamFormat format) =>
-            SaveDocument(stream, Model.Library.Tracks, format);
+            SaveDocument(stream, MainModel.Library.Tracks, format);
 
         #endregion
     }

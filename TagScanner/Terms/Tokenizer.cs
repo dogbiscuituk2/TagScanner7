@@ -1,7 +1,9 @@
 ﻿namespace TagScanner.Terms
 {
+    using FastColoredTextBoxNS;
     using System;
     using System.Collections.Generic;
+    using System.Drawing;
     using System.Linq;
     using System.Text.RegularExpressions;
     using Utils;
@@ -144,9 +146,32 @@
         public static bool IsUnaryOperator(this string token) => Operators.ContainsUnarySymbol(token);
         public static Rank Rank(this string token, bool unary) => token.ToOperator(unary).GetRank();
         public static bool StartsWithNumber(this string token) => Regex.IsMatch(token, NumberPattern);
+        public static TextStyle TextStyle(this TokenType tokenType) => TextStyles[tokenType];
 
         private const string NamePattern = @"\w+";
         private const string NumberPattern = @"^\d+\.?\d*([Ee][-+]\d+)?(UL|LU|D|F|L|M|U)?";
+
+        private static readonly TextStyle TextStyleConstant = new TextStyle(Brushes.DarkOrange, null, FontStyle.Regular);
+
+        private static readonly Dictionary<TokenType, TextStyle> TextStyles = new Dictionary<TokenType, TextStyle>
+        {
+            { TokenType.None, new TextStyle(Brushes.White, Brushes.OrangeRed, FontStyle.Regular) },
+            { TokenType.Boolean, TextStyleConstant },
+            { TokenType.Character, TextStyleConstant },
+            { TokenType.Comment, new TextStyle(Brushes.Green, null, FontStyle.Regular) },
+            { TokenType.DateTime, TextStyleConstant },
+            { TokenType.Field, new TextStyle(Brushes.Blue, null, FontStyle.Regular) },
+            { TokenType.Function, new TextStyle(Brushes.DarkCyan, null, FontStyle.Regular) },
+            { TokenType.Number, TextStyleConstant },
+            { TokenType.Parameter, new TextStyle(Brushes.Brown, null, FontStyle.Regular) },
+            { TokenType.String, TextStyleConstant },
+            { TokenType.Symbol, new TextStyle(Brushes.Black, null, FontStyle.Regular) },
+            { TokenType.TimeSpan, TextStyleConstant },
+            { TokenType.TypeName, new TextStyle(Brushes.Red, null, FontStyle.Regular) },
+            { TokenType.Variable, new TextStyle(Brushes.Magenta, null, FontStyle.Regular) },
+        };
+
+        public static TextStyle[] AllTextStyles = TextStyles.Values.Distinct().ToArray();
 
         #endregion
 
