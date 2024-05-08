@@ -154,7 +154,8 @@
         public void SetFilter(Term term)
         {
             var predicate = term.Predicate;
-            ListCollectionView.Filter = p => predicate((Track)p);
+            var selection = new Selection(DataGrid.Items.Cast<Track>());
+            ListCollectionView.Filter = p => predicate(selection, (Track)p);
         }
 
         public int TracksCountAll => MainModel.Tracks.Count;

@@ -135,7 +135,8 @@
             AppController.AddFilter(term.ToString());
             var predicate = term.Predicate;
             var visibleTracks = VisibleTracks;
-            var tracks = visibleTracks.Where(p => predicate(p));
+            var selection = new Selection(visibleTracks);
+            var tracks = visibleTracks.Where(p => predicate(selection, p));
             var tracksArray = tracks.ToArray();
             Selection.Clear();
             Selection.Add(tracksArray);
