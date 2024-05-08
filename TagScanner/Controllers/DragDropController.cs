@@ -21,7 +21,6 @@
         #region Private Properties
 
         private MainForm MainForm => MainFormController.View;
-        private MainFormController MainFormController => (MainFormController)Parent;
         private MruMediaController MediaController => MainFormController.MediaController;
         private System.Windows.Controls.DataGrid Table => TableController.DataGrid;
         private WpfTableController TableController => MainFormController.TableController;

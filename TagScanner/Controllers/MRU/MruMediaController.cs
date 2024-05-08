@@ -27,7 +27,6 @@
         private readonly FolderBrowserDialog _folderBrowserDialog;
         private readonly OpenFileDialog _openFileDialog;
 
-        private MainFormController MainFormController => (MainFormController)Parent;
         private Model Model => MainFormController.Model;
 
         #endregion

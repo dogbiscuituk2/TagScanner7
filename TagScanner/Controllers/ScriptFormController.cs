@@ -2,8 +2,10 @@
 {
     using System.Collections.Generic;
     using System.Drawing;
+    using System.Linq;
     using System.Windows.Forms;
     using FastColoredTextBoxNS;
+    using Mru;
     using Terms;
     using Views;
 
@@ -15,11 +17,17 @@
 
         #endregion
 
+        #region Public Properties
+
+        public ScriptForm View => _view ?? CreateScriptForm();
+
+        #endregion
+
         #region Public Methods
 
         public bool Execute()
         {
-            var result = ScriptForm.ShowDialog(Owner) == DialogResult.OK;
+            var result = View.ShowDialog(Owner) == DialogResult.OK;
             return result;
         }
 
@@ -27,7 +35,8 @@
 
         #region Private Fields
 
-        private ScriptForm _scriptForm;
+        private MruScriptController MruScriptController;
+        private ScriptForm _view;
 
         private static readonly FontStyle fontStyle = FontStyle.Regular;
 
@@ -51,9 +60,26 @@
 
         #region Private Properties
 
-        private ScriptForm ScriptForm => _scriptForm ?? CreateScriptForm();
-        private FastColoredTextBox ColourTextBox => ScriptForm.ColourTextBox;
-        private string Text => ColourTextBox.Text;
+        private Language Language
+        {
+            get => TextBox.Language;
+            set
+            {
+                TextBox.TextChanged -= ColourTextBox_TextChanged;
+                TextBox.Language = value;
+                TextBox.OnTextChanged();
+                if (Language == Language.Custom)
+                    TextBox.TextChanged += ColourTextBox_TextChanged;
+                foreach (var item in Languages)
+                    item.Checked = (int)item.Tag == (int)Language;
+            }
+        }
+
+        private ToolStripItemCollection LanguageItems => PopupLanguage.DropDownItems;
+        private ToolStripMenuItem PopupLanguage => View.LanguageMenu;
+        private IEnumerable<ToolStripMenuItem> Languages => LanguageItems.OfType<ToolStripMenuItem>();
+        private FastColoredTextBox TextBox => View.TextBox;
+        private string Text => TextBox.Text;
 
         #endregion
 
@@ -67,11 +93,24 @@
 
         private ScriptForm CreateScriptForm()
         {
-            _scriptForm = new ScriptForm();
-            ColourTextBox.Language = Language.Custom;
-            ColourTextBox.TextChanged += ColourTextBox_TextChanged;
-            return _scriptForm;
+            _view = new ScriptForm();
+            var index = 0;
+            foreach (var language in Languages)
+            {
+                language.Click += Language_Click;
+                language.Tag = index++;
+            }
+            MruScriptController = new MruScriptController(this, View.FileReopen);
+            View.FileNew.Click += (sender, e) => MruScriptController.Clear();
+            View.FileOpen.Click += (sender, e) => MruScriptController.Open();
+            View.FileSave.Click += (sender, e) => MruScriptController.Save();
+            View.FileSaveAs.Click += (sender, e) => MruScriptController.SaveAs();
+            Language = Language.Custom;
+            return _view;
         }
+
+        private void Language_Click(object sender, System.EventArgs e) =>
+            Language = (Language)((ToolStripItem)sender).Tag;
 
         private TextStyle GetTextStyle(TokenType tokenType)
         {
@@ -99,9 +138,9 @@
             {
                 var index = token.Index;
                 Place
-                    start = ColourTextBox.PositionToPlace(index),
-                    end = ColourTextBox.PositionToPlace(index + token.Value.Length);
-                range = new Range(ColourTextBox, start, end);
+                    start = TextBox.PositionToPlace(index),
+                    end = TextBox.PositionToPlace(index + token.Value.Length);
+                range = new Range(TextBox, start, end);
                 range.SetStyle(GetTextStyle(token.TokenType));
             }
         }

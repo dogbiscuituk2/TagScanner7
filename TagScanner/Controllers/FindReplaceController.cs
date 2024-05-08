@@ -50,7 +50,6 @@
         #region Properties
 
         private CommandProcessor CommandProcessor => MainFormController.CommandProcessor;
-        private MainFormController MainFormController => (MainFormController)Parent;
         private WpfTableController TableController => MainFormController.TableController;
         private ListCollectionView ListCollectionView => TableController.ListCollectionView;
 
@@ -191,7 +190,7 @@
             if (string.IsNullOrWhiteSpace(FindComboBox.Text))
                 return Term.True;
             var terms = new List<Term> { Environment.NewLine };
-            terms.AddRange(selectedTags.Select(p => new Field(p)));
+            terms.AddRange(selectedTags.Select(p => new TrackField(p)));
             return new Function(
                 Fn.ContainsX,
                 new Function(Fn.Join, terms.ToArray()),

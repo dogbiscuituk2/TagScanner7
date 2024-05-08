@@ -30,7 +30,6 @@
         #region Properties
 
         private MainForm MainForm => MainFormController.View;
-        private MainFormController MainFormController => (MainFormController)Parent;
         private Model Model => MainFormController.Model;
 
         #endregion

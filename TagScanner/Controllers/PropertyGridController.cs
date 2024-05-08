@@ -16,7 +16,6 @@
         }
 
         private MainForm MainForm => MainFormController.View;
-        private MainFormController MainFormController => (MainFormController)Parent;
         private PropertyGrid PropertyGrid => MainFormController.View.PropertyGrid;
 
         public void SetSelection(Selection selection)

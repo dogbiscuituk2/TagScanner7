@@ -11,7 +11,6 @@
         public StatusController(Controller parent) : base(parent) { }
 
         private MainForm MainForm => MainFormController.View;
-        private MainFormController MainFormController => (MainFormController)Parent;
 
         public IProgress<ProgressEventArgs> CreateNewProgress()
         {

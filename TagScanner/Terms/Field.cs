@@ -4,15 +4,15 @@
     using System.Linq.Expressions;
     using Models;
 
-    [Serializable]
-    public class Field : Term
+    public abstract class Field : Term
     {
-        public Field(Tag tag) { Tag = tag; }
+        protected Field(Tag tag) { Tag = tag; }
 
-        public override Expression Expression => Expression.Property(Track, Tag.ToString());
+        public override Expression Expression => Expression.Property(ParameterExpression, $"{Tag}");
+
         public override Type ResultType => Tag.Type();
-        public Tag Tag { get; set; }
+        public Tag Tag { get; private set; }
 
-        public override string ToString() => Tag.DisplayName();
+        protected abstract ParameterExpression ParameterExpression { get; }
     }
 }

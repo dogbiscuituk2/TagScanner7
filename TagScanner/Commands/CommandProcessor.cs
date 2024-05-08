@@ -43,7 +43,6 @@
 
         public bool IsModified => LastSave != UndoStack.Count;
 
-        private MainFormController MainFormController => (MainFormController)Parent;
         private Model Model => MainFormController.Model;
         private MainForm View => MainFormController.View;
         private List<Track> Tracks => Model.Tracks;

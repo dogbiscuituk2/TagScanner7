@@ -154,6 +154,7 @@
     <Compile Include="Controllers\FindReplaceController.cs" />
     <Compile Include="Controllers\Mru\MruController.cs" />
     <Compile Include="Controllers\Mru\MruFilterController.cs" />
+    <Compile Include="Controllers\Mru\MruScriptController.cs" />
     <Compile Include="Controllers\Mru\MruStringsController.cs" />
     <Compile Include="Controllers\PropertyGridController.cs" />
     <Compile Include="Controllers\ScriptFormController.cs" />
@@ -178,16 +179,17 @@
     </Compile>
     <Compile Include="Menus\CastEventArgs.cs" />
     <Compile Include="Terms\Associativity.cs" />
-    <Compile Include="Terms\CollectionField.cs" />
     <Compile Include="Terms\DateTimeParser.cs" />
     <Compile Include="Terms\EqualityComparer.cs" />
     <Compile Include="Terms\Cast.cs" />
     <Compile Include="Streaming\Streamer.cs" />
+    <Compile Include="Terms\Field.cs" />
     <Compile Include="Terms\Fn.cs" />
     <Compile Include="Terms\FnInfo.cs" />
     <Compile Include="Terms\Functors.Methods.cs">
       <DependentUpon>Functors.cs</DependentUpon>
     </Compile>
+    <Compile Include="Terms\ListField.cs" />
     <Compile Include="Terms\Parser.cs" />
     <Compile Include="Terms\ParserSpy.cs" />
     <Compile Include="Terms\Token.cs" />
@@ -221,7 +223,7 @@
     <Compile Include="Terms\Constant.cs" />
     <Compile Include="Terms\Functors.cs" />
     <Compile Include="Terms\Operators.cs" />
-    <Compile Include="Terms\Field.cs" />
+    <Compile Include="Terms\TrackField.cs" />
     <Compile Include="Menus\MenuFilter.cs" />
     <Compile Include="Terms\Function.cs" />
     <Compile Include="Terms\Operation.cs" />

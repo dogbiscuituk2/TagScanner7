@@ -38,7 +38,6 @@
         }
 
         protected CommandProcessor CommandProcessor => MainFormController.CommandProcessor;
-        protected MainFormController MainFormController => (MainFormController)Parent;
         protected Model Model => MainFormController.Model;
 
         private string _filePath = string.Empty;

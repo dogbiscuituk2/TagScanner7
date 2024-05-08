@@ -12,7 +12,7 @@
     {
         #region Public Fields
 
-        public static readonly ParameterExpression Collection = Expression.Parameter(typeof(List<Track>), "Collection");
+        public static readonly ParameterExpression List = Expression.Parameter(typeof(List<Track>), "List");
         public static readonly ParameterExpression Track = Expression.Parameter(typeof(Track), "Track");
 
         public static readonly Constant<string> Empty = new Constant<string>(string.Empty);
@@ -161,7 +161,7 @@
         public static implicit operator Term(string value) => new Constant<string>(value);
         public static implicit operator Term(uint value) => new Constant<uint>(value);
         public static implicit operator Term(ulong value) => new Constant<ulong>(value);
-        public static implicit operator Term(Tag tag) => new Field(tag);
+        public static implicit operator Term(Tag tag) => new TrackField(tag);
         public static implicit operator Term(TimeSpan value) => new Constant<TimeSpan>(value);
 
         public static Term operator -(Term term) => Minus(term);

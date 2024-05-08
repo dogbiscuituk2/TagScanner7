@@ -28,7 +28,7 @@
                 _term = value;
                 switch (Term)
                 {
-                    case Field field:
+                    case TrackField field:
                         ToolTipText = field.Tag.Details();
                         break;
                     case TermList termList:

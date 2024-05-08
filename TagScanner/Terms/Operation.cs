@@ -164,19 +164,19 @@
 
     #region Derived Monadic Operation Classes
 
-    [Serializable] public class Negation : Operation
+    public class Negation : Operation
     {
         public Negation() : base(Op.Not) { }
         public Negation(Term term) : base(Op.Not, term) { }
     }
 
-    [Serializable] public class Negative : Operation
+    public class Negative : Operation
     {
         public Negative() : base(Op.Negative) { }
         public Negative(Term term) : base(Op.Negative, term) { }
     }
 
-    [Serializable] public class Positive : Operation 
+    public class Positive : Operation 
     {
         public Positive() : base(Op.Positive) { }
         public Positive(Term term) : base(Op.Positive, term) { }

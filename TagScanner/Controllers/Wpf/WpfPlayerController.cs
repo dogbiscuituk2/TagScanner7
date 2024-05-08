@@ -12,7 +12,7 @@
 
     public class WpfPlayerController : WpfGridController
     {
-        public WpfPlayerController(MainFormController mainFormController) : base(mainFormController)
+        public WpfPlayerController(Controller parent) : base(parent)
         {
             View.TablePopupPlayAddToQueue.Click += PlaylistAddToQueue_Click;
             View.TablePopupPlayNewPlaylist.Click += PlaylistCreateNew_Click;
@@ -24,8 +24,6 @@
         }
 
         public System.Windows.Controls.DataGrid PlaylistGrid => DataGrid;
-
-        private MainFormController MainFormController => (MainFormController)Parent;
 
         private MainForm View => MainFormController.View;
 

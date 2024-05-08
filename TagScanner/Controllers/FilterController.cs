@@ -23,7 +23,6 @@
         private ComboBox FilterComboBox => View.FilterComboBox;
         private FilterFormController FilterFormController;
         private WpfTableController LibraryGridController => MainFormController.TableController;
-        private MainFormController MainFormController => (MainFormController)Parent;
         private MainForm View => MainFormController.View;
         private ScriptFormController ScriptFormController;
 

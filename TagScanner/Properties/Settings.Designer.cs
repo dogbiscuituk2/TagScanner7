@@ -25,15 +25,6 @@ namespace TagScanner.Properties {
         
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute(@"Media Files (*.avi;*.mp4;*.wmv;*.m4a;*.mp3;*.wma;*.bmp;*.gif;*.jpeg;*.jpg;*.png)|*.avi;*.mp4;*.wmv;*.m4a;*.mp3;*.wma;*.bmp;*.gif;*.jpeg;*.jpg;*.png|AV Files (*.avi;*.mp4;*.wmv;*.m4a;*.mp3;*.wma)|*.avi;*.mp4;*.wmv;*.m4a;*.mp3;*.wma|Video Files (*.avi;*.mp4;*.wmv)|*.avi;*.mp4;*.wmv|Audio Files (*.m4a;*.mp3;*.wma)|*.m4a;*.mp3;*.wma|Image Files (*.bmp;*.gif;*.jpeg;*.jpg;*.png)|*.bmp;*.gif;*.jpeg;*.jpg;*.png|All Files (*.*)|*.*")]
-        public string MediaFilter {
-            get {
-                return ((string)(this["MediaFilter"]));
-            }
-        }
-        
-        [global::System.Configuration.ApplicationScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("Playlists|*.wpl|All Files (*.*)|*.*")]
         public string PlayerFilter {
             get {
@@ -56,6 +47,24 @@ namespace TagScanner.Properties {
         public string LibraryFilter {
             get {
                 return ((string)(this["LibraryFilter"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute(@"Audio Files (*.m4a;*.mp3;*.wma)|*.m4a;*.mp3;*.wma|Video Files (*.avi;*.mp4;*.wmv)|*.avi;*.mp4;*.wmv|Image Files (*.bmp;*.gif;*.jpeg;*.jpg;*.png)|*.bmp;*.gif;*.jpeg;*.jpg;*.png|AV Files (*.avi;*.mp4;*.wmv;*.m4a;*.mp3;*.wma)|*.avi;*.mp4;*.wmv;*.m4a;*.mp3;*.wma|Media Files (*.avi;*.mp4;*.wmv;*.m4a;*.mp3;*.wma;*.bmp;*.gif;*.jpeg;*.jpg;*.png)|*.avi;*.mp4;*.wmv;*.m4a;*.mp3;*.wma;*.bmp;*.gif;*.jpeg;*.jpg;*.png|All Files (*.*)|*.*")]
+        public string MediaFilter {
+            get {
+                return ((string)(this["MediaFilter"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute(@"Kerr Files (*.kerr)|*.kerr|C# Files (*.cs)|*.cs|Visual Basic Files (*.vb)|*.vb|HTML Files (*.htm;*.html)|*.htm;*.html|XML Files (*.xml)|*.xml|SQL Files (*.sql)|*.sql|PHP Files (*.php)|*.php|JavaScript Files (*.js)|*.js|Lua Files (*.lua)|*.lua|All Files (*.*)|*.*")]
+        public string ScriptFilter {
+            get {
+                return ((string)(this["ScriptFilter"]));
             }
         }
     }
