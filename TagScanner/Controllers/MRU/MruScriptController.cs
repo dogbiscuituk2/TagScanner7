@@ -14,6 +14,8 @@
         public MruScriptController(Controller parent, ToolStripMenuItem parentMenu)
             : base(parent, Properties.Settings.Default.ScriptFilter, "ScriptMRU", parentMenu.DropDownItems) { }
 
+        protected override bool DocumentIsModified => true;
+
         private ScriptForm ScriptForm => ScriptFormController.View;
         private ScriptFormController ScriptFormController => (ScriptFormController)Parent;
         private FastColoredTextBox TextBox => ScriptForm.TextBox;
@@ -22,16 +24,12 @@
 
         protected override bool LoadFromStream(Stream stream, StreamFormat format)
         {
-            //using (var reader = new StreamReader(stream))
-            //    TextBox.Text = reader.ReadToEnd();
             TextBox.Text = new StreamReader(stream).ReadToEnd();
             return true;
         }
 
         protected override bool SaveToStream(Stream stream, StreamFormat format)
         {
-            //using (var writer = new StreamWriter(stream))
-            //    writer.Write(TextBox.Text);
             new StreamWriter(stream).Write(TextBox.Text);
             return true;
         }

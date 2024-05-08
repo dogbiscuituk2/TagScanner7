@@ -38,7 +38,25 @@
         }
 
         protected CommandProcessor CommandProcessor => MainFormController.CommandProcessor;
+        protected virtual bool DocumentIsModified => CommandProcessor.IsModified;
         protected Model Model => MainFormController.Model;
+
+        public string WindowCaption
+        {
+            get
+            {
+                var text = FilePath;
+                try
+                {
+                    text = Path.GetFileNameWithoutExtension(text);
+                }
+                catch (ArgumentException) { }
+                if (DocumentIsModified)
+                    text = string.Concat("* ", text);
+                text = string.Concat(text, " - ", Application.ProductName);
+                return text;
+            }
+        }
 
         private string _filePath = string.Empty;
         private readonly OpenFileDialog _openFileDialog;
@@ -138,7 +156,7 @@
 
         public bool SaveIfModified()
         {
-            if (!CommandProcessor.IsModified)
+            if (!DocumentIsModified)
                 return true;
             switch (MessageBox.Show(
                 Owner,

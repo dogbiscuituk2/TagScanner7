@@ -20,23 +20,6 @@
 
         #region Properties
 
-        public string WindowCaption
-        {
-            get
-            {
-                var text = FilePath;
-                try
-                {
-                    text = Path.GetFileNameWithoutExtension(text);
-                }
-                catch (ArgumentException) { }
-                if (CommandProcessor.IsModified)
-                    text = string.Concat("* ", text);
-                text = string.Concat(text, " - ", Application.ProductName);
-                return text;
-            }
-        }
-
         #endregion
 
         #region Methods
