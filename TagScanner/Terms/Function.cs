@@ -6,7 +6,7 @@
     using System.Linq.Expressions;
     using TagScanner.Utils;
 
-    public class Function : TermList
+    public class Function : Compound
     {
         #region Constructors
 

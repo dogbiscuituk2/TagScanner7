@@ -16,7 +16,7 @@
 
         public void AcceptToken(string caller, int line, string expected) => Process(caller, line, p => AcceptToken(expected));
         public void BeginParse(string caller, int line, string text) => Process(caller, line, p => Reset(caller, line, text));
-        public TermList Consolidate(string caller, int line, Term right) => (TermList)Process(caller, line, p => Consolidate(right));
+        public Compound Consolidate(string caller, int line, Term right) => (Compound)Process(caller, line, p => Consolidate(right));
         public Token DequeueToken(string caller, int line) => (Token)Process(caller, line, p => Tokens.Dequeue());
         public Term EndParse(string caller, int line, Term term) => (Term)Process(caller, line, p => EndParse(term));
         public Term NewTerm(string caller, int line, Term term) { Process(caller, line, p => term); return term; }
@@ -57,19 +57,21 @@
         /// </summary>
         /// <param name="right">The Term to be merged with the current Term.</param>
         /// <returns>The new Term resulting from the merge.</returns>
-        private TermList Consolidate(Term right)
+        private Compound Consolidate(Term right)
         {
             var left = Terms.Pop();
             var op = Operators.Pop();
             var ass = op.GetAssociativity();
             bool
-                lop = left is TermList leftOp && leftOp.Op == op,
-                rop = right is TermList rightOp && rightOp.Op == op && (ass & Associativity.Right) != 0;
+                lop = left is Compound leftOp && leftOp.Op == op,
+                rop = right is Compound rightOp && rightOp.Op == op && (ass & Associativity.Right) != 0;
             IEnumerable<Term>
-                leftOps = lop ? ((TermList)left).Operands.ToArray() : new[] { left },
-                rightOps = rop ? ((TermList)right).Operands.ToArray() : new[] { right };
+                leftOps = lop ? ((Compound)left).Operands.ToArray() : new[] { left },
+                rightOps = rop ? ((Compound)right).Operands.ToArray() : new[] { right };
             var operands = leftOps.Concat(rightOps).ToArray();
-            return op == Op.Comma ? new TermList(operands) : new Operation(op, operands);
+            return op == Op.Comma
+                ? new TermList(operands)
+                : (Compound)new Operation(op, operands);
         }
 
         private void Dump(string caller, int line, object value, [CallerMemberName] string action = "")

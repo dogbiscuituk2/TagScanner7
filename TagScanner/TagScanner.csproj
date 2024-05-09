@@ -179,6 +179,7 @@
     </Compile>
     <Compile Include="Menus\CastEventArgs.cs" />
     <Compile Include="Terms\Associativity.cs" />
+    <Compile Include="Terms\Compound.cs" />
     <Compile Include="Terms\DateTimeParser.cs" />
     <Compile Include="Terms\EqualityComparer.cs" />
     <Compile Include="Terms\Cast.cs" />

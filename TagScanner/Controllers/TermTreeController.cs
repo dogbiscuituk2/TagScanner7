@@ -153,8 +153,8 @@
 
             void VisitNode()
             {
-                if (term is TermList termList)
-                    foreach (var operand in termList.Operands)
+                if (term is Compound compound)
+                    foreach (var operand in compound.Operands)
                     {
                         font = font1;
                         VisitRegion(text.Range(termNode.CharacterRangesAll[range]), GetNextRegion());

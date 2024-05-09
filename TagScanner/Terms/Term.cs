@@ -12,8 +12,6 @@
     {
         #region Public Fields
 
-        //public static readonly Term List = new 
-
         public static readonly Constant<string> Empty = new Constant<string>(string.Empty);
         public static readonly Constant<bool> False = new Constant<bool>(false);
         public static readonly Constant<bool> True = new Constant<bool>(true);

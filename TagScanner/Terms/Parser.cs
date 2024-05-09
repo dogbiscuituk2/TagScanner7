@@ -15,13 +15,13 @@
         /// </summary>
         /// <param name="text">The string to parse.</param>
         /// <param name="caseSensitive">Matching of data field & function names, type casts, operators and other syntactical elements, is always insensitive to case. 
-        /// The caseSensitive parameter applies only to the user data, such as track titles, album names, performers, and so on.</param>
+        /// The caseSensitive value applies only to the user data, such as track titles, album names, performers, and so on.</param>
         /// <returns>The Term obtained from parsing.</returns>
         public Term Parse(string text, bool caseSensitive)
         {
             CaseSensitive = caseSensitive;
             BeginParse(text);
-            var term = ParseCompoundTerm();
+            var term = ParseCompound();
             EndParse(term);
             return term;
         }
@@ -33,10 +33,10 @@
         /// <param name="term">The Term obtained from parsing, assuming no exceptions occurred.</param>
         /// <param name="exception">The exception that did, in fact, occur.</param>
         /// <param name="caseSensitive">Matching of data field & function names, type casts, operators and other syntactical elements,
-        /// is always insensitive to case. The caseSensitive parameter applies only to the user data, such as track titles, album names,
+        /// is always insensitive to case. The caseSensitive value applies only to the user data, such as track titles, album names,
         /// performers, and so on.</param>
-        /// <returns>True if the parsing succeeded, and the result is returned in the out parameter term.
-        /// False if an exception occurred, and the exception is returned in the out parameter exception.</returns>
+        /// <returns>True if the parsing succeeded, and the result is returned in the out term.
+        /// False if an exception occurred, and the exception is returned in the out exception.</returns>
         public bool TryParse(string text, out Term term, out Exception exception, bool caseSensitive)
         {
             try
@@ -65,6 +65,30 @@
 
         #region Private Methods
 
+        private Term ParseArgs(Fn fn, Term self = null)
+        {
+            var args = new List<Term>();
+            if (self != null)
+                args.Add(self);
+            if (AnyTokens())
+                if (PeekToken().Value == "(")
+                {
+                    AcceptToken("(");
+                    PushOperator();
+                    var term = PeekToken().Value != ")" ? NewTerm(ParseCompound()) : null;
+                    PopOperator();
+                    AcceptToken(")");
+                    if (term is TermList termList) // Compound, but not Function, Operation, etc.
+                        args.AddRange(termList.Operands);
+                    else if (term is Term) // ie not null
+                        args.Add(term);
+                }
+                else
+                    args.Add(NewTerm(ParseSimpleTerm())); // Parentheses are optional for single args.
+            var function = (Function)NewTerm(new Function(fn, args.ToArray()));
+            return PrepareCompound(function);
+        }
+
         private Term ParseCast()
         {
             var type = DequeueToken().Value.ToType();
@@ -72,7 +96,7 @@
             return NewTerm(new Cast(type, ParseSimpleTerm()));
         }
 
-        private Term ParseCompoundTerm()
+        private Term ParseCompound()
         {
             var term = ParseSimpleTerm();
             while (AnyTokens())
@@ -107,13 +131,13 @@
                 term = Merge(term);
             }
             if (term is Operation operation)
-                PrepareTermList(operation);
+                PrepareCompound(operation);
             return term;
 
-            Term Merge(Term right) => PrepareTermList(Consolidate(right));
+            Term Merge(Term right) => PrepareCompound(Consolidate(right));
         }
 
-        private Term ParseMemberFunction(Term self) => ParseParameters(DequeueToken().Value.ToFunction(), self);
+        private Term ParseMemberFunction(Term self) => ParseArgs(DequeueToken().Value.ToFunction(), self);
 
         private static Term ParseNumber(string token) =>
             token.EndsWith("UL") ? ulong.Parse(token.TrimEnd('U', 'L')) :
@@ -125,30 +149,6 @@
             token.Contains(".") ? double.Parse(token) :
             (Term)int.Parse(token);
 
-        private Term ParseParameters(Fn fn, Term self = null)
-        {
-            var parameters = new List<Term>();
-            if (self != null)
-                parameters.Add(self);
-            if (AnyTokens())
-                if (PeekToken().Value == "(")
-                {
-                    AcceptToken("(");
-                    PushOperator();
-                    var term = PeekToken().Value != ")" ? NewTerm(ParseCompoundTerm()) : null;
-                    PopOperator();
-                    AcceptToken(")");
-                    if (term is TermList termList)
-                        parameters.AddRange(termList.Operands);
-                    else if (term is Term)
-                        parameters.Add(term);
-                }
-                else
-                    parameters.Add(NewTerm(ParseSimpleTerm())); // Parentheses are optional for single parameters.
-            var function = (Function)NewTerm(new Function(fn, parameters.ToArray()));
-            return PrepareTermList(function);
-        }
-
         private Term ParseSimpleTerm()
         {
             var token = DequeueToken();
@@ -159,7 +159,7 @@
                 else
                 {
                     PushOperator();
-                    var term = NewTerm(ParseCompoundTerm());
+                    var term = NewTerm(ParseCompound());
                     PopOperator();
                     AcceptToken(")");
                     return term;
@@ -178,7 +178,7 @@
                 return ParseUnaryOperation(match);
             if (match.IsNumber())
                 return NewTerm(ParseNumber(match.ToUpperInvariant()));
-            if (match.IsParameter())
+            if (match.IsDefault())
                 return NewTerm(new Default(match.Substring(1, match.Length - 2).ToType()));
             if (match.IsFunction())
                 return ParseStaticFunction(match);
@@ -192,7 +192,7 @@
             return null;
         }
 
-        private Term ParseStaticFunction(string token) => ParseParameters(token.ToFunction());
+        private Term ParseStaticFunction(string token) => ParseArgs(token.ToFunction());
         
         private Term ParseUnaryOperation(string token)
         {
@@ -227,17 +227,17 @@
             return _variables[key];
         }
 
-        private Term PrepareTermList(TermList termList)
+        private Term PrepareCompound(Compound compound)
         {
-            var operands = termList.Operands;
+            var operands = compound.Operands;
             var count = operands.Count;
-            foreach (var term in operands.OfType<TermList>())
-                PrepareTermList(term);
-            if (termList is Function function)
+            foreach (var term in operands.OfType<Compound>())
+                PrepareCompound(term);
+            if (compound is Function function)
                 PrepareFunction(function);
-            else if (termList is Operation operation)
+            else if (compound is Operation operation)
                 PrepareOperation(operation);
-            return NewTerm(termList);
+            return NewTerm(compound);
 
             void PrepareFunction(Function f)
             {
@@ -302,7 +302,7 @@
                 if (op.IsAssignment())
                 {
                     if (count < 2)
-                        throw new ArgumentException("Missing parameter(s)");
+                        throw new ArgumentException("Missing argument(s)");
                     var type = operands[count - 1].ResultType;
                     foreach (var arg in operands.Take(count - 1))
                     {
@@ -369,7 +369,7 @@
         #endregion
         #region Terms
 
-        private TermList Consolidate(Term right, [CallerMemberName] string caller = "", [CallerLineNumber] int line = 0) => Spy.Consolidate(caller, line, right);
+        private Compound Consolidate(Term right, [CallerMemberName] string caller = "", [CallerLineNumber] int line = 0) => Spy.Consolidate(caller, line, right);
         private Term PopTerm([CallerMemberName] string caller = "", [CallerLineNumber] int line = 0) => Spy.PopTerm(caller, line);
         private void PushTerm(Term term, [CallerMemberName] string caller = "", [CallerLineNumber] int line = 0) => Spy.PushTerm(caller, line, term);
 

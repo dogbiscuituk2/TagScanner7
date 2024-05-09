@@ -134,12 +134,12 @@
         public static bool IsChar(this string token) => token[0] == SingleQuote;
         public static bool IsConstant(this string token) => token.IsBoolean() || token.IsNumber() || token.IsString();
         public static bool IsDateTime(this string token) => Regex.IsMatch(token, DateTimeParser.DateTimePattern);
+        public static bool IsDefault(this string token) => token[0] == LeftBrace;
         public static bool IsFunction(this string token) => Functors.FunctionNames.Contains(token, IgnoreCase);
         public static bool IsListField(this string token) => token.StartsWith("$") && Tags.FieldNames.Contains(token.Substring(1), IgnoreCase);
         public static bool IsName(this string token) => Regex.IsMatch(token, $"{NamePattern}$");
         public static bool IsNumber(this string token) => Regex.IsMatch(token, $"{NumberPattern}$");
         public static bool IsOperator(this string token) => Operators.ContainsSymbol(token);
-        public static bool IsParameter(this string token) => token[0] == LeftBrace;
         public static bool IsString(this string token) => token[0] == DoubleQuote;
         public static bool IsSymbol(this string token) => Operators.Symbols.Contains(token, IgnoreCase);
         public static bool IsTimeSpan(this string token) => Regex.IsMatch(token, DateTimeParser.TimeSpanPattern);

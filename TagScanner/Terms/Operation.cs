@@ -6,7 +6,7 @@
     using System.Linq.Expressions;
     using Utils;
 
-    public class Operation : TermList
+    public class Operation : Compound
     {
         #region Constructors
 

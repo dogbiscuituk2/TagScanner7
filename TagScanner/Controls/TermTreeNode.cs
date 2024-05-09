@@ -31,8 +31,8 @@
                     case TrackField field:
                         ToolTipText = field.Tag.Details();
                         break;
-                    case TermList termList:
-                        AddTerms(termList.Operands);
+                    case Compound compound:
+                        AddTerms(compound.Operands);
                         break;
                 }
             }

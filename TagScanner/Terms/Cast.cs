@@ -1,11 +1,10 @@
 ﻿namespace TagScanner.Terms
 {
     using System;
-    using System.Collections.Generic;
     using System.Linq;
     using System.Linq.Expressions;
 
-    public class Cast : TermList
+    public class Cast : Compound
     {
         public Cast(Type newType) => SetNewType(newType);
         public Cast(Type newType, Term operand) : base(operand) => SetNewType(newType);

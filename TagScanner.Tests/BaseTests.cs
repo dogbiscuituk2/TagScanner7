@@ -2,6 +2,7 @@
 {
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using System;
+    using System.Drawing;
     using System.Linq;
     using System.Text.RegularExpressions;
     using Terms;
@@ -10,11 +11,11 @@
     {
         #region Protected Methods
 
-        protected void AddTestValues(TermList termList)
+        protected void AddTestValues(Compound compound)
         {
-            var operands = termList.Operands;
+            var operands = compound.Operands;
             var operandsCount = operands.Count;
-            var types = termList.OperandTypes.ToList();
+            var types = compound.OperandTypes.ToList();
             var typesCount = types.Count;
             for (var index = operandsCount; index < typesCount; index++)
             {
@@ -23,7 +24,7 @@
                     type = type.GetElementType();
                 var term = GetTestValue(type);
                 operands.Add(term);
-                if (index == typesCount - 1 && termList.IsInfinitary)
+                if (index == typesCount - 1 && compound.IsInfinitary)
                     operands.AddRange(new[] { term, term });
             }
         }
@@ -67,16 +68,16 @@
         protected void TestParse(Term term)
         {
             TestParseRoundTrip(term);
-            if (term is TermList termList)
-                for (var index = 0; index < termList.Operands.Count; index++)
+            if (term is Compound compound)
+                for (var index = 0; index < compound.Operands.Count; index++)
                 {
-                    term = termList.Operands[index];
-                    var start = termList.Start(index);
+                    term = compound.Operands[index];
+                    var start = compound.Start(index);
                     var length = term.Length;
-                    var termToString = term.ToString();
-                    var termListToString = termList.ToString();
-                    Assert.AreEqual(expected: termToString, actual: termListToString.Substring(start, length));
-                    var range = termList.CharacterRanges[2 * index + 1];
+                    var termString = term.ToString();
+                    var compoundString = compound.ToString();
+                    Assert.AreEqual(expected: termString, actual: compoundString.Substring(start, length));
+                    var range = compound.CharacterRanges[2 * index + 1];
                     Assert.AreEqual(expected: start, actual: range.First);
                     Assert.AreEqual(expected: length, actual: range.Length);
                     TestParse(term);
@@ -124,6 +125,22 @@
         }
 
         #endregion
+
+        protected void TestCases(string text, Func<Term, object> func, object sense, object nonsense)
+        {
+            Term term;
+            var caseSensitive = true;
+            var expected = sense;
+            do
+            {
+                term = new Parser().Parse(text, caseSensitive);
+                var actual = func.Invoke(term);
+                Assert.AreEqual(expected, actual);
+                expected = nonsense;
+                caseSensitive = !caseSensitive;
+            }
+            while (!caseSensitive);
+        }
 
         #region Private Fields
 
