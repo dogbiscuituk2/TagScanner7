@@ -42,19 +42,19 @@
 
         public int Length => ToString().Length;
 
-        public Func<Selection, Track, bool> Predicate
+        public Func<Track, bool> Predicate
         {
             get
             {
                 try
                 {
                     var func = Delegate;
-                    return (Func<Selection, Track, bool>)func;
+                    return (Func<Track, bool>)func;
                 }
                 catch (Exception exception)
                 {
                     exception.LogException();
-                    return (selection, track) => true;
+                    return track => true;
                 }
             }
         }
