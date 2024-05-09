@@ -12,20 +12,32 @@
     {
         #region Public Fields
 
-        public static readonly ParameterExpression List = Expression.Parameter(typeof(List<Track>), "List");
-        public static readonly ParameterExpression Track = Expression.Parameter(typeof(Track), "Track");
-
         public static readonly Constant<string> Empty = new Constant<string>(string.Empty);
         public static readonly Constant<bool> False = new Constant<bool>(false);
         public static readonly Constant<bool> True = new Constant<bool>(true);
         public static readonly Constant<int> Zero = new Constant<int>(0);
 
+        public static readonly ParameterExpression List = Expression.Parameter(typeof(Selection), "List");
+        public static readonly ParameterExpression Track = Expression.Parameter(typeof(Track), "Track");
+
         #endregion
 
         #region Public Properties
 
-        public List<CharacterRange> CharacterRanges => GetCharacterRanges();
-        public List<CharacterRange> CharacterRangesAll => GetCharacterRangesAll();
+        public static IEnumerable<string> Booleans => new[] { "false", "true" };
+
+        public object[] Defaults
+        {
+            get
+            {
+                var parameters = Parameters.ToList();
+                var count = Parameters.Count();
+                var defaults = new object[count];
+                for (var index = 0; index < count; index++)
+                    defaults[index] = parameters[index].Type.GetDefaultValue();
+                return defaults;
+            }
+        }
 
         public Delegate Delegate
         {
@@ -42,25 +54,10 @@
 
         public int Length => ToString().Length;
 
-        public Func<Track, bool> Predicate
-        {
-            get
-            {
-                try
-                {
-                    var func = Delegate;
-                    return (Func<Track, bool>)func;
-                }
-                catch (Exception exception)
-                {
-                    exception.LogException();
-                    return track => true;
-                }
-            }
-        }
-
         public virtual IEnumerable<ParameterExpression> Parameters =>
-            new List<ParameterExpression>(new[] { Track });
+            new List<ParameterExpression>(new[] { List, Track });
+
+        public Func<Selection, Track, bool> Predicate => (list, track) => Filter(list, track);
 
         public virtual Rank Rank => Rank.Unary;
 
@@ -71,7 +68,7 @@
                 try
                 {
                     var func = Delegate;
-                    return func.DynamicInvoke(ParameterDefaultValues);
+                    return func.DynamicInvoke(Defaults);
                 }
                 catch (Exception exception)
                 {
@@ -87,42 +84,42 @@
             set { }
         }
 
-        public static IEnumerable<string> Booleans => new[] { "false", "true" };
-
         #endregion
 
         #region Public Methods
 
-        /// <summary>
-        /// An integer indicating the first character position, in the full string representation of a given term, of its index'th subTerm.
-        /// </summary>
-        /// <param name="index">The index of the subTerm. The first subTerm has index 0.</param>
-        /// <returns>The first character position, in the full string representation of the given term, of its "index"-th subTerm
-        /// (or -1 if the indexed subTerm does not exist, e.g., if the given "parent" Term is a Constant or a Field.).</returns>
-        public virtual int Start(int index) => -1;
-
-        protected List<CharacterRange> GetCharacterRanges()
+        public bool Filter(Selection list, Track track)
         {
-            ValidateCharacterRanges();
-            return _characterRanges;
+            var func = Delegate;
+            var args = Defaults;
+            args[0] = list;
+            args[1] = track;
+            return (bool)func.DynamicInvoke(args);
         }
 
-        protected virtual List<CharacterRange> GetCharacterRangesAll() => GetCharacterRanges();
+        public IEnumerable<Track> Filter(IEnumerable<Track> tracks) => Filter(list: null, tracks);
 
-        protected virtual void InitCharacterRanges()
+        public IEnumerable<Track> Filter(Selection list, IEnumerable<Track> tracks)
         {
-            _characterRanges.Clear();
-            _characterRanges.Add(new CharacterRange(0, Length));
-        }
-
-        public virtual void InvalidateCharacterRanges() => _characterRangesValid = false;
-
-        public virtual void ValidateCharacterRanges()
-        {
-            if (!_characterRangesValid)
+            var func = Delegate;
+            var args = Defaults;
+            args[0] = list;
+            bool error = false, pass = false;
+            foreach (var track in tracks)
             {
-                InitCharacterRanges();
-                _characterRangesValid = true;
+                if (!error)
+                    try
+                    {
+                        args[1] = track;
+                        pass = (bool)func.DynamicInvoke(args);
+                    }
+                    catch (Exception exception)
+                    {
+                        exception.LogException();
+                        error = true;
+                    }
+                if (pass || error)
+                    yield return track;
             }
         }
 
@@ -145,6 +142,46 @@
         public static Term Or(params Term[] terms) => new Disjunction(terms);
         public static Term Subtract(params Term[] terms) => new Difference(terms);
         public static Term Xor(params Term[] terms) => new ParityOdd(terms);
+
+        #endregion
+
+        #region Character Ranges
+
+        public List<CharacterRange> CharacterRanges => GetCharacterRanges();
+        public List<CharacterRange> CharacterRangesAll => GetCharacterRangesAll();
+
+        protected List<CharacterRange> GetCharacterRanges()
+        {
+            ValidateCharacterRanges();
+            return _characterRanges;
+        }
+
+        protected virtual List<CharacterRange> GetCharacterRangesAll() => GetCharacterRanges();
+
+        protected virtual void InitCharacterRanges()
+        {
+            _characterRanges.Clear();
+            _characterRanges.Add(new CharacterRange(0, Length));
+        }
+
+        public virtual void InvalidateCharacterRanges() => _characterRangesValid = false;
+
+        /// <summary>
+        /// An integer indicating the first character position, in the full string representation of a given term, of its index'th subTerm.
+        /// </summary>
+        /// <param name="index">The index of the subTerm. The first subTerm has index 0.</param>
+        /// <returns>The first character position, in the full string representation of the given term, of its "index"-th subTerm
+        /// (or -1 if the indexed subTerm does not exist, e.g., if the given "parent" Term is a Constant or a Field.).</returns>
+        public virtual int Start(int index) => -1;
+
+        public virtual void ValidateCharacterRanges()
+        {
+            if (!_characterRangesValid)
+            {
+                InitCharacterRanges();
+                _characterRangesValid = true;
+            }
+        }
 
         #endregion
 
@@ -175,23 +212,6 @@
         public static Term operator |(Term left, Term right) => left.Or(right);
         public static Term operator -(Term left, Term right) => left.Subtract(right);
         public static Term operator ^(Term left, Term right) => left.Xor(right);
-
-        #endregion
-
-        #region Protected Properties
-
-        private object[] ParameterDefaultValues
-        {
-            get
-            {
-                var parameters = Parameters.ToList();
-                var count = Parameters.Count();
-                var values = new object[count];
-                for (var index = 0; index < count; index++)
-                    values[index] = parameters[index].Type.GetDefaultValue();
-                return values;
-            }
-        }
 
         #endregion
 

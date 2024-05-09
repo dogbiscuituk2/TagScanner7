@@ -154,8 +154,8 @@
         public void SetFilter(Term term)
         {
             var predicate = term.Predicate;
-            var selection = new Selection(MainModel.Tracks);
-            ListCollectionView.Filter = p => predicate((Track)p);
+            var list = new Selection(MainModel.Tracks);
+            ListCollectionView.Filter = p => predicate(list, (Track)p);
         }
 
         public int TracksCountAll => MainModel.Tracks.Count;

@@ -133,9 +133,10 @@
             UpdateFindItems();
             var term = MakeCondition();
             AppController.AddFilter(term.ToString());
-            var predicate = term.Predicate;
+            //var predicate = term.Predicate;
             var visibleTracks = VisibleTracks;
-            var tracks = visibleTracks.Where(p => predicate(p));
+            var list = new Selection(MainModel.Tracks);
+            var tracks = term.Filter(list, visibleTracks);
             var tracksArray = tracks.ToArray();
             Selection.Clear();
             Selection.Add(tracksArray);

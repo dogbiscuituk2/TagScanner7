@@ -53,7 +53,8 @@
 
                 Token token = null;
                 if (MatchKeyword(ref token, TokenType.Boolean, Term.Booleans)) return token;
-                if (MatchKeyword(ref token, TokenType.Field, Tags.FieldNames)) return token;
+                if (MatchKeyword(ref token, TokenType.TrackField, Tags.FieldNames)) return token;
+                if (MatchKeyword(ref token, TokenType.ListField, Tags.FieldNames.Select(p => $"${p}"))) return token;
                 if (MatchKeyword(ref token, TokenType.Function, Functors.FunctionNames)) return token;
                 if (MatchKeyword(ref token, TokenType.Symbol, Operators.Symbols)) return token;
                 if (MatchKeyword(ref token, TokenType.TypeName, Types.Names)) return token;
@@ -133,8 +134,8 @@
         public static bool IsChar(this string token) => token[0] == SingleQuote;
         public static bool IsConstant(this string token) => token.IsBoolean() || token.IsNumber() || token.IsString();
         public static bool IsDateTime(this string token) => Regex.IsMatch(token, DateTimeParser.DateTimePattern);
-        public static bool IsField(this string token) => Tags.FieldNames.Contains(token, IgnoreCase);
         public static bool IsFunction(this string token) => Functors.FunctionNames.Contains(token, IgnoreCase);
+        public static bool IsListField(this string token) => token.StartsWith("$") && Tags.FieldNames.Contains(token.Substring(1), IgnoreCase);
         public static bool IsName(this string token) => Regex.IsMatch(token, $"{NamePattern}$");
         public static bool IsNumber(this string token) => Regex.IsMatch(token, $"{NumberPattern}$");
         public static bool IsOperator(this string token) => Operators.ContainsSymbol(token);
@@ -142,6 +143,7 @@
         public static bool IsString(this string token) => token[0] == DoubleQuote;
         public static bool IsSymbol(this string token) => Operators.Symbols.Contains(token, IgnoreCase);
         public static bool IsTimeSpan(this string token) => Regex.IsMatch(token, DateTimeParser.TimeSpanPattern);
+        public static bool IsTrackField(this string token) => Tags.FieldNames.Contains(token, IgnoreCase);
         public static bool IsType(this string token) => Types.Names.Contains(token, IgnoreCase);
         public static bool IsUnaryOperator(this string token) => Operators.ContainsUnarySymbol(token);
         public static Rank Rank(this string token, bool unary) => token.ToOperator(unary).GetRank();
@@ -160,13 +162,14 @@
             { TokenType.Character, TextStyleConstant },
             { TokenType.Comment, new TextStyle(Brushes.Green, null, FontStyle.Regular) },
             { TokenType.DateTime, TextStyleConstant },
-            { TokenType.Field, new TextStyle(Brushes.Blue, null, FontStyle.Regular) },
             { TokenType.Function, new TextStyle(Brushes.DarkCyan, null, FontStyle.Regular) },
+            { TokenType.ListField, new TextStyle(Brushes.Blue, null, FontStyle.Regular) },
             { TokenType.Number, TextStyleConstant },
             { TokenType.Parameter, new TextStyle(Brushes.Brown, null, FontStyle.Regular) },
             { TokenType.String, TextStyleConstant },
             { TokenType.Symbol, new TextStyle(Brushes.Black, null, FontStyle.Regular) },
             { TokenType.TimeSpan, TextStyleConstant },
+            { TokenType.TrackField, new TextStyle(Brushes.Blue, null, FontStyle.Regular) },
             { TokenType.TypeName, new TextStyle(Brushes.Red, null, FontStyle.Regular) },
             { TokenType.Variable, new TextStyle(Brushes.Magenta, null, FontStyle.Regular) },
         };

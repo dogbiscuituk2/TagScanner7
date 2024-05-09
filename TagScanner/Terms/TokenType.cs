@@ -10,15 +10,16 @@
         Character = 1 << 1,
         Comment = 1 << 2,
         DateTime = 1 << 3,
-        Field = 1 << 4,
-        Function = 1 << 5,
+        Function = 1 << 4,
+        ListField = 1 << 5,
         Number = 1 << 6,
         Parameter = 1 << 7,
         String = 1 << 8,
         Symbol = 1 << 9,
         TimeSpan = 1 << 10,
-        TypeName = 1 << 11,
-        Variable = 1 << 12,
+        TrackField = 1 << 11,
+        TypeName = 1 << 12,
+        Variable = 1 << 13,
 
         Constant = Boolean | Character | DateTime | Number | String | TimeSpan
     }

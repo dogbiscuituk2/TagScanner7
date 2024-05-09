@@ -11,7 +11,11 @@
         #region Public Methods
 
         [TestMethod]
-        public void TestAllFields() => TestStrings(Tags.FieldNames, TokenType.Field);
+        public void TestAllFields()
+        {
+            TestStrings(Tags.FieldNames, TokenType.TrackField);
+            TestStrings(Tags.FieldNames.Select(p => $"${p}"), TokenType.ListField);
+        }
 
         [TestMethod]
         public void TestAllFunctions() => TestStrings(Functors.FunctionNames, TokenType.Function);
@@ -83,10 +87,10 @@
         #endregion
         #region Field
 
-        [DataRow(" Artist ", TokenType.Field, "Artist")]
-        [DataRow(" title ", TokenType.Field, "Title")]
-        [DataRow(" ALBUM ", TokenType.Field, "Album")]
-        [DataRow(" Album Artist ", TokenType.Field, "Album Artist")]
+        [DataRow(" Artist ", TokenType.TrackField, "Artist")]
+        [DataRow(" title ", TokenType.TrackField, "Title")]
+        [DataRow(" ALBUM ", TokenType.TrackField, "Album")]
+        [DataRow(" Album Artist ", TokenType.TrackField, "Album Artist")]
 
         #endregion
         #region Number

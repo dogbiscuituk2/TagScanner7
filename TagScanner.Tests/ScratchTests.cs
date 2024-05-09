@@ -1,10 +1,7 @@
 ﻿namespace TagScanner.Tests
 {
     using Microsoft.VisualStudio.TestTools.UnitTesting;
-    using System.Collections.Generic;
-    using Models;
     using Terms;
-    using System.Diagnostics;
 
     [TestClass]
     public class ScratchTests : BaseTests
@@ -12,12 +9,11 @@
         [TestMethod]
         public void ScratchTest01()
         {
-            IEnumerable<Track> collection = new List<Track>();
-            Debug.WriteLine(collection);
-
             var parser = new Parser();
-            var text = "Selection";
-            var term = parser.Parse(text, caseSensitive: true);
+            var text1 = "Album";
+            var term1 = parser.Parse(text1, caseSensitive: true);
+            var text2 = "$Album";
+            var term2 = parser.Parse(text2, caseSensitive: true);
             return;
         }
     }

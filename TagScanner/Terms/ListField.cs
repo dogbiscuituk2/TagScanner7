@@ -7,7 +7,7 @@
     {
         public ListField(Tag tag) : base(tag) { }
 
-        public override string ToString() => Tag.DisplayName();
+        public override string ToString() => $"${Tag.DisplayName()}";
 
         protected override ParameterExpression ParameterExpression => List;
     }
