@@ -1,7 +1,9 @@
 ﻿namespace TagScanner.Terms
 {
     using System;
+    using System.Linq;
     using System.Text.RegularExpressions;
+    using TagScanner.Models;
     using Utils;
 
     public partial class Functors
@@ -103,6 +105,9 @@
         public static string Trim(this string input) => input?.Trim() ?? string.Empty;
 
         public static string Upper(this string input) => input.ToUpperInvariant();
+
+        public static Selection Where(this Selection list, Func<Track, bool> func) =>
+            new Selection(list.Tracks.Where(p => func(p)));
 
         #endregion
 

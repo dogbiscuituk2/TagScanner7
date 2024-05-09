@@ -190,6 +190,7 @@
       <DependentUpon>Functors.cs</DependentUpon>
     </Compile>
     <Compile Include="Terms\ListField.cs" />
+    <Compile Include="Terms\Parameter.cs" />
     <Compile Include="Terms\Parser.cs" />
     <Compile Include="Terms\ParserSpy.cs" />
     <Compile Include="Terms\Token.cs" />
@@ -229,7 +230,7 @@
     <Compile Include="Terms\Operation.cs" />
     <Compile Include="Terms\Op.cs" />
     <Compile Include="Terms\OpInfo.cs" />
-    <Compile Include="Terms\Parameter.cs" />
+    <Compile Include="Terms\Default.cs" />
     <Compile Include="Terms\Rank.cs" />
     <Compile Include="Terms\Tags.cs" />
     <Compile Include="Terms\Term.cs" />

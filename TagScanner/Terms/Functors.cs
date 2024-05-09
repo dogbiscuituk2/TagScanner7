@@ -4,6 +4,7 @@
     using System.Collections.Generic;
     using System.Linq;
     using System.Reflection;
+    using TagScanner.Models;
 
     public static partial class Functors
     {
@@ -58,6 +59,7 @@
             Add(Fn.Trim, s);
             Add(Fn.Truncate, d);
             Add(Fn.Upper, s);
+            Add(Fn.Where, typeof(Selection), typeof(Func<Track, bool>));
 
             Keys = _functors.Keys.ToArray();
             Values = _functors.Values.ToArray();

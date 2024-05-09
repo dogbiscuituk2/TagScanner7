@@ -8,21 +8,6 @@
 
     public class Parser
     {
-        #region Public Properties
-
-        public List<Variable> State
-        {
-            get => _variables.Values.ToList();
-            set
-            {
-                _variables.Clear();
-                foreach (var variable in value)
-                    _variables.Add(variable.Name, variable);
-            }
-        }
-
-        #endregion
-
         #region Public Methods
 
         /// <summary>
@@ -194,7 +179,7 @@
             if (match.IsNumber())
                 return NewTerm(ParseNumber(match.ToUpperInvariant()));
             if (match.IsParameter())
-                return NewTerm(new Parameter(match.Substring(1, match.Length - 2).ToType()));
+                return NewTerm(new Default(match.Substring(1, match.Length - 2).ToType()));
             if (match.IsFunction())
                 return ParseStaticFunction(match);
             if (match.IsDateTime())
@@ -259,7 +244,7 @@
                 var fn = f.Fn;
                 var operandTypes = fn.OperandTypes();
                 for (var index = count; index < operandTypes.Count(); index++)
-                    operands.Add(new Parameter(operandTypes[index]));
+                    operands.Add(new Default(operandTypes[index]));
                 switch (fn)
                 {
                     case Fn.Compare:
@@ -360,7 +345,7 @@
 
             void CheckCase(int index)
             {
-                if (operands[index] is Parameter)
+                if (operands[index] is Default)
                     operands[index] = CaseSensitive;
             }
         }

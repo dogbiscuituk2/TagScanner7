@@ -9,6 +9,6 @@
 
         public override string ToString() => Tag.DisplayName();
 
-        protected override ParameterExpression ParameterExpression => Track;
+        protected override Variable Param => Track;
     }
 }

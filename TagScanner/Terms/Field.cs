@@ -8,11 +8,11 @@
     {
         protected Field(Tag tag) { Tag = tag; }
 
-        public override Expression Expression => Expression.Property(ParameterExpression, $"{Tag}");
+        public override Expression Expression => Expression.Property(Param.Expression, $"{Tag}");
 
         public override Type ResultType => Tag.Type();
         public Tag Tag { get; private set; }
 
-        protected abstract ParameterExpression ParameterExpression { get; }
+        protected abstract Variable Param { get; }
     }
 }

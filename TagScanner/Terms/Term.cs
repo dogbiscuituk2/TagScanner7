@@ -12,13 +12,15 @@
     {
         #region Public Fields
 
+        //public static readonly Term List = new 
+
         public static readonly Constant<string> Empty = new Constant<string>(string.Empty);
         public static readonly Constant<bool> False = new Constant<bool>(false);
         public static readonly Constant<bool> True = new Constant<bool>(true);
         public static readonly Constant<int> Zero = new Constant<int>(0);
 
-        public static readonly ParameterExpression List = Expression.Parameter(typeof(Selection), "List");
-        public static readonly ParameterExpression Track = Expression.Parameter(typeof(Track), "Track");
+        public static readonly Variable List = new Variable("List", typeof(Selection));
+        public static readonly Variable Track = new Variable("Track", typeof(Track));
 
         #endregion
 
@@ -54,8 +56,11 @@
 
         public int Length => ToString().Length;
 
-        public virtual IEnumerable<ParameterExpression> Parameters =>
-            new List<ParameterExpression>(new[] { List, Track });
+        public virtual IEnumerable<ParameterExpression> Parameters => new[]
+        {
+            (ParameterExpression)List.Expression,
+            (ParameterExpression)Track.Expression
+        };
 
         public Func<Selection, Track, bool> Predicate => (list, track) => Filter(list, track);
 

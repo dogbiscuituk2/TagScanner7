@@ -4,18 +4,18 @@
     using Terms;
 
     [TestClass]
-    public class ParameterTests : BaseTests
+    public class DefaultTests : BaseTests
     {
         [TestMethod]
-        public void TestParameters()
+        public void TestDefaults()
         {
             foreach (var type in Types.Values)
             {
-                var parameter = new Parameter(type);
-                Assert.IsNotNull(parameter);
-                Assert.AreEqual(expected: Rank.Unary, actual: parameter.Rank);
-                Assert.AreEqual(expected: type, actual: parameter.ResultType);
-                TestParse(parameter);
+                var term = new Default(type);
+                Assert.IsNotNull(term);
+                Assert.AreEqual(expected: Rank.Unary, actual: term.Rank);
+                Assert.AreEqual(expected: type, actual: term.ResultType);
+                TestParse(term);
             }
         }
     }

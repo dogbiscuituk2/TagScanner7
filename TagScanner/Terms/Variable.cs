@@ -11,6 +11,11 @@
 
         public Variable(string name) : base() { Name = name; }
 
+        public Variable(string name, Type type) : this(name)
+        {
+            ResultType = type;
+        }
+
         #endregion
 
         #region Private Fields
