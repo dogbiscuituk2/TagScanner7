@@ -171,7 +171,8 @@
             if (match.IsString())
                 return NewTerm(match.Substring(1, match.Length - 2));
             if (match.IsTrackField())
-                return NewTerm(Tags.Values.Single(p => p.DisplayName == match).Tag);
+                return NewTerm(match.DisplayNameToTagInfo().Tag);
+            //return NewTerm(Tags.Values.Single(p => p.DisplayName == match).Tag);
             if (match.IsListField())
                 return NewTerm(new ListField(Tags.Values.Single(p => p.DisplayName == match.Substring(1)).Tag));
             if (match.IsUnaryOperator())

@@ -123,12 +123,15 @@
         };
 
         private const string
+
             TB = "The Beatles",
             SP = "Sgt. Pepper's Lonely Hearts Club Band",
             LIB = "Let It Be",
+
             RS = "The Rolling Stones",
             SF = "Sticky Fingers",
             HD = "Hackney Diamonds",
+
             LZ = "Led Zeppelin",
             LZii = "Led Zeppelin II",
             LZiii = "Led Zeppelin III",

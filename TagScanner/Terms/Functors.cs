@@ -88,7 +88,8 @@
         public static int OperandCount(this Fn fn) => fn.FnInfo().OperandCount;
         public static Type[] OperandTypes(this Fn fn) => fn.FnInfo().OperandTypes;
         public static Type ResultType(this Fn fn) => fn.FnInfo().ReturnType;
-        public static Fn ToFunction(this string name) => Keys.Single(p => $"{p}" == name);
+        public static Fn ToFunction(this string name) => (Fn)Enum.Parse(typeof(Fn), name);
+        //public static Fn ToFunction(this string name) => Keys.Single(p => $"{p}" == name);
 
         #endregion
 

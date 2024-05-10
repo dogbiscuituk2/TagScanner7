@@ -13,7 +13,8 @@
 
         static Tags()
         {
-            TagDictionary = new Dictionary<Tag, TagInfo>();
+            _tagToInfo = new Dictionary<Tag, TagInfo>();
+            _displayNameToInfo = new Dictionary<string, TagInfo>();
             var props = typeof(Selection).GetProperties();
             foreach (Tag tag in Enum.GetValues(typeof(Tag)))
             {
@@ -38,10 +39,11 @@
                     Uses = GetUses(tag),
                 };
                 tagInfo.AdjustAlignment();
-                TagDictionary.Add(tag, tagInfo);
+                _tagToInfo.Add(tag, tagInfo);
+                _displayNameToInfo.Add(tagInfo.DisplayName, tagInfo);
             }
-            Keys = TagDictionary.Keys.ToArray();
-            Values = TagDictionary.Values.ToArray();
+            Keys = _tagToInfo.Keys.ToArray();
+            Values = _tagToInfo.Values.ToArray();
         }
 
         #endregion
@@ -65,8 +67,8 @@
             return tags;
         }
 
-        public static IEnumerable<string> GetDependencyNames(this string name) => name.ToTag().GetDependencies().Select(p => p.ToString());
-        public static Tag ToTag(this string tagName) => (Tag)Enum.Parse(typeof(Tag), tagName);
+        public static IEnumerable<string> GetDependencyNames(this string name) =>
+            name.TagNameToTag().GetDependencies().Select(p => p.ToString());
 
         public static bool Uses(this Tag user, Tag used)
         {
@@ -74,25 +76,28 @@
             return uses != null && uses.Contains(used);
         }
 
-        #region Attribute Management
+        public static TagInfo DisplayNameToTagInfo(this string displayName) => _displayNameToInfo[displayName];
+        public static Tag TagNameToTag(this string tagName) => (Tag)Enum.Parse(typeof(Tag), tagName);
+        public static TagInfo TagNameToTagInfo(this string tagName) => tagName.TagNameToTag().TagToTagInfo();
+        public static TagInfo TagToTagInfo(this Tag tag) => _tagToInfo[tag];
 
-        public static bool Browsable(this Tag tag) => TagDictionary[tag].Browsable;
-        public static bool CanRead(this Tag tag) => TagDictionary[tag].CanRead;
-        public static bool CanSort(this Tag tag) => TagDictionary[tag].CanSort;
-        public static bool CanWrite(this Tag tag) => TagDictionary[tag].CanWrite;
-        public static string Category(this Tag tag) => TagDictionary[tag].Category;
-        public static Column Column(this Tag tag) => TagDictionary[tag].Column;
-        public static string Details(this Tag tag) => TagDictionary[tag].Details;
-        public static string DisplayName(this Tag tag) => TagDictionary[tag].DisplayName;
-        public static string Name(this Tag tag) => TagDictionary[tag].Name;
-        public static bool ReadOnly(this Tag tag) => TagDictionary[tag].ReadOnly;
-        public static Type Type(this Tag tag) => TagDictionary[tag].Type;
-        public static string TypeName(this Tag tag) => TagDictionary[tag].TypeName;
-        public static Tag[] Uses(this Tag tag) => TagDictionary[tag].Uses;
+        public static bool Browsable(this Tag tag) => tag.TagToTagInfo().Browsable;
+        public static bool CanRead(this Tag tag) => tag.TagToTagInfo().CanRead;
+        public static bool CanSort(this Tag tag) => tag.TagToTagInfo().CanSort;
+        public static bool CanWrite(this Tag tag) => tag.TagToTagInfo().CanWrite;
+        public static string Category(this Tag tag) => tag.TagToTagInfo().Category;
+        public static Column Column(this Tag tag) => tag.TagToTagInfo().Column;
+        public static string Details(this Tag tag) => tag.TagToTagInfo().Details;
+        public static string DisplayName(this Tag tag) => tag.TagToTagInfo().DisplayName;
+        public static string Name(this Tag tag) => tag.TagToTagInfo().Name;
+        public static bool ReadOnly(this Tag tag) => tag.TagToTagInfo().ReadOnly;
+        public static Type Type(this Tag tag) => tag.TagToTagInfo().Type;
+        public static string TypeName(this Tag tag) => tag.TagToTagInfo().TypeName;
+        public static Tag[] Uses(this Tag tag) => tag.TagToTagInfo().Uses;
 
         public static void SetBrowsable(this Tag tag, bool value)
         {
-            var property = TagDictionary[tag];
+            var property = _tagToInfo[tag];
             if (property.Browsable == value) return;
             UseField(tag, typeof(BrowsableAttribute), "browsable", value);
             property.Browsable = value;
@@ -105,11 +110,10 @@
 
         #endregion
 
-        #endregion
-
         #region Private Fields
 
-        private static readonly Dictionary<Tag, TagInfo> TagDictionary;
+        private static readonly Dictionary<Tag, TagInfo> _tagToInfo;
+        private static readonly Dictionary<string, TagInfo> _displayNameToInfo;
 
         #endregion
 

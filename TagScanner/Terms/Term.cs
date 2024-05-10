@@ -60,7 +60,8 @@
             (ParameterExpression)Track.Expression
         };
 
-        public Func<Selection, Track, bool> Predicate => (list, track) => Filter(list, track);
+        public Func<Selection, Track, bool> ListPredicate => (list, track) => Filter(list, track);
+        public Func<Track, bool> TrackPredicate => (track) => Filter(null, track);
 
         public virtual Rank Rank => Rank.Unary;
 

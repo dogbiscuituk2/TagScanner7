@@ -97,8 +97,15 @@
         public static bool StartsWithX(this string input, string pattern, bool caseSensitive) =>
             Regex.IsMatch(input, $"^{pattern}", caseSensitive.AsRegexOptions());
 
-        public static string Substring(this string input, int startIndex, int length) =>
-            input.Substring(startIndex, length);
+        public static string Substring(this string input, int startIndex, int length)
+        {
+            var count = input.Length;
+            if (startIndex >= count)
+                return string.Empty;
+            if (length > count - startIndex)
+                length = count - startIndex;
+            return input.Substring(startIndex, length);
+        }
 
         public static string ToString(this object input) => input?.ToString() ?? string.Empty;
 
