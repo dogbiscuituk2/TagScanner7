@@ -46,7 +46,7 @@
         public void ScratchTest()
         {
             string text;
-            var parser = new Parser();
+            var parser = new Parser1();
             Term term;
 
             text = "Compare(Year.ToString, \"1970\")";

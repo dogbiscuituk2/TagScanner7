@@ -50,7 +50,7 @@
             var filter = FilterComboBox.Text;
             if (string.IsNullOrWhiteSpace(filter))
                 return;
-            if (new Parser().TryParse(filter, out var term, out var exception, caseSensitive: MainForm.CaseSensitiveCheckBox.Checked))
+            if (new Parser1().TryParse(filter, out var term, out var exception, caseSensitive: MainForm.CaseSensitiveCheckBox.Checked))
             {
                 MainTableController.SetFilter(term);
                 UpdateFilterStatus($"{MainTableController.TracksCountVisible} of {MainTableController.TracksCountAll} Tracks shown.");

@@ -11,7 +11,7 @@
         {
             var text = "List where(duration > [0:3:0])";
             //var text = "Min(1+2, 3+4)";
-            var parser = new Parser();
+            var parser = new Parser1();
             var term = parser.Parse(text, caseSensitive: true);
             return;
         }
