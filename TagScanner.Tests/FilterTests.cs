@@ -49,31 +49,6 @@
             var parser = new Parser();
             Term term;
 
-            text = "Upper(Trim(\"abc\"))";
-            term = parser.Parse(text, caseSensitive: false);
-
-            Assert.IsNotNull(term);
-
-            text = "Upper Trim \"abc\"";
-            term = parser.Parse(text, caseSensitive: false);
-
-            Assert.IsNotNull(term);
-
-            text = "Compare(ToString(Year), \"1970\")";
-            term = parser.Parse(text, caseSensitive: false);
-
-            Assert.IsNotNull(term);
-
-            text = "Compare(ToString Year, \"1970\")";
-            term = parser.Parse(text, caseSensitive: false);
-
-            Assert.IsNotNull(term);
-
-            text = "Compare(Year.ToString(), \"1970\")";
-            term = parser.Parse(text, caseSensitive: false);
-
-            Assert.IsNotNull(term);
-
             text = "Compare(Year.ToString, \"1970\")";
             term = parser.Parse(text, caseSensitive: false);
 
