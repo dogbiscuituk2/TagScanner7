@@ -52,12 +52,11 @@
                 if (remainingText.StartsWithNumber()) return MatchNumber();
 
                 Token token = null;
-                if (MatchKeyword(ref token, TokenType.Boolean, Term.Booleans)) return token;
-                if (MatchKeyword(ref token, TokenType.TrackField, Tags.FieldNames)) return token;
-                if (MatchKeyword(ref token, TokenType.ListField, Tags.FieldNames.Select(p => $"${p}"))) return token;
-                if (MatchKeyword(ref token, TokenType.Function, Functors.FunctionNames)) return token;
-                if (MatchKeyword(ref token, TokenType.Symbol, Operators.Symbols)) return token;
-                if (MatchKeyword(ref token, TokenType.TypeName, Types.Names)) return token;
+                if (MatchKeyword(ref token, TokenKind.Boolean, Term.Booleans)) return token;
+                if (MatchKeyword(ref token, TokenKind.Field, Tags.FieldNames)) return token;
+                if (MatchKeyword(ref token, TokenKind.Function, Functors.FunctionNames)) return token;
+                if (MatchKeyword(ref token, TokenKind.Symbol, Operators.Symbols)) return token;
+                if (MatchKeyword(ref token, TokenKind.TypeName, Types.Names)) return token;
 
                 switch (index < count ? text[index] : Nul)
                 {
@@ -76,19 +75,19 @@
                 return UnexpectedCharacter();
             }
 
-            Token MatchCharacter() => MatchRegex(TokenType.Character, @"^'(.|\.|\n)'", "Unterminated character constant");
-            Token MatchDateTime() => MatchRegex(TokenType.DateTime, DateTimeParser.DateTimePattern, "Invalid DateTime format");
-            Token MatchNumber() => MatchRegex(TokenType.Number, NumberPattern, "Always succeeds");
-            Token MatchParameter() => MatchRegex(TokenType.Parameter, @"^\{\w+(\[\])?\}", "Invalid parameter");
-            Token MatchString() => MatchRegex(TokenType.String, "\"[^\"|\\\"]*\"", "Unterminated string constant");
-            Token MatchTimeSpan() => MatchRegex(TokenType.TimeSpan, DateTimeParser.TimeSpanPattern, "Invalid TimeSpan format");
-            Token MatchVariable() => MatchRegex(TokenType.Variable, @"[\w]+", "Always succeeds");
+            Token MatchCharacter() => MatchRegex(TokenKind.Character, @"^'(.|\.|\n)'", "Unterminated character constant");
+            Token MatchDateTime() => MatchRegex(TokenKind.DateTime, DateTimeParser.DateTimePattern, "Invalid DateTime format");
+            Token MatchNumber() => MatchRegex(TokenKind.Number, NumberPattern, "Always succeeds");
+            Token MatchParameter() => MatchRegex(TokenKind.Default, @"^\{\w+(\[\])?\}", "Invalid parameter");
+            Token MatchString() => MatchRegex(TokenKind.String, "\"[^\"|\\\"]*\"", "Unterminated string constant");
+            Token MatchTimeSpan() => MatchRegex(TokenKind.TimeSpan, DateTimeParser.TimeSpanPattern, "Invalid TimeSpan format");
+            Token MatchVariable() => MatchRegex(TokenKind.Variable, @"[\w]+", "Always succeeds");
 
             Token MatchComment()
             {
                 var remainingText = RemainingText();
                 var token = new Token(
-                    TokenType.Comment,
+                    TokenKind.Comment,
                     index,
                     remainingText.Substring(0,
                     remainingText.StartsWith("/*")
@@ -102,7 +101,7 @@
                 return token;
             }
 
-            bool MatchKeyword(ref Token token, TokenType tokenType, IEnumerable<string> keywords)
+            bool MatchKeyword(ref Token token, TokenKind tokenType, IEnumerable<string> keywords)
             {
                 var remainingText = RemainingText();
                 var value = keywords
@@ -114,7 +113,7 @@
                 return ok;
             }
 
-            Token MatchRegex(TokenType tokenType, string pattern, string error)
+            Token MatchRegex(TokenKind tokenType, string pattern, string error)
             {
                 var token = new Token(tokenType, index,
                     Regex.Match(RemainingText(), $"^{pattern}", RegexOptions.IgnoreCase).Value);
@@ -148,30 +147,29 @@
         public static bool IsUnaryOperator(this string token) => Operators.ContainsUnarySymbol(token);
         public static Rank Rank(this string token, bool unary) => token.ToOperator(unary).GetRank();
         public static bool StartsWithNumber(this string token) => Regex.IsMatch(token, NumberPattern);
-        public static TextStyle TextStyle(this TokenType tokenType) => TextStyles[tokenType];
+        public static TextStyle TextStyle(this TokenKind tokenType) => TextStyles[tokenType];
 
         private const string NamePattern = @"\w+";
         private const string NumberPattern = @"^\d+\.?\d*([Ee][-+]\d+)?(UL|LU|D|F|L|M|U)?";
 
         private static readonly TextStyle TextStyleConstant = new TextStyle(Brushes.DarkOrange, null, FontStyle.Regular);
 
-        private static readonly Dictionary<TokenType, TextStyle> TextStyles = new Dictionary<TokenType, TextStyle>
+        private static readonly Dictionary<TokenKind, TextStyle> TextStyles = new Dictionary<TokenKind, TextStyle>
         {
-            { TokenType.None, new TextStyle(Brushes.White, Brushes.OrangeRed, FontStyle.Regular) },
-            { TokenType.Boolean, TextStyleConstant },
-            { TokenType.Character, TextStyleConstant },
-            { TokenType.Comment, new TextStyle(Brushes.Green, null, FontStyle.Regular) },
-            { TokenType.DateTime, TextStyleConstant },
-            { TokenType.Function, new TextStyle(Brushes.DarkCyan, null, FontStyle.Regular) },
-            { TokenType.ListField, new TextStyle(Brushes.Blue, null, FontStyle.Regular) },
-            { TokenType.Number, TextStyleConstant },
-            { TokenType.Parameter, new TextStyle(Brushes.Brown, null, FontStyle.Regular) },
-            { TokenType.String, TextStyleConstant },
-            { TokenType.Symbol, new TextStyle(Brushes.Black, null, FontStyle.Regular) },
-            { TokenType.TimeSpan, TextStyleConstant },
-            { TokenType.TrackField, new TextStyle(Brushes.Blue, null, FontStyle.Regular) },
-            { TokenType.TypeName, new TextStyle(Brushes.Red, null, FontStyle.Regular) },
-            { TokenType.Variable, new TextStyle(Brushes.Magenta, null, FontStyle.Regular) },
+            { TokenKind.None, new TextStyle(Brushes.White, Brushes.OrangeRed, FontStyle.Regular) },
+            { TokenKind.Boolean, TextStyleConstant },
+            { TokenKind.Character, TextStyleConstant },
+            { TokenKind.Comment, new TextStyle(Brushes.Green, null, FontStyle.Regular) },
+            { TokenKind.DateTime, TextStyleConstant },
+            { TokenKind.Field, new TextStyle(Brushes.Blue, null, FontStyle.Regular) },
+            { TokenKind.Function, new TextStyle(Brushes.DarkCyan, null, FontStyle.Regular) },
+            { TokenKind.Number, TextStyleConstant },
+            { TokenKind.Default, new TextStyle(Brushes.Brown, null, FontStyle.Regular) },
+            { TokenKind.String, TextStyleConstant },
+            { TokenKind.Symbol, new TextStyle(Brushes.Black, null, FontStyle.Regular) },
+            { TokenKind.TimeSpan, TextStyleConstant },
+            { TokenKind.TypeName, new TextStyle(Brushes.Red, null, FontStyle.Regular) },
+            { TokenKind.Variable, new TextStyle(Brushes.Magenta, null, FontStyle.Regular) },
         };
 
         public static TextStyle[] AllTextStyles = TextStyles.Values.Distinct().ToArray();

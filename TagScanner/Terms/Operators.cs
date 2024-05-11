@@ -33,8 +33,8 @@
 
             _operators = new Dictionary<Op, OpInfo>
             {
-                { 0, new OpInfo("(", null, 0, 0, null) },
-                { Op.Comma, new OpInfo(",", "{0}, {1}", ExpressionType.MemberAccess, c, o) },
+                //{ 0, new OpInfo("(", null, 0, 0, null) },
+                //{ Op.Comma, new OpInfo(",", "{0}, {1}", ExpressionType.MemberAccess, c, o) },
                 { Op.Assign, new OpInfo("←", "{0} ← {1}", ExpressionType.Assign, ass, o) },
                 { Op.AddAssign, new OpInfo("+=", "{0} += {1}", ExpressionType.AddAssign, ass, o) },
                 { Op.SubtractAssign, new OpInfo("-=", "{0} -= {1}", ExpressionType.SubtractAssign, ass, o) },
@@ -62,13 +62,13 @@
                 { Op.Positive, new OpInfo("+", "+{0}", ExpressionType.UnaryPlus, u, d, Icons.Op2_Add) },
                 { Op.Negative, new OpInfo("-", "-{0}", ExpressionType.Negate, u, d, Icons.Op2_Subtract) },
                 { Op.Not, new OpInfo("!", "!{0}", ExpressionType.Not, u, b, Icons.Op2_Not) },
-                { Op.Dot, new OpInfo(".", "{0}.{1}", ExpressionType.MemberAccess, p, o) },
+                //{ Op.Dot, new OpInfo(".", "{0}.{1}", ExpressionType.MemberAccess, p, o) },
             };
 
             foreach (var op in _operators)
                 op.Value.Op = op.Key;
 
-            Add(Op.Comma, ",");
+            //Add(Op.Comma, ",");
             Add(Op.Assign, "<-", ":=", "←");
             Add(Op.AddAssign, "+=");
             Add(Op.SubtractAssign, "-=");
@@ -95,7 +95,7 @@
             Add(Op.Positive, "+", "＋");
             Add(Op.Negative, "-", "－");
             Add(Op.Not, "!", "NOT");
-            Add(Op.Dot, ".");
+            //Add(Op.Dot, ".");
 
             _symbols.AddRange(_unarySymbols.Union(_binarySymbols).Union(new[] { "(", ")" }));
 
@@ -124,6 +124,9 @@
         public static bool ContainsBinarySymbol(string token) => _binarySymbols.Contains(token.ToUpperInvariant());
         public static bool ContainsSymbol(string token) => _symbols.Contains(token.ToUpperInvariant());
         public static bool ContainsUnarySymbol(string token) => _unarySymbols.Contains(token.ToUpperInvariant());
+
+        public static bool IsBinaryOperator(this Token token) => _binarySymbols.Contains(token.Key);
+        public static bool IsUnaryOperator(this Token token) => _unarySymbols.Contains(token.Key);
 
         #endregion
 
@@ -167,7 +170,9 @@
             op == Op.Concatenate ? typeof(string) :
             null; // Otherwise determined by arg types at runtime.
 
+        public static Op ToBinaryOperator(this string symbol) => ToOperator(symbol, unary: false);
         public static Op ToOperator(this string symbol, bool unary) => GetDictionary(unary)[symbol.ToUpperInvariant()];
+        public static Op ToUnaryOperator(this string symbol) => ToOperator(symbol, unary: true);
 
         #endregion
 

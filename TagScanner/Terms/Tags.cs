@@ -76,6 +76,7 @@
             return uses != null && uses.Contains(used);
         }
 
+        public static Tag DisplayNameToTag(this string displayName) => displayName.DisplayNameToTagInfo().Tag;
         public static TagInfo DisplayNameToTagInfo(this string displayName) => _displayNameToInfo[displayName];
         public static Tag TagNameToTag(this string tagName) => (Tag)Enum.Parse(typeof(Tag), tagName);
         public static TagInfo TagNameToTagInfo(this string tagName) => tagName.TagNameToTag().TagToTagInfo();

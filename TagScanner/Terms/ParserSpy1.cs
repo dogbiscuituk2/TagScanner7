@@ -145,7 +145,7 @@
 
         private static object UnexpectedToken(Token token, string expected = "")
         {
-            var error = $"Unexpected input at index {token.StartIndex}:";
+            var error = $"Unexpected input at index {token.Start}:";
             throw new FormatException(string.IsNullOrWhiteSpace(expected)
                 ? $"{error} {token}."
                 : $"{error} expected {expected}, actual {token}.");

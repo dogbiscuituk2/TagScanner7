@@ -117,9 +117,9 @@
             range.ClearStyle(Tokenizer.AllTextStyles);
             foreach (var token in tokens)
                 new Range(TextBox,
-                    TextBox.PositionToPlace(token.StartIndex),
-                    TextBox.PositionToPlace(token.EndIndex))
-                    .SetStyle(token.TokenType.TextStyle());
+                    TextBox.PositionToPlace(token.Start),
+                    TextBox.PositionToPlace(token.End))
+                    .SetStyle(token.Kind.TextStyle());
         }
 
         private void UpdateUI() => View.Text = _scriptController.WindowCaption;

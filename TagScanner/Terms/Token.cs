@@ -2,21 +2,34 @@
 {
     public class Token
     {
-        public Token(TokenType tokenType, int index, string value)
+        #region Constructor
+
+        public Token(TokenKind kind, int index, string value)
         {
-            TokenType = tokenType;
-            StartIndex = index;
+            Kind = kind;
+            Start = index;
             Value = value;
         }
 
-        public int EndIndex => StartIndex + Length;
+        #endregion
+
+        #region Fields & Properties
+
+        public int End => Start + Length;
         public string Error { get; set; }
-        public int StartIndex { get; set; }
+        public string Key => Value.ToUpperInvariant();
+        public TokenKind Kind { get; set; }
         public int Length => Value?.Length ?? 0;
-        public TokenType TokenType { get; set; }
+        public int Start { get; set; }
         public bool Valid => Error == null;
         public string Value { get; set; }
 
+        #endregion
+
+        #region Methods
+
         public override string ToString() => Value;
+
+        #endregion
     }
 }
