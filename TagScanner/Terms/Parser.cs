@@ -130,12 +130,18 @@
             var term = ParseFirstPart();
             while (true)
             {
-                if (PeekTokenValue() == ".")
+                var token = PeekToken();
+                if (token.Value == ".")
                 {
                     PopToken();
                     term = ParseFunction(term);
                 }
+                else if (token.Kind == TokenKind.Function)
+                    term = ParseFunction(term);
+                else
+                    break;
             }
+            return term;
         }
 
         private Term ParseFirstPart()

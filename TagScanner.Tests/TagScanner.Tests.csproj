@@ -143,6 +143,7 @@
   <ItemGroup>
     <Compile Include="FilterTests.cs" />
     <Compile Include="LinqTests.cs" />
+    <Compile Include="NewParserTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ConstantTests.cs" />
     <Compile Include="ScratchTests.cs" />
