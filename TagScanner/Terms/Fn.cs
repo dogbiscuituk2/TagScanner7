@@ -30,6 +30,5 @@
         Trim,
         Truncate,
         Upper,
-        Where,
     }
 }

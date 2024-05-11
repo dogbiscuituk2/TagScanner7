@@ -59,7 +59,6 @@
             Add(Fn.Trim, s);
             Add(Fn.Truncate, d);
             Add(Fn.Upper, s);
-            Add(Fn.Where, typeof(Selection), typeof(Func<Track, bool>));
 
             Keys = _functors.Keys.ToArray();
             Values = _functors.Values.ToArray();
