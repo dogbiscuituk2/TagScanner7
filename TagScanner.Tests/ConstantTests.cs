@@ -2,65 +2,53 @@
 {
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using System;
-    using System.Globalization;
     using Terms;
 
     [TestClass]
     public class ConstantTests : BaseTests
     {
+        [DataRow("false", "false", typeof(bool))]
+        [DataRow("True", "true", typeof(bool))]
+        [DataRow("'A'", "'A'", typeof(char))]
+        [DataRow("'\''", "'\''", typeof(char))]
+        [DataRow("'\t'", "'\t'", typeof(char))]
+        [DataRow("'\n'", "'\n'", typeof(char))]
+        [DataRow("'\r'", "'\r'", typeof(char))]
+        [DataRow("[1975-2-8]", "[1975-02-08]", typeof(DateTime))]
+        [DataRow("[1975-2-8 1:2]", "[1975-02-08 01:02:00]", typeof(DateTime))]
+        [DataRow("[1975-2-8 1:2:3]", "[1975-02-08 01:02:03]", typeof(DateTime))]
+        [DataRow("[1975-2-8 1:2:3.4]", "[1975-02-08 01:02:03.400]", typeof(DateTime))]
+        [DataRow("[1975-2-8 1:2:3.456]", "[1975-02-08 01:02:03.456]", typeof(DateTime))]
+        [DataRow("123.45M", "123.45M", typeof(decimal))]
+        [DataRow("123.45", "123.45D", typeof(double))]
+        [DataRow("123.45d", "123.45D", typeof(double))]
+        [DataRow("123.45f", "123.45F", typeof(float))]
+        [DataRow("123", "123", typeof(int))]
+        [DataRow("123L", "123L", typeof(long))]
+        [DataRow("\"Hello World!\"", "\"Hello World!\"", typeof(string))]
+        [DataRow("\"\t\"", "\"\t\"", typeof(string))]
+        [DataRow("\"\n\"", "\"\n\"", typeof(string))]
+        [DataRow("\"\r\"", "\"\r\"", typeof(string))]
+        [DataRow("[1:2]", "[01:02:00]", typeof(TimeSpan))]
+        [DataRow("[1:2:3]", "[01:02:03]", typeof(TimeSpan))]
+        [DataRow("[12:34:56.789]", "[12:34:56.789]", typeof(TimeSpan))]
+        [DataRow("123u", "123U", typeof(uint))]
+        [DataRow("123uL", "123UL", typeof(ulong))]
+        [DataRow("123LU", "123UL", typeof(ulong))]
         [TestMethod]
-        public void TestConstants()
+        public void TestConstants(string input, string expected, Type type)
         {
-            TestConstant(Term.Empty, "\"\"");
-            TestConstant(Term.False, "False");
-            TestConstant(Term.True, "True");
-            TestConstant(Term.Zero, "0");
-
-            var now = DateTime.Now;
-            var lap = new TimeSpan(12, 34, 56, 789);
-
-            // bool
-            TestConstant(new Constant<bool>(false), "False");
-            TestConstant(false, "False");
-            TestConstant(new Constant<bool>(true), "True");
-            TestConstant(true, "True");
-            // char
-            TestConstant(new Constant<char>('c'), "c");
-            TestConstant('c', "c");
-            // DateTime
-            TestConstant(new Constant<DateTime>(now), now.ToString(CultureInfo.CurrentCulture));
-            TestConstant(now, now.ToString(CultureInfo.CurrentCulture));
-            // decimal
-            TestConstant(new Constant<decimal>(123.45M), "123.45");
-            TestConstant(123.45M, "123.45");
-            // double
-            TestConstant(new Constant<double>(123.45), "123.45");
-            TestConstant(123.45, "123.45");
-            TestConstant(new Constant<double>(123.45D), "123.45");
-            TestConstant(123.45D, "123.45");
-            // int
-            TestConstant(new Constant<int>(int.MaxValue), $"{int.MaxValue}");
-            TestConstant(int.MaxValue, $"{int.MaxValue}");
-            TestConstant(new Constant<int>(0x7FFFFFFF), "2147483647");
-            TestConstant(0x7FFFFFFF, "2147483647");
-            // long
-            TestConstant(new Constant<long>(long.MaxValue), $"{long.MaxValue}");
-            TestConstant(long.MaxValue, $"{long.MaxValue}");
-            TestConstant(new Constant<long>(0x7FFFFFFFFFFFFFFFL), "9223372036854775807");
-            TestConstant(0x7FFFFFFFFFFFFFFFL, "9223372036854775807");
-            // string
-            TestConstant(new Constant<string>("Hello World!"), "\"Hello World!\"");
-            TestConstant("Hello World!", "\"Hello World!\"");
-            // TimeSpan
-            TestConstant(new Constant<TimeSpan>(lap), lap.ToString());
-            TestConstant(lap, lap.ToString());
-        }
-
-        private void TestConstant(Term constant, string expression)
-        {
-            Assert.AreEqual(expected: Rank.Unary, actual: constant.Rank);
-            Assert.AreEqual(expected: expression, actual: constant.Expression?.ToString());
-            TestParse(constant);
+            var parser = new Parser();
+            foreach (var caseSensitive in new[] { false, true })
+                foreach (var addParens in new[] { false, true })
+                {
+                    var text = addParens ? $"((({input})))" : input;
+                    var term = parser.Parse(text, caseSensitive);
+                    var actual = term.ToString();
+                    Assert.AreEqual(expected, actual);
+                    Assert.AreEqual(expected: type, actual: term.ResultType);
+                    Assert.AreEqual(expected: $"Constant<{type.Say()}>", actual: term.GetType().Say());
+                }
         }
     }
 }

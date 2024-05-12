@@ -20,7 +20,7 @@
 
         public override Expression Expression => GetExpression();
         public virtual bool IsInfinitary => true;
-        public virtual Op Op => Op.Comma;
+        public virtual Op Op => Op.None;
         public List<Term> Operands { get; set; } = new List<Term>();
         public IEnumerable<Type> OperandTypes => GetOperandTypes();
 

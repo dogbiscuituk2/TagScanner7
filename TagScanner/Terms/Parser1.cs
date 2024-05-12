@@ -58,7 +58,7 @@
         #region Private Fields
 
         private bool CaseSensitive;
-        private readonly ParserSpy1 Spy = new ParserSpy1();
+        private readonly ParserSpy Spy = new ParserSpy();
         private readonly Dictionary<string, Variable> _variables = new Dictionary<string, Variable>();
 
         #endregion
@@ -78,8 +78,8 @@
                     var term = PeekToken().Value != ")" ? NewTerm(ParseCompound()) : null;
                     PopOperator();
                     AcceptToken(")");
-                    if (term is TermList termList) // Compound, but not Function, Operation, etc.
-                        args.AddRange(termList.Operands);
+                    if (term is Block block) // Compound, but not Function, Operation, etc.
+                        args.AddRange(block.Operands);
                     else if (term is Term) // ie not null
                         args.Add(term);
                 }

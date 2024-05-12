@@ -7,25 +7,26 @@
     using System.Runtime.CompilerServices;
     using Utils;
 
-    public class ParserSpy1
+    public class ParserSpy
     {
         #region Public Methods
 
-        public bool AnyOperators() => Operators.Any();
-        public bool AnyTokens() => Tokens.Any();
+        public bool AnyOperators() => _operators.Any();
+        public bool AnyTokens() => _tokens.Any();
 
         public void AcceptToken(string caller, int line, string expected) => Process(caller, line, p => AcceptToken(expected));
-        public void BeginParse(string caller, int line, string text) => Process(caller, line, p => Reset(caller, line, text));
+        public void BeginParse(string caller, int line, string program) => Process(caller, line, p => Reset(caller, line, program));
         public Compound Consolidate(string caller, int line, Term right) => (Compound)Process(caller, line, p => Consolidate(right));
-        public Token DequeueToken(string caller, int line) => (Token)Process(caller, line, p => Tokens.Dequeue());
+        public Token DequeueToken(string caller, int line) => (Token)Process(caller, line, p => _tokens.Dequeue());
         public Term EndParse(string caller, int line, Term term) => (Term)Process(caller, line, p => EndParse(term));
         public Term NewTerm(string caller, int line, Term term) { Process(caller, line, p => term); return term; }
-        public Op PeekOperator(string caller, int line) => (Op)Process(caller, line, p => Operators.Peek());
-        public Token PeekToken(string caller, int line) => (Token)Process(caller, line, p => Tokens.Peek());
-        public Op PopOperator(string caller, int line) => (Op)Process(caller, line, p => Operators.Pop());
-        public Term PopTerm(string caller, int line) => (Term)Process(caller, line, p => Terms.Pop());
-        public void PushOperator(string caller, int line, Op op) => Process(caller, line, p => { Operators.Push(op); return op; });
-        public void PushTerm(string caller, int line, Term term) => Process(caller, line, p => { Terms.Push(term); return term; });
+        public Op PeekOperator(string caller, int line) => (Op)Process(caller, line, p => _operators.Peek());
+        public Token PeekToken(string caller, int line) => (Token)Process(caller, line, p => NextToken());
+        public string PeekTokenVal(string caller, int line) => (string)Process(caller, line, p => NextToken().Value);
+        public Op PopOperator(string caller, int line) => (Op)Process(caller, line, p => _operators.Pop());
+        public Term PopTerm(string caller, int line) => (Term)Process(caller, line, p => _terms.Pop());
+        public void PushOperator(string caller, int line, Op op) => Process(caller, line, p => { _operators.Push(op); return op; });
+        public void PushTerm(string caller, int line, Term term) => Process(caller, line, p => { _terms.Push(term); return term; });
         public object UnexpectedToken(string caller, int line, Token token) => Process(caller, line, p => UnexpectedToken(token));
 
         #endregion
@@ -33,10 +34,11 @@
         #region Private Fields
 
         private static readonly string _ = string.Empty;
-        private bool HeaderShown;
-        private readonly Stack<Op> Operators = new Stack<Op>();
-        private readonly Stack<Term> Terms = new Stack<Term>();
-        private readonly Queue<Token> Tokens = new Queue<Token>();
+        private readonly Token _end = new Token(TokenKind.None, 0, string.Empty);
+        private bool _headerShown;
+        private readonly Stack<Op> _operators = new Stack<Op>();
+        private readonly Stack<Term> _terms = new Stack<Term>();
+        private readonly Queue<Token> _tokens = new Queue<Token>();
 
         #endregion
 
@@ -44,7 +46,7 @@
 
         private object AcceptToken(string expected)
         {
-            var token = Tokens.Dequeue();
+            var token = _tokens.Dequeue();
             return token.Value == expected ? token : UnexpectedToken(token, expected);
         }
 
@@ -59,8 +61,8 @@
         /// <returns>The new Term resulting from the merge.</returns>
         private Compound Consolidate(Term right)
         {
-            var left = Terms.Pop();
-            var op = Operators.Pop();
+            var left = _terms.Pop();
+            var op = _operators.Pop();
             var ass = op.GetAssociativity();
             bool
                 lop = left is Compound leftOp && leftOp.Op == op,
@@ -70,7 +72,7 @@
                 rightOps = rop ? ((Compound)right).Operands.ToArray() : new[] { right };
             var operands = leftOps.Concat(rightOps).ToArray();
             return op == Op.Comma
-                ? new TermList(operands)
+                ? new Block(operands)
                 : (Compound)new Operation(op, operands);
         }
 
@@ -78,23 +80,23 @@
         {
 #if DEBUG_PARSER
             const string format = "{0,19}{1,6}  {2,12}  {3}";
-            if (!HeaderShown)
+            if (!_headerShown)
             {
                 DrawLine();
                 Debug.WriteLine(format, "CALLER", "LINE", "ACTION", "VALUE");
                 DrawLine();
-                HeaderShown = true;
+                _headerShown = true;
             }
             if (action == "NewTerm")
                 value = TermInfo(value);
             Debug.WriteLine(format, caller, line, action, value);
             if (action.StartsWith("New") || action.StartsWith("Peek"))
                 return;
-            Debug.WriteLine(format, _, _, "Tokens", Say(Tokens.Select(p => p.Value)));
-            Debug.WriteLine(format, _, _, "Operators", Say(Operators.Select(p => p.Label())));
-            Debug.WriteLine(format, _, _, "Terms", Terms.Any() ? TermInfo(Terms.First()) : string.Empty);
-            if (Terms.Count > 1)
-                foreach (var term in Terms?.Skip(1))
+            Debug.WriteLine(format, _, _, "Tokens", Say(_tokens.Select(p => p.Value)));
+            Debug.WriteLine(format, _, _, "Operators", Say(_operators.Select(p => p.Label())));
+            Debug.WriteLine(format, _, _, "Terms", _terms.Any() ? TermInfo(_terms.First()) : string.Empty);
+            if (_terms.Count > 1)
+                foreach (var term in _terms?.Skip(1))
                     Debug.WriteLine(format, _, _, _, TermInfo(term));
             Debug.WriteLine(_);
 
@@ -106,12 +108,14 @@
         private Term EndParse(Term term)
         {
             if (AnyTokens())
-                UnexpectedToken(Tokens.Peek());
+                UnexpectedToken(_tokens.Peek());
             return term;
         }
 
         private void Exception(string caller, int line, Exception exception, [CallerMemberName] string action = "") =>
             Dump(caller, line, exception.GetAllInformation(), action);
+
+        private Token NextToken() => AnyTokens() ? _tokens.Peek() : _end;
 
         private object Process(string caller, int line, Func<object, object> process, object value = null, [CallerMemberName] string action = "")
         {
@@ -128,17 +132,18 @@
             return value;
         }
 
-        private string Reset(string caller, int line, string text)
+        private string Reset(string caller, int line, string program)
         {
-            Tokens.Clear();
-            Terms.Clear();
-            Operators.Clear();
-            HeaderShown = false;
-            Dump(caller, line, text);
-            foreach (var token in Tokenizer.GetTokens(text))
+            _end.Start = program.Length;
+            _tokens.Clear();
+            _terms.Clear();
+            _operators.Clear();
+            _headerShown = false;
+            Dump(caller, line, program);
+            foreach (var token in Tokenizer.GetTokens(program))
                 if (!token.Value.IsComment())
-                    Tokens.Enqueue(token);
-            return text;
+                    _tokens.Enqueue(token);
+            return program;
         }
 
         private static object Say(IEnumerable<object> s) => s.Any() ? s.Aggregate((p, q) => $"{p} {q}") : _;
