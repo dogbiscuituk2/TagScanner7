@@ -30,4 +30,4 @@ Notes:
 1. Terminal keywords are case-insensitive and reserved.  
 2. Variable names are case-insensitive.  
 3. Operators (both unary _op_ and binary _bop_) include further symbolic aliases.  
-4. A _field_ name needn't follow the usual element naming conventions. It can start with a digit or a symbol, and contain symbols and/or spaces; e.g. **\#&nbsp;Album&nbsp;Artists**, **1st&nbsp;Album&nbsp;Artist**. But with great power comes great heatsinks! You should probably avoid renaming a _field_ to something like **123** or **3D** or **3M**, which could be mistaken for an actual (in these cases _int_, _double_, or _decimal_) constant.  
+4. A _field_ name need not follow usual element naming conventions. It can start with a digit or a symbol, and contain symbols and/or spaces; e.g. **\#&nbsp;Album&nbsp;Artists**, **1st&nbsp;Album&nbsp;Artist**. But with great power comes great heatsinks! You should probably avoid renaming a _field_ to something like **123** or **3D** or **3M**, which could be mistaken for an actual (in these cases _int_, _double_, or _decimal_) constant.  
