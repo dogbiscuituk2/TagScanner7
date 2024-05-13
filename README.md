@@ -29,10 +29,7 @@ _logical-op_ = _one of_ &, &&, |, ||, ^, **and**, **or**, **xor**
 _relational-op_ = _one of_ =, ==, !=, <>, #, ≠, <, \<=, ≤, ≯, >=, ≥, ≮, >  
 _arithmetic-op_ = _one of_ +, ＋, -, －, *, ×, ✕, /, ÷, ／, %  
 
-comma = ','  
-dot = '.'  
-lbrace = '{'&nbsp;&nbsp;&nbsp;&nbsp;rbrace = '}'  
-lparen = '('&nbsp;&nbsp;&nbsp;&nbsp;rparen = ')'  
+comma = ','&nbsp;&nbsp;&nbsp; dot = '.'&nbsp;&nbsp;&nbsp; lbrace = '{'&nbsp;&nbsp;&nbsp; rbrace = '}'&nbsp;&nbsp;&nbsp; lparen = '('&nbsp;&nbsp;&nbsp; rparen = ')'  
 
 Notes:  
 1. Case-insensitive.  
