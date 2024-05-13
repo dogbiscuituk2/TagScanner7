@@ -1,6 +1,8 @@
-﻿# the _ʞɯɾ_ language
+﻿# The _ʞɯɾ_ language
 
-A _ʞɯɾ_ (pronounced _coor_) _program_ is a single _block_ (a sequence of comma separated _compounds_).  
+The TagScanner7 app uses the _ʞɯɾ_ language (pronounced _coor_) to help interrogate and maintain ID3V2 metadata tags on audiovisual media files. So what is _ʞɯɾ_?
+
+A _ʞɯɾ_ _program_ is a single _block_ (a sequence of comma separated _compounds_).  
 A _compound_ is a sequence of _binary-operator_ separated _terms_.  
 A _term_ is... actually, let's have the grammar speak for itself:  
 
@@ -42,7 +44,7 @@ Notes:
 - _comments_ /* using C notation */ are treated as // whitespace.  
 - The concatenation of any two _ʞɯɾ_ _programs_, separated by at least one whitespace character, is another _ʞɯɾ_ _program_.  
 - Since any _ʞɯɾ_ _program_ is syntactically just just a _block_, it can be enclosed in parentheses and used as the argument list to a _function_.  
-- All _functions_ are implemented as extensions, and may be invoked using either member or static syntax, with or without the dot "operator" (which is therefore optional, and treated as whitespace when present).  
+- All _functions_ are implemented as extensions, and may be invoked using either member or static syntax, with or without the dot "operator" (which is therefore optional, and treated as whitespace where present).  
 - A _function_'s parentheses are optional if the number of _terms_ to be enclosed is 0 or 1; otherwise, a comma separated list in parentheses is needed.  
 
 To illustrate the previous two points, the following filter conditions are all equivalent:
