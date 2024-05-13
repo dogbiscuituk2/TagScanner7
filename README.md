@@ -45,7 +45,7 @@ Notes:
 - All _functions_ are implemented as extensions, and may be invoked using either member or static syntax, with or without the dot "operator" (which is therefore optional, and treated as whitespace).  
 - A _function_'s parentheses are optional if the number of _terms_ to be enclosed is 0 or 1; otherwise, a comma separated list in parentheses is needed.  
 
-To summarize the previous two points, observe that the following filter conditions are all equivalent:
+To illustrate the previous two points, observe that the following filter conditions are all equivalent:
 
     Title.Contains("Love") // Canonical C# member function syntax.
     title contains "Love" // Case insensitive keywords, optional dot operator & parentheses.
