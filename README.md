@@ -1,8 +1,4 @@
-﻿# The Kerr Language
-
-And let's be clear, that project name is a temporary thing! You try thinking of a cool name for an experimental computer language, then search the internet for "MyLingo computer language", and see how many attempts you manage before giving up and naming it after yourself.  
-
-Anyway...  
+﻿# The JMK Language
 
 A _program_ is a single _block_ (a sequence of comma separated _compounds_).  
 A _compound_ is a sequence of _binary-op_ separated _terms_.  
