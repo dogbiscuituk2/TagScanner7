@@ -7,7 +7,7 @@ The TagScanner7 app uses the _ʞɯɾ_ (pronounced _your_) scripting language to 
     and Title.Contains("Love")
     and Decade = "1960s"
 
-Simple filters like this can be written in _ʞɯɾ_, using a combination of tag _field_ names (**Artist**, **Album**, **Title**, etc.), _constant_ values ("The Beatles", "Sgt. Pepper's"), _functions_ (**Contains**, **StartsWith**) and connecting _operator_ symbols like =, **and**, **or**.  
+Simple filters like this can be written in _ʞɯɾ_, using a combination of predefined tag _field_ names (**Artist**, **Album**, **Title**, etc.), _constant_ values (for example the character strings "The Beatles", "Sgt. Pepper's"), _functions_ (**Contains**, **StartsWith**), and connecting _operator_ symbols like =, **and**, **or**.  
 
 To get an idea of the scope and power of the language, it helps to get an overview of its structure. The first step is examining its _syntax_.  
 
@@ -63,5 +63,5 @@ To illustrate the previous two points, the following filter conditions are all e
     contains(title, "Love") // Freely change function styles between "member" and "static".
 
 - _fields_ need not follow the usual naming conventions, but can instead start with a digit or symbol, and contain further symbols and/or embedded spaces; e.g. **\#&nbsp;Album&nbsp;Artists**, **1st&nbsp;Album&nbsp;Artist**, **Year/Album**. But with great power comes great heatsinks! You should probably avoid renaming a _field_ to something like **123** or **3D** or **3M**, which could be mistaken for an actual (e.g. _int_, _double_, _decimal_) _constant_.  
-- _operator_ symbols include several aliases for certain operations, e.g. assignment can be represented by any of the symbols \<-, :=, ← interchangeably.
+- _operator_ symbols include several aliases for certain operations, e.g. assignment can be represented by any of the symbols \<-, :=, ← interchangeably.  
 - The name of the _ʞɯɾ_ language comes from the author's initials, upside down.  
