@@ -77,3 +77,12 @@ So, where does this default setting come from? The nearest _Case Sensitive_ chec
 
 - Filters, applied by typing a condition into the general filter area of the app, or by launching the Filter Editor, will respect the _Case Sensitive_ checkbox nearby.  
 - Find & Replace operations will respect the _Case Sensitive_ checkbox in their own Find & Replace area of the UI.  
+
+In the unlikely event that you need to change this setting dynamically during _program_ execution, just assign **true** or **false** to the CaseSensitive _parameter_:  
+
+    CaseSensitive := true,                     // Initial global setting is case-sensitive.
+    Sense := Title.Contains("love"),           // Performs a case-sensitive comparison.
+    Nonsense := Title.Contains("love", false), // Overrides global setting, ignores case.
+    CaseSensitive := false,                    // Change the global setting.
+    Nonsense := Title.Contains("love"),        // Now performs a case-insensitive comparison.
+    Sense := Title.Contains("love", true)      // Overrides global setting, respects case.
