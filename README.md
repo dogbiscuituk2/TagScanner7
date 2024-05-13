@@ -1,6 +1,6 @@
 ﻿# Grammar
 
-A _program_ is a single _block_ (a sequence of _comma_ separated _compounds_).  
+A _program_ is a single _block_ (sequence of comma separated _compounds_).  
 A _compound_ is a sequence of _bop_ (binary operator) separated _terms_.  
 A _term_ is... actually, let's have the grammar speak for itself:
 
