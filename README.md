@@ -13,16 +13,16 @@ _value_ = _constant_ | _default_ | _field_ | _function_ | _parameter_ | _variabl
 
 _constant_ = _bool_ | _char_ | _datetime_ | _decimal_ | _double_ | _float_ | _int_ | _long_ | _string_ | _timespan_ | _uint_ | _ulong_  
 _default_ = '{' _type_ '}'  
-_field_^_(1,4)_^ = _one of_ **Album**, **Artist**, **Duration**, **Title**, ..., **Year**  
+_field_ = _one of_ **Album**, **Artist**, **Duration**, **Title**, ..., **Year** _(1,4)_  
 _function_ = _fn_ \{ _term_ | '(' \{ _block_ \} ')' \}  
-_parameter_^_(1)_^ = **Track**  
-_variable_^_(2)_^ = _(any unreserved word)_  
+_parameter_ = **Track** _(1)_  
+_variable_ = _(any unreserved word)_ _(2)_  
 
-_fn_^_(1)_^ = _one of_ **Compare** **Concat** ... **Upper**  
-_op_^_(1,3)_^ = _one of_ +, -, !, **not**  
-_bop_^_(1,3)_^ = _one of_ :=, &=, |=, \^=, +=, -=, \*=, /=, %=, &, |, ^, **and**, **or**, **xor**, =, !=, <, \<=, >=, >, +, -, *, /, %  
+_fn_ = _one of_ **Compare** **Concat** ... **Upper** _(1)_  
+_op_ = _one of_ +, -, !, **not** _(1,3)_  
+_bop_ = _one of_ :=, &=, |=, \^=, +=, -=, \*=, /=, %=, &, |, ^, **and**, **or**, **xor**, =, !=, <, \<=, >=, >, +, -, *, /, % _(1,3)_  
 
-_bool_^_(1)_^ = _one of_ **true**, **false**  
+_bool_ = _one of_ **true**, **false** _(1)_  
 _char, datetime, decimal, double, float, int, long, string, timespan, uint, ulong_ - values are matched using Regex.  
 _comments_ /* using C notation */ are treated as // whitespace.  
 
