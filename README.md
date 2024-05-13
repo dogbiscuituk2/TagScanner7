@@ -29,4 +29,4 @@ _comments_ /* using C notation */ are treated as // whitespace.
 Notes:  
 1. Terminal keywords are case-insensitive and reserved.  
 2. Names of _variables_ are case-insensitive.  
-3. A _field_ name need not follow usual element naming conventions. It can start with a digit or symbol, and contain symbols and/or spaces; e.g. **\#&nbsp;Album&nbsp;Artists**, **1st&nbsp;Album&nbsp;Artist**. But with great power comes great heatsinks! You should probably avoid renaming a _field_ to something like **123** or **3D** or **3M**, which could be mistaken for an actual (in these cases _int_, _double_, or _decimal_) constant.  
+3. A _field_ name need not follow usual element naming conventions. It can start with a digit or symbol, and contain symbols and/or spaces; e.g. **\#&nbsp;Album&nbsp;Artists**, **1st&nbsp;Album&nbsp;Artist**, **Year/Album**. But with great power comes great heatsinks! You should probably avoid renaming a _field_ to something like **123** or **3D** or **3M**, which could be mistaken for an actual (in these cases _int_, _double_, or _decimal_) constant.  
