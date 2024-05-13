@@ -1,10 +1,19 @@
 ﻿# The _ʞɯɾ_ language
 
-The TagScanner7 app uses the _ʞɯɾ_ language (pronounced _coor_) to help interrogate and maintain ID3V2 metadata tags on audiovisual media files. So what is _ʞɯɾ_?
+The TagScanner7 app uses the _ʞɯɾ_ scripting language (pronounced _coor_) to help interrogate and maintain ID3V2 metadata tags on audiovisual media files. So what is _ʞɯɾ_?
 
-A _ʞɯɾ_ _program_ is a single _block_ (a sequence of comma separated _compounds_).  
-A _compound_ is a sequence of _binary-operator_ separated _terms_.  
-A _term_ is... actually, let's have the grammar speak for itself:  
+    Artist = "The Beatles"
+    and (Album.StartsWith("Sgt. Pepper's") or Album.Contains("Beatles"))
+    and Title.Contains("Love")
+    and Decade = "1960s"
+
+Simple filters like this can be written in _ʞɯɾ_, using a combination of tag _field_ names (**Artist**, **Album**, **Title**, etc.), _constant_ values ("The Beatles", "Sgt. Pepper's"), _functions_ (**Contains**, **StartsWith**) and connecting _operator_ symbols like =, **and**, **or**.  
+
+To get an idea of the scope and power of the language, it helps to get an overview of its structure. The first step is examining its _syntax_.
+
+- A _ʞɯɾ_ _program_ is a single _block_ (a sequence of comma separated _compounds_).  
+- A _compound_ is a sequence of _binary-operator_ separated _terms_.  
+- A _term_ is... actually, let's have the grammar speak for itself:  
 
 ## _ʞɯɾ_ syntax
 
