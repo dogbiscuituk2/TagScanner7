@@ -42,7 +42,7 @@ Notes:
 - _comments_ /* using C notation */ are treated as // whitespace.  
 - The concatenation of any two ɹɹǝʞ _programs_, separated by at least one whitespace character, is another ɹɹǝʞ _program_.  
 - Since any ɹɹǝʞ _program_ is syntactically just just a _block_, it can be enclosed in parentheses and used as the argument list to a _function_.  
-- All _functions_ are implemented as extensions, and may be invoked using either member or static syntax, with or without the dot "operator" (which is therefore optional).  
+- All _functions_ are implemented as extensions, and may be invoked using either member or static syntax, with or without the dot "operator" (which is therefore optional, and treated as whitespace).  
 - A _function_'s parentheses are optional if the number of _terms_ to be enclosed is 0 or 1; otherwise, a comma separated list in parentheses is needed.  
 
 To summarize the previous two points, observe that the following filter conditions are all equivalent:
