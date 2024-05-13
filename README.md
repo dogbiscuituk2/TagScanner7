@@ -1,10 +1,10 @@
-﻿# The JMK Language
+﻿# the ɹɹǝʞ language
 
-A _program_ is a single _block_ (a sequence of comma separated _compounds_).  
+A ɹɹǝʞ _program_ is a single _block_ (a sequence of comma separated _compounds_).  
 A _compound_ is a sequence of _binary-op_ separated _terms_.  
 A _term_ is... actually, let's have the grammar speak for itself:  
 
-## Syntax
+## ɹɹǝʞ syntax
 
 _program_ = _block_  
 _block_ = _compound_ \{ comma _compound_ ... \}  
