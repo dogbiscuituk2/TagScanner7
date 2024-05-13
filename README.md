@@ -1,6 +1,6 @@
 ﻿# The _ʞɯɾ_ Language
 
-The TagScanner7 app uses the _ʞɯɾ_ (pronounced _coor_) scripting language to help interrogate and maintain ID3v2 metadata tags on audiovisual media files. So what is _ʞɯɾ_? Let's look at an example.
+The TagScanner7 app uses the _ʞɯɾ_ (pronounced _your_) scripting language to help interrogate and maintain ID3v2 metadata tags on audiovisual media files. So what is _ʞɯɾ_? Let's look at an example.  
 
     Artist = "The Beatles"
     and (Album.StartsWith("Sgt. Pepper's") or Album.Contains("Beatles"))
@@ -9,7 +9,7 @@ The TagScanner7 app uses the _ʞɯɾ_ (pronounced _coor_) scripting language to 
 
 Simple filters like this can be written in _ʞɯɾ_, using a combination of tag _field_ names (**Artist**, **Album**, **Title**, etc.), _constant_ values ("The Beatles", "Sgt. Pepper's"), _functions_ (**Contains**, **StartsWith**) and connecting _operator_ symbols like =, **and**, **or**.  
 
-To get an idea of the scope and power of the language, it helps to get an overview of its structure. The first step is examining its _syntax_.
+To get an idea of the scope and power of the language, it helps to get an overview of its structure. The first step is examining its _syntax_.  
 
 - A _ʞɯɾ_ _program_ is a single _block_ (a sequence of comma separated _compounds_).  
 - A _compound_ is a sequence of _binary-operator_ separated _terms_.  
@@ -35,7 +35,7 @@ _function-name_ = _one of_ **Compare**, **Concat**, ..., **Upper** <sup>_(2,3)_<
 _unary-operator_ = _one of_ +, ＋, -, －, !, **not** <sup>_(2)_</sup>  
 _binary-operator_ = _assign-op_ | _logical-op_ | _relational-op_ | _arithmetic-op_ <sup>_(2)_</sup>  
 
-_assign-op_ = _one of_ <-, :=, ←, &=, |=, \^=, +=, -=, \*=, /=, %=  
+_assign-op_ = _one of_ \<-, :=, ←, &=, |=, \^=, +=, -=, \*=, /=, %=  
 _logical-op_ = _one of_ &, &&, |, ||, ^, **and**, **or**, **xor**  
 _relational-op_ = _one of_ =, ==, !=, <>, #, ≠, <, \<=, ≤, ≯, >=, ≥, ≮, >  
 _arithmetic-op_ = _one of_ +, ＋, -, －, *, ×, ✕, /, ÷, ／, %  
@@ -63,4 +63,5 @@ To illustrate the previous two points, the following filter conditions are all e
     contains(title, "Love") // Freely change function styles between "member" and "static".
 
 - _fields_ need not follow the usual naming conventions, but can instead start with a digit or symbol, and contain further symbols and/or embedded spaces; e.g. **\#&nbsp;Album&nbsp;Artists**, **1st&nbsp;Album&nbsp;Artist**, **Year/Album**. But with great power comes great heatsinks! You should probably avoid renaming a _field_ to something like **123** or **3D** or **3M**, which could be mistaken for an actual (e.g. _int_, _double_, _decimal_) _constant_.  
-- The name _ʞɯɾ_ is of course just the author's initials _jmk_ upside down.
+- _operator_ symbols include several aliases for certain operations, e.g. assignment can be represented by any of the symbols \<-, :=, ← interchangeably.
+- The name of the _ʞɯɾ_ language comes from the author's initials, upside down.  
