@@ -15,7 +15,7 @@ To get an idea of the scope and power of the language, it helps to get an overvi
 - A _compound_ is a sequence of _binary-operator_ separated _terms_.  
 - A _term_ is... actually, let's have the grammar speak for itself:  
 
-## _ʞɯɾ_ Syntax
+## The Syntax of the _ʞɯɾ_ Language
 
 _program_ = _block_  
 _block_ = _compound_ \{ comma _compound_ ... \}  
