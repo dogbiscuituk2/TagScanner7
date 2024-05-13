@@ -54,7 +54,7 @@ Notes:
 
 To summarize the above, observe that the following filter conditions are all equivalent:
 
-    Title.Contains("Love")
-    title contains "Love"
-    contains(title, "Love")
+    Title.Contains("Love") // Canonical C# member function syntax.
+    title contains "Love" // Case insensitive keywords, optional dot operator & parentheses.
+    contains(title, "Love") // Change function style from member to static.
 
