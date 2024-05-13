@@ -1,21 +1,21 @@
-﻿# The _ʞɯɾ_ Language
+﻿# _ʞɯɾ_ (pronounced _your_) Scripting Language  
 
-The TagScanner7 app uses the _ʞɯɾ_ (pronounced _your_) scripting language to help interrogate and maintain ID3v2 metadata tags on audiovisual media files. So what is _ʞɯɾ_? Let's look at an example.  
+The TagScanner7 app uses _ʞɯɾ_ scripting language to help interrogate and maintain ID3v2 metadata tags on audiovisual media files. So what is _ʞɯɾ_? Let's look at an example.  
 
     Artist = "The Beatles"
     and (Album.StartsWith("Sgt. Pepper's") or Album.Contains("Beatles"))
     and Title.Contains("Love")
     and Decade = "1960s"
 
-Simple filters like this can be written in _ʞɯɾ_, using a combination of predefined tag _field_ names (**Artist**, **Album**, **Title**, etc.), _constant_ values (for example the character strings "The Beatles", "Sgt. Pepper's"), _functions_ (**Contains**, **StartsWith**), and connecting _operator_ symbols like =, **and**, **or**.  
+Simple filters like this can be written in _ʞɯɾ_ language, using a combination of predefined tag _field_ names (**Artist**, **Album**, **Title**, etc.), _constant_ values (for example the character strings "The Beatles", "Sgt. Pepper's"), _functions_ (**Contains**, **StartsWith**), and connecting _operator_ symbols like =, **and**, **or**.  
 
-To get an idea of the scope and power of the language, it helps to get an overview of its structure. The first step is examining its _syntax_.  
+To get an idea of the scope and power of _ʞɯɾ_ language, it helps to get an overview of its structure. The first step is examining _ʞɯɾ_ _syntax_.  
 
-- A _ʞɯɾ_ _program_ is a single _block_ (a sequence of comma separated _compounds_).  
+- _ʞɯɾ_ _program_ is a single _block_ (a sequence of comma separated _compounds_).  
 - A _compound_ is a sequence of _binary-operator_ separated _terms_.  
 - A _term_ is... actually, let's have the grammar speak for itself:  
 
-## The Syntax of the _ʞɯɾ_ Language
+## _ʞɯɾ_ Language Syntax  
 
 _program_ = _block_  
 _block_ = _compound_ \{ comma _compound_ ... \}  
@@ -48,7 +48,7 @@ Notes:
 3. Not an exhaustive list; see source code for full details.  
 4. _constants_ are parsed by Regex, using specific delimeters, internal format, and/or suffix characters; see source code for full details.  
 
-## Further Notes on the _ʞɯɾ_ Language  
+## _ʞɯɾ_ Further Notes  
 
 - _comments_ /* using C notation */ are treated as // whitespace.  
 - The concatenation of any two _ʞɯɾ_ _programs_, separated by at least one whitespace character, is another _ʞɯɾ_ _program_.  
@@ -67,20 +67,20 @@ To illustrate the previous two points, the following filter conditions are all e
 - _operator_ symbols include several aliases for certain operations, e.g. assignment can be represented by any of the symbols \<-, :=, ← interchangeably.  
 - The name of the _ʞɯɾ_ language comes from the author's initials, upside down.  
 
-## About Case
+## _ʞɯɾ_ Case Notes  
 
 _ʞɯɾ_ code can be parsed in either of two alternative ways, either case-sensitively or case-insensitively. ***This option affects only the operation of user data comparison functions***; the language's own _function-names_, operator and _field_ names, etc., are always processed ignoring case.  But when you use a _function_ like **Contains** or **ContainsX** which accepts a user-provided string value, its result will depend upon this setting.  
 
 All affected _functions_ have an optional final argument, _bool caseSensitive_, which controls the case sensitivity of _only_ the particular, present _function_ invocation. When no value is supplied by the user, this argument is automatically filled with the current global case sensitivity setting, and the comparison _function_ executed accordingly.  
 
-So, where does this default setting come from? The nearest _Case Sensitive_ checkbox:  
+So, where does this default setting come from? Initially, the nearest _Case Sensitive_ checkbox:  
 
 - Filters, applied by typing a condition into the general filter area of the app, or by launching the Filter Editor, will respect the _Case Sensitive_ checkbox nearby.  
 - Find & Replace operations will respect the _Case Sensitive_ checkbox in their own Find & Replace area of the UI.  
 
 In the unlikely event that you need to change this setting dynamically during _program_ execution, just assign **true** or **false** to the CaseSensitive _parameter_:  
 
-    CaseSensitive := true,                     // Initial global setting is case-sensitive.
+    CaseSensitive := true,                     // Set an initial global value.
     Sense := Title.Contains("love"),           // Performs a case-sensitive comparison.
     Nonsense := Title.Contains("love", false), // Overrides global setting, ignores case.
     CaseSensitive := false,                    // Change the global setting.
