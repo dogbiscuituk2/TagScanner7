@@ -31,7 +31,7 @@ _function_ = _function-name_ \{ _term_ | lparen \{ _block_ \} rparen \}
 _parameter_ = **Track** <sup>_(2)_</sup>  
 _variable_ = _(any unreserved word)_ <sup>_(1)_</sup>  
 
-_function-name_ = _one of_ **Compare** **Concat** ... **Upper** <sup>_(2,3)_</sup>  
+_function-name_ = _one of_ **Compare**, **Concat**, ..., **Upper** <sup>_(2,3)_</sup>  
 _unary-operator_ = _one of_ +, ＋, -, －, !, **not** <sup>_(2)_</sup>  
 _binary-operator_ = _assign-op_ | _logical-op_ | _relational-op_ | _arithmetic-op_ <sup>_(2)_</sup>  
 
@@ -53,7 +53,7 @@ Notes:
 - _comments_ /* using C notation */ are treated as // whitespace.  
 - The concatenation of any two _ʞɯɾ_ _programs_, separated by at least one whitespace character, is another _ʞɯɾ_ _program_.  
 - Since any _ʞɯɾ_ _program_ is syntactically just just a _block_, it can be enclosed in parentheses and used as the argument list to a _function_.  
-- All _functions_ are implemented as extensions, and may be invoked using either member or static syntax, with or without the dot "operator" (which is therefore optional, and treated as whitespace where present).  
+- All _functions_ are implemented as extensions, and may be invoked using either member or static syntax, with or without the dot "operator" (which is therefore optional, and treated as whitespace whenever present).  
 - A _function_'s parentheses are optional if the number of _terms_ to be enclosed is 0 or 1; otherwise, a comma separated list in parentheses is needed.  
 
 To illustrate the previous two points, the following filter conditions are all equivalent:
