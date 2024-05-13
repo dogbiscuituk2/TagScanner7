@@ -54,6 +54,6 @@ To summarize the previous two points, observe that the following filter conditio
 
     Title.Contains("Love") // Canonical C# member function syntax.
     title contains "Love" // Case insensitive keywords, optional dot operator & parentheses.
-    contains(title, "Love") // Freely change function style from member to static.
+    contains(title, "Love") // Freely change function styles between "member" and "static".
 
 - _fields_ need not follow the usual naming conventions, but can instead start with a digit or symbol, and contain further symbols and/or embedded spaces; e.g. **\#&nbsp;Album&nbsp;Artists**, **1st&nbsp;Album&nbsp;Artist**, **Year/Album**. But with great power comes great heatsinks! You should probably avoid renaming a _field_ to something like **123** or **3D** or **3M**, which could be mistaken for an actual (e.g. _int_, _double_, _decimal_) _constant_.  
