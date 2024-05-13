@@ -1,10 +1,10 @@
-﻿# the ɹɹǝʞ language
+﻿# the _ʞɯɾ_ language
 
-A ɹɹǝʞ _program_ is a single _block_ (a sequence of comma separated _compounds_).  
-A _compound_ is a sequence of _binary-op_ separated _terms_.  
+A _ʞɯɾ_ (pronounced _coor_) _program_ is a single _block_ (a sequence of comma separated _compounds_).  
+A _compound_ is a sequence of _binary-operator_ separated _terms_.  
 A _term_ is... actually, let's have the grammar speak for itself:  
 
-## ɹɹǝʞ syntax
+## _ʞɯɾ_ syntax
 
 _program_ = _block_  
 _block_ = _compound_ \{ comma _compound_ ... \}  
@@ -37,18 +37,20 @@ Notes:
 3. Not an exhaustive list; see source code for full details.  
 4. _constants_ are parsed by Regex using specific delimeters, internal format, and/or suffix characters; see source code for full details.  
 
-## further notes on the ɹɹǝʞ language  
+## further notes on the _ʞɯɾ_ language  
 
 - _comments_ /* using C notation */ are treated as // whitespace.  
-- The concatenation of any two ɹɹǝʞ _programs_, separated by at least one whitespace character, is another ɹɹǝʞ _program_.  
-- Since any ɹɹǝʞ _program_ is syntactically just just a _block_, it can be enclosed in parentheses and used as the argument list to a _function_.  
-- All _functions_ are implemented as extensions, and may be invoked using either member or static syntax, with or without the dot "operator" (which is therefore optional, and treated as whitespace).  
+- The concatenation of any two _ʞɯɾ_ _programs_, separated by at least one whitespace character, is another _ʞɯɾ_ _program_.  
+- Since any _ʞɯɾ_ _program_ is syntactically just just a _block_, it can be enclosed in parentheses and used as the argument list to a _function_.  
+- All _functions_ are implemented as extensions, and may be invoked using either member or static syntax, with or without the dot "operator" (which is therefore optional, and treated as whitespace when present).  
 - A _function_'s parentheses are optional if the number of _terms_ to be enclosed is 0 or 1; otherwise, a comma separated list in parentheses is needed.  
 
-To illustrate the previous two points, observe that the following filter conditions are all equivalent:
+To illustrate the previous two points, the following filter conditions are all equivalent:
 
-    Title.Contains("Love") // Canonical C# member function syntax.
-    title contains "Love" // Case insensitive keywords, optional dot operator & parentheses.
+    Title.Contains("Love")  // Canonical member function syntax.
+    title contains "Love"   // Case insensitive keywords, optional dot operator & parentheses.
     contains(title, "Love") // Freely change function styles between "member" and "static".
 
 - _fields_ need not follow the usual naming conventions, but can instead start with a digit or symbol, and contain further symbols and/or embedded spaces; e.g. **\#&nbsp;Album&nbsp;Artists**, **1st&nbsp;Album&nbsp;Artist**, **Year/Album**. But with great power comes great heatsinks! You should probably avoid renaming a _field_ to something like **123** or **3D** or **3M**, which could be mistaken for an actual (e.g. _int_, _double_, _decimal_) _constant_.  
+- The name _ʞɯɾ_ is of course just the author's initials _jmk_ upside down.
+
