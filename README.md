@@ -44,6 +44,7 @@ Notes:
 
 ## further notes on the ɹɹǝʞ language  
 
+- _comments_ /* using C notation */ are treated as // whitespace.  
 - The concatenation of any two ɹɹǝʞ _programs_, separated by at least one whitespace character, is another ɹɹǝʞ _program_.  
 - Since any ɹɹǝʞ _program_ is syntactically just just a _block_, it can be enclosed in parentheses and used as the argument list to a _function_.  
 - All _functions_ are implemented as extensions, and may be invoked using either member or static syntax, with or without the dot "operator" (which is therefore optional).  
@@ -53,7 +54,6 @@ To summarize the previous two points, observe that the following filter conditio
 
     Title.Contains("Love") // Canonical C# member function syntax.
     title contains "Love" // Case insensitive keywords, optional dot operator & parentheses.
-    contains(title, "Love") // Change function style from member to static.
+    contains(title, "Love") // Freely change function style from member to static.
 
 - _fields_ need not follow the usual naming conventions, but can instead start with a digit or symbol, and contain further symbols and/or embedded spaces; e.g. **\#&nbsp;Album&nbsp;Artists**, **1st&nbsp;Album&nbsp;Artist**, **Year/Album**. But with great power comes great heatsinks! You should probably avoid renaming a _field_ to something like **123** or **3D** or **3M**, which could be mistaken for an actual (e.g. _int_, _double_, _decimal_) _constant_.  
-- _comments_ /* using C notation */ are treated as // whitespace.  
