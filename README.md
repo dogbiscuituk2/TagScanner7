@@ -19,8 +19,13 @@ _parameter_ = **Track** <sup>_(1)_</sup>
 _variable_ = _(any unreserved word)_ <sup>_(2)_</sup>  
 
 _fn_ = _one of_ **Compare** **Concat** ... **Upper** <sup>_(1)_</sup>  
-_op_ = _one of_ +, -, !, **not** <sup>_(1,3)_</sup>  
-_bop_ = _one of_ <-, :=, ←, &=, |=, \^=, +=, -=, \*=, /=, %=, &, &&, |, ||, ^, **and**, **or**, **xor**, =, ==, !=, <>, #, ≠, <, \<=, ≤, ≯, >=, ≥, ≮, >, +, ＋, -, －, *, ×, ✕, /, ÷, ／, % <sup>_(1)_</sup>  
+_op_ = _one of_ +, -, !, **not** <sup>_(1)_</sup>  
+_bop_ = _assign-op_ | _logical-op_ | _relational-op_ | _arithmetic-op_  
+
+_assign-op_ = _one of_ <-, :=, ←, &=, |=, \^=, +=, -=, \*=, /=, %=  
+_logical-op_ = _one of_ &, &&, |, ||, ^, **and**, **or**, **xor** <sup>_(1)_</sup>  
+_relational-op_ = _one of_ =, ==, !=, <>, #, ≠, <, \<=, ≤, ≯, >=, ≥, ≮, >  
+_arithmetic-op_ = _one of_ +, ＋, -, －, *, ×, ✕, /, ÷, ／, %  
 
 _bool_ = _one of_ **true**, **false** <sup>_(1)_</sup>  
 _char, datetime, decimal, double, float, int, long, string, timespan, uint, ulong_ - values are matched using Regex.  
