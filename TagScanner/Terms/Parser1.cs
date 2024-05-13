@@ -110,6 +110,7 @@
                     term = ParseMemberFunction(term);
                     continue;
                 }
+
                 var tokenRank = token.Rank(unary: false);
                 while (AnyOperators())
                 {
@@ -120,6 +121,7 @@
                         break;
                     term = Merge(term);
                 }
+
                 PushTerm(term);
                 PushOperator(token.ToOperator(unary: false));
                 term = ParseSimpleTerm();

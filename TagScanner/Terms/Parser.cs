@@ -3,7 +3,9 @@
     using System;
     using System.Collections.Generic;
     using System.Data;
+    using System.Linq;
     using System.Runtime.CompilerServices;
+    using TagScanner.Utils;
 
     public class Parser
     {
@@ -21,8 +23,8 @@
             _caseSensitive = caseSensitive;
             BeginParse(program);
             var term = ParseBlock();
-            var token = PeekToken();
-            return token.Length == 0 ? term : SyntaxError(token);
+            EndParse(term);
+            return term;
         }
 
         /// <summary>
@@ -76,7 +78,7 @@
                     block.Operands.Add(term);
                 else
                     result = new Block(result, term);
-                if (PeekTokenVal() != ",")
+                if (PeekToken().Value != ",")
                     break;
             }
             return result;
@@ -84,21 +86,34 @@
 
         private Term ParseCompound()
         {
-            if (PeekTokenVal() == "(")
+            Term term;
+            if (PeekToken().Value == "(")
             {
                 DequeueToken();
-                var term = ParseCompound();
+                term = ParseCompound();
                 AcceptToken(")");
-                return term;
             }
-            Term left = ParseTerm();
+            else
+                term = ParseTerm();
+
+
             while (PeekToken().IsBinaryOperator())
             {
                 var op = DequeueToken().Value.ToBinaryOperator();
                 var right = ParseTerm();
+
                 left = new Operation(op, left, right);
+
+            }
+            while (AnyOperators())
+            {
+                var op = PeekOperator();
+                if (op == 0) break;
+                left = Merge(right);
             }
             return left;
+
+            Term Merge(Term right) => PrepareCompound(Consolidate(right));
         }
 
         private Term ParseTerm()
@@ -106,7 +121,7 @@
             if (PeekToken().IsUnaryOperator())
                 return new Operation(DequeueToken().Value.ToUnaryOperator(), ParseTerm());
             Term term;
-            if (PeekTokenVal() == "(")
+            if (PeekToken().Value == "(")
             {
                 DequeueToken();
                 if (PeekToken().Kind == TokenKind.TypeName)
@@ -161,10 +176,10 @@
         private Term ParseFunction(List<Term> operands)
         {
             var fn = DequeueToken().Value.ToFunction();
-            if (PeekTokenVal() == "(")
+            if (PeekToken().Value == "(")
             {
                 DequeueToken();
-                if (PeekTokenVal() != ")")
+                if (PeekToken().Value != ")")
                 {
                     var term = ParseCompound();
                     if (term is Block block)
@@ -217,6 +232,130 @@
 
         #region Helpers
 
+        private Term PrepareCompound(Compound compound)
+        {
+            var operands = compound.Operands;
+            var count = operands.Count;
+            foreach (var term in operands.OfType<Compound>())
+                PrepareCompound(term);
+            if (compound is Function function)
+                PrepareFunction(function);
+            else if (compound is Operation operation)
+                PrepareOperation(operation);
+            return NewTerm(compound);
+
+            void PrepareFunction(Function f)
+            {
+                var fn = f.Fn;
+                var operandTypes = fn.OperandTypes();
+                for (var index = count; index < operandTypes.Count(); index++)
+                    operands.Add(new Default(operandTypes[index]));
+                switch (fn)
+                {
+                    case Fn.Compare:
+                    case Fn.Contains:
+                    case Fn.ContainsX:
+                    case Fn.Count:
+                    case Fn.CountX:
+                    case Fn.EndsWith:
+                    case Fn.EndsWithX:
+                    case Fn.Equals:
+                    case Fn.EqualsX:
+                    case Fn.IndexOf:
+                    case Fn.IndexOfX:
+                    case Fn.LastIndexOf:
+                    case Fn.LastIndexOfX:
+                    case Fn.StartsWith:
+                    case Fn.StartsWithX:
+                        CheckCase(2);
+                        break;
+
+                    case Fn.Max:
+                    case Fn.Min:
+                    case Fn.Pow:
+                        Cast(1, typeof(double));
+                        goto case Fn.Round;
+
+                    case Fn.Concat:
+                        CastAll(0, typeof(object));
+                        break;
+
+                    case Fn.Format:
+                    case Fn.Join:
+                        CastAll(1, typeof(object));
+                        break;
+
+                    case Fn.Replace:
+                    case Fn.ReplaceX:
+                        CheckCase(3);
+                        break;
+
+                    case Fn.Round:
+                    case Fn.Sign:
+                        Cast(0, typeof(double));
+                        break;
+
+                    case Fn.ToString:
+                        Cast(0, typeof(object));
+                        break;
+                }
+            }
+
+            void PrepareOperation(Operation operation)
+            {
+                var op = operation.Op;
+                if (op.IsAssignment())
+                {
+                    if (count < 2)
+                        throw new ArgumentException("Missing argument(s)");
+                    var type = operands[count - 1].ResultType;
+                    foreach (var arg in operands.Take(count - 1))
+                    {
+                        if (!(arg is Variable variable))
+                            throw new ArgumentException("LValue required");
+                        variable.ResultType = type;
+                    }
+                    return;
+                }
+                var commonType = Utility.GetCompatibleType(operands.Select(p => p.ResultType).ToArray());
+                var adjustCase = !_caseSensitive && op.CanChain();
+                for (var index = 0; index < count; index++)
+                {
+                    var operand = operands[index];
+                    if (operand.ResultType != commonType)
+                        operand = new Cast(commonType, operand);
+                    if (adjustCase)
+                    {
+                        if (operand.ResultType == typeof(string) && !(operand is Function f && f.Fn == Fn.Upper))
+                            operand = operand is Constant<string> constantString
+                                ? new Constant<string>(constantString.Value.ToUpperInvariant())
+                                : (Term)new Function(Fn.Upper, operand);
+                    }
+                    operands[index] = operand;
+                }
+            }
+
+            void Cast(int index, Type type)
+            {
+                var term = operands[index];
+                if (term.ResultType != type)
+                    operands[index] = new Cast(type, term);
+            }
+
+            void CastAll(int first, Type type)
+            {
+                for (var index = first; index < operands.Count; index++)
+                    Cast(index, type);
+            }
+
+            void CheckCase(int index)
+            {
+                if (operands[index] is Default)
+                    operands[index] = _caseSensitive;
+            }
+        }
+
+
         private Term SyntaxError(Token token) => throw new SyntaxErrorException($"Unexpected Token: {token.Value}");
 
         #endregion
@@ -246,10 +385,8 @@
         #region Tokens
 
         private void AcceptToken(string expected, [CallerMemberName] string caller = "", [CallerLineNumber] int line = 0) => _spy.AcceptToken(caller, line, expected);
-        private bool AnyTokens() => _spy.AnyTokens();
         private Token DequeueToken([CallerMemberName] string caller = "", [CallerLineNumber] int line = 0) => _spy.DequeueToken(caller, line);
         private Token PeekToken([CallerMemberName] string caller = "", [CallerLineNumber] int line = 0) => _spy.PeekToken(caller, line);
-        private string PeekTokenVal([CallerMemberName] string caller = "", [CallerLineNumber] int line = 0) => _spy.PeekTokenVal(caller, line);
 
         #endregion
 

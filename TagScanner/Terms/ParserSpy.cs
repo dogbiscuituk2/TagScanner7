@@ -22,7 +22,6 @@
         public Term NewTerm(string caller, int line, Term term) { Process(caller, line, p => term); return term; }
         public Op PeekOperator(string caller, int line) => (Op)Process(caller, line, p => _operators.Peek());
         public Token PeekToken(string caller, int line) => (Token)Process(caller, line, p => NextToken());
-        public string PeekTokenVal(string caller, int line) => (string)Process(caller, line, p => NextToken().Value);
         public Op PopOperator(string caller, int line) => (Op)Process(caller, line, p => _operators.Pop());
         public Term PopTerm(string caller, int line) => (Term)Process(caller, line, p => _terms.Pop());
         public void PushOperator(string caller, int line, Op op) => Process(caller, line, p => { _operators.Push(op); return op; });
@@ -82,7 +81,6 @@
             const string format = "{0,19}{1,6}  {2,12}  {3}";
             if (!_headerShown)
             {
-                DrawLine();
                 Debug.WriteLine(format, "CALLER", "LINE", "ACTION", "VALUE");
                 DrawLine();
                 _headerShown = true;
@@ -98,7 +96,10 @@
             if (_terms.Count > 1)
                 foreach (var term in _terms?.Skip(1))
                     Debug.WriteLine(format, _, _, _, TermInfo(term));
-            Debug.WriteLine(_);
+            if (action == "EndParse")
+                DrawLine();
+            else
+                Debug.WriteLine(_);
 
             void DrawLine() => Debug.WriteLine(new string('_', 80) + Environment.NewLine);
             string TermInfo(object term) => $"{term.GetType().Say()}: {term}";

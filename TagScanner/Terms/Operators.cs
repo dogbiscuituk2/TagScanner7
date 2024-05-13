@@ -33,8 +33,8 @@
 
             _operators = new Dictionary<Op, OpInfo>
             {
-                //{ 0, new OpInfo("(", null, 0, 0, null) },
-                //{ Op.Comma, new OpInfo(",", "{0}, {1}", ExpressionType.MemberAccess, c, o) },
+                { 0, new OpInfo("(", null, 0, 0, null) },
+                { Op.Comma, new OpInfo(",", "{0}, {1}", ExpressionType.MemberAccess, c, o) },
                 { Op.Assign, new OpInfo("←", "{0} ← {1}", ExpressionType.Assign, ass, o) },
                 { Op.AndAssign, new OpInfo("&=", "{0} &= {1}", ExpressionType.AndAssign, ass, o) },
                 { Op.OrAssign, new OpInfo("|=", "{0} |= {1}", ExpressionType.OrAssign, ass, o) },
@@ -68,7 +68,7 @@
             foreach (var op in _operators)
                 op.Value.Op = op.Key;
 
-            //Add(Op.Comma, ",");
+            Add(Op.Comma, ",");
             Add(Op.Assign, "<-", ":=", "←");
             Add(Op.AddAssign, "+=");
             Add(Op.SubtractAssign, "-=");

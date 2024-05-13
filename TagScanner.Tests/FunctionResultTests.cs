@@ -5,10 +5,10 @@
     using Terms;
 
     [TestClass]
-    public class FunctionTests : BaseTests
+    public class FunctionResultTests : BaseTests
     {
         [TestMethod]
-        public void TestFunctions()
+        public void TestFunctionResults()
         {
             foreach (var fn in Functors.Keys)
             {

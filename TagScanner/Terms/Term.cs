@@ -65,7 +65,7 @@
 
         public virtual Rank Rank => Rank.Unary;
 
-        public virtual object Result
+        public object Result
         {
             get
             {
