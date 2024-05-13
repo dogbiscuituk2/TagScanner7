@@ -1,6 +1,6 @@
 ﻿# _ʞɯɾ_ (pronounced _your_) Scripting Language  
 
-The TagScanner7 app uses _ʞɯɾ_ scripting language to help interrogate and maintain ID3v2 metadata tags on audiovisual media files. So what is _ʞɯɾ_? Let's look at an example.  
+The TagScanner7 app uses _ʞɯɾ_ scripting language to help interrogate and maintain ID3v2 metadata tags on audiovisual media files. So what is _ʞɯɾ_ language? Let's look at an example.  
 
     Artist = "The Beatles"
     and (Album.StartsWith("Sgt. Pepper's") or Album.Contains("Beatles"))
