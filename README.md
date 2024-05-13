@@ -31,10 +31,8 @@ _arithmetic-op_ = _one of_ +, ＋, -, －, *, ×, ✕, /, ÷, ／, %
 
 comma = ','  
 dot = '.'  
-lbrace = '{'  
-lparen = '('  
-rbrace = '}'  
-rparen = ')'  
+lbrace = '{'&nbsp;&nbsp;&nbsp;&nbsp;rbrace = '}'  
+lparen = '('&nbsp;&nbsp;&nbsp;&nbsp;rparen = ')'  
 
 Notes:  
 1. Case-insensitive.  
