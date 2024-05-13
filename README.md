@@ -13,7 +13,7 @@ _value_ = _constant_ | _default_ | _field_ | _function_ | _parameter_ | _variabl
 
 _constant_ = _bool_ | _char_ | _datetime_ | _decimal_ | _double_ | _float_ | _int_ | _long_ | _string_ | _timespan_ | _uint_ | _ulong_  
 _default_ = '{' _type_ '}'  
-_field_ = _one of_ **Album**, **Artist**, **Duration**, **Title**, ..., **Year** _(1,4)_  
+_field_ = _one of_ **Album**, **Artist**, **Duration**, **Title**, ..., **Year** <sup>_(1,4)_</sup>  
 _function_ = _fn_ \{ _term_ | '(' \{ _block_ \} ')' \}  
 _parameter_ = **Track** _(1)_  
 _variable_ = _(any unreserved word)_ _(2)_  
