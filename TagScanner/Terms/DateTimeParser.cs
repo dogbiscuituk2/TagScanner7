@@ -8,7 +8,7 @@
         public const string
             TimePattern = @"(\d\d?)\:(\d\d?)(?:\:(\d\d?)(\.\d+)?)?",
             DateTimePattern = @"^\[(\d{4})-(\d\d?)\-(\d\d?)(?: " + TimePattern + @")?\]",
-            TimeSpanPattern = @"^\[(?:(\d+)\.)?" + TimePattern + @"\]";
+            TimeSpanPattern = @"c";
 
         public static DateTime ParseDateTime(string token)
         {

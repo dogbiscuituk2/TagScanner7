@@ -40,13 +40,52 @@ _logical-op_ = _one of_ &, &&, |, ||, ^, **and**, **or**, **xor**
 _relational-op_ = _one of_ =, ==, !=, <>, #, ≠, <, \<=, ≤, ≯, >=, ≥, ≮, >  
 _arithmetic-op_ = _one of_ +, ＋, -, －, *, ×, ✕, /, ÷, ／, %  
 
-comma = ','&nbsp;&nbsp;&nbsp; dot = '.'&nbsp;&nbsp;&nbsp; lbrace = '{'&nbsp;&nbsp;&nbsp; rbrace = '}'&nbsp;&nbsp;&nbsp; lparen = '('&nbsp;&nbsp;&nbsp; rparen = ')'  
+_bool_ = _one of_ **true**, **false**  
+_char_ = any single character enclosed in single quotes: 'A'  
+_string_ = any character sequence enclosed in double quotes: "Hello, World!"  
+
+_timespan_ = lbracket _timespanpattern_ rbracket  
+_datetime_ = lbracket _datetimepattern_ rbracket  
+
+_timespanpattern_ = a complex Regex!  
+_datetimepattern_ = a more complex Regex!  
+
+comma = ','&nbsp;&nbsp;&nbsp; dot = '.'&nbsp;&nbsp;&nbsp; lbrace = '{'&nbsp;&nbsp;&nbsp; rbrace = '}'&nbsp;&nbsp;&nbsp; lbracket = '['&nbsp;&nbsp;&nbsp; rbracket = ']'&nbsp;&nbsp;&nbsp; lparen = '('&nbsp;&nbsp;&nbsp; rparen = ')'  
 
 Notes:  
 1. Case-insensitive.  
 2. Case-insensitive and reserved.  
 3. Not an exhaustive list; see source code for full details.  
-4. _constants_ are parsed by Regex, using specific delimeters, internal format, and/or suffix characters; see source code for full details.  
+4. Numeric _constants_ are parsed according to the following rules:  
+   - Any preceding '+' or '-' signs are treated as _unary-operators_, not part of the _constant_ value.  
+   - A sequence of numeric digits '\d+' indicates an _int_.  
+   - Append 'U' for _uint_, 'L' for _long_, 'UL' or 'LU' for _ulong_.  
+   - Or include a decimal point '.' and/or append an exponent part 'E[-+]\d+' to obtain a _double_.  
+   - A final suffix 'D' is optional for _double_; use 'F' or 'M' instead for _float_ or _decimal_, respectively.
+
+## _ʞɯɾ_ Variables
+
+A _variable_ is created when its name is first introduced. Here are several examples of new _variables_ being initialized with _constant_ values of various types:  
+
+    Bool1 := true, // bool  
+    Char1 := 'A', // char  
+    Today := [2024-5-14], // datetime  
+    RightNow := [2024-5-14 18:12], // datetime  
+    ToTheSecond := [2024-5-14 18:12:25], // datetime  
+    ToTheMillisecond := [2024-5-14 18:12:25.625], // datetime  
+    SongDuration := [3:30], // timespan  
+    PersonalBest := [1:25:59], // timespan  
+    Int1 := 123456789, // int  
+    Unsigned1 := 123456789U, // uint  
+    Long1 := 9876543210L, // long  
+    UnsignedLong1 := 9876543210UL, // ulong  
+    Double1 := 123.45, // double  
+    Double2 := 123.45D, // double  
+    Double3 := 123.45E-6, // double  
+    Float1 := 123.45F, // float  
+    Float2 := 123.45E-3F, // float  
+    Money1 := 123.45M // decimal  
+
 
 ## _ʞɯɾ_ Further Notes  
 
@@ -69,7 +108,7 @@ To illustrate a few aspects of the previous two points, we note that the followi
 
 ## _ʞɯɾ_ Case Notes  
 
-_ʞɯɾ_ code can be parsed in either of two alternative ways, either case-sensitively or case-insensitively. ***This option affects only the operation of user data comparison functions***; the language's own _function-names_, operator and _field_ names, etc., are always processed ignoring case.  But when you invoke a particular _function_ like **Contains** or **ContainsX** which accepts a user-provided string value, its result will depend upon this setting.  
+_ʞɯɾ_ code can either respect or ignore character case. ***This option affects only the operation of user data comparison functions***; the language's own _function-names_, operator and _field_ names, etc., are always processed ignoring case.  But when you invoke a particular _function_ like **Contains** or **ContainsX** which accepts a user-provided string value, its result will depend upon this setting.  
 
 All affected _functions_ have an optional final argument, _bool caseSensitive_, which controls the case sensitivity of _only_ the particular, present _function_ invocation. When no value is supplied by the user, this argument is automatically filled with the current global case sensitivity setting, and the comparison _function_ executed accordingly.  
 
@@ -78,7 +117,7 @@ So, where does this default setting come from? Initially, the nearest _Case Sens
 - Filters, applied by typing a condition into the general filter area of the app, or by launching the Filter Editor, will respect the _Case Sensitive_ checkbox nearby.  
 - Find & Replace operations will respect the _Case Sensitive_ checkbox in their own Find & Replace area of the UI.  
 
-In the unlikely event that you need to change this setting dynamically during _program_ execution, just assign **true** or **false** to the CaseSensitive _parameter_:  
+If you need to change this global setting during _program_ execution, just assign **true** or **false** to CaseSensitive:  
 
     CaseSensitive := true,                     // Set an initial global value.
     Sense := Title.Contains("love"),           // Performs a case-sensitive comparison.
