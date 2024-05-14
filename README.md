@@ -58,8 +58,8 @@ Notes:
 
 To illustrate a few aspects of the previous two points, we note that the following filter conditions are all equivalent:  
 
-    Title.Contains("Love")  // Canonical member function syntax.
-    title contains "Love"   // Case insensitive keywords. Optional dot operator & parentheses removed.
+    Title.Contains("Love"), // Canonical member function syntax.
+    title contains "Love",  // Case insensitive keywords. Optional dot operator & parentheses removed.
     contains(title, "Love") // Freely change function styles between "member" and "static".
 
 - **RegeX**: many _functions_ have vanilla and regular expression (Regex) versions. The Regex variants have an **X** appended to the _function-name_ of the vanilla version. Examples are **StartsWithX**, **ContainsX**, **EndsWithX**, **EqualsX**, **IndexOfX**, **LastIndexOfX**, **CountX**, and **ReplaceX**, all of which accept a Regex pattern in place of a plain string argument.  
