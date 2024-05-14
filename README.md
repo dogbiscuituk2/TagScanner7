@@ -7,7 +7,7 @@ The TagScanner7 app uses _ʞɯɾ_ scripting language to help interrogate and mai
     and Title.Contains("Love")
     and Decade = "1960s"
 
-Simple filters like this can be written in _ʞɯɾ_ language, using a combination of predefined tag _field_ names (**Artist**, **Album**, **Title**, etc.), _constant_ values (for example the character strings "The Beatles", "Sgt. Pepper's"), _functions_ (**Contains**, **StartsWith**), and connecting _operator_ symbols like =, **and**, **or**.  
+Simple filters like this can be written in _ʞɯɾ_ language, using a combination of predefined tag _field_ names (**Artist**, **Album**, **Title**, etc.), _constant_ values (for example the character strings "The Beatles", "Sgt. Pepper's"), _functions_ (**Contains**, **StartsWith**), and connecting _operator_ symbols like +, -, *, /, =, **and**, **or**, **not**.  
 
 To get an idea of the scope and power of _ʞɯɾ_ language, it helps to get an overview of its structure. The first step is examining _ʞɯɾ_ _syntax_.  
 
