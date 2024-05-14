@@ -50,26 +50,26 @@ Notes:
 
 ## _ʞɯɾ_ Further Notes  
 
-- _comments_ /* using C notation */ are treated as // whitespace.  
+- ***Comments***, /* using C notation, */ are treated as // whitespace.  
 - The concatenation of any two _ʞɯɾ_ _programs_, separated by at least one whitespace character, is another _ʞɯɾ_ _program_.  
 - Since any _ʞɯɾ_ _program_ is syntactically just just a _block_, it can be enclosed in parentheses and used as the argument list to a _function_ in another _program_.  
-- All _functions_ are implemented as extensions, and may be invoked using either member or static syntax, with or without the dot "operator" (which is therefore optional, and treated as whitespace whenever present).  
-- A _function_'s parentheses are optional if the number of _terms_ to be enclosed is 0 or 1; otherwise, a comma separated list in parentheses is needed.  
+- **All *functions*** are implemented as extensions, and may be invoked using either member or static syntax, with or without the dot "operator" (which is therefore optional, and treated as whitespace whenever present).  
+- **A *function*'s parentheses** are optional if the number of _terms_ to be enclosed is 0 or 1; otherwise, a comma separated list in parentheses is needed. Note that the definition of a single _term_ allows for the daisy-chaining of any number of follow-on _functions_, and that any initial _cast(s)_ or _unary-operators_ apply to the result of the entire chain.
 
-To illustrate the previous two points, the following filter conditions are all equivalent:  
+To illustrate a few aspects of the previous two points, we note that the following filter conditions are all equivalent:  
 
     Title.Contains("Love")  // Canonical member function syntax.
     title contains "Love"   // Case insensitive keywords. Optional dot operator & parentheses removed.
     contains(title, "Love") // Freely change function styles between "member" and "static".
 
-- Many _functions_ have vanilla and Regex versions. The Regex variants have an **X** appended to the _function-name_ of the vanilla version. Examples are **StartsWithX**, **ContainsX**, **EndsWithX**, **EqualsX**, **IndexOfX**, **LastIndexOfX**, **CountX**, and **ReplaceX**, all of which accept a Regex pattern in place of a plain string argument.  
-- _fields_ need not follow the usual naming conventions, but can instead start with a digit or symbol, and contain further symbols and/or embedded spaces; e.g. **\#&nbsp;Album&nbsp;Artists**, **1st&nbsp;Album&nbsp;Artist**, **Year/Album**. But with great power comes great heatsinks! You should probably avoid renaming a _field_ to something like **123** or **3D** or **3M**, which could be mistaken for an actual (e.g. _int_, _double_, _decimal_) _constant_.  
-- _operator_ symbols include several aliases for certain operations, e.g. assignment can be represented by any of the symbols \<-, :=, ← interchangeably.  
-- The name of the _ʞɯɾ_ language comes from the author's initials, upside down.  
+- **Regex**: many _functions_ have vanilla and Regex versions. The Regex variants have an **X** appended to the _function-name_ of the vanilla version. Examples are **StartsWithX**, **ContainsX**, **EndsWithX**, **EqualsX**, **IndexOfX**, **LastIndexOfX**, **CountX**, and **ReplaceX**, all of which accept a Regex pattern in place of a plain string argument.  
+- ***Field* Names**: _fields_ need not follow the usual naming conventions, but can instead start with a digit or symbol, and contain further symbols and/or embedded spaces; e.g. **\#&nbsp;Album&nbsp;Artists**, **1st&nbsp;Album&nbsp;Artist**, **Year/Album**. But with great power comes great heatsinks! You should probably avoid renaming a _field_ to something like **123** or **3D** or **3M**, which could be mistaken for an actual (e.g. _int_, _double_, _decimal_) _constant_.  
+- ***Operator* symbols** include several aliases for certain operations, e.g. assignment can be represented by any of the symbols \<-, :=, ← interchangeably.  
+- **The name of _ʞɯɾ_ language** is just the author's initials, upside down.  
 
 ## _ʞɯɾ_ Case Notes  
 
-_ʞɯɾ_ code can be parsed in either of two alternative ways, either case-sensitively or case-insensitively. ***This option affects only the operation of user data comparison functions***; the language's own _function-names_, operator and _field_ names, etc., are always processed ignoring case.  But when you use a _function_ like **Contains** or **ContainsX** which accepts a user-provided string value, its result will depend upon this setting.  
+_ʞɯɾ_ code can be parsed in either of two alternative ways, either case-sensitively or case-insensitively. ***This option affects only the operation of user data comparison functions***; the language's own _function-names_, operator and _field_ names, etc., are always processed ignoring case.  But when you invoke a particular _function_ like **Contains** or **ContainsX** which accepts a user-provided string value, its result will depend upon this setting.  
 
 All affected _functions_ have an optional final argument, _bool caseSensitive_, which controls the case sensitivity of _only_ the particular, present _function_ invocation. When no value is supplied by the user, this argument is automatically filled with the current global case sensitivity setting, and the comparison _function_ executed accordingly.  
 
