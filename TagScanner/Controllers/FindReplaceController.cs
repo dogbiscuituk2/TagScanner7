@@ -7,8 +7,8 @@
     using System.Text.RegularExpressions;
     using System.Windows.Data;
     using System.Windows.Forms;
-    using Models;
     using Commands;
+    using Models;
     using Terms;
     using Utils;
     using Views;

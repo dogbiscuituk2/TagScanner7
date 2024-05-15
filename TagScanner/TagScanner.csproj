@@ -191,9 +191,7 @@
       <DependentUpon>Functors.cs</DependentUpon>
     </Compile>
     <Compile Include="Terms\EmptyTerm.cs" />
-    <Compile Include="Terms\Parameter.cs" />
     <Compile Include="Terms\Parser.cs" />
-    <Compile Include="Terms\Parser2.cs" />
     <Compile Include="Terms\ParserSpy.cs" />
     <Compile Include="Terms\Token.cs" />
     <Compile Include="Terms\Tokenizer.cs" />

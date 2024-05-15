@@ -1,7 +1,7 @@
 ﻿namespace TagScanner.Commands
 {
     using System.Linq;
-    using TagScanner.Models;
+    using Models;
 
     public class ReplaceCommand : Command
     {

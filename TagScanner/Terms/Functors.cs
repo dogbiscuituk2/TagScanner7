@@ -4,7 +4,6 @@
     using System.Collections.Generic;
     using System.Linq;
     using System.Reflection;
-    using TagScanner.Models;
 
     public static partial class Functors
     {

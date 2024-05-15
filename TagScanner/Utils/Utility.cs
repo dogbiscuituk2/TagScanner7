@@ -11,7 +11,7 @@
     using System.Windows.Forms;
     using FastColoredTextBoxNS;
     using Models;
-    using TagScanner.Terms;
+    using Terms;
 
     public static class Utility
     {

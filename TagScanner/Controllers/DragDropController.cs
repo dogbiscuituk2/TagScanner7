@@ -4,7 +4,6 @@
     using System.Windows.Forms;
     using Mru;
     using Views;
-    using Wpf;
 
     public class DragDropController : Controller
     {

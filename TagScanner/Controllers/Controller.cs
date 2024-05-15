@@ -1,8 +1,8 @@
 ﻿namespace TagScanner.Controllers
 {
     using System.Windows.Forms;
-    using Models;
     using Commands;
+    using Models;
     using Views;
     using Wpf;
 

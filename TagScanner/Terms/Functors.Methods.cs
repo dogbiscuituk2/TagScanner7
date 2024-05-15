@@ -3,7 +3,7 @@
     using System;
     using System.Linq;
     using System.Text.RegularExpressions;
-    using TagScanner.Models;
+    using Models;
     using Utils;
 
     public partial class Functors

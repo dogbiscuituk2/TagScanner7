@@ -1,7 +1,7 @@
 ﻿namespace TagScanner.Menus
 {
     using System;
-    using TagScanner.Terms;
+    using Terms;
 
     public class FunctionEventArgs : EventArgs
     {
