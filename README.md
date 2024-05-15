@@ -28,7 +28,7 @@ _constant_ = _bool_ | _char_ | _datetime_ | _decimal_ | _double_ | _float_ | _in
 _default_ = lbrace _type_ rbrace  
 _field_ = _one of_ **Album**, **Artist**, **Duration**, **Title**, ..., **Year** <sup>_(1,3)_</sup>  
 
-<details><summary>See full list</summary>
+<details><summary>Click here to see the full list of available fields.</summary>
 **Album**, **Artist**, **Duration**, **Title**
 </details>
 
