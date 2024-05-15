@@ -47,7 +47,7 @@ _string_ = any character sequence enclosed in double quotes: "Hello, World!"
 _timespan_ = @"\^\\[(?:(\d+)\\.)?(\d\d?)\\:(\d\d?)(?:\\:(\d\d?)(\\.\d+)?)?\\]"  
 _datetime_ = @"\^\\[(\d{4})-(\d\d?)\-(\d\d?)(?: (\d\d?)\\:(\d\d?)(?:\\:(\d\d?)(\\.\d+)?)?)?\\]"  
   
-semicolon = ';'&nbsp;&nbsp;&nbsp; dot = '.'&nbsp;&nbsp;&nbsp; lbrace = '{'&nbsp;&nbsp;&nbsp; rbrace = '}'&nbsp;&nbsp;&nbsp; lbracket = '['&nbsp;&nbsp;&nbsp; rbracket = ']'&nbsp;&nbsp;&nbsp; lparen = '('&nbsp;&nbsp;&nbsp; rparen = ')'  
+semicolon = ';'&nbsp;&nbsp;&nbsp; dot = '.'&nbsp;&nbsp;&nbsp; lbrace = '{'&nbsp;&nbsp;&nbsp; rbrace = '}'&nbsp;&nbsp;&nbsp; lparen = '('&nbsp;&nbsp;&nbsp; rparen = ')'  
   
 Notes:  
 1. Case-insensitive.  
