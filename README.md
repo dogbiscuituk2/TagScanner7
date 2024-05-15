@@ -1,6 +1,6 @@
 ﻿# _ʞɯɾ_ (pronounced _your_) Scripting Language  
   
-The TagScanner7 app uses _ʞɯɾ_ scripting language to help interrogate and maintain ID3v2 metadata tags on audiovisual media files. So what is _ʞɯɾ_ language? Let's look at an example.  
+The TagScanner7 app uses _ʞɯɾ_ scripting language to help interrogate and maintain ID3v2 metadata tags on audiovisual media files. So what is _ʞɯɾ_ language? Here's an example.  
   
     Artist = "The Beatles"  
     and (Album.StartsWith("Sgt. Pepper's") or Album.Contains("Beatles"))  
@@ -230,10 +230,10 @@ Notes:
 - **All *functions*** are implemented as extensions, and may be invoked using either member or static syntax, with or without the dot "operator" (which is therefore optional, and treated as whitespace whenever present).  
 - **A *function*'s parentheses** are optional if the number of _terms_ to be enclosed is 0 or 1; otherwise, a semicolon-separated list in parentheses is needed. Note that the definition of a single _term_ allows for the daisy-chaining of any number of follow-on _functions_, and that any initial _cast(s)_ or _unary-operators_ apply to the result of the entire chain.
   
-To illustrate a few aspects of the previous two points, we note that the following filter conditions are all equivalent:  
+To illustrate, the following filter conditions are all equivalent:  
   
     Title.Contains("Love");  // Canonical member function syntax.
-    title contains "Love";   // Keywords ignore case. Optional dot operator & parens removed.
+    title contains "Love";   // Keywords ignore case. Optional dot & parens removed.
     contains(title, "Love"); // Freely change function styles between "member" and "static".
   
 - **RegeX**: many _functions_ have vanilla and regular expression (Regex) versions. The Regex variants have an **X** appended to the _function-name_ of the vanilla version. Examples are **StartsWithX**, **ContainsX**, **EndsWithX**, **EqualsX**, **IndexOfX**, **LastIndexOfX**, **CountX**, and **ReplaceX**, all of which accept a Regex pattern in place of a plain string argument.  
