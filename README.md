@@ -24,19 +24,176 @@ _term_ = \{ _unary-operator_ | _cast_ ... \} _value_ | lparen _block_ rparen \{ 
 _cast_ = lparen _type_ rparen  
 _value_ = _constant_ | _default_ | _field_ | _function_ | _parameter_ | _variable_  
   
-_constant_ = _bool_ | _char_ | _datetime_ | _decimal_ | _double_ | _float_ | _int_ | _long_ | _string_ | _timespan_ | _uint_ | _ulong_ <sup>_(1,4)_</sup>  
+_constant_ = _bool_ | _char_ | _datetime_ | _decimal_ | _double_ | _float_ | _int_ | _long_ | _string_ | _timespan_ | _uint_ | _ulong_ <sup>_(1,3)_</sup>  
 _default_ = lbrace _type_ rbrace  
-_field_ = _one of_ **Album**, **Artist**, **Duration**, **Title**, ..., **Year** <sup>_(1,3)_</sup>  
+_field_ = _one of_ **Album**, **Artist**, **Duration**, **Title**, **Track #**, ..., **Year/Album** <sup>_(1)_</sup>  
 
-<details><summary>Click here to see the full list of available fields.</summary>
-**Album**, **Artist**, **Duration**, **Title**
-</details>
+<details><summary><i>Click here for the full list of available fields.</i></summary>  
+<b>Album</b><br>
+<b>Album Artist</b><br>
+<b>Album Artists</b><br>
+<b># Album Artists</b><br>
+<b>Album Artists (sorted)</b><br>
+<b># Album Artists (sorted)</b><br>
+<b>Album Gain</b><br>
+<b>Album Peak</b><br>
+<b>Album (sort by)</b><br>
+<b>Amazon ID</b><br>
+<b>Artist</b><br>
+<b>Artists</b><br>
+<b># Artists</b><br>
+<b>Artists (joined)</b><br>
+<b>Audio Bit Rate</b><br>
+<b># Audio Channels</b><br>
+<b>Audio Sample Rate</b><br>
+<b>BPM</b><br>
+<b>Bits Per Sample</b><br>
+<b>Century</b><br>
+<b>Classical?</b><br>
+<b>Codecs</b><br>
+<b>Comments</b><br>
+<b>Composer</b><br>
+<b>Composers</b><br>
+<b># Composers</b><br>
+<b>Composers (sorted)</b><br>
+<b># Composers (sorted)</b><br>
+<b>Conductor</b><br>
+<b>Copyright</b><br>
+<b>Decade</b><br>
+<b>Disc #</b><br>
+<b>Disc # of #</b><br>
+<b>Disc & Track #</b><br>
+<b># Discs</b><br>
+<b>Duration</b><br>
+<b>Empty?</b><br>
+<b>File Attributes</b><br>
+<b>File Created</b><br>
+<b>File Created (UTC)</b><br>
+<b>File Extension</b><br>
+<b>File Accessed</b><br>
+<b>File Accessed (UTC)</b><br>
+<b>File Modified</b><br>
+<b>File Modified (UTC)</b><br>
+<b>File Name</b><br>
+<b>File Name (no ext)</b><br>
+<b>File Path</b><br>
+<b>File Size</b><br>
+<b>File Status</b><br>
+<b>First Album Artist</b><br>
+<b>First Album Artist (sorted)</b><br>
+<b>First Artist</b><br>
+<b>First Composer</b><br>
+<b>First Composer (sorted)</b><br>
+<b>First Genre</b><br>
+<b>First Performer</b><br>
+<b>First Performer (sorted)</b><br>
+<b>Genre</b><br>
+<b>Genres</b><br>
+<b># Genres</b><br>
+<b>Grouping</b><br>
+<b>Image Altitude</b><br>
+<b>Image Creator</b><br>
+<b>Image Date/Time</b><br>
+<b>Image Exposure Time</b><br>
+<b>Image 'F' Number</b><br>
+<b>Image Focal Length</b><br>
+<b>Image Focal Length (35mm)</b><br>
+<b>Image ISO Speed</b><br>
+<b>Image Keywords</b><br>
+<b>Image Latitude</b><br>
+<b>Image Longitude</b><br>
+<b>Image Make</b><br>
+<b>Image Model</b><br>
+<b>Image Orientation</b><br>
+<b>Image Rating</b><br>
+<b>Image Software</b><br>
+<b>Invariant End Position</b><br>
+<b>Invariant Start Position</b><br>
+<b>Lyrics</b><br>
+<b>Media Description</b><br>
+<b>Media Types</b><br>
+<b>Millennium</b><br>
+<b>Mime Type</b><br>
+<b>MusicBrainz Artist ID</b><br>
+<b>MusicBrainz Disc ID</b><br>
+<b>MusicBrainz Release Artist ID</b><br>
+<b>MusicBrainz Release Country</b><br>
+<b>MusicBrainz Release ID</b><br>
+<b>MusicBrainz Release Status</b><br>
+<b>MusicBrainz Release Type</b><br>
+<b>MusicBrainz Track ID</b><br>
+<b>MusicIP PUID</b><br>
+<b>Performers</b><br>
+<b># Performers</b><br>
+<b>Performers (joined, sorted)</b><br>
+<b>Performers (sorted)</b><br>
+<b># Performers (sorted)</b><br>
+<b>Photo Height</b><br>
+<b>Photo Quality</b><br>
+<b>Photo Width</b><br>
+<b>Pictures</b><br>
+<b># Pictures</b><br>
+<b>Possibly Corrupt?</b><br>
+<b>Tag Types</b><br>
+<b>Tag Types on Disk</b><br>
+<b>Title</b><br>
+<b>Title (sort by)</b><br>
+<b># Tracks</b><br>
+<b>Track Gain</b><br>
+<b>Track #</b><br>
+<b>Track # of #</b><br>
+<b>Track Peak</b><br>
+<b>Video Height</b><br>
+<b>Video Width</b><br>
+<b>Year</b><br>
+<b>Year/Album</b><br>
+</details>  
 
 _function_ = _function-name_ \{ _term_ | lparen \{ _block_ \} rparen \}  
 _parameter_ = **Track** <sup>_(2)_</sup>  
 _variable_ = _(any unreserved word)_ <sup>_(1)_</sup>  
   
-_function-name_ = _one of_ **Compare**, **Concat**, ..., **Upper** <sup>_(2,3)_</sup>  
+_function-name_ = _one of_ **Compare**, **Concat**, ..., **Upper** <sup>_(2)_</sup>  
+
+<details><summary><i>Click here for the full list of available functions.</i></summary>  
+<b>Compare</b><br>
+<b>Concat</b><br>
+<b>Contains</b><br>
+<b>ContainsX</b><br>
+<b>Count</b><br>
+<b>CountX</b><br>
+<b>Empty</b><br>
+<b>EndsWith</b><br>
+<b>EndsWithX</b><br>
+<b>Equals</b><br>
+<b>EqualsX</b><br>
+<b>Format</b><br>
+<b>If</b><br>
+<b>IndexOf</b><br>
+<b>IndexOfX</b><br>
+<b>Insert</b><br>
+<b>Join</b><br>
+<b>LastIndexOf</b><br>
+<b>LastIndexOfX</b><br>
+<b>Length</b><br>
+<b>Lower</b><br>
+<b>Max</b><br>
+<b>Min</b><br>
+<b>Pow</b><br>
+<b>Remove</b><br>
+<b>Replace</b><br>
+<b>ReplaceX</b><br>
+<b>Round</b><br>
+<b>Sign</b><br>
+<b>StartsWith</b><br>
+<b>StartsWithX</b><br>
+<b>Substring</b><br>
+<b>ToString</b><br>
+<b>Trim</b><br>
+<b>Truncate</b><br>
+<b>Upper</b><br>
+</details>
+
 _unary-operator_ = _one of_ +, ＋, -, －, !, **not** <sup>_(2)_</sup>  
 _binary-operator_ = _assign-op_ | _logical-op_ | _relational-op_ | _arithmetic-op_ <sup>_(2)_</sup>  
   
@@ -65,8 +222,7 @@ semicolon = ';'
 Notes:  
 1. Case-insensitive.  
 2. Case-insensitive and reserved.  
-3. Not an exhaustive list; see source code for full details.  
-4. Numeric _constants_ are parsed according to the following rules:  
+3. Numeric _constants_ are parsed according to the following rules:  
    - Any preceding '+' or '-' signs are treated as _unary-operators_, not part of the _constant_ value.  
    - A sequence of numeric digits '\d+' indicates an _int_.  
    - Append 'U' for _uint_, 'L' for _long_, 'UL' or 'LU' for _ulong_.  
