@@ -233,9 +233,9 @@ Notes:
   
 To illustrate a few aspects of the previous two points, we note that the following filter conditions are all equivalent:  
   
-    Title.Contains("Love"); // Canonical member function syntax.
-    title contains "Love";  // Case insensitive keywords. Optional dot operator & parentheses removed.
-    contains(title, "Love") // Freely change function styles between "member" and "static".
+    Title.Contains("Love");  // Canonical member function syntax.
+    title contains "Love";   // Keywords ignore case. Optional dot operator & parens removed.
+    contains(title, "Love"); // Freely change function styles between "member" and "static".
   
 - **RegeX**: many _functions_ have vanilla and regular expression (Regex) versions. The Regex variants have an **X** appended to the _function-name_ of the vanilla version. Examples are **StartsWithX**, **ContainsX**, **EndsWithX**, **EqualsX**, **IndexOfX**, **LastIndexOfX**, **CountX**, and **ReplaceX**, all of which accept a Regex pattern in place of a plain string argument.  
 - ***Field* names** need not follow the usual naming conventions, but can instead start with a digit or symbol, and contain further symbols and/or embedded spaces; e.g. **\#&nbsp;Album&nbsp;Artists**, **1st&nbsp;Album&nbsp;Artist**, **Year/Album**. But with great power comes great heatsinks! You should probably avoid renaming a _field_ to something like **123** or **3D** or **3M**, which could be mistaken for an actual (e.g. _int_, _double_, _decimal_) _constant_.  
