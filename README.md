@@ -249,8 +249,8 @@ All affected _functions_ have an optional final argument, _bool caseSensitive_, 
   
 Where does this setting come from? The nearest _Case Sensitive_ checkbox:  
   
-- Filters, applied by typing a condition into the general filter area of the app, or by launching the Filter Editor, will respect the _Case Sensitive_ checkbox nearby.  
-- Find & Replace operations will respect the _Case Sensitive_ checkbox in their own Find & Replace area of the UI.  
+- **Filters**, applied by typing a condition into the general filter area of the app, or by launching the Filter Editor, will respect the _Case Sensitive_ checkbox nearby.  
+- **Find & Replace** operations will respect the _Case Sensitive_ checkbox in their own UI area.  
   
 To change this global setting during execution, assign **true** or **false** to CaseSensitive:  
   
