@@ -6,7 +6,7 @@
     public enum Op: long
     {
         None = 0,
-        Comma = 1 << 0,
+        //Comma = 1 << 0,
         Assign = 1 << 1, // :=
         AddAssign = 1 << 2, // +=
         SubtractAssign = 1 << 3, // -=

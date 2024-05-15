@@ -62,9 +62,10 @@
             return result;
         }
 
-        public override string ToString()
+        public override string ToString() => ToString(Op.Format(), Op.IsUnary());
+
+        protected virtual string ToString(string opFormat, bool unary)
         {
-            var format = Op.Format();
             var count = Operands.Count;
             if (count < 1)
                 return string.Empty;
@@ -72,10 +73,10 @@
             for (var index = 0; index < Operands.Count; index++)
                 operands[index] = WrapTerm(index);
             var result = operands[0];
-            if (Op.IsUnary())
-                return string.Format(format, result);
+            if (unary)
+                return string.Format(opFormat, result);
             for (var index = 1; index < count; index++)
-                result = string.Format(format, result, operands[index]);
+                result = string.Format(opFormat, result, operands[index]);
             return result;
         }
 

@@ -5,6 +5,6 @@
         public Block(params Term[] operands) : base(operands) { }
         public Block(Term firstOperand, params Term[] moreOperands) : base(firstOperand, moreOperands) { }
 
-        public override Op Op => Op.Comma;
+        public override string ToString() => ToString("{0}; {1}", unary: false);
     }
 }

@@ -1,6 +1,6 @@
 ﻿# _ʞɯɾ_ (pronounced _your_) Scripting Language  
   
-The TagScanner7 app uses _ʞɯɾ_ scripting language to help interrogate and maintain ID3v2 metadata tags on audiovisual media files. So what is _ʞɯɾ_ language? Here's an example.  
+The TagScanner7 app uses _ʞɯɾ_ scripting language to help interrogate and maintain ID3v2 metadata tags on audiovisual media files. So what is _ʞɯɾ_ language? Here's an example:  
   
     Artist = "The Beatles"  
     and (Album.StartsWith("Sgt. Pepper's") or Album.Contains("Beatles"))  
@@ -11,16 +11,15 @@ Simple _ʞɯɾ_ filters like this are built from predefined tag _field_ names (*
   
 To see the scope/power of _ʞɯɾ_ language, it helps to get an overview of its structure. Step one: _ʞɯɾ_ _syntax_.  
   
-- _ʞɯɾ-program_ is a single _block_ (sequence of _delimited_ _compounds_);  
+- _ʞɯɾ-program_ is a single _block_ (sequence of _compounds_, separated by semicolons);  
 - a _compound_ is a sequence of _terms_, separated by _binary-operators_;  
 - a _term_ is... actually, let's have the grammar speak for itself:  
   
 ## _ʞɯɾ_ Language Syntax  
   
 _ʞɯɾ-program_ = _block_  
-_block_ = \{ _compound_ \{ _delimiter_ _compound_ ... \} \}  
+_block_ = \{ _compound_ \{ semicolon _compound_ ... \} \}  
 _compound_ = _term_ \{ _binary-operator_ _term_ ... \}  
-_delimiter_ = comma | semicolon  
 _term_ = \{ _unary-operator_ | _cast_ ... \} _value_ | lparen _block_ rparen \{ \{ dot \} _function_ ... \}  
 _value_ = _constant_ | _default_ | _field_ | _function_ | _parameter_ | _variable_  
   
@@ -204,7 +203,6 @@ Truncate<br>
 Upper<br>
 </b></details>
 
-comma = ','  
 dot = '.'  
 lbrace = '{'  
 lparen = '('  

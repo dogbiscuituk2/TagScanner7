@@ -93,7 +93,7 @@
             if (PeekToken().Value == "(")
             {
                 DequeueToken();
-                term = ParseCompound();
+                term = ParseBlock();
                 AcceptToken(")");
             }
             else
@@ -115,6 +115,9 @@
                     term = Merge(term);
                 }
 
+                PushTerm(term);
+                PushOperator(token.Value.ToBinaryOperator());
+                term = ParseTerm();
             }
             while (AnyOperators())
             {
