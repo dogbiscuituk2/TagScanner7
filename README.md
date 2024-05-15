@@ -26,7 +26,7 @@ _value_ = _constant_ | _default_ | _field_ | _function_ | _parameter_ | _variabl
 _constant_ = _bool_ | _char_ | _datetime_ | _decimal_ | _double_ | _float_ | _int_ | _long_ | _string_ | _timespan_ | _uint_ | _ulong_ <sup>_(1,3)_</sup>  
 _default_ = lbrace _type_ rbrace  
 
-<details><summary><i>field = (click here for the full list of available fields) <sup>(1)</sup>  </i></summary><b>
+<details><summary><i>field = one of</i> <b>Album</b>, <b>Album Artist</b>, ... <i>(click here for full list) <sup>(1)</sup>  </i></summary><b>
 Album<br>
 Album Artist<br>
 Album Artists<br>
@@ -45,7 +45,7 @@ Audio Bit Rate<br>
 # Audio Channels<br>
 Audio Sample Rate<br>
 BPM<br>
-Bits Per Sample<br>
+# Bits Per Sample<br>
 Century<br>
 Classical?<br>
 Codecs<br>
@@ -150,8 +150,8 @@ Year/Album<br>
 _function_ = _function-name_ \{ _term_ | lparen \{ _block_ \} rparen \}  
 _parameter_ = **Track** <sup>_(2)_</sup>  
 _variable_ = _(any unreserved word)_ <sup>_(1)_</sup>  
-  
-<details><summary><i>_function-name_ = (click here for the full list of available functions) <sup>(2)</sup></i></summary><b>
+
+<details><summary><i>function-name = one of</i> <b>Compare</b>, <b>Concat</b>, ... <i>(click here for full list) <sup>(2)</sup></i></summary><b>
 Compare<br>
 Concat<br>
 Contains<br>

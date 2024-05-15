@@ -308,7 +308,7 @@
         [Column(50)]
         [DefaultValue(0)]
         [Description("An integer value containing the number of bits per sample in the audio represented by the selected item(s). This value is equal to the first non-zero quantization.")]
-        [DisplayName("Bits Per Sample")]
+        [DisplayName("# Bits Per Sample")]
         [ReadOnly(true)]
         public int BitsPerSample => GetInt(p => p.BitsPerSample, ref _bitsPerSample);
 
