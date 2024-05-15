@@ -79,7 +79,8 @@
                     block.Operands.Add(term);
                 else
                     result = new Block(result, term);
-                if (PeekToken().Value == ";")
+                var token = PeekToken().Value;
+                if (token == "," || token == ";")
                     DequeueToken();
                 else
                     break;
@@ -196,7 +197,7 @@
                 DequeueToken();
                 if (PeekToken().Value != ")")
                 {
-                    var term = ParseCompound();
+                    var term = ParseBlock();
                     if (term is Block block)
                         operands.AddRange(block.Operands);
                     else
@@ -204,6 +205,8 @@
                 }
                 AcceptToken(")");
             }
+            else
+                operands.Add(ParseTerm());
             return new Function(fn, operands.ToArray());
         }
 
