@@ -183,9 +183,9 @@
         {
             var selectedTags = SelectedTags;
             if (!selectedTags.Any())
-                return Term.True;
+                return true;
             if (string.IsNullOrWhiteSpace(FindComboBox.Text))
-                return Term.True;
+                return true;
             var terms = new List<Term> { Environment.NewLine };
             terms.AddRange(selectedTags.Select(p => new TrackField(p)));
             return new Function(

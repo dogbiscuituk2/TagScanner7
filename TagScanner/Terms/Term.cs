@@ -12,10 +12,7 @@
     {
         #region Public Fields
 
-        public static readonly Constant<string> Empty = new Constant<string>(string.Empty);
-        public static readonly Constant<bool> False = new Constant<bool>(false);
-        public static readonly Constant<bool> True = new Constant<bool>(true);
-        public static readonly Constant<int> Zero = new Constant<int>(0);
+        public static Term Nothing = new EmptyTerm();
 
         public static readonly Variable List = new Variable("List", typeof(Selection));
         public static readonly Variable Track = new Variable("Track", typeof(Track));
@@ -223,6 +220,16 @@
 
         protected List<CharacterRange> _characterRanges = new List<CharacterRange>();
         private bool _characterRangesValid;
+
+        #endregion
+
+        #region Private Classes
+
+        private class EmptyTerm : Term
+        {
+            public override Expression Expression => Expression.Empty();
+            public override string ToString() => string.Empty;
+        }
 
         #endregion
     }

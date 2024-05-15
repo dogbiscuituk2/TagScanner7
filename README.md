@@ -11,14 +11,14 @@ Simple _ʞɯɾ_ filters like this are built from predefined tag _field_ names (*
   
 To see the scope/power of _ʞɯɾ_ language, it helps to get an overview of its structure. Step one: _ʞɯɾ_ _syntax_.  
   
-- _ʞɯɾ_ _program_ is a single _block_ - a sequence of _compounds_, separated by semicolons.  
+- _ʞɯɾ_ _program_ is a single _block_ - a sequence of _compounds_, terminated with semicolons.  
 - A _compound_ is a sequence of _terms_, separated by _binary-operators_.  
 - A _term_ is... actually, let's have the grammar speak for itself:  
   
 ## _ʞɯɾ_ Language Syntax  
   
 _program_ = _block_  
-_block_ = _compound_ \{ semicolon _compound_ ... \}  
+_block_ = \{ _compound_ semicolon ... \}  
 _compound_ = _term_ \{ _binary-operator_ _term_ ... \}  
 _term_ = \{ _unary-operator_ | _cast_ ... \} _value_ | lparen _block_ rparen \{ \{ dot \} _function_ ... \}  
 _cast_ = lparen _type_ rparen  
@@ -66,7 +66,7 @@ Notes:
 ## _ʞɯɾ_ Further Notes  
   
 - ***Comments***, /* using C notation, */ are treated as // whitespace.  
-- The concatenation of any two _ʞɯɾ_ _programs_, separated by at least one whitespace character, is another _ʞɯɾ_ _program_.  
+- The concatenation of any two _ʞɯɾ_ _programs_ is a _ʞɯɾ_ _program_.  
 - Since any _ʞɯɾ_ _program_ is syntactically just just a _block_, it can be enclosed in parentheses and used as the argument list to a _function_ in another _program_.  
 - **All *functions*** are implemented as extensions, and may be invoked using either member or static syntax, with or without the dot "operator" (which is therefore optional, and treated as whitespace whenever present).  
 - **A *function*'s parentheses** are optional if the number of _terms_ to be enclosed is 0 or 1; otherwise, a semicolon-separated list in parentheses is needed. Note that the definition of a single _term_ allows for the daisy-chaining of any number of follow-on _functions_, and that any initial _cast(s)_ or _unary-operators_ apply to the result of the entire chain.

@@ -5,8 +5,9 @@
     using System.Data;
     using System.Linq;
     using System.Runtime.CompilerServices;
-    using TagScanner.Utils;
-
+    using Terms;
+    using Utils;
+    
     public class Parser
     {
         #region Public Methods
@@ -69,7 +70,7 @@
         private Term ParseBlock()
         {
             Term result = null;
-            while (true)
+            while (PeekToken().Length > 0)
             {
                 var term = ParseCompound();
                 if (result == null)
@@ -78,10 +79,12 @@
                     block.Operands.Add(term);
                 else
                     result = new Block(result, term);
-                if (PeekToken().Value != ";")
+                if (PeekToken().Value == ";")
+                    DequeueToken();
+                else
                     break;
             }
-            return result;
+            return result ?? Term.Nothing;
         }
 
         private Term ParseCompound()
@@ -96,22 +99,31 @@
             else
                 term = ParseTerm();
 
-
-            while (PeekToken().IsBinaryOperator())
+            while (PeekToken().Value.IsBinaryOperator())
             {
-                var op = DequeueToken().Value.ToBinaryOperator();
-                var right = ParseTerm();
+                var token = DequeueToken();
+                var tokenRank = token.Value.Rank(false);
 
-                left = new Operation(op, left, right);
+                while (AnyOperators())
+                {
+                    var op = PeekOperator();
+                    if (op == 0)
+                        break;
+                    var priorRank = op.GetRank();
+                    if (priorRank < tokenRank || priorRank == tokenRank && op.GetAssociativity() == Associativity.Right)
+                        break;
+                    term = Merge(term);
+                }
 
             }
             while (AnyOperators())
             {
                 var op = PeekOperator();
-                if (op == 0) break;
-                left = Merge(right);
+                if (op == 0)
+                    break;
+                term = Merge(term);
             }
-            return left;
+            return term;
 
             Term Merge(Term right) => PrepareCompound(Consolidate(right));
         }
