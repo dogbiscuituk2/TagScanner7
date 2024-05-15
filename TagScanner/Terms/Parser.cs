@@ -24,7 +24,7 @@
             _caseSensitive = caseSensitive;
             BeginParse(program);
             var term = ParseBlock();
-            EndParse(term);
+            -EndParse(term);
             return term;
         }
 

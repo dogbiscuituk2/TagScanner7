@@ -11,14 +11,14 @@ Simple _ʞɯɾ_ filters like this are built from predefined tag _field_ names (*
   
 To see the scope/power of _ʞɯɾ_ language, it helps to get an overview of its structure. Step one: _ʞɯɾ_ _syntax_.  
   
-- _ʞɯɾ_ _program_ is a single _block_ - a sequence of _compounds_, terminated with semicolons.  
-- A _compound_ is a sequence of _terms_, separated by _binary-operators_.  
-- A _term_ is... actually, let's have the grammar speak for itself:  
+- _ʞɯɾ_ _program_ is a single _block_ (sequence of _compounds_);  
+- a _compound_ is a sequence of _terms_, separated by _binary-operators_;  
+- a _term_ is... actually, let's have the grammar speak for itself:  
   
 ## _ʞɯɾ_ Language Syntax  
   
 _program_ = _block_  
-_block_ = \{ _compound_ semicolon ... \}  
+_block_ = \{ _compound_ \{ _separator_ _compound_ ... \} \}  
 _compound_ = _term_ \{ _binary-operator_ _term_ ... \}  
 _term_ = \{ _unary-operator_ | _cast_ ... \} _value_ | lparen _block_ rparen \{ \{ dot \} _function_ ... \}  
 _cast_ = lparen _type_ rparen  
@@ -27,6 +27,11 @@ _value_ = _constant_ | _default_ | _field_ | _function_ | _parameter_ | _variabl
 _constant_ = _bool_ | _char_ | _datetime_ | _decimal_ | _double_ | _float_ | _int_ | _long_ | _string_ | _timespan_ | _uint_ | _ulong_ <sup>_(1,4)_</sup>  
 _default_ = lbrace _type_ rbrace  
 _field_ = _one of_ **Album**, **Artist**, **Duration**, **Title**, ..., **Year** <sup>_(1,3)_</sup>  
+
+<details><summary>See full list</summary>
+**Album**, **Artist**, **Duration**, **Title**
+</details>
+
 _function_ = _function-name_ \{ _term_ | lparen \{ _block_ \} rparen \}  
 _parameter_ = **Track** <sup>_(2)_</sup>  
 _variable_ = _(any unreserved word)_ <sup>_(1)_</sup>  
@@ -47,7 +52,15 @@ _string_ = any character sequence enclosed in double quotes: "Hello, World!"
 _timespan_ = @"\^\\[(?:(\d+)\\.)?(\d\d?)\\:(\d\d?)(?:\\:(\d\d?)(\\.\d+)?)?\\]"  
 _datetime_ = @"\^\\[(\d{4})-(\d\d?)\-(\d\d?)(?: (\d\d?)\\:(\d\d?)(?:\\:(\d\d?)(\\.\d+)?)?)?\\]"  
   
-semicolon = ';'&nbsp;&nbsp;&nbsp; dot = '.'&nbsp;&nbsp;&nbsp; lbrace = '{'&nbsp;&nbsp;&nbsp; rbrace = '}'&nbsp;&nbsp;&nbsp; lparen = '('&nbsp;&nbsp;&nbsp; rparen = ')'  
+_separator_ = comma | semicolon  
+
+comma = ','
+dot = '.'
+lbrace = '{'
+lparen = '('
+rbrace = '}'
+rparen = ')'  
+semicolon = ';'
   
 Notes:  
 1. Case-insensitive.  
