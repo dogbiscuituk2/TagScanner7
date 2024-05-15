@@ -391,7 +391,7 @@
         public void TestFunctionResult(string text, object sense, object nonsense = null) =>
             TestResult(text, sense, nonsense ?? sense);
 
-        [DataRow("\"Abc\" compare(\"ABC\", false)", 0)]
+        [DataRow("\"Abc\" compare \"ABC\"", -1, 0)]
         [TestMethod]
         public void ScratchTestFunctionResult(string text, object sense, object nonsense = null) =>
             TestResult(text, sense, nonsense ?? sense);

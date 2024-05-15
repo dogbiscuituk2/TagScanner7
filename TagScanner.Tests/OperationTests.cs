@@ -233,7 +233,7 @@
         public void TestOperationResult(string text, object sense, object nonsense = null) =>
             TestResult(text, sense, nonsense ?? sense);
 
-        [DataRow("\"Abc\" != \"abc\"", true, false)]
+        [DataRow("2 - (3 - 5)", 4)]
         [TestMethod]
         public void ScratchTestOperationResult(string text, object sense, object nonsense = null) =>
             TestResult(text, sense, nonsense ?? sense);

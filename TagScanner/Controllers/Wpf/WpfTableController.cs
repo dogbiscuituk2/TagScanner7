@@ -150,7 +150,7 @@
         #region Filtering
 
         public void ClearFilter() => ListCollectionView.Filter = null;
-        public void SetFilter(Term term) => ListCollectionView.Filter = p => term.TrackPredicate((Track)p);
+        public void SetFilter(Term term) => ListCollectionView.Filter = p => term.Predicate((Track)p);
 
         public int TracksCountAll => MainModel.Tracks.Count;
         public int TracksCountVisible => ListCollectionView.Count;

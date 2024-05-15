@@ -12,9 +12,6 @@
     {
         #region Public Fields
 
-        public static Term Nothing = new EmptyTerm();
-
-        public static readonly Variable List = new Variable("List", typeof(Selection));
         public static readonly Variable Track = new Variable("Track", typeof(Track));
 
         #endregion
@@ -53,12 +50,10 @@
 
         public virtual IEnumerable<ParameterExpression> Parameters => new[]
         {
-            (ParameterExpression)List.Expression,
             (ParameterExpression)Track.Expression
         };
 
-        public Func<Selection, Track, bool> ListPredicate => (list, track) => Filter(list, track);
-        public Func<Track, bool> TrackPredicate => (track) => Filter(null, track);
+        public Func<Track, bool> Predicate => (track) => Filter(track);
 
         public virtual Rank Rank => Rank.Unary;
 
@@ -89,29 +84,25 @@
 
         #region Public Methods
 
-        public bool Filter(Selection list, Track track)
+        public bool Filter(Track track)
         {
             var func = Delegate;
             var args = Defaults;
-            args[0] = list;
-            args[1] = track;
+            args[0] = track;
             return (bool)func.DynamicInvoke(args);
         }
 
-        public IEnumerable<Track> Filter(IEnumerable<Track> tracks) => Filter(list: null, tracks);
-
-        public IEnumerable<Track> Filter(Selection list, IEnumerable<Track> tracks)
+        public IEnumerable<Track> Filter(IEnumerable<Track> tracks)
         {
             var func = Delegate;
             var args = Defaults;
-            args[0] = list;
             bool error = false, pass = false;
             foreach (var track in tracks)
             {
                 if (!error)
                     try
                     {
-                        args[1] = track;
+                        args[0] = track;
                         pass = (bool)func.DynamicInvoke(args);
                     }
                     catch (Exception exception)
@@ -199,7 +190,7 @@
         public static implicit operator Term(string value) => new Constant<string>(value);
         public static implicit operator Term(uint value) => new Constant<uint>(value);
         public static implicit operator Term(ulong value) => new Constant<ulong>(value);
-        public static implicit operator Term(Tag tag) => new TrackField(tag);
+        public static implicit operator Term(Tag tag) => new Field(tag);
         public static implicit operator Term(TimeSpan value) => new Constant<TimeSpan>(value);
 
         public static Term operator -(Term term) => Minus(term);
@@ -220,16 +211,6 @@
 
         protected List<CharacterRange> _characterRanges = new List<CharacterRange>();
         private bool _characterRangesValid;
-
-        #endregion
-
-        #region Private Classes
-
-        private class EmptyTerm : Term
-        {
-            public override Expression Expression => Expression.Empty();
-            public override string ToString() => string.Empty;
-        }
 
         #endregion
     }

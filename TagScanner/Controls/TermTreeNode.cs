@@ -28,7 +28,7 @@
                 _term = value;
                 switch (Term)
                 {
-                    case TrackField field:
+                    case Field field:
                         ToolTipText = field.Tag.Details();
                         break;
                     case Compound compound:

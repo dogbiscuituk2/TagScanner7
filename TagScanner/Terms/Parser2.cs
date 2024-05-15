@@ -172,11 +172,8 @@
                 return NewTerm(char.Parse(match.Substring(1, match.Length - 2)));
             if (match.IsString())
                 return NewTerm(match.Substring(1, match.Length - 2));
-            if (match.IsTrackField())
+            if (match.IsField())
                 return NewTerm(match.DisplayNameToTagInfo().Tag);
-            //return NewTerm(Tags.Values.Single(p => p.DisplayName == match).Tag);
-            if (match.IsListField())
-                return NewTerm(new ListField(Tags.Values.Single(p => p.DisplayName == match.Substring(1)).Tag));
             if (match.IsUnaryOperator())
                 return ParseUnaryOperation(match);
             if (match.IsNumber())

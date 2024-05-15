@@ -24,8 +24,9 @@
             _caseSensitive = caseSensitive;
             BeginParse(program);
             var term = ParseBlock();
-            EndParse(term);
-            return term;
+            if (term is Compound compound)
+                term = PrepareCompound(compound);
+            return EndParse(term);
         }
 
         /// <summary>
@@ -85,20 +86,12 @@
                 else
                     break;
             }
-            return result ?? Term.Nothing;
+            return result ?? new EmptyTerm();
         }
 
         private Term ParseCompound()
         {
-            Term term;
-            if (PeekToken().Value == "(")
-            {
-                DequeueToken();
-                term = ParseBlock();
-                AcceptToken(")");
-            }
-            else
-                term = ParseTerm();
+            Term term = ParseTerm();
 
             while (PeekToken().Value.IsBinaryOperator())
             {
@@ -129,7 +122,34 @@
             }
             return term;
 
-            Term Merge(Term right) => PrepareCompound(Consolidate(right));
+            Term Merge(Term right) => /*PrepareCompound( */ Consolidate(right) /* ) */ ;
+        }
+
+        private Term ParseFunction() => ParseFunction(new List<Term>());
+        private Term ParseFunction(Term self) => ParseFunction(new List<Term> { self });
+        private Term ParseFunction(List<Term> operands)
+        {
+            var fn = DequeueToken().Value.ToFunction();
+            if (PeekToken().Value == "(")
+            {
+                DequeueToken();
+                if (PeekToken().Value != ")")
+                {
+                    var term = ParseBlock();
+                    if (term is Block block)
+                        operands.AddRange(block.Operands);
+                    else
+                        operands.Add(term);
+                }
+                AcceptToken(")");
+            }
+            else
+            {
+                var term = ParseTerm();
+                if (!(term is EmptyTerm))
+                    operands.Add(term);
+            }
+            return new Function(fn, operands.ToArray());
         }
 
         private Term ParseTerm()
@@ -146,7 +166,9 @@
                     AcceptToken(")");
                     return new Cast(type, ParseTerm());
                 }
+                PushOperator();
                 term = ParseBlock();
+                PopOperator();
                 AcceptToken(")");
             }
             else
@@ -169,45 +191,22 @@
 
         private Term ParseValue()
         {
-            var token = DequeueToken();
-            var value = token.Value;
+            var token = PeekToken();
+            if (token.Kind == TokenKind.Function)
+                return ParseFunction();
             switch (token.Kind)
             {
-                case TokenKind.Boolean: return ParseBoolean(value);
-                case TokenKind.Character: return ParseCharacter(value);
-                case TokenKind.DateTime: return ParseDateTime(value);
-                case TokenKind.Default: return ParseDefault(value);
-                case TokenKind.Field: return ParseField(value);
-                case TokenKind.Function: return ParseFunction();
-                case TokenKind.Number: return ParseNumber(value.ToUpperInvariant());
-                case TokenKind.String: return ParseString(value);
-                case TokenKind.TimeSpan: return ParseTimeSpan(value);
-                case TokenKind.Variable: return ParseVariable(value);
+                case TokenKind.Boolean: return ParseBoolean(DequeueToken().Value);
+                case TokenKind.Character: return ParseCharacter(DequeueToken().Value);
+                case TokenKind.DateTime: return ParseDateTime(DequeueToken().Value);
+                case TokenKind.Default: return ParseDefault(DequeueToken().Value);
+                case TokenKind.Field: return ParseField(DequeueToken().Value);
+                case TokenKind.Number: return ParseNumber(DequeueToken().Value.ToUpperInvariant());
+                case TokenKind.String: return ParseString(DequeueToken().Value);
+                case TokenKind.TimeSpan: return ParseTimeSpan(DequeueToken().Value);
+                case TokenKind.Variable: return ParseVariable(DequeueToken().Value);
             }
-            return SyntaxError(token);
-        }
-
-        private Term ParseFunction() => ParseFunction(new List<Term>());
-        private Term ParseFunction(Term self) => ParseFunction(new List<Term> { self });
-        private Term ParseFunction(List<Term> operands)
-        {
-            var fn = DequeueToken().Value.ToFunction();
-            if (PeekToken().Value == "(")
-            {
-                DequeueToken();
-                if (PeekToken().Value != ")")
-                {
-                    var term = ParseBlock();
-                    if (term is Block block)
-                        operands.AddRange(block.Operands);
-                    else
-                        operands.Add(term);
-                }
-                AcceptToken(")");
-            }
-            else
-                operands.Add(ParseTerm());
-            return new Function(fn, operands.ToArray());
+            return new EmptyTerm();
         }
 
         #endregion
@@ -373,17 +372,13 @@
             }
         }
 
-
-        private Term SyntaxError(Token token) => throw new SyntaxErrorException($"Unexpected Token: {token.Value}");
-
         #endregion
 
         #region ParserSpy Calls
 
         private void BeginParse(string program, [CallerMemberName] string caller = "", [CallerLineNumber] int line = 0) => _spy.BeginParse(caller, line, program);
-        private void EndParse(Term term, [CallerMemberName] string caller = "", [CallerLineNumber] int line = 0) => _spy.EndParse(caller, line, term);
+        private Term EndParse(Term term, [CallerMemberName] string caller = "", [CallerLineNumber] int line = 0) => _spy.EndParse(caller, line, term);
         private Term NewTerm(Term term, [CallerMemberName] string caller = "", [CallerLineNumber] int line = 0) => _spy.NewTerm(caller, line, term);
-        private object UnexpectedToken(Token token, [CallerMemberName] string caller = "", [CallerLineNumber] int line = 0) => _spy.UnexpectedToken(caller, line, token);
 
         #region Operators
 
@@ -396,7 +391,6 @@
         #region Terms
 
         private Compound Consolidate(Term right, [CallerMemberName] string caller = "", [CallerLineNumber] int line = 0) => _spy.Consolidate(caller, line, right);
-        private Term PopTerm([CallerMemberName] string caller = "", [CallerLineNumber] int line = 0) => _spy.PopTerm(caller, line);
         private void PushTerm(Term term, [CallerMemberName] string caller = "", [CallerLineNumber] int line = 0) => _spy.PushTerm(caller, line, term);
 
         #endregion

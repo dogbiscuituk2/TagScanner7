@@ -48,7 +48,7 @@
             foreach (var tag in Tags.Keys)
             {
                 var field = new Parser().Parse(tag.DisplayName(), caseSensitive: true);
-                Assert.IsInstanceOfType(field, typeof(TrackField));
+                Assert.IsInstanceOfType(field, typeof(Field));
                 Assert.AreEqual(expected: tag.Type(), actual: field.ResultType);
                 Assert.AreEqual(expected: tag.DisplayName(), actual: field.ToString());
             }

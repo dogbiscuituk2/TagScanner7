@@ -57,7 +57,7 @@
         public void AddCast(Type type) => Add(new Cast(type));
         public int AddChild(TreeNode parent, Term term) => AddNode(parent != null ? parent.Nodes : Roots, term);
         public void AddConstant<T>() => Add(new Constant<T>(default(T)));
-        public void AddField(Tag tag) => Add(new TrackField(tag));
+        public void AddField(Tag tag) => Add(new Field(tag));
         public void AddFunction(Fn fn) => Add(new Function(fn));
         public void AddOperation(Op op) => Add(new Operation(op));
         public int AddRoot(Term term) => AddNode(Roots, term);

@@ -57,7 +57,7 @@
                     return Expression.Call(
                         _methodInfo,
                         expressions.First(),
-                        Expression.NewArrayInit(typeof(object), expressions.Skip(1)));
+                        Expression.NewArrayInit(typeof(object), expressions.Skip(1).Select(p => Expression.Convert(p, typeof(object)))));
             }
             return Expression.Call(_methodInfo, expressions);
         }

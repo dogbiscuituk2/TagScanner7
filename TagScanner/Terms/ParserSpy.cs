@@ -70,9 +70,7 @@
                 leftOps = lop ? ((Compound)left).Operands.ToArray() : new[] { left },
                 rightOps = rop ? ((Compound)right).Operands.ToArray() : new[] { right };
             var operands = leftOps.Concat(rightOps).ToArray();
-            return /*op == Op.Comma
-                ? new Block(operands)
-                :*/ (Compound)new Operation(op, operands);
+            return new Operation(op, operands);
         }
 
         private void Dump(string caller, int line, object value, [CallerMemberName] string action = "")
@@ -129,7 +127,7 @@
                 Exception(caller, line, exception, action);
                 throw;
             }
-            Dump(caller, line, value is Op ? ((Op)value).Label() : value, action);
+            Dump(caller, line, value is Op op ? op.Label() : value, action);
             return value;
         }
 

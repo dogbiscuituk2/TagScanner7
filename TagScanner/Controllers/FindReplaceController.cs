@@ -133,10 +133,8 @@
             UpdateFindItems();
             var term = MakeCondition();
             AppController.AddFilter(term.ToString());
-            //var predicate = term.Predicate;
             var visibleTracks = VisibleTracks;
-            var list = new Selection(MainModel.Tracks);
-            var tracks = term.Filter(list, visibleTracks);
+            var tracks = term.Filter(visibleTracks);
             var tracksArray = tracks.ToArray();
             Selection.Clear();
             Selection.Add(tracksArray);
@@ -187,7 +185,7 @@
             if (string.IsNullOrWhiteSpace(FindComboBox.Text))
                 return true;
             var terms = new List<Term> { Environment.NewLine };
-            terms.AddRange(selectedTags.Select(p => new TrackField(p)));
+            terms.AddRange(selectedTags.Select(p => new Field(p)));
             return new Function(
                 Fn.ContainsX,
                 new Function(Fn.Join, terms.ToArray()),
