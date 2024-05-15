@@ -11,192 +11,187 @@ Simple _ʞɯɾ_ filters like this are built from predefined tag _field_ names (*
   
 To see the scope/power of _ʞɯɾ_ language, it helps to get an overview of its structure. Step one: _ʞɯɾ_ _syntax_.  
   
-- _ʞɯɾ_ _program_ is a single _block_ (sequence of _compounds_);  
+- _ʞɯɾ_ _program_ is a single _block_ (sequence of _delimited_ _compounds_);  
 - a _compound_ is a sequence of _terms_, separated by _binary-operators_;  
 - a _term_ is... actually, let's have the grammar speak for itself:  
   
 ## _ʞɯɾ_ Language Syntax  
   
 _program_ = _block_  
-_block_ = \{ _compound_ \{ _separator_ _compound_ ... \} \}  
+_block_ = \{ _compound_ \{ _delimiter_ _compound_ ... \} \}  
 _compound_ = _term_ \{ _binary-operator_ _term_ ... \}  
 _term_ = \{ _unary-operator_ | _cast_ ... \} _value_ | lparen _block_ rparen \{ \{ dot \} _function_ ... \}  
 _cast_ = lparen _type_ rparen  
 _value_ = _constant_ | _default_ | _field_ | _function_ | _parameter_ | _variable_  
-  
 _constant_ = _bool_ | _char_ | _datetime_ | _decimal_ | _double_ | _float_ | _int_ | _long_ | _string_ | _timespan_ | _uint_ | _ulong_ <sup>_(1,3)_</sup>  
 _default_ = lbrace _type_ rbrace  
-_field_ = _one of_ **Album**, **Artist**, **Duration**, **Title**, **Track #**, ..., **Year/Album** <sup>_(1)_</sup>  
 
-<details><summary><i>Click here for the full list of available fields.</i></summary>  
-<b>Album</b><br>
-<b>Album Artist</b><br>
-<b>Album Artists</b><br>
-<b># Album Artists</b><br>
-<b>Album Artists (sorted)</b><br>
-<b># Album Artists (sorted)</b><br>
-<b>Album Gain</b><br>
-<b>Album Peak</b><br>
-<b>Album (sort by)</b><br>
-<b>Amazon ID</b><br>
-<b>Artist</b><br>
-<b>Artists</b><br>
-<b># Artists</b><br>
-<b>Artists (joined)</b><br>
-<b>Audio Bit Rate</b><br>
-<b># Audio Channels</b><br>
-<b>Audio Sample Rate</b><br>
-<b>BPM</b><br>
-<b>Bits Per Sample</b><br>
-<b>Century</b><br>
-<b>Classical?</b><br>
-<b>Codecs</b><br>
-<b>Comments</b><br>
-<b>Composer</b><br>
-<b>Composers</b><br>
-<b># Composers</b><br>
-<b>Composers (sorted)</b><br>
-<b># Composers (sorted)</b><br>
-<b>Conductor</b><br>
-<b>Copyright</b><br>
-<b>Decade</b><br>
-<b>Disc #</b><br>
-<b>Disc # of #</b><br>
-<b>Disc & Track #</b><br>
-<b># Discs</b><br>
-<b>Duration</b><br>
-<b>Empty?</b><br>
-<b>File Attributes</b><br>
-<b>File Created</b><br>
-<b>File Created (UTC)</b><br>
-<b>File Extension</b><br>
-<b>File Accessed</b><br>
-<b>File Accessed (UTC)</b><br>
-<b>File Modified</b><br>
-<b>File Modified (UTC)</b><br>
-<b>File Name</b><br>
-<b>File Name (no ext)</b><br>
-<b>File Path</b><br>
-<b>File Size</b><br>
-<b>File Status</b><br>
-<b>First Album Artist</b><br>
-<b>First Album Artist (sorted)</b><br>
-<b>First Artist</b><br>
-<b>First Composer</b><br>
-<b>First Composer (sorted)</b><br>
-<b>First Genre</b><br>
-<b>First Performer</b><br>
-<b>First Performer (sorted)</b><br>
-<b>Genre</b><br>
-<b>Genres</b><br>
-<b># Genres</b><br>
-<b>Grouping</b><br>
-<b>Image Altitude</b><br>
-<b>Image Creator</b><br>
-<b>Image Date/Time</b><br>
-<b>Image Exposure Time</b><br>
-<b>Image 'F' Number</b><br>
-<b>Image Focal Length</b><br>
-<b>Image Focal Length (35mm)</b><br>
-<b>Image ISO Speed</b><br>
-<b>Image Keywords</b><br>
-<b>Image Latitude</b><br>
-<b>Image Longitude</b><br>
-<b>Image Make</b><br>
-<b>Image Model</b><br>
-<b>Image Orientation</b><br>
-<b>Image Rating</b><br>
-<b>Image Software</b><br>
-<b>Invariant End Position</b><br>
-<b>Invariant Start Position</b><br>
-<b>Lyrics</b><br>
-<b>Media Description</b><br>
-<b>Media Types</b><br>
-<b>Millennium</b><br>
-<b>Mime Type</b><br>
-<b>MusicBrainz Artist ID</b><br>
-<b>MusicBrainz Disc ID</b><br>
-<b>MusicBrainz Release Artist ID</b><br>
-<b>MusicBrainz Release Country</b><br>
-<b>MusicBrainz Release ID</b><br>
-<b>MusicBrainz Release Status</b><br>
-<b>MusicBrainz Release Type</b><br>
-<b>MusicBrainz Track ID</b><br>
-<b>MusicIP PUID</b><br>
-<b>Performers</b><br>
-<b># Performers</b><br>
-<b>Performers (joined, sorted)</b><br>
-<b>Performers (sorted)</b><br>
-<b># Performers (sorted)</b><br>
-<b>Photo Height</b><br>
-<b>Photo Quality</b><br>
-<b>Photo Width</b><br>
-<b>Pictures</b><br>
-<b># Pictures</b><br>
-<b>Possibly Corrupt?</b><br>
-<b>Tag Types</b><br>
-<b>Tag Types on Disk</b><br>
-<b>Title</b><br>
-<b>Title (sort by)</b><br>
-<b># Tracks</b><br>
-<b>Track Gain</b><br>
-<b>Track #</b><br>
-<b>Track # of #</b><br>
-<b>Track Peak</b><br>
-<b>Video Height</b><br>
-<b>Video Width</b><br>
-<b>Year</b><br>
-<b>Year/Album</b><br>
-</details>  
+<details><summary><i>field = (click here for the full list of available fields) <sup>(1)</sup>  </i></summary><b>
+Album<br>
+Album Artist<br>
+Album Artists<br>
+# Album Artists<br>
+Album Artists (sorted)<br>
+# Album Artists (sorted)<br>
+Album Gain<br>
+Album Peak<br>
+Album (sort by)<br>
+Amazon ID<br>
+Artist<br>
+Artists<br>
+# Artists<br>
+Artists (joined)<br>
+Audio Bit Rate<br>
+# Audio Channels<br>
+Audio Sample Rate<br>
+BPM<br>
+Bits Per Sample<br>
+Century<br>
+Classical?<br>
+Codecs<br>
+Comments<br>
+Composer<br>
+Composers<br>
+# Composers<br>
+Composers (sorted)<br>
+# Composers (sorted)<br>
+Conductor<br>
+Copyright<br>
+Decade<br>
+Disc #<br>
+Disc # of #<br>
+Disc & Track #<br>
+# Discs<br>
+Duration<br>
+Empty?<br>
+File Attributes<br>
+File Created<br>
+File Created (UTC)<br>
+File Extension<br>
+File Accessed<br>
+File Accessed (UTC)<br>
+File Modified<br>
+File Modified (UTC)<br>
+File Name<br>
+File Name (no ext)<br>
+File Path<br>
+File Size<br>
+File Status<br>
+First Album Artist<br>
+First Album Artist (sorted)<br>
+First Artist<br>
+First Composer<br>
+First Composer (sorted)<br>
+First Genre<br>
+First Performer<br>
+First Performer (sorted)<br>
+Genre<br>
+Genres<br>
+# Genres<br>
+Grouping<br>
+Image Altitude<br>
+Image Creator<br>
+Image Date/Time<br>
+Image Exposure Time<br>
+Image 'F' Number<br>
+Image Focal Length<br>
+Image Focal Length (35mm)<br>
+Image ISO Speed<br>
+Image Keywords<br>
+Image Latitude<br>
+Image Longitude<br>
+Image Make<br>
+Image Model<br>
+Image Orientation<br>
+Image Rating<br>
+Image Software<br>
+Invariant End Position<br>
+Invariant Start Position<br>
+Lyrics<br>
+Media Description<br>
+Media Types<br>
+Millennium<br>
+Mime Type<br>
+MusicBrainz Artist ID<br>
+MusicBrainz Disc ID<br>
+MusicBrainz Release Artist ID<br>
+MusicBrainz Release Country<br>
+MusicBrainz Release ID<br>
+MusicBrainz Release Status<br>
+MusicBrainz Release Type<br>
+MusicBrainz Track ID<br>
+MusicIP PUID<br>
+Performers<br>
+# Performers<br>
+Performers (joined, sorted)<br>
+Performers (sorted)<br>
+# Performers (sorted)<br>
+Photo Height<br>
+Photo Quality<br>
+Photo Width<br>
+Pictures<br>
+# Pictures<br>
+Possibly Corrupt?<br>
+Tag Types<br>
+Tag Types on Disk<br>
+Title<br>
+Title (sort by)<br>
+# Tracks<br>
+Track Gain<br>
+Track #<br>
+Track # of #<br>
+Track Peak<br>
+Video Height<br>
+Video Width<br>
+Year<br>
+Year/Album<br>
+</b></details>  
 
 _function_ = _function-name_ \{ _term_ | lparen \{ _block_ \} rparen \}  
 _parameter_ = **Track** <sup>_(2)_</sup>  
 _variable_ = _(any unreserved word)_ <sup>_(1)_</sup>  
   
-_function-name_ = _one of_ **Compare**, **Concat**, ..., **Upper** <sup>_(2)_</sup>  
-
-<details><summary><i>Click here for the full list of available functions.</i></summary>  
-<b>Compare</b><br>
-<b>Concat</b><br>
-<b>Contains</b><br>
-<b>ContainsX</b><br>
-<b>Count</b><br>
-<b>CountX</b><br>
-<b>Empty</b><br>
-<b>EndsWith</b><br>
-<b>EndsWithX</b><br>
-<b>Equals</b><br>
-<b>EqualsX</b><br>
-<b>Format</b><br>
-<b>If</b><br>
-<b>IndexOf</b><br>
-<b>IndexOfX</b><br>
-<b>Insert</b><br>
-<b>Join</b><br>
-<b>LastIndexOf</b><br>
-<b>LastIndexOfX</b><br>
-<b>Length</b><br>
-<b>Lower</b><br>
-<b>Max</b><br>
-<b>Min</b><br>
-<b>Pow</b><br>
-<b>Remove</b><br>
-<b>Replace</b><br>
-<b>ReplaceX</b><br>
-<b>Round</b><br>
-<b>Sign</b><br>
-<b>StartsWith</b><br>
-<b>StartsWithX</b><br>
-<b>Substring</b><br>
-<b>ToString</b><br>
-<b>Trim</b><br>
-<b>Truncate</b><br>
-<b>Upper</b><br>
-</details>
+<details><summary><i>_function-name_ = (click here for the full list of available functions) <sup>(2)</sup></i></summary><b>
+Compare<br>
+Concat<br>
+Contains<br>
+ContainsX<br>
+Count<br>
+CountX<br>
+Empty<br>
+EndsWith<br>
+EndsWithX<br>
+Equals<br>
+EqualsX<br>
+Format<br>
+If<br>
+IndexOf<br>
+IndexOfX<br>
+Insert<br>
+Join<br>
+LastIndexOf<br>
+LastIndexOfX<br>
+Length<br>
+Lower<br>
+Max<br>
+Min<br>
+Pow<br>
+Remove<br>
+Replace<br>
+ReplaceX<br>
+Round<br>
+Sign<br>
+StartsWith<br>
+StartsWithX<br>
+Substring<br>
+ToString<br>
+Trim<br>
+Truncate<br>
+Upper<br>
+</b></details>
 
 _unary-operator_ = _one of_ +, ＋, -, －, !, **not** <sup>_(2)_</sup>  
 _binary-operator_ = _assign-op_ | _logical-op_ | _relational-op_ | _arithmetic-op_ <sup>_(2)_</sup>  
-  
 _assign-op_ = _one of_ \<-, :=, ←, &=, |=, \^=, +=, -=, \*=, /=, %=  
 _logical-op_ = _one of_ &, &&, |, ||, ^, **and**, **or**, **xor**  
 _relational-op_ = _one of_ =, ==, !=, <>, #, ≠, <, \<=, ≤, ≯, >=, ≥, ≮, >  
@@ -205,11 +200,10 @@ _arithmetic-op_ = _one of_ +, ＋, -, －, *, ×, ✕, /, ÷, ／, %
 _bool_ = _one of_ **true**, **false**  
 _char_ = any single character enclosed in single quotes: 'A'  
 _string_ = any character sequence enclosed in double quotes: "Hello, World!"  
-  
 _timespan_ = @"\^\\[(?:(\d+)\\.)?(\d\d?)\\:(\d\d?)(?:\\:(\d\d?)(\\.\d+)?)?\\]"  
 _datetime_ = @"\^\\[(\d{4})-(\d\d?)\-(\d\d?)(?: (\d\d?)\\:(\d\d?)(?:\\:(\d\d?)(\\.\d+)?)?)?\\]"  
   
-_separator_ = comma | semicolon  
+_delimiter_ = comma | semicolon  
 
 comma = ','
 dot = '.'
