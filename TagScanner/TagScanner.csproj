@@ -193,7 +193,7 @@
     <Compile Include="Terms\ListField.cs" />
     <Compile Include="Terms\Parameter.cs" />
     <Compile Include="Terms\Parser.cs" />
-    <Compile Include="Terms\Parser1.cs" />
+    <Compile Include="Terms\Parser2.cs" />
     <Compile Include="Terms\ParserSpy.cs" />
     <Compile Include="Terms\Token.cs" />
     <Compile Include="Terms\Tokenizer.cs" />

@@ -55,7 +55,7 @@
             {
                 if (expected == null)
                     expected = original;
-                var term = new Parser1().Parse(original, caseSensitive);
+                var term = new Parser().Parse(original, caseSensitive);
                 var actual = term.ToString();
                 Assert.AreEqual(expected, actual);
                 expected = nonsense;
@@ -85,7 +85,7 @@
 
         protected void TestParseRoundTrip(Term term)
         {
-            var parser = new Parser1();
+            var parser = new Parser();
             // Case sensitive
             string
                 expected = parser.Parse(term?.ToString(), caseSensitive: true).ToString(),
@@ -101,7 +101,7 @@
 
         protected void TestResult(string text, object sense, object nonsense)
         {
-            var parser = new Parser1();
+            var parser = new Parser();
 
             var term = parser.Parse(text, caseSensitive: true);
             Assert.AreEqual(expected: sense, actual: term.Result);
@@ -132,7 +132,7 @@
             var expected = sense;
             do
             {
-                term = new Parser1().Parse(text, caseSensitive);
+                term = new Parser().Parse(text, caseSensitive);
                 var actual = func.Invoke(term);
                 Assert.AreEqual(expected, actual);
                 expected = nonsense;

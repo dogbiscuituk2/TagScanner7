@@ -13,7 +13,7 @@
             foreach (var type in Types.Values)
             {
                 var expectedText = $"({type.Say()})123";
-                var cast = new Parser1().Parse(expectedText, caseSensitive: true);
+                var cast = new Parser().Parse(expectedText, caseSensitive: true);
                 Assert.IsInstanceOfType(cast, typeof(Cast));
                 Assert.AreEqual(expected: expectedText, actual: cast.ToString());
             }
@@ -36,7 +36,7 @@
         [DataRow("[12:34:56.789]", typeof(Constant<TimeSpan>), typeof(TimeSpan))]
         public void TestParseConstants(string text, Type termType, Type resultType, string expectedText = null)
         {
-            var constant = new Parser1().Parse(text, caseSensitive: true);
+            var constant = new Parser().Parse(text, caseSensitive: true);
             Assert.AreEqual(expected: termType, actual: constant.GetType());
             Assert.AreEqual(expected: resultType, actual: constant.ResultType);
             Assert.AreEqual(expected: expectedText ?? text, actual: constant.ToString());
@@ -47,7 +47,7 @@
         {
             foreach (var tag in Tags.Keys)
             {
-                var field = new Parser1().Parse(tag.DisplayName(), caseSensitive: true);
+                var field = new Parser().Parse(tag.DisplayName(), caseSensitive: true);
                 Assert.IsInstanceOfType(field, typeof(TrackField));
                 Assert.AreEqual(expected: tag.Type(), actual: field.ResultType);
                 Assert.AreEqual(expected: tag.DisplayName(), actual: field.ToString());

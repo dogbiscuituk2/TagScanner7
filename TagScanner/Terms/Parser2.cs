@@ -6,7 +6,7 @@
     using System.Runtime.CompilerServices;
     using Utils;
 
-    public class Parser1
+    public class Parser2
     {
         #region Public Methods
 

@@ -35,7 +35,7 @@
             TermTreeController.Clear();
             if (!string.IsNullOrWhiteSpace(text))
             {
-                if (new Parser1().TryParse(text, out var term, out var exception, caseSensitive: true))
+                if (new Parser().TryParse(text, out var term, out var exception, caseSensitive: true))
                     TermTreeController.AddRoot(term);
                 else
                 {
