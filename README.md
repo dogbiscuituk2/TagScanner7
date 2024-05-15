@@ -204,13 +204,13 @@ Truncate<br>
 Upper<br>
 </b></details>
 
-comma = ','
-dot = '.'
-lbrace = '{'
-lparen = '('
-rbrace = '}'
+comma = ','  
+dot = '.'  
+lbrace = '{'  
+lparen = '('  
+rbrace = '}'  
 rparen = ')'  
-semicolon = ';'
+semicolon = ';'  
   
 Notes:  
 1. Case-insensitive.  
