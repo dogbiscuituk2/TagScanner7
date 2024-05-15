@@ -6,10 +6,10 @@ The TagScanner7 app uses _ʞɯɾ_ scripting language to help interrogate and mai
     and (Album.StartsWith("Sgt. Pepper's") or Album.Contains("Beatles"))  
     and Title.Contains("Love")  
     and Decade = "1960s"  
-
-Simple filters like this can be written in _ʞɯɾ_ language, using a combination of predefined tag _field_ names (**Artist**, **Album**, **Title**, etc.), _constant_ values (for example the character strings "The Beatles", "Sgt. Pepper's"), _functions_ (**Contains**, **StartsWith**), and connecting _operator_ symbols like +, -, *, /, =, **and**, **or**, **not**.  
   
-To get an idea of the scope and power of _ʞɯɾ_ language, it helps to get an overview of its structure. The first step is examining _ʞɯɾ_ _syntax_.  
+Simple _ʞɯɾ_ filters like this are built from predefined tag _field_ names (**Artist**, **Album**, **Title**, etc.), _constant_ values (for example the character strings "The Beatles", "Sgt. Pepper's"), _functions_ (**Contains**, **StartsWith**), and connecting _operator_ symbols like +, -, *, /, =, **and**, **or**, **not**.  
+  
+To see the scope/power of _ʞɯɾ_ language, it helps to get an overview of its structure. Step one: _ʞɯɾ_ _syntax_.  
   
 - _ʞɯɾ_ _program_ is a single _block_ - a sequence of _compounds_, separated by semicolons.  
 - A _compound_ is a sequence of _terms_, separated by _binary-operators_.  
