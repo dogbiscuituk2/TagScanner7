@@ -95,9 +95,8 @@
             Add(Op.Positive, "+", "＋");
             Add(Op.Negative, "-", "－");
             Add(Op.Not, "!", "NOT");
-            //Add(Op.Dot, ".");
 
-            _symbols.AddRange(_unarySymbols.Union(_binarySymbols).Union(new[] { "(", ")" }));
+            _symbols.AddRange(_unarySymbols.Union(_binarySymbols).Union(new[] { ".", ";", "(", ")" }));
 
             void Add(Op op, params string[] symbols)
             {

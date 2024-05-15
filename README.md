@@ -44,11 +44,8 @@ _bool_ = _one of_ **true**, **false**
 _char_ = any single character enclosed in single quotes: 'A'  
 _string_ = any character sequence enclosed in double quotes: "Hello, World!"  
   
-_timespan_ = lbracket _timespanpattern_ rbracket  
-_datetime_ = lbracket _datetimepattern_ rbracket  
-  
-_timespanpattern_ = a complex Regex!  
-_datetimepattern_ = a more complex Regex!  
+_timespan_ = @"\^\\[(?:(\d+)\\.)?(\d\d?)\\:(\d\d?)(?:\\:(\d\d?)(\\.\d+)?)?\\]"  
+_datetime_ = @"\^\\[(\d{4})-(\d\d?)\-(\d\d?)(?: (\d\d?)\\:(\d\d?)(?:\\:(\d\d?)(\\.\d+)?)?)?\\]"  
   
 semicolon = ';'&nbsp;&nbsp;&nbsp; dot = '.'&nbsp;&nbsp;&nbsp; lbrace = '{'&nbsp;&nbsp;&nbsp; rbrace = '}'&nbsp;&nbsp;&nbsp; lbracket = '['&nbsp;&nbsp;&nbsp; rbracket = ']'&nbsp;&nbsp;&nbsp; lparen = '('&nbsp;&nbsp;&nbsp; rparen = ')'  
   
@@ -125,6 +122,6 @@ A _variable_ is created when its name first appears. Here are several new _varia
     ms := [2024-5-14 15:12:25.625]; // including msec [yyyy-M-d H:m:s.fff]  
     TimeOfDay := [14:25];           // no time zone   [H:m]  
     SongLength := [0:3:25];         // including sec  [H:m:s]  
-    PersonalBest := [1:25:59];      // including msec [H:m:s.fff]  
+    PersonalBest := [1:25:59.987];  // including msec [H:m:s.fff]  
 
 At the time of writing, _array-variables_ are work in progress...

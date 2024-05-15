@@ -69,7 +69,7 @@
                         return dateTime.Valid ? dateTime : MatchTimeSpan();
                     case LeftBrace:
                         return MatchParameter();
-                    case char c when char.IsLetter(c):
+                    case char c when char.IsLetter(c) || c == '_':
                         return MatchVariable();
                 }
                 return UnexpectedCharacter();
