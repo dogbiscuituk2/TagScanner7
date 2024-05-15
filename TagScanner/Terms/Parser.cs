@@ -78,7 +78,7 @@
                     block.Operands.Add(term);
                 else
                     result = new Block(result, term);
-                if (PeekToken().Value != ",")
+                if (PeekToken().Value != ";")
                     break;
             }
             return result;
