@@ -10,7 +10,7 @@
         EndsWith, EndsWithX,
         Equals, EqualsX,
         Format,
-        If,
+        Iif,
         IndexOf, IndexOfX,
         Insert,
         Join,

@@ -56,7 +56,7 @@
             {
                 switch (Fn)
                 {
-                    case Fn.If:
+                    case Fn.Iif:
                         return Utility.GetCommonType(Operands[1].ResultType, Operands[2].ResultType);
                     default:
                         return FnInfo.ReturnType;
@@ -121,7 +121,7 @@
     public class Conditional : Function
     {
         public Conditional(Term condition, Term consequent, Term alternative)
-            : base(Fn.If, condition, consequent, alternative) { }
+            : base(Fn.Iif, condition, consequent, alternative) { }
     }
 
     #endregion

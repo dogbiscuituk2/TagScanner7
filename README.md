@@ -18,8 +18,11 @@ To see the scope/power of _ʞɯɾ_ language, it helps to get an overview of its 
 ## _ʞɯɾ_ Language Syntax  
   
 _ʞɯɾ-program_ = _block_  
-_block_ = \{ _compound_ \{ semicolon _compound_ ... \} \}  
+_block_ = \{ _statement_ \{ semicolon _statement_ ... \} \}  
+_statement_ = _compound_ | _if-statement_ | _do-loop_ | **break** | **continue** <sup>_(4)_</sup>  
 _compound_ = _term_ \{ _binary-operator_ _term_ ... \}  
+_if-statement_ = **if** _compound_ **then** _block_ { **else** _block_ } **endif**  
+_do-loop_ = { **while** _compound_ } **do** _block_ { **until** _compound_ } **loop**  
 _term_ = \{ _unary-operator_ | _cast_ ... \} _value_ | lparen _block_ rparen \{ \{ dot \} _function_ ... \}  
 _value_ = _constant_ | _default_ | _field_ | _function_ | _parameter_ | _variable_  
   
@@ -219,6 +222,7 @@ Notes:
    - Append 'U' for _uint_, 'L' for _long_, 'UL' or 'LU' for _ulong_.  
    - Or include a decimal point '.' and/or append an exponent part 'E[-+]\d+' to obtain a _double_.  
    - A final suffix 'D' is optional for _double_; use 'F' or 'M' instead for _float_ or _decimal_.  
+4. The **break** and **continue** statements are only available within the body, i.e. the _block_ portion, of a _do-loop_.  
   
 ## _ʞɯɾ_ Further Notes  
   

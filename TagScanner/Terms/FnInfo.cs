@@ -46,7 +46,7 @@
             var expressions = operands.Select(p => p.Expression).ToList();
             switch (_fn)
             {
-                case Fn.If:
+                case Fn.Iif:
                     return Expression.Condition(expressions[0], expressions[1], expressions[2]);
                 case Fn.Concat:
                     return Expression.Call(

@@ -52,11 +52,12 @@
                 if (remainingText.StartsWithNumber()) return MatchNumber();
 
                 Token token = null;
-                if (MatchKeyword(ref token, TokenKind.Boolean, Term.Booleans)) return token;
-                if (MatchKeyword(ref token, TokenKind.Field, Tags.FieldNames)) return token;
-                if (MatchKeyword(ref token, TokenKind.Function, Functors.FunctionNames)) return token;
-                if (MatchKeyword(ref token, TokenKind.Symbol, Operators.Symbols)) return token;
-                if (MatchKeyword(ref token, TokenKind.TypeName, Types.Names)) return token;
+                if (MatchName(ref token, TokenKind.Boolean, Term.Booleans)) return token;
+                if (MatchName(ref token, TokenKind.Field, Tags.FieldNames)) return token;
+                if (MatchName(ref token, TokenKind.Function, Functors.FunctionNames)) return token;
+                if (MatchName(ref token, TokenKind.Symbol, Operators.Symbols)) return token;
+                if (MatchName(ref token, TokenKind.TypeName, Types.Names)) return token;
+                if (MatchName(ref token, TokenKind.Keyword, ControlStructure.Keywords)) return token;
 
                 switch (index < count ? text[index] : Nul)
                 {
@@ -101,12 +102,12 @@
                 return token;
             }
 
-            bool MatchKeyword(ref Token token, TokenKind tokenType, IEnumerable<string> keywords)
+            bool MatchName(ref Token token, TokenKind tokenType, IEnumerable<string> names)
             {
                 var remainingText = RemainingText();
-                var value = keywords
-                    .OrderByDescending(p => p).
-                    FirstOrDefault(p => remainingText.StartsWith(p, StringComparison.OrdinalIgnoreCase));
+                var value = names
+                    .OrderByDescending(p => p)
+                    .FirstOrDefault(p => remainingText.StartsWith(p, StringComparison.OrdinalIgnoreCase));
                 var ok = !string.IsNullOrWhiteSpace(value);
                 if (ok)
                     token = new Token(tokenType, index, value);
@@ -162,6 +163,7 @@
             { TokenKind.DateTime, TextStyleConstant },
             { TokenKind.Field, new TextStyle(Brushes.Blue, null, FontStyle.Regular) },
             { TokenKind.Function, new TextStyle(Brushes.DarkCyan, null, FontStyle.Regular) },
+            { TokenKind.Keyword, new TextStyle(Brushes.DarkGray, null, FontStyle.Regular) },
             { TokenKind.Number, TextStyleConstant },
             { TokenKind.Default, new TextStyle(Brushes.Brown, null, FontStyle.Regular) },
             { TokenKind.String, TextStyleConstant },

@@ -34,7 +34,7 @@
             Add(Fn.Equals, s, s, b);
             Add(Fn.EqualsX, s, s, b);
             Add(Fn.Format, s, oo);
-            AddUser(Fn.If, o, isInfinitary: false, b, o, o);
+            AddUser(Fn.Iif, o, isInfinitary: false, b, o, o);
             Add(Fn.IndexOf, s, s, b);
             Add(Fn.IndexOfX, s, s, b);
             Add(Fn.Insert, s, i, s);
