@@ -223,12 +223,11 @@ Notes:
 ## _ʞɯɾ_ Further Notes  
   
 - ***Comments***, /* using C notation, */ are treated as // whitespace.  
-- The concatenation of any two _ʞɯɾ_ _programs_ is a _ʞɯɾ_ _program_.  
 - Since any _ʞɯɾ_ _program_ is syntactically just just a _block_, it can be enclosed in parentheses and used as the argument list to a _function_ in another _program_.  
 - **All *functions*** are implemented as extensions, and may be invoked using either member or static syntax, with or without the dot "operator" (which is therefore optional, and treated as whitespace whenever present).  
 - **A *function*'s parentheses** are optional if the number of _terms_ to be enclosed is 0 or 1; otherwise, a semicolon-separated list in parentheses is needed. Note that the definition of a single _term_ allows for the daisy-chaining of any number of follow-on _functions_, and that any initial _cast(s)_ or _unary-operators_ apply to the result of the entire chain.
   
-To illustrate, the following filter conditions are all equivalent:  
+So for example, the following filter conditions are all equivalent:  
   
     Title.Contains("Love");  // Canonical member function syntax.
     title contains "Love";   // Keywords ignore case. Optional dot & parens removed.
@@ -247,8 +246,8 @@ All affected _functions_ have an optional final argument, _bool caseSensitive_, 
   
 Where does this setting come from? The nearest _Case Sensitive_ checkbox:  
   
-- **Filters**, applied by typing a condition into the general filter area of the app, or by launching the Filter Editor, will respect the _Case Sensitive_ checkbox nearby.  
-- **Find & Replace** operations will respect the _Case Sensitive_ checkbox in their own UI area.  
+- ***Filters***, applied by typing a condition into the general filter area of the app, or by launching the Filter Editor, will respect the _Case Sensitive_ checkbox nearby.  
+- ***Find & Replace*** operations will respect the _Case Sensitive_ checkbox in their own UI area.  
   
 To change this global setting during execution, assign **true** or **false** to CaseSensitive:  
   
