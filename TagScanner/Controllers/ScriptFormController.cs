@@ -131,12 +131,12 @@
             if (ok)
                 try
                 {
-                    result = term.Result.ToString();
+                    var output = term.Result;
+                    result = output?.ToString() ?? string.Empty;
                 }
                 catch (Exception ex)
                 {
                     result = ex.Message;
-                    ok = false;
                 }
             View.ResultTextBox.Text = result;
         }
@@ -150,7 +150,7 @@
                     TextBox.PositionToPlace(token.Start),
                     TextBox.PositionToPlace(token.End))
                     .SetStyle(token.Kind.TextStyle());
-            //UpdateResult();
+            UpdateResult();
         }
 
         private void UpdateUI() => View.Text = _scriptController.WindowCaption;
