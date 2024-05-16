@@ -44,21 +44,27 @@
             this.toolStripMenuItem2 = new System.Windows.Forms.ToolStripSeparator();
             this.FileClose = new System.Windows.Forms.ToolStripMenuItem();
             this.LanguageMenu = new System.Windows.Forms.ToolStripMenuItem();
-            this.LanguageKerr = new System.Windows.Forms.ToolStripMenuItem();
+            this.Language_ʞɯɾ = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
-            this.LanguageCS = new System.Windows.Forms.ToolStripMenuItem();
-            this.LanguageVB = new System.Windows.Forms.ToolStripMenuItem();
-            this.LanguageHTML = new System.Windows.Forms.ToolStripMenuItem();
-            this.LanguageXML = new System.Windows.Forms.ToolStripMenuItem();
-            this.LanguageSQL = new System.Windows.Forms.ToolStripMenuItem();
-            this.LanguagePHP = new System.Windows.Forms.ToolStripMenuItem();
-            this.LanguageJS = new System.Windows.Forms.ToolStripMenuItem();
-            this.LanguageLua = new System.Windows.Forms.ToolStripMenuItem();
+            this.Language_CS = new System.Windows.Forms.ToolStripMenuItem();
+            this.Language_VB = new System.Windows.Forms.ToolStripMenuItem();
+            this.Language_HTML = new System.Windows.Forms.ToolStripMenuItem();
+            this.Language_XML = new System.Windows.Forms.ToolStripMenuItem();
+            this.Language_SQL = new System.Windows.Forms.ToolStripMenuItem();
+            this.Language_PHP = new System.Windows.Forms.ToolStripMenuItem();
+            this.Language_JS = new System.Windows.Forms.ToolStripMenuItem();
+            this.Language_Lua = new System.Windows.Forms.ToolStripMenuItem();
+            this.splitContainer1 = new System.Windows.Forms.SplitContainer();
+            this.ResultTextBox = new System.Windows.Forms.TextBox();
             ((System.ComponentModel.ISupportInitialize)(this.TextBox)).BeginInit();
             this.ToolStripContainer.ContentPanel.SuspendLayout();
             this.ToolStripContainer.TopToolStripPanel.SuspendLayout();
             this.ToolStripContainer.SuspendLayout();
             this.MainMenu.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
+            this.splitContainer1.Panel1.SuspendLayout();
+            this.splitContainer1.Panel2.SuspendLayout();
+            this.splitContainer1.SuspendLayout();
             this.SuspendLayout();
             // 
             // TextBox
@@ -81,14 +87,15 @@
             this.TextBox.Cursor = System.Windows.Forms.Cursors.IBeam;
             this.TextBox.DisabledColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))));
             this.TextBox.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.TextBox.Font = new System.Drawing.Font("Courier New", 9.75F);
             this.TextBox.IsReplaceMode = false;
-            this.TextBox.Location = new System.Drawing.Point(0, 24);
+            this.TextBox.Location = new System.Drawing.Point(0, 0);
             this.TextBox.Margin = new System.Windows.Forms.Padding(4);
             this.TextBox.Name = "TextBox";
             this.TextBox.Paddings = new System.Windows.Forms.Padding(0);
             this.TextBox.SelectionColor = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(255)))));
             this.TextBox.ServiceColors = ((FastColoredTextBoxNS.ServiceColors)(resources.GetObject("TextBox.ServiceColors")));
-            this.TextBox.Size = new System.Drawing.Size(784, 513);
+            this.TextBox.Size = new System.Drawing.Size(784, 348);
             this.TextBox.TabIndex = 0;
             this.TextBox.Zoom = 100;
             // 
@@ -108,7 +115,7 @@
             // 
             // ToolStripContainer.ContentPanel
             // 
-            this.ToolStripContainer.ContentPanel.Controls.Add(this.TextBox);
+            this.ToolStripContainer.ContentPanel.Controls.Add(this.splitContainer1);
             this.ToolStripContainer.ContentPanel.Controls.Add(this.ruler1);
             this.ToolStripContainer.ContentPanel.Size = new System.Drawing.Size(784, 537);
             this.ToolStripContainer.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -152,124 +159,152 @@
             // FileNew
             // 
             this.FileNew.Name = "FileNew";
-            this.FileNew.Size = new System.Drawing.Size(180, 22);
+            this.FileNew.Size = new System.Drawing.Size(123, 22);
             this.FileNew.Text = "New";
             // 
             // FileOpen
             // 
             this.FileOpen.Name = "FileOpen";
-            this.FileOpen.Size = new System.Drawing.Size(180, 22);
+            this.FileOpen.Size = new System.Drawing.Size(123, 22);
             this.FileOpen.Text = "Open";
             // 
             // FileReopen
             // 
             this.FileReopen.Name = "FileReopen";
-            this.FileReopen.Size = new System.Drawing.Size(180, 22);
+            this.FileReopen.Size = new System.Drawing.Size(123, 22);
             this.FileReopen.Text = "Reopen";
             // 
             // toolStripMenuItem1
             // 
             this.toolStripMenuItem1.Name = "toolStripMenuItem1";
-            this.toolStripMenuItem1.Size = new System.Drawing.Size(177, 6);
+            this.toolStripMenuItem1.Size = new System.Drawing.Size(120, 6);
             // 
             // FileSave
             // 
             this.FileSave.Name = "FileSave";
-            this.FileSave.Size = new System.Drawing.Size(180, 22);
+            this.FileSave.Size = new System.Drawing.Size(123, 22);
             this.FileSave.Text = "Save";
             // 
             // FileSaveAs
             // 
             this.FileSaveAs.Name = "FileSaveAs";
-            this.FileSaveAs.Size = new System.Drawing.Size(180, 22);
+            this.FileSaveAs.Size = new System.Drawing.Size(123, 22);
             this.FileSaveAs.Text = "Save As...";
             // 
             // toolStripMenuItem2
             // 
             this.toolStripMenuItem2.Name = "toolStripMenuItem2";
-            this.toolStripMenuItem2.Size = new System.Drawing.Size(177, 6);
+            this.toolStripMenuItem2.Size = new System.Drawing.Size(120, 6);
             // 
             // FileClose
             // 
             this.FileClose.Name = "FileClose";
-            this.FileClose.Size = new System.Drawing.Size(180, 22);
+            this.FileClose.Size = new System.Drawing.Size(123, 22);
             this.FileClose.Text = "Close";
             // 
             // LanguageMenu
             // 
             this.LanguageMenu.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.LanguageKerr,
+            this.Language_ʞɯɾ,
             this.toolStripSeparator1,
-            this.LanguageCS,
-            this.LanguageVB,
-            this.LanguageHTML,
-            this.LanguageXML,
-            this.LanguageSQL,
-            this.LanguagePHP,
-            this.LanguageJS,
-            this.LanguageLua});
+            this.Language_CS,
+            this.Language_VB,
+            this.Language_HTML,
+            this.Language_SQL,
+            this.Language_XML,
+            this.Language_PHP,
+            this.Language_JS,
+            this.Language_Lua});
             this.LanguageMenu.Name = "LanguageMenu";
             this.LanguageMenu.Size = new System.Drawing.Size(71, 20);
             this.LanguageMenu.Text = "&Language";
             // 
-            // LanguageKerr
+            // Language_ʞɯɾ
             // 
-            this.LanguageKerr.Name = "LanguageKerr";
-            this.LanguageKerr.Size = new System.Drawing.Size(180, 22);
-            this.LanguageKerr.Text = "Kerr";
+            this.Language_ʞɯɾ.Name = "Language_ʞɯɾ";
+            this.Language_ʞɯɾ.Size = new System.Drawing.Size(180, 22);
+            this.Language_ʞɯɾ.Text = "ʞɯɾ";
             // 
             // toolStripSeparator1
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
             this.toolStripSeparator1.Size = new System.Drawing.Size(177, 6);
             // 
-            // LanguageCS
+            // Language_CS
             // 
-            this.LanguageCS.Name = "LanguageCS";
-            this.LanguageCS.Size = new System.Drawing.Size(180, 22);
-            this.LanguageCS.Text = "C#";
+            this.Language_CS.Name = "Language_CS";
+            this.Language_CS.Size = new System.Drawing.Size(180, 22);
+            this.Language_CS.Text = "C#";
             // 
-            // LanguageVB
+            // Language_VB
             // 
-            this.LanguageVB.Name = "LanguageVB";
-            this.LanguageVB.Size = new System.Drawing.Size(180, 22);
-            this.LanguageVB.Text = "Visual Basic";
+            this.Language_VB.Name = "Language_VB";
+            this.Language_VB.Size = new System.Drawing.Size(180, 22);
+            this.Language_VB.Text = "Visual Basic";
             // 
-            // LanguageHTML
+            // Language_HTML
             // 
-            this.LanguageHTML.Name = "LanguageHTML";
-            this.LanguageHTML.Size = new System.Drawing.Size(180, 22);
-            this.LanguageHTML.Text = "HTML";
+            this.Language_HTML.Name = "Language_HTML";
+            this.Language_HTML.Size = new System.Drawing.Size(180, 22);
+            this.Language_HTML.Text = "HTML";
             // 
-            // LanguageXML
+            // Language_XML
             // 
-            this.LanguageXML.Name = "LanguageXML";
-            this.LanguageXML.Size = new System.Drawing.Size(180, 22);
-            this.LanguageXML.Text = "XML";
+            this.Language_XML.Name = "Language_XML";
+            this.Language_XML.Size = new System.Drawing.Size(180, 22);
+            this.Language_XML.Text = "XML";
             // 
-            // LanguageSQL
+            // Language_SQL
             // 
-            this.LanguageSQL.Name = "LanguageSQL";
-            this.LanguageSQL.Size = new System.Drawing.Size(180, 22);
-            this.LanguageSQL.Text = "SQL";
+            this.Language_SQL.Name = "Language_SQL";
+            this.Language_SQL.Size = new System.Drawing.Size(180, 22);
+            this.Language_SQL.Text = "SQL";
             // 
-            // LanguagePHP
+            // Language_PHP
             // 
-            this.LanguagePHP.Name = "LanguagePHP";
-            this.LanguagePHP.Size = new System.Drawing.Size(180, 22);
-            this.LanguagePHP.Text = "PHP";
+            this.Language_PHP.Name = "Language_PHP";
+            this.Language_PHP.Size = new System.Drawing.Size(180, 22);
+            this.Language_PHP.Text = "PHP";
             // 
-            // LanguageJS
+            // Language_JS
             // 
-            this.LanguageJS.Name = "LanguageJS";
-            this.LanguageJS.Size = new System.Drawing.Size(180, 22);
-            this.LanguageJS.Text = "JavaScript";
+            this.Language_JS.Name = "Language_JS";
+            this.Language_JS.Size = new System.Drawing.Size(180, 22);
+            this.Language_JS.Text = "JavaScript";
             // 
-            // LanguageLua
+            // Language_Lua
             // 
-            this.LanguageLua.Name = "LanguageLua";
-            this.LanguageLua.Size = new System.Drawing.Size(180, 22);
-            this.LanguageLua.Text = "Lua";
+            this.Language_Lua.Name = "Language_Lua";
+            this.Language_Lua.Size = new System.Drawing.Size(180, 22);
+            this.Language_Lua.Text = "Lua";
+            // 
+            // splitContainer1
+            // 
+            this.splitContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.splitContainer1.Location = new System.Drawing.Point(0, 24);
+            this.splitContainer1.Name = "splitContainer1";
+            this.splitContainer1.Orientation = System.Windows.Forms.Orientation.Horizontal;
+            // 
+            // splitContainer1.Panel1
+            // 
+            this.splitContainer1.Panel1.Controls.Add(this.TextBox);
+            // 
+            // splitContainer1.Panel2
+            // 
+            this.splitContainer1.Panel2.Controls.Add(this.ResultTextBox);
+            this.splitContainer1.Size = new System.Drawing.Size(784, 513);
+            this.splitContainer1.SplitterDistance = 348;
+            this.splitContainer1.TabIndex = 2;
+            // 
+            // ResultTextBox
+            // 
+            this.ResultTextBox.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.ResultTextBox.Location = new System.Drawing.Point(0, 0);
+            this.ResultTextBox.Multiline = true;
+            this.ResultTextBox.Name = "ResultTextBox";
+            this.ResultTextBox.ReadOnly = true;
+            this.ResultTextBox.Size = new System.Drawing.Size(784, 161);
+            this.ResultTextBox.TabIndex = 0;
             // 
             // ScriptForm
             // 
@@ -291,6 +326,11 @@
             this.ToolStripContainer.PerformLayout();
             this.MainMenu.ResumeLayout(false);
             this.MainMenu.PerformLayout();
+            this.splitContainer1.Panel1.ResumeLayout(false);
+            this.splitContainer1.Panel2.ResumeLayout(false);
+            this.splitContainer1.Panel2.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
+            this.splitContainer1.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -311,15 +351,17 @@
         public System.Windows.Forms.ToolStripMenuItem FileSaveAs;
         public System.Windows.Forms.ToolStripSeparator toolStripMenuItem2;
         public System.Windows.Forms.ToolStripMenuItem FileClose;
-        public System.Windows.Forms.ToolStripMenuItem LanguageKerr;
+        public System.Windows.Forms.ToolStripMenuItem Language_ʞɯɾ;
         public System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
-        public System.Windows.Forms.ToolStripMenuItem LanguageCS;
-        public System.Windows.Forms.ToolStripMenuItem LanguageVB;
-        public System.Windows.Forms.ToolStripMenuItem LanguageHTML;
-        public System.Windows.Forms.ToolStripMenuItem LanguageXML;
-        public System.Windows.Forms.ToolStripMenuItem LanguageSQL;
-        public System.Windows.Forms.ToolStripMenuItem LanguagePHP;
-        public System.Windows.Forms.ToolStripMenuItem LanguageJS;
-        public System.Windows.Forms.ToolStripMenuItem LanguageLua;
+        public System.Windows.Forms.ToolStripMenuItem Language_CS;
+        public System.Windows.Forms.ToolStripMenuItem Language_VB;
+        public System.Windows.Forms.ToolStripMenuItem Language_HTML;
+        public System.Windows.Forms.ToolStripMenuItem Language_XML;
+        public System.Windows.Forms.ToolStripMenuItem Language_SQL;
+        public System.Windows.Forms.ToolStripMenuItem Language_PHP;
+        public System.Windows.Forms.ToolStripMenuItem Language_JS;
+        public System.Windows.Forms.ToolStripMenuItem Language_Lua;
+        public System.Windows.Forms.SplitContainer splitContainer1;
+        public System.Windows.Forms.TextBox ResultTextBox;
     }
 }

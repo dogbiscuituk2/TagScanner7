@@ -61,7 +61,7 @@ namespace TagScanner.Properties {
         
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute(@"Kerr Files (*.kerr)|*.kerr|C# Files (*.cs)|*.cs|Visual Basic Files (*.vb)|*.vb|HTML Files (*.htm;*.html)|*.htm;*.html|XML Files (*.xml)|*.xml|SQL Files (*.sql)|*.sql|PHP Files (*.php)|*.php|JavaScript Files (*.js)|*.js|Lua Files (*.lua)|*.lua|All Files (*.*)|*.*")]
+        [global::System.Configuration.DefaultSettingValueAttribute(@"ʞɯɾ Files (*.ʞɯɾ)|*.ʞɯɾ|C# Files (*.cs)|*.cs|Visual Basic Files (*.vb)|*.vb|HTML Files (*.htm;*.html)|*.htm;*.html|XML Files (*.xml)|*.xml|SQL Files (*.sql)|*.sql|PHP Files (*.php)|*.php|JavaScript Files (*.js)|*.js|Lua Files (*.lua)|*.lua|All Files (*.*)|*.*")]
         public string ScriptFilter {
             get {
                 return ((string)(this["ScriptFilter"]));

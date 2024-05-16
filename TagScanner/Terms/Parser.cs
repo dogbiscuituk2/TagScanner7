@@ -91,38 +91,36 @@
 
         private Term ParseCompound()
         {
+            Rank tokenRank = Rank.None;
             Term term = ParseTerm();
-
             while (PeekToken().Value.IsBinaryOperator())
             {
                 var token = DequeueToken();
-                var tokenRank = token.Value.Rank(false);
+                tokenRank = token.Value.Rank(unary: false);
+                ApplyOperators(checkRank: true);
+                PushTerm(term);
+                PushOperator(token.Value.ToBinaryOperator());
+                term = ParseTerm();
+            }
+            ApplyOperators(checkRank: false);
+            return term;
 
+            void ApplyOperators(bool checkRank)
+            {
                 while (AnyOperators())
                 {
                     var op = PeekOperator();
                     if (op == 0)
                         break;
-                    var priorRank = op.GetRank();
-                    if (priorRank < tokenRank || priorRank == tokenRank && op.GetAssociativity() == Associativity.Right)
-                        break;
-                    term = Merge(term);
+                    if (checkRank)
+                    {
+                        var priorRank = op.GetRank();
+                        if (priorRank < tokenRank || priorRank == tokenRank && op.GetAssociativity() == Associativity.Right)
+                            break;
+                    }
+                    term = Consolidate(term);
                 }
-
-                PushTerm(term);
-                PushOperator(token.Value.ToBinaryOperator());
-                term = ParseTerm();
             }
-            while (AnyOperators())
-            {
-                var op = PeekOperator();
-                if (op == 0)
-                    break;
-                term = Merge(term);
-            }
-            return term;
-
-            Term Merge(Term right) => /*PrepareCompound( */ Consolidate(right) /* ) */ ;
         }
 
         private Term ParseFunction() => ParseFunction(new List<Term>());

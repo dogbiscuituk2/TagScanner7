@@ -1,5 +1,6 @@
 ﻿namespace TagScanner.Controllers
 {
+    using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Windows.Forms;
@@ -110,6 +111,36 @@
             return _view;
         }
 
+        private void UpdateResult()
+        {
+            var text = Text;
+            var caseSensitive = false;
+            var parser = new Parser();
+            Term term = null;
+            string result = null;
+            var ok = true;
+            try
+            {
+                term = parser.Parse(text, caseSensitive);
+            }
+            catch (Exception ex)
+            {
+                result = ex.Message;
+                ok = false;
+            }
+            if (ok)
+                try
+                {
+                    result = term.Result.ToString();
+                }
+                catch (Exception ex)
+                {
+                    result = ex.Message;
+                    ok = false;
+                }
+            View.ResultTextBox.Text = result;
+        }
+
         private void UpdateStyles(Range range)
         {
             var tokens = new List<Token>(Tokenizer.GetTokens(Text));
@@ -119,6 +150,7 @@
                     TextBox.PositionToPlace(token.Start),
                     TextBox.PositionToPlace(token.End))
                     .SetStyle(token.Kind.TextStyle());
+            //UpdateResult();
         }
 
         private void UpdateUI() => View.Text = _scriptController.WindowCaption;

@@ -15,7 +15,7 @@
       <Value Profile="(Default)">Audio Files (*.m4a;*.mp3;*.wma)|*.m4a;*.mp3;*.wma|Video Files (*.avi;*.mp4;*.wmv)|*.avi;*.mp4;*.wmv|Image Files (*.bmp;*.gif;*.jpeg;*.jpg;*.png)|*.bmp;*.gif;*.jpeg;*.jpg;*.png|AV Files (*.avi;*.mp4;*.wmv;*.m4a;*.mp3;*.wma)|*.avi;*.mp4;*.wmv;*.m4a;*.mp3;*.wma|Media Files (*.avi;*.mp4;*.wmv;*.m4a;*.mp3;*.wma;*.bmp;*.gif;*.jpeg;*.jpg;*.png)|*.avi;*.mp4;*.wmv;*.m4a;*.mp3;*.wma;*.bmp;*.gif;*.jpeg;*.jpg;*.png|All Files (*.*)|*.*</Value>
     </Setting>
     <Setting Name="ScriptFilter" Type="System.String" Scope="Application">
-      <Value Profile="(Default)">Kerr Files (*.kerr)|*.kerr|C# Files (*.cs)|*.cs|Visual Basic Files (*.vb)|*.vb|HTML Files (*.htm;*.html)|*.htm;*.html|XML Files (*.xml)|*.xml|SQL Files (*.sql)|*.sql|PHP Files (*.php)|*.php|JavaScript Files (*.js)|*.js|Lua Files (*.lua)|*.lua|All Files (*.*)|*.*</Value>
+      <Value Profile="(Default)">ʞɯɾ Files (*.ʞɯɾ)|*.ʞɯɾ|C# Files (*.cs)|*.cs|Visual Basic Files (*.vb)|*.vb|HTML Files (*.htm;*.html)|*.htm;*.html|XML Files (*.xml)|*.xml|SQL Files (*.sql)|*.sql|PHP Files (*.php)|*.php|JavaScript Files (*.js)|*.js|Lua Files (*.lua)|*.lua|All Files (*.*)|*.*</Value>
     </Setting>
   </Settings>
 </SettingsFile>
