@@ -186,13 +186,13 @@
         private Term ParseValue()
         {
             var tokenKind = PeekToken().Kind;
-            if (tokenKind == TokenKind.Function)
-                return ParseFunctionAsStatic();
-            if ((tokenKind & TokenKind.Value) != 0)
-                return ParseValue(DequeueToken().Value);
-            return new EmptyTerm();
+            return tokenKind == TokenKind.Function
+                ? ParseFunctionAsStatic()
+                : (tokenKind & TokenKind.Value) != 0
+                ? Parse(DequeueToken().Value)
+                : new EmptyTerm();
 
-            Term ParseValue(string value)
+            Term Parse(string value)
             {
                 switch (tokenKind)
                 {
