@@ -73,7 +73,7 @@
             Term result = null;
             while (PeekToken().Length > 0)
             {
-                var term = ParseCompound();
+                var term = ParseStatement();
                 if (result == null)
                     result = term;
                 else if (result is Block block)
@@ -87,6 +87,60 @@
                     break;
             }
             return result ?? new EmptyTerm();
+        }
+
+        private Term ParseStatement()
+        {
+            switch (PeekToken().Value)
+            {
+                case "if":
+                    return ParseIf();
+                case "while":
+                case "do":
+                    return ParseLoop();
+                case "break":
+                case "continue":
+                    return new EmptyTerm();
+            }
+            return ParseCompound();
+        }
+
+        private Term ParseIf()
+        {
+            Term condition, consequent, alternative = null;
+            AcceptToken("if");
+            condition = ParseBlock();
+            AcceptToken("then");
+            consequent = ParseBlock();
+            if (PeekToken().Value == "else")
+            {
+                DequeueToken();
+                alternative = ParseBlock();
+            }
+            AcceptToken("endif");
+            return
+                alternative == null
+                ? new IfStatement(condition, consequent)
+                : (Term)new IfStatement(condition, consequent, alternative);
+        }
+
+        private Term ParseLoop()
+        {
+            Term @while = new EmptyTerm(), @do, until = new EmptyTerm();
+            if (PeekToken().Value == "while")
+            {
+                DequeueToken();
+                @while = ParseBlock();
+            }
+            AcceptToken("do");
+            @do = ParseBlock();
+            if (PeekToken().Value == "until")
+            {
+                DequeueToken();
+                until = ParseBlock();
+            }
+            AcceptToken("loop");
+            return new DoLoop(@while, @do, until);
         }
 
         private Term ParseCompound()

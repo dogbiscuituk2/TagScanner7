@@ -9,7 +9,7 @@
         [TestMethod]
         public void ScratchTest()
         {
-            var before = "if (title contains \"Love\", 1, 2)";
+            var before = "iif (title contains \"Love\", 1, 2)";
             var parser = new Parser();
             var term = parser.Parse(before, caseSensitive: false);
             var after = term.ToString();

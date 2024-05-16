@@ -21,8 +21,8 @@ _ʞɯɾ-program_ = _block_
 _block_ = \{ _statement_ \{ semicolon _statement_ ... \} \}  
 _statement_ = _compound_ | _if-statement_ | _do-loop_ | **break** | **continue** <sup>_(4)_</sup>  
 _compound_ = _term_ \{ _binary-operator_ _term_ ... \}  
-_if-statement_ = **if** _compound_ **then** _block_ { **else** _block_ } **endif**  
-_do-loop_ = { **while** _compound_ } **do** _block_ { **until** _compound_ } **loop**  
+_if-statement_ = **if** _block_ **then** _block_ { **else** _block_ } **endif**  
+_do-loop_ = { **while** _block_ } **do** _block_ { **until** _block_ } **loop**  
 _term_ = \{ _unary-operator_ | _cast_ ... \} _value_ | lparen _block_ rparen \{ \{ dot \} _function_ ... \}  
 _value_ = _constant_ | _default_ | _field_ | _function_ | _parameter_ | _variable_  
   
