@@ -20,6 +20,7 @@
         TypeName = 1 << 11,
         Variable = 1 << 12,
 
-        Constant = Boolean | Character | DateTime | Number | String | TimeSpan
+        Constant = Boolean | Character | DateTime | Number | String | TimeSpan,
+        Value = Constant | Default | Field | Function | Variable,
     }
 }

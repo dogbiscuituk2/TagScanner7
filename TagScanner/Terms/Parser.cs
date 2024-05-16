@@ -91,40 +91,33 @@
 
         private Term ParseCompound()
         {
-            Rank tokenRank = Rank.None;
             Term term = ParseTerm();
             while (PeekToken().Value.IsBinaryOperator())
             {
                 var token = DequeueToken();
-                tokenRank = token.Value.Rank(unary: false);
-                ApplyOperators(checkRank: true);
+                ApplyOperators(token.Value.Rank(unary: false));
                 PushTerm(term);
                 PushOperator(token.Value.ToBinaryOperator());
                 term = ParseTerm();
             }
-            ApplyOperators(checkRank: false);
+            ApplyOperators();
             return term;
 
-            void ApplyOperators(bool checkRank)
+            void ApplyOperators(Rank newRank = 0)
             {
                 while (AnyOperators())
                 {
                     var op = PeekOperator();
                     if (op == 0)
                         break;
-                    if (checkRank)
-                    {
-                        var priorRank = op.GetRank();
-                        if (priorRank < tokenRank || priorRank == tokenRank && op.GetAssociativity() == Associativity.Right)
-                            break;
-                    }
+                    var oldRank = op.GetRank();
+                    if (oldRank < newRank || oldRank == newRank && op.GetAssociativity() == Associativity.Right)
+                        break;
                     term = Consolidate(term);
                 }
             }
         }
 
-        private Term ParseFunction() => ParseFunction(new List<Term>());
-        private Term ParseFunction(Term self) => ParseFunction(new List<Term> { self });
         private Term ParseFunction(List<Term> operands)
         {
             var fn = DequeueToken().Value.ToFunction();
@@ -149,6 +142,9 @@
             }
             return new Function(fn, operands.ToArray());
         }
+
+        private Term ParseFunctionAsStatic() => ParseFunction(new List<Term>());
+        private Term ParseFunctionAsMember(Term self) => ParseFunction(new List<Term> { self });
 
         private Term ParseTerm()
         {
@@ -177,10 +173,10 @@
                 if (token.Value == ".")
                 {
                     DequeueToken();
-                    term = ParseFunction(term);
+                    term = ParseFunctionAsMember(term);
                 }
                 else if (token.Kind == TokenKind.Function)
-                    term = ParseFunction(term);
+                    term = ParseFunctionAsMember(term);
                 else
                     break;
             }
@@ -189,22 +185,29 @@
 
         private Term ParseValue()
         {
-            var token = PeekToken();
-            if (token.Kind == TokenKind.Function)
-                return ParseFunction();
-            switch (token.Kind)
-            {
-                case TokenKind.Boolean: return ParseBoolean(DequeueToken().Value);
-                case TokenKind.Character: return ParseCharacter(DequeueToken().Value);
-                case TokenKind.DateTime: return ParseDateTime(DequeueToken().Value);
-                case TokenKind.Default: return ParseDefault(DequeueToken().Value);
-                case TokenKind.Field: return ParseField(DequeueToken().Value);
-                case TokenKind.Number: return ParseNumber(DequeueToken().Value.ToUpperInvariant());
-                case TokenKind.String: return ParseString(DequeueToken().Value);
-                case TokenKind.TimeSpan: return ParseTimeSpan(DequeueToken().Value);
-                case TokenKind.Variable: return ParseVariable(DequeueToken().Value);
-            }
+            var tokenKind = PeekToken().Kind;
+            if (tokenKind == TokenKind.Function)
+                return ParseFunctionAsStatic();
+            if ((tokenKind & TokenKind.Value) != 0)
+                return ParseValue(DequeueToken().Value);
             return new EmptyTerm();
+
+            Term ParseValue(string value)
+            {
+                switch (tokenKind)
+                {
+                    case TokenKind.Boolean: return ParseBoolean(value);
+                    case TokenKind.Character: return ParseCharacter(value);
+                    case TokenKind.DateTime: return ParseDateTime(value);
+                    case TokenKind.Default: return ParseDefault(value);
+                    case TokenKind.Field: return ParseField(value);
+                    case TokenKind.Number: return ParseNumber(value.ToUpperInvariant());
+                    case TokenKind.String: return ParseString(value);
+                    case TokenKind.TimeSpan: return ParseTimeSpan(value);
+                    case TokenKind.Variable: return ParseVariable(value);
+                    default: return null;
+                }
+            }
         }
 
         #endregion
