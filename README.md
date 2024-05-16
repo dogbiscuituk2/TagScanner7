@@ -19,12 +19,13 @@ To see the scope/power of _ʞɯɾ_ language, it helps to get an overview of its 
   
 _ʞɯɾ-program_ = _block_  
 _block_ = \{ _statement_ \{ semicolon _statement_ ... \} \}  
-_statement_ = _compound_ | _if-statement_ | _do-loop_ | **break** | **continue** <sup>_(4)_</sup>  
+_statement_ = \{ _label_ colon \} _compound_ | _if-statement_ | _do-loop_ | **break** | **continue** | **goto** _label_ <sup>_(4)_</sup>  
 _compound_ = _term_ \{ _binary-operator_ _term_ ... \}  
-_if-statement_ = **if** _block_ **then** _block_ { **else** _block_ } **endif**  
-_do-loop_ = { **while** _block_ } **do** _block_ { **until** _block_ } **loop**  
+_if-statement_ = **if** _block_ **then** _block_ \{ **else** _block_ \} **endif**  
+_do-loop_ = \{ **while** _block_ \} **do** _block_ \{ **until** _block_ \} **loop**  
 _term_ = \{ _unary-operator_ | _cast_ ... \} _value_ | lparen _block_ rparen \{ \{ dot \} _function_ ... \}  
 _value_ = _constant_ | _default_ | _field_ | _function_ | _parameter_ | _variable_  
+_label_ = @"#\w+"
   
 _cast_ = lparen _type_ rparen  
 _constant_ = _bool_ | _char_ | _datetime_ | _decimal_ | _double_ | _float_ | _int_ | _long_ | _string_ | _timespan_ | _uint_ | _ulong_ <sup>_(1,3)_</sup>  
@@ -206,6 +207,7 @@ Truncate<br>
 Upper<br>
 </b></details>
 
+colon = ':'
 dot = '.'  
 lbrace = '{'  
 lparen = '('  

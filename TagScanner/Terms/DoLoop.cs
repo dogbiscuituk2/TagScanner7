@@ -1,6 +1,5 @@
 ﻿namespace TagScanner.Terms
 {
-    using System.Collections.Generic;
     using System.Linq.Expressions;
     using System.Text;
 
@@ -12,9 +11,25 @@
         {
             get
             {
-                var expressions = new List<Expression>();
-                expressions.Add(SecondSubExpression);
-                return Expression.Block(expressions);
+                Expression
+                    expression1 = Operands[0] is EmptyTerm ? Expression.Constant(true) : FirstSubExpression,
+                    expression2 = SecondSubExpression,
+                    expression3 = Operands[2] is EmptyTerm ? Expression.Constant(false) : ThirdSubExpression;
+                LabelTarget
+                    breakTarget = Expression.Label(),
+                    continueTarget = Expression.Label();
+                return Expression.Block(
+                    Expression.Loop(
+                        Expression.IfThenElse(
+                            expression1,
+                            Expression.Block(
+                                expression2,
+                                Expression.IfThen(expression3, Expression.Break(breakTarget))
+                            ),
+                            Expression.Break(breakTarget)
+                        ),
+                    breakTarget,
+                    continueTarget));
             }
         }
 

@@ -66,7 +66,6 @@
             foreach (var op in _operators)
                 op.Value.Op = op.Key;
 
-            //Add(Op.Comma, ",");
             Add(Op.Assign, "<-", ":=", "←");
             Add(Op.AddAssign, "+=");
             Add(Op.SubtractAssign, "-=");
@@ -94,7 +93,7 @@
             Add(Op.Negative, "-", "－");
             Add(Op.Not, "!", "NOT");
 
-            _symbols.AddRange(_unarySymbols.Union(_binarySymbols).Union(new[] { ".", ",", ";", "(", ")" }));
+            _symbols.AddRange(_unarySymbols.Union(_binarySymbols).Union(new[] { ".", ",", ";", ":", "(", ")" }));
 
             void Add(Op op, params string[] symbols)
             {

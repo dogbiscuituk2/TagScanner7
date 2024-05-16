@@ -11,6 +11,7 @@
             "do",
             "else",
             "endif",
+            "goto",
             "if",
             "loop",
             "then",

@@ -4,6 +4,7 @@
     using System.Collections.Generic;
     using System.Data;
     using System.Linq;
+    using System.Linq.Expressions;
     using System.Runtime.CompilerServices;
     using Terms;
     using Utils;
@@ -99,11 +100,27 @@
                 case "do":
                     return ParseLoop();
                 case "break":
+                    return ParseBreak();
                 case "continue":
-                    return new EmptyTerm();
+                    return ParseContinue();
             }
             return ParseCompound();
         }
+
+        private Term ParseBreak()
+        {
+            DequeueToken();
+            return new Break(GetBreakTarget());
+        }
+
+        private Term ParseContinue()
+        {
+            DequeueToken();
+            return new Continue(GetContinueTarget());
+        }
+
+        private LabelTarget GetBreakTarget() => null;
+        private LabelTarget GetContinueTarget() => null;
 
         private Term ParseIf()
         {

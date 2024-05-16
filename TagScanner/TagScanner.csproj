@@ -184,7 +184,9 @@
     </Compile>
     <Compile Include="Menus\CastEventArgs.cs" />
     <Compile Include="Terms\Associativity.cs" />
+    <Compile Include="Terms\Break.cs" />
     <Compile Include="Terms\Compound.cs" />
+    <Compile Include="Terms\Continue.cs" />
     <Compile Include="Terms\ControlStructure.cs" />
     <Compile Include="Terms\DateTimeParser.cs" />
     <Compile Include="Terms\DoLoop.cs" />
@@ -198,7 +200,9 @@
       <DependentUpon>Functors.cs</DependentUpon>
     </Compile>
     <Compile Include="Terms\EmptyTerm.cs" />
+    <Compile Include="Terms\Goto.cs" />
     <Compile Include="Terms\IfStatement.cs" />
+    <Compile Include="Terms\Label.cs" />
     <Compile Include="Terms\Parser.cs" />
     <Compile Include="Terms\ParserSpy.cs" />
     <Compile Include="Terms\Token.cs" />
