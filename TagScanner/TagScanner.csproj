@@ -189,7 +189,7 @@
     <Compile Include="Terms\Continue.cs" />
     <Compile Include="Terms\ControlStructure.cs" />
     <Compile Include="Terms\DateTimeParser.cs" />
-    <Compile Include="Terms\DoLoop.cs" />
+    <Compile Include="Terms\Loop.cs" />
     <Compile Include="Terms\EqualityComparer.cs" />
     <Compile Include="Terms\Cast.cs" />
     <Compile Include="Streaming\Streamer.cs" />

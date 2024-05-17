@@ -46,6 +46,7 @@
             Add(Fn.Max, d, d);
             Add(Fn.Min, d, d);
             Add(Fn.Pow, d, d);
+            Add(Fn.Print, oo);
             Add(Fn.Remove, s, i, i);
             Add(Fn.Replace, s, s, s, b);
             Add(Fn.ReplaceX, s, s, s, b);

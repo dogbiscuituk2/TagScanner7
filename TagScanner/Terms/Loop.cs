@@ -3,9 +3,9 @@
     using System.Linq.Expressions;
     using System.Text;
 
-    public class DoLoop : ControlStructure
+    public class Loop : ControlStructure
     {
-        public DoLoop(params Term[] operands) : base(operands) { }
+        public Loop(params Term[] operands) : base(operands) { }
 
         public override Expression Expression
         {
@@ -15,23 +15,23 @@
                     expression1 = Operands[0] is EmptyTerm ? Expression.Constant(true) : FirstSubExpression,
                     expression2 = SecondSubExpression,
                     expression3 = Operands[2] is EmptyTerm ? Expression.Constant(false) : ThirdSubExpression;
-                LabelTarget
-                    breakTarget = Expression.Label(),
-                    continueTarget = Expression.Label();
                 return Expression.Block(
                     Expression.Loop(
                         Expression.IfThenElse(
                             expression1,
                             Expression.Block(
                                 expression2,
-                                Expression.IfThen(expression3, Expression.Break(breakTarget))
+                                Expression.IfThen(expression3, Expression.Break(BreakTarget))
                             ),
-                            Expression.Break(breakTarget)
+                            Expression.Break(BreakTarget)
                         ),
-                    breakTarget,
-                    continueTarget));
+                    BreakTarget,
+                    ContinueTarget));
             }
         }
+
+        public LabelTarget BreakTarget { get; } = Expression.Label();
+        public LabelTarget ContinueTarget { get; } = Expression.Label();
 
         public override string ToString()
         {
@@ -45,7 +45,7 @@
             {
                 var operand = Operands[index];
                 if (!(operand is EmptyTerm))
-                    result.Append($"{keyword} {operand}");
+                    result.Append($"{keyword} {operand} ");
             }
         }
     }

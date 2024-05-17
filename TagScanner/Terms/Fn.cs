@@ -20,6 +20,7 @@
         Max,
         Min,
         Pow,
+        Print,
         Remove,
         Replace, ReplaceX,
         Round,

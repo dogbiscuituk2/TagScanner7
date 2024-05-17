@@ -15,9 +15,13 @@
         public bool AnyTokens() => _tokens.Any();
 
         public void AcceptToken(string caller, int line, string expected) => Process(caller, line, p => AcceptToken(expected));
+        public Loop BeginLoop(string caller, int line) => (Loop)Process(caller, line, p => NewLoop());
         public void BeginParse(string caller, int line, string program) => Process(caller, line, p => Reset(caller, line, program));
+        public Break Break(string caller, int line) => (Break)Process(caller, line, p => new Break(_loops.Peek().BreakTarget));
         public Compound Consolidate(string caller, int line, Term right) => (Compound)Process(caller, line, p => Consolidate(right));
+        public Continue Continue(string caller, int line) => (Continue)Process(caller, line, p => new Continue(_loops.Peek().ContinueTarget));
         public Token DequeueToken(string caller, int line) => (Token)Process(caller, line, p => _tokens.Dequeue());
+        public Loop EndLoop(string caller, int line) => (Loop)Process(caller, line, p => _loops.Pop());
         public Term EndParse(string caller, int line, Term term) => (Term)Process(caller, line, p => EndParse(term));
         public Term NewTerm(string caller, int line, Term term) { Process(caller, line, p => term); return term; }
         public Op PeekOperator(string caller, int line) => (Op)Process(caller, line, p => _operators.Peek());
@@ -35,6 +39,7 @@
         private static readonly string _ = string.Empty;
         private readonly Token _end = new Token(TokenKind.None, 0, string.Empty);
         private bool _headerShown;
+        private readonly Stack<Loop> _loops = new Stack<Loop>();
         private readonly Stack<Op> _operators = new Stack<Op>();
         private readonly Stack<Term> _terms = new Stack<Term>();
         private readonly Queue<Token> _tokens = new Queue<Token>();
@@ -116,6 +121,8 @@
 
         private Token NextToken() => AnyTokens() ? _tokens.Peek() : _end;
 
+        private Loop NewLoop() { var loop = new Loop(new EmptyTerm(), new EmptyTerm(), new EmptyTerm()); _loops.Push(loop); return loop; }
+
         private object Process(string caller, int line, Func<object, object> process, object value = null, [CallerMemberName] string action = "")
         {
             try
@@ -137,6 +144,7 @@
             _tokens.Clear();
             _terms.Clear();
             _operators.Clear();
+            _loops.Clear();
             _headerShown = false;
             Dump(caller, line, program);
             foreach (var token in Tokenizer.GetTokens(program))

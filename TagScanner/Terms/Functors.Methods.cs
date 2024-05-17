@@ -82,6 +82,12 @@
 
         public static string Lower(this string input) => input.ToLowerInvariant();
 
+        public static void Print(params object[] values)
+        {
+            foreach (var value in values)
+                Console.Write(value);
+        }
+
         public static string Remove(this string input, int startIndex, int count) =>
             input.Remove(startIndex, count);
 

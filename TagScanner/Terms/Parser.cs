@@ -100,23 +100,13 @@
                 case "do":
                     return ParseLoop();
                 case "break":
-                    return ParseBreak();
+                    DequeueToken();
+                    return Break();
                 case "continue":
-                    return ParseContinue();
+                    DequeueToken();
+                    return Continue();
             }
             return ParseCompound();
-        }
-
-        private Term ParseBreak()
-        {
-            DequeueToken();
-            return new Break(GetBreakTarget());
-        }
-
-        private Term ParseContinue()
-        {
-            DequeueToken();
-            return new Continue(GetContinueTarget());
         }
 
         private LabelTarget GetBreakTarget() => null;
@@ -143,21 +133,21 @@
 
         private Term ParseLoop()
         {
-            Term @while = new EmptyTerm(), @do, until = new EmptyTerm();
+            var loop = BeginLoop();
             if (PeekToken().Value == "while")
             {
                 DequeueToken();
-                @while = ParseBlock();
+                loop.Operands[0] = ParseBlock();
             }
             AcceptToken("do");
-            @do = ParseBlock();
+            loop.Operands[1] = ParseBlock();
             if (PeekToken().Value == "until")
             {
                 DequeueToken();
-                until = ParseBlock();
+                loop.Operands[2] = ParseBlock();
             }
             AcceptToken("loop");
-            return new DoLoop(@while, @do, until);
+            return EndLoop();
         }
 
         private Term ParseCompound()
@@ -366,6 +356,7 @@
                         goto case Fn.Round;
 
                     case Fn.Concat:
+                    case Fn.Print:
                         CastAll(0, typeof(object));
                         break;
 
@@ -452,6 +443,14 @@
         private Term EndParse(Term term, [CallerMemberName] string caller = "", [CallerLineNumber] int line = 0) => _spy.EndParse(caller, line, term);
         private Term NewTerm(Term term, [CallerMemberName] string caller = "", [CallerLineNumber] int line = 0) => _spy.NewTerm(caller, line, term);
 
+        #region Loops
+
+        private Loop BeginLoop([CallerMemberName] string caller = "", [CallerLineNumber] int line = 0) => _spy.BeginLoop(caller, line);
+        private Break Break([CallerMemberName] string caller = "", [CallerLineNumber] int line = 0) => _spy.Break(caller, line);
+        private Continue Continue([CallerMemberName] string caller = "", [CallerLineNumber] int line = 0) => _spy.Continue(caller, line);
+        private Loop EndLoop([CallerMemberName] string caller = "", [CallerLineNumber] int line = 0) => _spy.EndLoop(caller, line);
+
+        #endregion
         #region Operators
 
         private bool AnyOperators() => _spy.AnyOperators();

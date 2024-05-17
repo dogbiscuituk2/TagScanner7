@@ -9,11 +9,14 @@
         [TestMethod]
         public void ScratchTest()
         {
-            var before = "iif (title contains \"Love\", 1, 2)";
+            var before = "cat := Join(\", \", \"One\", \"Two\", \"Three\")";
             var parser = new Parser();
             var term = parser.Parse(before, caseSensitive: false);
             var after = term.ToString();
             //Assert.AreEqual(expected: before, actual: after);
+
+            var result = term.Result;
+            return;
         }
     }
 }
