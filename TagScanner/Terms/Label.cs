@@ -2,13 +2,12 @@
 {
     using System.Linq.Expressions;
 
-    public class Label : Term
+    public class Label : LabelBase
     {
-        public Label(LabelTarget labelTarget) { LabelTarget = labelTarget; }
+        public Label(LabelTarget labelTarget) : base(labelTarget) { }
 
         public override Expression Expression => Expression.Label(LabelTarget);
-        public LabelTarget LabelTarget { get; set; }
 
-        public override string ToString() => $"#{LabelTarget.Name}:";
+        public override string ToString() => $"{LabelTarget.Name}:";
     }
 }

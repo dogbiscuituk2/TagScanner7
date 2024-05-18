@@ -71,7 +71,7 @@
                     case LeftBrace:
                         return MatchParameter();
                     case char c when char.IsLetter(c) || c == '_':
-                        return MatchVariable();
+                        return remainingText.StartsWithLabel() ? MatchLabel() : MatchVariable();
                 }
                 return UnexpectedCharacter();
             }

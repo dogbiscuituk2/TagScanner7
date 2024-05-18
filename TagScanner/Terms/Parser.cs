@@ -156,6 +156,13 @@
         private Term ParseFunctionAsStatic() => ParseFunction(new List<Term>());
         private Term ParseFunctionAsMember(Term self) => ParseFunction(new List<Term> { self });
 
+        private Term ParseGoto()
+        {
+            AcceptToken("goto");
+            var label = AddLabel(DequeueToken().Value);
+            return new Goto(label.LabelTarget);
+        }
+
         private Term ParseIf()
         {
             Term condition, consequent, alternative = null;
@@ -211,6 +218,8 @@
                     case "continue":
                         DequeueToken();
                         return Continue();
+                    case "goto":
+                        return ParseGoto();
                 }
             return ParseCompound();
         }
@@ -289,15 +298,9 @@
 
         private Term ParseDefault(string value) => new Default(value.Substring(1, value.Length - 2).ToType());
 
-        private Term ParseLabel()
-        {
-            var labelName = DequeueToken().Value;
-            var label = new Label(Expression.Label(labelName));
-            _labels.Add(labelName, label);
-            return label;
-        }
-
         private Term ParseField(string value) => value.DisplayNameToTag();
+
+        private Term ParseLabel() => AddLabel(DequeueToken().Value.TrimEnd(':'));
 
         private Term ParseNumber(string value) =>
             value.EndsWith("UL") || value.EndsWith("LU") ? ulong.Parse(value.TrimEnd('U', 'L')) :
@@ -323,7 +326,17 @@
 
         #endregion
 
-        #region Helpers
+        #region Helper Methods
+
+        private Label AddLabel(string labelName)
+        {
+            if (!_labels.ContainsKey(labelName))
+            {
+                var label = new Label(Expression.Label(labelName));
+                _labels.Add(labelName, label);
+            }
+            return _labels[labelName];
+        }
 
         private Term PrepareCompound(Compound compound)
         {

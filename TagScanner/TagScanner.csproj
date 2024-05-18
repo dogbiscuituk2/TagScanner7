@@ -190,6 +190,7 @@
     <Compile Include="Terms\Continue.cs" />
     <Compile Include="Terms\ControlStructure.cs" />
     <Compile Include="Terms\DateTimeParser.cs" />
+    <Compile Include="Terms\Label.cs" />
     <Compile Include="Terms\Loop.cs" />
     <Compile Include="Terms\EqualityComparer.cs" />
     <Compile Include="Terms\Cast.cs" />
@@ -203,7 +204,7 @@
     <Compile Include="Terms\EmptyTerm.cs" />
     <Compile Include="Terms\Goto.cs" />
     <Compile Include="Terms\IfStatement.cs" />
-    <Compile Include="Terms\Label.cs" />
+    <Compile Include="Terms\LabelBase.cs" />
     <Compile Include="Terms\Parser.cs" />
     <Compile Include="Terms\ParserSpy.cs" />
     <Compile Include="Terms\Token.cs" />

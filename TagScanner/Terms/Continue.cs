@@ -2,7 +2,7 @@
 {
     using System.Linq.Expressions;
 
-    public class Continue : Label
+    public class Continue : LabelBase
     {
         public Continue(LabelTarget labelTarget) : base(labelTarget) { }
 

@@ -9,13 +9,12 @@
         [TestMethod]
         public void ScratchTest()
         {
-            var before = "cat := Join(\", \", \"One\", \"Two\", \"Three\")";
+            var before = "label1: if true then goto label1; endif";
             var parser = new Parser();
             var term = parser.Parse(before, caseSensitive: false);
             var after = term.ToString();
-            //Assert.AreEqual(expected: before, actual: after);
+            Assert.AreEqual(expected: before, actual: after);
 
-            var result = term.Result;
             return;
         }
     }
