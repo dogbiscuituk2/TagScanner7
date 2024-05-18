@@ -4,7 +4,6 @@
     using System.Collections.Generic;
     using System.Data;
     using System.Linq;
-    using System.Linq.Expressions;
     using System.Runtime.CompilerServices;
     using Terms;
     using Utils;
@@ -72,6 +71,7 @@
         private Term ParseBlock()
         {
             Term result = null;
+            PushOperator();
             while (PeekToken().Length > 0)
             {
                 var term = ParseStatement();
@@ -87,6 +87,7 @@
                 else
                     break;
             }
+            PopOperator();
             return result ?? new EmptyTerm();
         }
 
@@ -108,9 +109,6 @@
             }
             return ParseCompound();
         }
-
-        private LabelTarget GetBreakTarget() => null;
-        private LabelTarget GetContinueTarget() => null;
 
         private Term ParseIf()
         {
@@ -221,9 +219,7 @@
                     AcceptToken(")");
                     return new Cast(type, ParseTerm());
                 }
-                PushOperator();
                 term = ParseBlock();
-                PopOperator();
                 AcceptToken(")");
             }
             else
@@ -329,6 +325,9 @@
                 var operandTypes = fn.OperandTypes();
                 for (var index = count; index < operandTypes.Count(); index++)
                     operands.Add(new Default(operandTypes[index]));
+                var fix = fn.IndexOfParams();
+                if (fix >= 0)
+                    CastAll(fix, typeof(object));
                 switch (fn)
                 {
                     case Fn.Compare:
@@ -349,27 +348,16 @@
                         CheckCase(2);
                         break;
 
-                    case Fn.Max:
-                    case Fn.Min:
-                    case Fn.Pow:
-                        Cast(1, typeof(double));
-                        goto case Fn.Round;
-
-                    case Fn.Concat:
-                    case Fn.Print:
-                        CastAll(0, typeof(object));
-                        break;
-
-                    case Fn.Format:
-                    case Fn.Join:
-                        CastAll(1, typeof(object));
-                        break;
-
                     case Fn.Replace:
                     case Fn.ReplaceX:
                         CheckCase(3);
                         break;
 
+                    case Fn.Max:
+                    case Fn.Min:
+                    case Fn.Pow:
+                        Cast(1, typeof(double));
+                        goto case Fn.Round;
                     case Fn.Round:
                     case Fn.Sign:
                         Cast(0, typeof(double));

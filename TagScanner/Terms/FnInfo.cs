@@ -34,6 +34,7 @@
 
         #region Public Properties
 
+        public int IndexOfParams => IsInfinitary ? OperandCount - 1 : -1;
         public bool IsInfinitary { get; }
         public int OperandCount { get; }
         public Type[] OperandTypes { get; }
@@ -43,23 +44,15 @@
 
         public Expression GetExpression(List<Term> operands)
         {
-            var expressions = operands.Select(p => p.Expression).ToList();
-            switch (_fn)
-            {
-                case Fn.Iif:
-                    return Expression.Condition(expressions[0], expressions[1], expressions[2]);
-                case Fn.Concat:
-                    return Expression.Call(
-                        _methodInfo,
-                        Expression.NewArrayInit(typeof(object), expressions));
-                case Fn.Format:
-                case Fn.Join:
-                    return Expression.Call(
-                        _methodInfo,
-                        expressions.First(),
-                        Expression.NewArrayInit(typeof(object), expressions.Skip(1).Select(p => Expression.Convert(p, typeof(object)))));
-            }
-            return Expression.Call(_methodInfo, expressions);
+            var exps = operands.Select(p => p.Expression).ToList();
+            if (_fn == Fn.IfThenElse)
+                return Expression.Condition(exps[0], exps[1], exps[2]);
+            var fix = _fn.IndexOfParams();
+            if (fix < 0)
+                return Expression.Call(_methodInfo, exps);
+            var args = exps.Take(fix).ToList();
+            args.Add(Expression.NewArrayInit(typeof(object), exps.Skip(fix).Select(p => Expression.Convert(p, typeof(object)))));
+            return Expression.Call(_methodInfo, args);
         }
 
         #region Private Fields

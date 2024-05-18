@@ -17,37 +17,37 @@ To see the scope/power of _ʞɯɾ_ language, it helps to get an overview of its 
   
 ## _ʞɯɾ_ Language Syntax  
   
-_ʞɯɾ-program_ = _block_  
-_block_ = \{ _statement_ \{ semicolon _statement_ ... \} \}  
-_statement_ = \{ _label_ colon \} _compound_ | _if-statement_ | _do-loop_ | **break** | **continue** | **goto** _label_ <sup>_(4)_</sup>  
-_compound_ = _term_ \{ _binary-operator_ _term_ ... \}  
-_if-statement_ = **if** _block_ **then** _block_ \{ **else** _block_ \} **endif**  
-_do-loop_ = \{ **while** _block_ \} **do** _block_ \{ **until** _block_ \} **loop**  
-_term_ = \{ _unary-operator_ | _cast_ ... \} _value_ | lparen _block_ rparen \{ \{ dot \} _function_ ... \}  
-_value_ = _constant_ | _default_ | _field_ | _function_ | _parameter_ | _variable_  
-_label_ = @"#\w+"
+_ʞɯɾ-program = block_  
+_block = \{ statement \{_ **\;** _statement ... \} \}__  
+_statement = \{ label_ **\:** _\} compound | if-statement | do-loop |_ **break** _|_ **continue** _|_ **goto** _label_ <sup>_(4)_</sup>  
+_compound = term \{ binary-operator term ... \}_  
+_if-statement =_ **if** _block_ **then** _block \{_ **else** _block \}_ **endif**  
+_do-loop = \{_ **while** _block \}_ **do** _block \{_ **until** _block \}_ **loop**  
+_term = \{ unary-operator | cast ... \} value |_ **(** _block_ **)** _\{ \{_ **.** _\} function ... \}_  
+_value = constant | default | field | function | parameter | variable_  
+_label =_ **\@\"\#\w+"**
   
-_cast_ = lparen _type_ rparen  
-_constant_ = _bool_ | _char_ | _datetime_ | _decimal_ | _double_ | _float_ | _int_ | _long_ | _string_ | _timespan_ | _uint_ | _ulong_ <sup>_(1,3)_</sup>  
-_default_ = lbrace _type_ rbrace  
-_function_ = _function-name_ \{ _term_ | lparen \{ _block_ \} rparen \}  
-_parameter_ = **Track** <sup>_(2)_</sup>  
-_variable_ = _(any unreserved word)_ <sup>_(1)_</sup>  
+_cast =_ **(** _type_ **)**  
+_constant = bool | char | datetime | decimal | double | float | int | long | string | timespan | uint | ulong_ <sup>_(1,3)_</sup>  
+_default =_ **\{** _type_ **\}**  
+_function = function-name \{ term |_ **\(** _\{ block \}_ **\)** _\}_  
+_parameter =_ **Track** <sup>_(2)_</sup>  
+_variable = (any unreserved word)_ <sup>_(1)_</sup>  
   
-_unary-operator_ = _one of_ +, ＋, -, －, !, **not** <sup>_(2)_</sup>  
-_binary-operator_ = _assign-op_ | _logical-op_ | _relational-op_ | _arithmetic-op_ <sup>_(2)_</sup>  
-_arithmetic-op_ = _one of_ +, ＋, -, －, *, ×, ✕, /, ÷, ／, %  
-_assign-op_ = _one of_ \<-, :=, ←, &=, |=, \^=, +=, -=, \*=, /=, %=  
-_logical-op_ = _one of_ &, &&, |, ||, ^, **and**, **or**, **xor**  
-_relational-op_ = _one of_ =, ==, !=, <>, #, ≠, <, \<=, ≤, ≯, >=, ≥, ≮, >  
+_unary-operator = one of_ **+**_,_ **＋**_,_ **-**_,_ **－**_,_ **!**_,_ **not** <sup>_(2)_</sup>  
+_binary-operator = assign-op | logical-op | relational-op | arithmetic-op_ <sup>_(2)_</sup>  
+_arithmetic-op = one of_ **+**_,_ **＋**_,_ **-**_,_ **－**_,_ **\***_,_ **×**_,_ **✕**_,_ **/**_,_ **÷**_,_ **／**_,_ **%**  
+_assign-op = one of_ **\<-**_,_ **:=**_,_ **←**_,_ **&=**_,_ **|=**_,_ **\^=**_,_ **+=**_,_ **-=**_,_ **\*=**_,_ **/=**_,_ **%=**  
+_logical-op = _one of_ **&**_,_ **&&**_,_ **|**_,_ **||**_,_ **^**_,_ **and**_,_ **or**_,_ **xor**  
+_relational-op = one of_ **=**_,_ **==**_,_ **!=**_,_ **<>**_,_ **#**_,_ **≠**_,_ **<**_,_ **\<=**_,_ **≤**_,_ **≯**_,_ **>=**_,_ **≥**_,_ **≮**_,_ **>**  
   
-_bool_ = _one of_ **true**, **false**  
-_char_ = any single character enclosed in single quotes: 'A'  
-_string_ = any character sequence enclosed in double quotes: "Hello, World!"  
-_timespan_ = @"\^\\[(?:(\d+)\\.)?(\d\d?)\\:(\d\d?)(?:\\:(\d\d?)(\\.\d+)?)?\\]"  
-_datetime_ = @"\^\\[(\d{4})-(\d\d?)\-(\d\d?)(?: (\d\d?)\\:(\d\d?)(?:\\:(\d\d?)(\\.\d+)?)?)?\\]"  
+_bool = _one of **true**_,_ **false**  
+_char = any one character enclosed in single quotes:_ **'A'**  
+_string = any character sequence enclosed in double quotes:_ **"Hello, World!"**  
+_timespan =_ **@"\^\\[(?:(\d+)\\.)?(\d\d?)\\:(\d\d?)(?:\\:(\d\d?)(\\.\d+)?)?\\]"**  
+_datetime =_ **@"\^\\[(\d{4})-(\d\d?)\-(\d\d?)(?: (\d\d?)\\:(\d\d?)(?:\\:(\d\d?)(\\.\d+)?)?)?\\]"**  
 
-<details><summary><i>field = one of</i> <b>Album</b>, <b>Album Artist</b>, ... <i>(click here for full list) <sup>(1)</sup>  </i></summary><b>
+<details><summary><i>field = one of</i> <b>Album</b><i>,</i> <b>Album Artist</b><i>,</i> ... <i>(click here for full list) <sup>(1)</sup>  </i></summary><b>
 Album<br>
 Album Artist<br>
 Album Artists<br>
@@ -168,7 +168,7 @@ Year<br>
 Year/Album<br>
 </b></details>  
 
-<details><summary><i>function-name = one of</i> <b>Compare</b>, <b>Concat</b>, ... <i>(click here for full list) <sup>(2)</sup></i></summary><b>
+<details><summary><i>function-name = one of</i> <b>Compare</b><i>,</i> <b>Concat</b><i>,</i> ... <i>(click here for full list) <sup>(2)</sup></i></summary><b>
 Compare<br>
 Concat<br>
 Contains<br>
@@ -181,9 +181,10 @@ EndsWithX<br>
 Equals<br>
 EqualsX<br>
 Format<br>
-If<br>
+IfThenElse<br>
 IndexOf<br>
 IndexOfX<br>
+Input<br>
 Insert<br>
 Join<br>
 LastIndexOf<br>
@@ -193,6 +194,8 @@ Lower<br>
 Max<br>
 Min<br>
 Pow<br>
+Print<br>
+PrintLine<br>
 Remove<br>
 Replace<br>
 ReplaceX<br>
@@ -207,14 +210,6 @@ Truncate<br>
 Upper<br>
 </b></details>
 
-colon = ':'
-dot = '.'  
-lbrace = '{'  
-lparen = '('  
-rbrace = '}'  
-rparen = ')'  
-semicolon = ';'  
-  
 Notes:  
 1. Case-insensitive.  
 2. Case-insensitive and reserved.  

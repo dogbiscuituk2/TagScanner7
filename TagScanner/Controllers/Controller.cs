@@ -15,7 +15,7 @@
         protected MainFormController MainFormController => (MainFormController)Root;
         protected Model MainModel => MainFormController.Model;
         protected WpfTableController MainTableController => MainFormController.TableController;
-        protected virtual IWin32Window Owner => Parent.Owner;
+        protected virtual IWin32Window Owner => Parent?.Owner;
         protected Controller Parent { get; }
         protected Controller Root => Parent == null ? this : Parent.Root;
     }

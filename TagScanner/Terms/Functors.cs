@@ -34,9 +34,10 @@
             Add(Fn.Equals, s, s, b);
             Add(Fn.EqualsX, s, s, b);
             Add(Fn.Format, s, oo);
-            AddUser(Fn.Iif, o, isInfinitary: false, b, o, o);
+            AddUser(Fn.IfThenElse, o, isInfinitary: false, b, o, o);
             Add(Fn.IndexOf, s, s, b);
             Add(Fn.IndexOfX, s, s, b);
+            Add(Fn.Input, s);
             Add(Fn.Insert, s, i, s);
             Add(Fn.Join, s, oo);
             Add(Fn.LastIndexOf, s, s, b);
@@ -47,6 +48,7 @@
             Add(Fn.Min, d, d);
             Add(Fn.Pow, d, d);
             Add(Fn.Print, oo);
+            Add(Fn.PrintLine, oo);
             Add(Fn.Remove, s, i, i);
             Add(Fn.Replace, s, s, s, b);
             Add(Fn.ReplaceX, s, s, s, b);
@@ -82,6 +84,7 @@
             return $"{fnInfo.ReturnType.Say()} {fn}({fnInfo.SayOperandTypes()})";
         }
 
+        public static int IndexOfParams(this Fn fn) => fn.FnInfo().IndexOfParams;
         public static FnInfo FnInfo(this Fn fn) => _functors[fn];
         public static bool IsInfinitary(this Fn fn) => fn.FnInfo().IsInfinitary;
         public static int OperandCount(this Fn fn) => fn.FnInfo().OperandCount;

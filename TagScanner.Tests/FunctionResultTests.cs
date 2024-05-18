@@ -177,18 +177,18 @@
         [DataRow("\"{0} {1} {2} {3} {4}\" format(1, 2.0, \"three\", true, [1958-11-23])", "1 2 three True 23/11/1958 00:00:00")]
 
         #endregion
-        #region Iif
+        #region IfThenElse
 
-        [DataRow("Iif(true, 1, 2)", 1)]
-        [DataRow("Iif(false, 1, 2)", 2)]
-        [DataRow("Iif(1 + 1 = 2, 1, 2)", 1)]
-        [DataRow("Iif(1 + 1 > 2, 1, 2)", 2)]
-        [DataRow("Iif(true, \"Beatles\", \"Stones\")", "Beatles")]
-        [DataRow("true iif(1, 2)", 1)]
-        [DataRow("false iif(1, 2)", 2)]
-        [DataRow("(1 + 1 = 2) iif(1, 2)", 1)]
-        [DataRow("(1 + 1 > 2) iif(1, 2)", 2)]
-        [DataRow("true iif(\"Beatles\", \"Stones\")", "Beatles")]
+        [DataRow("IfThenElse(true, 1, 2)", 1)]
+        [DataRow("IfThenElse(false, 1, 2)", 2)]
+        [DataRow("IfThenElse(1 + 1 = 2, 1, 2)", 1)]
+        [DataRow("IfThenElse(1 + 1 > 2, 1, 2)", 2)]
+        [DataRow("IfThenElse(true, \"Beatles\", \"Stones\")", "Beatles")]
+        [DataRow("true IfThenElse(1, 2)", 1)]
+        [DataRow("false IfThenElse(1, 2)", 2)]
+        [DataRow("(1 + 1 = 2) IfThenElse(1, 2)", 1)]
+        [DataRow("(1 + 1 > 2) IfThenElse(1, 2)", 2)]
+        [DataRow("true IfThenElse(\"Beatles\", \"Stones\")", "Beatles")]
 
         #endregion
         #region IndexOf
