@@ -18,7 +18,7 @@ To see the scope/power of _ʞɯɾ_ language, it helps to get an overview of its 
 ## _ʞɯɾ_ Language Syntax <sup><i>(1)</i></sup>  
   
 _ʞɯɾ-program = block_  
-_block = \{ statement \{_ **\;** _statement ... \} \}_  
+_block = \{ \{ label ... \} statement \{_ **\;** _\{ label ... \} statement ... \} \}_  
 _statement = \{ label_ **\:** _\} compound | if-statement | do-loop |_ **break** _|_ **continue** _|_ **goto** _label_&nbsp;<sup>(2)</sup>  
 _compound = term \{ binary-op term ... \}_  
 _term = \{ unary-op | cast ... \} value |_ **(** _block_ **)** _\{ \{_ **.** _\} function ... \}_  
@@ -26,7 +26,7 @@ _value = constant | default | field | function | variable_
 
 _if-statement =_ **if** _block_ **then** _block \{_ **else** _block \}_ **endif**  
 _do-loop = \{_ **while** _block \}_ **do** _block \{_ **until** _block \}_ **loop**  
-_label =_ **\@\"\#\w+"**
+_label =_ **\@\"\w+\\:"**
   
 _cast =_ **(** _type_ **)**  
 _constant = bool | char | datetime | decimal | double | float | int | long | string | timespan | uint | ulong_&nbsp;<sup>(3,5)</sup>  

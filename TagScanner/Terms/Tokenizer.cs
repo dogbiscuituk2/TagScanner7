@@ -78,11 +78,12 @@
 
             Token MatchCharacter() => MatchRegex(TokenKind.Character, @"^'(.|\.|\n)'", "Unterminated character constant");
             Token MatchDateTime() => MatchRegex(TokenKind.DateTime, DateTimeParser.DateTimePattern, "Invalid DateTime format");
-            Token MatchNumber() => MatchRegex(TokenKind.Number, NumberPattern, "Always succeeds");
+            Token MatchLabel() => MatchRegex(TokenKind.Label, @"[\w_]+\:");
+            Token MatchNumber() => MatchRegex(TokenKind.Number, NumberPattern);
             Token MatchParameter() => MatchRegex(TokenKind.Default, @"^\{\w+(\[\])?\}", "Invalid parameter");
             Token MatchString() => MatchRegex(TokenKind.String, "\"[^\"|\\\"]*\"", "Unterminated string constant");
             Token MatchTimeSpan() => MatchRegex(TokenKind.TimeSpan, DateTimeParser.TimeSpanPattern, "Invalid TimeSpan format");
-            Token MatchVariable() => MatchRegex(TokenKind.Name, @"[\w]+", "Always succeeds");
+            Token MatchVariable() => MatchRegex(TokenKind.Variable, @"[\w_]+");
 
             Token MatchComment()
             {
@@ -114,7 +115,7 @@
                 return ok;
             }
 
-            Token MatchRegex(TokenKind tokenType, string pattern, string error)
+            Token MatchRegex(TokenKind tokenType, string pattern, string error = null)
             {
                 var token = new Token(tokenType, index,
                     Regex.Match(RemainingText(), $"^{pattern}", RegexOptions.IgnoreCase).Value);
@@ -137,6 +138,7 @@
         public static bool IsDefault(this string token) => token[0] == LeftBrace;
         public static bool IsField(this string token) => Tags.FieldNames.Contains(token, IgnoreCase);
         public static bool IsFunction(this string token) => Functors.FunctionNames.Contains(token, IgnoreCase);
+        public static bool IsLabel(this string token) => Regex.IsMatch(token, $"{LabelPattern}$");
         public static bool IsName(this string token) => Regex.IsMatch(token, $"{NamePattern}$");
         public static bool IsNumber(this string token) => Regex.IsMatch(token, $"{NumberPattern}$");
         public static bool IsOperator(this string token) => Operators.ContainsSymbol(token);
@@ -146,10 +148,12 @@
         public static bool IsType(this string token) => Types.Names.Contains(token, IgnoreCase);
         public static bool IsUnaryOperator(this string token) => Operators.ContainsUnarySymbol(token);
         public static Rank Rank(this string token, bool unary) => token.ToOperator(unary).GetRank();
+        public static bool StartsWithLabel(this string token) => Regex.IsMatch(token, LabelPattern);
         public static bool StartsWithNumber(this string token) => Regex.IsMatch(token, NumberPattern);
         public static TextStyle TextStyle(this TokenKind tokenType) => TextStyles[tokenType];
 
-        private const string NamePattern = @"\w+";
+        private const string LabelPattern = @"^[\w_]+\:";
+        private const string NamePattern = @"^[\w_]+";
         private const string NumberPattern = @"^\d+\.?\d*([Ee][-+]\d+)?(UL|LU|D|F|L|M|U)?";
 
         private static readonly TextStyle TextStyleConstant = new TextStyle(Brushes.DarkOrange, null, FontStyle.Regular);
@@ -164,13 +168,14 @@
             { TokenKind.Field, new TextStyle(Brushes.Blue, null, FontStyle.Regular) },
             { TokenKind.Function, new TextStyle(Brushes.DarkCyan, null, FontStyle.Regular) },
             { TokenKind.Keyword, new TextStyle(Brushes.DarkGray, null, FontStyle.Regular) },
+            { TokenKind.Label, new TextStyle(Brushes.Magenta, null, FontStyle.Italic) },
             { TokenKind.Number, TextStyleConstant },
             { TokenKind.Default, new TextStyle(Brushes.Brown, null, FontStyle.Regular) },
             { TokenKind.String, TextStyleConstant },
             { TokenKind.Symbol, new TextStyle(Brushes.Black, null, FontStyle.Regular) },
             { TokenKind.TimeSpan, TextStyleConstant },
             { TokenKind.TypeName, new TextStyle(Brushes.Red, null, FontStyle.Regular) },
-            { TokenKind.Name, new TextStyle(Brushes.Magenta, null, FontStyle.Regular) },
+            { TokenKind.Variable, new TextStyle(Brushes.Magenta, null, FontStyle.Regular) },
         };
 
         public static TextStyle[] AllTextStyles = TextStyles.Values.Distinct().ToArray();

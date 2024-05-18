@@ -17,11 +17,9 @@
                 add = Rank.Additive,
                 and = Rank.ConditionalAnd,
                 ass = Rank.Assignment,
-                c = Rank.Comma,
                 e = Rank.Equality,
                 m = Rank.Multiplicative,
                 or = Rank.ConditionalOr,
-                p = Rank.Primary,
                 r = Rank.Relational,
                 u = Rank.Unary,
                 x = Rank.BitwiseXor;

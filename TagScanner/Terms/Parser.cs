@@ -4,6 +4,7 @@
     using System.Collections.Generic;
     using System.Data;
     using System.Linq;
+    using System.Linq.Expressions;
     using System.Runtime.CompilerServices;
     using Terms;
     using Utils;
@@ -62,6 +63,7 @@
 
         private bool _caseSensitive;
         private readonly ParserSpy _spy = new ParserSpy();
+        private readonly Dictionary<string, Label> _labels = new Dictionary<string, Label>();
         private readonly Dictionary<string, Variable> _variables = new Dictionary<string, Variable>();
 
         #endregion
@@ -74,13 +76,9 @@
             PushOperator();
             while (PeekToken().Length > 0)
             {
-                var term = ParseStatement();
-                if (result == null)
-                    result = term;
-                else if (result is Block block)
-                    block.Operands.Add(term);
-                else
-                    result = new Block(result, term);
+                while (PeekToken().Kind == TokenKind.Label)
+                    Add(ParseLabel());
+                Add(ParseStatement());
                 var token = PeekToken().Value;
                 if (token == "," || token == ";")
                     DequeueToken();
@@ -89,6 +87,16 @@
             }
             PopOperator();
             return result ?? new EmptyTerm();
+
+            void Add(Term term)
+            {
+                if (result == null)
+                    result = term;
+                else if (result is Block block)
+                    block.Operands.Add(term);
+                else
+                    result = new Block(result, term);
+            }
         }
 
         private Term ParseCompound()
@@ -167,13 +175,6 @@
                 : (Term)new IfStatement(condition, consequent, alternative);
         }
 
-        private Term ParseLabel()
-        {
-            var labelName = DequeueToken().Value;
-            AcceptToken(":");
-            return new Label();
-        }
-
         private Term ParseLoop()
         {
             var loop = BeginLoop();
@@ -196,10 +197,8 @@
         private Term ParseStatement()
         {
             var token = PeekToken();
-            var tokenKind = token.Kind;
-            var tokenValue = token.Value;
-            if (tokenKind == TokenKind.Keyword)
-                switch (tokenValue)
+            if (token.Kind == TokenKind.Keyword)
+                switch (PeekToken().Value)
                 {
                     case "if":
                         return ParseIf();
@@ -213,8 +212,6 @@
                         DequeueToken();
                         return Continue();
                 }
-            if (tokenKind == TokenKind.Name)
-                return ParseLabel();
             return ParseCompound();
         }
 
@@ -274,7 +271,7 @@
                     case TokenKind.Number: return ParseNumber(value.ToUpperInvariant());
                     case TokenKind.String: return ParseString(value);
                     case TokenKind.TimeSpan: return ParseTimeSpan(value);
-                    case TokenKind.Name: return ParseVariable(value);
+                    case TokenKind.Variable: return ParseVariable(value);
                     default: return null;
                 }
             }
@@ -291,6 +288,14 @@
         private Term ParseDateTime(string value) => DateTimeParser.ParseDateTime(value);
 
         private Term ParseDefault(string value) => new Default(value.Substring(1, value.Length - 2).ToType());
+
+        private Term ParseLabel()
+        {
+            var labelName = DequeueToken().Value;
+            var label = new Label(Expression.Label(labelName));
+            _labels.Add(labelName, label);
+            return label;
+        }
 
         private Term ParseField(string value) => value.DisplayNameToTag();
 
@@ -470,10 +475,10 @@
 
         private void AcceptToken(string expected, [CallerMemberName] string caller = "", [CallerLineNumber] int line = 0) => _spy.AcceptToken(caller, line, expected);
         private Token DequeueToken([CallerMemberName] string caller = "", [CallerLineNumber] int line = 0) => _spy.DequeueToken(caller, line);
-        private Token PeekToken(int offset = 0, [CallerMemberName] string caller = "", [CallerLineNumber] int line = 0) => _spy.PeekToken(caller, line, offset);
+        private Token PeekToken([CallerMemberName] string caller = "", [CallerLineNumber] int line = 0) => _spy.PeekToken(caller, line);
 
         #endregion
 
-        #endregion
+        #endregion                                                          l
     }
 }
