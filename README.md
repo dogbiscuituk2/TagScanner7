@@ -24,8 +24,10 @@ _compound = term \{ binary-op term ... \}_
 _term = \{ unary-op | cast ... \} value |_ **(** _block_ **)** _\{ \{_ **.** _\} function ... \}_  
 _value = constant | default | field | function | variable_  
 
-_if-statement =_ **if** _block_ **then** _block \{_ **else** _block \}_ **endif**  
-_do-loop = \{_ **while** _block \}_ **do** _block \{_ **until** _block \}_ **loop**  
+_if-statement =_ **if** _block_ **then** _block \{_ **else** _block \}_ **end**  
+_do-loop = \{_ **while** _block \}_ **do** _block \{_ **until** _block \}_ **end**  
+_try-block =_ **try** _block \{_ **catch** _catch-block ... \} \{_ **finally** _block \}_ **end**  
+_catch-block =_
 _label =_ **\@\"\w+\\:"**
   
 _cast =_ **(** _type_ **)**  
@@ -37,7 +39,7 @@ _variable = (any unreserved word)_&nbsp;<sup>(3)</sup>
 _binary-op = assign-op | logical-op | relational-op | arithmetic-op_&nbsp;<sup>(4)</sup>  
 _arithmetic-op = one of_ &nbsp; **+&nbsp;&nbsp; ＋&nbsp;&nbsp; -&nbsp;&nbsp; －&nbsp;&nbsp; \*&nbsp;&nbsp; ×&nbsp;&nbsp; ✕&nbsp;&nbsp; /&nbsp;&nbsp; ÷&nbsp;&nbsp; ／&nbsp;&nbsp; %**  
 _assign-op = one of_ &nbsp; **\<-&nbsp;&nbsp; :=&nbsp;&nbsp; ←&nbsp;&nbsp; &=&nbsp;&nbsp; |=&nbsp;&nbsp; \^=&nbsp;&nbsp; +=&nbsp;&nbsp; -=&nbsp;&nbsp; \*=&nbsp;&nbsp; /=&nbsp;&nbsp; %=**  
-_logical-op = _one of_ &nbsp; **& &nbsp;&nbsp; &&&nbsp;&nbsp; |&nbsp;&nbsp; ||&nbsp;&nbsp; ^&nbsp;&nbsp; and&nbsp;&nbsp; or&nbsp;&nbsp; xor**  
+_logical-op = one of_ &nbsp; **& &nbsp;&nbsp; &&&nbsp;&nbsp; |&nbsp;&nbsp; ||&nbsp;&nbsp; ^&nbsp;&nbsp; and&nbsp;&nbsp; or&nbsp;&nbsp; xor**  
 _relational-op = one of_ &nbsp; **=&nbsp;&nbsp; ==&nbsp;&nbsp; !=&nbsp;&nbsp; <>&nbsp;&nbsp; #&nbsp;&nbsp; ≠&nbsp;&nbsp; <&nbsp;&nbsp; \<=&nbsp;&nbsp; ≤&nbsp;&nbsp; ≯&nbsp;&nbsp; >=&nbsp;&nbsp; ≥&nbsp;&nbsp; ≮&nbsp;&nbsp; >**  
 _unary-op = one of_ &nbsp; **+&nbsp;&nbsp; ＋&nbsp;&nbsp; -&nbsp;&nbsp; －&nbsp;&nbsp; !&nbsp;&nbsp; not**&nbsp;<sup>(4)</sup>  
   
