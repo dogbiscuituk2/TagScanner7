@@ -174,57 +174,57 @@ _datetime =_ **@"\^\\[(\d{4})-(\d\d?)\-(\d\d?)(?:T(\d\d?)\\:(\d\d?)(?:\\:(\d\d?)
 <b><i>String Functions</i></b>
 <p>
 
-<i>int</i> <b>Compare</b><i>(this string strA, string strB, bool caseSensitive)</i>
-<i>string</i> <b>Concat</b><i>(params object[] values)</i>
-<i>string</i> <b>Concat_2</b><i>(this string s, string t)</i>
-<i>string</i> <b>Concat_3</b><i>(this string s, string t, string u)</i>
-<i>string</i> <b>Concat_4</b><i>(this string s, string t, string u, string v)</i>
-<i>bool</i> <b>Contains</b><i>(this string input, string pattern, bool caseSensitive)</i>
-<i>bool</i> <b>ContainsX</b><i>(this string input, string pattern, bool caseSensitive)</i>
-<i>int</i> <b>Count</b><i>(this string input, string pattern, bool caseSensitive)</i>
-<i>int</i> <b>CountX</b><i>(this string input, string pattern, bool caseSensitive)</i>
-<i>bool</i> <b>Empty</b><i>(this string input)</i>
-<i>bool</i> <b>EndsWith</b><i>(this string input, string pattern, bool caseSensitive)</i>
-<i>bool</i> <b>EndsWithX</b><i>(this string input, string pattern, bool caseSensitive)</i>
-<i>bool</i> <b>Equals</b><i>(this string input, string pattern, bool caseSensitive)</i>
-<i>bool</i> <b>EqualsX</b><i>(this string input, string pattern, bool caseSensitive)</i>
-<i>string</i> <b>Format</b><i>(this string format, params object[] args)</i>
-<i>int</i> <b>IndexOf</b><i>(this string input, string pattern, bool caseSensitive)</i>
-<i>int</i> <b>IndexOfX</b><i>(this string input, string pattern, bool caseSensitive)</i>
-<i>string</i> <b>Insert</b><i>(this string input, int startIndex, string value)</i>
-<i>string</i> <b>Join</b><i>(this string separator, params object[] values)</i>
-<i>int</i> <b>LastIndexOf</b><i>(this string input, string pattern, bool caseSensitive)</i>
-<i>int</i> <b>LastIndexOfX</b><i>(this string input, string pattern, bool caseSensitive)</i>
-<i>int</i> <b>Length</b><i>(this string input)</i>
-<i>string</i> <b>Lower</b><i>(this string input)</i>
-<i>string</i> <b>Remove</b><i>(this string input, int startIndex, int count)</i>
-<i>string</i> <b>Replace</b><i>(this string input, string pattern, string replacement, bool caseSensitive)</i>
-<i>string</i> <b>ReplaceX</b><i>(this string input, string pattern, string replacement, bool caseSensitive)</i>
-<i>bool</i> <b>StartsWith</b><i>(this string input, string pattern, bool caseSensitive)</i>
-<i>bool</i> <b>StartsWithX</b><i>(this string input, string pattern, bool caseSensitive)</i>
-<i>string</i> <b>Substring</b><i>(this string input, int startIndex, int length)</i>
-<i>string</i> <b>ToString</b><i>(this object input)</i>
-<i>string</i> <b>Trim</b><i>(this string input)</i>
-<i>string</i> <b>Upper</b><i>(this string input)</i>
+<i>int</i> <b>Compare</b><i>(this string strA, string strB, bool caseSensitive)</i><br>
+<i>string</i> <b>Concat</b><i>(params object[] values)</i><br>
+<i>string</i> <b>Concat_2</b><i>(this string s, string t)</i><br>
+<i>string</i> <b>Concat_3</b><i>(this string s, string t, string u)</i><br>
+<i>string</i> <b>Concat_4</b><i>(this string s, string t, string u, string v)</i><br>
+<i>bool</i> <b>Contains</b><i>(this string input, string pattern, bool caseSensitive)</i><br>
+<i>bool</i> <b>ContainsX</b><i>(this string input, string pattern, bool caseSensitive)</i><br>
+<i>int</i> <b>Count</b><i>(this string input, string pattern, bool caseSensitive)</i><br>
+<i>int</i> <b>CountX</b><i>(this string input, string pattern, bool caseSensitive)</i><br>
+<i>bool</i> <b>Empty</b><i>(this string input)</i><br>
+<i>bool</i> <b>EndsWith</b><i>(this string input, string pattern, bool caseSensitive)</i><br>
+<i>bool</i> <b>EndsWithX</b><i>(this string input, string pattern, bool caseSensitive)</i><br>
+<i>bool</i> <b>Equals</b><i>(this string input, string pattern, bool caseSensitive)</i><br>
+<i>bool</i> <b>EqualsX</b><i>(this string input, string pattern, bool caseSensitive)</i><br>
+<i>string</i> <b>Format</b><i>(this string format, params object[] args)</i><br>
+<i>int</i> <b>IndexOf</b><i>(this string input, string pattern, bool caseSensitive)</i><br>
+<i>int</i> <b>IndexOfX</b><i>(this string input, string pattern, bool caseSensitive)</i><br>
+<i>string</i> <b>Insert</b><i>(this string input, int startIndex, string value)</i><br>
+<i>string</i> <b>Join</b><i>(this string separator, params object[] values)</i><br>
+<i>int</i> <b>LastIndexOf</b><i>(this string input, string pattern, bool caseSensitive)</i><br>
+<i>int</i> <b>LastIndexOfX</b><i>(this string input, string pattern, bool caseSensitive)</i><br>
+<i>int</i> <b>Length</b><i>(this string input)</i><br>
+<i>string</i> <b>Lower</b><i>(this string input)</i><br>
+<i>string</i> <b>Remove</b><i>(this string input, int startIndex, int count)</i><br>
+<i>string</i> <b>Replace</b><i>(this string input, string pattern, string replacement, bool caseSensitive)</i><br>
+<i>string</i> <b>ReplaceX</b><i>(this string input, string pattern, string replacement, bool caseSensitive)</i><br>
+<i>bool</i> <b>StartsWith</b><i>(this string input, string pattern, bool caseSensitive)</i><br>
+<i>bool</i> <b>StartsWithX</b><i>(this string input, string pattern, bool caseSensitive)</i><br>
+<i>string</i> <b>Substring</b><i>(this string input, int startIndex, int length)</i><br>
+<i>string</i> <b>ToString</b><i>(this object input)</i><br>
+<i>string</i> <b>Trim</b><i>(this string input)</i><br>
+<i>string</i> <b>Upper</b><i>(this string input)</i><br>
 
 <b><i>Math Functions</i></b>
 
-<i>double</i> <b>Max</b><i>(this double x, double y)</i>
-<i>double</i> <b>Min</b><i>(this double x, double y)</i>
-<i>double</i> <b>Pow</b><i>(this double x, double y)</i>
-<i>double</i> <b>Round</b><i>(this double value)</i>
-<i>int</i> <b>Sign</b><i>(this double value)</i>
-<i>double</i> <b>Truncate</b><i>(this double value)</i>
+<i>double</i> <b>Max</b><i>(this double x, double y)</i><br>
+<i>double</i> <b>Min</b><i>(this double x, double y)</i><br>
+<i>double</i> <b>Pow</b><i>(this double x, double y)</i><br>
+<i>double</i> <b>Round</b><i>(this double value)</i><br>
+<i>int</i> <b>Sign</b><i>(this double value)</i><br>
+<i>double</i> <b>Truncate</b><i>(this double value)</i><br>
 
 <b><i>I/O Functions</i></b>
 
-<i>string</i> <b>Input</b><i>(this string prompt)</i>
-<i>void</i> <b>Print</b><i>(params object[] values)</i>
-<i>void</i> <b>PrintLine</b><i>(params object[] values)</i>
+<i>string</i> <b>Input</b><i>(this string prompt)</i><br>
+<i>void</i> <b>Print</b><i>(params object[] values)</i><br>
+<i>void</i> <b>PrintLine</b><i>(params object[] values)</i><br>
 
 <b><i>Miscellaneous Functions</i></b>
 
-<i>object</i> <b>IfThenElse</b><i>(bool condition, object consequent, object alternative)</i>
+<i>object</i> <b>IfThenElse</b><i>(bool condition, object consequent, object alternative)</i><br>
 </details>
 
 Notes:  
