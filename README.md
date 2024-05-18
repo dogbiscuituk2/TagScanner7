@@ -1,232 +1,255 @@
-﻿# _ʞɯɾ_ (pronounced _your_) Scripting Language  
+﻿# _ʞɯɾ_ (pronounced _your_) Language  
   
-The TagScanner7 app uses _ʞɯɾ_ scripting language to help interrogate and maintain ID3v2 metadata tags on audiovisual media files. So what is _ʞɯɾ_ language? Here's an example:  
+The TagScanner7 app uses _ʞɯɾ_ language to interrogate and maintain ID3v2 metadata tags on audiovisual media files. So what is _ʞɯɾ_ language? Here's an example:  
   
     Artist = "The Beatles"  
     and (Album.StartsWith("Sgt. Pepper's") or Album.Contains("Beatles"))  
     and Title.Contains("Love")  
     and Decade = "1960s"  
   
-Simple _ʞɯɾ_ filters like this are built from predefined tag _field_ names (**Artist**, **Album**, **Title**, etc.), _constant_ values (e.g. character strings "The Beatles", "Sgt. Pepper's"), _functions_ (**Contains**, **StartsWith**), and connecting _operator_ symbols like +, -, *, /, =, **and**, **or**, **not**.  
+Simple _ʞɯɾ_ filters like this are built from predefined tag _field_ names (**Artist**, **Album**, **Title**, etc.), _constant_ values (e.g. character strings "The Beatles", "Sgt. Pepper's"), _functions_ (**Contains**, **StartsWith**), and connecting _operator_ symbols like **+&nbsp;-&nbsp;*&nbsp;/&nbsp;=&nbsp;and&nbsp;or&nbsp;not**.  
   
 To see the scope/power of _ʞɯɾ_ language, it helps to get an overview of its structure. Step one: _ʞɯɾ_ _syntax_.  
   
 - _ʞɯɾ-program_ is a single _block_ (sequence of _compounds_, separated by semicolons);  
-- a _compound_ is a sequence of _terms_, separated by _binary-operators_;  
+- a _compound_ is a sequence of _terms_, separated by _binary-ops_;  
 - a _term_ is... actually, let's have the grammar speak for itself:  
   
-## _ʞɯɾ_ Language Syntax  
+## _ʞɯɾ_ Language Syntax <sup><i>(1)</i></sup>  
   
 _ʞɯɾ-program = block_  
-_block = \{ statement \{_ **\;** _statement ... \} \}__  
-_statement = \{ label_ **\:** _\} compound | if-statement | do-loop |_ **break** _|_ **continue** _|_ **goto** _label_ <sup>_(4)_</sup>  
-_compound = term \{ binary-operator term ... \}_  
+_block = \{ statement \{_ **\;** _statement ... \} \}_  
+_statement = \{ label_ **\:** _\} compound | if-statement | do-loop |_ **break** _|_ **continue** _|_ **goto** _label_&nbsp;<sup>(2)</sup>  
+_compound = term \{ binary-op term ... \}_  
+_term = \{ unary-op | cast ... \} value |_ **(** _block_ **)** _\{ \{_ **.** _\} function ... \}_  
+_value = constant | default | field | function | variable_  
+
 _if-statement =_ **if** _block_ **then** _block \{_ **else** _block \}_ **endif**  
 _do-loop = \{_ **while** _block \}_ **do** _block \{_ **until** _block \}_ **loop**  
-_term = \{ unary-operator | cast ... \} value |_ **(** _block_ **)** _\{ \{_ **.** _\} function ... \}_  
-_value = constant | default | field | function | parameter | variable_  
 _label =_ **\@\"\#\w+"**
   
 _cast =_ **(** _type_ **)**  
-_constant = bool | char | datetime | decimal | double | float | int | long | string | timespan | uint | ulong_ <sup>_(1,3)_</sup>  
+_constant = bool | char | datetime | decimal | double | float | int | long | string | timespan | uint | ulong_&nbsp;<sup>(3,5)</sup>  
 _default =_ **\{** _type_ **\}**  
 _function = function-name \{ term |_ **\(** _\{ block \}_ **\)** _\}_  
-_parameter =_ **Track** <sup>_(2)_</sup>  
-_variable = (any unreserved word)_ <sup>_(1)_</sup>  
+_variable = (any unreserved word)_&nbsp;<sup>(3)</sup>  
   
-_unary-operator = one of_ **+**_,_ **＋**_,_ **-**_,_ **－**_,_ **!**_,_ **not** <sup>_(2)_</sup>  
-_binary-operator = assign-op | logical-op | relational-op | arithmetic-op_ <sup>_(2)_</sup>  
-_arithmetic-op = one of_ **+**_,_ **＋**_,_ **-**_,_ **－**_,_ **\***_,_ **×**_,_ **✕**_,_ **/**_,_ **÷**_,_ **／**_,_ **%**  
-_assign-op = one of_ **\<-**_,_ **:=**_,_ **←**_,_ **&=**_,_ **|=**_,_ **\^=**_,_ **+=**_,_ **-=**_,_ **\*=**_,_ **/=**_,_ **%=**  
-_logical-op = _one of_ **&**_,_ **&&**_,_ **|**_,_ **||**_,_ **^**_,_ **and**_,_ **or**_,_ **xor**  
-_relational-op = one of_ **=**_,_ **==**_,_ **!=**_,_ **<>**_,_ **#**_,_ **≠**_,_ **<**_,_ **\<=**_,_ **≤**_,_ **≯**_,_ **>=**_,_ **≥**_,_ **≮**_,_ **>**  
+_binary-op = assign-op | logical-op | relational-op | arithmetic-op_&nbsp;<sup>(4)</sup>  
+_arithmetic-op = one of_ &nbsp; **+&nbsp;&nbsp; ＋&nbsp;&nbsp; -&nbsp;&nbsp; －&nbsp;&nbsp; \*&nbsp;&nbsp; ×&nbsp;&nbsp; ✕&nbsp;&nbsp; /&nbsp;&nbsp; ÷&nbsp;&nbsp; ／&nbsp;&nbsp; %**  
+_assign-op = one of_ &nbsp; **\<-&nbsp;&nbsp; :=&nbsp;&nbsp; ←&nbsp;&nbsp; &=&nbsp;&nbsp; |=&nbsp;&nbsp; \^=&nbsp;&nbsp; +=&nbsp;&nbsp; -=&nbsp;&nbsp; \*=&nbsp;&nbsp; /=&nbsp;&nbsp; %=**  
+_logical-op = _one of_ &nbsp; **& &nbsp;&nbsp; &&&nbsp;&nbsp; |&nbsp;&nbsp; ||&nbsp;&nbsp; ^&nbsp;&nbsp; and&nbsp;&nbsp; or&nbsp;&nbsp; xor**  
+_relational-op = one of_ &nbsp; **=&nbsp;&nbsp; ==&nbsp;&nbsp; !=&nbsp;&nbsp; <>&nbsp;&nbsp; #&nbsp;&nbsp; ≠&nbsp;&nbsp; <&nbsp;&nbsp; \<=&nbsp;&nbsp; ≤&nbsp;&nbsp; ≯&nbsp;&nbsp; >=&nbsp;&nbsp; ≥&nbsp;&nbsp; ≮&nbsp;&nbsp; >**  
+_unary-op = one of_ &nbsp; **+&nbsp;&nbsp; ＋&nbsp;&nbsp; -&nbsp;&nbsp; －&nbsp;&nbsp; !&nbsp;&nbsp; not**&nbsp;<sup>(4)</sup>  
   
-_bool = _one of **true**_,_ **false**  
+_bool = one of_ &nbsp; **true&nbsp;&nbsp; false**  
 _char = any one character enclosed in single quotes:_ **'A'**  
 _string = any character sequence enclosed in double quotes:_ **"Hello, World!"**  
 _timespan =_ **@"\^\\[(?:(\d+)\\.)?(\d\d?)\\:(\d\d?)(?:\\:(\d\d?)(\\.\d+)?)?\\]"**  
-_datetime =_ **@"\^\\[(\d{4})-(\d\d?)\-(\d\d?)(?: (\d\d?)\\:(\d\d?)(?:\\:(\d\d?)(\\.\d+)?)?)?\\]"**  
+_datetime =_ **@"\^\\[(\d{4})-(\d\d?)\-(\d\d?)(?:T(\d\d?)\\:(\d\d?)(?:\\:(\d\d?)(\\.\d+)?)?)?\\]"**  
 
-<details><summary><i>field = one of</i> <b>Album</b><i>,</i> <b>Album Artist</b><i>,</i> ... <i>(click here for full list) <sup>(1)</sup>  </i></summary><b>
-Album<br>
-Album Artist<br>
-Album Artists<br>
-# Album Artists<br>
-Album Artists (sorted)<br>
-# Album Artists (sorted)<br>
-Album Gain<br>
-Album Peak<br>
-Album (sort by)<br>
-Amazon ID<br>
-Artist<br>
-Artists<br>
-# Artists<br>
-Artists (joined)<br>
-Audio Bit Rate<br>
-# Audio Channels<br>
-Audio Sample Rate<br>
-BPM<br>
-# Bits Per Sample<br>
-Century<br>
-Classical?<br>
-Codecs<br>
-Comments<br>
-Composer<br>
-Composers<br>
-# Composers<br>
-Composers (sorted)<br>
-# Composers (sorted)<br>
-Conductor<br>
-Copyright<br>
-Decade<br>
-Disc #<br>
-Disc # of #<br>
-Disc & Track #<br>
-# Discs<br>
-Duration<br>
-Empty?<br>
-File Attributes<br>
-File Created<br>
-File Created (UTC)<br>
-File Extension<br>
-File Accessed<br>
-File Accessed (UTC)<br>
-File Modified<br>
-File Modified (UTC)<br>
-File Name<br>
-File Name (no ext)<br>
-File Path<br>
-File Size<br>
-File Status<br>
-First Album Artist<br>
-First Album Artist (sorted)<br>
-First Artist<br>
-First Composer<br>
-First Composer (sorted)<br>
-First Genre<br>
-First Performer<br>
-First Performer (sorted)<br>
-Genre<br>
-Genres<br>
-# Genres<br>
-Grouping<br>
-Image Altitude<br>
-Image Creator<br>
-Image Date/Time<br>
-Image Exposure Time<br>
-Image 'F' Number<br>
-Image Focal Length<br>
-Image Focal Length (35mm)<br>
-Image ISO Speed<br>
-Image Keywords<br>
-Image Latitude<br>
-Image Longitude<br>
-Image Make<br>
-Image Model<br>
-Image Orientation<br>
-Image Rating<br>
-Image Software<br>
-Invariant End Position<br>
-Invariant Start Position<br>
-Lyrics<br>
-Media Description<br>
-Media Types<br>
-Millennium<br>
-Mime Type<br>
-MusicBrainz Artist ID<br>
-MusicBrainz Disc ID<br>
-MusicBrainz Release Artist ID<br>
-MusicBrainz Release Country<br>
-MusicBrainz Release ID<br>
-MusicBrainz Release Status<br>
-MusicBrainz Release Type<br>
-MusicBrainz Track ID<br>
-MusicIP PUID<br>
-Performers<br>
-# Performers<br>
-Performers (joined, sorted)<br>
-Performers (sorted)<br>
-# Performers (sorted)<br>
-Photo Height<br>
-Photo Quality<br>
-Photo Width<br>
-Pictures<br>
-# Pictures<br>
-Possibly Corrupt?<br>
-Tag Types<br>
-Tag Types on Disk<br>
-Title<br>
-Title (sort by)<br>
-# Tracks<br>
-Track Gain<br>
-Track #<br>
-Track # of #<br>
-Track Peak<br>
-Video Height<br>
-Video Width<br>
-Year<br>
-Year/Album<br>
-</b></details>  
+<details><summary><i>field = one of</i> <b>Album</b><i>,</i> <b>Album&nbsp;Artist</b><i>,</i> ... <i>(click here for the full list of field names and their types)</i>&nbsp;<sup>(3)</sup></summary>  
+<br>
+<b>Album</b> <i>(string)</i><br>
+<b>Album Artist</b> <i>(string)</i><br>
+<b>Album Artists</b> <i>(string[])</i><br>
+<b># Album Artists</b> <i>(int)</i><br>
+<b>Album Artists (sorted)</b> <i>(string[])</i><br>
+<b># Album Artists (sorted)</b> <i>(int)</i><br>
+<b>Album Gain</b> <i>(string)</i><br>
+<b>Album Peak</b> <i>(string)</i><br>
+<b>Album (sort by)</b> <i>(string)</i><br>
+<b>Amazon ID</b> <i>(string)</i><br>
+<b>Artist</b> <i>(string)</i><br>
+<b>Artists</b> <i>(string[])</i><br>
+<b># Artists</b> <i>(int)</i><br>
+<b>Artists (joined)</b> <i>(string)</i><br>
+<b>Audio Bit Rate</b> <i>(int)</i><br>
+<b># Audio Channels</b> <i>(int)</i><br>
+<b>Audio Sample Rate</b> <i>(int)</i><br>
+<b>BPM</b> <i>(int)</i><br>
+<b># Bits Per Sample</b> <i>(int)</i><br>
+<b>Century</b> <i>(string)</i><br>
+<b>Classical?</b> <i>(Logical)</i><br>
+<b>Codecs</b> <i>(string)</i><br>
+<b>Comments</b> <i>(string)</i><br>
+<b>Composer</b> <i>(string)</i><br>
+<b>Composers</b> <i>(string[])</i><br>
+<b># Composers</b> <i>(int)</i><br>
+<b>Composers (sorted)</b> <i>(string[])</i><br>
+<b># Composers (sorted)</b> <i>(int)</i><br>
+<b>Conductor</b> <i>(string)</i><br>
+<b>Copyright</b> <i>(string)</i><br>
+<b>Decade</b> <i>(string)</i><br>
+<b>Disc #</b> <i>(int)</i><br>
+<b>Disc # of #</b> <i>(string)</i><br>
+<b>Disc & Track #</b> <i>(string)</i><br>
+<b># Discs</b> <i>(int)</i><br>
+<b>Duration</b> <i>(TimeSpan)</i><br>
+<b>Empty?</b> <i>(Logical)</i><br>
+<b>File Attributes</b> <i>(string)</i><br>
+<b>File Created</b> <i>(DateTime)</i><br>
+<b>File Created (UTC)</b> <i>(DateTime)</i><br>
+<b>File Extension</b> <i>(string)</i><br>
+<b>File Accessed</b> <i>(DateTime)</i><br>
+<b>File Accessed (UTC)</b> <i>(DateTime)</i><br>
+<b>File Modified</b> <i>(DateTime)</i><br>
+<b>File Modified (UTC)</b> <i>(DateTime)</i><br>
+<b>File Name</b> <i>(string)</i><br>
+<b>File Name (no ext)</b> <i>(string)</i><br>
+<b>File Path</b> <i>(string)</i><br>
+<b>File Size</b> <i>(long)</i><br>
+<b>File Status</b> <i>(FileStatus)</i><br>
+<b>First Album Artist</b> <i>(string)</i><br>
+<b>First Album Artist (sorted)</b> <i>(string)</i><br>
+<b>First Artist</b> <i>(string)</i><br>
+<b>First Composer</b> <i>(string)</i><br>
+<b>First Composer (sorted)</b> <i>(string)</i><br>
+<b>First Genre</b> <i>(string)</i><br>
+<b>First Performer</b> <i>(string)</i><br>
+<b>First Performer (sorted)</b> <i>(string)</i><br>
+<b>Genre</b> <i>(string)</i><br>
+<b>Genres</b> <i>(string[])</i><br>
+<b># Genres</b> <i>(int)</i><br>
+<b>Grouping</b> <i>(string)</i><br>
+<b>Image Altitude</b> <i>(double)</i><br>
+<b>Image Creator</b> <i>(string)</i><br>
+<b>Image Date/Time</b> <i>(DateTime)</i><br>
+<b>Image Exposure Time</b> <i>(double)</i><br>
+<b>Image 'F' Number</b> <i>(double)</i><br>
+<b>Image Focal Length</b> <i>(double)</i><br>
+<b>Image Focal Length (35mm)</b> <i>(int)</i><br>
+<b>Image ISO Speed</b> <i>(int)</i><br>
+<b>Image Keywords</b> <i>(string[])</i><br>
+<b>Image Latitude</b> <i>(double)</i><br>
+<b>Image Longitude</b> <i>(double)</i><br>
+<b>Image Make</b> <i>(string)</i><br>
+<b>Image Model</b> <i>(string)</i><br>
+<b>Image Orientation</b> <i>(ImageOrientation)</i><br>
+<b>Image Rating</b> <i>(int)</i><br>
+<b>Image Software</b> <i>(string)</i><br>
+<b>Invariant End Position</b> <i>(long)</i><br>
+<b>Invariant Start Position</b> <i>(long)</i><br>
+<b>Lyrics</b> <i>(string)</i><br>
+<b>Media Description</b> <i>(string)</i><br>
+<b>Media Types</b> <i>(MediaTypes)</i><br>
+<b>Millennium</b> <i>(string)</i><br>
+<b>Mime Type</b> <i>(string)</i><br>
+<b>MusicBrainz Artist ID</b> <i>(string)</i><br>
+<b>MusicBrainz Disc ID</b> <i>(string)</i><br>
+<b>MusicBrainz Release Artist ID</b> <i>(string)</i><br>
+<b>MusicBrainz Release Country</b> <i>(string)</i><br>
+<b>MusicBrainz Release ID</b> <i>(string)</i><br>
+<b>MusicBrainz Release Status</b> <i>(string)</i><br>
+<b>MusicBrainz Release Type</b> <i>(string)</i><br>
+<b>MusicBrainz Track ID</b> <i>(string)</i><br>
+<b>MusicIP PUID</b> <i>(string)</i><br>
+<b>Performers</b> <i>(string[])</i><br>
+<b># Performers</b> <i>(int)</i><br>
+<b>Performers (joined, sorted)</b> <i>(string)</i><br>
+<b>Performers (sorted)</b> <i>(string[])</i><br>
+<b># Performers (sorted)</b> <i>(int)</i><br>
+<b>Photo Height</b> <i>(int)</i><br>
+<b>Photo Quality</b> <i>(int)</i><br>
+<b>Photo Width</b> <i>(int)</i><br>
+<b>Pictures</b> <i>(string)</i><br>
+<b># Pictures</b> <i>(Picture[])</i><br>
+<b>Possibly Corrupt?</b> <i>(Logical)</i><br>
+<b>Tag Types</b> <i>(TagTypes)</i><br>
+<b>Tag Types on Disk</b> <i>(TagTypes)</i><br>
+<b>Title</b> <i>(string)</i><br>
+<b>Title (sort by)</b> <i>(string)</i><br>
+<b># Tracks</b> <i>(int)</i><br>
+<b>Track Gain</b> <i>(string)</i><br>
+<b>Track #</b> <i>(int)</i><br>
+<b>Track # of #</b> <i>(string)</i><br>
+<b>Track Peak</b> <i>(string)</i><br>
+<b>Video Height</b> <i>(int)</i><br>
+<b>Video Width</b> <i>(int)</i><br>
+<b>Year</b> <i>(int)</i><br>
+<b>Year/Album</b> <i>(string)</i><br>
+</details>  
 
-<details><summary><i>function-name = one of</i> <b>Compare</b><i>,</i> <b>Concat</b><i>,</i> ... <i>(click here for full list) <sup>(2)</sup></i></summary><b>
-Compare<br>
-Concat<br>
-Contains<br>
-ContainsX<br>
-Count<br>
-CountX<br>
-Empty<br>
-EndsWith<br>
-EndsWithX<br>
-Equals<br>
-EqualsX<br>
-Format<br>
-IfThenElse<br>
-IndexOf<br>
-IndexOfX<br>
-Input<br>
-Insert<br>
-Join<br>
-LastIndexOf<br>
-LastIndexOfX<br>
-Length<br>
-Lower<br>
-Max<br>
-Min<br>
-Pow<br>
-Print<br>
-PrintLine<br>
-Remove<br>
-Replace<br>
-ReplaceX<br>
-Round<br>
-Sign<br>
-StartsWith<br>
-StartsWithX<br>
-Substring<br>
-ToString<br>
-Trim<br>
-Truncate<br>
-Upper<br>
-</b></details>
+<details><summary><i>function-name = one of</i> <b>Compare</b><i>,</i> <b>Concat</b><i>,</i> ... <i>(click here for the full list of functions and their signatures)</i>&nbsp;<sup>(4)</sup></summary>  
+<br>
+<b><i>String Functions</i></b>
+<p>
+
+<i>int</i> <b>Compare</b><i>(this string strA, string strB, bool caseSensitive)</i>
+<i>string</i> <b>Concat</b><i>(params object[] values)</i>
+<i>string</i> <b>Concat_2</b><i>(this string s, string t)</i>
+<i>string</i> <b>Concat_3</b><i>(this string s, string t, string u)</i>
+<i>string</i> <b>Concat_4</b><i>(this string s, string t, string u, string v)</i>
+<i>bool</i> <b>Contains</b><i>(this string input, string pattern, bool caseSensitive)</i>
+<i>bool</i> <b>ContainsX</b><i>(this string input, string pattern, bool caseSensitive)</i>
+<i>int</i> <b>Count</b><i>(this string input, string pattern, bool caseSensitive)</i>
+<i>int</i> <b>CountX</b><i>(this string input, string pattern, bool caseSensitive)</i>
+<i>bool</i> <b>Empty</b><i>(this string input)</i>
+<i>bool</i> <b>EndsWith</b><i>(this string input, string pattern, bool caseSensitive)</i>
+<i>bool</i> <b>EndsWithX</b><i>(this string input, string pattern, bool caseSensitive)</i>
+<i>bool</i> <b>Equals</b><i>(this string input, string pattern, bool caseSensitive)</i>
+<i>bool</i> <b>EqualsX</b><i>(this string input, string pattern, bool caseSensitive)</i>
+<i>string</i> <b>Format</b><i>(this string format, params object[] args)</i>
+<i>int</i> <b>IndexOf</b><i>(this string input, string pattern, bool caseSensitive)</i>
+<i>int</i> <b>IndexOfX</b><i>(this string input, string pattern, bool caseSensitive)</i>
+<i>string</i> <b>Insert</b><i>(this string input, int startIndex, string value)</i>
+<i>string</i> <b>Join</b><i>(this string separator, params object[] values)</i>
+<i>int</i> <b>LastIndexOf</b><i>(this string input, string pattern, bool caseSensitive)</i>
+<i>int</i> <b>LastIndexOfX</b><i>(this string input, string pattern, bool caseSensitive)</i>
+<i>int</i> <b>Length</b><i>(this string input)</i>
+<i>string</i> <b>Lower</b><i>(this string input)</i>
+<i>string</i> <b>Remove</b><i>(this string input, int startIndex, int count)</i>
+<i>string</i> <b>Replace</b><i>(this string input, string pattern, string replacement, bool caseSensitive)</i>
+<i>string</i> <b>ReplaceX</b><i>(this string input, string pattern, string replacement, bool caseSensitive)</i>
+<i>bool</i> <b>StartsWith</b><i>(this string input, string pattern, bool caseSensitive)</i>
+<i>bool</i> <b>StartsWithX</b><i>(this string input, string pattern, bool caseSensitive)</i>
+<i>string</i> <b>Substring</b><i>(this string input, int startIndex, int length)</i>
+<i>string</i> <b>ToString</b><i>(this object input)</i>
+<i>string</i> <b>Trim</b><i>(this string input)</i>
+<i>string</i> <b>Upper</b><i>(this string input)</i>
+
+<b><i>Math Functions</i></b>
+
+<i>double</i> <b>Max</b><i>(this double x, double y)</i>
+<i>double</i> <b>Min</b><i>(this double x, double y)</i>
+<i>double</i> <b>Pow</b><i>(this double x, double y)</i>
+<i>double</i> <b>Round</b><i>(this double value)</i>
+<i>int</i> <b>Sign</b><i>(this double value)</i>
+<i>double</i> <b>Truncate</b><i>(this double value)</i>
+
+<b><i>I/O Functions</i></b>
+
+<i>string</i> <b>Input</b><i>(this string prompt)</i>
+<i>void</i> <b>Print</b><i>(params object[] values)</i>
+<i>void</i> <b>PrintLine</b><i>(params object[] values)</i>
+
+<b><i>Miscellaneous Functions</i></b>
+
+<i>object</i> <b>IfThenElse</b><i>(bool condition, object consequent, object alternative)</i>
+</details>
 
 Notes:  
-1. Case-insensitive.  
-2. Case-insensitive and reserved.  
-3. Numeric _constants_ are parsed according to the following rules:  
-   - Any preceding '+' or '-' signs are treated as _unary-operators_, not part of the _constant_ value.  
-   - A sequence of numeric digits '\d+' indicates an _int_.  
-   - Append 'U' for _uint_, 'L' for _long_, 'UL' or 'LU' for _ulong_.  
-   - Or include a decimal point '.' and/or append an exponent part 'E[-+]\d+' to obtain a _double_.  
+1. <a href="https://en.wikipedia.org/wiki/Extended_Backus%E2%80%93Naur_form"><i><u>EBNF</u></i></a> is for experts, this schema is less formal:  
+    - nonterminal items appear in _italics_;  
+    - terminal items in **bold** represent themselves;  
+    - terminal strings starting with **@** are <a href="https://learn.microsoft.com/en-us/dotnet/standard/base-types/regular-expressions"><i><u>.NET Regex</u></i></a> patterns;  
+    - _\{ item \}_ is an optional item (may appear 0 or 1 times);  
+    - _\{ item ... \}_ may repeat any number of times (including 0).  
+
+2. The **break** and **continue** statements can only appear in the body (_block_ portion) of a _do-loop_.  
+3. Case-insensitive.  
+4. Case-insensitive and reserved.  
+5. Numeric _constants_ are parsed according to the following rules:  
+   - Any preceding '+' or '-' signs are treated as _unary-ops_, not part of the _constant_ value;  
+   - A sequence of numeric digits '\d+' indicates an _int_;  
+   - Append 'U' for _uint_, 'L' for _long_, 'UL' or 'LU' for _ulong_;  
+   - Or include a decimal point '.' and/or append an exponent part 'E[-+]\d+' to obtain a _double_;  
    - A final suffix 'D' is optional for _double_; use 'F' or 'M' instead for _float_ or _decimal_.  
-4. The **break** and **continue** statements are only available within the body, i.e. the _block_ portion, of a _do-loop_.  
   
 ## _ʞɯɾ_ Further Notes  
   
 - ***Comments***, /* using C notation, */ are treated as // whitespace.  
-- Since any _ʞɯɾ_ _program_ is syntactically just just a _block_, it can be enclosed in parentheses and used as the argument list to a _function_ in another _program_.  
 - **All *functions*** are implemented as extensions, and may be invoked using either member or static syntax, with or without the dot "operator" (which is therefore optional, and treated as whitespace whenever present).  
-- **A *function*'s parentheses** are optional if the number of _terms_ to be enclosed is 0 or 1; otherwise, a semicolon-separated list in parentheses is needed. Note that the definition of a single _term_ allows for the daisy-chaining of any number of follow-on _functions_, and that any initial _cast(s)_ or _unary-operators_ apply to the result of the entire chain.
+- **A *function*'s parentheses** are optional if the number of _terms_ to be enclosed is 0 or 1; otherwise, a semicolon-separated list in parentheses is needed. Note that the definition of a single _term_ allows for the daisy-chaining of any number of follow-on _functions_, and that any initial _cast(s)_ or _unary-ops_ apply to the result of the entire chain.
   
 So for example, the following filter conditions are all equivalent:  
   

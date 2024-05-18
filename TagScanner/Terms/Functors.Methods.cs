@@ -9,20 +9,10 @@
 
     public partial class Functors
     {
-        #region Math
-
-        public static double Max(this double x, double y) => Math.Max(x, y);
-        public static double Min(this double x, double y) => Math.Min(x, y);
-        public static double Pow(this double x, double y) => Math.Pow(x, y);
-        public static double Round(this double value) => Math.Round(value);
-        public static int Sign(this double value) => Math.Sign(value);
-        public static double Truncate(this double value) => Math.Truncate(value);
-
-        #endregion
         #region Strings
 
         public static int Compare(this string strA, string strB, bool caseSensitive) => string.Compare(strA, strB, ignoreCase: !caseSensitive);
-        public static string Concat(params object[] values) => Join(string.Empty, values); 
+        public static string Concat(params object[] values) => Join(string.Empty, values);
         public static string Concat(this string s, string t) => string.Concat(s, t);
         public static string Concat(this string s, string t, string u) => string.Concat(s, t, u);
         public static string Concat(this string s, string t, string u, string v) => string.Concat(s, t, u, v);
@@ -65,6 +55,16 @@
         }
 
         #endregion
+        #region Math
+
+        public static double Max(this double x, double y) => Math.Max(x, y);
+        public static double Min(this double x, double y) => Math.Min(x, y);
+        public static double Pow(this double x, double y) => Math.Pow(x, y);
+        public static double Round(this double value) => Math.Round(value);
+        public static int Sign(this double value) => Math.Sign(value);
+        public static double Truncate(this double value) => Math.Truncate(value);
+
+        #endregion
         #region I/O
 
         public static string Input(this string prompt) => new InputBoxController(null).Execute(prompt);
@@ -72,7 +72,9 @@
         public static void PrintLine(params object[] values) => Console.WriteLine(Concat(values));
 
         #endregion
+        #region Miscellaneous
 
+        #endregion
         #region Private Methods
 
         private static int IndexOf(this string input, string pattern, bool caseSensitive, bool useRegex, bool first)
