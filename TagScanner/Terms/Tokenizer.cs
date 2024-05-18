@@ -82,7 +82,7 @@
             Token MatchParameter() => MatchRegex(TokenKind.Default, @"^\{\w+(\[\])?\}", "Invalid parameter");
             Token MatchString() => MatchRegex(TokenKind.String, "\"[^\"|\\\"]*\"", "Unterminated string constant");
             Token MatchTimeSpan() => MatchRegex(TokenKind.TimeSpan, DateTimeParser.TimeSpanPattern, "Invalid TimeSpan format");
-            Token MatchVariable() => MatchRegex(TokenKind.Variable, @"[\w]+", "Always succeeds");
+            Token MatchVariable() => MatchRegex(TokenKind.Name, @"[\w]+", "Always succeeds");
 
             Token MatchComment()
             {
@@ -170,7 +170,7 @@
             { TokenKind.Symbol, new TextStyle(Brushes.Black, null, FontStyle.Regular) },
             { TokenKind.TimeSpan, TextStyleConstant },
             { TokenKind.TypeName, new TextStyle(Brushes.Red, null, FontStyle.Regular) },
-            { TokenKind.Variable, new TextStyle(Brushes.Magenta, null, FontStyle.Regular) },
+            { TokenKind.Name, new TextStyle(Brushes.Magenta, null, FontStyle.Regular) },
         };
 
         public static TextStyle[] AllTextStyles = TextStyles.Values.Distinct().ToArray();

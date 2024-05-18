@@ -106,10 +106,13 @@
             View.FileOpen.Click += (sender, e) => _scriptController.Open();
             View.FileSave.Click += (sender, e) => _scriptController.Save();
             View.FileSaveAs.Click += (sender, e) => _scriptController.SaveAs();
+            View.ScriptRun.Click += (sender, e) => Run();
             Language = Language.Custom;
             TextBox.TextChanged += ColourTextBox_TextChanged;
             return _view;
         }
+
+        private void Run() => UpdateResult();
 
         private void UpdateResult()
         {
@@ -150,7 +153,6 @@
                     TextBox.PositionToPlace(token.Start),
                     TextBox.PositionToPlace(token.End))
                     .SetStyle(token.Kind.TextStyle());
-            UpdateResult();
         }
 
         private void UpdateUI() => View.Text = _scriptController.WindowCaption;

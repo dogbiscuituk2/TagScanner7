@@ -25,7 +25,7 @@
         public Term EndParse(string caller, int line, Term term) => (Term)Process(caller, line, p => EndParse(term));
         public Term NewTerm(string caller, int line, Term term) { Process(caller, line, p => term); return term; }
         public Op PeekOperator(string caller, int line) => (Op)Process(caller, line, p => _operators.Peek());
-        public Token PeekToken(string caller, int line) => (Token)Process(caller, line, p => NextToken());
+        public Token PeekToken(string caller, int line, int offset) => (Token)Process(caller, line, p => NextToken(offset));
         public Op PopOperator(string caller, int line) => (Op)Process(caller, line, p => _operators.Pop());
         public Term PopTerm(string caller, int line) => (Term)Process(caller, line, p => _terms.Pop());
         public void PushOperator(string caller, int line, Op op) => Process(caller, line, p => { _operators.Push(op); return op; });
@@ -119,7 +119,7 @@
         private void Exception(string caller, int line, Exception exception, [CallerMemberName] string action = "") =>
             Dump(caller, line, exception.GetAllInformation(), action);
 
-        private Token NextToken() => AnyTokens() ? _tokens.Peek() : _end;
+        private Token NextToken(int offset) => _tokens.Count > offset ? _tokens.Skip(offset).Single() : _end;
 
         private Loop NewLoop() { var loop = new Loop(new EmptyTerm(), new EmptyTerm(), new EmptyTerm()); _loops.Push(loop); return loop; }
 

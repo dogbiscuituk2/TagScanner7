@@ -227,7 +227,7 @@ _datetime =_ **@"\^\\[(\d{4})-(\d\d?)\-(\d\d?)(?:T(\d\d?)\\:(\d\d?)(?:\\:(\d\d?)
 <i>object</i> <b>IfThenElse</b><i>(bool condition, object consequent, object alternative)</i><br>
 </details>
 
-Notes:  
+**Notes:**  
 1. <a href="https://en.wikipedia.org/wiki/Extended_Backus%E2%80%93Naur_form"><i><u>EBNF</u></i></a> is for experts, this schema is less formal:  
     - nonterminal items appear in _italics_;  
     - terminal items in **bold** represent themselves;  
@@ -238,7 +238,7 @@ Notes:
 2. The **break** and **continue** statements can only appear in the body (_block_ portion) of a _do-loop_.  
 3. Case-insensitive.  
 4. Case-insensitive and reserved.  
-5. Numeric _constants_ are parsed according to the following rules:  
+5. Numeric _constants_ follow these rules:  
    - Any preceding '+' or '-' signs are treated as _unary-ops_, not part of the _constant_ value;  
    - A sequence of numeric digits '\d+' indicates an _int_;  
    - Append 'U' for _uint_, 'L' for _long_, 'UL' or 'LU' for _ulong_;  

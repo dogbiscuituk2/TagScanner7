@@ -91,63 +91,6 @@
             return result ?? new EmptyTerm();
         }
 
-        private Term ParseStatement()
-        {
-            switch (PeekToken().Value)
-            {
-                case "if":
-                    return ParseIf();
-                case "while":
-                case "do":
-                    return ParseLoop();
-                case "break":
-                    DequeueToken();
-                    return Break();
-                case "continue":
-                    DequeueToken();
-                    return Continue();
-            }
-            return ParseCompound();
-        }
-
-        private Term ParseIf()
-        {
-            Term condition, consequent, alternative = null;
-            AcceptToken("if");
-            condition = ParseBlock();
-            AcceptToken("then");
-            consequent = ParseBlock();
-            if (PeekToken().Value == "else")
-            {
-                DequeueToken();
-                alternative = ParseBlock();
-            }
-            AcceptToken("endif");
-            return
-                alternative == null
-                ? new IfStatement(condition, consequent)
-                : (Term)new IfStatement(condition, consequent, alternative);
-        }
-
-        private Term ParseLoop()
-        {
-            var loop = BeginLoop();
-            if (PeekToken().Value == "while")
-            {
-                DequeueToken();
-                loop.Operands[0] = ParseBlock();
-            }
-            AcceptToken("do");
-            loop.Operands[1] = ParseBlock();
-            if (PeekToken().Value == "until")
-            {
-                DequeueToken();
-                loop.Operands[2] = ParseBlock();
-            }
-            AcceptToken("loop");
-            return EndLoop();
-        }
-
         private Term ParseCompound()
         {
             Term term = ParseTerm();
@@ -205,6 +148,76 @@
         private Term ParseFunctionAsStatic() => ParseFunction(new List<Term>());
         private Term ParseFunctionAsMember(Term self) => ParseFunction(new List<Term> { self });
 
+        private Term ParseIf()
+        {
+            Term condition, consequent, alternative = null;
+            AcceptToken("if");
+            condition = ParseBlock();
+            AcceptToken("then");
+            consequent = ParseBlock();
+            if (PeekToken().Value == "else")
+            {
+                DequeueToken();
+                alternative = ParseBlock();
+            }
+            AcceptToken("endif");
+            return
+                alternative == null
+                ? new IfStatement(condition, consequent)
+                : (Term)new IfStatement(condition, consequent, alternative);
+        }
+
+        private Term ParseLabel()
+        {
+            var labelName = DequeueToken().Value;
+            AcceptToken(":");
+            return new Label();
+        }
+
+        private Term ParseLoop()
+        {
+            var loop = BeginLoop();
+            if (PeekToken().Value == "while")
+            {
+                DequeueToken();
+                loop.Operands[0] = ParseBlock();
+            }
+            AcceptToken("do");
+            loop.Operands[1] = ParseBlock();
+            if (PeekToken().Value == "until")
+            {
+                DequeueToken();
+                loop.Operands[2] = ParseBlock();
+            }
+            AcceptToken("loop");
+            return EndLoop();
+        }
+
+        private Term ParseStatement()
+        {
+            var token = PeekToken();
+            var tokenKind = token.Kind;
+            var tokenValue = token.Value;
+            if (tokenKind == TokenKind.Keyword)
+                switch (tokenValue)
+                {
+                    case "if":
+                        return ParseIf();
+                    case "while":
+                    case "do":
+                        return ParseLoop();
+                    case "break":
+                        DequeueToken();
+                        return Break();
+                    case "continue":
+                        DequeueToken();
+                        return Continue();
+                }
+            if (tokenKind == TokenKind.Name)
+                return ParseLabel();
+            return ParseCompound();
+        }
+
         private Term ParseTerm()
         {
             if (PeekToken().IsUnaryOperator())
@@ -261,7 +274,7 @@
                     case TokenKind.Number: return ParseNumber(value.ToUpperInvariant());
                     case TokenKind.String: return ParseString(value);
                     case TokenKind.TimeSpan: return ParseTimeSpan(value);
-                    case TokenKind.Variable: return ParseVariable(value);
+                    case TokenKind.Name: return ParseVariable(value);
                     default: return null;
                 }
             }
@@ -457,7 +470,7 @@
 
         private void AcceptToken(string expected, [CallerMemberName] string caller = "", [CallerLineNumber] int line = 0) => _spy.AcceptToken(caller, line, expected);
         private Token DequeueToken([CallerMemberName] string caller = "", [CallerLineNumber] int line = 0) => _spy.DequeueToken(caller, line);
-        private Token PeekToken([CallerMemberName] string caller = "", [CallerLineNumber] int line = 0) => _spy.PeekToken(caller, line);
+        private Token PeekToken(int offset = 0, [CallerMemberName] string caller = "", [CallerLineNumber] int line = 0) => _spy.PeekToken(caller, line, offset);
 
         #endregion
 

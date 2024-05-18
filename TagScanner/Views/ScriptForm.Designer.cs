@@ -33,6 +33,8 @@
             this.TextBox = new FastColoredTextBoxNS.FastColoredTextBox();
             this.ruler1 = new FastColoredTextBoxNS.Ruler();
             this.ToolStripContainer = new System.Windows.Forms.ToolStripContainer();
+            this.splitContainer1 = new System.Windows.Forms.SplitContainer();
+            this.ResultTextBox = new System.Windows.Forms.TextBox();
             this.MainMenu = new System.Windows.Forms.MenuStrip();
             this.FileMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.FileNew = new System.Windows.Forms.ToolStripMenuItem();
@@ -49,22 +51,22 @@
             this.Language_CS = new System.Windows.Forms.ToolStripMenuItem();
             this.Language_VB = new System.Windows.Forms.ToolStripMenuItem();
             this.Language_HTML = new System.Windows.Forms.ToolStripMenuItem();
-            this.Language_XML = new System.Windows.Forms.ToolStripMenuItem();
             this.Language_SQL = new System.Windows.Forms.ToolStripMenuItem();
+            this.Language_XML = new System.Windows.Forms.ToolStripMenuItem();
             this.Language_PHP = new System.Windows.Forms.ToolStripMenuItem();
             this.Language_JS = new System.Windows.Forms.ToolStripMenuItem();
             this.Language_Lua = new System.Windows.Forms.ToolStripMenuItem();
-            this.splitContainer1 = new System.Windows.Forms.SplitContainer();
-            this.ResultTextBox = new System.Windows.Forms.TextBox();
+            this.StripMenu = new System.Windows.Forms.ToolStripMenuItem();
+            this.ScriptRun = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.TextBox)).BeginInit();
             this.ToolStripContainer.ContentPanel.SuspendLayout();
             this.ToolStripContainer.TopToolStripPanel.SuspendLayout();
             this.ToolStripContainer.SuspendLayout();
-            this.MainMenu.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
             this.splitContainer1.SuspendLayout();
+            this.MainMenu.SuspendLayout();
             this.SuspendLayout();
             // 
             // TextBox
@@ -87,7 +89,6 @@
             this.TextBox.Cursor = System.Windows.Forms.Cursors.IBeam;
             this.TextBox.DisabledColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))));
             this.TextBox.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.TextBox.Font = new System.Drawing.Font("Courier New", 9.75F);
             this.TextBox.IsReplaceMode = false;
             this.TextBox.Location = new System.Drawing.Point(0, 0);
             this.TextBox.Margin = new System.Windows.Forms.Padding(4);
@@ -129,12 +130,41 @@
             // 
             this.ToolStripContainer.TopToolStripPanel.Controls.Add(this.MainMenu);
             // 
+            // splitContainer1
+            // 
+            this.splitContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.splitContainer1.Location = new System.Drawing.Point(0, 24);
+            this.splitContainer1.Name = "splitContainer1";
+            this.splitContainer1.Orientation = System.Windows.Forms.Orientation.Horizontal;
+            // 
+            // splitContainer1.Panel1
+            // 
+            this.splitContainer1.Panel1.Controls.Add(this.TextBox);
+            // 
+            // splitContainer1.Panel2
+            // 
+            this.splitContainer1.Panel2.Controls.Add(this.ResultTextBox);
+            this.splitContainer1.Size = new System.Drawing.Size(784, 513);
+            this.splitContainer1.SplitterDistance = 348;
+            this.splitContainer1.TabIndex = 2;
+            // 
+            // ResultTextBox
+            // 
+            this.ResultTextBox.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.ResultTextBox.Location = new System.Drawing.Point(0, 0);
+            this.ResultTextBox.Multiline = true;
+            this.ResultTextBox.Name = "ResultTextBox";
+            this.ResultTextBox.ReadOnly = true;
+            this.ResultTextBox.Size = new System.Drawing.Size(784, 161);
+            this.ResultTextBox.TabIndex = 0;
+            // 
             // MainMenu
             // 
             this.MainMenu.Dock = System.Windows.Forms.DockStyle.None;
             this.MainMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.FileMenu,
-            this.LanguageMenu});
+            this.LanguageMenu,
+            this.StripMenu});
             this.MainMenu.Location = new System.Drawing.Point(0, 0);
             this.MainMenu.Name = "MainMenu";
             this.MainMenu.Size = new System.Drawing.Size(784, 24);
@@ -159,47 +189,47 @@
             // FileNew
             // 
             this.FileNew.Name = "FileNew";
-            this.FileNew.Size = new System.Drawing.Size(123, 22);
+            this.FileNew.Size = new System.Drawing.Size(180, 22);
             this.FileNew.Text = "New";
             // 
             // FileOpen
             // 
             this.FileOpen.Name = "FileOpen";
-            this.FileOpen.Size = new System.Drawing.Size(123, 22);
+            this.FileOpen.Size = new System.Drawing.Size(180, 22);
             this.FileOpen.Text = "Open";
             // 
             // FileReopen
             // 
             this.FileReopen.Name = "FileReopen";
-            this.FileReopen.Size = new System.Drawing.Size(123, 22);
+            this.FileReopen.Size = new System.Drawing.Size(180, 22);
             this.FileReopen.Text = "Reopen";
             // 
             // toolStripMenuItem1
             // 
             this.toolStripMenuItem1.Name = "toolStripMenuItem1";
-            this.toolStripMenuItem1.Size = new System.Drawing.Size(120, 6);
+            this.toolStripMenuItem1.Size = new System.Drawing.Size(177, 6);
             // 
             // FileSave
             // 
             this.FileSave.Name = "FileSave";
-            this.FileSave.Size = new System.Drawing.Size(123, 22);
+            this.FileSave.Size = new System.Drawing.Size(180, 22);
             this.FileSave.Text = "Save";
             // 
             // FileSaveAs
             // 
             this.FileSaveAs.Name = "FileSaveAs";
-            this.FileSaveAs.Size = new System.Drawing.Size(123, 22);
+            this.FileSaveAs.Size = new System.Drawing.Size(180, 22);
             this.FileSaveAs.Text = "Save As...";
             // 
             // toolStripMenuItem2
             // 
             this.toolStripMenuItem2.Name = "toolStripMenuItem2";
-            this.toolStripMenuItem2.Size = new System.Drawing.Size(120, 6);
+            this.toolStripMenuItem2.Size = new System.Drawing.Size(177, 6);
             // 
             // FileClose
             // 
             this.FileClose.Name = "FileClose";
-            this.FileClose.Size = new System.Drawing.Size(123, 22);
+            this.FileClose.Size = new System.Drawing.Size(180, 22);
             this.FileClose.Text = "Close";
             // 
             // LanguageMenu
@@ -248,17 +278,17 @@
             this.Language_HTML.Size = new System.Drawing.Size(180, 22);
             this.Language_HTML.Text = "HTML";
             // 
-            // Language_XML
-            // 
-            this.Language_XML.Name = "Language_XML";
-            this.Language_XML.Size = new System.Drawing.Size(180, 22);
-            this.Language_XML.Text = "XML";
-            // 
             // Language_SQL
             // 
             this.Language_SQL.Name = "Language_SQL";
             this.Language_SQL.Size = new System.Drawing.Size(180, 22);
             this.Language_SQL.Text = "SQL";
+            // 
+            // Language_XML
+            // 
+            this.Language_XML.Name = "Language_XML";
+            this.Language_XML.Size = new System.Drawing.Size(180, 22);
+            this.Language_XML.Text = "XML";
             // 
             // Language_PHP
             // 
@@ -278,33 +308,19 @@
             this.Language_Lua.Size = new System.Drawing.Size(180, 22);
             this.Language_Lua.Text = "Lua";
             // 
-            // splitContainer1
+            // StripMenu
             // 
-            this.splitContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.splitContainer1.Location = new System.Drawing.Point(0, 24);
-            this.splitContainer1.Name = "splitContainer1";
-            this.splitContainer1.Orientation = System.Windows.Forms.Orientation.Horizontal;
+            this.StripMenu.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.ScriptRun});
+            this.StripMenu.Name = "StripMenu";
+            this.StripMenu.Size = new System.Drawing.Size(49, 20);
+            this.StripMenu.Text = "&Script";
             // 
-            // splitContainer1.Panel1
+            // ScriptRun
             // 
-            this.splitContainer1.Panel1.Controls.Add(this.TextBox);
-            // 
-            // splitContainer1.Panel2
-            // 
-            this.splitContainer1.Panel2.Controls.Add(this.ResultTextBox);
-            this.splitContainer1.Size = new System.Drawing.Size(784, 513);
-            this.splitContainer1.SplitterDistance = 348;
-            this.splitContainer1.TabIndex = 2;
-            // 
-            // ResultTextBox
-            // 
-            this.ResultTextBox.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.ResultTextBox.Location = new System.Drawing.Point(0, 0);
-            this.ResultTextBox.Multiline = true;
-            this.ResultTextBox.Name = "ResultTextBox";
-            this.ResultTextBox.ReadOnly = true;
-            this.ResultTextBox.Size = new System.Drawing.Size(784, 161);
-            this.ResultTextBox.TabIndex = 0;
+            this.ScriptRun.Name = "ScriptRun";
+            this.ScriptRun.Size = new System.Drawing.Size(180, 22);
+            this.ScriptRun.Text = "&Run";
             // 
             // ScriptForm
             // 
@@ -324,13 +340,13 @@
             this.ToolStripContainer.TopToolStripPanel.PerformLayout();
             this.ToolStripContainer.ResumeLayout(false);
             this.ToolStripContainer.PerformLayout();
-            this.MainMenu.ResumeLayout(false);
-            this.MainMenu.PerformLayout();
             this.splitContainer1.Panel1.ResumeLayout(false);
             this.splitContainer1.Panel2.ResumeLayout(false);
             this.splitContainer1.Panel2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
             this.splitContainer1.ResumeLayout(false);
+            this.MainMenu.ResumeLayout(false);
+            this.MainMenu.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -363,5 +379,7 @@
         public System.Windows.Forms.ToolStripMenuItem Language_Lua;
         public System.Windows.Forms.SplitContainer splitContainer1;
         public System.Windows.Forms.TextBox ResultTextBox;
+        public System.Windows.Forms.ToolStripMenuItem StripMenu;
+        public System.Windows.Forms.ToolStripMenuItem ScriptRun;
     }
 }

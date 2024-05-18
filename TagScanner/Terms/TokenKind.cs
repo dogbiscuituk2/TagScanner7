@@ -14,14 +14,14 @@
         Field = 1 << 5,
         Function = 1 << 6,
         Keyword = 1 << 7,
-        Number = 1 << 8,
-        String = 1 << 9,
-        Symbol = 1 << 10,
-        TimeSpan = 1 << 11,
-        TypeName = 1 << 12,
-        Variable = 1 << 13,
+        Name = 1 << 8,
+        Number = 1 << 9,
+        String = 1 << 10,
+        Symbol = 1 << 11,
+        TimeSpan = 1 << 12,
+        TypeName = 1 << 13,
 
         Constant = Boolean | Character | DateTime | Number | String | TimeSpan,
-        Value = Constant | Default | Field | Function | Variable,
+        Value = Constant | Default | Field | Function | Name,
     }
 }
