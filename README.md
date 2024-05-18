@@ -22,17 +22,16 @@ _block = \{ \{ label ... \} statement \{_ **\;** _\{ label ... \} statement ... 
 _statement = \{ label_ **\:** _\} compound | if-statement | do-loop |_ **break** _|_ **continue** _|_ **goto** _label_&nbsp;<sup>(2)</sup>  
 _compound = term \{ binary-op term ... \}_  
 _term = \{ unary-op | cast ... \} value |_ **(** _block_ **)** _\{ \{_ **.** _\} function ... \}_  
-_value = constant | default | field | function | variable_  
+_value = constant | field | function | variable_  
 
 _if-statement =_ **if** _block_ **then** _block \{_ **else** _block \}_ **end**  
 _do-loop = \{_ **while** _block \}_ **do** _block \{_ **until** _block \}_ **end**  
 _try-block =_ **try** _block \{_ **catch** _catch-block ... \} \{_ **finally** _block \}_ **end**  
-_catch-block =_
-_label =_ **\@\"\w+\\:"**
+_catch-block =_ **(** _exception-type variable_ **)** _block_
+_label =_ **\@\"\[\w\_]+\\:"**
   
 _cast =_ **(** _type_ **)**  
 _constant = bool | char | datetime | decimal | double | float | int | long | string | timespan | uint | ulong_&nbsp;<sup>(3,5)</sup>  
-_default =_ **\{** _type_ **\}**  
 _function = function-name \{ term |_ **\(** _\{ block \}_ **\)** _\}_  
 _variable = (any unreserved word)_&nbsp;<sup>(3)</sup>  
   

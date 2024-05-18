@@ -8,7 +8,7 @@
     using System.Runtime.CompilerServices;
     using Terms;
     using Utils;
-    
+
     public class Parser
     {
         #region Public Methods
@@ -163,7 +163,7 @@
             return new Goto(label.LabelTarget);
         }
 
-        private Term ParseIf()
+        private Term ParseIfBlock()
         {
             Term condition, consequent, alternative = null;
             AcceptToken("if");
@@ -175,11 +175,11 @@
                 DequeueToken();
                 alternative = ParseBlock();
             }
-            AcceptToken("endif");
+            AcceptToken("end");
             return
                 alternative == null
-                ? new IfStatement(condition, consequent)
-                : (Term)new IfStatement(condition, consequent, alternative);
+                ? new IfBlock(condition, consequent)
+                : (Term)new IfBlock(condition, consequent, alternative);
         }
 
         private Term ParseLoop()
@@ -197,7 +197,7 @@
                 DequeueToken();
                 loop.Operands[2] = ParseBlock();
             }
-            AcceptToken("loop");
+            AcceptToken("end");
             return EndLoop();
         }
 
@@ -208,7 +208,7 @@
                 switch (PeekToken().Value)
                 {
                     case "if":
-                        return ParseIf();
+                        return ParseIfBlock();
                     case "while":
                     case "do":
                         return ParseLoop();
@@ -220,6 +220,8 @@
                         return Continue();
                     case "goto":
                         return ParseGoto();
+                    case "try":
+                        return ParseTryBlock();
                 }
             return ParseCompound();
         }
@@ -259,6 +261,47 @@
             return term;
         }
 
+        private Term ParseTryBlock()
+        {
+            Term
+                bodyBlock = new EmptyTerm(),
+                finallyBlock = new EmptyTerm();
+            var catchBlocks = new List<CatchBlock>();
+            AcceptToken("try");
+            switch (PeekToken().Value)
+            {
+                case "catch":
+                case "finally":
+                case "end":
+                    break;
+                default:
+                    bodyBlock = ParseBlock();
+                    break;
+            }
+            while (PeekToken().Value == "catch")
+                catchBlocks.Add(ParseCatchBlock());
+            if (PeekToken().Value == "finally")
+            {
+                DequeueToken();
+                finallyBlock = ParseBlock();
+            }
+            AcceptToken("end");
+            var tryBlock = new TryBlock(bodyBlock, finallyBlock, catchBlocks.ToArray());
+            return tryBlock;
+        }
+
+        private CatchBlock ParseCatchBlock()
+        {
+            AcceptToken("catch");
+            AcceptToken("(");
+            var type = DequeueToken().Value.ToType();
+            var variable = ParseVariable(DequeueToken().Value);
+            AcceptToken(")");
+            var bodyTerm = ParseBlock();
+            var catchBlock = new CatchBlock(type, variable, bodyTerm);
+            return catchBlock;
+        }
+
         private Term ParseValue()
         {
             var tokenKind = PeekToken().Kind;
@@ -291,16 +334,15 @@
         #region Terminals
 
         private Term ParseBoolean(string value) => value == "true";
-
+        private Term ParseBreak() { DequeueToken(); return Break(); }
         private Term ParseCharacter(string value) => char.Parse(value.Substring(1, value.Length - 2));
-
+        private Term ParseContinue() { DequeueToken(); return Continue(); }
         private Term ParseDateTime(string value) => DateTimeParser.ParseDateTime(value);
-
         private Term ParseDefault(string value) => new Default(value.Substring(1, value.Length - 2).ToType());
-
         private Term ParseField(string value) => value.DisplayNameToTag();
-
         private Term ParseLabel() => AddLabel(DequeueToken().Value.TrimEnd(':'));
+        private Term ParseString(string value) => value.Substring(1, value.Length - 2);
+        private Term ParseTimeSpan(string value) => DateTimeParser.ParseTimeSpan(value);
 
         private Term ParseNumber(string value) =>
             value.EndsWith("UL") || value.EndsWith("LU") ? ulong.Parse(value.TrimEnd('U', 'L')) :
@@ -312,11 +354,7 @@
             value.Contains(".") ? double.Parse(value) :
             (Term)int.Parse(value);
 
-        private Term ParseString(string value) => value.Substring(1, value.Length - 2);
-
-        private Term ParseTimeSpan(string value) => DateTimeParser.ParseTimeSpan(value);
-
-        private Term ParseVariable(string value)
+        private Variable ParseVariable(string value)
         {
             var key = value.ToUpperInvariant();
             if (!_variables.ContainsKey(key))

@@ -3,9 +3,9 @@
     using System;
     using System.Linq.Expressions;
 
-    public class IfStatement : ControlStructure
+    public class IfBlock : ControlStructure
     {
-        public IfStatement(params Term[] operands) : base(operands) { }
+        public IfBlock(params Term[] operands) : base(operands) { }
 
         public override Expression Expression
         {

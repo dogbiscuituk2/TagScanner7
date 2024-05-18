@@ -186,6 +186,7 @@
     <Compile Include="Menus\CastEventArgs.cs" />
     <Compile Include="Terms\Associativity.cs" />
     <Compile Include="Terms\Break.cs" />
+    <Compile Include="Terms\CatchBlock.cs" />
     <Compile Include="Terms\Compound.cs" />
     <Compile Include="Terms\Continue.cs" />
     <Compile Include="Terms\ControlStructure.cs" />
@@ -203,13 +204,14 @@
     </Compile>
     <Compile Include="Terms\EmptyTerm.cs" />
     <Compile Include="Terms\Goto.cs" />
-    <Compile Include="Terms\IfStatement.cs" />
+    <Compile Include="Terms\IfBlock.cs" />
     <Compile Include="Terms\LabelBase.cs" />
     <Compile Include="Terms\Parser.cs" />
     <Compile Include="Terms\ParserSpy.cs" />
     <Compile Include="Terms\Token.cs" />
     <Compile Include="Terms\Tokenizer.cs" />
     <Compile Include="Terms\TokenKind.cs" />
+    <Compile Include="Terms\TryBlock.cs" />
     <Compile Include="Terms\Types.cs" />
     <Compile Include="Terms\Variable.cs" />
     <Compile Include="Utils\Ink.cs" />

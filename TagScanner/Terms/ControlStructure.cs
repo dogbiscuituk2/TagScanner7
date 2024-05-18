@@ -7,14 +7,17 @@
         public static string[] Keywords = new[]
         {
             "break",
+            "catch",
             "continue",
             "do",
             "else",
-            "endif",
+            "end",
+            "finally",
             "goto",
             "if",
-            "loop",
             "then",
+            "throw",
+            "try",
             "until",
             "while",
         };

@@ -42,9 +42,14 @@
             return _types.FirstOrDefault(p => p.Value == type).Key ?? name;
         }
 
-        public static Type ToType(this string typeName) => typeName.EndsWith("[]")
-            ? typeName.TrimEnd('[', ']').ToType().MakeArrayType()
-            : _types[typeName];
+        public static Type ToType(this string typeName)
+        {
+            if (typeName.EndsWith("[]"))
+                return typeName.TrimEnd('[', ']').ToType().MakeArrayType();
+            if (_types.ContainsKey(typeName))
+                return _types[typeName];
+            return Type.GetType(typeName);
+        }
 
         private static readonly Dictionary<string, Type> _types = new Dictionary<string, Type>
         {

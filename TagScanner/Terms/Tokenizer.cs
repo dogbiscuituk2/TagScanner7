@@ -71,19 +71,25 @@
                     case LeftBrace:
                         return MatchParameter();
                     case char c when char.IsLetter(c) || c == '_':
-                        return remainingText.StartsWithLabel() ? MatchLabel() : MatchVariable();
+                        return 
+                            remainingText.StartsWithLabel()
+                            ? MatchLabel()
+                            : remainingText.StartsWithExceptionType()
+                            ? MatchExceptionType()
+                            : MatchVariable();
                 }
                 return UnexpectedCharacter();
             }
 
             Token MatchCharacter() => MatchRegex(TokenKind.Character, @"^'(.|\.|\n)'", "Unterminated character constant");
             Token MatchDateTime() => MatchRegex(TokenKind.DateTime, DateTimeParser.DateTimePattern, "Invalid DateTime format");
-            Token MatchLabel() => MatchRegex(TokenKind.Label, @"[\w_]+\:");
+            Token MatchExceptionType() => MatchRegex(TokenKind.TypeName, ExceptionTypePattern);
+            Token MatchLabel() => MatchRegex(TokenKind.Label, LabelPattern);
             Token MatchNumber() => MatchRegex(TokenKind.Number, NumberPattern);
             Token MatchParameter() => MatchRegex(TokenKind.Default, @"^\{\w+(\[\])?\}", "Invalid parameter");
             Token MatchString() => MatchRegex(TokenKind.String, "\"[^\"|\\\"]*\"", "Unterminated string constant");
             Token MatchTimeSpan() => MatchRegex(TokenKind.TimeSpan, DateTimeParser.TimeSpanPattern, "Invalid TimeSpan format");
-            Token MatchVariable() => MatchRegex(TokenKind.Variable, @"[\w_]+");
+            Token MatchVariable() => MatchRegex(TokenKind.Variable, NamePattern);
 
             Token MatchComment()
             {
@@ -148,10 +154,12 @@
         public static bool IsType(this string token) => Types.Names.Contains(token, IgnoreCase);
         public static bool IsUnaryOperator(this string token) => Operators.ContainsUnarySymbol(token);
         public static Rank Rank(this string token, bool unary) => token.ToOperator(unary).GetRank();
+        public static bool StartsWithExceptionType(this string token) => Regex.IsMatch(token, ExceptionTypePattern);
         public static bool StartsWithLabel(this string token) => Regex.IsMatch(token, LabelPattern);
         public static bool StartsWithNumber(this string token) => Regex.IsMatch(token, NumberPattern);
         public static TextStyle TextStyle(this TokenKind tokenType) => TextStyles[tokenType];
 
+        private const string ExceptionTypePattern = @"^[\w_]+Exception";
         private const string LabelPattern = @"^[\w_]+\:";
         private const string NamePattern = @"^[\w_]+";
         private const string NumberPattern = @"^\d+\.?\d*([Ee][-+]\d+)?(UL|LU|D|F|L|M|U)?";
