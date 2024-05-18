@@ -231,7 +231,7 @@ Notes:
 1. <a href="https://en.wikipedia.org/wiki/Extended_Backus%E2%80%93Naur_form"><i><u>EBNF</u></i></a> is for experts, this schema is less formal:  
     - nonterminal items appear in _italics_;  
     - terminal items in **bold** represent themselves;  
-    - terminal strings starting with **@** are <a href="https://learn.microsoft.com/en-us/dotnet/standard/base-types/regular-expressions"><i><u>.NET Regex</u></i></a> patterns;  
+    - terminal strings prefixed with **@** are <a href="https://learn.microsoft.com/en-us/dotnet/standard/base-types/regular-expressions"><i><u>.NET Regex</u></i></a> patterns;  
     - _\{ item \}_ is an optional item (may appear 0 or 1 times);  
     - _\{ item ... \}_ may repeat any number of times (including 0).  
 
