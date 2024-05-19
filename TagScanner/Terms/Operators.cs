@@ -164,6 +164,8 @@
             op == Op.Concatenate ? typeof(string) :
             null; // Otherwise determined by arg types at runtime.
 
+        public static bool IsBinaryOperator(this string token) => ContainsBinarySymbol(token);
+
         public static Op ToBinaryOperator(this string symbol) => ToOperator(symbol, unary: false);
         public static Op ToOperator(this string symbol, bool unary) => GetDictionary(unary)[symbol.ToUpperInvariant()];
         public static Op ToUnaryOperator(this string symbol) => ToOperator(symbol, unary: true);

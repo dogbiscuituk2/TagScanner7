@@ -1,12 +1,10 @@
 ﻿namespace TagScanner.Terms
 {
-    using System;
     using System.Collections.Generic;
     using System.Drawing;
     using System.Linq;
     using System.Text.RegularExpressions;
     using FastColoredTextBoxNS;
-    using Utils;
 
     public static class Tokenizer
     {
@@ -29,7 +27,7 @@
                     index++;
                 if (index >= count)
                     break;
-                var token = Match();
+                var token = ReadToken();
                 if (token.Length == 0)
                     token = UnexpectedCharacter();
                 if (string.IsNullOrWhiteSpace(token.Value))
@@ -44,10 +42,10 @@
 
             Token UnexpectedCharacter() => new Token(0, index, $"{text[index]}") { Error = "Unexpected character" };
 
-            Token Match()
+            Token ReadToken()
             {
                 Token token = null;
-                var head = RemainingText();
+                var head = text.Substring(index);
                 if (MatchComment()
                     || MatchNumber()
                     || MatchName(TokenKind.Boolean, Term.Booleans)
@@ -55,7 +53,8 @@
                     || MatchName(TokenKind.Function, Functors.FunctionNames)
                     || MatchName(TokenKind.Symbol, Operators.Symbols)
                     || MatchName(TokenKind.TypeName, Types.Names)
-                    || MatchName(TokenKind.Keyword, ControlStructure.Keywords))
+                    || MatchName(TokenKind.Keyword, ControlStructure.Keywords)
+                    || MatchRegex(TokenKind.Character, SingleQuote, @"^'(.|\.|\n)'", "Unterminated character constant"))
                     return token;
                 switch (index < count ? text[index] : Nul)
                 {
@@ -90,6 +89,22 @@
                 }
                 return token ?? UnexpectedCharacter();
 
+                bool MatchRegex(TokenKind tokenKind, char key, string pattern, string error)
+                {
+                    var ok = head[0] == key;
+                    if (ok)
+                    {
+                        token = new Token(tokenKind, index, Regex.Match(head, $"^{pattern}", RegexOptions.IgnoreCase).Value);
+                        if (token.Length < 1)
+                        {
+                            token.Value = head.Substring(0, 1);
+                            token.Error = error;
+                        }
+                        return ok;
+                    }
+                    return ok;
+                }
+
                 bool MatchComment()
                 {
                     bool
@@ -119,9 +134,9 @@
                     return ok;
                 }
 
-                bool MatchNumber() => MatchRegex(TokenKind.Number, PatternNumber);
+                bool MatchNumber() => MatchRegex3(TokenKind.Number, PatternNumber);
 
-                bool MatchRegex(TokenKind tokenKind, string pattern)
+                bool MatchRegex3(TokenKind tokenKind, string pattern)
                 {
                     var match = Regex.Match(head, pattern, RegexOptions.IgnoreCase);
                     var ok = match.Success;
@@ -149,11 +164,8 @@
                     }
                 }
             }
-
-            string RemainingText() => text.Substring(index);
         }
 
-        public static bool IsBinaryOperator(this string token) => Operators.ContainsBinarySymbol(token);
         public static Rank Rank(this string token, bool unary) => token.ToOperator(unary).GetRank();
         public static bool StartsWithExceptionType(this string token) => Regex.IsMatch(token, PatternExceptionType);
         public static bool StartsWithLabel(this string token) => Regex.IsMatch(token, PatternLabel);
