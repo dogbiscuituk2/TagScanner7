@@ -49,6 +49,7 @@ _timespan =_ **@"\^\\[(?:(\d+)\\.)?(\d\d?)\\:(\d\d?)(?:\\:(\d\d?)(\\.\d+)?)?\\]"
 _datetime =_ **@"\^\\[(\d{4})-(\d\d?)\-(\d\d?)(?:T(\d\d?)\\:(\d\d?)(?:\\:(\d\d?)(\\.\d+)?)?)?\\]"**  
 
 <details><summary><i>field = one of</i> <b>Album</b><i>,</i> <b>Album&nbsp;Artist</b><i>,</i> ... <i>(click here for the full list of field names and their types)</i>&nbsp;<sup>(3)</sup></summary>  
+<blockquote>
 <br>
 <b>Album</b> <i>(string)</i><br>
 <b>Album Artist</b> <i>(string)</i><br>
@@ -168,17 +169,17 @@ _datetime =_ **@"\^\\[(\d{4})-(\d\d?)\-(\d\d?)(?:T(\d\d?)\\:(\d\d?)(?:\\:(\d\d?)
 <b>Video Width</b> <i>(int)</i><br>
 <b>Year</b> <i>(int)</i><br>
 <b>Year/Album</b> <i>(string)</i><br>
+</blockquote>
 </details>  
 
 <details><summary><i>function-name = one of</i> <b>Compare</b><i>,</i> <b>Concat</b><i>,</i> ... <i>(click here for the full list of functions and their signatures)</i>&nbsp;<sup>(4)</sup></summary>  
-<br>
-<b><i>String Functions</i></b>  
-<p>
-<i>int</i> <b>Compare</b><i>(this string strA, string strB, bool caseSensitive)</i>  
-<i>string</i> <b>Concat</b><i>(params object[] values)</i>  
-<i>string</i> <b>Concat_2</b><i>(this string s, string t)</i>  
-<i>string</i> <b>Concat_3</b><i>(this string s, string t, string u)</i>  
-<i>string</i> <b>Concat_4</b><i>(this string s, string t, string u, string v)</i>  
+<blockquote>
+<br><b><i>String Functions</i></b><br><br>
+<i>int</i> <b>Compare</b><i>(this string strA, string strB, bool caseSensitive)</i><br>
+<i>string</i> <b>Concat</b><i>(params object[] values)</i><br>
+<i>string</i> <b>Concat_2</b><i>(this string s, string t)</i><br>
+<i>string</i> <b>Concat_3</b><i>(this string s, string t, string u)</i><br>
+<i>string</i> <b>Concat_4</b><i>(this string s, string t, string u, string v)</i><br>
 <i>bool</i> <b>Contains</b><i>(this string input, string pattern, bool caseSensitive)</i><br>
 <i>bool</i> <b>ContainsX</b><i>(this string input, string pattern, bool caseSensitive)</i><br>
 <i>int</i> <b>Count</b><i>(this string input, string pattern, bool caseSensitive)</i><br>
@@ -206,25 +207,20 @@ _datetime =_ **@"\^\\[(\d{4})-(\d\d?)\-(\d\d?)(?:T(\d\d?)\\:(\d\d?)(?:\\:(\d\d?)
 <i>string</i> <b>ToString</b><i>(this object input)</i><br>
 <i>string</i> <b>Trim</b><i>(this string input)</i><br>
 <i>string</i> <b>Upper</b><i>(this string input)</i><br>
-
-<b><i>Math Functions</i></b>
-
+<br><b><i>Math Functions</i></b><br><br>
 <i>double</i> <b>Max</b><i>(this double x, double y)</i><br>
 <i>double</i> <b>Min</b><i>(this double x, double y)</i><br>
 <i>double</i> <b>Pow</b><i>(this double x, double y)</i><br>
 <i>double</i> <b>Round</b><i>(this double value)</i><br>
 <i>int</i> <b>Sign</b><i>(this double value)</i><br>
 <i>double</i> <b>Truncate</b><i>(this double value)</i><br>
-
-<b><i>I/O Functions</i></b>
-
+<br><b><i>I/O Functions</i></b><br><br>
 <i>string</i> <b>Input</b><i>(this string prompt)</i><br>
 <i>void</i> <b>Print</b><i>(params object[] values)</i><br>
 <i>void</i> <b>PrintLine</b><i>(params object[] values)</i><br>
-
-<b><i>Miscellaneous Functions</i></b>
-
+<br><b><i>Miscellaneous Functions</i></b><br><br>
 <i>object</i> <b>IfThenElse</b><i>(bool condition, object consequent, object alternative)</i><br>
+</blockquote>
 </details>
 
 **Notes:**  
