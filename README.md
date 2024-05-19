@@ -23,12 +23,12 @@ _statement = \{ label_ **\:** _\} compound | if-statement | do-loop |_ **break**
 _compound = term \{ binary-op term ... \}_  
 _term = \{ unary-op | cast ... \} value |_ **(** _block_ **)** _\{ \{_ **.** _\} function ... \}_  
 _value = constant | field | function | variable_  
-
+_label =_ **\@\"\[\w\_]+\\:"**  
+  
 _if-statement =_ **if** _block_ **then** _block \{_ **else** _block \}_ **end**  
 _do-loop = \{_ **while** _block \}_ **do** _block \{_ **until** _block \}_ **end**  
 _try-block =_ **try** _block \{_ **catch** _catch-block ... \} \{_ **finally** _block \}_ **end**  
 _catch-block =_ **(** _exception-type variable_ **)** _block_
-_label =_ **\@\"\[\w\_]+\\:"**
   
 _cast =_ **(** _type_ **)**  
 _constant = bool | char | datetime | decimal | double | float | int | long | string | timespan | uint | ulong_&nbsp;<sup>(3,5)</sup>  
@@ -172,14 +172,13 @@ _datetime =_ **@"\^\\[(\d{4})-(\d\d?)\-(\d\d?)(?:T(\d\d?)\\:(\d\d?)(?:\\:(\d\d?)
 
 <details><summary><i>function-name = one of</i> <b>Compare</b><i>,</i> <b>Concat</b><i>,</i> ... <i>(click here for the full list of functions and their signatures)</i>&nbsp;<sup>(4)</sup></summary>  
 <br>
-<b><i>String Functions</i></b>
+<b><i>String Functions</i></b>  
 <p>
-
-<i>int</i> <b>Compare</b><i>(this string strA, string strB, bool caseSensitive)</i><br>
-<i>string</i> <b>Concat</b><i>(params object[] values)</i><br>
-<i>string</i> <b>Concat_2</b><i>(this string s, string t)</i><br>
-<i>string</i> <b>Concat_3</b><i>(this string s, string t, string u)</i><br>
-<i>string</i> <b>Concat_4</b><i>(this string s, string t, string u, string v)</i><br>
+<i>int</i> <b>Compare</b><i>(this string strA, string strB, bool caseSensitive)</i>  
+<i>string</i> <b>Concat</b><i>(params object[] values)</i>  
+<i>string</i> <b>Concat_2</b><i>(this string s, string t)</i>  
+<i>string</i> <b>Concat_3</b><i>(this string s, string t, string u)</i>  
+<i>string</i> <b>Concat_4</b><i>(this string s, string t, string u, string v)</i>  
 <i>bool</i> <b>Contains</b><i>(this string input, string pattern, bool caseSensitive)</i><br>
 <i>bool</i> <b>ContainsX</b><i>(this string input, string pattern, bool caseSensitive)</i><br>
 <i>int</i> <b>Count</b><i>(this string input, string pattern, bool caseSensitive)</i><br>

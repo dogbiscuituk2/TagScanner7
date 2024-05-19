@@ -102,15 +102,24 @@
                 language.Tag = index++;
             }
             _scriptController = new MruScriptController(this, View.FileReopen);
-            View.FileNew.Click += (sender, e) => _scriptController.Clear();
-            View.FileOpen.Click += (sender, e) => _scriptController.Open();
-            View.FileSave.Click += (sender, e) => _scriptController.Save();
-            View.FileSaveAs.Click += (sender, e) => _scriptController.SaveAs();
+            View.FileNew.Click += FileNew_Click;
+            View.tbNew.Click += FileNew_Click;
+            View.FileOpen.Click += FileOpen_Click;
+            View.tbOpen.Click += FileOpen_Click;
+            View.FileSave.Click += FileSave_Click;
+            View.tbSave.Click += FileSave_Click;
+            View.FileSaveAs.Click += FileSaveAs_Click;
+            View.tbSaveAs.Click += FileSaveAs_Click;
             View.ScriptRun.Click += (sender, e) => Run();
             Language = Language.Custom;
             TextBox.TextChanged += ColourTextBox_TextChanged;
             return _view;
         }
+
+        private void FileNew_Click(object sender, EventArgs e) => _scriptController.Clear();
+        private void FileOpen_Click(object sender, EventArgs e) => _scriptController.Open();
+        private void FileSave_Click(object sender, EventArgs e) => _scriptController.Save();
+        private void FileSaveAs_Click(object sender, EventArgs e) => _scriptController.SaveAs();
 
         private void Run() => UpdateResult();
 
