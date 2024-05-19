@@ -78,6 +78,12 @@
 
         #region Event Handlers
 
+        private void FileNew_Click(object sender, EventArgs e) => _scriptController.Clear();
+        private void FileOpen_Click(object sender, EventArgs e) => _scriptController.Open();
+        private void FileSave_Click(object sender, EventArgs e) => _scriptController.Save();
+        private void FileSaveAs_Click(object sender, EventArgs e) => _scriptController.SaveAs();
+        private void ScriptRun_Click(object sender, EventArgs e) => UpdateResult();
+
         private void ColourTextBox_TextChanged(object sender, TextChangedEventArgs e)
         {
             DocumentIsModified = true;
@@ -87,6 +93,8 @@
 
         private void Language_Click(object sender, System.EventArgs e) =>
             Language = (Language)((ToolStripItem)sender).Tag;
+
+        private void View_Shown(object sender, EventArgs e) => View.ActiveControl = View.TextBox;
 
         #endregion
 
@@ -110,18 +118,13 @@
             View.tbSave.Click += FileSave_Click;
             View.FileSaveAs.Click += FileSaveAs_Click;
             View.tbSaveAs.Click += FileSaveAs_Click;
-            View.ScriptRun.Click += (sender, e) => Run();
+            View.ScriptRun.Click += ScriptRun_Click;
+            View.tbRun.Click += ScriptRun_Click;
             Language = Language.Custom;
             TextBox.TextChanged += ColourTextBox_TextChanged;
+            View.Shown += View_Shown;
             return _view;
         }
-
-        private void FileNew_Click(object sender, EventArgs e) => _scriptController.Clear();
-        private void FileOpen_Click(object sender, EventArgs e) => _scriptController.Open();
-        private void FileSave_Click(object sender, EventArgs e) => _scriptController.Save();
-        private void FileSaveAs_Click(object sender, EventArgs e) => _scriptController.SaveAs();
-
-        private void Run() => UpdateResult();
 
         private void UpdateResult()
         {
