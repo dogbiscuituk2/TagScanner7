@@ -118,13 +118,12 @@
         {
             var text = Text;
             var caseSensitive = false;
-            var parser = new Parser();
             Term term = null;
             string result = null;
             var ok = true;
             try
             {
-                term = parser.Parse(text, caseSensitive);
+                term = Parser.Parse(text, caseSensitive);
             }
             catch (Exception ex)
             {
@@ -146,7 +145,7 @@
 
         private void UpdateStyles(Range range)
         {
-            var tokens = new List<Token>(new Tokenizer().GetTokens(Text));
+            var tokens = new List<Token>(Tokenizer.GetTokens(Text));
             range.ClearStyle(Tokenizer.AllTextStyles);
             foreach (var token in tokens)
                 new Range(TextBox,

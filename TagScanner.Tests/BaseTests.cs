@@ -55,7 +55,7 @@
             {
                 if (expected == null)
                     expected = original;
-                var term = new Parser().Parse(original, caseSensitive);
+                var term = Parser.Parse(original, caseSensitive);
                 var actual = term.ToString();
                 Assert.AreEqual(expected, actual);
                 expected = nonsense;
@@ -85,15 +85,14 @@
 
         protected void TestParseRoundTrip(Term term)
         {
-            var parser = new Parser();
             // Case sensitive
             string
-                expected = parser.Parse(term?.ToString(), caseSensitive: true).ToString(),
-                actual = parser.Parse(expected, caseSensitive: true)?.ToString();
+                expected = Parser.Parse(term?.ToString(), caseSensitive: true).ToString(),
+                actual = Parser.Parse(expected, caseSensitive: true)?.ToString();
             Assert.AreEqual(expected, actual);
             // Ignore case
-            expected = parser.Parse(term?.ToString(), caseSensitive: false)?.ToString();
-            actual = parser.Parse(expected, caseSensitive: false)?.ToString();
+            expected = Parser.Parse(term?.ToString(), caseSensitive: false)?.ToString();
+            actual = Parser.Parse(expected, caseSensitive: false)?.ToString();
             Assert.AreEqual(expected, actual);
         }
 
@@ -101,25 +100,23 @@
 
         protected void TestResult(string text, object sense, object nonsense)
         {
-            var parser = new Parser();
-
-            var term = parser.Parse(text, caseSensitive: true);
+            var term = Parser.Parse(text, caseSensitive: true);
             Assert.AreEqual(expected: sense, actual: term.Result);
-            term = parser.Parse(text, caseSensitive: false);
+            term = Parser.Parse(text, caseSensitive: false);
             Assert.AreEqual(expected: nonsense, actual: term.Result);
 
             text = $"X := {text}";
 
-            term = parser.Parse(text, caseSensitive: true);
+            term = Parser.Parse(text, caseSensitive: true);
             Assert.AreEqual(expected: sense, actual: term.Result);
-            term = parser.Parse(text, caseSensitive: false);
+            term = Parser.Parse(text, caseSensitive: false);
             Assert.AreEqual(expected: nonsense, actual: term.Result);
 
             text = $"Y := {text}";
 
-            term = parser.Parse(text, caseSensitive: true);
+            term = Parser.Parse(text, caseSensitive: true);
             Assert.AreEqual(expected: sense, actual: term.Result);
-            term = parser.Parse(text, caseSensitive: false);
+            term = Parser.Parse(text, caseSensitive: false);
             Assert.AreEqual(expected: nonsense, actual: term.Result);
         }
 
@@ -132,7 +129,7 @@
             var expected = sense;
             do
             {
-                term = new Parser().Parse(text, caseSensitive);
+                term = Parser.Parse(text, caseSensitive);
                 var actual = func.Invoke(term);
                 Assert.AreEqual(expected, actual);
                 expected = nonsense;

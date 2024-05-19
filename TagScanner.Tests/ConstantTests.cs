@@ -38,12 +38,11 @@
         [TestMethod]
         public void TestConstants(string input, string expected, Type type)
         {
-            var parser = new Parser();
             foreach (var caseSensitive in new[] { false, true }) // Test with caseSensitive = false, then true.
                 foreach (var addParens in new[] { false, true }) // Test first the raw text, and then (((text))).
                 {
                     var text = addParens ? $"((({input})))" : input;
-                    var term = parser.Parse(text, caseSensitive);
+                    var term = Parser.Parse(text, caseSensitive);
                     var actual = term.ToString();
                     Assert.AreEqual(expected, actual);
                     Assert.AreEqual(expected: type, actual: term.ResultType);

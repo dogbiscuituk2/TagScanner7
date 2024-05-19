@@ -20,15 +20,7 @@
         /// <param name="caseSensitive">Matching of data field & function names, type casts, operators and other syntactical elements, is always insensitive to case. 
         /// The caseSensitive value applies only to the user data, such as track titles, album names, performers, and so on.</param>
         /// <returns>The Term obtained from parsing.</returns>
-        public Term Parse(string program, bool caseSensitive)
-        {
-            _caseSensitive = caseSensitive;
-            BeginParse(program);
-            var term = ParseBlock();
-            if (term is Compound compound)
-                term = PrepareCompound(compound);
-            return EndParse(term);
-        }
+        public static Term Parse(string program, bool caseSensitive) => new Parser().DoParse(program, caseSensitive);
 
         /// <summary>
         ///  Parse an arbitrary string into a Term, catching any exceptions and forwarding their information.
@@ -41,21 +33,8 @@
         /// performers, and so on.</param>
         /// <returns>True if the parsing succeeded, and the result is returned in the out term.
         /// False if an exception occurred, and the exception is returned in the out exception.</returns>
-        public bool TryParse(string text, out Term term, out Exception exception, bool caseSensitive)
-        {
-            try
-            {
-                term = Parse(text, caseSensitive);
-                exception = null;
-                return true;
-            }
-            catch (Exception ex)
-            {
-                term = null;
-                exception = ex;
-                return false;
-            }
-        }
+        public static bool TryParse(string text, out Term term, out Exception exception, bool caseSensitive) =>
+            new Parser().DoTryParse(text, out term, out exception, caseSensitive);
 
         #endregion
 
@@ -65,6 +44,10 @@
         private readonly ParserSpy _spy = new ParserSpy();
         private readonly Dictionary<string, Label> _labels = new Dictionary<string, Label>();
         private readonly Dictionary<string, Variable> _variables = new Dictionary<string, Variable>();
+
+        #endregion
+
+        #region Private Methods
 
         #endregion
 
@@ -308,24 +291,24 @@
             return tokenKind == TokenKind.Function
                 ? ParseFunctionAsStatic()
                 : (tokenKind & TokenKind.Value) != 0
-                ? Parse(DequeueToken().Value)
+                ? ParseValue(tokenKind, DequeueToken().Value)
                 : new EmptyTerm();
+        }
 
-            Term Parse(string value)
+        private Term ParseValue(TokenKind tokenKind, string value)
+        {
+            switch (tokenKind)
             {
-                switch (tokenKind)
-                {
-                    case TokenKind.Boolean: return ParseBoolean(value);
-                    case TokenKind.Character: return ParseCharacter(value);
-                    case TokenKind.DateTime: return ParseDateTime(value);
-                    case TokenKind.Default: return ParseDefault(value);
-                    case TokenKind.Field: return ParseField(value);
-                    case TokenKind.Number: return ParseNumber(value.ToUpperInvariant());
-                    case TokenKind.String: return ParseString(value);
-                    case TokenKind.TimeSpan: return ParseTimeSpan(value);
-                    case TokenKind.Variable: return ParseVariable(value);
-                    default: return null;
-                }
+                case TokenKind.Boolean: return ParseBoolean(value);
+                case TokenKind.Character: return ParseCharacter(value);
+                case TokenKind.DateTime: return ParseDateTime(value);
+                case TokenKind.Default: return ParseDefault(value);
+                case TokenKind.Field: return ParseField(value);
+                case TokenKind.Number: return ParseNumber(value.ToUpperInvariant());
+                case TokenKind.String: return ParseString(value);
+                case TokenKind.TimeSpan: return ParseTimeSpan(value);
+                case TokenKind.Variable: return ParseVariable(value);
+                default: return null;
             }
         }
 
@@ -374,6 +357,32 @@
                 _labels.Add(labelName, label);
             }
             return _labels[labelName];
+        }
+
+        private Term DoParse(string program, bool caseSensitive)
+        {
+            _caseSensitive = caseSensitive;
+            BeginParse(program);
+            var term = ParseBlock();
+            if (term is Compound compound)
+                term = PrepareCompound(compound);
+            return EndParse(term);
+        }
+
+        public bool DoTryParse(string text, out Term term, out Exception exception, bool caseSensitive)
+        {
+            try
+            {
+                term = Parse(text, caseSensitive);
+                exception = null;
+                return true;
+            }
+            catch (Exception ex)
+            {
+                term = null;
+                exception = ex;
+                return false;
+            }
         }
 
         private Term PrepareCompound(Compound compound)
