@@ -57,27 +57,38 @@
                     || MatchName(TokenKind.TypeName, Types.Names)
                     || MatchName(TokenKind.Keyword, ControlStructure.Keywords))
                     return token;
-
                 switch (index < count ? text[index] : Nul)
                 {
                     case SingleQuote:
-                        return MatchCharacter();
+                        MatchCharacter();
+                        break;
                     case DoubleQuote:
-                        return MatchString();
+                        MatchString();
+                        break;
                     case LeftBracket:
-                        var dateTime = MatchDateTime();
-                        return dateTime.Valid ? dateTime : MatchTimeSpan();
+                        MatchDateTime();
+                        if (!token.Valid)
+                            MatchTimeSpan();
+                        break;
                     case LeftBrace:
-                        return MatchParameter();
+                        MatchParameter();
+                        break;
                     case char c when char.IsLetter(c) || c == '_':
-                        return 
-                            head.StartsWithLabel()
-                            ? MatchLabel()
-                            : head.StartsWithExceptionType()
-                            ? MatchExceptionType()
-                            : MatchVariable();
+                        if (head.StartsWithLabel())
+                        {
+                            MatchLabel();
+                            break;
+                        }
+                        else if (head.StartsWithExceptionType())
+                        {
+                            MatchExceptionType();
+                            break;
+                        }
+                        else
+                            MatchVariable();
+                        break;
                 }
-                return UnexpectedCharacter();
+                return token ?? UnexpectedCharacter();
 
                 bool MatchComment()
                 {
@@ -118,27 +129,25 @@
                         token = new Token(tokenKind, index, match.Value);
                     return ok;
                 }
-            }
 
-            Token MatchCharacter() => MatchRegex2(TokenKind.Character, @"^'(.|\.|\n)'", "Unterminated character constant");
-            Token MatchDateTime() => MatchRegex2(TokenKind.DateTime, DateTimeParser.DateTimePattern, "Invalid DateTime format");
-            Token MatchExceptionType() => MatchRegex2(TokenKind.TypeName, PatternExceptionType);
-            Token MatchLabel() => MatchRegex2(TokenKind.Label, PatternLabel);
-            Token MatchParameter() => MatchRegex2(TokenKind.Default, @"^\{\w+(\[\])?\}", "Invalid parameter");
-            Token MatchString() => MatchRegex2(TokenKind.String, "\"[^\"|\\\"]*\"", "Unterminated string constant");
-            Token MatchTimeSpan() => MatchRegex2(TokenKind.TimeSpan, DateTimeParser.TimeSpanPattern, "Invalid TimeSpan format");
-            Token MatchVariable() => MatchRegex2(TokenKind.Variable, PatternName);
+                void MatchCharacter() => MatchRegex2(TokenKind.Character, @"^'(.|\.|\n)'", "Unterminated character constant");
+                void MatchDateTime() => MatchRegex2(TokenKind.DateTime, DateTimeParser.DateTimePattern, "Invalid DateTime format");
+                void MatchExceptionType() => MatchRegex2(TokenKind.TypeName, PatternExceptionType);
+                void MatchLabel() => MatchRegex2(TokenKind.Label, PatternLabel);
+                void MatchParameter() => MatchRegex2(TokenKind.Default, @"^\{\w+(\[\])?\}", "Invalid parameter");
+                void MatchString() => MatchRegex2(TokenKind.String, "\"[^\"|\\\"]*\"", "Unterminated string constant");
+                void MatchTimeSpan() => MatchRegex2(TokenKind.TimeSpan, DateTimeParser.TimeSpanPattern, "Invalid TimeSpan format");
+                void MatchVariable() => MatchRegex2(TokenKind.Variable, PatternName);
 
-            Token MatchRegex2(TokenKind tokenType, string pattern, string error = null)
-            {
-                var token = new Token(tokenType, index,
-                    Regex.Match(RemainingText(), $"^{pattern}", RegexOptions.IgnoreCase).Value);
-                if (token.Length < 1)
+                void MatchRegex2(TokenKind tokenType, string pattern, string error = null)
                 {
-                    token.Value = RemainingText().Substring(0, 1);
-                    token.Error = error;
+                    token = new Token(tokenType, index, Regex.Match(head, $"^{pattern}", RegexOptions.IgnoreCase).Value);
+                    if (token.Length < 1)
+                    {
+                        token.Value = head.Substring(0, 1);
+                        token.Error = error;
+                    }
                 }
-                return token;
             }
 
             string RemainingText() => text.Substring(index);
