@@ -147,7 +147,7 @@
             _loops.Clear();
             _headerShown = false;
             Dump(caller, line, program);
-            foreach (var token in Tokenizer.GetTokens(program))
+            foreach (var token in new Tokenizer().GetTokens(program))
                 if (!token.Value.IsComment())
                     _tokens.Enqueue(token);
             return program;

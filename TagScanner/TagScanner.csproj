@@ -193,7 +193,6 @@
     <Compile Include="Terms\DateTimeParser.cs" />
     <Compile Include="Terms\Label.cs" />
     <Compile Include="Terms\Loop.cs" />
-    <Compile Include="Terms\EqualityComparer.cs" />
     <Compile Include="Terms\Cast.cs" />
     <Compile Include="Streaming\Streamer.cs" />
     <Compile Include="Terms\Field.cs" />

@@ -105,7 +105,7 @@
             while (PeekToken().Value.IsBinaryOperator())
             {
                 var token = DequeueToken();
-                ApplyOperators(token.Value.Rank(unary: false));
+                ApplyOperators(token.Value.GetRank(unary: false));
                 PushTerm(term);
                 PushOperator(token.Value.ToBinaryOperator());
                 term = ParseTerm();

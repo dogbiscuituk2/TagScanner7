@@ -147,7 +147,10 @@
         public static bool CanChain(this Op op) => (op & Op.Chains) != 0;
         public static ExpressionType ExpType(this Op op) => _operators[op].ExpressionType;
         public static string Format(this Op op) => _operators[op].Format;
+
+        public static Rank GetRank(this string token, bool unary) => token.ToOperator(unary).GetRank();
         public static Rank GetRank(this Op op) => _operators[op].Rank;
+
         public static Image Image(this Op op) => _operators[op].Image;
         public static bool IsAssignment(this Op op) => (op & Op.Assignment) != 0;
         public static bool IsBinary(this Op op) => (op & Op.Binary) != 0;

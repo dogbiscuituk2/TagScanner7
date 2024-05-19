@@ -6,8 +6,14 @@
     using System.Text.RegularExpressions;
     using FastColoredTextBoxNS;
 
-    public static class Tokenizer
+    public class Tokenizer
     {
+        private int Count { get; set; }
+        private string Head { get; set; }
+        private int Index { get; set; }
+        private string Text { get; set; }
+        private Token Token { get; set; }
+
         #region Public Methods
 
         /// <summary>
@@ -18,164 +24,167 @@
         /// </summary>
         /// <param name="text">The string to tokenize.</param>
         /// <returns>An IEnumerable sequence of Token objects.</returns>
-        public static IEnumerable<Token> GetTokens(string text)
+        public IEnumerable<Token> GetTokens(string text)
         {
-            int count = text?.Length ?? 0, index = 0;
+            Text = text;
+            Count = Text?.Length ?? 0;
+            Index = 0;
             while (true)
             {
-                while (index < count && text[index] <= Space)
-                    index++;
-                if (index >= count)
+                while (Index < Count && Text[Index] <= Space)
+                    Index++;
+                if (Index >= Count)
                     break;
-                var token = ReadToken();
-                if (token.Length == 0)
-                    token = UnexpectedCharacter();
-                if (string.IsNullOrWhiteSpace(token.Value))
+                ReadToken();
+                if (Token.Length == 0)
+                    Token = UnexpectedCharacter();
+                if (string.IsNullOrWhiteSpace(Token.Value))
                     break;
-                index += token.Length;
+                Index += Token.Length;
 #if DEBUG_TOKENIZER
                 System.Diagnostics.Debug.WriteLine(token);
 #endif
-                yield return token;
+                yield return Token;
             }
             yield break;
+        }
 
-            Token UnexpectedCharacter() => new Token(0, index, $"{text[index]}") { Error = "Unexpected character" };
-
-            Token ReadToken()
+        private void ReadToken()
+        {
+            Token = null;
+            Head = Text.Substring(Index);
+            if (MatchComment()
+                || MatchNumber()
+                || MatchName(TokenKind.Boolean, Term.Booleans)
+                || MatchName(TokenKind.Field, Tags.FieldNames)
+                || MatchName(TokenKind.Function, Functors.FunctionNames)
+                || MatchName(TokenKind.Symbol, Operators.Symbols)
+                || MatchName(TokenKind.TypeName, Types.Names)
+                || MatchName(TokenKind.Keyword, ControlStructure.Keywords)
+                || MatchRegex(TokenKind.Character, SingleQuote, @"^'(.|\.|\n)'", "Unterminated character constant")
+                || MatchRegex(TokenKind.String, DoubleQuote, "\"[^\"|\\\"]*\"", "Unterminated string constant")
+                ) return;
+            /*if (Head[0] == LeftBracket)
             {
-                Token token = null;
-                var head = text.Substring(index);
-                if (MatchComment()
-                    || MatchNumber()
-                    || MatchName(TokenKind.Boolean, Term.Booleans)
-                    || MatchName(TokenKind.Field, Tags.FieldNames)
-                    || MatchName(TokenKind.Function, Functors.FunctionNames)
-                    || MatchName(TokenKind.Symbol, Operators.Symbols)
-                    || MatchName(TokenKind.TypeName, Types.Names)
-                    || MatchName(TokenKind.Keyword, ControlStructure.Keywords)
-                    || MatchRegex(TokenKind.Character, SingleQuote, @"^'(.|\.|\n)'", "Unterminated character constant"))
-                    return token;
-                switch (index < count ? text[index] : Nul)
-                {
-                    case SingleQuote:
-                        MatchCharacter();
-                        break;
-                    case DoubleQuote:
-                        MatchString();
-                        break;
-                    case LeftBracket:
-                        MatchDateTime();
-                        if (!token.Valid)
-                            MatchTimeSpan();
-                        break;
-                    case LeftBrace:
-                        MatchParameter();
-                        break;
-                    case char c when char.IsLetter(c) || c == '_':
-                        if (head.StartsWithLabel())
-                        {
-                            MatchLabel();
-                            break;
-                        }
-                        else if (head.StartsWithExceptionType())
-                        {
-                            MatchExceptionType();
-                            break;
-                        }
-                        else
-                            MatchVariable();
-                        break;
-                }
-                return token ?? UnexpectedCharacter();
+                var ok = MatchRegex(TokenKind.DateTime, LeftBracket, DateTimeParser.DateTimePattern);
+                if (ok && Token.Valid)
+                    return;
+                ok = MatchRegex(TokenKind.TimeSpan, LeftBracket, DateTimeParser.TimeSpanPattern, "Invalid Date/Time format");
+                if (ok)
+                    return;
+            }*/
 
-                bool MatchRegex(TokenKind tokenKind, char key, string pattern, string error)
-                {
-                    var ok = head[0] == key;
-                    if (ok)
+            switch (Index < Count ? Text[Index] : Nul)
+            {
+                case LeftBracket:
+                    MatchDateTime();
+                    if (!Token.Valid)
+                        MatchTimeSpan();
+                    break;
+                case LeftBrace:
+                    MatchParameter();
+                    break;
+                case char c when char.IsLetter(c) || c == '_':
+                    if (StartsWithLabel(Head))
                     {
-                        token = new Token(tokenKind, index, Regex.Match(head, $"^{pattern}", RegexOptions.IgnoreCase).Value);
-                        if (token.Length < 1)
-                        {
-                            token.Value = head.Substring(0, 1);
-                            token.Error = error;
-                        }
-                        return ok;
+                        MatchLabel();
+                        break;
                     }
-                    return ok;
-                }
-
-                bool MatchComment()
-                {
-                    bool
-                        single = head.StartsWith("//"),
-                        multi = head.StartsWith("/*");
-                    if (!(single || multi))
-                        return false;
-                    var length = multi ? head.IndexOf("*/", 2) + 2 : $"{head}\n".IndexOf("\n");
-                    string error = null;
-                    if (multi && length < 4)
+                    else if (StartsWithExceptionType(Head))
                     {
-                        length = head.Length;
-                        error = "Unterminated comment";
+                        MatchExceptionType();
+                        break;
                     }
-                    token = new Token(TokenKind.Comment, index, head.Substring(0, length), error);
-                    return true;
-                }
+                    else
+                        MatchVariable();
+                    break;
+            }
+            if (Token == null)
+                Token = UnexpectedCharacter();
+            return;
+        }
 
-                bool MatchName(TokenKind tokenType, IEnumerable<string> names)
+
+        private void MatchDateTime() => MatchRegex(TokenKind.DateTime, LeftBracket, DateTimeParser.DateTimePattern, "Invalid DateTime format");
+        private void MatchTimeSpan() => MatchRegex(TokenKind.TimeSpan, LeftBracket, DateTimeParser.TimeSpanPattern, "Invalid TimeSpan format");
+
+
+        private bool MatchRegex(TokenKind tokenKind, char key, string pattern, string error = null)
+        {
+            var ok = Head[0] == key;
+            if (ok)
+            {
+                Token = new Token(tokenKind, Index, Regex.Match(Head, $"^{pattern}", RegexOptions.IgnoreCase).Value);
+                if (Token.Length < 1)
                 {
-                    var value = names
-                        .OrderByDescending(p => p.Length)
-                        .FirstOrDefault(p => head.StartsWith(p, caseSensitive: false));
-                    var ok = !string.IsNullOrWhiteSpace(value);
-                    if (ok)
-                        token = new Token(tokenType, index, value);
-                    return ok;
+                    Token.Value = Head.Substring(0, 1);
+                    Token.Error = error;
                 }
+                return ok;
+            }
+            return ok;
+        }
 
-                bool MatchNumber() => MatchRegex3(TokenKind.Number, PatternNumber);
+        private bool MatchComment()
+        {
+            bool
+                single = Head.StartsWith("//"),
+                multi = Head.StartsWith("/*");
+            if (!(single || multi))
+                return false;
+            var length = multi ? Head.IndexOf("*/", 2) + 2 : $"{Head}\n".IndexOf("\n");
+            string error = null;
+            if (multi && length < 4)
+            {
+                length = Head.Length;
+                error = "Unterminated comment";
+            }
+            Token = new Token(TokenKind.Comment, Index, Head.Substring(0, length), error);
+            return true;
+        }
 
-                bool MatchRegex3(TokenKind tokenKind, string pattern)
-                {
-                    var match = Regex.Match(head, pattern, RegexOptions.IgnoreCase);
-                    var ok = match.Success;
-                    if (ok)
-                        token = new Token(tokenKind, index, match.Value);
-                    return ok;
-                }
+        private bool MatchName(TokenKind tokenType, IEnumerable<string> names)
+        {
+            var value = names
+                .OrderByDescending(p => p.Length)
+                .FirstOrDefault(p => Head.StartsWith(p, caseSensitive: false));
+            var ok = !string.IsNullOrWhiteSpace(value);
+            if (ok)
+                Token = new Token(tokenType, Index, value);
+            return ok;
+        }
 
-                void MatchCharacter() => MatchRegex2(TokenKind.Character, @"^'(.|\.|\n)'", "Unterminated character constant");
-                void MatchDateTime() => MatchRegex2(TokenKind.DateTime, DateTimeParser.DateTimePattern, "Invalid DateTime format");
-                void MatchExceptionType() => MatchRegex2(TokenKind.TypeName, PatternExceptionType);
-                void MatchLabel() => MatchRegex2(TokenKind.Label, PatternLabel);
-                void MatchParameter() => MatchRegex2(TokenKind.Default, @"^\{\w+(\[\])?\}", "Invalid parameter");
-                void MatchString() => MatchRegex2(TokenKind.String, "\"[^\"|\\\"]*\"", "Unterminated string constant");
-                void MatchTimeSpan() => MatchRegex2(TokenKind.TimeSpan, DateTimeParser.TimeSpanPattern, "Invalid TimeSpan format");
-                void MatchVariable() => MatchRegex2(TokenKind.Variable, PatternName);
+        private bool MatchNumber() => MatchRegex3(TokenKind.Number, PatternNumber);
 
-                void MatchRegex2(TokenKind tokenType, string pattern, string error = null)
-                {
-                    token = new Token(tokenType, index, Regex.Match(head, $"^{pattern}", RegexOptions.IgnoreCase).Value);
-                    if (token.Length < 1)
-                    {
-                        token.Value = head.Substring(0, 1);
-                        token.Error = error;
-                    }
-                }
+        private bool MatchRegex3(TokenKind tokenKind, string pattern)
+        {
+            var match = Regex.Match(Head, pattern, RegexOptions.IgnoreCase);
+            var ok = match.Success;
+            if (ok)
+                Token = new Token(tokenKind, Index, match.Value);
+            return ok;
+        }
+
+        private void MatchExceptionType() => MatchRegex2(TokenKind.TypeName, PatternExceptionType);
+        private void MatchLabel() => MatchRegex2(TokenKind.Label, PatternLabel);
+        private void MatchParameter() => MatchRegex2(TokenKind.Default, @"^\{\w+(\[\])?\}", "Invalid parameter");
+        private void MatchVariable() => MatchRegex2(TokenKind.Variable, PatternName);
+
+        private void MatchRegex2(TokenKind tokenType, string pattern, string error = null)
+        {
+            Token = new Token(tokenType, Index, Regex.Match(Head, $"^{pattern}", RegexOptions.IgnoreCase).Value);
+            if (Token.Length < 1)
+            {
+                Token.Value = Head.Substring(0, 1);
+                Token.Error = error;
             }
         }
 
-        public static Rank Rank(this string token, bool unary) => token.ToOperator(unary).GetRank();
-        public static bool StartsWithExceptionType(this string token) => Regex.IsMatch(token, PatternExceptionType);
-        public static bool StartsWithLabel(this string token) => Regex.IsMatch(token, PatternLabel);
-        public static bool StartsWithNumber(this string token) => Regex.IsMatch(token, PatternNumber);
-        public static TextStyle TextStyle(this TokenKind tokenType) => TextStyles[tokenType];
+        private Token UnexpectedCharacter() => new Token(0, Index, $"{Text[Index]}") { Error = "Unexpected character" };
 
-        private const string PatternExceptionType = @"^[\w_]+Exception";
-        private const string PatternLabel = @"^[\w_]+\:";
-        private const string PatternName = @"^[\w_]+";
-        private const string PatternNumber = @"^\d+\.?\d*([Ee][-+]\d+)?(UL|LU|D|F|L|M|U)?";
+        public static bool StartsWithExceptionType(string token) => Regex.IsMatch(token, PatternExceptionType);
+        public static bool StartsWithLabel(string token) => Regex.IsMatch(token, PatternLabel);
+        public static TextStyle TextStyle(TokenKind tokenType) => TextStyles[tokenType];
 
         private static readonly TextStyle TextStyleConstant = new TextStyle(Brushes.DarkOrange, null, FontStyle.Regular);
 
@@ -222,7 +231,10 @@
             RightBracket = ']',
             RightParen = ')';
 
-        private static EqualityComparer IgnoreCase = new EqualityComparer(caseSensitive: false);
+        private const string PatternExceptionType = @"^[\w_]+Exception";
+        private const string PatternLabel = @"^[\w_]+\:";
+        private const string PatternName = @"^[\w_]+";
+        private const string PatternNumber = @"^\d+\.?\d*([Ee][-+]\d+)?(UL|LU|D|F|L|M|U)?";
 
         #endregion
     }

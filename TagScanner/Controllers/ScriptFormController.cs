@@ -146,13 +146,13 @@
 
         private void UpdateStyles(Range range)
         {
-            var tokens = new List<Token>(Tokenizer.GetTokens(Text));
+            var tokens = new List<Token>(new Tokenizer().GetTokens(Text));
             range.ClearStyle(Tokenizer.AllTextStyles);
             foreach (var token in tokens)
                 new Range(TextBox,
                     TextBox.PositionToPlace(token.Start),
                     TextBox.PositionToPlace(token.End))
-                    .SetStyle(token.Kind.TextStyle());
+                    .SetStyle(Tokenizer.TextStyle(token.Kind));
         }
 
         private void UpdateUI() => View.Text = _scriptController.WindowCaption;
