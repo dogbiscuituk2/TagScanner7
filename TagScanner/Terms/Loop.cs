@@ -39,7 +39,7 @@
             AddText("while", 0);
             AddText("do", 1);
             AddText("until", 2);
-            return result.Append(" loop").ToString();
+            return result.Append("end").ToString();
 
             void AddText(string keyword, int index)
             {

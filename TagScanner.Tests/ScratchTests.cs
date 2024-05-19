@@ -9,7 +9,7 @@
         [TestMethod]
         public void ScratchTest()
         {
-            var before = "label1: if true then goto label1 endif";
+            var before = "Album Artists (sorted) + Album Artists + Album Artists (sorted)";
             var parser = new Parser();
             var term = parser.Parse(before, caseSensitive: false);
             var after = term.ToString();

@@ -28,9 +28,9 @@
             switch (Operands.Count)
             {
                 case 2:
-                    return $"if {Operands[0]} then {Operands[1]} endif";
+                    return $"if {Operands[0]} then {Operands[1]} end";
                 case 3:
-                    return $"if {Operands[0]} then {Operands[1]} else {Operands[2]} endif";
+                    return $"if {Operands[0]} then {Operands[1]} else {Operands[2]} end";
                 default:
                     return string.Empty;
             }

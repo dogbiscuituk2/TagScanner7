@@ -30,9 +30,9 @@
             Assert.AreEqual(expected: 0, actual: tokens.Count());
         }
 
-        [DataRow(" /* This is a failed comment ", TokenKind.Comment, "/*", "Unterminated comment")]
-        [DataRow(" /*This is a failed comment ", TokenKind.Comment, "/*This", "Unterminated comment")]
-        [DataRow(" /*This is a failed comment * / ", TokenKind.Comment, "/*This", "Unterminated comment")]
+        [DataRow(" /* This is a failed comment ", TokenKind.Comment, "/* This is a failed comment ", "Unterminated comment")]
+        [DataRow(" /*This is a failed comment ", TokenKind.Comment, "/*This is a failed comment ", "Unterminated comment")]
+        [DataRow(" /*This is a failed comment * / ", TokenKind.Comment, "/*This is a failed comment * / ", "Unterminated comment")]
         [TestMethod]
         public void TestSingleTokenFail(string text, TokenKind tokenType, string value, string error)
         {
@@ -138,6 +138,27 @@
             Assert.AreEqual(expected: true, actual: token.Valid);
             Assert.AreEqual(expected: value, actual: token.Value);
         }
+
+        #region Comment
+
+        [DataRow(" // This is a comment ", TokenKind.Comment, "// This is a comment ")]
+        [DataRow(" /* This is a comment */ ", TokenKind.Comment, "/* This is a comment */")]
+        [DataRow(" /* This is a\r\nmulti-line comment */ ", TokenKind.Comment, "/* This is a\r\nmulti-line comment */")]
+
+        #endregion
+        [TestMethod]
+        public void ScratchTestSingleTokenPass(string text, TokenKind tokenType, string value)
+        {
+            var tokens = Tokenizer.GetTokens(text);
+            Assert.AreEqual(expected: 1, actual: tokens.Count());
+            var token = tokens.First();
+            Assert.AreEqual(expected: null, actual: token.Error);
+            Assert.AreEqual(expected: 1, actual: token.Start);
+            Assert.AreEqual(expected: tokenType, actual: token.Kind);
+            Assert.AreEqual(expected: true, actual: token.Valid);
+            Assert.AreEqual(expected: value, actual: token.Value);
+        }
+
 
         #endregion
 

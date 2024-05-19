@@ -4,11 +4,12 @@
     {
         #region Constructor
 
-        public Token(TokenKind kind, int index, string value)
+        public Token(TokenKind kind, int index, string value, string error = null)
         {
             Kind = kind;
             Start = index;
             Value = value;
+            Error = error;
         }
 
         #endregion
