@@ -44,7 +44,7 @@
         public override int Start(int index)
         {
             int result;
-            var format = Op.Format();
+            var format = Op.GetFormat();
             var delta = format.IndexOf("{0}");
             var up = UseParens(0);
             if (index == 0)
@@ -62,7 +62,7 @@
             return result;
         }
 
-        public override string ToString() => ToString(Op.Format(), Op.IsUnary());
+        public override string ToString() => ToString(Op.GetFormat(), Op.IsUnary());
 
         protected virtual string ToString(string opFormat, bool unary)
         {

@@ -115,17 +115,6 @@
 
         #region Public Methods
 
-        public static bool ContainsBinarySymbol(string token) => _binarySymbols.Contains(token.ToUpperInvariant());
-        public static bool ContainsSymbol(string token) => _symbols.Contains(token.ToUpperInvariant());
-        public static bool ContainsUnarySymbol(string token) => _unarySymbols.Contains(token.ToUpperInvariant());
-
-        public static bool IsBinaryOperator(this Token token) => _binarySymbols.Contains(token.Key);
-        public static bool IsUnaryOperator(this Token token) => _unarySymbols.Contains(token.Key);
-
-        #endregion
-
-        #region Public Extension Methods
-
         public static Associativity GetAssociativity(this Op op)
         {
             if (op.IsUnary())
@@ -146,9 +135,7 @@
 
         public static bool CanChain(this Op op) => (op & Op.Chains) != 0;
         public static ExpressionType ExpType(this Op op) => _operators[op].ExpressionType;
-        public static string Format(this Op op) => _operators[op].Format;
-
-        public static Rank GetRank(this string token, bool unary) => token.ToOperator(unary).GetRank();
+        public static string GetFormat(this Op op) => _operators[op].Format;
         public static Rank GetRank(this Op op) => _operators[op].Rank;
 
         public static Image Image(this Op op) => _operators[op].Image;
@@ -167,11 +154,14 @@
             op == Op.Concatenate ? typeof(string) :
             null; // Otherwise determined by arg types at runtime.
 
-        public static bool IsBinaryOperator(this string token) => ContainsBinarySymbol(token);
+        public static Rank GetRank(this Token token, bool unary) => token.ToOperator(unary).GetRank();
+        public static bool IsBinaryOperator(this Token token) => _binarySymbols.Contains(token.Key);
+        public static bool IsUnaryOperator(this Token token) => _unarySymbols.Contains(token.Key);
 
-        public static Op ToBinaryOperator(this string symbol) => ToOperator(symbol, unary: false);
+        public static Op ToBinaryOperator(this Token token) => ToOperator(token, unary: false);
         public static Op ToOperator(this string symbol, bool unary) => GetDictionary(unary)[symbol.ToUpperInvariant()];
-        public static Op ToUnaryOperator(this string symbol) => ToOperator(symbol, unary: true);
+        public static Op ToOperator(this Token token, bool unary) => token.Value.ToOperator(unary);
+        public static Op ToUnaryOperator(this Token token) => ToOperator(token, unary: true);
 
         #endregion
 

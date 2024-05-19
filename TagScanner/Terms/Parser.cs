@@ -102,12 +102,12 @@
         private Term ParseCompound()
         {
             Term term = ParseTerm();
-            while (PeekToken().Value.IsBinaryOperator())
+            while (PeekToken().IsBinaryOperator())
             {
                 var token = DequeueToken();
-                ApplyOperators(token.Value.GetRank(unary: false));
+                ApplyOperators(token.GetRank(unary: false));
                 PushTerm(term);
-                PushOperator(token.Value.ToBinaryOperator());
+                PushOperator(token.ToBinaryOperator());
                 term = ParseTerm();
             }
             ApplyOperators();
@@ -229,7 +229,7 @@
         private Term ParseTerm()
         {
             if (PeekToken().IsUnaryOperator())
-                return new Operation(DequeueToken().Value.ToUnaryOperator(), ParseTerm());
+                return new Operation(DequeueToken().ToUnaryOperator(), ParseTerm());
             Term term;
             if (PeekToken().Value == "(")
             {
