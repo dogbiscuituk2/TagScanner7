@@ -8,6 +8,18 @@
 
     public class Tokenizer
     {
+        #region Public Properties
+
+        public static List<string> AutocompleteItems => Term.Booleans
+            .Union(Tags.FieldNames)
+            .Union(Functors.FunctionNames)
+            .Union(Types.Names)
+            .Union(Keywords.All)
+            //.OrderBy(p => p.ToUpperInvariant())
+            .ToList();
+
+        #endregion
+
         #region Public Methods
 
         /// <summary>

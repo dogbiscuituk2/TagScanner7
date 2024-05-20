@@ -148,6 +148,7 @@
     <Compile Include="Commands\CommandProcessor.cs" />
     <Compile Include="Commands\AddRemoveCommand.cs" />
     <Compile Include="Commands\ReplaceCommand.cs" />
+    <Compile Include="Controllers\AutoCompleteController.cs" />
     <Compile Include="Controllers\DragDropController.cs" />
     <Compile Include="Controllers\FilterController.cs" />
     <Compile Include="Controllers\AppController.cs" />
@@ -169,7 +170,6 @@
     </Compile>
     <Compile Include="Menus\ShellContextMenu.cs" />
     <Compile Include="Models\FindReplaceResult.cs" />
-    <Compile Include="Models\IModel.cs" />
     <Compile Include="Models\Query.cs" />
     <Compile Include="Models\SelectionEventArgs.cs" />
     <Compile Include="Models\SelectionEditEventArgs.cs" />

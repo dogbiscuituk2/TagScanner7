@@ -13,6 +13,7 @@
     using Mru;
     using Properties;
     using Streaming;
+    using TagScanner.Terms;
     using Utils;
     using Views;
     using Wpf;
@@ -41,6 +42,17 @@
             PropertyGridController = new PropertyGridController(this);
             StatusController = new StatusController(this);
             FindReplaceController = new FindReplaceController(this);
+            AutoCompleteController = new AutoCompleteController(this);
+
+            View.FindComboBox.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
+            View.FindComboBox.AutoCompleteSource = AutoCompleteSource.CustomSource;
+
+            View.FilterComboBox.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
+            View.FilterComboBox.AutoCompleteSource = AutoCompleteSource.CustomSource;
+
+            //View.FindComboBox.AutoCompleteCustomSource.AddRange(AutoCompleteController.GetList(Tag.JoinedPerformers).ToArray());
+            View.FilterComboBox.AutoCompleteCustomSource.AddRange(Tokenizer.AutocompleteItems.ToArray());
+
             ModifiedChanged();
             UpdateUI();
         }
@@ -136,6 +148,7 @@
 
         public readonly Model Model;
 
+        public readonly AutoCompleteController AutoCompleteController;
         public readonly CommandProcessor CommandProcessor;
         public readonly FilterController FilterController;
         public readonly FindReplaceController FindReplaceController;

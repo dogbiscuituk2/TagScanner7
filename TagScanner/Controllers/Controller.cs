@@ -10,6 +10,7 @@
     {
         protected Controller(Controller parent) => Parent = parent;
 
+        protected AutoCompleteController AutoCompleteController => MainFormController.AutoCompleteController;
         protected CommandProcessor MainCommandProcessor => MainFormController.CommandProcessor;
         protected MainForm MainForm => MainFormController.View;
         protected MainFormController MainFormController => (MainFormController)Root;

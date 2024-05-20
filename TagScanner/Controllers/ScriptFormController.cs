@@ -2,6 +2,7 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.Collections.ObjectModel;
     using System.Linq;
     using System.Windows.Forms;
     using FastColoredTextBoxNS;
@@ -164,9 +165,14 @@
 
         private void CreateAutocompleteMenu()
         {
-            var menu = new AutocompleteMenu(TextBox);
-            var items = menu.Items;
-            
+            var autocompleteMenu = new AutocompleteMenu(TextBox)
+            {
+                MinFragmentLength = 2,
+                SearchPattern = "[#\\w\\.]" // Directives begin with '#'.
+            };
+            autocompleteMenu.Items.SetAutocompleteItems(new Collection<string>(Tokenizer.AutocompleteItems));
+            autocompleteMenu.Items.MaximumSize = new System.Drawing.Size(200, 300);
+            autocompleteMenu.Items.Width = 200;
         }
 
         private void UpdateResult()

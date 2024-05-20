@@ -242,6 +242,11 @@
                 ReplaceRadioButton.Checked = replacing;
                 FindComboBox.Focus();
                 UpdateUI();
+
+                var source = FindComboBox.AutoCompleteCustomSource;
+                if (source.Count < 1)
+                    source.AddRange(AutoCompleteController.GetList(Tag.JoinedPerformers, Tag.Album, Tag.Title));
+
             }
         }
 
