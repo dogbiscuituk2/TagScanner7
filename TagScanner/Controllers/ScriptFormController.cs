@@ -125,6 +125,8 @@
             }
             Language = Language.Custom;
 
+            CreateAutocompleteMenu();
+
             View.FileNew.Click += FileNew_Click;
             View.tbNew.Click += FileNew_Click;
             View.FileOpen.Click += FileOpen_Click;
@@ -158,6 +160,13 @@
             View.Shown += View_Shown;
             UpdateUI();
             return _view;
+        }
+
+        private void CreateAutocompleteMenu()
+        {
+            var menu = new AutocompleteMenu(TextBox);
+            var items = menu.Items;
+            
         }
 
         private void UpdateResult()
