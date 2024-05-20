@@ -90,6 +90,8 @@
             this.ScriptMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.ScriptRun = new System.Windows.Forms.ToolStripMenuItem();
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.ViewMenu = new System.Windows.Forms.ToolStripMenuItem();
+            this.ViewWordWrap = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.TextBox)).BeginInit();
             this.ToolStripContainer.ContentPanel.SuspendLayout();
             this.ToolStripContainer.LeftToolStripPanel.SuspendLayout();
@@ -123,7 +125,6 @@
             this.TextBox.Cursor = System.Windows.Forms.Cursors.IBeam;
             this.TextBox.DisabledColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))));
             this.TextBox.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.TextBox.Font = new System.Drawing.Font("Courier New", 9.75F);
             this.TextBox.IsReplaceMode = false;
             this.TextBox.Location = new System.Drawing.Point(0, 0);
             this.TextBox.Margin = new System.Windows.Forms.Padding(4);
@@ -403,6 +404,7 @@
             this.MainMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.FileMenu,
             this.EditMenu,
+            this.ViewMenu,
             this.LanguageMenu,
             this.ScriptMenu});
             this.MainMenu.Location = new System.Drawing.Point(0, 0);
@@ -430,49 +432,49 @@
             // 
             this.FileNew.Image = global::TagScanner.Properties.Resources.NewDocumentHS;
             this.FileNew.Name = "FileNew";
-            this.FileNew.Size = new System.Drawing.Size(123, 22);
+            this.FileNew.Size = new System.Drawing.Size(180, 22);
             this.FileNew.Text = "New";
             // 
             // FileOpen
             // 
             this.FileOpen.Image = global::TagScanner.Properties.Resources.openfolderHS;
             this.FileOpen.Name = "FileOpen";
-            this.FileOpen.Size = new System.Drawing.Size(123, 22);
+            this.FileOpen.Size = new System.Drawing.Size(180, 22);
             this.FileOpen.Text = "Open";
             // 
             // FileReopen
             // 
             this.FileReopen.Name = "FileReopen";
-            this.FileReopen.Size = new System.Drawing.Size(123, 22);
+            this.FileReopen.Size = new System.Drawing.Size(180, 22);
             this.FileReopen.Text = "Reopen";
             // 
             // toolStripMenuItem1
             // 
             this.toolStripMenuItem1.Name = "toolStripMenuItem1";
-            this.toolStripMenuItem1.Size = new System.Drawing.Size(120, 6);
+            this.toolStripMenuItem1.Size = new System.Drawing.Size(177, 6);
             // 
             // FileSave
             // 
             this.FileSave.Image = global::TagScanner.Properties.Resources.saveHS;
             this.FileSave.Name = "FileSave";
-            this.FileSave.Size = new System.Drawing.Size(123, 22);
+            this.FileSave.Size = new System.Drawing.Size(180, 22);
             this.FileSave.Text = "Save";
             // 
             // FileSaveAs
             // 
             this.FileSaveAs.Name = "FileSaveAs";
-            this.FileSaveAs.Size = new System.Drawing.Size(123, 22);
+            this.FileSaveAs.Size = new System.Drawing.Size(180, 22);
             this.FileSaveAs.Text = "Save As...";
             // 
             // toolStripMenuItem2
             // 
             this.toolStripMenuItem2.Name = "toolStripMenuItem2";
-            this.toolStripMenuItem2.Size = new System.Drawing.Size(120, 6);
+            this.toolStripMenuItem2.Size = new System.Drawing.Size(177, 6);
             // 
             // FileClose
             // 
             this.FileClose.Name = "FileClose";
-            this.FileClose.Size = new System.Drawing.Size(123, 22);
+            this.FileClose.Size = new System.Drawing.Size(180, 22);
             this.FileClose.Text = "Close";
             // 
             // EditMenu
@@ -684,6 +686,20 @@
             this.contextMenuStrip1.Name = "contextMenuStrip1";
             this.contextMenuStrip1.Size = new System.Drawing.Size(61, 4);
             // 
+            // ViewMenu
+            // 
+            this.ViewMenu.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.ViewWordWrap});
+            this.ViewMenu.Name = "ViewMenu";
+            this.ViewMenu.Size = new System.Drawing.Size(44, 20);
+            this.ViewMenu.Text = "&View";
+            // 
+            // ViewWordWrap
+            // 
+            this.ViewWordWrap.Name = "ViewWordWrap";
+            this.ViewWordWrap.Size = new System.Drawing.Size(180, 22);
+            this.ViewWordWrap.Text = "&WordWrap";
+            // 
             // ScriptForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 17F);
@@ -784,5 +800,7 @@
         public System.Windows.Forms.ToolStripMenuItem tbFind;
         public System.Windows.Forms.ToolStripMenuItem tbReplace;
         private System.ComponentModel.IContainer components;
+        public System.Windows.Forms.ToolStripMenuItem ViewMenu;
+        public System.Windows.Forms.ToolStripMenuItem ViewWordWrap;
     }
 }

@@ -91,6 +91,9 @@
         private void EditDelete_Click(object sender, EventArgs e) { /* TextBox.Delete(); */ UpdateUI(); }
         private void EditSelectAll_Click(object sender, EventArgs e) { TextBox.SelectAll(); UpdateUI(); }
 
+        private void ViewMenu_DropDownOpening(object sender, EventArgs e) => View.ViewWordWrap.Checked = TextBox.WordWrap;
+        private void ViewWordWrap_Click(object sender, EventArgs e) => TextBox.WordWrap ^= true;
+
         private void ScriptRun_Click(object sender, EventArgs e) => UpdateResult();
 
         private void ColourTextBox_TextChanged(object sender, TextChangedEventArgs e)
@@ -145,13 +148,14 @@
             View.tbDelete.Click += EditDelete_Click;
             View.EditSelectAll.Click += EditSelectAll_Click;
 
+            View.ViewMenu.DropDownOpening += ViewMenu_DropDownOpening;
+            View.ViewWordWrap.Click += ViewWordWrap_Click;
+
             View.ScriptRun.Click += ScriptRun_Click;
             View.tbRun.Click += ScriptRun_Click;
 
             TextBox.TextChanged += ColourTextBox_TextChanged;
-
             View.Shown += View_Shown;
-
             UpdateUI();
             return _view;
         }
