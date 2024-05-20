@@ -3,7 +3,7 @@
     using System.Linq.Expressions;
     using System.Text;
 
-    public class Loop : ControlStructure
+    public class Loop : Compound
     {
         public Loop(params Term[] operands) : base(operands) { }
 
@@ -36,10 +36,10 @@
         public override string ToString()
         {
             var result = new StringBuilder();
-            AddText("while", 0);
-            AddText("do", 1);
-            AddText("until", 2);
-            return result.Append("end").ToString();
+            AddText(Keywords.While, 0);
+            AddText(Keywords.Do, 1);
+            AddText(Keywords.Until, 2);
+            return result.Append(Keywords.End).ToString();
 
             void AddText(string keyword, int index)
             {

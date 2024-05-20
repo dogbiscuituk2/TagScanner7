@@ -3,7 +3,7 @@
     using System;
     using System.Linq.Expressions;
 
-    public class IfBlock : ControlStructure
+    public class IfBlock : Compound
     {
         public IfBlock(params Term[] operands) : base(operands) { }
 

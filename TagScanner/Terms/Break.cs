@@ -8,6 +8,6 @@
 
         public override Expression Expression => Expression.Break(LabelTarget);
 
-        public override string ToString() => "break";
+        public override string ToString() => Keywords.Break;
     }
 }

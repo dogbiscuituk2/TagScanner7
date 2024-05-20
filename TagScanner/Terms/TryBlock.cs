@@ -1,6 +1,6 @@
 ﻿namespace TagScanner.Terms
 {
-    public class TryBlock : ControlStructure
+    public class TryBlock : Compound
     {
         public TryBlock(Term tryTerm, Term finallyterm, params CatchBlock[] catchBlocks) : base()
         {

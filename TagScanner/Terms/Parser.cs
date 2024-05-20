@@ -6,6 +6,7 @@
     using System.Linq;
     using System.Linq.Expressions;
     using System.Runtime.CompilerServices;
+    using System.Text.RegularExpressions;
     using Terms;
     using Utils;
 
@@ -82,6 +83,18 @@
             }
         }
 
+        private CatchBlock ParseCatch()
+        {
+            AcceptToken(Keywords.Catch);
+            AcceptToken("(");
+            var type = DequeueToken().Value.ToType();
+            var variable = ParseVariable(DequeueToken().Value);
+            AcceptToken(")");
+            var bodyTerm = ParseBlock();
+            var catchBlock = new CatchBlock(type, variable, bodyTerm);
+            return catchBlock;
+        }
+
         private Term ParseCompound()
         {
             Term term = ParseTerm();
@@ -109,6 +122,25 @@
                     term = Consolidate(term);
                 }
             }
+        }
+
+        private Term ParseDo()
+        {
+            var loop = BeginLoop();
+            if (PeekToken().Value == Keywords.While)
+            {
+                DequeueToken();
+                loop.Operands[0] = ParseBlock();
+            }
+            AcceptToken(Keywords.Do);
+            loop.Operands[1] = ParseBlock();
+            if (PeekToken().Value == Keywords.Until)
+            {
+                DequeueToken();
+                loop.Operands[2] = ParseBlock();
+            }
+            AcceptToken(Keywords.End);
+            return EndLoop();
         }
 
         private Term ParseFunction(List<Term> operands)
@@ -141,47 +173,28 @@
 
         private Term ParseGoto()
         {
-            AcceptToken("goto");
+            AcceptToken(Keywords.Goto);
             var label = AddLabel(DequeueToken().Value);
             return new Goto(label.LabelTarget);
         }
 
-        private Term ParseIfBlock()
+        private Term ParseIf()
         {
             Term condition, consequent, alternative = null;
-            AcceptToken("if");
+            AcceptToken(Keywords.If);
             condition = ParseBlock();
-            AcceptToken("then");
+            AcceptToken(Keywords.Then);
             consequent = ParseBlock();
-            if (PeekToken().Value == "else")
+            if (PeekToken().Value == Keywords.Else)
             {
                 DequeueToken();
                 alternative = ParseBlock();
             }
-            AcceptToken("end");
+            AcceptToken(Keywords.End);
             return
                 alternative == null
                 ? new IfBlock(condition, consequent)
                 : (Term)new IfBlock(condition, consequent, alternative);
-        }
-
-        private Term ParseLoop()
-        {
-            var loop = BeginLoop();
-            if (PeekToken().Value == "while")
-            {
-                DequeueToken();
-                loop.Operands[0] = ParseBlock();
-            }
-            AcceptToken("do");
-            loop.Operands[1] = ParseBlock();
-            if (PeekToken().Value == "until")
-            {
-                DequeueToken();
-                loop.Operands[2] = ParseBlock();
-            }
-            AcceptToken("end");
-            return EndLoop();
         }
 
         private Term ParseStatement()
@@ -190,21 +203,21 @@
             if (token.Kind == TokenKind.Keyword)
                 switch (PeekToken().Value)
                 {
-                    case "if":
-                        return ParseIfBlock();
-                    case "while":
-                    case "do":
-                        return ParseLoop();
-                    case "break":
+                    case Keywords.If:
+                        return ParseIf();
+                    case Keywords.While:
+                    case Keywords.Do:
+                        return ParseDo();
+                    case Keywords.Break:
                         DequeueToken();
                         return Break();
-                    case "continue":
+                    case Keywords.Continue:
                         DequeueToken();
                         return Continue();
-                    case "goto":
+                    case Keywords.Goto:
                         return ParseGoto();
-                    case "try":
-                        return ParseTryBlock();
+                    case Keywords.Try:
+                        return ParseTry();
                 }
             return ParseCompound();
         }
@@ -244,45 +257,33 @@
             return term;
         }
 
-        private Term ParseTryBlock()
+        private Term ParseTry()
         {
             Term
                 bodyBlock = new EmptyTerm(),
                 finallyBlock = new EmptyTerm();
             var catchBlocks = new List<CatchBlock>();
-            AcceptToken("try");
+            AcceptToken(Keywords.Try);
             switch (PeekToken().Value)
             {
-                case "catch":
-                case "finally":
-                case "end":
+                case Keywords.Catch:
+                case Keywords.Finally:
+                case Keywords.End:
                     break;
                 default:
                     bodyBlock = ParseBlock();
                     break;
             }
-            while (PeekToken().Value == "catch")
-                catchBlocks.Add(ParseCatchBlock());
-            if (PeekToken().Value == "finally")
+            while (PeekToken().Value == Keywords.Catch)
+                catchBlocks.Add(ParseCatch());
+            if (PeekToken().Value == Keywords.Finally)
             {
                 DequeueToken();
                 finallyBlock = ParseBlock();
             }
-            AcceptToken("end");
+            AcceptToken(Keywords.End);
             var tryBlock = new TryBlock(bodyBlock, finallyBlock, catchBlocks.ToArray());
             return tryBlock;
-        }
-
-        private CatchBlock ParseCatchBlock()
-        {
-            AcceptToken("catch");
-            AcceptToken("(");
-            var type = DequeueToken().Value.ToType();
-            var variable = ParseVariable(DequeueToken().Value);
-            AcceptToken(")");
-            var bodyTerm = ParseBlock();
-            var catchBlock = new CatchBlock(type, variable, bodyTerm);
-            return catchBlock;
         }
 
         private Term ParseValue()
@@ -317,15 +318,51 @@
         #region Terminals
 
         private Term ParseBoolean(string value) => value == "true";
-        private Term ParseBreak() { DequeueToken(); return Break(); }
         private Term ParseCharacter(string value) => char.Parse(value.Substring(1, value.Length - 2));
-        private Term ParseContinue() { DequeueToken(); return Continue(); }
-        private Term ParseDateTime(string value) => DateTimeParser.ParseDateTime(value);
         private Term ParseDefault(string value) => new Default(value.Substring(1, value.Length - 2).ToType());
         private Term ParseField(string value) => value.DisplayNameToTag();
         private Term ParseLabel() => AddLabel(DequeueToken().Value.TrimEnd(':'));
         private Term ParseString(string value) => value.Substring(1, value.Length - 2);
-        private Term ParseTimeSpan(string value) => DateTimeParser.ParseTimeSpan(value);
+
+        private static Term ParseDateTime(string token)
+        {
+            // DateTimePattern captures 8 Groups.
+            // [0] is the full DateTime (unused),
+            // [1] is year,
+            // [2] is month,
+            // [3] is day,
+            // [4] is hours,
+            // [5] is minutes,
+            // [6] is seconds,
+            // [7] is fraction of a second, including a leading decimal point.
+            var groups = Regex.Match(token, Tokenizer.DateTimePattern).Groups;
+            int year = int.Parse(groups[1].Value),
+                month = int.Parse(groups[2].Value),
+                day = int.Parse(groups[3].Value);
+            int.TryParse(groups[4].Value, out var hours);
+            int.TryParse(groups[5].Value, out var minutes);
+            int.TryParse(groups[6].Value, out var seconds);
+            double.TryParse(groups[7].Value, out var ms);
+            return new DateTime(year, month, day, hours, minutes, seconds, (int)(ms * 1000));
+        }
+
+        private static Term ParseTimeSpan(string token)
+        {
+            // TimeSpan pattern captures 6 Groups.
+            // [0] is the full TimeSpan (unused),
+            // [1] is days,
+            // [2] is hours,
+            // [3] is minutes,
+            // [4] is seconds,
+            // [5] is fraction of a second, including a leading decimal point.
+            var groups = Regex.Match(token, Tokenizer.TimeSpanPattern).Groups;
+            int.TryParse(groups[1].Value, out var days);
+            int hours = int.Parse(groups[2].Value),
+                minutes = int.Parse(groups[3].Value);
+            int.TryParse(groups[4].Value, out var seconds);
+            double.TryParse(groups[5].Value, out var ms);
+            return new TimeSpan(days, hours, minutes, seconds, (int)(ms * 1000));
+        }
 
         private Term ParseNumber(string value) =>
             value.EndsWith("UL") || value.EndsWith("LU") ? ulong.Parse(value.TrimEnd('U', 'L')) :

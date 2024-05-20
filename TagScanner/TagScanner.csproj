@@ -189,8 +189,7 @@
     <Compile Include="Terms\CatchBlock.cs" />
     <Compile Include="Terms\Compound.cs" />
     <Compile Include="Terms\Continue.cs" />
-    <Compile Include="Terms\ControlStructure.cs" />
-    <Compile Include="Terms\DateTimeParser.cs" />
+    <Compile Include="Terms\Keywords.cs" />
     <Compile Include="Terms\Label.cs" />
     <Compile Include="Terms\Loop.cs" />
     <Compile Include="Terms\Cast.cs" />

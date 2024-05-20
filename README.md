@@ -26,6 +26,7 @@ _value = constant | field | function | variable_
 _label =_ **\@\"\[\w\_]+\\:"**  
   
 _if-statement =_ **if** _block_ **then** _block \{_ **else** _block \}_ **end**  
+_switch-statement =_ **switch** _block \{ \{_ **case** _constant ... \} block ... \} \{_ **default** _block \}_ **end**  
 _do-loop = \{_ **while** _block \}_ **do** _block \{_ **until** _block \}_ **end**  
 _try-block =_ **try** _block \{_ **catch** _catch-block ... \} \{_ **finally** _block \}_ **end**  
 _catch-block =_ **(** _exception-type variable_ **)** _block_
@@ -46,7 +47,7 @@ _bool = one of_ &nbsp; **true&nbsp;&nbsp; false**
 _char = any one character enclosed in single quotes:_ **'A'**  
 _string = any character sequence enclosed in double quotes:_ **"Hello, World!"**  
 _timespan =_ **@"\^\\[(?:(\d+)\\.)?(\d\d?)\\:(\d\d?)(?:\\:(\d\d?)(\\.\d+)?)?\\]"**  
-_datetime =_ **@"\^\\[(\d{4})-(\d\d?)\-(\d\d?)(?:T(\d\d?)\\:(\d\d?)(?:\\:(\d\d?)(\\.\d+)?)?)?\\]"**  
+_datetime =_ **@"\^\\[(\d{4})-(\d\d?)\-(\d\d?)(?: (\d\d?)\\:(\d\d?)(?:\\:(\d\d?)(\\.\d+)?)?)?\\]"**  
 
 <details><summary><i>field = one of</i> <b>Album</b><i>,</i> <b>Album&nbsp;Artist</b><i>,</i> ... <i>(click here for the full list of field names and their types)</i>&nbsp;<sup>(3)</sup></summary>  
 <blockquote>

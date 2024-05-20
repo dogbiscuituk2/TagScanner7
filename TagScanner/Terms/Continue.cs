@@ -8,6 +8,6 @@
 
         public override Expression Expression => Expression.Continue(LabelTarget);
 
-        public override string ToString() => "continue";
+        public override string ToString() => Keywords.Continue;
     }
 }

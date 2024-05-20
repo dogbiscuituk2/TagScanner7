@@ -60,14 +60,14 @@
                 || MatchName(TokenKind.Function, Functors.FunctionNames)
                 || MatchName(TokenKind.Symbol, Operators.Symbols)
                 || MatchName(TokenKind.TypeName, Types.Names)
-                || MatchName(TokenKind.Keyword, ControlStructure.Keywords)
+                || MatchName(TokenKind.Keyword, Keywords.All)
                 || MatchRegex(TokenKind.Character, SingleQuote, @"^'(.|\.|\n)'", "Unterminated character constant")
                 || MatchRegex(TokenKind.String, DoubleQuote, "\"[^\"|\\\"]*\"", "Unterminated string constant")
                 ) return;
             switch (Index < Count ? Text[Index] : Nul)
             {
                 case LeftBracket:
-                    var message = "Invalid Date/Time format";
+                    var message = "Invalid date/time format";
                     if (!MatchDateTime(message))
                         MatchTimeSpan(message);
                     break;
@@ -142,12 +142,12 @@
             return ok;
         }
 
-        private bool MatchDateTime(string message) => MatchRegex(TokenKind.DateTime, LeftBracket, DateTimeParser.DateTimePattern, message);
+        private bool MatchDateTime(string message) => MatchRegex(TokenKind.DateTime, DateTimePattern, message);
         private void MatchExceptionType() => MatchRegex(TokenKind.TypeName, ExceptionTypePattern);
         private void MatchLabel() => MatchRegex(TokenKind.Label, LabelPattern);
         private bool MatchNumber() => MatchRegex(TokenKind.Number, NumberPattern);
         private void MatchParameter() => MatchRegex(TokenKind.Default, @"^\{\w+(\[\])?\}", "Invalid parameter");
-        private bool MatchTimeSpan(string message) => MatchRegex(TokenKind.TimeSpan, LeftBracket, DateTimeParser.TimeSpanPattern, message);
+        private bool MatchTimeSpan(string message) => MatchRegex(TokenKind.TimeSpan, TimeSpanPattern, message);
         private void MatchVariable() => MatchRegex(TokenKind.Variable, NamePattern);
         private static bool StartsWithExceptionType(string token) => Regex.IsMatch(token, ExceptionTypePattern);
         private static bool StartsWithLabel(string token) => Regex.IsMatch(token, LabelPattern);
@@ -171,10 +171,16 @@
             LeftBrace = '{',
             LeftBracket = '[';
 
-        private const string ExceptionTypePattern = @"^[\w_]+Exception";
-        private const string LabelPattern = @"^[\w_]+\:";
-        private const string NamePattern = @"^[\w_]+";
-        private const string NumberPattern = @"^\d+\.?\d*([Ee][-+]\d+)?(UL|LU|D|F|L|M|U)?";
+        private const string
+            ExceptionTypePattern = @"^[\w_]+Exception",
+            LabelPattern = @"^[\w_]+\:",
+            NamePattern = @"^[\w_]+",
+            NumberPattern = @"^\d+\.?\d*([Ee][-+]\d+)?(UL|LU|D|F|L|M|U)?",
+            TimePattern = @"(\d\d?)\:(\d\d?)(?:\:(\d\d?)(\.\d+)?)?";
+
+        public static string
+            DateTimePattern = $@"^\[(\d{{4}})-(\d\d?)\-(\d\d?)(?: {TimePattern})?\]",
+            TimeSpanPattern = $@"^\[(?:(\d+)\.)?{TimePattern}\]";
 
         public static TextStyle TextStyle(TokenKind tokenType) => TextStyles[tokenType];
 
