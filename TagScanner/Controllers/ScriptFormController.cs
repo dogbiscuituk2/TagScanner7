@@ -83,12 +83,13 @@
         private void FileSave_Click(object sender, EventArgs e) => _scriptController.Save();
         private void FileSaveAs_Click(object sender, EventArgs e) => _scriptController.SaveAs();
 
-        private void EditUndo_Click(object sender, EventArgs e) => _scriptController.Undo();
-        private void EditRedo_Click(object sender, EventArgs e) => _scriptController.Redo();
-        private void EditCut_Click(object sender, EventArgs e) => _scriptController.Cut();
-        private void EditCopy_Click(object sender, EventArgs e) => _scriptController.Copy();
-        private void EditPaste_Click(object sender, EventArgs e) => _scriptController.Paste();
-        private void EditDelete_Click(object sender, EventArgs e) => _scriptController.Delete();
+        private void EditUndo_Click(object sender, EventArgs e) { TextBox.Undo(); UpdateUI(); }
+        private void EditRedo_Click(object sender, EventArgs e) { TextBox.Redo(); UpdateUI(); }
+        private void EditCut_Click(object sender, EventArgs e) { TextBox.Cut(); UpdateUI(); }
+        private void EditCopy_Click(object sender, EventArgs e) { TextBox.Copy(); UpdateUI(); }
+        private void EditPaste_Click(object sender, EventArgs e) { TextBox.Paste(); UpdateUI(); }
+        private void EditDelete_Click(object sender, EventArgs e) { /* TextBox.Delete(); */ UpdateUI(); }
+        private void EditSelectAll_Click(object sender, EventArgs e) { TextBox.SelectAll(); UpdateUI(); }
 
         private void ScriptRun_Click(object sender, EventArgs e) => UpdateResult();
 
@@ -111,20 +112,22 @@
         private ScriptForm CreateScriptForm()
         {
             _view = new ScriptForm();
+            _scriptController = new MruScriptController(this, View.FileReopen);
+
             var index = 0;
             foreach (var language in Languages)
             {
                 language.Click += Language_Click;
                 language.Tag = index++;
             }
-            _scriptController = new MruScriptController(this, View.FileReopen);
+            Language = Language.Custom;
 
             View.FileNew.Click += FileNew_Click;
             View.tbNew.Click += FileNew_Click;
             View.FileOpen.Click += FileOpen_Click;
-            View.tbOpen.Click += FileOpen_Click;
+            View.tbOpenScript.Click += FileOpen_Click;
             View.FileSave.Click += FileSave_Click;
-            View.tbSave.Click += FileSave_Click;
+            View.tbSaveScript.Click += FileSave_Click;
             View.FileSaveAs.Click += FileSaveAs_Click;
             View.tbSaveAs.Click += FileSaveAs_Click;
 
@@ -140,12 +143,15 @@
             View.tbPaste.Click += EditPaste_Click;
             View.EditDelete.Click += EditDelete_Click;
             View.tbDelete.Click += EditDelete_Click;
+            View.EditSelectAll.Click += EditSelectAll_Click;
 
             View.ScriptRun.Click += ScriptRun_Click;
             View.tbRun.Click += ScriptRun_Click;
-            Language = Language.Custom;
+
             TextBox.TextChanged += ColourTextBox_TextChanged;
+
             View.Shown += View_Shown;
+
             return _view;
         }
 
@@ -187,9 +193,18 @@
                     TextBox.PositionToPlace(token.Start),
                     TextBox.PositionToPlace(token.End))
                     .SetStyle(Tokenizer.TextStyle(token.Kind));
+            UpdateUI();
         }
 
-        private void UpdateUI() => View.Text = _scriptController.WindowCaption;
+        private void UpdateUI()
+        {
+            View.Text = _scriptController.WindowCaption;
+            View.EditUndo.Enabled = View.tbUndo.Enabled = TextBox.UndoEnabled;
+            View.EditRedo.Enabled = View.tbRedo.Enabled = TextBox.RedoEnabled;
+            View.EditCut.Enabled = View.tbCut.Enabled =
+                View.EditCopy.Enabled = View.tbCopy.Enabled =
+                View.EditDelete.Enabled = View.tbDelete.Enabled = TextBox.SelectionLength > 0;
+        }
 
         #endregion
     }

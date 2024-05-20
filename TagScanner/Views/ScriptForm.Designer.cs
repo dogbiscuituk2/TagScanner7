@@ -34,7 +34,11 @@
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
             this.tbNew = new System.Windows.Forms.ToolStripButton();
             this.tbOpen = new System.Windows.Forms.ToolStripSplitButton();
+            this.tbOpenScript = new System.Windows.Forms.ToolStripMenuItem();
+            this.tbReopen = new System.Windows.Forms.ToolStripMenuItem();
             this.tbSave = new System.Windows.Forms.ToolStripSplitButton();
+            this.tbSaveScript = new System.Windows.Forms.ToolStripMenuItem();
+            this.tbSaveAs = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this.tbUndo = new System.Windows.Forms.ToolStripButton();
             this.tbRedo = new System.Windows.Forms.ToolStripButton();
@@ -45,6 +49,8 @@
             this.tbDelete = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
             this.tbFindReplace = new System.Windows.Forms.ToolStripSplitButton();
+            this.tbFind = new System.Windows.Forms.ToolStripMenuItem();
+            this.tbReplace = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator6 = new System.Windows.Forms.ToolStripSeparator();
             this.tbRun = new System.Windows.Forms.ToolStripButton();
             this.MainMenu = new System.Windows.Forms.MenuStrip();
@@ -70,7 +76,6 @@
             this.EditReplace = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator5 = new System.Windows.Forms.ToolStripSeparator();
             this.EditSelectAll = new System.Windows.Forms.ToolStripMenuItem();
-            this.EditInvertSelection = new System.Windows.Forms.ToolStripMenuItem();
             this.LanguageMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.Language_ʞɯɾ = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
@@ -85,12 +90,6 @@
             this.ScriptMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.ScriptRun = new System.Windows.Forms.ToolStripMenuItem();
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.tbOpenScript = new System.Windows.Forms.ToolStripMenuItem();
-            this.tbReopen = new System.Windows.Forms.ToolStripMenuItem();
-            this.tbSaveScript = new System.Windows.Forms.ToolStripMenuItem();
-            this.tbSaveAs = new System.Windows.Forms.ToolStripMenuItem();
-            this.tbFind = new System.Windows.Forms.ToolStripMenuItem();
-            this.tbReplace = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.TextBox)).BeginInit();
             this.ToolStripContainer.ContentPanel.SuspendLayout();
             this.ToolStripContainer.LeftToolStripPanel.SuspendLayout();
@@ -124,6 +123,7 @@
             this.TextBox.Cursor = System.Windows.Forms.Cursors.IBeam;
             this.TextBox.DisabledColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))));
             this.TextBox.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.TextBox.Font = new System.Drawing.Font("Courier New", 9.75F);
             this.TextBox.IsReplaceMode = false;
             this.TextBox.Location = new System.Drawing.Point(0, 0);
             this.TextBox.Margin = new System.Windows.Forms.Padding(4);
@@ -218,7 +218,7 @@
             this.tbRun});
             this.toolStrip1.Location = new System.Drawing.Point(0, 3);
             this.toolStrip1.Name = "toolStrip1";
-            this.toolStrip1.Size = new System.Drawing.Size(33, 307);
+            this.toolStrip1.Size = new System.Drawing.Size(33, 288);
             this.toolStrip1.TabIndex = 0;
             // 
             // tbNew
@@ -229,6 +229,7 @@
             this.tbNew.Name = "tbNew";
             this.tbNew.Size = new System.Drawing.Size(31, 20);
             this.tbNew.Text = "toolStripButton1";
+            this.tbNew.ToolTipText = "New";
             // 
             // tbOpen
             // 
@@ -241,6 +242,19 @@
             this.tbOpen.Name = "tbOpen";
             this.tbOpen.Size = new System.Drawing.Size(31, 20);
             this.tbOpen.Text = "toolStripSplitButton1";
+            this.tbOpen.ToolTipText = "Open";
+            // 
+            // tbOpenScript
+            // 
+            this.tbOpenScript.Name = "tbOpenScript";
+            this.tbOpenScript.Size = new System.Drawing.Size(114, 22);
+            this.tbOpenScript.Text = "&Open...";
+            // 
+            // tbReopen
+            // 
+            this.tbReopen.Name = "tbReopen";
+            this.tbReopen.Size = new System.Drawing.Size(114, 22);
+            this.tbReopen.Text = "&Reopen";
             // 
             // tbSave
             // 
@@ -253,6 +267,19 @@
             this.tbSave.Name = "tbSave";
             this.tbSave.Size = new System.Drawing.Size(31, 20);
             this.tbSave.Text = "toolStripSplitButton2";
+            this.tbSave.ToolTipText = "Save";
+            // 
+            // tbSaveScript
+            // 
+            this.tbSaveScript.Name = "tbSaveScript";
+            this.tbSaveScript.Size = new System.Drawing.Size(123, 22);
+            this.tbSaveScript.Text = "&Save";
+            // 
+            // tbSaveAs
+            // 
+            this.tbSaveAs.Name = "tbSaveAs";
+            this.tbSaveAs.Size = new System.Drawing.Size(123, 22);
+            this.tbSaveAs.Text = "Save &As...";
             // 
             // toolStripSeparator2
             // 
@@ -267,6 +294,7 @@
             this.tbUndo.Name = "tbUndo";
             this.tbUndo.Size = new System.Drawing.Size(31, 20);
             this.tbUndo.Text = "toolStripButton2";
+            this.tbUndo.ToolTipText = "Undo";
             // 
             // tbRedo
             // 
@@ -276,6 +304,7 @@
             this.tbRedo.Name = "tbRedo";
             this.tbRedo.Size = new System.Drawing.Size(31, 20);
             this.tbRedo.Text = "toolStripButton3";
+            this.tbRedo.ToolTipText = "Redo";
             // 
             // toolStripSeparator3
             // 
@@ -290,6 +319,7 @@
             this.tbCut.Name = "tbCut";
             this.tbCut.Size = new System.Drawing.Size(31, 20);
             this.tbCut.Text = "toolStripButton4";
+            this.tbCut.ToolTipText = "Cut";
             // 
             // tbCopy
             // 
@@ -299,6 +329,7 @@
             this.tbCopy.Name = "tbCopy";
             this.tbCopy.Size = new System.Drawing.Size(31, 20);
             this.tbCopy.Text = "toolStripButton5";
+            this.tbCopy.ToolTipText = "Copy";
             // 
             // tbPaste
             // 
@@ -308,6 +339,7 @@
             this.tbPaste.Name = "tbPaste";
             this.tbPaste.Size = new System.Drawing.Size(31, 20);
             this.tbPaste.Text = "toolStripButton6";
+            this.tbPaste.ToolTipText = "Paste";
             // 
             // tbDelete
             // 
@@ -317,6 +349,7 @@
             this.tbDelete.Name = "tbDelete";
             this.tbDelete.Size = new System.Drawing.Size(31, 20);
             this.tbDelete.Text = "toolStripButton7";
+            this.tbDelete.ToolTipText = "Delete";
             // 
             // toolStripSeparator4
             // 
@@ -334,6 +367,20 @@
             this.tbFindReplace.Name = "tbFindReplace";
             this.tbFindReplace.Size = new System.Drawing.Size(31, 20);
             this.tbFindReplace.Text = "toolStripSplitButton3";
+            this.tbFindReplace.ToolTipText = "Find/Replace";
+            // 
+            // tbFind
+            // 
+            this.tbFind.Image = global::TagScanner.Properties.Resources.ZoomHS;
+            this.tbFind.Name = "tbFind";
+            this.tbFind.Size = new System.Drawing.Size(124, 22);
+            this.tbFind.Text = "&Find...";
+            // 
+            // tbReplace
+            // 
+            this.tbReplace.Name = "tbReplace";
+            this.tbReplace.Size = new System.Drawing.Size(124, 22);
+            this.tbReplace.Text = "&Replace...";
             // 
             // toolStripSeparator6
             // 
@@ -348,6 +395,7 @@
             this.tbRun.Name = "tbRun";
             this.tbRun.Size = new System.Drawing.Size(31, 20);
             this.tbRun.Text = "toolStripButton8";
+            this.tbRun.ToolTipText = "Run";
             // 
             // MainMenu
             // 
@@ -382,49 +430,49 @@
             // 
             this.FileNew.Image = global::TagScanner.Properties.Resources.NewDocumentHS;
             this.FileNew.Name = "FileNew";
-            this.FileNew.Size = new System.Drawing.Size(180, 22);
+            this.FileNew.Size = new System.Drawing.Size(123, 22);
             this.FileNew.Text = "New";
             // 
             // FileOpen
             // 
             this.FileOpen.Image = global::TagScanner.Properties.Resources.openfolderHS;
             this.FileOpen.Name = "FileOpen";
-            this.FileOpen.Size = new System.Drawing.Size(180, 22);
+            this.FileOpen.Size = new System.Drawing.Size(123, 22);
             this.FileOpen.Text = "Open";
             // 
             // FileReopen
             // 
             this.FileReopen.Name = "FileReopen";
-            this.FileReopen.Size = new System.Drawing.Size(180, 22);
+            this.FileReopen.Size = new System.Drawing.Size(123, 22);
             this.FileReopen.Text = "Reopen";
             // 
             // toolStripMenuItem1
             // 
             this.toolStripMenuItem1.Name = "toolStripMenuItem1";
-            this.toolStripMenuItem1.Size = new System.Drawing.Size(177, 6);
+            this.toolStripMenuItem1.Size = new System.Drawing.Size(120, 6);
             // 
             // FileSave
             // 
             this.FileSave.Image = global::TagScanner.Properties.Resources.saveHS;
             this.FileSave.Name = "FileSave";
-            this.FileSave.Size = new System.Drawing.Size(180, 22);
+            this.FileSave.Size = new System.Drawing.Size(123, 22);
             this.FileSave.Text = "Save";
             // 
             // FileSaveAs
             // 
             this.FileSaveAs.Name = "FileSaveAs";
-            this.FileSaveAs.Size = new System.Drawing.Size(180, 22);
+            this.FileSaveAs.Size = new System.Drawing.Size(123, 22);
             this.FileSaveAs.Text = "Save As...";
             // 
             // toolStripMenuItem2
             // 
             this.toolStripMenuItem2.Name = "toolStripMenuItem2";
-            this.toolStripMenuItem2.Size = new System.Drawing.Size(177, 6);
+            this.toolStripMenuItem2.Size = new System.Drawing.Size(120, 6);
             // 
             // FileClose
             // 
             this.FileClose.Name = "FileClose";
-            this.FileClose.Size = new System.Drawing.Size(180, 22);
+            this.FileClose.Size = new System.Drawing.Size(123, 22);
             this.FileClose.Text = "Close";
             // 
             // EditMenu
@@ -441,8 +489,7 @@
             this.EditFind,
             this.EditReplace,
             this.toolStripSeparator5,
-            this.EditSelectAll,
-            this.EditInvertSelection});
+            this.EditSelectAll});
             this.EditMenu.Name = "EditMenu";
             this.EditMenu.Size = new System.Drawing.Size(39, 20);
             this.EditMenu.Text = "&Edit";
@@ -490,7 +537,6 @@
             // 
             // EditPaste
             // 
-            this.EditPaste.Enabled = false;
             this.EditPaste.Image = global::TagScanner.Properties.Resources.PasteHS;
             this.EditPaste.Name = "EditPaste";
             this.EditPaste.ShortcutKeyDisplayString = "^V";
@@ -542,12 +588,6 @@
             this.EditSelectAll.Size = new System.Drawing.Size(180, 22);
             this.EditSelectAll.Text = "Select &All";
             // 
-            // EditInvertSelection
-            // 
-            this.EditInvertSelection.Name = "EditInvertSelection";
-            this.EditInvertSelection.Size = new System.Drawing.Size(180, 22);
-            this.EditInvertSelection.Text = "&Invert Selection";
-            // 
             // LanguageMenu
             // 
             this.LanguageMenu.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -568,60 +608,60 @@
             // Language_ʞɯɾ
             // 
             this.Language_ʞɯɾ.Name = "Language_ʞɯɾ";
-            this.Language_ʞɯɾ.Size = new System.Drawing.Size(180, 22);
+            this.Language_ʞɯɾ.Size = new System.Drawing.Size(135, 22);
             this.Language_ʞɯɾ.Text = "ʞɯɾ";
             // 
             // toolStripSeparator1
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(177, 6);
+            this.toolStripSeparator1.Size = new System.Drawing.Size(132, 6);
             // 
             // Language_CS
             // 
             this.Language_CS.Name = "Language_CS";
-            this.Language_CS.Size = new System.Drawing.Size(180, 22);
+            this.Language_CS.Size = new System.Drawing.Size(135, 22);
             this.Language_CS.Text = "C#";
             // 
             // Language_VB
             // 
             this.Language_VB.Name = "Language_VB";
-            this.Language_VB.Size = new System.Drawing.Size(180, 22);
+            this.Language_VB.Size = new System.Drawing.Size(135, 22);
             this.Language_VB.Text = "Visual Basic";
             // 
             // Language_HTML
             // 
             this.Language_HTML.Name = "Language_HTML";
-            this.Language_HTML.Size = new System.Drawing.Size(180, 22);
+            this.Language_HTML.Size = new System.Drawing.Size(135, 22);
             this.Language_HTML.Text = "HTML";
             // 
             // Language_SQL
             // 
             this.Language_SQL.Name = "Language_SQL";
-            this.Language_SQL.Size = new System.Drawing.Size(180, 22);
+            this.Language_SQL.Size = new System.Drawing.Size(135, 22);
             this.Language_SQL.Text = "SQL";
             // 
             // Language_XML
             // 
             this.Language_XML.Name = "Language_XML";
-            this.Language_XML.Size = new System.Drawing.Size(180, 22);
+            this.Language_XML.Size = new System.Drawing.Size(135, 22);
             this.Language_XML.Text = "XML";
             // 
             // Language_PHP
             // 
             this.Language_PHP.Name = "Language_PHP";
-            this.Language_PHP.Size = new System.Drawing.Size(180, 22);
+            this.Language_PHP.Size = new System.Drawing.Size(135, 22);
             this.Language_PHP.Text = "PHP";
             // 
             // Language_JS
             // 
             this.Language_JS.Name = "Language_JS";
-            this.Language_JS.Size = new System.Drawing.Size(180, 22);
+            this.Language_JS.Size = new System.Drawing.Size(135, 22);
             this.Language_JS.Text = "JavaScript";
             // 
             // Language_Lua
             // 
             this.Language_Lua.Name = "Language_Lua";
-            this.Language_Lua.Size = new System.Drawing.Size(180, 22);
+            this.Language_Lua.Size = new System.Drawing.Size(135, 22);
             this.Language_Lua.Text = "Lua";
             // 
             // ScriptMenu
@@ -636,50 +676,13 @@
             // 
             this.ScriptRun.Image = global::TagScanner.Properties.Resources.PlayHS;
             this.ScriptRun.Name = "ScriptRun";
-            this.ScriptRun.Size = new System.Drawing.Size(180, 22);
+            this.ScriptRun.Size = new System.Drawing.Size(95, 22);
             this.ScriptRun.Text = "&Run";
             // 
             // contextMenuStrip1
             // 
             this.contextMenuStrip1.Name = "contextMenuStrip1";
             this.contextMenuStrip1.Size = new System.Drawing.Size(61, 4);
-            // 
-            // tbOpenScript
-            // 
-            this.tbOpenScript.Name = "tbOpenScript";
-            this.tbOpenScript.Size = new System.Drawing.Size(180, 22);
-            this.tbOpenScript.Text = "&Open...";
-            // 
-            // tbReopen
-            // 
-            this.tbReopen.Name = "tbReopen";
-            this.tbReopen.Size = new System.Drawing.Size(180, 22);
-            this.tbReopen.Text = "&Reopen";
-            // 
-            // tbSaveScript
-            // 
-            this.tbSaveScript.Name = "tbSaveScript";
-            this.tbSaveScript.Size = new System.Drawing.Size(180, 22);
-            this.tbSaveScript.Text = "&Save";
-            // 
-            // tbSaveAs
-            // 
-            this.tbSaveAs.Name = "tbSaveAs";
-            this.tbSaveAs.Size = new System.Drawing.Size(180, 22);
-            this.tbSaveAs.Text = "Save &As...";
-            // 
-            // tbFind
-            // 
-            this.tbFind.Image = global::TagScanner.Properties.Resources.ZoomHS;
-            this.tbFind.Name = "tbFind";
-            this.tbFind.Size = new System.Drawing.Size(180, 22);
-            this.tbFind.Text = "&Find...";
-            // 
-            // tbReplace
-            // 
-            this.tbReplace.Name = "tbReplace";
-            this.tbReplace.Size = new System.Drawing.Size(180, 22);
-            this.tbReplace.Text = "&Replace...";
             // 
             // ScriptForm
             // 
@@ -772,15 +775,14 @@
         public System.Windows.Forms.ToolStripMenuItem EditReplace;
         public System.Windows.Forms.ToolStripSeparator toolStripSeparator5;
         public System.Windows.Forms.ToolStripMenuItem EditSelectAll;
-        public System.Windows.Forms.ToolStripMenuItem EditInvertSelection;
         public System.Windows.Forms.ToolStripSeparator toolStripSeparator6;
         public System.Windows.Forms.ToolStripButton tbRun;
-        public System.ComponentModel.IContainer components;
         public System.Windows.Forms.ToolStripMenuItem tbOpenScript;
         public System.Windows.Forms.ToolStripMenuItem tbReopen;
         public System.Windows.Forms.ToolStripMenuItem tbSaveScript;
         public System.Windows.Forms.ToolStripMenuItem tbSaveAs;
         public System.Windows.Forms.ToolStripMenuItem tbFind;
         public System.Windows.Forms.ToolStripMenuItem tbReplace;
+        private System.ComponentModel.IContainer components;
     }
 }
