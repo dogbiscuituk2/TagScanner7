@@ -89,9 +89,21 @@
             this.Language_Lua = new System.Windows.Forms.ToolStripMenuItem();
             this.ScriptMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.ScriptRun = new System.Windows.Forms.ToolStripMenuItem();
-            this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.PopupMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.ViewMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.ViewWordWrap = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItem3 = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItem4 = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator7 = new System.Windows.Forms.ToolStripSeparator();
+            this.toolStripMenuItem5 = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItem6 = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItem7 = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItem8 = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator8 = new System.Windows.Forms.ToolStripSeparator();
+            this.toolStripMenuItem9 = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItem12 = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator9 = new System.Windows.Forms.ToolStripSeparator();
+            this.toolStripMenuItem13 = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.TextBox)).BeginInit();
             this.ToolStripContainer.ContentPanel.SuspendLayout();
             this.ToolStripContainer.LeftToolStripPanel.SuspendLayout();
@@ -103,6 +115,7 @@
             this.splitContainer1.SuspendLayout();
             this.toolStrip1.SuspendLayout();
             this.MainMenu.SuspendLayout();
+            this.PopupMenu.SuspendLayout();
             this.SuspendLayout();
             // 
             // TextBox
@@ -172,6 +185,7 @@
             // 
             // splitContainer1
             // 
+            this.splitContainer1.ContextMenuStrip = this.PopupMenu;
             this.splitContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.splitContainer1.Location = new System.Drawing.Point(0, 24);
             this.splitContainer1.Name = "splitContainer1";
@@ -681,10 +695,23 @@
             this.ScriptRun.Size = new System.Drawing.Size(95, 22);
             this.ScriptRun.Text = "&Run";
             // 
-            // contextMenuStrip1
+            // PopupMenu
             // 
-            this.contextMenuStrip1.Name = "contextMenuStrip1";
-            this.contextMenuStrip1.Size = new System.Drawing.Size(61, 4);
+            this.PopupMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolStripMenuItem3,
+            this.toolStripMenuItem4,
+            this.toolStripSeparator7,
+            this.toolStripMenuItem5,
+            this.toolStripMenuItem6,
+            this.toolStripMenuItem7,
+            this.toolStripMenuItem8,
+            this.toolStripSeparator8,
+            this.toolStripMenuItem9,
+            this.toolStripMenuItem12,
+            this.toolStripSeparator9,
+            this.toolStripMenuItem13});
+            this.PopupMenu.Name = "contextMenuStrip1";
+            this.PopupMenu.Size = new System.Drawing.Size(149, 220);
             // 
             // ViewMenu
             // 
@@ -699,6 +726,100 @@
             this.ViewWordWrap.Name = "ViewWordWrap";
             this.ViewWordWrap.Size = new System.Drawing.Size(180, 22);
             this.ViewWordWrap.Text = "&WordWrap";
+            // 
+            // toolStripMenuItem3
+            // 
+            this.toolStripMenuItem3.Image = global::TagScanner.Properties.Resources.Edit_UndoHS;
+            this.toolStripMenuItem3.Name = "toolStripMenuItem3";
+            this.toolStripMenuItem3.ShortcutKeyDisplayString = "^Z";
+            this.toolStripMenuItem3.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Z)));
+            this.toolStripMenuItem3.Size = new System.Drawing.Size(148, 22);
+            this.toolStripMenuItem3.Text = "&Undo";
+            // 
+            // toolStripMenuItem4
+            // 
+            this.toolStripMenuItem4.Image = global::TagScanner.Properties.Resources.Edit_RedoHS;
+            this.toolStripMenuItem4.Name = "toolStripMenuItem4";
+            this.toolStripMenuItem4.ShortcutKeyDisplayString = "^Y";
+            this.toolStripMenuItem4.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Y)));
+            this.toolStripMenuItem4.Size = new System.Drawing.Size(148, 22);
+            this.toolStripMenuItem4.Text = "&Redo";
+            // 
+            // toolStripSeparator7
+            // 
+            this.toolStripSeparator7.Name = "toolStripSeparator7";
+            this.toolStripSeparator7.Size = new System.Drawing.Size(145, 6);
+            // 
+            // toolStripMenuItem5
+            // 
+            this.toolStripMenuItem5.Image = global::TagScanner.Properties.Resources.CutHS;
+            this.toolStripMenuItem5.Name = "toolStripMenuItem5";
+            this.toolStripMenuItem5.ShortcutKeyDisplayString = "^X";
+            this.toolStripMenuItem5.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.X)));
+            this.toolStripMenuItem5.Size = new System.Drawing.Size(148, 22);
+            this.toolStripMenuItem5.Text = "Cu&t";
+            // 
+            // toolStripMenuItem6
+            // 
+            this.toolStripMenuItem6.Image = global::TagScanner.Properties.Resources.CopyHS;
+            this.toolStripMenuItem6.Name = "toolStripMenuItem6";
+            this.toolStripMenuItem6.ShortcutKeyDisplayString = "^C";
+            this.toolStripMenuItem6.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.C)));
+            this.toolStripMenuItem6.Size = new System.Drawing.Size(148, 22);
+            this.toolStripMenuItem6.Text = "&Copy";
+            // 
+            // toolStripMenuItem7
+            // 
+            this.toolStripMenuItem7.Image = global::TagScanner.Properties.Resources.PasteHS;
+            this.toolStripMenuItem7.Name = "toolStripMenuItem7";
+            this.toolStripMenuItem7.ShortcutKeyDisplayString = "^V";
+            this.toolStripMenuItem7.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.V)));
+            this.toolStripMenuItem7.Size = new System.Drawing.Size(148, 22);
+            this.toolStripMenuItem7.Text = "&Paste";
+            // 
+            // toolStripMenuItem8
+            // 
+            this.toolStripMenuItem8.Image = global::TagScanner.Properties.Resources.Delete;
+            this.toolStripMenuItem8.ImageTransparentColor = System.Drawing.Color.White;
+            this.toolStripMenuItem8.Name = "toolStripMenuItem8";
+            this.toolStripMenuItem8.ShortcutKeyDisplayString = "";
+            this.toolStripMenuItem8.Size = new System.Drawing.Size(148, 22);
+            this.toolStripMenuItem8.Text = "&Delete";
+            // 
+            // toolStripSeparator8
+            // 
+            this.toolStripSeparator8.Name = "toolStripSeparator8";
+            this.toolStripSeparator8.Size = new System.Drawing.Size(145, 6);
+            // 
+            // toolStripMenuItem9
+            // 
+            this.toolStripMenuItem9.Image = global::TagScanner.Properties.Resources.ZoomHS;
+            this.toolStripMenuItem9.Name = "toolStripMenuItem9";
+            this.toolStripMenuItem9.ShortcutKeyDisplayString = "^F";
+            this.toolStripMenuItem9.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.F)));
+            this.toolStripMenuItem9.Size = new System.Drawing.Size(148, 22);
+            this.toolStripMenuItem9.Text = "&Find...";
+            // 
+            // toolStripMenuItem12
+            // 
+            this.toolStripMenuItem12.Name = "toolStripMenuItem12";
+            this.toolStripMenuItem12.ShortcutKeyDisplayString = "^H";
+            this.toolStripMenuItem12.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.H)));
+            this.toolStripMenuItem12.Size = new System.Drawing.Size(148, 22);
+            this.toolStripMenuItem12.Text = "&Replace...";
+            // 
+            // toolStripSeparator9
+            // 
+            this.toolStripSeparator9.Name = "toolStripSeparator9";
+            this.toolStripSeparator9.Size = new System.Drawing.Size(145, 6);
+            // 
+            // toolStripMenuItem13
+            // 
+            this.toolStripMenuItem13.Name = "toolStripMenuItem13";
+            this.toolStripMenuItem13.ShortcutKeyDisplayString = "^A";
+            this.toolStripMenuItem13.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.A)));
+            this.toolStripMenuItem13.Size = new System.Drawing.Size(148, 22);
+            this.toolStripMenuItem13.Text = "Select &All";
             // 
             // ScriptForm
             // 
@@ -729,6 +850,7 @@
             this.toolStrip1.PerformLayout();
             this.MainMenu.ResumeLayout(false);
             this.MainMenu.PerformLayout();
+            this.PopupMenu.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -764,7 +886,7 @@
         public System.Windows.Forms.ToolStripMenuItem ScriptMenu;
         public System.Windows.Forms.ToolStripMenuItem ScriptRun;
         public System.Windows.Forms.ToolStrip toolStrip1;
-        public System.Windows.Forms.ContextMenuStrip contextMenuStrip1;
+        public System.Windows.Forms.ContextMenuStrip PopupMenu;
         public System.Windows.Forms.ToolStripButton tbNew;
         public System.Windows.Forms.ToolStripSplitButton tbOpen;
         public System.Windows.Forms.ToolStripSplitButton tbSave;
@@ -802,5 +924,17 @@
         private System.ComponentModel.IContainer components;
         public System.Windows.Forms.ToolStripMenuItem ViewMenu;
         public System.Windows.Forms.ToolStripMenuItem ViewWordWrap;
+        public System.Windows.Forms.ToolStripMenuItem toolStripMenuItem3;
+        public System.Windows.Forms.ToolStripMenuItem toolStripMenuItem4;
+        public System.Windows.Forms.ToolStripSeparator toolStripSeparator7;
+        public System.Windows.Forms.ToolStripMenuItem toolStripMenuItem5;
+        public System.Windows.Forms.ToolStripMenuItem toolStripMenuItem6;
+        public System.Windows.Forms.ToolStripMenuItem toolStripMenuItem7;
+        public System.Windows.Forms.ToolStripMenuItem toolStripMenuItem8;
+        public System.Windows.Forms.ToolStripSeparator toolStripSeparator8;
+        public System.Windows.Forms.ToolStripMenuItem toolStripMenuItem9;
+        public System.Windows.Forms.ToolStripMenuItem toolStripMenuItem12;
+        public System.Windows.Forms.ToolStripSeparator toolStripSeparator9;
+        public System.Windows.Forms.ToolStripMenuItem toolStripMenuItem13;
     }
 }
