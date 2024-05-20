@@ -51,8 +51,9 @@
 
         private object AcceptToken(string expected)
         {
-            var token = _tokens.Dequeue();
-            return token.Value == expected ? token : UnexpectedToken(token, expected);
+            var token = _tokens.Peek();
+            var ok = token.Value == expected;
+            return ok ? _tokens.Dequeue() : UnexpectedToken(token, expected);
         }
 
         /// <summary>

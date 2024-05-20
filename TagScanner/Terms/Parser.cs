@@ -453,7 +453,7 @@
             catch (Exception ex)
             {
                 term = null;
-                exception = new ParserException("Syntax error", ex, CurrentToken);
+                exception = ex is ParserException ? ex : new ParserException("Syntax Error", ex, PeekToken());
                 return false;
             }
         }
