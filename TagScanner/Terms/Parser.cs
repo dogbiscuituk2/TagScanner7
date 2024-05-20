@@ -453,7 +453,7 @@
             catch (Exception ex)
             {
                 term = null;
-                exception = ex;
+                exception = new ParserException("Syntax error", ex, CurrentToken);
                 return false;
             }
         }
@@ -613,6 +613,6 @@
 
         #endregion
 
-        #endregion                                                          l
+        #endregion
     }
 }

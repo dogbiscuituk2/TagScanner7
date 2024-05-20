@@ -152,6 +152,7 @@
 
             View.Shown += View_Shown;
 
+            UpdateUI();
             return _view;
         }
 

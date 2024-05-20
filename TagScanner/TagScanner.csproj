@@ -205,6 +205,7 @@
     <Compile Include="Terms\IfBlock.cs" />
     <Compile Include="Terms\LabelBase.cs" />
     <Compile Include="Terms\Parser.cs" />
+    <Compile Include="Terms\ParserException.cs" />
     <Compile Include="Terms\ParserSpy.cs" />
     <Compile Include="Terms\Switch.cs" />
     <Compile Include="Terms\Case.cs" />
