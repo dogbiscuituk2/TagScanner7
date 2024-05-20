@@ -65,7 +65,7 @@
                 Add(ParseStatement());
                 var token = PeekToken().Value;
                 if (token == "," || token == ";")
-                    DequeueToken();
+                    PopToken();
                 else
                     break;
             }
@@ -87,8 +87,8 @@
         {
             AcceptToken(Keywords.Catch);
             AcceptToken("(");
-            var type = DequeueToken().Value.ToType();
-            var variable = ParseVariable(DequeueToken().Value);
+            var type = PopToken().Value.ToType();
+            var variable = ParseVariable(PopToken().Value);
             AcceptToken(")");
             var bodyTerm = ParseBlock();
             var catchBlock = new CatchBlock(type, variable, bodyTerm);
@@ -100,7 +100,7 @@
             Term term = ParseTerm();
             while (PeekToken().IsBinaryOperator())
             {
-                var token = DequeueToken();
+                var token = PopToken();
                 ApplyOperators(token.GetRank(unary: false));
                 PushTerm(term);
                 PushOperator(token.ToBinaryOperator());
@@ -124,31 +124,31 @@
             }
         }
 
-        private Term ParseDo()
+        private Loop ParseDo()
         {
             var loop = BeginLoop();
             if (PeekToken().Value == Keywords.While)
             {
-                DequeueToken();
+                PopToken();
                 loop.Operands[0] = ParseBlock();
             }
             AcceptToken(Keywords.Do);
             loop.Operands[1] = ParseBlock();
             if (PeekToken().Value == Keywords.Until)
             {
-                DequeueToken();
+                PopToken();
                 loop.Operands[2] = ParseBlock();
             }
             AcceptToken(Keywords.End);
             return EndLoop();
         }
 
-        private Term ParseFunction(List<Term> operands)
+        private Function ParseFunction(List<Term> operands)
         {
-            var fn = DequeueToken().Value.ToFunction();
+            var fn = PopToken().Value.ToFunction();
             if (PeekToken().Value == "(")
             {
-                DequeueToken();
+                PopToken();
                 if (PeekToken().Value != ")")
                 {
                     var term = ParseBlock();
@@ -168,17 +168,17 @@
             return new Function(fn, operands.ToArray());
         }
 
-        private Term ParseFunctionAsStatic() => ParseFunction(new List<Term>());
-        private Term ParseFunctionAsMember(Term self) => ParseFunction(new List<Term> { self });
+        private Function ParseFunctionAsStatic() => ParseFunction(new List<Term>());
+        private Function ParseFunctionAsMember(Term self) => ParseFunction(new List<Term> { self });
 
-        private Term ParseGoto()
+        private Goto ParseGoto()
         {
             AcceptToken(Keywords.Goto);
-            var label = AddLabel(DequeueToken().Value);
+            var label = AddLabel(PopToken().Value);
             return new Goto(label.LabelTarget);
         }
 
-        private Term ParseIf()
+        private IfBlock ParseIf()
         {
             Term condition, consequent, alternative = null;
             AcceptToken(Keywords.If);
@@ -187,14 +187,14 @@
             consequent = ParseBlock();
             if (PeekToken().Value == Keywords.Else)
             {
-                DequeueToken();
+                PopToken();
                 alternative = ParseBlock();
             }
             AcceptToken(Keywords.End);
             return
                 alternative == null
                 ? new IfBlock(condition, consequent)
-                : (Term)new IfBlock(condition, consequent, alternative);
+                : new IfBlock(condition, consequent, alternative);
         }
 
         private Term ParseStatement()
@@ -205,14 +205,16 @@
                 {
                     case Keywords.If:
                         return ParseIf();
+                    case Keywords.Switch:
+                        return ParseSwitch();
                     case Keywords.While:
                     case Keywords.Do:
                         return ParseDo();
                     case Keywords.Break:
-                        DequeueToken();
+                        PopToken();
                         return Break();
                     case Keywords.Continue:
-                        DequeueToken();
+                        PopToken();
                         return Continue();
                     case Keywords.Goto:
                         return ParseGoto();
@@ -222,17 +224,51 @@
             return ParseCompound();
         }
 
+        private Switch ParseSwitch()
+        {
+            var cases = new List<Case>();
+            Term defaultTerm = null;
+            AcceptToken(Keywords.Switch);
+            var valueTerm = ParseBlock();
+            var caseValues = new List<Term>();
+            var more = true;
+            while (more)
+            {
+                switch (PopToken().Value)
+                {
+                    case Keywords.Case:
+                        caseValues.Add(ParseTerm());
+                        AcceptToken(":");
+                        break;
+                    case Keywords.Default:
+                        AcceptToken(":");
+                        defaultTerm = ParseBlock();
+                        break;
+                    case Keywords.End:
+                        more = false;
+                        break;
+                    default:
+                        var block = ParseBlock();
+                        cases.Add(new Case(block, caseValues));
+                        caseValues.Clear();
+                        break;
+                }
+            }
+            AcceptToken(Keywords.End);
+            return new Switch(valueTerm, defaultTerm, cases);
+        }
+
         private Term ParseTerm()
         {
             if (PeekToken().IsUnaryOperator())
-                return new Operation(DequeueToken().ToUnaryOperator(), ParseTerm());
+                return new Operation(PopToken().ToUnaryOperator(), ParseTerm());
             Term term;
             if (PeekToken().Value == "(")
             {
-                DequeueToken();
+                PopToken();
                 if (PeekToken().Kind == TokenKind.TypeName)
                 {
-                    var type = DequeueToken().Value.ToType();
+                    var type = PopToken().Value.ToType();
                     AcceptToken(")");
                     return new Cast(type, ParseTerm());
                 }
@@ -246,7 +282,7 @@
                 var token = PeekToken();
                 if (token.Value == ".")
                 {
-                    DequeueToken();
+                    PopToken();
                     term = ParseFunctionAsMember(term);
                 }
                 else if (token.Kind == TokenKind.Function)
@@ -278,7 +314,7 @@
                 catchBlocks.Add(ParseCatch());
             if (PeekToken().Value == Keywords.Finally)
             {
-                DequeueToken();
+                PopToken();
                 finallyBlock = ParseBlock();
             }
             AcceptToken(Keywords.End);
@@ -292,7 +328,7 @@
             return tokenKind == TokenKind.Function
                 ? ParseFunctionAsStatic()
                 : (tokenKind & TokenKind.Value) != 0
-                ? ParseValue(tokenKind, DequeueToken().Value)
+                ? ParseValue(tokenKind, PopToken().Value)
                 : new EmptyTerm();
         }
 
@@ -321,7 +357,7 @@
         private Term ParseCharacter(string value) => char.Parse(value.Substring(1, value.Length - 2));
         private Term ParseDefault(string value) => new Default(value.Substring(1, value.Length - 2).ToType());
         private Term ParseField(string value) => value.DisplayNameToTag();
-        private Term ParseLabel() => AddLabel(DequeueToken().Value.TrimEnd(':'));
+        private Term ParseLabel() => AddLabel(PopToken().Value.TrimEnd(':'));
         private Term ParseString(string value) => value.Substring(1, value.Length - 2);
 
         private static Term ParseDateTime(string token)
@@ -542,37 +578,38 @@
 
         #region ParserSpy Calls
 
-        private void BeginParse(string program, [CallerMemberName] string caller = "", [CallerLineNumber] int line = 0) => _spy.BeginParse(caller, line, program);
-        private Term EndParse(Term term, [CallerMemberName] string caller = "", [CallerLineNumber] int line = 0) => _spy.EndParse(caller, line, term);
-        private Term NewTerm(Term term, [CallerMemberName] string caller = "", [CallerLineNumber] int line = 0) => _spy.NewTerm(caller, line, term);
+        private void BeginParse(string program, [CallerLineNumber] int line = 0, [CallerMemberName] string caller = "") => _spy.BeginParse(caller, line, program);
+        private Term EndParse(Term term, [CallerLineNumber] int line = 0, [CallerMemberName] string caller = "") => _spy.EndParse(caller, line, term);
+        private Term NewTerm(Term term, [CallerLineNumber] int line = 0, [CallerMemberName] string caller = "") => _spy.NewTerm(caller, line, term);
 
         #region Loops
 
-        private Loop BeginLoop([CallerMemberName] string caller = "", [CallerLineNumber] int line = 0) => _spy.BeginLoop(caller, line);
-        private Break Break([CallerMemberName] string caller = "", [CallerLineNumber] int line = 0) => _spy.Break(caller, line);
-        private Continue Continue([CallerMemberName] string caller = "", [CallerLineNumber] int line = 0) => _spy.Continue(caller, line);
-        private Loop EndLoop([CallerMemberName] string caller = "", [CallerLineNumber] int line = 0) => _spy.EndLoop(caller, line);
+        private Loop BeginLoop([CallerLineNumber] int line = 0, [CallerMemberName] string caller = "") => _spy.BeginLoop(caller, line);
+        private Break Break([CallerLineNumber] int line = 0, [CallerMemberName] string caller = "") => _spy.Break(caller, line);
+        private Continue Continue([CallerLineNumber] int line = 0, [CallerMemberName] string caller = "") => _spy.Continue(caller, line);
+        private Loop EndLoop([CallerLineNumber] int line = 0, [CallerMemberName] string caller = "") => _spy.EndLoop(caller, line);
 
         #endregion
         #region Operators
 
         private bool AnyOperators() => _spy.AnyOperators();
-        private Op PeekOperator([CallerMemberName] string caller = "", [CallerLineNumber] int line = 0) => _spy.PeekOperator(caller, line);
-        private Op PopOperator([CallerMemberName] string caller = "", [CallerLineNumber] int line = 0) => _spy.PopOperator(caller, line);
-        private void PushOperator(Op op = 0, [CallerMemberName] string caller = "", [CallerLineNumber] int line = 0) => _spy.PushOperator(caller, line, op);
+        private Op PeekOperator([CallerLineNumber] int line = 0, [CallerMemberName] string caller = "") => _spy.PeekOperator(caller, line);
+        private Op PopOperator([CallerLineNumber] int line = 0, [CallerMemberName] string caller = "") => _spy.PopOperator(caller, line);
+        private void PushOperator(Op op = 0, [CallerLineNumber] int line = 0, [CallerMemberName] string caller = "") => _spy.PushOperator(caller, line, op);
 
         #endregion
         #region Terms
 
-        private Compound Consolidate(Term right, [CallerMemberName] string caller = "", [CallerLineNumber] int line = 0) => _spy.Consolidate(caller, line, right);
-        private void PushTerm(Term term, [CallerMemberName] string caller = "", [CallerLineNumber] int line = 0) => _spy.PushTerm(caller, line, term);
+        private Compound Consolidate(Term right, [CallerLineNumber] int line = 0, [CallerMemberName] string caller = "") => _spy.Consolidate(caller, line, right);
+        private void PushTerm(Term term, [CallerLineNumber] int line = 0, [CallerMemberName] string caller = "") => _spy.PushTerm(caller, line, term);
 
         #endregion
         #region Tokens
 
-        private void AcceptToken(string expected, [CallerMemberName] string caller = "", [CallerLineNumber] int line = 0) => _spy.AcceptToken(caller, line, expected);
-        private Token DequeueToken([CallerMemberName] string caller = "", [CallerLineNumber] int line = 0) => _spy.DequeueToken(caller, line);
-        private Token PeekToken([CallerMemberName] string caller = "", [CallerLineNumber] int line = 0) => _spy.PeekToken(caller, line);
+        private void AcceptToken(string expected, [CallerLineNumber] int line = 0, [CallerMemberName] string caller = "") => _spy.AcceptToken(caller, line, expected);
+        private Token PeekToken([CallerLineNumber] int line = 0, [CallerMemberName] string caller = "") => _spy.PeekToken(caller, line);
+        private Token PopToken([CallerLineNumber] int line = 0, [CallerMemberName] string caller = "") => _spy.PopToken(caller, line);
+        private bool PopToken(string expected, [CallerLineNumber] int line = 0, [CallerMemberName] string caller = "") => _spy.PopToken(caller, line, expected);
 
         #endregion
 

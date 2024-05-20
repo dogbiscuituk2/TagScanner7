@@ -20,7 +20,6 @@
         public Break Break(string caller, int line) => (Break)Process(caller, line, p => new Break(_loops.Peek().BreakTarget));
         public Compound Consolidate(string caller, int line, Term right) => (Compound)Process(caller, line, p => Consolidate(right));
         public Continue Continue(string caller, int line) => (Continue)Process(caller, line, p => new Continue(_loops.Peek().ContinueTarget));
-        public Token DequeueToken(string caller, int line) => (Token)Process(caller, line, p => _tokens.Dequeue());
         public Loop EndLoop(string caller, int line) => (Loop)Process(caller, line, p => _loops.Pop());
         public Term EndParse(string caller, int line, Term term) => (Term)Process(caller, line, p => EndParse(term));
         public Term NewTerm(string caller, int line, Term term) { Process(caller, line, p => term); return term; }
@@ -28,6 +27,8 @@
         public Token PeekToken(string caller, int line) => (Token)Process(caller, line, p => NextToken());
         public Op PopOperator(string caller, int line) => (Op)Process(caller, line, p => _operators.Pop());
         public Term PopTerm(string caller, int line) => (Term)Process(caller, line, p => _terms.Pop());
+        public Token PopToken(string caller, int line) => (Token)Process(caller, line, p => _tokens.Dequeue());
+        public bool PopToken(string caller, int line, string expected) => (bool)Process(caller, line, p => PopToken(expected));
         public void PushOperator(string caller, int line, Op op) => Process(caller, line, p => { _operators.Push(op); return op; });
         public void PushTerm(string caller, int line, Term term) => Process(caller, line, p => { _terms.Push(term); return term; });
         public object UnexpectedToken(string caller, int line, Token token) => Process(caller, line, p => UnexpectedToken(token));
@@ -122,6 +123,14 @@
         private Token NextToken() => _tokens.Any() ? _tokens.Peek() : _end;
 
         private Loop NewLoop() { var loop = new Loop(new EmptyTerm(), new EmptyTerm(), new EmptyTerm()); _loops.Push(loop); return loop; }
+
+        private object PopToken(string expected)
+        {
+            var ok = _tokens.Peek().Value == expected;
+            if (ok)
+                _tokens.Dequeue();
+            return ok;
+        }
 
         private object Process(string caller, int line, Func<object, object> process, object value = null, [CallerMemberName] string action = "")
         {

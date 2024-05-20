@@ -8,6 +8,6 @@
 
         public override Expression Expression => Expression.Goto(LabelTarget);
 
-        public override string ToString() => $"goto {LabelTarget.Name}";
+        public override string ToString() => $"{Keywords.Goto} {LabelTarget.Name}";
     }
 }

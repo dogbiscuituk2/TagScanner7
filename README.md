@@ -26,7 +26,7 @@ _value = constant | field | function | variable_
 _label =_ **\@\"\[\w\_]+\\:"**  
   
 _if-statement =_ **if** _block_ **then** _block \{_ **else** _block \}_ **end**  
-_switch-statement =_ **switch** _block \{ \{_ **case** _constant ... \} block ... \} \{_ **default** _block \}_ **end**  
+_switch-statement =_ **switch** _block \{ \{_ **case** _term_ **:** _... \} block ... \} \{_ **default** **:** _block \}_ **end**  
 _do-loop = \{_ **while** _block \}_ **do** _block \{_ **until** _block \}_ **end**  
 _try-block =_ **try** _block \{_ **catch** _catch-block ... \} \{_ **finally** _block \}_ **end**  
 _catch-block =_ **(** _exception-type variable_ **)** _block_

@@ -1,5 +1,6 @@
 ﻿namespace TagScanner.Controllers.Mru
 {
+    using System;
     using System.IO;
     using System.Windows.Forms;
     using FastColoredTextBoxNS;
@@ -33,5 +34,12 @@
             new StreamWriter(stream).Write(TextBox.Text);
             return true;
         }
+
+        public void Undo() => TextBox.Undo();
+        public void Redo() => TextBox.Redo();
+        public void Cut() => TextBox.Cut();
+        public void Copy() => TextBox.Copy();
+        public void Paste() => TextBox.Paste();
+        public void Delete() { }
     }
 }

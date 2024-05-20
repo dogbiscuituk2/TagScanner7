@@ -82,6 +82,14 @@
         private void FileOpen_Click(object sender, EventArgs e) => _scriptController.Open();
         private void FileSave_Click(object sender, EventArgs e) => _scriptController.Save();
         private void FileSaveAs_Click(object sender, EventArgs e) => _scriptController.SaveAs();
+
+        private void EditUndo_Click(object sender, EventArgs e) => _scriptController.Undo();
+        private void EditRedo_Click(object sender, EventArgs e) => _scriptController.Redo();
+        private void EditCut_Click(object sender, EventArgs e) => _scriptController.Cut();
+        private void EditCopy_Click(object sender, EventArgs e) => _scriptController.Copy();
+        private void EditPaste_Click(object sender, EventArgs e) => _scriptController.Paste();
+        private void EditDelete_Click(object sender, EventArgs e) => _scriptController.Delete();
+
         private void ScriptRun_Click(object sender, EventArgs e) => UpdateResult();
 
         private void ColourTextBox_TextChanged(object sender, TextChangedEventArgs e)
@@ -110,6 +118,7 @@
                 language.Tag = index++;
             }
             _scriptController = new MruScriptController(this, View.FileReopen);
+
             View.FileNew.Click += FileNew_Click;
             View.tbNew.Click += FileNew_Click;
             View.FileOpen.Click += FileOpen_Click;
@@ -118,6 +127,20 @@
             View.tbSave.Click += FileSave_Click;
             View.FileSaveAs.Click += FileSaveAs_Click;
             View.tbSaveAs.Click += FileSaveAs_Click;
+
+            View.EditUndo.Click += EditUndo_Click;
+            View.tbUndo.Click += EditUndo_Click;
+            View.EditRedo.Click += EditRedo_Click;
+            View.tbRedo.Click += EditRedo_Click;
+            View.EditCut.Click += EditCut_Click;
+            View.tbCut.Click += EditCut_Click;
+            View.EditCopy.Click += EditCopy_Click;
+            View.tbCopy.Click += EditCopy_Click;
+            View.EditPaste.Click += EditPaste_Click;
+            View.tbPaste.Click += EditPaste_Click;
+            View.EditDelete.Click += EditDelete_Click;
+            View.tbDelete.Click += EditDelete_Click;
+
             View.ScriptRun.Click += ScriptRun_Click;
             View.tbRun.Click += ScriptRun_Click;
             Language = Language.Custom;

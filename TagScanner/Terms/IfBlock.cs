@@ -28,9 +28,9 @@
             switch (Operands.Count)
             {
                 case 2:
-                    return $"if {Operands[0]} then {Operands[1]} end";
+                    return $"{Keywords.If} {Operands[0]} {Keywords.Then} {Operands[1]} {Keywords.End}";
                 case 3:
-                    return $"if {Operands[0]} then {Operands[1]} else {Operands[2]} end";
+                    return $"{Keywords.If} {Operands[0]} {Keywords.Then} {Operands[1]} {Keywords.Else} {Operands[2]} {Keywords.End}";
                 default:
                     return string.Empty;
             }
