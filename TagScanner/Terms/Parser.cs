@@ -7,7 +7,7 @@
     using System.Linq.Expressions;
     using System.Runtime.CompilerServices;
     using System.Text.RegularExpressions;
-    using Terms;
+    using Models;
     using Utils;
 
     public class Parser

@@ -39,6 +39,16 @@
 
         #endregion
 
+        #region Public Methods
+
+        public void UpdateAutoComplete()
+        {
+            UpdateAutoComplete(FindComboBox);
+            UpdateAutoComplete(ReplaceComboBox);
+        }
+
+        #endregion
+
         #region Fields
 
         private readonly Selection Selection = new Selection();
@@ -242,13 +252,12 @@
                 ReplaceRadioButton.Checked = replacing;
                 FindComboBox.Focus();
                 UpdateUI();
-
-                var source = FindComboBox.AutoCompleteCustomSource;
-                if (source.Count < 1)
-                    source.AddRange(AutoCompleteController.GetList(Tag.JoinedPerformers, Tag.Album, Tag.Title));
-
+                UpdateAutoComplete();
             }
         }
+
+        private void UpdateAutoComplete(ComboBox comboBox) =>
+            comboBox.AutoCompleteCustomSource = AutoCompleteController.GetFieldList(Tag.JoinedPerformers, Tag.Album, Tag.Title);
 
         private void UpdateFindItems() => AppController.UpdateFindItems(FindComboBox);
         private void UpdateReplaceItems() => AppController.UpdateReplaceItems(ReplaceComboBox);

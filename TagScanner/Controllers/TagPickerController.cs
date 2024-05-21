@@ -2,7 +2,7 @@
 {
     using System.Linq;
     using System.Windows.Forms;
-    using Terms;
+    using Models;
 
     public class TagPickerController
     {

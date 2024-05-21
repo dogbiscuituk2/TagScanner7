@@ -5,6 +5,7 @@
     using System.Linq;
     using System.Text.RegularExpressions;
     using FastColoredTextBoxNS;
+    using Models;
 
     public class Tokenizer
     {

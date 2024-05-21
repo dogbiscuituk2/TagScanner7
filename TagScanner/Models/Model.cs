@@ -71,8 +71,8 @@
         #region Events
 
         public event EventHandler<SelectionEventArgs> TracksAdd;
-        public event EventHandler<SelectionEditEventArgs> TracksEdit;
         public event EventHandler TracksChanged;
+        public event EventHandler<SelectionEditEventArgs> TracksEdit;
 
         #endregion
 

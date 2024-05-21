@@ -27,6 +27,7 @@
             View = new MainForm();
             Model = new Model();
             Model.TracksAdd += Model_TracksAdd;
+            Model.TracksChanged += Model_TracksChanged;
             Model.TracksEdit += Model_TracksEdit;
             CommandProcessor = new CommandProcessor(this);
             FilterController = new FilterController(this);
@@ -42,17 +43,9 @@
             PropertyGridController = new PropertyGridController(this);
             StatusController = new StatusController(this);
             FindReplaceController = new FindReplaceController(this);
-            AutoCompleteController = new AutoCompleteController(this);
-
-            View.FindComboBox.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
-            View.FindComboBox.AutoCompleteSource = AutoCompleteSource.CustomSource;
-
-            View.FilterComboBox.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
-            View.FilterComboBox.AutoCompleteSource = AutoCompleteSource.CustomSource;
-
-            //View.FindComboBox.AutoCompleteCustomSource.AddRange(AutoCompleteController.GetList(Tag.JoinedPerformers).ToArray());
+            AutoCompleteController = new AutoCompleteController(this, View.FindComboBox, View.ReplaceComboBox, View.FilterComboBox);
+            AutoCompleteController.SetList(View.FilterComboBox, Tokenizer.AutocompleteItems);
             View.FilterComboBox.AutoCompleteCustomSource.AddRange(Tokenizer.AutocompleteItems.ToArray());
-
             ModifiedChanged();
             UpdateUI();
         }
@@ -211,6 +204,17 @@
                 CommandProcessor.Run(new AddCommand(selection), spoof: false);
         }
 
+        public void TracksChanged()
+        {
+            if (View.InvokeRequired)
+                View.Invoke(new Action(TracksChanged));
+            else
+            {
+                AutoCompleteController.InvalidateFieldLists();
+                FindReplaceController.UpdateAutoComplete();
+            }
+        }
+
         public void TracksEdit(Selection selection, Tag tag, List<object> values)
         {
             if (View.InvokeRequired)
@@ -304,8 +308,11 @@
 
         private void LibraryGridController_SelectionChanged(object sender, EventArgs e) => UpdateUI();
         private void Model_ModifiedChanged(object sender, EventArgs e) => ModifiedChanged();
+
         private void Model_TracksAdd(object sender, SelectionEventArgs e) => TracksAdd(e.Selection);
+        private void Model_TracksChanged(object sender, EventArgs e) => TracksChanged();
         private void Model_TracksEdit(object sender, SelectionEditEventArgs e) => TracksEdit(e.Selection, e.Tag, e.Values);
+
         private void PersistenceController_FileSaving(object sender, CancelEventArgs e) => e.Cancel = !ContinueSaving();
         private void View_FormClosed(object sender, FormClosedEventArgs e) => AppController.CloseWindow(this);
 

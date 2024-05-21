@@ -248,7 +248,7 @@
     <Compile Include="Terms\OpInfo.cs" />
     <Compile Include="Terms\Default.cs" />
     <Compile Include="Terms\Rank.cs" />
-    <Compile Include="Terms\Tags.cs" />
+    <Compile Include="Models\Tags.cs" />
     <Compile Include="Terms\Term.cs" />
     <Compile Include="Models\Alignment.cs" />
     <Compile Include="Models\Column.cs" />
