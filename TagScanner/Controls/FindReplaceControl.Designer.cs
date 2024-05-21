@@ -30,12 +30,12 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FindReplaceControl));
             this.Toolbar = new System.Windows.Forms.ToolStrip();
-            this.tbToggleFindReplace = new System.Windows.Forms.ToolStripButton();
+            this.tbDropDown = new System.Windows.Forms.ToolStripButton();
             this.cbFindTerm = new System.Windows.Forms.ToolStripComboBox();
             this.tbFind = new System.Windows.Forms.ToolStripSplitButton();
             this.tbClose = new System.Windows.Forms.ToolStripButton();
-            this.tbSpacer = new System.Windows.Forms.ToolStripButton();
-            this.cbReplaceterm = new System.Windows.Forms.ToolStripComboBox();
+            this.tbCloseUp = new System.Windows.Forms.ToolStripButton();
+            this.cbReplaceTerm = new System.Windows.Forms.ToolStripComboBox();
             this.tbReplaceNext = new System.Windows.Forms.ToolStripButton();
             this.tbReplaceAll = new System.Windows.Forms.ToolStripButton();
             this.tbCaseSensitive = new System.Windows.Forms.ToolStripButton();
@@ -48,12 +48,12 @@
             // Toolbar
             // 
             this.Toolbar.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.tbToggleFindReplace,
+            this.tbDropDown,
             this.cbFindTerm,
             this.tbFind,
             this.tbClose,
-            this.tbSpacer,
-            this.cbReplaceterm,
+            this.tbCloseUp,
+            this.cbReplaceTerm,
             this.tbReplaceNext,
             this.tbReplaceAll,
             this.tbCaseSensitive,
@@ -63,25 +63,24 @@
             this.Toolbar.LayoutStyle = System.Windows.Forms.ToolStripLayoutStyle.Flow;
             this.Toolbar.Location = new System.Drawing.Point(0, 0);
             this.Toolbar.Name = "Toolbar";
-            this.Toolbar.Size = new System.Drawing.Size(206, 69);
+            this.Toolbar.Size = new System.Drawing.Size(173, 69);
             this.Toolbar.TabIndex = 1;
             this.Toolbar.Text = "toolStrip1";
             // 
-            // tbToggleFindReplace
+            // tbDropDown
             // 
-            this.tbToggleFindReplace.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.tbToggleFindReplace.Image = global::TagScanner.Properties.Resources.frToggle;
-            this.tbToggleFindReplace.ImageTransparentColor = System.Drawing.Color.White;
-            this.tbToggleFindReplace.Name = "tbToggleFindReplace";
-            this.tbToggleFindReplace.Size = new System.Drawing.Size(23, 20);
-            this.tbToggleFindReplace.Text = "toolStripButton1";
-            this.tbToggleFindReplace.ToolTipText = "Toggle to switch between find and replace modes";
-            this.tbToggleFindReplace.Click += new System.EventHandler(this.tbToggleFindReplace_Click);
+            this.tbDropDown.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.tbDropDown.Image = global::TagScanner.Properties.Resources.frDropDown;
+            this.tbDropDown.ImageTransparentColor = System.Drawing.Color.White;
+            this.tbDropDown.Name = "tbDropDown";
+            this.tbDropDown.Size = new System.Drawing.Size(23, 20);
+            this.tbDropDown.Text = "toolStripButton1";
+            this.tbDropDown.ToolTipText = "Toggle to switch between find and replace modes";
             // 
             // cbFindTerm
             // 
             this.cbFindTerm.Name = "cbFindTerm";
-            this.cbFindTerm.Size = new System.Drawing.Size(121, 23);
+            this.cbFindTerm.Size = new System.Drawing.Size(81, 23);
             this.cbFindTerm.ToolTipText = "Search term";
             // 
             // tbFind
@@ -104,21 +103,21 @@
             this.tbClose.Text = "toolStripButton2";
             this.tbClose.ToolTipText = "Close";
             // 
-            // tbSpacer
+            // tbCloseUp
             // 
-            this.tbSpacer.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.tbSpacer.Image = ((System.Drawing.Image)(resources.GetObject("tbSpacer.Image")));
-            this.tbSpacer.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.tbSpacer.Name = "tbSpacer";
-            this.tbSpacer.Size = new System.Drawing.Size(23, 20);
-            this.tbSpacer.Text = "toolStripButton3";
-            this.tbSpacer.ToolTipText = " ";
+            this.tbCloseUp.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.tbCloseUp.Image = global::TagScanner.Properties.Resources.frCloseUp;
+            this.tbCloseUp.ImageTransparentColor = System.Drawing.Color.White;
+            this.tbCloseUp.Name = "tbCloseUp";
+            this.tbCloseUp.Size = new System.Drawing.Size(23, 20);
+            this.tbCloseUp.Text = "toolStripButton3";
+            this.tbCloseUp.ToolTipText = " ";
             // 
-            // cbReplaceterm
+            // cbReplaceTerm
             // 
-            this.cbReplaceterm.Name = "cbReplaceterm";
-            this.cbReplaceterm.Size = new System.Drawing.Size(121, 23);
-            this.cbReplaceterm.ToolTipText = "Replace term";
+            this.cbReplaceTerm.Name = "cbReplaceTerm";
+            this.cbReplaceTerm.Size = new System.Drawing.Size(81, 23);
+            this.cbReplaceTerm.ToolTipText = "Replace term";
             // 
             // tbReplaceNext
             // 
@@ -172,6 +171,7 @@
             // 
             // tbPickTags
             // 
+            this.tbPickTags.AutoSize = false;
             this.tbPickTags.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
             this.tbPickTags.Image = ((System.Drawing.Image)(resources.GetObject("tbPickTags.Image")));
             this.tbPickTags.ImageTransparentColor = System.Drawing.Color.Magenta;
@@ -185,8 +185,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.Toolbar);
             this.Name = "FindReplaceControl";
-            this.Size = new System.Drawing.Size(206, 79);
-            this.Resize += new System.EventHandler(this.FindReplaceControl_Resize);
+            this.Size = new System.Drawing.Size(173, 79);
             this.Toolbar.ResumeLayout(false);
             this.Toolbar.PerformLayout();
             this.ResumeLayout(false);
@@ -196,18 +195,18 @@
 
         #endregion
 
-        private System.Windows.Forms.ToolStrip Toolbar;
-        private System.Windows.Forms.ToolStripButton tbToggleFindReplace;
-        private System.Windows.Forms.ToolStripComboBox cbFindTerm;
-        private System.Windows.Forms.ToolStripSplitButton tbFind;
-        private System.Windows.Forms.ToolStripButton tbClose;
-        private System.Windows.Forms.ToolStripButton tbSpacer;
-        private System.Windows.Forms.ToolStripComboBox cbReplaceterm;
-        private System.Windows.Forms.ToolStripButton tbReplaceNext;
-        private System.Windows.Forms.ToolStripButton tbReplaceAll;
-        private System.Windows.Forms.ToolStripButton tbCaseSensitive;
-        private System.Windows.Forms.ToolStripButton tbWholeWord;
-        private System.Windows.Forms.ToolStripButton tbUseRegex;
-        private System.Windows.Forms.ToolStripButton tbPickTags;
+        public System.Windows.Forms.ToolStrip Toolbar;
+        public System.Windows.Forms.ToolStripButton tbDropDown;
+        public System.Windows.Forms.ToolStripComboBox cbFindTerm;
+        public System.Windows.Forms.ToolStripSplitButton tbFind;
+        public System.Windows.Forms.ToolStripButton tbClose;
+        public System.Windows.Forms.ToolStripButton tbCloseUp;
+        public System.Windows.Forms.ToolStripComboBox cbReplaceTerm;
+        public System.Windows.Forms.ToolStripButton tbReplaceNext;
+        public System.Windows.Forms.ToolStripButton tbReplaceAll;
+        public System.Windows.Forms.ToolStripButton tbCaseSensitive;
+        public System.Windows.Forms.ToolStripButton tbWholeWord;
+        public System.Windows.Forms.ToolStripButton tbUseRegex;
+        public System.Windows.Forms.ToolStripButton tbPickTags;
     }
 }

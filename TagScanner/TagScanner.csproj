@@ -148,7 +148,7 @@
     <Compile Include="Commands\CommandProcessor.cs" />
     <Compile Include="Commands\AddRemoveCommand.cs" />
     <Compile Include="Commands\ReplaceCommand.cs" />
-    <Compile Include="Controllers\AutoCompleteController.cs" />
+    <Compile Include="Controllers\AutoCompleter.cs" />
     <Compile Include="Controllers\DragDropController.cs" />
     <Compile Include="Controllers\FilterController.cs" />
     <Compile Include="Controllers\AppController.cs" />
@@ -174,6 +174,11 @@
     <Compile Include="Models\Query.cs" />
     <Compile Include="Models\SelectionEventArgs.cs" />
     <Compile Include="Models\SelectionEditEventArgs.cs" />
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
     <Compile Include="Properties\Settings.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
@@ -279,12 +284,6 @@
     <Compile Include="Controls\FindReplaceControl.Designer.cs">
       <DependentUpon>FindReplaceControl.cs</DependentUpon>
     </Compile>
-    <Compile Include="Views\Form1.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Views\Form1.Designer.cs">
-      <DependentUpon>Form1.cs</DependentUpon>
-    </Compile>
     <Compile Include="Views\InputBox.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -337,9 +336,6 @@
     <EmbeddedResource Include="Controls\FindReplaceControl.resx">
       <DependentUpon>FindReplaceControl.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Views\Form1.resx">
-      <DependentUpon>Form1.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="Views\InputBox.resx">
       <DependentUpon>InputBox.cs</DependentUpon>
     </EmbeddedResource>
@@ -349,14 +345,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <Compile Include="Properties\Resources.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DependentUpon>Resources.resx</DependentUpon>
-      <DesignTime>True</DesignTime>
-    </Compile>
     <EmbeddedResource Include="Views\ScriptForm.resx">
       <DependentUpon>ScriptForm.cs</DependentUpon>
     </EmbeddedResource>
@@ -421,6 +412,8 @@
     <Content Include="Resources\FormRunHS.png" />
     <Content Include="Resources\frCase.png" />
     <Content Include="Resources\frClose.png" />
+    <None Include="Resources\frCloseUp.png" />
+    <None Include="Resources\frDropDown.png" />
     <Content Include="Resources\frFindNext.png" />
     <Content Include="Resources\frRegex.png" />
     <Content Include="Resources\frReplaceAll.png" />

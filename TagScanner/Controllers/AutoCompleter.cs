@@ -5,11 +5,11 @@
     using System.Windows.Forms;
     using Models;
 
-    public class AutoCompleteController : Controller
+    public class AutoCompleter : Controller
     {
         #region Constructor
 
-        public AutoCompleteController(Controller parent, params Control[] controls) : base(parent)
+        public AutoCompleter(Controller parent, params Control[] controls) : base(parent)
         {
             foreach (var control in controls)
                 if (control is ComboBox comboBox)

@@ -42,17 +42,16 @@
             PictureController = new PictureController(View.PictureBox, View.PropertyGrid, PlayerController.PlaylistGrid);
             PropertyGridController = new PropertyGridController(this);
             StatusController = new StatusController(this);
-            FindReplaceController = new FindReplaceControllerOld(this);
-            AutoCompleteController = new AutoCompleteController(this, View.FindComboBox, View.ReplaceComboBox, View.FilterComboBox);
-            AutoCompleteController.SetList(View.FilterComboBox, Tokenizer.AutocompleteItems);
+            FindReplaceController = new FindReplaceController(this);
+            FindReplaceControllerOld = new FindReplaceControllerOld(this);
+            AutoCompleter = new AutoCompleter(this, View.FindComboBox, View.ReplaceComboBox, View.FilterComboBox);
+            AutoCompleter.SetList(View.FilterComboBox, Tokenizer.AutocompleteItems);
             View.FilterComboBox.AutoCompleteCustomSource.AddRange(Tokenizer.AutocompleteItems.ToArray());
             ModifiedChanged();
             UpdateUI();
         }
 
         #endregion
-
-        protected override IWin32Window Owner => View;
 
         #region View
 
@@ -141,10 +140,11 @@
 
         public readonly Model Model;
 
-        public readonly AutoCompleteController AutoCompleteController;
+        public readonly AutoCompleter AutoCompleter;
         public readonly CommandProcessor CommandProcessor;
         public readonly FilterController FilterController;
-        public readonly FindReplaceControllerOld FindReplaceController;
+        public readonly FindReplaceController FindReplaceController;
+        public readonly FindReplaceControllerOld FindReplaceControllerOld;
         public readonly WpfTableController TableController;
         public readonly MruMediaController MediaController;
         public readonly MruLibraryController LibraryController;
@@ -164,6 +164,8 @@
             get => LibraryController.FilePath;
             set => LibraryController.FilePath = value;
         }
+
+        protected override IWin32Window Owner => View;
 
         private Selection Selection => TableController.Selection;
 
@@ -210,8 +212,8 @@
                 View.Invoke(new Action(TracksChanged));
             else
             {
-                AutoCompleteController.InvalidateFieldLists();
-                FindReplaceController.UpdateAutoComplete();
+                AutoCompleter.InvalidateFieldLists();
+                FindReplaceControllerOld.UpdateAutoComplete();
             }
         }
 

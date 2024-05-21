@@ -490,6 +490,26 @@ namespace TagScanner.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap frCloseUp {
+            get {
+                object obj = ResourceManager.GetObject("frCloseUp", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap frDropDown {
+            get {
+                object obj = ResourceManager.GetObject("frDropDown", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap frFindNext {
             get {
                 object obj = ResourceManager.GetObject("frFindNext", resourceCulture);
@@ -523,16 +543,6 @@ namespace TagScanner.Properties {
         internal static System.Drawing.Bitmap frReplaceNext {
             get {
                 object obj = ResourceManager.GetObject("frReplaceNext", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap frToggle {
-            get {
-                object obj = ResourceManager.GetObject("frToggle", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

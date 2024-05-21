@@ -95,7 +95,7 @@
         private RadioButton FindRadioButton => MainForm.rbFind;
         private RadioButton ReplaceRadioButton => MainForm.rbReplace;
 
-        private SplitContainer ClientSplitContainer => MainForm.ClientSplitContainer;
+        private SplitContainer ClientSplitContainer => MainForm.SplitContainerLeft;
 
         #endregion
 
@@ -254,7 +254,7 @@
         }
 
         private void UpdateAutoComplete(ComboBox comboBox) =>
-            comboBox.AutoCompleteCustomSource = AutoCompleteController.GetFieldList(Tag.JoinedPerformers, Tag.Album, Tag.Title);
+            comboBox.AutoCompleteCustomSource = MainAutoCompleter.GetFieldList(Tag.JoinedPerformers, Tag.Album, Tag.Title);
 
         private void UpdateFindItems() => AppController.UpdateFindItems(FindComboBox);
         private void UpdateReplaceItems() => AppController.UpdateReplaceItems(ReplaceComboBox);
