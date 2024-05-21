@@ -28,7 +28,6 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.ClientSplitContainer = new System.Windows.Forms.SplitContainer();
-            this.TagsListView = new System.Windows.Forms.ListView();
             this.btnFindAll = new System.Windows.Forms.Button();
             this.btnClose = new System.Windows.Forms.Button();
             this.cbUseRegex = new System.Windows.Forms.CheckBox();
@@ -83,6 +82,7 @@
             this.AddFileDialog = new System.Windows.Forms.OpenFileDialog();
             this.ToolStripContainer = new System.Windows.Forms.ToolStripContainer();
             this.StatusBar = new System.Windows.Forms.StatusStrip();
+            this.checkedListBox1 = new System.Windows.Forms.CheckedListBox();
             this.ToolStrip = new TagScanner.Controls.FirstClickToolStrip();
             this.tbNew = new System.Windows.Forms.ToolStripSplitButton();
             this.tbNewLibrary = new System.Windows.Forms.ToolStripMenuItem();
@@ -225,7 +225,7 @@
             // 
             // ClientSplitContainer.Panel1
             // 
-            this.ClientSplitContainer.Panel1.Controls.Add(this.TagsListView);
+            this.ClientSplitContainer.Panel1.Controls.Add(this.checkedListBox1);
             this.ClientSplitContainer.Panel1.Controls.Add(this.btnFindAll);
             this.ClientSplitContainer.Panel1.Controls.Add(this.btnClose);
             this.ClientSplitContainer.Panel1.Controls.Add(this.cbUseRegex);
@@ -250,23 +250,11 @@
             this.ClientSplitContainer.SplitterDistance = 202;
             this.ClientSplitContainer.TabIndex = 3;
             // 
-            // TagsListView
-            // 
-            this.TagsListView.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.TagsListView.CheckBoxes = true;
-            this.TagsListView.HideSelection = false;
-            this.TagsListView.Location = new System.Drawing.Point(120, 65);
-            this.TagsListView.Name = "TagsListView";
-            this.TagsListView.Size = new System.Drawing.Size(278, 132);
-            this.TagsListView.TabIndex = 58;
-            this.TagsListView.UseCompatibleStateImageBehavior = false;
-            this.TagsListView.View = System.Windows.Forms.View.List;
-            // 
             // btnFindAll
             // 
             this.btnFindAll.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnFindAll.FlatAppearance.BorderSize = 0;
+            this.btnFindAll.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.btnFindAll.Location = new System.Drawing.Point(404, 135);
             this.btnFindAll.Name = "btnFindAll";
             this.btnFindAll.Size = new System.Drawing.Size(105, 27);
@@ -278,6 +266,8 @@
             // 
             this.btnClose.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.btnClose.DialogResult = System.Windows.Forms.DialogResult.Cancel;
+            this.btnClose.FlatAppearance.BorderSize = 0;
+            this.btnClose.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.btnClose.Location = new System.Drawing.Point(404, 3);
             this.btnClose.Name = "btnClose";
             this.btnClose.Size = new System.Drawing.Size(105, 27);
@@ -365,7 +355,10 @@
             // btnReplaceAll
             // 
             this.btnReplaceAll.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnReplaceAll.FlatAppearance.BorderSize = 0;
+            this.btnReplaceAll.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.btnReplaceAll.Location = new System.Drawing.Point(404, 168);
+            this.btnReplaceAll.Margin = new System.Windows.Forms.Padding(0);
             this.btnReplaceAll.Name = "btnReplaceAll";
             this.btnReplaceAll.Size = new System.Drawing.Size(105, 27);
             this.btnReplaceAll.TabIndex = 53;
@@ -375,7 +368,7 @@
             // btnReplaceNext
             // 
             this.btnReplaceNext.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnReplaceNext.Location = new System.Drawing.Point(404, 134);
+            this.btnReplaceNext.Location = new System.Drawing.Point(404, 135);
             this.btnReplaceNext.Name = "btnReplaceNext";
             this.btnReplaceNext.Size = new System.Drawing.Size(105, 27);
             this.btnReplaceNext.TabIndex = 52;
@@ -385,6 +378,8 @@
             // btnSkipTrack
             // 
             this.btnSkipTrack.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnSkipTrack.FlatAppearance.BorderSize = 0;
+            this.btnSkipTrack.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.btnSkipTrack.Location = new System.Drawing.Point(404, 102);
             this.btnSkipTrack.Name = "btnSkipTrack";
             this.btnSkipTrack.Size = new System.Drawing.Size(105, 27);
@@ -395,6 +390,8 @@
             // btnFindNext
             // 
             this.btnFindNext.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnFindNext.FlatAppearance.BorderSize = 0;
+            this.btnFindNext.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.btnFindNext.Location = new System.Drawing.Point(404, 69);
             this.btnFindNext.Name = "btnFindNext";
             this.btnFindNext.Size = new System.Drawing.Size(105, 27);
@@ -405,6 +402,8 @@
             // btnFindPrevious
             // 
             this.btnFindPrevious.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnFindPrevious.FlatAppearance.BorderSize = 0;
+            this.btnFindPrevious.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.btnFindPrevious.Location = new System.Drawing.Point(404, 36);
             this.btnFindPrevious.Name = "btnFindPrevious";
             this.btnFindPrevious.Size = new System.Drawing.Size(105, 27);
@@ -739,7 +738,7 @@
             // RecentLibraryPopupMenu
             // 
             this.RecentLibraryPopupMenu.Name = "RecentLibraryPopupMenu";
-            this.RecentLibraryPopupMenu.OwnerItem = this.tbAddRecentLibrary;
+            this.RecentLibraryPopupMenu.OwnerItem = this.FileReopen;
             this.RecentLibraryPopupMenu.Size = new System.Drawing.Size(61, 4);
             // 
             // RecentFolderPopupMenu
@@ -804,6 +803,14 @@
             this.StatusBar.Size = new System.Drawing.Size(784, 22);
             this.StatusBar.TabIndex = 10;
             this.StatusBar.Text = "Status";
+            // 
+            // checkedListBox1
+            // 
+            this.checkedListBox1.FormattingEnabled = true;
+            this.checkedListBox1.Location = new System.Drawing.Point(120, 65);
+            this.checkedListBox1.Name = "checkedListBox1";
+            this.checkedListBox1.Size = new System.Drawing.Size(90, 84);
+            this.checkedListBox1.TabIndex = 58;
             // 
             // ToolStrip
             // 
@@ -1624,7 +1631,6 @@
         private System.ComponentModel.IContainer components;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator4;
         public System.Windows.Forms.ToolStripButton tbFind;
-        public System.Windows.Forms.ListView TagsListView;
         public System.Windows.Forms.Button btnFindAll;
         public System.Windows.Forms.Button btnClose;
         public System.Windows.Forms.CheckBox cbUseRegex;
@@ -1648,6 +1654,7 @@
         private System.Windows.Forms.ToolStripSeparator toolStripMenuItem7;
         public System.Windows.Forms.ToolStripMenuItem GroupByTitle;
         public System.Windows.Forms.Button EditButton;
+        private System.Windows.Forms.CheckedListBox checkedListBox1;
     }
 }
 

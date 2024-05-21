@@ -20,8 +20,6 @@
         public FindReplaceController(Controller parent) : base(parent)
         {
             Hide();
-            TagsListController = new TagsListController(this, TagsListView);
-            TagsListController.InitListView();
             MainForm.EditFind.Click += EditFind_Click;
             MainForm.tbFind.Click += EditFind_Click;
             MainForm.EditReplace.Click += EditReplace_Click;
@@ -98,7 +96,6 @@
         private RadioButton ReplaceRadioButton => MainForm.rbReplace;
 
         private SplitContainer ClientSplitContainer => MainForm.ClientSplitContainer;
-        private ListView TagsListView => MainForm.TagsListView;
 
         #endregion
 
@@ -265,8 +262,6 @@
         private void UpdateUI()
         {
             var replacing = ReplaceRadioButton.Checked;
-            TagsListController.InitItems(!replacing);
-            TagsListController.SetSelectedTags(new[] { Tag.Title, Tag.Album, Tag.JoinedPerformers });
             ReplaceComboBox.Enabled =
                 BtnReplaceNext.Visible =
                 BtnReplaceAll.Visible = replacing;
