@@ -63,7 +63,7 @@
             this.Toolbar.LayoutStyle = System.Windows.Forms.ToolStripLayoutStyle.Flow;
             this.Toolbar.Location = new System.Drawing.Point(0, 0);
             this.Toolbar.Name = "Toolbar";
-            this.Toolbar.Size = new System.Drawing.Size(173, 69);
+            this.Toolbar.Size = new System.Drawing.Size(173, 88);
             this.Toolbar.TabIndex = 1;
             this.Toolbar.Text = "toolStrip1";
             // 
@@ -171,13 +171,12 @@
             // 
             // tbPickTags
             // 
-            this.tbPickTags.AutoSize = false;
             this.tbPickTags.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
             this.tbPickTags.Image = ((System.Drawing.Image)(resources.GetObject("tbPickTags.Image")));
             this.tbPickTags.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.tbPickTags.Name = "tbPickTags";
-            this.tbPickTags.Size = new System.Drawing.Size(103, 19);
-            this.tbPickTags.Text = "Album|Artist|Title";
+            this.tbPickTags.Size = new System.Drawing.Size(79, 19);
+            this.tbPickTags.Text = "Search Fields";
             // 
             // FindReplaceControl
             // 
