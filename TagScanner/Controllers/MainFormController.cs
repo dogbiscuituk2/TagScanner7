@@ -42,7 +42,7 @@
             PictureController = new PictureController(View.PictureBox, View.PropertyGrid, PlayerController.PlaylistGrid);
             PropertyGridController = new PropertyGridController(this);
             StatusController = new StatusController(this);
-            FindReplaceController = new FindReplaceController(this);
+            FindReplaceController = new FindReplaceControllerOld(this);
             AutoCompleteController = new AutoCompleteController(this, View.FindComboBox, View.ReplaceComboBox, View.FilterComboBox);
             AutoCompleteController.SetList(View.FilterComboBox, Tokenizer.AutocompleteItems);
             View.FilterComboBox.AutoCompleteCustomSource.AddRange(Tokenizer.AutocompleteItems.ToArray());
@@ -144,7 +144,7 @@
         public readonly AutoCompleteController AutoCompleteController;
         public readonly CommandProcessor CommandProcessor;
         public readonly FilterController FilterController;
-        public readonly FindReplaceController FindReplaceController;
+        public readonly FindReplaceControllerOld FindReplaceController;
         public readonly WpfTableController TableController;
         public readonly MruMediaController MediaController;
         public readonly MruLibraryController LibraryController;

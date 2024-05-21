@@ -28,6 +28,7 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.ClientSplitContainer = new System.Windows.Forms.SplitContainer();
+            this.checkedListBox1 = new System.Windows.Forms.CheckedListBox();
             this.btnFindAll = new System.Windows.Forms.Button();
             this.btnClose = new System.Windows.Forms.Button();
             this.cbUseRegex = new System.Windows.Forms.CheckBox();
@@ -75,14 +76,19 @@
             this.MediaPlayer = new AxWMPLib.AxWindowsMediaPlayer();
             this.FilterPopupMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.RecentLibraryPopupMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.FileReopen = new System.Windows.Forms.ToolStripMenuItem();
+            this.AddRecentLibrary = new System.Windows.Forms.ToolStripMenuItem();
             this.RecentFolderPopupMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.AddRecentFolder = new System.Windows.Forms.ToolStripMenuItem();
+            this.tbAddRecentFolder = new System.Windows.Forms.ToolStripMenuItem();
             this.UndoPopupMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.tbUndo = new System.Windows.Forms.ToolStripSplitButton();
             this.RedoPopupMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.tbRedo = new System.Windows.Forms.ToolStripSplitButton();
             this.AddFolderDialog = new System.Windows.Forms.FolderBrowserDialog();
             this.AddFileDialog = new System.Windows.Forms.OpenFileDialog();
             this.ToolStripContainer = new System.Windows.Forms.ToolStripContainer();
             this.StatusBar = new System.Windows.Forms.StatusStrip();
-            this.checkedListBox1 = new System.Windows.Forms.CheckedListBox();
             this.ToolStrip = new TagScanner.Controls.FirstClickToolStrip();
             this.tbNew = new System.Windows.Forms.ToolStripSplitButton();
             this.tbNewLibrary = new System.Windows.Forms.ToolStripMenuItem();
@@ -95,8 +101,6 @@
             this.tbSaveAs = new System.Windows.Forms.ToolStripMenuItem();
             this.saveAllToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
-            this.tbUndo = new System.Windows.Forms.ToolStripSplitButton();
-            this.tbRedo = new System.Windows.Forms.ToolStripSplitButton();
             this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
             this.tbCut = new System.Windows.Forms.ToolStripButton();
             this.tbCopy = new System.Windows.Forms.ToolStripButton();
@@ -110,13 +114,11 @@
             this.tbAddFolder = new System.Windows.Forms.ToolStripMenuItem();
             this.tbAddLibrary = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem12 = new System.Windows.Forms.ToolStripSeparator();
-            this.tbAddRecentFolder = new System.Windows.Forms.ToolStripMenuItem();
             this.tbAddRecentLibrary = new System.Windows.Forms.ToolStripMenuItem();
             this.MainMenu = new TagScanner.Controls.FirstClickMenuStrip();
             this.FileMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.FileNew = new System.Windows.Forms.ToolStripMenuItem();
             this.FileOpen = new System.Windows.Forms.ToolStripMenuItem();
-            this.FileReopen = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripSeparator();
             this.FileSave = new System.Windows.Forms.ToolStripMenuItem();
             this.FileSaveAs = new System.Windows.Forms.ToolStripMenuItem();
@@ -144,8 +146,6 @@
             this.AddFolder = new System.Windows.Forms.ToolStripMenuItem();
             this.AddLibrary = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem3 = new System.Windows.Forms.ToolStripSeparator();
-            this.AddRecentFolder = new System.Windows.Forms.ToolStripMenuItem();
-            this.AddRecentLibrary = new System.Windows.Forms.ToolStripMenuItem();
             this.GroupByMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.GroupByArtistAlbum = new System.Windows.Forms.ToolStripMenuItem();
             this.GroupByArtist = new System.Windows.Forms.ToolStripMenuItem();
@@ -160,6 +160,8 @@
             this.toolStripMenuItem8 = new System.Windows.Forms.ToolStripSeparator();
             this.HelpMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.HelpAbout = new System.Windows.Forms.ToolStripMenuItem();
+            this.panel1 = new System.Windows.Forms.Panel();
+            this.findReplaceControl1 = new TagScanner.Views.FindReplaceControl();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -191,6 +193,7 @@
             this.ToolStripContainer.SuspendLayout();
             this.ToolStrip.SuspendLayout();
             this.MainMenu.SuspendLayout();
+            this.panel1.SuspendLayout();
             this.SuspendLayout();
             // 
             // splitContainer1
@@ -250,6 +253,22 @@
             this.ClientSplitContainer.SplitterDistance = 202;
             this.ClientSplitContainer.TabIndex = 3;
             // 
+            // checkedListBox1
+            // 
+            this.checkedListBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.checkedListBox1.FormattingEnabled = true;
+            this.checkedListBox1.Items.AddRange(new object[] {
+            "Album",
+            "Artist",
+            "File Path",
+            "Title"});
+            this.checkedListBox1.Location = new System.Drawing.Point(9, 65);
+            this.checkedListBox1.Name = "checkedListBox1";
+            this.checkedListBox1.Size = new System.Drawing.Size(278, 84);
+            this.checkedListBox1.TabIndex = 58;
+            // 
             // btnFindAll
             // 
             this.btnFindAll.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
@@ -277,9 +296,10 @@
             // 
             // cbUseRegex
             // 
+            this.cbUseRegex.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.cbUseRegex.AutoSize = true;
             this.cbUseRegex.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.cbUseRegex.Location = new System.Drawing.Point(28, 123);
+            this.cbUseRegex.Location = new System.Drawing.Point(312, 123);
             this.cbUseRegex.Name = "cbUseRegex";
             this.cbUseRegex.Size = new System.Drawing.Size(86, 21);
             this.cbUseRegex.TabIndex = 47;
@@ -288,9 +308,10 @@
             // 
             // cbMatchWholeWord
             // 
+            this.cbMatchWholeWord.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.cbMatchWholeWord.AutoSize = true;
             this.cbMatchWholeWord.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.cbMatchWholeWord.Location = new System.Drawing.Point(16, 96);
+            this.cbMatchWholeWord.Location = new System.Drawing.Point(300, 96);
             this.cbMatchWholeWord.Name = "cbMatchWholeWord";
             this.cbMatchWholeWord.Size = new System.Drawing.Size(98, 21);
             this.cbMatchWholeWord.TabIndex = 46;
@@ -299,9 +320,10 @@
             // 
             // cbMatchCase
             // 
+            this.cbMatchCase.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.cbMatchCase.AutoSize = true;
             this.cbMatchCase.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.cbMatchCase.Location = new System.Drawing.Point(6, 69);
+            this.cbMatchCase.Location = new System.Drawing.Point(290, 69);
             this.cbMatchCase.Name = "cbMatchCase";
             this.cbMatchCase.Size = new System.Drawing.Size(108, 21);
             this.cbMatchCase.TabIndex = 45;
@@ -600,22 +622,23 @@
             // splitContainer2.Panel1
             // 
             this.splitContainer2.Panel1.Controls.Add(this.PictureBox);
+            this.splitContainer2.Panel1.Controls.Add(this.panel1);
             // 
             // splitContainer2.Panel2
             // 
             this.splitContainer2.Panel2.Controls.Add(this.TabControl);
             this.splitContainer2.Size = new System.Drawing.Size(228, 514);
-            this.splitContainer2.SplitterDistance = 129;
+            this.splitContainer2.SplitterDistance = 200;
             this.splitContainer2.SplitterWidth = 5;
             this.splitContainer2.TabIndex = 0;
             // 
             // PictureBox
             // 
             this.PictureBox.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.PictureBox.Location = new System.Drawing.Point(0, 0);
+            this.PictureBox.Location = new System.Drawing.Point(0, 68);
             this.PictureBox.Margin = new System.Windows.Forms.Padding(4);
             this.PictureBox.Name = "PictureBox";
-            this.PictureBox.Size = new System.Drawing.Size(228, 129);
+            this.PictureBox.Size = new System.Drawing.Size(228, 132);
             this.PictureBox.TabIndex = 0;
             this.PictureBox.TabStop = false;
             // 
@@ -630,7 +653,7 @@
             this.TabControl.Name = "TabControl";
             this.TabControl.Padding = new System.Drawing.Point(0, 0);
             this.TabControl.SelectedIndex = 0;
-            this.TabControl.Size = new System.Drawing.Size(228, 380);
+            this.TabControl.Size = new System.Drawing.Size(228, 309);
             this.TabControl.TabIndex = 0;
             // 
             // tabTags
@@ -641,7 +664,7 @@
             this.tabTags.Location = new System.Drawing.Point(4, 26);
             this.tabTags.Margin = new System.Windows.Forms.Padding(0);
             this.tabTags.Name = "tabTags";
-            this.tabTags.Size = new System.Drawing.Size(220, 350);
+            this.tabTags.Size = new System.Drawing.Size(220, 279);
             this.tabTags.TabIndex = 0;
             this.tabTags.Text = "Tags";
             // 
@@ -673,17 +696,17 @@
             this.PropertyGrid.Location = new System.Drawing.Point(0, 0);
             this.PropertyGrid.Margin = new System.Windows.Forms.Padding(0);
             this.PropertyGrid.Name = "PropertyGrid";
-            this.PropertyGrid.Size = new System.Drawing.Size(220, 350);
+            this.PropertyGrid.Size = new System.Drawing.Size(220, 279);
             this.PropertyGrid.TabIndex = 0;
             // 
             // tabPlayer
             // 
             this.tabPlayer.Controls.Add(this.splitContainer3);
-            this.tabPlayer.Location = new System.Drawing.Point(4, 26);
+            this.tabPlayer.Location = new System.Drawing.Point(4, 22);
             this.tabPlayer.Margin = new System.Windows.Forms.Padding(4);
             this.tabPlayer.Name = "tabPlayer";
             this.tabPlayer.Padding = new System.Windows.Forms.Padding(4);
-            this.tabPlayer.Size = new System.Drawing.Size(220, 350);
+            this.tabPlayer.Size = new System.Drawing.Size(220, 354);
             this.tabPlayer.TabIndex = 4;
             this.tabPlayer.Text = "Player";
             this.tabPlayer.UseVisualStyleBackColor = true;
@@ -738,14 +761,42 @@
             // RecentLibraryPopupMenu
             // 
             this.RecentLibraryPopupMenu.Name = "RecentLibraryPopupMenu";
-            this.RecentLibraryPopupMenu.OwnerItem = this.FileReopen;
+            this.RecentLibraryPopupMenu.OwnerItem = this.tbAddRecentLibrary;
             this.RecentLibraryPopupMenu.Size = new System.Drawing.Size(61, 4);
+            // 
+            // FileReopen
+            // 
+            this.FileReopen.DropDown = this.RecentLibraryPopupMenu;
+            this.FileReopen.Name = "FileReopen";
+            this.FileReopen.Size = new System.Drawing.Size(161, 22);
+            this.FileReopen.Text = "&Reopen";
+            // 
+            // AddRecentLibrary
+            // 
+            this.AddRecentLibrary.DropDown = this.RecentLibraryPopupMenu;
+            this.AddRecentLibrary.Name = "AddRecentLibrary";
+            this.AddRecentLibrary.Size = new System.Drawing.Size(149, 22);
+            this.AddRecentLibrary.Text = "R&ecent Library";
             // 
             // RecentFolderPopupMenu
             // 
             this.RecentFolderPopupMenu.Name = "RecentFolderPopupMenu";
-            this.RecentFolderPopupMenu.OwnerItem = this.AddRecentFolder;
+            this.RecentFolderPopupMenu.OwnerItem = this.tbAddRecentFolder;
             this.RecentFolderPopupMenu.Size = new System.Drawing.Size(61, 4);
+            // 
+            // AddRecentFolder
+            // 
+            this.AddRecentFolder.DropDown = this.RecentFolderPopupMenu;
+            this.AddRecentFolder.Name = "AddRecentFolder";
+            this.AddRecentFolder.Size = new System.Drawing.Size(149, 22);
+            this.AddRecentFolder.Text = "&Recent Folder";
+            // 
+            // tbAddRecentFolder
+            // 
+            this.tbAddRecentFolder.DropDown = this.RecentFolderPopupMenu;
+            this.tbAddRecentFolder.Name = "tbAddRecentFolder";
+            this.tbAddRecentFolder.Size = new System.Drawing.Size(149, 22);
+            this.tbAddRecentFolder.Text = "&Recent Folder";
             // 
             // UndoPopupMenu
             // 
@@ -753,11 +804,33 @@
             this.UndoPopupMenu.OwnerItem = this.tbUndo;
             this.UndoPopupMenu.Size = new System.Drawing.Size(61, 4);
             // 
+            // tbUndo
+            // 
+            this.tbUndo.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.tbUndo.DropDown = this.UndoPopupMenu;
+            this.tbUndo.Image = global::TagScanner.Properties.Resources.Edit_UndoHS;
+            this.tbUndo.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.tbUndo.Name = "tbUndo";
+            this.tbUndo.Size = new System.Drawing.Size(31, 20);
+            this.tbUndo.Text = "tbUndo";
+            this.tbUndo.ToolTipText = "Undo";
+            // 
             // RedoPopupMenu
             // 
             this.RedoPopupMenu.Name = "RedoPopupMenu";
             this.RedoPopupMenu.OwnerItem = this.tbRedo;
             this.RedoPopupMenu.Size = new System.Drawing.Size(61, 4);
+            // 
+            // tbRedo
+            // 
+            this.tbRedo.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.tbRedo.DropDown = this.RedoPopupMenu;
+            this.tbRedo.Image = global::TagScanner.Properties.Resources.Edit_RedoHS;
+            this.tbRedo.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.tbRedo.Name = "tbRedo";
+            this.tbRedo.Size = new System.Drawing.Size(31, 20);
+            this.tbRedo.Text = "tbRedo";
+            this.tbRedo.ToolTipText = "Redo";
             // 
             // AddFolderDialog
             // 
@@ -803,14 +876,6 @@
             this.StatusBar.Size = new System.Drawing.Size(784, 22);
             this.StatusBar.TabIndex = 10;
             this.StatusBar.Text = "Status";
-            // 
-            // checkedListBox1
-            // 
-            this.checkedListBox1.FormattingEnabled = true;
-            this.checkedListBox1.Location = new System.Drawing.Point(120, 65);
-            this.checkedListBox1.Name = "checkedListBox1";
-            this.checkedListBox1.Size = new System.Drawing.Size(90, 84);
-            this.checkedListBox1.TabIndex = 58;
             // 
             // ToolStrip
             // 
@@ -938,28 +1003,6 @@
             this.toolStripSeparator1.Name = "toolStripSeparator1";
             this.toolStripSeparator1.Size = new System.Drawing.Size(31, 6);
             // 
-            // tbUndo
-            // 
-            this.tbUndo.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.tbUndo.DropDown = this.UndoPopupMenu;
-            this.tbUndo.Image = global::TagScanner.Properties.Resources.Edit_UndoHS;
-            this.tbUndo.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.tbUndo.Name = "tbUndo";
-            this.tbUndo.Size = new System.Drawing.Size(31, 20);
-            this.tbUndo.Text = "tbUndo";
-            this.tbUndo.ToolTipText = "Undo";
-            // 
-            // tbRedo
-            // 
-            this.tbRedo.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.tbRedo.DropDown = this.RedoPopupMenu;
-            this.tbRedo.Image = global::TagScanner.Properties.Resources.Edit_RedoHS;
-            this.tbRedo.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.tbRedo.Name = "tbRedo";
-            this.tbRedo.Size = new System.Drawing.Size(31, 20);
-            this.tbRedo.Text = "tbRedo";
-            this.tbRedo.ToolTipText = "Redo";
-            // 
             // toolStripSeparator3
             // 
             this.toolStripSeparator3.Name = "toolStripSeparator3";
@@ -1061,13 +1104,6 @@
             this.toolStripMenuItem12.Name = "toolStripMenuItem12";
             this.toolStripMenuItem12.Size = new System.Drawing.Size(146, 6);
             // 
-            // tbAddRecentFolder
-            // 
-            this.tbAddRecentFolder.DropDown = this.RecentFolderPopupMenu;
-            this.tbAddRecentFolder.Name = "tbAddRecentFolder";
-            this.tbAddRecentFolder.Size = new System.Drawing.Size(149, 22);
-            this.tbAddRecentFolder.Text = "&Recent Folder";
-            // 
             // tbAddRecentLibrary
             // 
             this.tbAddRecentLibrary.DropDown = this.RecentLibraryPopupMenu;
@@ -1128,13 +1164,6 @@
             this.FileOpen.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.O)));
             this.FileOpen.Size = new System.Drawing.Size(161, 22);
             this.FileOpen.Text = "&Open...";
-            // 
-            // FileReopen
-            // 
-            this.FileReopen.DropDown = this.RecentLibraryPopupMenu;
-            this.FileReopen.Name = "FileReopen";
-            this.FileReopen.Size = new System.Drawing.Size(161, 22);
-            this.FileReopen.Text = "&Reopen";
             // 
             // toolStripMenuItem1
             // 
@@ -1347,20 +1376,6 @@
             this.toolStripMenuItem3.Name = "toolStripMenuItem3";
             this.toolStripMenuItem3.Size = new System.Drawing.Size(146, 6);
             // 
-            // AddRecentFolder
-            // 
-            this.AddRecentFolder.DropDown = this.RecentFolderPopupMenu;
-            this.AddRecentFolder.Name = "AddRecentFolder";
-            this.AddRecentFolder.Size = new System.Drawing.Size(149, 22);
-            this.AddRecentFolder.Text = "&Recent Folder";
-            // 
-            // AddRecentLibrary
-            // 
-            this.AddRecentLibrary.DropDown = this.RecentLibraryPopupMenu;
-            this.AddRecentLibrary.Name = "AddRecentLibrary";
-            this.AddRecentLibrary.Size = new System.Drawing.Size(149, 22);
-            this.AddRecentLibrary.Text = "R&ecent Library";
-            // 
             // GroupByMenu
             // 
             this.GroupByMenu.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -1461,6 +1476,24 @@
             this.HelpAbout.Size = new System.Drawing.Size(126, 22);
             this.HelpAbout.Text = "&About";
             // 
+            // panel1
+            // 
+            this.panel1.Controls.Add(this.findReplaceControl1);
+            this.panel1.Dock = System.Windows.Forms.DockStyle.Top;
+            this.panel1.Location = new System.Drawing.Point(0, 0);
+            this.panel1.Name = "panel1";
+            this.panel1.Size = new System.Drawing.Size(228, 68);
+            this.panel1.TabIndex = 1;
+            // 
+            // findReplaceControl1
+            // 
+            this.findReplaceControl1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.findReplaceControl1.Location = new System.Drawing.Point(0, 0);
+            this.findReplaceControl1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.findReplaceControl1.Name = "findReplaceControl1";
+            this.findReplaceControl1.Size = new System.Drawing.Size(228, 68);
+            this.findReplaceControl1.TabIndex = 0;
+            // 
             // MainForm
             // 
             this.AcceptButton = this.ApplyButton;
@@ -1514,6 +1547,7 @@
             this.ToolStrip.PerformLayout();
             this.MainMenu.ResumeLayout(false);
             this.MainMenu.PerformLayout();
+            this.panel1.ResumeLayout(false);
             this.ResumeLayout(false);
 
 		}
@@ -1655,6 +1689,8 @@
         public System.Windows.Forms.ToolStripMenuItem GroupByTitle;
         public System.Windows.Forms.Button EditButton;
         private System.Windows.Forms.CheckedListBox checkedListBox1;
+        private System.Windows.Forms.Panel panel1;
+        private FindReplaceControl findReplaceControl1;
     }
 }
 

@@ -153,6 +153,7 @@
     <Compile Include="Controllers\FilterController.cs" />
     <Compile Include="Controllers\AppController.cs" />
     <Compile Include="Controllers\FindReplaceController.cs" />
+    <Compile Include="Controllers\FindReplaceControllerOld.cs" />
     <Compile Include="Controllers\InputBoxController.cs" />
     <Compile Include="Controllers\Mru\MruController.cs" />
     <Compile Include="Controllers\Mru\MruFilterController.cs" />
@@ -272,6 +273,18 @@
     <Compile Include="Models\Logical.cs" />
     <Compile Include="Models\Reader.cs" />
     <Compile Include="Models\ITrack.cs" />
+    <Compile Include="Controls\FindReplaceControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\FindReplaceControl.Designer.cs">
+      <DependentUpon>FindReplaceControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Form1.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Views\Form1.Designer.cs">
+      <DependentUpon>Form1.cs</DependentUpon>
+    </Compile>
     <Compile Include="Views\InputBox.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -321,6 +334,12 @@
     <Compile Include="Views\FilterForm.Designer.cs">
       <DependentUpon>FilterForm.cs</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="Controls\FindReplaceControl.resx">
+      <DependentUpon>FindReplaceControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\Form1.resx">
+      <DependentUpon>Form1.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Views\InputBox.resx">
       <DependentUpon>InputBox.cs</DependentUpon>
     </EmbeddedResource>
@@ -400,6 +419,14 @@
     <Content Include="Resources\folder_Open_16xLG.png" />
     <Content Include="Resources\FontDialogHS.png" />
     <Content Include="Resources\FormRunHS.png" />
+    <Content Include="Resources\frCase.png" />
+    <Content Include="Resources\frClose.png" />
+    <Content Include="Resources\frFindNext.png" />
+    <Content Include="Resources\frRegex.png" />
+    <Content Include="Resources\frReplaceAll.png" />
+    <Content Include="Resources\frReplaceNext.png" />
+    <Content Include="Resources\frToggle.png" />
+    <Content Include="Resources\frWholeWord.png" />
     <Content Include="Resources\FullScreenHS.png" />
     <Content Include="Resources\FunctionHS.png" />
     <Content Include="Resources\GoLtrHS.png" />
