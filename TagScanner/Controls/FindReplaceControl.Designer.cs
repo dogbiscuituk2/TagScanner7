@@ -142,7 +142,8 @@
             // tbCloseUp
             // 
             this.tbCloseUp.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.tbCloseUp.Image = global::TagScanner.Properties.Resources.frCloseUp;
+            this.tbCloseUp.Enabled = false;
+            this.tbCloseUp.Image = global::TagScanner.Properties.Resources.frBlank;
             this.tbCloseUp.ImageTransparentColor = System.Drawing.Color.White;
             this.tbCloseUp.Name = "tbCloseUp";
             this.tbCloseUp.Size = new System.Drawing.Size(23, 20);

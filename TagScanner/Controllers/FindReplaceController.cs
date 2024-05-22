@@ -10,7 +10,9 @@
     using System.Windows.Forms;
     using Forms;
     using Models;
+    using TagScanner.Commands;
     using TagScanner.Terms;
+    using TagScanner.Utils;
 
     public class FindReplaceController : Controller
     {
@@ -132,6 +134,7 @@
         private FindReplaceControl View => MainForm.FindReplaceControl;
 
         private bool CaseSensitive { get => TbCaseSensitive.Checked; set => TbCaseSensitive.Checked = value; }
+        private RegexOptions RegexOptions => CaseSensitive.AsRegexOptions();
         private bool UseRegex { get => TbUseRegex.Checked; set => TbUseRegex.Checked = value; }
         private bool WholeWord { get => TbWholeWord.Checked; set => TbWholeWord.Checked = value; }
 
@@ -145,6 +148,16 @@
                 if (WholeWord)
                     pattern = $@"\b{pattern}\b";
                 return pattern;
+            }
+        }
+
+        private bool Replacing
+        {
+            get => TbCloseUp.Visible;
+            set
+            {
+                TbCloseUp.Visible = CbReplace.Visible = TbReplaceNext.Visible = TbReplaceAll.Visible = value;
+                TbDropDown.Image = value ? Properties.Resources.frCloseUp : Properties.Resources.frDropDown;
             }
         }
 
@@ -173,7 +186,7 @@
         private void EditReplace_Click(object sender, EventArgs e) => Show(replace: true);
         private void TbCaseSensitive_Click(object sender, EventArgs e) => ToggleCaseSensitive();
         private void TbCloseUp_Click(object sender, EventArgs e) => Show(replace: false);
-        private void TbDropDown_Click(object sender, EventArgs e) => Show(replace: true);
+        private void TbDropDown_Click(object sender, EventArgs e) => Show(replace: !Replacing);
         private void TbFindAll_Click(object sender, EventArgs e) => FindAll();
         private void TbFindClose_Click(object sender, EventArgs e) => ShowFindReplace(visible: false);
         private void TbFindNext_Click(object sender, EventArgs e) => FindNext();
@@ -188,21 +201,6 @@
         #endregion
 
         #region Private Methods
-
-        private void FindAll() { }
-        private void FindNext() { }
-        private void FindPrevious() { }
-        private void Hide() => ShowFindReplace(visible: false);
-        private void ReplaceAll() { }
-        private void ReplaceNext() { }
-        private void Resize() => CbFind.Size = CbReplace.Size = new Size(View.Width - 81, CbFind.Height);
-        private void Show(bool replace) => ShowFindReplace(visible: true, replacing: replace);
-        private void ToggleCaseSensitive() => CaseSensitive ^= true;
-        private void ToggleUseRegex() => UseRegex ^= true;
-        private void ToggleWholeWord() => WholeWord ^= true;
-
-        private void UpdateFindItems() => AppController.UpdateFindItems(CbFind.Items, CbFind.Text);
-        private void UpdateReplaceItems() => AppController.UpdateReplaceItems(CbReplace.Items, CbReplace.Text);
 
         private bool Find()
         {
@@ -225,6 +223,81 @@
 
             return result;
         }
+
+        private void FindAll()
+        {
+            if (Find())
+            {
+                AppController.NewWindow(
+                    nameFormat: "<find results {0}>",
+                    selection: Selection,
+                    modified: false);
+                //TableController.Selection = Selection;
+                //TableController.DataGrid.ScrollIntoView(Selection.Tracks[0]);
+                MainTableController.DataGrid.Focus();
+                MainTableController.FindResults = Selection;
+            }
+        }
+
+        private void FindNext()
+        {
+            UpdateFindItems();
+        }
+
+        private void FindPrevious()
+        {
+            UpdateFindItems();
+        }
+
+        private void Hide() => ShowFindReplace(visible: false);
+
+        private void Replace()
+        {
+            UpdateReplaceItems();
+        }
+
+        private void ReplaceAll()
+        {
+            UpdateReplaceItems();
+            if (Find())
+            {
+                var tracks = Selection.Tracks;
+                var tracksCount = tracks.Count;
+                var tags = SearchTags.ToList();
+                var tagsCount = tags.Count();
+                var values = new object[tracksCount, tagsCount];
+                var pattern = Pattern;
+                var options = RegexOptions;
+                for (var trackIndex = 0; trackIndex < tracksCount; trackIndex++)
+                {
+                    var track = tracks[trackIndex];
+                    for (var tagIndex = 0; tagIndex < tagsCount; tagIndex++)
+                    {
+                        var tag = tags[tagIndex];
+                        var value = track.GetPropertyValue(tag).ToString();
+                        if (Regex.IsMatch(value, pattern, options))
+                            value = Regex.Replace(value, pattern, CbReplace.Text, options);
+                        values[trackIndex, tagIndex] = value;
+                    }
+                }
+                var command = new ReplaceCommand(Selection, tags.ToArray(), values);
+                MainCommandProcessor.Run(command);
+            }
+        }
+
+        private void ReplaceNext()
+        {
+            UpdateReplaceItems();
+        }
+
+        private void Resize() => CbFind.Size = CbReplace.Size = new Size(View.Width - 81, CbFind.Height);
+        private void Show(bool replace) => ShowFindReplace(visible: true, replacing: replace);
+        private void ToggleCaseSensitive() => CaseSensitive ^= true;
+        private void ToggleUseRegex() => UseRegex ^= true;
+        private void ToggleWholeWord() => WholeWord ^= true;
+
+        private void UpdateFindItems() => AppController.UpdateFindItems(CbFind.Items, CbFind.Text);
+        private void UpdateReplaceItems() => AppController.UpdateReplaceItems(CbReplace.Items, CbReplace.Text);
 
         private Term MakeCondition()
         {
@@ -253,11 +326,9 @@
         private void ShowFindReplace(bool visible, bool replacing = false)
         {
             ParentControl.Visible = visible;
+            Replacing = replacing;
             if (visible)
-            {
-                TbCloseUp.Visible = CbReplace.Visible = TbReplaceNext.Visible = TbReplaceAll.Visible = replacing;
                 CbFind.Focus();
-            }
             ParentControl.Size = new Size(ParentControl.Width, replacing ? 75 : 52);
         }
 

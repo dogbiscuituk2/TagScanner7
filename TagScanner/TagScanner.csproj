@@ -153,7 +153,6 @@
     <Compile Include="Controllers\FilterController.cs" />
     <Compile Include="Controllers\AppController.cs" />
     <Compile Include="Controllers\FindReplaceController.cs" />
-    <Compile Include="Controllers\FindReplaceControllerOld.cs" />
     <Compile Include="Controllers\InputBoxController.cs" />
     <Compile Include="Controllers\Mru\MruController.cs" />
     <Compile Include="Controllers\Mru\MruFilterController.cs" />
@@ -410,6 +409,7 @@
     <Content Include="Resources\folder_Open_16xLG.png" />
     <Content Include="Resources\FontDialogHS.png" />
     <Content Include="Resources\FormRunHS.png" />
+    <None Include="Resources\frBlank.png" />
     <Content Include="Resources\frCase.png" />
     <Content Include="Resources\frClose.png" />
     <None Include="Resources\frCloseUp.png" />

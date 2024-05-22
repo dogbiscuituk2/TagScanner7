@@ -43,7 +43,6 @@
             PropertyGridController = new PropertyGridController(this);
             StatusController = new StatusController(this);
             FindReplaceController = new FindReplaceController(this);
-            FindReplaceControllerOld = new FindReplaceControllerOld(this);
             AutoCompleter = new AutoCompleter(this, View.FindReplaceControl.cbFind, View.FindReplaceControl.cbReplace, View.FilterComboBox);
             AutoCompleter.SetList(View.FilterComboBox, Tokenizer.AutocompleteItems);
             ModifiedChanged();
@@ -143,7 +142,6 @@
         public readonly CommandProcessor CommandProcessor;
         public readonly FilterController FilterController;
         public readonly FindReplaceController FindReplaceController;
-        public readonly FindReplaceControllerOld FindReplaceControllerOld;
         public readonly WpfTableController TableController;
         public readonly MruMediaController MediaController;
         public readonly MruLibraryController LibraryController;
