@@ -34,8 +34,10 @@
             Hide();
 
             MainForm.EditFind.Click += EditFind_Click;
+            MainForm.tbFindReplace.ButtonClick += EditFind_Click;
             MainForm.tbFind.Click += EditFind_Click;
             MainForm.EditReplace.Click += EditReplace_Click;
+            MainForm.tbReplace.Click += EditReplace_Click;
 
             TbDropDown.Click += TbDropDown_Click;
             TbFindNext.Click += TbFindNext_Click;

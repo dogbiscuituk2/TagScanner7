@@ -21,7 +21,7 @@
         {
             Hide();
             MainForm.EditFind.Click += EditFind_Click;
-            MainForm.tbFind.Click += EditFind_Click;
+            MainForm.tbFindReplace.Click += EditFind_Click;
             MainForm.EditReplace.Click += EditReplace_Click;
             FindComboBox.DropDown += FindComboBox_DropDown;
             FindRadioButton.CheckedChanged += Option_CheckedChanged;
