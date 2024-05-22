@@ -1,4 +1,4 @@
-﻿namespace TagScanner.Views
+﻿namespace TagScanner.Forms
 {
 	partial class TagVisibilityDialog
 	{

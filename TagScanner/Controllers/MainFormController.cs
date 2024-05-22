@@ -15,7 +15,7 @@
     using Streaming;
     using TagScanner.Terms;
     using Utils;
-    using Views;
+    using Forms;
     using Wpf;
 
     public class MainFormController : Controller

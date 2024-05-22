@@ -1,4 +1,4 @@
-﻿namespace TagScanner.Views
+﻿namespace TagScanner.Forms
 {
     using System;
     using System.Collections.Generic;

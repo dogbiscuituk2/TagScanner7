@@ -11,7 +11,7 @@
     using Models;
     using Terms;
     using Utils;
-    using Views;
+    using Forms;
 
     public class FindReplaceControllerOld : Controller
     {
@@ -247,7 +247,7 @@
             {
                 FindRadioButton.Checked = !replacing;
                 ReplaceRadioButton.Checked = replacing;
-                FindComboBox.Focus();
+                //FindComboBox.Focus();
                 UpdateUI();
                 UpdateAutoComplete();
             }

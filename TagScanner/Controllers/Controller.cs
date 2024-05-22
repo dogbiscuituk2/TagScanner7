@@ -3,7 +3,7 @@
     using System.Windows.Forms;
     using Commands;
     using Models;
-    using Views;
+    using Forms;
     using Wpf;
 
     public abstract class Controller

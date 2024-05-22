@@ -3,7 +3,7 @@
     using System.Collections.Generic;
     using System.Windows.Forms;
     using Models;
-    using Views;
+    using Forms;
 
     public class TagsController : Controller
     {

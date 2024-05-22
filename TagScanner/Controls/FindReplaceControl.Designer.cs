@@ -1,4 +1,4 @@
-﻿namespace TagScanner.Views
+﻿namespace TagScanner.Forms
 {
     partial class FindReplaceControl
     {
@@ -31,11 +31,14 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FindReplaceControl));
             this.Toolbar = new System.Windows.Forms.ToolStrip();
             this.tbDropDown = new System.Windows.Forms.ToolStripButton();
-            this.cbFindTerm = new System.Windows.Forms.ToolStripComboBox();
+            this.cbFind = new System.Windows.Forms.ToolStripComboBox();
             this.tbFind = new System.Windows.Forms.ToolStripSplitButton();
-            this.tbClose = new System.Windows.Forms.ToolStripButton();
+            this.tbFindNext = new System.Windows.Forms.ToolStripMenuItem();
+            this.tbFindPrevious = new System.Windows.Forms.ToolStripMenuItem();
+            this.tbFindAll = new System.Windows.Forms.ToolStripMenuItem();
+            this.tbFindClose = new System.Windows.Forms.ToolStripButton();
             this.tbCloseUp = new System.Windows.Forms.ToolStripButton();
-            this.cbReplaceTerm = new System.Windows.Forms.ToolStripComboBox();
+            this.cbReplace = new System.Windows.Forms.ToolStripComboBox();
             this.tbReplaceNext = new System.Windows.Forms.ToolStripButton();
             this.tbReplaceAll = new System.Windows.Forms.ToolStripButton();
             this.tbCaseSensitive = new System.Windows.Forms.ToolStripButton();
@@ -49,11 +52,11 @@
             // 
             this.Toolbar.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.tbDropDown,
-            this.cbFindTerm,
+            this.cbFind,
             this.tbFind,
-            this.tbClose,
+            this.tbFindClose,
             this.tbCloseUp,
-            this.cbReplaceTerm,
+            this.cbReplace,
             this.tbReplaceNext,
             this.tbReplaceAll,
             this.tbCaseSensitive,
@@ -77,15 +80,23 @@
             this.tbDropDown.Text = "toolStripButton1";
             this.tbDropDown.ToolTipText = "Toggle to switch between find and replace modes";
             // 
-            // cbFindTerm
+            // cbFind
             // 
-            this.cbFindTerm.Name = "cbFindTerm";
-            this.cbFindTerm.Size = new System.Drawing.Size(81, 23);
-            this.cbFindTerm.ToolTipText = "Search term";
+            this.cbFind.Items.AddRange(new object[] {
+            "one",
+            "two",
+            "three"});
+            this.cbFind.Name = "cbFind";
+            this.cbFind.Size = new System.Drawing.Size(81, 23);
+            this.cbFind.ToolTipText = "Search term";
             // 
             // tbFind
             // 
             this.tbFind.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.tbFind.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.tbFindNext,
+            this.tbFindPrevious,
+            this.tbFindAll});
             this.tbFind.Image = global::TagScanner.Properties.Resources.frFindNext;
             this.tbFind.ImageTransparentColor = System.Drawing.Color.White;
             this.tbFind.Name = "tbFind";
@@ -93,15 +104,40 @@
             this.tbFind.Text = "toolStripSplitButton1";
             this.tbFind.ToolTipText = "Find Next (F3)";
             // 
-            // tbClose
+            // tbFindNext
             // 
-            this.tbClose.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.tbClose.Image = global::TagScanner.Properties.Resources.frClose;
-            this.tbClose.ImageTransparentColor = System.Drawing.Color.White;
-            this.tbClose.Name = "tbClose";
-            this.tbClose.Size = new System.Drawing.Size(23, 20);
-            this.tbClose.Text = "toolStripButton2";
-            this.tbClose.ToolTipText = "Close";
+            this.tbFindNext.Image = global::TagScanner.Properties.Resources.frFindNext;
+            this.tbFindNext.Name = "tbFindNext";
+            this.tbFindNext.ShortcutKeys = System.Windows.Forms.Keys.F3;
+            this.tbFindNext.Size = new System.Drawing.Size(196, 22);
+            this.tbFindNext.Text = "Find Next";
+            // 
+            // tbFindPrevious
+            // 
+            this.tbFindPrevious.Image = global::TagScanner.Properties.Resources.frFindPrevious;
+            this.tbFindPrevious.ImageTransparentColor = System.Drawing.Color.White;
+            this.tbFindPrevious.Name = "tbFindPrevious";
+            this.tbFindPrevious.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Shift | System.Windows.Forms.Keys.F3)));
+            this.tbFindPrevious.Size = new System.Drawing.Size(196, 22);
+            this.tbFindPrevious.Text = "Find Previous";
+            // 
+            // tbFindAll
+            // 
+            this.tbFindAll.Image = global::TagScanner.Properties.Resources.frSearch;
+            this.tbFindAll.ImageTransparentColor = System.Drawing.Color.White;
+            this.tbFindAll.Name = "tbFindAll";
+            this.tbFindAll.Size = new System.Drawing.Size(196, 22);
+            this.tbFindAll.Text = "Find All";
+            // 
+            // tbFindClose
+            // 
+            this.tbFindClose.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.tbFindClose.Image = global::TagScanner.Properties.Resources.frClose;
+            this.tbFindClose.ImageTransparentColor = System.Drawing.Color.White;
+            this.tbFindClose.Name = "tbFindClose";
+            this.tbFindClose.Size = new System.Drawing.Size(23, 20);
+            this.tbFindClose.Text = "toolStripButton2";
+            this.tbFindClose.ToolTipText = "Close";
             // 
             // tbCloseUp
             // 
@@ -111,13 +147,13 @@
             this.tbCloseUp.Name = "tbCloseUp";
             this.tbCloseUp.Size = new System.Drawing.Size(23, 20);
             this.tbCloseUp.Text = "toolStripButton3";
-            this.tbCloseUp.ToolTipText = " ";
+            this.tbCloseUp.ToolTipText = " Toggle to switch between find and replace modes";
             // 
-            // cbReplaceTerm
+            // cbReplace
             // 
-            this.cbReplaceTerm.Name = "cbReplaceTerm";
-            this.cbReplaceTerm.Size = new System.Drawing.Size(81, 23);
-            this.cbReplaceTerm.ToolTipText = "Replace term";
+            this.cbReplace.Name = "cbReplace";
+            this.cbReplace.Size = new System.Drawing.Size(81, 23);
+            this.cbReplace.ToolTipText = "Replace term";
             // 
             // tbReplaceNext
             // 
@@ -175,8 +211,8 @@
             this.tbPickTags.Image = ((System.Drawing.Image)(resources.GetObject("tbPickTags.Image")));
             this.tbPickTags.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.tbPickTags.Name = "tbPickTags";
-            this.tbPickTags.Size = new System.Drawing.Size(79, 19);
-            this.tbPickTags.Text = "Search Fields";
+            this.tbPickTags.Size = new System.Drawing.Size(86, 19);
+            this.tbPickTags.Text = "Search fields...";
             // 
             // FindReplaceControl
             // 
@@ -196,16 +232,19 @@
 
         public System.Windows.Forms.ToolStrip Toolbar;
         public System.Windows.Forms.ToolStripButton tbDropDown;
-        public System.Windows.Forms.ToolStripComboBox cbFindTerm;
+        public System.Windows.Forms.ToolStripComboBox cbFind;
         public System.Windows.Forms.ToolStripSplitButton tbFind;
-        public System.Windows.Forms.ToolStripButton tbClose;
+        public System.Windows.Forms.ToolStripButton tbFindClose;
         public System.Windows.Forms.ToolStripButton tbCloseUp;
-        public System.Windows.Forms.ToolStripComboBox cbReplaceTerm;
+        public System.Windows.Forms.ToolStripComboBox cbReplace;
         public System.Windows.Forms.ToolStripButton tbReplaceNext;
         public System.Windows.Forms.ToolStripButton tbReplaceAll;
         public System.Windows.Forms.ToolStripButton tbCaseSensitive;
         public System.Windows.Forms.ToolStripButton tbWholeWord;
         public System.Windows.Forms.ToolStripButton tbUseRegex;
         public System.Windows.Forms.ToolStripButton tbPickTags;
+        public System.Windows.Forms.ToolStripMenuItem tbFindNext;
+        public System.Windows.Forms.ToolStripMenuItem tbFindPrevious;
+        public System.Windows.Forms.ToolStripMenuItem tbFindAll;
     }
 }

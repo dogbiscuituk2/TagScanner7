@@ -1,10 +1,10 @@
-﻿namespace TagScanner.Views
+﻿namespace TagScanner.Forms
 {
     using System.Windows.Forms;
 
-    public partial class MainForm : Form
+    public partial class SplashForm : Form
     {
-        public MainForm()
+        public SplashForm()
         {
             InitializeComponent();
         }

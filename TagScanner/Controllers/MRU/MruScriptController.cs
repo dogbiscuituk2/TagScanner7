@@ -5,7 +5,7 @@
     using System.Windows.Forms;
     using FastColoredTextBoxNS;
     using Streaming;
-    using Views;
+    using Forms;
 
     public class MruScriptController : MruSdiController
     {

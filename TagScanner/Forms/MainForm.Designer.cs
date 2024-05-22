@@ -1,4 +1,4 @@
-﻿namespace TagScanner.Views
+﻿namespace TagScanner.Forms
 {
 	partial class MainForm
 	{
@@ -64,7 +64,7 @@
             this.CaseSensitiveCheckBox = new System.Windows.Forms.CheckBox();
             this.SplitContainerRight = new System.Windows.Forms.SplitContainer();
             this.PictureBox = new System.Windows.Forms.PictureBox();
-            this.panel1 = new System.Windows.Forms.Panel();
+            this.FindReplacePanel = new System.Windows.Forms.Panel();
             this.TabControl = new System.Windows.Forms.TabControl();
             this.tabTags = new System.Windows.Forms.TabPage();
             this.PropertyGridPopupMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
@@ -83,7 +83,7 @@
             this.AddFileDialog = new System.Windows.Forms.OpenFileDialog();
             this.ToolStripContainer = new System.Windows.Forms.ToolStripContainer();
             this.StatusBar = new System.Windows.Forms.StatusStrip();
-            this.FindReplaceControl = new TagScanner.Views.FindReplaceControl();
+            this.FindReplaceControl = new TagScanner.Forms.FindReplaceControl();
             this.MediaPlayer = new AxWMPLib.AxWindowsMediaPlayer();
             this.ToolStrip = new TagScanner.Controls.FirstClickToolStrip();
             this.tbNew = new System.Windows.Forms.ToolStripSplitButton();
@@ -177,7 +177,7 @@
             this.SplitContainerRight.Panel2.SuspendLayout();
             this.SplitContainerRight.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.PictureBox)).BeginInit();
-            this.panel1.SuspendLayout();
+            this.FindReplacePanel.SuspendLayout();
             this.TabControl.SuspendLayout();
             this.tabTags.SuspendLayout();
             this.PropertyGridPopupMenu.SuspendLayout();
@@ -623,7 +623,8 @@
             // SplitContainerRight.Panel1
             // 
             this.SplitContainerRight.Panel1.Controls.Add(this.PictureBox);
-            this.SplitContainerRight.Panel1.Controls.Add(this.panel1);
+            this.SplitContainerRight.Panel1.Controls.Add(this.FindReplacePanel);
+            this.SplitContainerRight.Panel1.Padding = new System.Windows.Forms.Padding(0, 0, 3, 3);
             // 
             // SplitContainerRight.Panel2
             // 
@@ -639,19 +640,20 @@
             this.PictureBox.Location = new System.Drawing.Point(0, 72);
             this.PictureBox.Margin = new System.Windows.Forms.Padding(4);
             this.PictureBox.Name = "PictureBox";
-            this.PictureBox.Size = new System.Drawing.Size(203, 128);
+            this.PictureBox.Size = new System.Drawing.Size(200, 125);
             this.PictureBox.TabIndex = 0;
             this.PictureBox.TabStop = false;
             // 
-            // panel1
+            // FindReplacePanel
             // 
-            this.panel1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.panel1.Controls.Add(this.FindReplaceControl);
-            this.panel1.Dock = System.Windows.Forms.DockStyle.Top;
-            this.panel1.Location = new System.Drawing.Point(0, 0);
-            this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(203, 72);
-            this.panel1.TabIndex = 1;
+            this.FindReplacePanel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.FindReplacePanel.Controls.Add(this.FindReplaceControl);
+            this.FindReplacePanel.Dock = System.Windows.Forms.DockStyle.Top;
+            this.FindReplacePanel.Location = new System.Drawing.Point(0, 0);
+            this.FindReplacePanel.Name = "FindReplacePanel";
+            this.FindReplacePanel.Padding = new System.Windows.Forms.Padding(3);
+            this.FindReplacePanel.Size = new System.Drawing.Size(200, 72);
+            this.FindReplacePanel.TabIndex = 1;
             // 
             // TabControl
             // 
@@ -761,7 +763,7 @@
             // RecentLibraryPopupMenu
             // 
             this.RecentLibraryPopupMenu.Name = "RecentLibraryPopupMenu";
-            this.RecentLibraryPopupMenu.OwnerItem = this.FileReopen;
+            this.RecentLibraryPopupMenu.OwnerItem = this.tbAddRecentLibrary;
             this.RecentLibraryPopupMenu.Size = new System.Drawing.Size(61, 4);
             // 
             // RecentFolderPopupMenu
@@ -830,10 +832,10 @@
             // FindReplaceControl
             // 
             this.FindReplaceControl.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.FindReplaceControl.Location = new System.Drawing.Point(0, 0);
+            this.FindReplaceControl.Location = new System.Drawing.Point(3, 3);
             this.FindReplaceControl.Margin = new System.Windows.Forms.Padding(4);
             this.FindReplaceControl.Name = "FindReplaceControl";
-            this.FindReplaceControl.Size = new System.Drawing.Size(201, 70);
+            this.FindReplaceControl.Size = new System.Drawing.Size(192, 64);
             this.FindReplaceControl.TabIndex = 0;
             // 
             // MediaPlayer
@@ -1527,7 +1529,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.SplitContainerRight)).EndInit();
             this.SplitContainerRight.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.PictureBox)).EndInit();
-            this.panel1.ResumeLayout(false);
+            this.FindReplacePanel.ResumeLayout(false);
             this.TabControl.ResumeLayout(false);
             this.tabTags.ResumeLayout(false);
             this.PropertyGridPopupMenu.ResumeLayout(false);
@@ -1690,9 +1692,9 @@
         public System.Windows.Forms.ToolStripMenuItem GroupByTitle;
         public System.Windows.Forms.Button EditButton;
         public System.Windows.Forms.CheckedListBox checkedListBox1;
-        public System.Windows.Forms.Panel panel1;
-        public FindReplaceControl FindReplaceControl;
+        public System.Windows.Forms.Panel FindReplacePanel;
         private System.ComponentModel.IContainer components;
+        public FindReplaceControl FindReplaceControl;
     }
 }
 

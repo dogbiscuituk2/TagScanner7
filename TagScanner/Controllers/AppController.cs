@@ -9,7 +9,7 @@
     using Models;
     using Mru;
     using Utils;
-    using Views;
+    using Forms;
 
     public static class AppController
     {

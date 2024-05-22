@@ -1,10 +1,10 @@
-﻿namespace TagScanner.Views
+﻿namespace TagScanner.Forms
 {
     using System.Windows.Forms;
 
-    public partial class ScriptForm : Form
+    public partial class FilterForm : Form
     {
-        public ScriptForm()
+        public FilterForm()
         {
             InitializeComponent();
         }

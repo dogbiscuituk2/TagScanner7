@@ -6,7 +6,7 @@
     using Models;
     using Terms;
     using Utils;
-    using Views;
+    using Forms;
 
     public class FilterFormController : Controller
     {

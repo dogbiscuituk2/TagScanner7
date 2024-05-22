@@ -3,7 +3,7 @@
     using System.Linq;
     using System.Windows.Forms;
     using Mru;
-    using Views;
+    using Forms;
 
     public class DragDropController : Controller
     {

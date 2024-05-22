@@ -13,7 +13,7 @@
     using Models;
     using Terms;
     using ValueConverters;
-    using Views;
+    using Forms;
 
     public class WpfTableController : WpfGridController
     {

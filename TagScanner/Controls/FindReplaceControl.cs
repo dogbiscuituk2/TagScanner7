@@ -1,6 +1,5 @@
-﻿namespace TagScanner.Views
+﻿namespace TagScanner.Forms
 {
-    using System;
     using System.Windows.Forms;
 
     public partial class FindReplaceControl : UserControl

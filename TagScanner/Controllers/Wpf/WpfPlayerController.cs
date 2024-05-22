@@ -8,7 +8,7 @@
     using AxWMPLib;
     using WMPLib;
     using Models;
-    using Views;
+    using Forms;
 
     public class WpfPlayerController : WpfGridController
     {

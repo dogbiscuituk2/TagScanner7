@@ -4,7 +4,7 @@
     using System.Windows.Forms;
     using Terms;
     using Utils;
-    using Views;
+    using Forms;
 
     public class FilterController : Controller
     {

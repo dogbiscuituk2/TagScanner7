@@ -5,7 +5,7 @@
     using System.Windows.Forms;
     using Models;
     using Terms;
-    using Views;
+    using Forms;
 
     public abstract class TagsViewController : Controller
     {

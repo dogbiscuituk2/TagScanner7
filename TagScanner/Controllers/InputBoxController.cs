@@ -1,7 +1,7 @@
 ﻿namespace TagScanner.Controllers
 {
     using System.Windows.Forms;
-    using Views;
+    using Forms;
 
     public class InputBoxController : Controller
     {
