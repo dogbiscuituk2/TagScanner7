@@ -44,9 +44,8 @@
             StatusController = new StatusController(this);
             FindReplaceController = new FindReplaceController(this);
             FindReplaceControllerOld = new FindReplaceControllerOld(this);
-            AutoCompleter = new AutoCompleter(this, View.FindComboBox, View.ReplaceComboBox, View.FilterComboBox);
+            AutoCompleter = new AutoCompleter(this, View.FindReplaceControl.cbFind, View.FindReplaceControl.cbReplace, View.FilterComboBox);
             AutoCompleter.SetList(View.FilterComboBox, Tokenizer.AutocompleteItems);
-            View.FilterComboBox.AutoCompleteCustomSource.AddRange(Tokenizer.AutocompleteItems.ToArray());
             ModifiedChanged();
             UpdateUI();
         }

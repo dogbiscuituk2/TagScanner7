@@ -1,12 +1,16 @@
 ﻿namespace TagScanner.Controllers
 {
     using System;
+    using System.Collections;
     using System.Collections.Generic;
     using System.Drawing;
     using System.Linq;
+    using System.Text.RegularExpressions;
+    using System.Windows.Data;
     using System.Windows.Forms;
     using Forms;
     using Models;
+    using TagScanner.Terms;
 
     public class FindReplaceController : Controller
     {
@@ -40,10 +44,12 @@
             MainForm.tbReplace.Click += EditReplace_Click;
 
             TbDropDown.Click += TbDropDown_Click;
+            CbFind.DropDown += CbFind_DropDown;
             TbFindNext.Click += TbFindNext_Click;
             TbFindPrevious.Click += TbFindPrevious_Click;
             TbFindAll.Click += TbFindAll_Click;
             TbFindClose.Click += TbFindClose_Click;
+            CbReplace.DropDown += CbReplace_DropDown;
             TbCloseUp.Click += TbCloseUp_Click;
             TbReplaceNext.Click += TbReplaceNext_Click;
             TbReplaceAll.Click += TbReplaceAll_Click;
@@ -55,7 +61,7 @@
             View.Resize += View_Resize;
 
             SearchTags = new List<Tag> { Tag.Album, Tag.Artists, Tag.Title };
-    }
+        }
 
         #endregion
 
@@ -92,6 +98,8 @@
             }
         }
 
+        private readonly Selection Selection = new Selection();
+
         private readonly Control ParentControl;
 
         private readonly ToolStripButton
@@ -120,16 +128,47 @@
 
         #region Properties
 
+        private ListCollectionView ListCollectionView => MainTableController.ListCollectionView;
         private FindReplaceControl View => MainForm.FindReplaceControl;
 
         private bool CaseSensitive { get => TbCaseSensitive.Checked; set => TbCaseSensitive.Checked = value; }
         private bool UseRegex { get => TbUseRegex.Checked; set => TbUseRegex.Checked = value; }
-        private bool WhooleWord { get => TbWholeWord.Checked; set => TbWholeWord.Checked = value; }
+        private bool WholeWord { get => TbWholeWord.Checked; set => TbWholeWord.Checked = value; }
+
+        private string Pattern
+        {
+            get
+            {
+                var pattern = CbFind.Text;
+                if (!UseRegex)
+                    pattern = Regex.Escape(pattern);
+                if (WholeWord)
+                    pattern = $@"\b{pattern}\b";
+                return pattern;
+            }
+        }
+
+        private IEnumerable<Track> VisibleTracks
+        {
+            get
+            {
+                var enumerator = ((IEnumerable)ListCollectionView).GetEnumerator();
+                while (true)
+                {
+                    if (enumerator.MoveNext() && enumerator.Current is Track track)
+                        yield return track;
+                    else
+                        yield break;
+                }
+            }
+        }
 
         #endregion
 
         #region Event Handlers
 
+        private void CbFind_DropDown(object sender, EventArgs e) => AppController.GetFindItems(CbFind.Items);
+        private void CbReplace_DropDown(object sender, EventArgs e) => AppController.GetReplaceItems(CbReplace.Items);
         private void EditFind_Click(object sender, EventArgs e) => Show(replace: false);
         private void EditReplace_Click(object sender, EventArgs e) => Show(replace: true);
         private void TbCaseSensitive_Click(object sender, EventArgs e) => ToggleCaseSensitive();
@@ -160,7 +199,48 @@
         private void Show(bool replace) => ShowFindReplace(visible: true, replacing: replace);
         private void ToggleCaseSensitive() => CaseSensitive ^= true;
         private void ToggleUseRegex() => UseRegex ^= true;
-        private void ToggleWholeWord() => WhooleWord ^= true;
+        private void ToggleWholeWord() => WholeWord ^= true;
+
+        private void UpdateFindItems() => AppController.UpdateFindItems(CbFind.Items, CbFind.Text);
+        private void UpdateReplaceItems() => AppController.UpdateReplaceItems(CbReplace.Items, CbReplace.Text);
+
+        private bool Find()
+        {
+            UpdateFindItems();
+            var term = MakeCondition();
+            AppController.AddFilter(term.ToString());
+            var visibleTracks = VisibleTracks;
+            var tracks = term.Filter(visibleTracks);
+            var tracksArray = tracks.ToArray();
+            Selection.Clear();
+            Selection.Add(tracksArray);
+            var result = Selection.Tracks.Any();
+            if (!result)
+                MessageBox.Show(
+                    MainForm,
+                    $"The following specified text was not found:{Environment.NewLine}{CbFind.Text}",
+                    "Find and Replace",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Information);
+
+            return result;
+        }
+
+        private Term MakeCondition()
+        {
+            var selectedTags = SearchTags;
+            if (!selectedTags.Any())
+                return true;
+            if (string.IsNullOrWhiteSpace(CbFind.Text))
+                return true;
+            var terms = new List<Term> { Environment.NewLine };
+            terms.AddRange(selectedTags.Select(p => new Field(p)));
+            return new Function(
+                Fn.ContainsX,
+                new Function(Fn.Join, terms.ToArray()),
+                Pattern,
+                CaseSensitive);
+        }
 
         private void PickTags()
         {

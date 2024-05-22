@@ -27,7 +27,7 @@
         private void ClearButton_Click(object sender, EventArgs e) => ClearFilter();
         private void EditButton_Click(object sender, EventArgs e) => EditFilter();
 
-        private void FilterComboBox_DropDown(object sender, EventArgs e) => AppController.GetFilterItems(FilterComboBox);
+        private void FilterComboBox_DropDown(object sender, EventArgs e) => AppController.GetFilterItems(FilterComboBox.Items);
         //private void ViewFilter_Click(object sender, EventArgs e) => LaunchFilterBuilder();
 
         private void ClearFilter()
@@ -53,7 +53,7 @@
             {
                 MainTableController.SetFilter(term);
                 UpdateFilterStatus($"{MainTableController.TracksCountVisible} of {MainTableController.TracksCountAll} Tracks shown.");
-                AppController.UpdateFilterItems(FilterComboBox);
+                AppController.UpdateFilterItems(FilterComboBox.Items, FilterComboBox.Text);
             }
             else
                 UpdateFilterStatus(exception.GetAllInformation());

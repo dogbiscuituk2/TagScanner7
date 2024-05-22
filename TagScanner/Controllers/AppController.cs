@@ -105,12 +105,12 @@
             return true;
         }
 
-        public static void GetFilterItems(ComboBox comboBox) => MruFilterController.RegistryRead(comboBox);
-        public static void GetFindItems(ComboBox comboBox) => MruFindController.RegistryRead(comboBox);
-        public static void GetReplaceItems(ComboBox comboBox) => MruReplaceController.RegistryRead(comboBox);
-        public static void UpdateFilterItems(ComboBox comboBox) => MruFilterController.UpdateItems(comboBox);
-        public static void UpdateFindItems(ComboBox comboBox) => MruFindController.UpdateItems(comboBox);
-        public static void UpdateReplaceItems(ComboBox comboBox) => MruReplaceController.UpdateItems(comboBox);
+        public static void GetFilterItems(ComboBox.ObjectCollection items) => MruFilterController.RegistryRead(items);
+        public static void GetFindItems(ComboBox.ObjectCollection items) => MruFindController.RegistryRead(items);
+        public static void GetReplaceItems(ComboBox.ObjectCollection items) => MruReplaceController.RegistryRead(items);
+        public static void UpdateFilterItems(ComboBox.ObjectCollection items, string item) => MruFilterController.UpdateItems(items, item);
+        public static void UpdateFindItems(ComboBox.ObjectCollection items, string item) => MruFindController.UpdateItems(items, item);
+        public static void UpdateReplaceItems(ComboBox.ObjectCollection items, string item) => MruReplaceController.UpdateItems(items, item);
 
         #endregion
 

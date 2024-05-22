@@ -72,7 +72,7 @@
                 if (!UseRegex)
                     pattern = Regex.Escape(pattern);
                 if (WholeWord)
-                    pattern = $@"\W{pattern}\W";
+                    pattern = $@"\b{pattern}\b";
                 return pattern;
             }
         }
@@ -101,8 +101,8 @@
 
         #region Event Handlers
 
-        private void FindComboBox_DropDown(object sender, EventArgs e) => AppController.GetFindItems(FindComboBox);
-        private void ReplaceComboBox_DropDown(object sender, EventArgs e) => AppController.GetReplaceItems(ReplaceComboBox);
+        private void FindComboBox_DropDown(object sender, EventArgs e) => AppController.GetFindItems(FindComboBox.Items);
+        private void ReplaceComboBox_DropDown(object sender, EventArgs e) => AppController.GetReplaceItems(ReplaceComboBox.Items);
 
         private void Option_CheckedChanged(object sender, EventArgs e) => UpdateUI();
 
@@ -256,8 +256,8 @@
         private void UpdateAutoComplete(ComboBox comboBox) =>
             comboBox.AutoCompleteCustomSource = MainAutoCompleter.GetFieldList(Tag.JoinedPerformers, Tag.Album, Tag.Title);
 
-        private void UpdateFindItems() => AppController.UpdateFindItems(FindComboBox);
-        private void UpdateReplaceItems() => AppController.UpdateReplaceItems(ReplaceComboBox);
+        private void UpdateFindItems() => AppController.UpdateFindItems(FindComboBox.Items, FindComboBox.Text);
+        private void UpdateReplaceItems() => AppController.UpdateReplaceItems(ReplaceComboBox.Items, ReplaceComboBox.Text);
 
         private void UpdateUI()
         {
