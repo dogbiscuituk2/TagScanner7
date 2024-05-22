@@ -213,7 +213,7 @@
             else
             {
                 AutoCompleter.InvalidateFieldLists();
-                FindReplaceControllerOld.UpdateAutoComplete();
+                FindReplaceController.UpdateAutoComplete();
             }
         }
 

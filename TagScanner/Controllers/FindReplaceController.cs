@@ -57,11 +57,21 @@
             SearchTags = new List<Tag> { Tag.Album, Tag.Artists, Tag.Title };
     }
 
-    #endregion
+        #endregion
 
-    #region Fields
+        #region Public Methods
 
-    private List<Tag> _searchTags = new List<Tag>();
+        public void UpdateAutoComplete()
+        {
+            UpdateAutoComplete(CbFind);
+            UpdateAutoComplete(CbReplace);
+        }
+
+        #endregion
+
+        #region Fields
+
+        private List<Tag> _searchTags = new List<Tag>();
 
         private List<Tag> SearchTags
         {
@@ -170,6 +180,9 @@
             }
             ParentControl.Size = new Size(ParentControl.Width, replacing ? 75 : 52);
         }
+
+        private void UpdateAutoComplete(ToolStripComboBox comboBox) =>
+            comboBox.AutoCompleteCustomSource = MainAutoCompleter.GetFieldList(Tag.JoinedPerformers, Tag.Album, Tag.Title);
 
         #endregion
     }

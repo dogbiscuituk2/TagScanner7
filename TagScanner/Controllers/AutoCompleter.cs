@@ -1,6 +1,7 @@
 ﻿namespace TagScanner.Controllers
 {
     using System.Collections.Generic;
+    using System.ComponentModel;
     using System.Linq;
     using System.Windows.Forms;
     using Models;
@@ -9,13 +10,17 @@
     {
         #region Constructor
 
-        public AutoCompleter(Controller parent, params Control[] controls) : base(parent)
+        public AutoCompleter(Controller parent, params Component[] controls) : base(parent)
         {
             foreach (var control in controls)
                 if (control is ComboBox comboBox)
                     Init(comboBox);
                 else if (control is TextBox textBox)
                     Init(textBox);
+                else if (control is ToolStripComboBox tsComboBox)
+                    Init(tsComboBox);
+                else if (control is ToolStripTextBox tsTextBox)
+                    Init(tsTextBox);
         }
 
         #endregion
@@ -31,6 +36,18 @@
         }
 
         public void Init(TextBox textBox)
+        {
+            textBox.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
+            textBox.AutoCompleteSource = AutoCompleteSource.CustomSource;
+        }
+
+        public void Init(ToolStripComboBox comboBox)
+        {
+            comboBox.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
+            comboBox.AutoCompleteSource = AutoCompleteSource.CustomSource;
+        }
+
+        public void Init(ToolStripTextBox textBox)
         {
             textBox.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
             textBox.AutoCompleteSource = AutoCompleteSource.CustomSource;
