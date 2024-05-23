@@ -33,6 +33,15 @@
             }
         }
 
+        public string Text
+        {
+            get =>TextBox.Text;
+            set
+            {
+                TextBox.Text = value;
+            }
+        }
+
         public ScriptForm View => _view ?? CreateScriptForm();
 
         #endregion
@@ -43,6 +52,12 @@
         {
             var result = View.ShowDialog(Owner) == DialogResult.OK;
             return result;
+        }
+
+        public void ShowModal(IWin32Window owner, string text)
+        {
+            Text = text;
+            Execute();
         }
 
         #endregion
@@ -72,7 +87,6 @@
         private ToolStripItemCollection LanguageItems => LanguageMenu.DropDownItems;
         private ToolStripMenuItem LanguageMenu => View.LanguageMenu;
         private IEnumerable<ToolStripMenuItem> Languages => LanguageItems.OfType<ToolStripMenuItem>();
-        private string Text => TextBox.Text;
         private FastColoredTextBox TextBox => View.TextBox;
 
         #endregion

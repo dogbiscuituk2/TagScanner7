@@ -80,7 +80,7 @@
 
         #region Private Methods
 
-        private void EditFilter() => ScriptFormController.Execute();
+        private void EditFilter() => ScriptFormController.ShowModal(Owner, CbFilter.Text);
         private void Hide() => Show(false);
         private void Resize() => CbFilter.Size = new Size(View.Width - 118, CbFilter.Height);
         private void ToggleCaseSensitive() => CaseSensitive ^= true;
