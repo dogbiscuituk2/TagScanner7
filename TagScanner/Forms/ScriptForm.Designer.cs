@@ -47,7 +47,7 @@
             this.toolStripSeparator9 = new System.Windows.Forms.ToolStripSeparator();
             this.EditSelectAll = new System.Windows.Forms.ToolStripMenuItem();
             this.ResultTextBox = new System.Windows.Forms.TextBox();
-            this.Toolbar = new System.Windows.Forms.ToolStrip();
+            this.Toolbar = new TagScanner.Controls.FirstClickToolStrip();
             this.tbNew = new System.Windows.Forms.ToolStripButton();
             this.tbOpen = new System.Windows.Forms.ToolStripSplitButton();
             this.tbOpenScript = new System.Windows.Forms.ToolStripMenuItem();
@@ -72,7 +72,7 @@
             this.tbFilterApply = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator6 = new System.Windows.Forms.ToolStripSeparator();
             this.tbRun = new System.Windows.Forms.ToolStripButton();
-            this.MainMenu = new System.Windows.Forms.MenuStrip();
+            this.MainMenu = new TagScanner.Controls.FirstClickMenuStrip();
             this.FileMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.FileNew = new System.Windows.Forms.ToolStripMenuItem();
             this.FileOpen = new System.Windows.Forms.ToolStripMenuItem();
@@ -819,7 +819,7 @@
         public FastColoredTextBoxNS.FastColoredTextBox TextBox;
         public FastColoredTextBoxNS.Ruler ruler1;
         public System.Windows.Forms.ToolStripContainer ToolStripContainer;
-        public System.Windows.Forms.MenuStrip MainMenu;
+        public TagScanner.Controls.FirstClickMenuStrip MainMenu;
         public System.Windows.Forms.ToolStripMenuItem FileMenu;
         public System.Windows.Forms.ToolStripMenuItem LanguageMenu;
         public System.Windows.Forms.ToolStripMenuItem FileNew;
@@ -844,7 +844,7 @@
         public System.Windows.Forms.TextBox ResultTextBox;
         public System.Windows.Forms.ToolStripMenuItem ScriptMenu;
         public System.Windows.Forms.ToolStripMenuItem ScriptRun;
-        public System.Windows.Forms.ToolStrip Toolbar;
+        public TagScanner.Controls.FirstClickToolStrip Toolbar;
         public System.Windows.Forms.ContextMenuStrip PopupMenu;
         public System.Windows.Forms.ToolStripButton tbNew;
         public System.Windows.Forms.ToolStripSplitButton tbOpen;

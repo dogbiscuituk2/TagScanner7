@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.Toolbar = new System.Windows.Forms.ToolStrip();
+            this.Toolbar = new TagScanner.Controls.FirstClickToolStrip();
             this.tbCaseSensitive = new System.Windows.Forms.ToolStripButton();
             this.cbFilter = new System.Windows.Forms.ToolStripComboBox();
             this.tbApply = new System.Windows.Forms.ToolStripButton();
@@ -129,7 +129,7 @@
 
         #endregion
 
-        public System.Windows.Forms.ToolStrip Toolbar;
+        public TagScanner.Controls.FirstClickToolStrip Toolbar;
         public System.Windows.Forms.ToolStripButton tbCaseSensitive;
         public System.Windows.Forms.ToolStripComboBox cbFilter;
         public System.Windows.Forms.ToolStripButton tbApply;

@@ -30,7 +30,7 @@
         {
             this.components = new System.ComponentModel.Container();
             this.PopupMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.MainMenu = new System.Windows.Forms.MenuStrip();
+            this.MainMenu = new TagScanner.Controls.FirstClickMenuStrip();
             this.FileMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.FileNew = new System.Windows.Forms.ToolStripMenuItem();
             this.FileOpen = new System.Windows.Forms.ToolStripMenuItem();
@@ -329,7 +329,7 @@
         #endregion
         public TagScanner.Controls.TermTree TreeView;
         public System.Windows.Forms.ContextMenuStrip PopupMenu;
-        public System.Windows.Forms.MenuStrip MainMenu;
+        public TagScanner.Controls.FirstClickMenuStrip MainMenu;
         public System.Windows.Forms.ToolStripMenuItem TermMenu;
         public System.Windows.Forms.ToolStripMenuItem FileMenu;
         public System.Windows.Forms.ToolStripMenuItem FileNew;

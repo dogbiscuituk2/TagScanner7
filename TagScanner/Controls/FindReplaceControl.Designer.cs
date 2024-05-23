@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FindReplaceControl));
-            this.Toolbar = new System.Windows.Forms.ToolStrip();
+            this.Toolbar = new TagScanner.Controls.FirstClickToolStrip();
             this.tbDropDown = new System.Windows.Forms.ToolStripButton();
             this.cbFind = new System.Windows.Forms.ToolStripComboBox();
             this.tbFind = new System.Windows.Forms.ToolStripSplitButton();
@@ -234,7 +234,7 @@
 
         #endregion
 
-        public System.Windows.Forms.ToolStrip Toolbar;
+        public TagScanner.Controls.FirstClickToolStrip Toolbar;
         public System.Windows.Forms.ToolStripButton tbDropDown;
         public System.Windows.Forms.ToolStripComboBox cbFind;
         public System.Windows.Forms.ToolStripSplitButton tbFind;

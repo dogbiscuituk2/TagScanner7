@@ -36,7 +36,7 @@
             this.panel1 = new System.Windows.Forms.Panel();
             this.btnCancel = new System.Windows.Forms.Button();
             this.btnOK = new System.Windows.Forms.Button();
-            this.MainMenu = new System.Windows.Forms.MenuStrip();
+            this.MainMenu = new TagScanner.Controls.FirstClickMenuStrip();
             this.ListMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.ListAlphabetically = new System.Windows.Forms.ToolStripMenuItem();
             this.ListByCategory = new System.Windows.Forms.ToolStripMenuItem();
@@ -260,7 +260,7 @@
         public System.Windows.Forms.ColumnHeader chDataType;
         public System.Windows.Forms.ColumnHeader chCategory;
         public System.Windows.Forms.ColumnHeader chWritable;
-        public System.Windows.Forms.MenuStrip MainMenu;
+        public TagScanner.Controls.FirstClickMenuStrip MainMenu;
         public System.Windows.Forms.TreeView TreeView;
         public System.Windows.Forms.ToolStripMenuItem ListMenu;
         public System.Windows.Forms.ToolStripMenuItem ListAlphabetically;
