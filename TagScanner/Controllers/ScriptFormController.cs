@@ -14,7 +14,21 @@
     {
         #region Constructor
 
-        public ScriptFormController(Controller parent) : base(parent) { }
+        public ScriptFormController(Controller parent) : base(parent)
+        {
+            EditUpdateFilter = View.EditUpdateFilter;
+            EditApplyFilter = View.EditApplyFilter;
+            TbFilter = View.tbFilter;
+            TbFilterUpdate = View.tbFilterUpdate;
+            TbFilterApply = View.tbFilterApply;
+            CbFilter = MainForm.FilterControl.cbFilter;
+
+            EditUpdateFilter.Click += EditUpdateFilter_Click;
+            EditApplyFilter.Click += EditApplyFilter_Click;
+            TbFilter.ButtonClick += EditApplyFilter_Click;
+            TbFilterUpdate.Click += EditUpdateFilter_Click;
+            TbFilterApply.Click += EditApplyFilter_Click;
+        }
 
         #endregion
 
@@ -68,6 +82,18 @@
         private MruScriptController _scriptController;
         private ScriptForm _view;
 
+        private ToolStripComboBox
+            CbFilter;
+
+        private ToolStripSplitButton
+            TbFilter;
+
+        private ToolStripMenuItem
+            EditUpdateFilter,
+            TbFilterUpdate,
+            EditApplyFilter,
+            TbFilterApply;
+
         #endregion
 
         #region Private Properties
@@ -104,6 +130,8 @@
         private void EditCopy_Click(object sender, EventArgs e) { TextBox.Copy(); UpdateUI(); }
         private void EditPaste_Click(object sender, EventArgs e) { TextBox.Paste(); UpdateUI(); }
         private void EditDelete_Click(object sender, EventArgs e) { /* TextBox.Delete(); */ UpdateUI(); }
+        private void EditUpdateFilter_Click(object sender, EventArgs e) => UpdateFilter();
+        private void EditApplyFilter_Click(object sender, EventArgs e) => ApplyFilter();
         private void EditSelectAll_Click(object sender, EventArgs e) { TextBox.SelectAll(); UpdateUI(); }
 
         private void ViewMenu_DropDownOpening(object sender, EventArgs e) => View.ViewWordWrap.Checked = TextBox.WordWrap;
@@ -126,6 +154,24 @@
         #endregion
 
         #region Private Methods
+
+        private void ApplyFilter()
+        {
+            UpdateFilter();
+            MainFormController.FilterController.ApplyFilter();
+        }
+
+        private void CreateAutocompleteMenu()
+        {
+            var autocompleteMenu = new AutocompleteMenu(TextBox)
+            {
+                MinFragmentLength = 2,
+                SearchPattern = "[#\\w\\.]" // Directives begin with '#'.
+            };
+            autocompleteMenu.Items.SetAutocompleteItems(new Collection<string>(Tokenizer.AutocompleteItems));
+            autocompleteMenu.Items.MaximumSize = new System.Drawing.Size(200, 300);
+            autocompleteMenu.Items.Width = 200;
+        }
 
         private ScriptForm CreateScriptForm()
         {
@@ -177,17 +223,7 @@
             return _view;
         }
 
-        private void CreateAutocompleteMenu()
-        {
-            var autocompleteMenu = new AutocompleteMenu(TextBox)
-            {
-                MinFragmentLength = 2,
-                SearchPattern = "[#\\w\\.]" // Directives begin with '#'.
-            };
-            autocompleteMenu.Items.SetAutocompleteItems(new Collection<string>(Tokenizer.AutocompleteItems));
-            autocompleteMenu.Items.MaximumSize = new System.Drawing.Size(200, 300);
-            autocompleteMenu.Items.Width = 200;
-        }
+        private void UpdateFilter() => CbFilter.Text = Text;
 
         private void UpdateResult()
         {

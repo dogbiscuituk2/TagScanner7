@@ -41,6 +41,25 @@
 
         #endregion
 
+        #region Public Methods
+
+        public void ApplyFilter()
+        {
+            var filter = CbFilter.Text;
+            if (string.IsNullOrWhiteSpace(filter))
+                return;
+            if (Parser.TryParse(filter, out var term, out var exception, CaseSensitive))
+            {
+                MainTableController.SetFilter(term);
+                UpdateFilterStatus($"{MainTableController.TracksCountVisible} of {MainTableController.TracksCountAll} Tracks shown.");
+                AppController.UpdateFilterItems(CbFilter.Items, CbFilter.Text);
+            }
+            else
+                UpdateFilterStatus(exception.GetAllInformation());
+        }
+
+        #endregion
+
         #region Fields
 
         private readonly Control ParentControl;
@@ -69,7 +88,7 @@
 
         private void CbFilter_DropDown(object sender, EventArgs e) => AppController.GetFilterItems(CbFilter.Items);
         private void EditFilter_Click(object sender, System.EventArgs e) => Show();
-        private void TbApply_Click(object sender, EventArgs e) => UpdateFilter();
+        private void TbApply_Click(object sender, EventArgs e) => ApplyFilter();
         private void TbCaseSensitive_Click(object sender, EventArgs e) => ToggleCaseSensitive();
         private void TbClear_Click(object sender, EventArgs e) => ClearFilter();
         private void TbClose_Click(object sender, System.EventArgs e) => Hide();
@@ -101,22 +120,6 @@
                 ParentControl.Size = new Size(ParentControl.Width, 48);
                 CbFilter.Focus();
             }
-        }
-
-        private void UpdateFilter()
-        {
-            var filter = CbFilter.Text;
-            if (string.IsNullOrWhiteSpace(filter))
-                return;
-            if (Parser.TryParse(filter, out var term, out var exception, CaseSensitive))
-            {
-                MainTableController.SetFilter(term);
-                UpdateFilterStatus($"{MainTableController.TracksCountVisible} of {MainTableController.TracksCountAll} Tracks shown.");
-                AppController.UpdateFilterItems(CbFilter.Items, CbFilter.Text);
-            }
-            else
-                UpdateFilterStatus(exception.GetAllInformation());
-
         }
 
         #endregion

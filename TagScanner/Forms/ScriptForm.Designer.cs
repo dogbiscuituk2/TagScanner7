@@ -41,7 +41,9 @@
             this.toolStripSeparator8 = new System.Windows.Forms.ToolStripSeparator();
             this.EditFind = new System.Windows.Forms.ToolStripMenuItem();
             this.EditReplace = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItem3 = new System.Windows.Forms.ToolStripSeparator();
             this.EditUpdateFilter = new System.Windows.Forms.ToolStripMenuItem();
+            this.EditApplyFilter = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator9 = new System.Windows.Forms.ToolStripSeparator();
             this.EditSelectAll = new System.Windows.Forms.ToolStripMenuItem();
             this.ResultTextBox = new System.Windows.Forms.TextBox();
@@ -65,6 +67,9 @@
             this.tbFindReplace = new System.Windows.Forms.ToolStripSplitButton();
             this.tbFind = new System.Windows.Forms.ToolStripMenuItem();
             this.tbReplace = new System.Windows.Forms.ToolStripMenuItem();
+            this.tbFilter = new System.Windows.Forms.ToolStripSplitButton();
+            this.tbFilterUpdate = new System.Windows.Forms.ToolStripMenuItem();
+            this.tbFilterApply = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator6 = new System.Windows.Forms.ToolStripSeparator();
             this.tbRun = new System.Windows.Forms.ToolStripButton();
             this.MainMenu = new System.Windows.Forms.MenuStrip();
@@ -93,7 +98,6 @@
             this.Language_Lua = new System.Windows.Forms.ToolStripMenuItem();
             this.ScriptMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.ScriptRun = new System.Windows.Forms.ToolStripMenuItem();
-            this.tbUpdateFilter = new System.Windows.Forms.ToolStripButton();
             ((System.ComponentModel.ISupportInitialize)(this.TextBox)).BeginInit();
             this.ToolStripContainer.ContentPanel.SuspendLayout();
             this.ToolStripContainer.LeftToolStripPanel.SuspendLayout();
@@ -205,11 +209,14 @@
             this.toolStripSeparator8,
             this.EditFind,
             this.EditReplace,
+            this.toolStripMenuItem3,
             this.EditUpdateFilter,
+            this.EditApplyFilter,
             this.toolStripSeparator9,
             this.EditSelectAll});
             this.PopupMenu.Name = "contextMenuStrip1";
-            this.PopupMenu.Size = new System.Drawing.Size(163, 242);
+            this.PopupMenu.OwnerItem = this.EditMenu;
+            this.PopupMenu.Size = new System.Drawing.Size(181, 292);
             // 
             // EditUndo
             // 
@@ -217,7 +224,7 @@
             this.EditUndo.Name = "EditUndo";
             this.EditUndo.ShortcutKeyDisplayString = "^Z";
             this.EditUndo.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Z)));
-            this.EditUndo.Size = new System.Drawing.Size(162, 22);
+            this.EditUndo.Size = new System.Drawing.Size(180, 22);
             this.EditUndo.Text = "&Undo";
             // 
             // EditRedo
@@ -226,13 +233,13 @@
             this.EditRedo.Name = "EditRedo";
             this.EditRedo.ShortcutKeyDisplayString = "^Y";
             this.EditRedo.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Y)));
-            this.EditRedo.Size = new System.Drawing.Size(162, 22);
+            this.EditRedo.Size = new System.Drawing.Size(180, 22);
             this.EditRedo.Text = "&Redo";
             // 
             // toolStripSeparator7
             // 
             this.toolStripSeparator7.Name = "toolStripSeparator7";
-            this.toolStripSeparator7.Size = new System.Drawing.Size(159, 6);
+            this.toolStripSeparator7.Size = new System.Drawing.Size(177, 6);
             // 
             // EditCut
             // 
@@ -240,7 +247,7 @@
             this.EditCut.Name = "EditCut";
             this.EditCut.ShortcutKeyDisplayString = "^X";
             this.EditCut.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.X)));
-            this.EditCut.Size = new System.Drawing.Size(162, 22);
+            this.EditCut.Size = new System.Drawing.Size(180, 22);
             this.EditCut.Text = "Cu&t";
             // 
             // EditCopy
@@ -249,7 +256,7 @@
             this.EditCopy.Name = "EditCopy";
             this.EditCopy.ShortcutKeyDisplayString = "^C";
             this.EditCopy.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.C)));
-            this.EditCopy.Size = new System.Drawing.Size(162, 22);
+            this.EditCopy.Size = new System.Drawing.Size(180, 22);
             this.EditCopy.Text = "&Copy";
             // 
             // EditPaste
@@ -258,7 +265,7 @@
             this.EditPaste.Name = "EditPaste";
             this.EditPaste.ShortcutKeyDisplayString = "^V";
             this.EditPaste.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.V)));
-            this.EditPaste.Size = new System.Drawing.Size(162, 22);
+            this.EditPaste.Size = new System.Drawing.Size(180, 22);
             this.EditPaste.Text = "&Paste";
             // 
             // EditDelete
@@ -267,13 +274,13 @@
             this.EditDelete.ImageTransparentColor = System.Drawing.Color.White;
             this.EditDelete.Name = "EditDelete";
             this.EditDelete.ShortcutKeyDisplayString = "";
-            this.EditDelete.Size = new System.Drawing.Size(162, 22);
+            this.EditDelete.Size = new System.Drawing.Size(180, 22);
             this.EditDelete.Text = "&Delete";
             // 
             // toolStripSeparator8
             // 
             this.toolStripSeparator8.Name = "toolStripSeparator8";
-            this.toolStripSeparator8.Size = new System.Drawing.Size(159, 6);
+            this.toolStripSeparator8.Size = new System.Drawing.Size(177, 6);
             // 
             // EditFind
             // 
@@ -281,7 +288,7 @@
             this.EditFind.Name = "EditFind";
             this.EditFind.ShortcutKeyDisplayString = "^F";
             this.EditFind.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.F)));
-            this.EditFind.Size = new System.Drawing.Size(162, 22);
+            this.EditFind.Size = new System.Drawing.Size(180, 22);
             this.EditFind.Text = "&Find...";
             // 
             // EditReplace
@@ -289,30 +296,43 @@
             this.EditReplace.Name = "EditReplace";
             this.EditReplace.ShortcutKeyDisplayString = "^H";
             this.EditReplace.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.H)));
-            this.EditReplace.Size = new System.Drawing.Size(162, 22);
+            this.EditReplace.Size = new System.Drawing.Size(180, 22);
             this.EditReplace.Text = "&Replace...";
+            // 
+            // toolStripMenuItem3
+            // 
+            this.toolStripMenuItem3.Name = "toolStripMenuItem3";
+            this.toolStripMenuItem3.Size = new System.Drawing.Size(177, 6);
             // 
             // EditUpdateFilter
             // 
-            this.EditUpdateFilter.Image = global::TagScanner.Properties.Resources.Fatcow_Farm_Fresh_Filter_16;
             this.EditUpdateFilter.ImageTransparentColor = System.Drawing.Color.White;
             this.EditUpdateFilter.Name = "EditUpdateFilter";
-            this.EditUpdateFilter.ShortcutKeyDisplayString = "^L";
-            this.EditUpdateFilter.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.L)));
-            this.EditUpdateFilter.Size = new System.Drawing.Size(162, 22);
-            this.EditUpdateFilter.Text = "Update Fi&lter";
+            this.EditUpdateFilter.ShortcutKeyDisplayString = "";
+            this.EditUpdateFilter.Size = new System.Drawing.Size(180, 22);
+            this.EditUpdateFilter.Text = "Updat&e Filter";
+            // 
+            // EditApplyFilter
+            // 
+            this.EditApplyFilter.Image = global::TagScanner.Properties.Resources.Fatcow_Farm_Fresh_Filter_16;
+            this.EditApplyFilter.ImageTransparentColor = System.Drawing.Color.White;
+            this.EditApplyFilter.Name = "EditApplyFilter";
+            this.EditApplyFilter.ShortcutKeyDisplayString = "^L";
+            this.EditApplyFilter.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.L)));
+            this.EditApplyFilter.Size = new System.Drawing.Size(180, 22);
+            this.EditApplyFilter.Text = "Update && App&ly";
             // 
             // toolStripSeparator9
             // 
             this.toolStripSeparator9.Name = "toolStripSeparator9";
-            this.toolStripSeparator9.Size = new System.Drawing.Size(159, 6);
+            this.toolStripSeparator9.Size = new System.Drawing.Size(177, 6);
             // 
             // EditSelectAll
             // 
             this.EditSelectAll.Name = "EditSelectAll";
             this.EditSelectAll.ShortcutKeyDisplayString = "^A";
             this.EditSelectAll.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.A)));
-            this.EditSelectAll.Size = new System.Drawing.Size(162, 22);
+            this.EditSelectAll.Size = new System.Drawing.Size(180, 22);
             this.EditSelectAll.Text = "Select &All";
             // 
             // ResultTextBox
@@ -342,7 +362,7 @@
             this.tbDelete,
             this.toolStripSeparator4,
             this.tbFindReplace,
-            this.tbUpdateFilter,
+            this.tbFilter,
             this.toolStripSeparator6,
             this.tbRun});
             this.Toolbar.Location = new System.Drawing.Point(0, 3);
@@ -509,7 +529,7 @@
             this.tbFind.Name = "tbFind";
             this.tbFind.ShortcutKeyDisplayString = "^F";
             this.tbFind.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.F)));
-            this.tbFind.Size = new System.Drawing.Size(148, 22);
+            this.tbFind.Size = new System.Drawing.Size(180, 22);
             this.tbFind.Text = "&Find...";
             // 
             // tbReplace
@@ -517,8 +537,35 @@
             this.tbReplace.Name = "tbReplace";
             this.tbReplace.ShortcutKeyDisplayString = "^H";
             this.tbReplace.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.H)));
-            this.tbReplace.Size = new System.Drawing.Size(148, 22);
+            this.tbReplace.Size = new System.Drawing.Size(180, 22);
             this.tbReplace.Text = "&Replace...";
+            // 
+            // tbFilter
+            // 
+            this.tbFilter.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.tbFilter.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.tbFilterUpdate,
+            this.tbFilterApply});
+            this.tbFilter.Image = global::TagScanner.Properties.Resources.Fatcow_Farm_Fresh_Filter_16;
+            this.tbFilter.ImageTransparentColor = System.Drawing.Color.White;
+            this.tbFilter.Name = "tbFilter";
+            this.tbFilter.Size = new System.Drawing.Size(31, 20);
+            this.tbFilter.Text = "toolStripButton1";
+            this.tbFilter.ToolTipText = "Update & Apply Filter (^L)";
+            // 
+            // tbFilterUpdate
+            // 
+            this.tbFilterUpdate.Name = "tbFilterUpdate";
+            this.tbFilterUpdate.Size = new System.Drawing.Size(180, 22);
+            this.tbFilterUpdate.Text = "Updat&e Filter";
+            // 
+            // tbFilterApply
+            // 
+            this.tbFilterApply.Name = "tbFilterApply";
+            this.tbFilterApply.ShortcutKeyDisplayString = "^L";
+            this.tbFilterApply.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.L)));
+            this.tbFilterApply.Size = new System.Drawing.Size(180, 22);
+            this.tbFilterApply.Text = "Update && App&ly";
             // 
             // toolStripSeparator6
             // 
@@ -733,16 +780,6 @@
             this.ScriptRun.Size = new System.Drawing.Size(114, 22);
             this.ScriptRun.Text = "&Run";
             // 
-            // tbUpdateFilter
-            // 
-            this.tbUpdateFilter.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.tbUpdateFilter.Image = global::TagScanner.Properties.Resources.Fatcow_Farm_Fresh_Filter_16;
-            this.tbUpdateFilter.ImageTransparentColor = System.Drawing.Color.White;
-            this.tbUpdateFilter.Name = "tbUpdateFilter";
-            this.tbUpdateFilter.Size = new System.Drawing.Size(31, 20);
-            this.tbUpdateFilter.Text = "toolStripButton1";
-            this.tbUpdateFilter.ToolTipText = "Update Filter (^L)";
-            // 
             // ScriptForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 17F);
@@ -847,6 +884,10 @@
         public System.Windows.Forms.ToolStripSeparator toolStripSeparator9;
         public System.Windows.Forms.ToolStripMenuItem EditSelectAll;
         public System.Windows.Forms.ToolStripMenuItem EditUpdateFilter;
-        public System.Windows.Forms.ToolStripButton tbUpdateFilter;
+        public System.Windows.Forms.ToolStripSplitButton tbFilter;
+        private System.Windows.Forms.ToolStripSeparator toolStripMenuItem3;
+        public System.Windows.Forms.ToolStripMenuItem EditApplyFilter;
+        public System.Windows.Forms.ToolStripMenuItem tbFilterUpdate;
+        public System.Windows.Forms.ToolStripMenuItem tbFilterApply;
     }
 }
