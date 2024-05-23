@@ -67,7 +67,7 @@
             this.Toolbar.LayoutStyle = System.Windows.Forms.ToolStripLayoutStyle.Flow;
             this.Toolbar.Location = new System.Drawing.Point(0, 0);
             this.Toolbar.Name = "Toolbar";
-            this.Toolbar.Size = new System.Drawing.Size(186, 69);
+            this.Toolbar.Size = new System.Drawing.Size(186, 88);
             this.Toolbar.TabIndex = 1;
             this.Toolbar.Text = "toolStrip1";
             // 
@@ -165,7 +165,7 @@
             this.tbReplaceNext.Name = "tbReplaceNext";
             this.tbReplaceNext.Size = new System.Drawing.Size(23, 20);
             this.tbReplaceNext.Text = "toolStripButton4";
-            this.tbReplaceNext.ToolTipText = "Replace next";
+            this.tbReplaceNext.ToolTipText = "Replace next (Alt+R)";
             // 
             // tbReplaceAll
             // 
@@ -175,7 +175,7 @@
             this.tbReplaceAll.Name = "tbReplaceAll";
             this.tbReplaceAll.Size = new System.Drawing.Size(23, 20);
             this.tbReplaceAll.Text = "toolStripButton5";
-            this.tbReplaceAll.ToolTipText = "Replace all";
+            this.tbReplaceAll.ToolTipText = "Replace all (Alt+A)";
             // 
             // tbCaseSensitive
             // 

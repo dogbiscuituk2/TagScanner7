@@ -45,6 +45,17 @@
             MainForm.EditReplace.Click += EditReplace_Click;
             MainForm.tbReplace.Click += EditReplace_Click;
 
+            MainForm.PopupSearchFields.Click += TbPickTags_Click;
+            MainForm.PopupMatchCase.Click += TbCaseSensitive_Click;
+            MainForm.PopupWholeWord.Click += TbWholeWord_Click;
+            MainForm.PopupUseRegex.Click += TbUseRegex_Click;
+            MainForm.PopupFindNext.Click += TbFindNext_Click;
+            MainForm.PopupFindPrevious.Click += TbFindPrevious_Click;
+            MainForm.PopupFindAll.Click += TbFindAll_Click;
+            MainForm.PopupReplaceNext.Click += TbReplaceNext_Click;
+            MainForm.PopupReplaceAll.Click += TbReplaceAll_Click;
+            MainForm.PopupCloseFindReplace.Click += TbFindClose_Click;
+
             TbDropDown.Click += TbDropDown_Click;
             CbFind.DropDown += CbFind_DropDown;
             TbFindNext.Click += TbFindNext_Click;
@@ -157,7 +168,14 @@
             get => TbCloseUp.Visible;
             set
             {
-                TbCloseUp.Visible = CbReplace.Visible = TbReplaceNext.Visible = TbReplaceAll.Visible = value;
+                TbCloseUp.Visible =
+                    CbReplace.Visible =
+                    TbReplaceNext.Visible =
+                    TbReplaceAll.Visible =
+                    MainForm.PopupReplaceNext.Visible =
+                    MainForm.PopupReplaceAll.Visible =
+                    MainForm.PopupReplaceSeparator.Visible =
+                    value;
                 TbDropDown.Image = value ? Properties.Resources.frCloseUp : Properties.Resources.frDropDown;
             }
         }
