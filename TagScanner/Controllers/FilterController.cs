@@ -84,7 +84,7 @@
         private void Hide() => Show(false);
         private void Resize() => CbFilter.Size = new Size(View.Width - 118, CbFilter.Height);
         private void ToggleCaseSensitive() => CaseSensitive ^= true;
-        private void UpdateFilterStatus(string status) => System.Diagnostics.Debug.WriteLine($"Filter: {status}");
+        private void UpdateFilterStatus(string status) => ParentControl.Text = $"Filter: {status}";
 
         private void ClearFilter()
         {
@@ -98,7 +98,7 @@
             ParentControl.Visible = visible;
             if (visible)
             {
-                ParentControl.Size = new Size(ParentControl.Width, 50 + 31);
+                ParentControl.Size = new Size(ParentControl.Width, 48);
                 CbFilter.Focus();
             }
         }
