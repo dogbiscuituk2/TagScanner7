@@ -220,6 +220,7 @@
             TextBox.TextChanged += ColourTextBox_TextChanged;
             View.Shown += View_Shown;
             UpdateUI();
+
             return _view;
         }
 
