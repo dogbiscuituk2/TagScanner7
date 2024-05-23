@@ -41,12 +41,8 @@
             this.toolStripMenuItem14 = new System.Windows.Forms.ToolStripSeparator();
             this.TablePopupTags = new System.Windows.Forms.ToolStripMenuItem();
             this.TablePopupMoreActions = new System.Windows.Forms.ToolStripMenuItem();
-            this.FilterGroupBox = new System.Windows.Forms.GroupBox();
-            this.FilterComboBox = new System.Windows.Forms.ComboBox();
-            this.ApplyButton = new System.Windows.Forms.Button();
-            this.ClearButton = new System.Windows.Forms.Button();
-            this.EditButton = new System.Windows.Forms.Button();
-            this.CaseSensitiveCheckBox = new System.Windows.Forms.CheckBox();
+            this.FilterPanel = new System.Windows.Forms.Panel();
+            this.FilterControl = new TagScanner.Controls.FilterControl();
             this.SplitContainerRight = new System.Windows.Forms.SplitContainer();
             this.PictureBox = new System.Windows.Forms.PictureBox();
             this.FindReplacePanel = new System.Windows.Forms.Panel();
@@ -63,9 +59,10 @@
             this.MediaPlayer = new AxWMPLib.AxWindowsMediaPlayer();
             this.FilterPopupMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.RecentLibraryPopupMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.FileReopen = new System.Windows.Forms.ToolStripMenuItem();
-            this.AddRecentLibrary = new System.Windows.Forms.ToolStripMenuItem();
             this.tbAddRecentLibrary = new System.Windows.Forms.ToolStripMenuItem();
+            this.AddRecentLibrary = new System.Windows.Forms.ToolStripMenuItem();
+            this.FileReopen = new System.Windows.Forms.ToolStripMenuItem();
+            this.tbReopen = new System.Windows.Forms.ToolStripMenuItem();
             this.RecentFolderPopupMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.AddRecentFolder = new System.Windows.Forms.ToolStripMenuItem();
             this.tbAddRecentFolder = new System.Windows.Forms.ToolStripMenuItem();
@@ -83,7 +80,6 @@
             this.tbNewWindow = new System.Windows.Forms.ToolStripMenuItem();
             this.tbOpen = new System.Windows.Forms.ToolStripSplitButton();
             this.tbOpenLibrary = new System.Windows.Forms.ToolStripMenuItem();
-            this.tbReopen = new System.Windows.Forms.ToolStripMenuItem();
             this.tbSave = new System.Windows.Forms.ToolStripSplitButton();
             this.tbSaveLibrary = new System.Windows.Forms.ToolStripMenuItem();
             this.tbSaveAs = new System.Windows.Forms.ToolStripMenuItem();
@@ -98,6 +94,7 @@
             this.tbFindReplace = new System.Windows.Forms.ToolStripSplitButton();
             this.tbFind = new System.Windows.Forms.ToolStripMenuItem();
             this.tbReplace = new System.Windows.Forms.ToolStripMenuItem();
+            this.tbFilter = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
             this.tbAdd = new System.Windows.Forms.ToolStripSplitButton();
             this.tbAddMedia = new System.Windows.Forms.ToolStripMenuItem();
@@ -127,6 +124,7 @@
             this.toolStripMenuItem11 = new System.Windows.Forms.ToolStripSeparator();
             this.EditFind = new System.Windows.Forms.ToolStripMenuItem();
             this.EditReplace = new System.Windows.Forms.ToolStripMenuItem();
+            this.EditFilter = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem2 = new System.Windows.Forms.ToolStripSeparator();
             this.EditSelectAll = new System.Windows.Forms.ToolStripMenuItem();
             this.EditInvertSelection = new System.Windows.Forms.ToolStripMenuItem();
@@ -157,7 +155,7 @@
             this.SplitContainerLeft.Panel2.SuspendLayout();
             this.SplitContainerLeft.SuspendLayout();
             this.TablePopupMenu.SuspendLayout();
-            this.FilterGroupBox.SuspendLayout();
+            this.FilterPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.SplitContainerRight)).BeginInit();
             this.SplitContainerRight.Panel1.SuspendLayout();
             this.SplitContainerRight.Panel2.SuspendLayout();
@@ -192,7 +190,6 @@
             // SplitContainerMain.Panel1
             // 
             this.SplitContainerMain.Panel1.Controls.Add(this.SplitContainerLeft);
-            this.SplitContainerMain.Panel1.Controls.Add(this.FilterGroupBox);
             this.SplitContainerMain.Panel1.Padding = new System.Windows.Forms.Padding(4, 0, 0, 0);
             // 
             // SplitContainerMain.Panel2
@@ -206,7 +203,6 @@
             // 
             // SplitContainerLeft
             // 
-            this.SplitContainerLeft.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.SplitContainerLeft.Dock = System.Windows.Forms.DockStyle.Fill;
             this.SplitContainerLeft.FixedPanel = System.Windows.Forms.FixedPanel.Panel1;
             this.SplitContainerLeft.Location = new System.Drawing.Point(4, 0);
@@ -218,8 +214,9 @@
             // SplitContainerLeft.Panel2
             // 
             this.SplitContainerLeft.Panel2.Controls.Add(this.GridElementHost);
+            this.SplitContainerLeft.Panel2.Controls.Add(this.FilterPanel);
             this.SplitContainerLeft.Panel2MinSize = 260;
-            this.SplitContainerLeft.Size = new System.Drawing.Size(539, 466);
+            this.SplitContainerLeft.Size = new System.Drawing.Size(539, 514);
             this.SplitContainerLeft.SplitterDistance = 202;
             this.SplitContainerLeft.TabIndex = 3;
             // 
@@ -228,10 +225,10 @@
             this.GridElementHost.AllowDrop = true;
             this.GridElementHost.ContextMenuStrip = this.TablePopupMenu;
             this.GridElementHost.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.GridElementHost.Location = new System.Drawing.Point(0, 0);
+            this.GridElementHost.Location = new System.Drawing.Point(0, 29);
             this.GridElementHost.Margin = new System.Windows.Forms.Padding(0);
             this.GridElementHost.Name = "GridElementHost";
-            this.GridElementHost.Size = new System.Drawing.Size(537, 464);
+            this.GridElementHost.Size = new System.Drawing.Size(539, 485);
             this.GridElementHost.TabIndex = 0;
             this.GridElementHost.Text = "GridContainerHost";
             this.GridElementHost.Child = null;
@@ -329,77 +326,26 @@
             this.TablePopupMoreActions.Size = new System.Drawing.Size(165, 22);
             this.TablePopupMoreActions.Text = "&File Operations...";
             // 
-            // FilterGroupBox
+            // FilterPanel
             // 
-            this.FilterGroupBox.Controls.Add(this.FilterComboBox);
-            this.FilterGroupBox.Controls.Add(this.ApplyButton);
-            this.FilterGroupBox.Controls.Add(this.ClearButton);
-            this.FilterGroupBox.Controls.Add(this.EditButton);
-            this.FilterGroupBox.Controls.Add(this.CaseSensitiveCheckBox);
-            this.FilterGroupBox.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.FilterGroupBox.Location = new System.Drawing.Point(4, 466);
-            this.FilterGroupBox.Name = "FilterGroupBox";
-            this.FilterGroupBox.Padding = new System.Windows.Forms.Padding(0, 0, 0, 4);
-            this.FilterGroupBox.Size = new System.Drawing.Size(539, 48);
-            this.FilterGroupBox.TabIndex = 1;
-            this.FilterGroupBox.TabStop = false;
-            this.FilterGroupBox.Text = "Filter";
+            this.FilterPanel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.FilterPanel.Controls.Add(this.FilterControl);
+            this.FilterPanel.Dock = System.Windows.Forms.DockStyle.Top;
+            this.FilterPanel.Location = new System.Drawing.Point(0, 0);
+            this.FilterPanel.Name = "FilterPanel";
+            this.FilterPanel.Padding = new System.Windows.Forms.Padding(3);
+            this.FilterPanel.Size = new System.Drawing.Size(539, 29);
+            this.FilterPanel.TabIndex = 1;
             // 
-            // FilterComboBox
+            // FilterControl
             // 
-            this.FilterComboBox.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
-            this.FilterComboBox.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.CustomSource;
-            this.FilterComboBox.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.FilterComboBox.FormattingEnabled = true;
-            this.FilterComboBox.Location = new System.Drawing.Point(115, 18);
-            this.FilterComboBox.Name = "FilterComboBox";
-            this.FilterComboBox.Size = new System.Drawing.Size(277, 25);
-            this.FilterComboBox.TabIndex = 0;
-            // 
-            // ApplyButton
-            // 
-            this.ApplyButton.AutoSize = true;
-            this.ApplyButton.Dock = System.Windows.Forms.DockStyle.Right;
-            this.ApplyButton.Location = new System.Drawing.Point(392, 18);
-            this.ApplyButton.Name = "ApplyButton";
-            this.ApplyButton.Size = new System.Drawing.Size(51, 26);
-            this.ApplyButton.TabIndex = 1;
-            this.ApplyButton.Text = "Apply";
-            this.ApplyButton.UseVisualStyleBackColor = true;
-            // 
-            // ClearButton
-            // 
-            this.ClearButton.AutoSize = true;
-            this.ClearButton.Dock = System.Windows.Forms.DockStyle.Right;
-            this.ClearButton.Location = new System.Drawing.Point(443, 18);
-            this.ClearButton.Name = "ClearButton";
-            this.ClearButton.Size = new System.Drawing.Size(48, 26);
-            this.ClearButton.TabIndex = 3;
-            this.ClearButton.Text = "Clear";
-            this.ClearButton.UseVisualStyleBackColor = true;
-            // 
-            // EditButton
-            // 
-            this.EditButton.AutoSize = true;
-            this.EditButton.Dock = System.Windows.Forms.DockStyle.Right;
-            this.EditButton.Location = new System.Drawing.Point(491, 18);
-            this.EditButton.Name = "EditButton";
-            this.EditButton.Size = new System.Drawing.Size(48, 26);
-            this.EditButton.TabIndex = 4;
-            this.EditButton.Text = "Edit";
-            this.EditButton.UseVisualStyleBackColor = true;
-            // 
-            // CaseSensitiveCheckBox
-            // 
-            this.CaseSensitiveCheckBox.AutoSize = true;
-            this.CaseSensitiveCheckBox.Dock = System.Windows.Forms.DockStyle.Left;
-            this.CaseSensitiveCheckBox.Location = new System.Drawing.Point(0, 18);
-            this.CaseSensitiveCheckBox.Name = "CaseSensitiveCheckBox";
-            this.CaseSensitiveCheckBox.Padding = new System.Windows.Forms.Padding(3);
-            this.CaseSensitiveCheckBox.Size = new System.Drawing.Size(115, 26);
-            this.CaseSensitiveCheckBox.TabIndex = 2;
-            this.CaseSensitiveCheckBox.Text = "Case Sensitive";
-            this.CaseSensitiveCheckBox.UseVisualStyleBackColor = true;
+            this.FilterControl.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.FilterControl.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.FilterControl.Location = new System.Drawing.Point(3, 3);
+            this.FilterControl.Margin = new System.Windows.Forms.Padding(4);
+            this.FilterControl.Name = "FilterControl";
+            this.FilterControl.Size = new System.Drawing.Size(531, 21);
+            this.FilterControl.TabIndex = 0;
             // 
             // SplitContainerRight
             // 
@@ -426,10 +372,10 @@
             // PictureBox
             // 
             this.PictureBox.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.PictureBox.Location = new System.Drawing.Point(0, 72);
+            this.PictureBox.Location = new System.Drawing.Point(0, 75);
             this.PictureBox.Margin = new System.Windows.Forms.Padding(4);
             this.PictureBox.Name = "PictureBox";
-            this.PictureBox.Size = new System.Drawing.Size(200, 125);
+            this.PictureBox.Size = new System.Drawing.Size(200, 122);
             this.PictureBox.TabIndex = 0;
             this.PictureBox.TabStop = false;
             // 
@@ -441,16 +387,17 @@
             this.FindReplacePanel.Location = new System.Drawing.Point(0, 0);
             this.FindReplacePanel.Name = "FindReplacePanel";
             this.FindReplacePanel.Padding = new System.Windows.Forms.Padding(3);
-            this.FindReplacePanel.Size = new System.Drawing.Size(200, 72);
+            this.FindReplacePanel.Size = new System.Drawing.Size(200, 75);
             this.FindReplacePanel.TabIndex = 1;
             // 
             // FindReplaceControl
             // 
             this.FindReplaceControl.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.FindReplaceControl.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.FindReplaceControl.Location = new System.Drawing.Point(3, 3);
             this.FindReplaceControl.Margin = new System.Windows.Forms.Padding(4);
             this.FindReplaceControl.Name = "FindReplaceControl";
-            this.FindReplaceControl.Size = new System.Drawing.Size(192, 64);
+            this.FindReplaceControl.Size = new System.Drawing.Size(192, 67);
             this.FindReplaceControl.TabIndex = 0;
             // 
             // TabControl
@@ -575,12 +522,12 @@
             this.RecentLibraryPopupMenu.OwnerItem = this.tbReopen;
             this.RecentLibraryPopupMenu.Size = new System.Drawing.Size(61, 4);
             // 
-            // FileReopen
+            // tbAddRecentLibrary
             // 
-            this.FileReopen.DropDown = this.RecentLibraryPopupMenu;
-            this.FileReopen.Name = "FileReopen";
-            this.FileReopen.Size = new System.Drawing.Size(161, 22);
-            this.FileReopen.Text = "&Reopen";
+            this.tbAddRecentLibrary.DropDown = this.RecentLibraryPopupMenu;
+            this.tbAddRecentLibrary.Name = "tbAddRecentLibrary";
+            this.tbAddRecentLibrary.Size = new System.Drawing.Size(149, 22);
+            this.tbAddRecentLibrary.Text = "R&ecent Library";
             // 
             // AddRecentLibrary
             // 
@@ -589,12 +536,19 @@
             this.AddRecentLibrary.Size = new System.Drawing.Size(149, 22);
             this.AddRecentLibrary.Text = "R&ecent Library";
             // 
-            // tbAddRecentLibrary
+            // FileReopen
             // 
-            this.tbAddRecentLibrary.DropDown = this.RecentLibraryPopupMenu;
-            this.tbAddRecentLibrary.Name = "tbAddRecentLibrary";
-            this.tbAddRecentLibrary.Size = new System.Drawing.Size(149, 22);
-            this.tbAddRecentLibrary.Text = "R&ecent Library";
+            this.FileReopen.DropDown = this.RecentLibraryPopupMenu;
+            this.FileReopen.Name = "FileReopen";
+            this.FileReopen.Size = new System.Drawing.Size(161, 22);
+            this.FileReopen.Text = "&Reopen";
+            // 
+            // tbReopen
+            // 
+            this.tbReopen.DropDown = this.RecentLibraryPopupMenu;
+            this.tbReopen.Name = "tbReopen";
+            this.tbReopen.Size = new System.Drawing.Size(136, 22);
+            this.tbReopen.Text = "&Reopen";
             // 
             // RecentFolderPopupMenu
             // 
@@ -773,13 +727,6 @@
             this.tbOpenLibrary.Size = new System.Drawing.Size(136, 22);
             this.tbOpenLibrary.Text = "&Open...";
             // 
-            // tbReopen
-            // 
-            this.tbReopen.DropDown = this.RecentLibraryPopupMenu;
-            this.tbReopen.Name = "tbReopen";
-            this.tbReopen.Size = new System.Drawing.Size(136, 22);
-            this.tbReopen.Text = "&Reopen";
-            // 
             // tbSave
             // 
             this.tbSave.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
@@ -876,7 +823,8 @@
             this.tbFindReplace.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
             this.tbFindReplace.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.tbFind,
-            this.tbReplace});
+            this.tbReplace,
+            this.tbFilter});
             this.tbFindReplace.Image = global::TagScanner.Properties.Resources.ZoomHS;
             this.tbFindReplace.ImageTransparentColor = System.Drawing.Color.White;
             this.tbFindReplace.Name = "tbFindReplace";
@@ -886,6 +834,8 @@
             // 
             // tbFind
             // 
+            this.tbFind.Image = global::TagScanner.Properties.Resources.ZoomHS;
+            this.tbFind.ImageTransparentColor = System.Drawing.Color.White;
             this.tbFind.Name = "tbFind";
             this.tbFind.ShortcutKeyDisplayString = "^F";
             this.tbFind.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.F)));
@@ -899,6 +849,15 @@
             this.tbReplace.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.H)));
             this.tbReplace.Size = new System.Drawing.Size(148, 22);
             this.tbReplace.Text = "&Replace...";
+            // 
+            // tbFilter
+            // 
+            this.tbFilter.Image = global::TagScanner.Properties.Resources.Fatcow_Farm_Fresh_Filter_16;
+            this.tbFilter.Name = "tbFilter";
+            this.tbFilter.ShortcutKeyDisplayString = "^L";
+            this.tbFilter.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.L)));
+            this.tbFilter.Size = new System.Drawing.Size(148, 22);
+            this.tbFilter.Text = "Fi&lter";
             // 
             // toolStripSeparator4
             // 
@@ -1064,6 +1023,7 @@
             this.toolStripMenuItem11,
             this.EditFind,
             this.EditReplace,
+            this.EditFilter,
             this.toolStripMenuItem2,
             this.EditSelectAll,
             this.EditInvertSelection});
@@ -1152,6 +1112,16 @@
             this.EditReplace.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.H)));
             this.EditReplace.Size = new System.Drawing.Size(155, 22);
             this.EditReplace.Text = "&Replace...";
+            // 
+            // EditFilter
+            // 
+            this.EditFilter.Image = global::TagScanner.Properties.Resources.Fatcow_Farm_Fresh_Filter_16;
+            this.EditFilter.ImageTransparentColor = System.Drawing.Color.White;
+            this.EditFilter.Name = "EditFilter";
+            this.EditFilter.ShortcutKeyDisplayString = "^L";
+            this.EditFilter.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.L)));
+            this.EditFilter.Size = new System.Drawing.Size(155, 22);
+            this.EditFilter.Text = "Fi&lter";
             // 
             // toolStripMenuItem2
             // 
@@ -1311,7 +1281,6 @@
             // 
             // MainForm
             // 
-            this.AcceptButton = this.ApplyButton;
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 17F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(784, 561);
@@ -1330,8 +1299,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.SplitContainerLeft)).EndInit();
             this.SplitContainerLeft.ResumeLayout(false);
             this.TablePopupMenu.ResumeLayout(false);
-            this.FilterGroupBox.ResumeLayout(false);
-            this.FilterGroupBox.PerformLayout();
+            this.FilterPanel.ResumeLayout(false);
             this.SplitContainerRight.Panel1.ResumeLayout(false);
             this.SplitContainerRight.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.SplitContainerRight)).EndInit();
@@ -1388,12 +1356,7 @@
 		public System.Windows.Forms.Integration.ElementHost PlaylistElementHost;
         public System.Windows.Forms.ContextMenuStrip FilterPopupMenu;
         public System.Windows.Forms.Integration.ElementHost GridElementHost;
-        public System.Windows.Forms.GroupBox FilterGroupBox;
-        public System.Windows.Forms.ComboBox FilterComboBox;
-        public System.Windows.Forms.CheckBox CaseSensitiveCheckBox;
-        public System.Windows.Forms.Button ApplyButton;
         public System.Windows.Forms.ToolStripMenuItem TablePopupMoreActions;
-        public System.Windows.Forms.Button ClearButton;
         public System.Windows.Forms.ContextMenuStrip UndoPopupMenu;
         public System.Windows.Forms.ContextMenuStrip RedoPopupMenu;
         public System.Windows.Forms.ContextMenuStrip RecentLibraryPopupMenu;
@@ -1484,12 +1447,15 @@
         public System.Windows.Forms.ToolStripMenuItem GroupByGenre;
         public System.Windows.Forms.ToolStripSeparator toolStripMenuItem7;
         public System.Windows.Forms.ToolStripMenuItem GroupByTitle;
-        public System.Windows.Forms.Button EditButton;
         public System.Windows.Forms.Panel FindReplacePanel;
         private System.ComponentModel.IContainer components;
         public FindReplaceControl FindReplaceControl;
         public System.Windows.Forms.ToolStripMenuItem tbFind;
         public System.Windows.Forms.ToolStripMenuItem tbReplace;
+        public Controls.FilterControl FilterControl;
+        public System.Windows.Forms.ToolStripMenuItem EditFilter;
+        public System.Windows.Forms.ToolStripMenuItem tbFilter;
+        public System.Windows.Forms.Panel FilterPanel;
     }
 }
 

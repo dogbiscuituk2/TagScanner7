@@ -43,8 +43,8 @@
             PropertyGridController = new PropertyGridController(this);
             StatusController = new StatusController(this);
             FindReplaceController = new FindReplaceController(this);
-            AutoCompleter = new AutoCompleter(this, View.FindReplaceControl.cbFind, View.FindReplaceControl.cbReplace, View.FilterComboBox);
-            AutoCompleter.SetList(View.FilterComboBox, Tokenizer.AutocompleteItems);
+            AutoCompleter = new AutoCompleter(this, View.FindReplaceControl.cbFind, View.FindReplaceControl.cbReplace, View.FilterControl.cbFilter);
+            AutoCompleter.SetList(View.FilterControl.cbFilter, Tokenizer.AutocompleteItems);
             ModifiedChanged();
             UpdateUI();
         }
@@ -126,7 +126,6 @@
                 View.TablePopupTags.Click += PopupTags_Click;
                 View.TablePopupMoreActions.Click += GridPopupMoreOptions_Click;
 
-                View.Shown += View_Shown;
                 View.FormClosed += View_FormClosed;
                 View.FormClosing += View_FormClosing;
             }
@@ -321,8 +320,6 @@
             //if (!e.Cancel)
             //    new MruFilterController(this).RegistryWrite(View.FilterComboBox);
         }
-
-        private void View_Shown(object sender, EventArgs e) => View.ActiveControl = View.FilterComboBox;
 
         #endregion
 

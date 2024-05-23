@@ -226,9 +226,6 @@
   <data name="Expand_32" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\resources\expand_32.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="ZoomHS" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\ZoomHS.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
   <data name="arrow_Down_16xLG" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\resources\arrow_down_16xlg.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
@@ -255,6 +252,9 @@
   </data>
   <data name="PieChart3DHS" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\PieChart3DHS.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="frBlank" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\frBlank.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="PointerHS" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\PointerHS.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -304,14 +304,17 @@
   <data name="ShowGridlinesHS" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\ShowGridlinesHS.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="TileWindowsHorizontallyHS" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\TileWindowsHorizontallyHS.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="TextboxHS" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\TextboxHS.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="PieChartHS" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\PieChartHS.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="Delete" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Delete.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="folder_Open_16xLG" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\folder_open_16xlg.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="FlipHorizontalHS" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\FlipHorizontalHS.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -366,6 +369,9 @@
   </data>
   <data name="WebInsertHyperlinkHS" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\WebInsertHyperlinkHS.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="frClear" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\frClear.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="frReplaceNext" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\frReplaceNext.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -446,6 +452,9 @@
   <data name="Expand" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\resources\expand.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="TileWindowsHorizontallyHS" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\TileWindowsHorizontallyHS.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
   <data name="TracksUpdated" xml:space="preserve">
     <value>-- The contents of the library file will be updated to match the currently embedded ID3 tag data of {0:n0} track(s).
 </value>
@@ -456,8 +465,8 @@
   <data name="Level_3" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Level_3.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="folder_Open_16xLG" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\resources\folder_open_16xlg.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="frApply" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\frApply.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="FunctionHS" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\FunctionHS.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -483,8 +492,8 @@
   <data name="PlayHS" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\PlayHS.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="TextboxHS" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\TextboxHS.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="ZoomHS" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\ZoomHS.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="PrimaryKeyHS" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\PrimaryKeyHS.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -503,6 +512,9 @@
   </data>
   <data name="info" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\info.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="frEdit" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\frEdit.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="Op2_EqualTo" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Op2_EqualTo.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -599,7 +611,7 @@
     <value>
 Continue to synchronize and save?</value>
   </data>
-  <data name="frBlank" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\frBlank.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="Fatcow-Farm-Fresh-Filter.16" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Fatcow-Farm-Fresh-Filter.16.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
 </root>

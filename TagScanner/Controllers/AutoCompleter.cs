@@ -54,8 +54,12 @@
         }
 
         public void InvalidateFieldLists() => FieldLists.Clear();
+
         public void SetList(ComboBox comboBox, IEnumerable<string> items) => comboBox.AutoCompleteCustomSource = MakeList(items);
         public void SetList(TextBox textBox, IEnumerable<string> items) => textBox.AutoCompleteCustomSource = MakeList(items);
+
+        public void SetList(ToolStripComboBox comboBox, IEnumerable<string> items) => comboBox.AutoCompleteCustomSource = MakeList(items);
+        public void SetList(ToolStripTextBox textBox, IEnumerable<string> items) => textBox.AutoCompleteCustomSource = MakeList(items);
 
         #endregion
 

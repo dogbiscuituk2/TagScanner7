@@ -50,6 +50,7 @@
             // 
             // Toolbar
             // 
+            this.Toolbar.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
             this.Toolbar.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.tbDropDown,
             this.cbFind,
@@ -66,7 +67,7 @@
             this.Toolbar.LayoutStyle = System.Windows.Forms.ToolStripLayoutStyle.Flow;
             this.Toolbar.Location = new System.Drawing.Point(0, 0);
             this.Toolbar.Name = "Toolbar";
-            this.Toolbar.Size = new System.Drawing.Size(173, 88);
+            this.Toolbar.Size = new System.Drawing.Size(202, 69);
             this.Toolbar.TabIndex = 1;
             this.Toolbar.Text = "toolStrip1";
             // 
@@ -87,7 +88,7 @@
             "two",
             "three"});
             this.cbFind.Name = "cbFind";
-            this.cbFind.Size = new System.Drawing.Size(81, 23);
+            this.cbFind.Size = new System.Drawing.Size(94, 23);
             this.cbFind.ToolTipText = "Search term";
             // 
             // tbFind
@@ -137,7 +138,7 @@
             this.tbFindClose.Name = "tbFindClose";
             this.tbFindClose.Size = new System.Drawing.Size(23, 20);
             this.tbFindClose.Text = "toolStripButton2";
-            this.tbFindClose.ToolTipText = "Close";
+            this.tbFindClose.ToolTipText = "Close find/replace";
             // 
             // tbCloseUp
             // 
@@ -153,7 +154,7 @@
             // cbReplace
             // 
             this.cbReplace.Name = "cbReplace";
-            this.cbReplace.Size = new System.Drawing.Size(81, 23);
+            this.cbReplace.Size = new System.Drawing.Size(94, 23);
             this.cbReplace.ToolTipText = "Replace term";
             // 
             // tbReplaceNext
@@ -217,11 +218,13 @@
             // 
             // FindReplaceControl
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.Toolbar);
+            this.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.Name = "FindReplaceControl";
-            this.Size = new System.Drawing.Size(173, 79);
+            this.Size = new System.Drawing.Size(202, 91);
             this.Toolbar.ResumeLayout(false);
             this.Toolbar.PerformLayout();
             this.ResumeLayout(false);

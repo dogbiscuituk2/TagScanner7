@@ -8,11 +8,11 @@
     using System.Text.RegularExpressions;
     using System.Windows.Data;
     using System.Windows.Forms;
+    using Commands;
     using Forms;
     using Models;
-    using TagScanner.Commands;
-    using TagScanner.Terms;
-    using TagScanner.Utils;
+    using Terms;
+    using Utils;
 
     public class FindReplaceController : Controller
     {
@@ -79,6 +79,8 @@
 
         #region Fields
 
+        private readonly Control ParentControl;
+
         private List<Tag> _searchTags = new List<Tag>();
 
         private List<Tag> SearchTags
@@ -102,8 +104,6 @@
 
         private readonly Selection Selection = new Selection();
 
-        private readonly Control ParentControl;
-
         private readonly ToolStripButton
             TbCaseSensitive,
             TbCloseUp,
@@ -124,7 +124,8 @@
             TbFindNext,
             TbFindPrevious;
 
-        private readonly ToolStripSplitButton TbFind;
+        private readonly ToolStripSplitButton
+            TbFind;
 
         #endregion
 
@@ -328,8 +329,10 @@
             ParentControl.Visible = visible;
             Replacing = replacing;
             if (visible)
+            {
+                ParentControl.Size = new Size(ParentControl.Width, replacing ? 75 : 52);
                 CbFind.Focus();
-            ParentControl.Size = new Size(ParentControl.Width, replacing ? 75 : 52);
+            }
         }
 
         private void UpdateAutoComplete(ToolStripComboBox comboBox) =>

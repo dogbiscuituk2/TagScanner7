@@ -161,6 +161,12 @@
     <Compile Include="Controllers\PropertyGridController.cs" />
     <Compile Include="Controllers\ScriptFormController.cs" />
     <Compile Include="Controllers\SplashController.cs" />
+    <Compile Include="Controls\FilterControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\FilterControl.Designer.cs">
+      <DependentUpon>FilterControl.cs</DependentUpon>
+    </Compile>
     <Compile Include="Controls\FirstClickHelper.cs" />
     <Compile Include="Controls\FirstClickMenuStrip.cs">
       <SubType>Component</SubType>
@@ -332,6 +338,9 @@
     <Compile Include="Forms\FilterForm.Designer.cs">
       <DependentUpon>FilterForm.cs</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="Controls\FilterControl.resx">
+      <DependentUpon>FilterControl.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Controls\FindReplaceControl.resx">
       <DependentUpon>FindReplaceControl.cs</DependentUpon>
     </EmbeddedResource>
@@ -400,6 +409,7 @@
     <Content Include="Resources\eps_open_largeHS.png" />
     <Content Include="Resources\Expand.bmp" />
     <Content Include="Resources\Expand_32.bmp" />
+    <None Include="Resources\Fatcow-Farm-Fresh-Filter.16.png" />
     <Content Include="Resources\FFwdHS.png" />
     <Content Include="Resources\FindHS.png" />
     <Content Include="Resources\FindNextHS.png" />
@@ -410,10 +420,13 @@
     <Content Include="Resources\FontDialogHS.png" />
     <Content Include="Resources\FormRunHS.png" />
     <None Include="Resources\frBlank.png" />
+    <None Include="Resources\frApply.png" />
     <Content Include="Resources\frCase.png" />
+    <None Include="Resources\frClear.png" />
     <Content Include="Resources\frClose.png" />
     <None Include="Resources\frCloseUp.png" />
     <None Include="Resources\frDropDown.png" />
+    <None Include="Resources\frEdit.png" />
     <Content Include="Resources\frFindNext.png" />
     <None Include="Resources\frFindPrevious.png" />
     <Content Include="Resources\frRegex.png" />
