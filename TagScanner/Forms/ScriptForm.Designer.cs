@@ -27,7 +27,7 @@
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ScriptForm));
             this.TextBox = new FastColoredTextBoxNS.FastColoredTextBox();
-            this.ruler1 = new FastColoredTextBoxNS.Ruler();
+            this.Ruler = new FastColoredTextBoxNS.Ruler();
             this.ToolStripContainer = new System.Windows.Forms.ToolStripContainer();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.PopupMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
@@ -46,6 +46,7 @@
             this.EditApplyFilter = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator9 = new System.Windows.Forms.ToolStripSeparator();
             this.EditSelectAll = new System.Windows.Forms.ToolStripMenuItem();
+            this.EditMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.ResultTextBox = new System.Windows.Forms.TextBox();
             this.Toolbar = new TagScanner.Controls.FirstClickToolStrip();
             this.tbNew = new System.Windows.Forms.ToolStripButton();
@@ -82,8 +83,9 @@
             this.FileSaveAs = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem2 = new System.Windows.Forms.ToolStripSeparator();
             this.FileClose = new System.Windows.Forms.ToolStripMenuItem();
-            this.EditMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.ViewMenu = new System.Windows.Forms.ToolStripMenuItem();
+            this.ViewRuler = new System.Windows.Forms.ToolStripMenuItem();
+            this.ViewLineNumbers = new System.Windows.Forms.ToolStripMenuItem();
             this.ViewWordWrap = new System.Windows.Forms.ToolStripMenuItem();
             this.LanguageMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.Language_ʞɯɾ = new System.Windows.Forms.ToolStripMenuItem();
@@ -143,16 +145,16 @@
             this.TextBox.TabIndex = 0;
             this.TextBox.Zoom = 100;
             // 
-            // ruler1
+            // Ruler
             // 
-            this.ruler1.Dock = System.Windows.Forms.DockStyle.Top;
-            this.ruler1.Location = new System.Drawing.Point(0, 0);
-            this.ruler1.MaximumSize = new System.Drawing.Size(1073741824, 24);
-            this.ruler1.MinimumSize = new System.Drawing.Size(0, 24);
-            this.ruler1.Name = "ruler1";
-            this.ruler1.Size = new System.Drawing.Size(751, 24);
-            this.ruler1.TabIndex = 1;
-            this.ruler1.Target = this.TextBox;
+            this.Ruler.Dock = System.Windows.Forms.DockStyle.Top;
+            this.Ruler.Location = new System.Drawing.Point(0, 0);
+            this.Ruler.MaximumSize = new System.Drawing.Size(1073741824, 24);
+            this.Ruler.MinimumSize = new System.Drawing.Size(0, 24);
+            this.Ruler.Name = "Ruler";
+            this.Ruler.Size = new System.Drawing.Size(751, 24);
+            this.Ruler.TabIndex = 1;
+            this.Ruler.Target = this.TextBox;
             // 
             // ToolStripContainer
             // 
@@ -160,7 +162,7 @@
             // ToolStripContainer.ContentPanel
             // 
             this.ToolStripContainer.ContentPanel.Controls.Add(this.splitContainer1);
-            this.ToolStripContainer.ContentPanel.Controls.Add(this.ruler1);
+            this.ToolStripContainer.ContentPanel.Controls.Add(this.Ruler);
             this.ToolStripContainer.ContentPanel.Size = new System.Drawing.Size(751, 537);
             this.ToolStripContainer.Dock = System.Windows.Forms.DockStyle.Fill;
             // 
@@ -216,7 +218,7 @@
             this.EditSelectAll});
             this.PopupMenu.Name = "contextMenuStrip1";
             this.PopupMenu.OwnerItem = this.EditMenu;
-            this.PopupMenu.Size = new System.Drawing.Size(181, 292);
+            this.PopupMenu.Size = new System.Drawing.Size(181, 270);
             // 
             // EditUndo
             // 
@@ -334,6 +336,13 @@
             this.EditSelectAll.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.A)));
             this.EditSelectAll.Size = new System.Drawing.Size(180, 22);
             this.EditSelectAll.Text = "Select &All";
+            // 
+            // EditMenu
+            // 
+            this.EditMenu.DropDown = this.PopupMenu;
+            this.EditMenu.Name = "EditMenu";
+            this.EditMenu.Size = new System.Drawing.Size(39, 20);
+            this.EditMenu.Text = "&Edit";
             // 
             // ResultTextBox
             // 
@@ -529,7 +538,7 @@
             this.tbFind.Name = "tbFind";
             this.tbFind.ShortcutKeyDisplayString = "^F";
             this.tbFind.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.F)));
-            this.tbFind.Size = new System.Drawing.Size(180, 22);
+            this.tbFind.Size = new System.Drawing.Size(148, 22);
             this.tbFind.Text = "&Find...";
             // 
             // tbReplace
@@ -537,7 +546,7 @@
             this.tbReplace.Name = "tbReplace";
             this.tbReplace.ShortcutKeyDisplayString = "^H";
             this.tbReplace.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.H)));
-            this.tbReplace.Size = new System.Drawing.Size(180, 22);
+            this.tbReplace.Size = new System.Drawing.Size(148, 22);
             this.tbReplace.Text = "&Replace...";
             // 
             // tbFilter
@@ -667,25 +676,32 @@
             this.FileClose.Size = new System.Drawing.Size(136, 22);
             this.FileClose.Text = "Close";
             // 
-            // EditMenu
-            // 
-            this.EditMenu.DropDown = this.PopupMenu;
-            this.EditMenu.Name = "EditMenu";
-            this.EditMenu.Size = new System.Drawing.Size(39, 20);
-            this.EditMenu.Text = "&Edit";
-            // 
             // ViewMenu
             // 
             this.ViewMenu.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.ViewRuler,
+            this.ViewLineNumbers,
             this.ViewWordWrap});
             this.ViewMenu.Name = "ViewMenu";
             this.ViewMenu.Size = new System.Drawing.Size(44, 20);
             this.ViewMenu.Text = "&View";
             // 
+            // ViewRuler
+            // 
+            this.ViewRuler.Name = "ViewRuler";
+            this.ViewRuler.Size = new System.Drawing.Size(148, 22);
+            this.ViewRuler.Text = "&Ruler";
+            // 
+            // ViewLineNumbers
+            // 
+            this.ViewLineNumbers.Name = "ViewLineNumbers";
+            this.ViewLineNumbers.Size = new System.Drawing.Size(148, 22);
+            this.ViewLineNumbers.Text = "&Line Numbers";
+            // 
             // ViewWordWrap
             // 
             this.ViewWordWrap.Name = "ViewWordWrap";
-            this.ViewWordWrap.Size = new System.Drawing.Size(131, 22);
+            this.ViewWordWrap.Size = new System.Drawing.Size(148, 22);
             this.ViewWordWrap.Text = "&WordWrap";
             // 
             // LanguageMenu
@@ -817,7 +833,7 @@
         #endregion
 
         public FastColoredTextBoxNS.FastColoredTextBox TextBox;
-        public FastColoredTextBoxNS.Ruler ruler1;
+        public FastColoredTextBoxNS.Ruler Ruler;
         public System.Windows.Forms.ToolStripContainer ToolStripContainer;
         public TagScanner.Controls.FirstClickMenuStrip MainMenu;
         public System.Windows.Forms.ToolStripMenuItem FileMenu;
@@ -868,7 +884,6 @@
         public System.Windows.Forms.ToolStripMenuItem tbSaveAs;
         public System.Windows.Forms.ToolStripMenuItem tbFind;
         public System.Windows.Forms.ToolStripMenuItem tbReplace;
-        private System.ComponentModel.IContainer components;
         public System.Windows.Forms.ToolStripMenuItem ViewMenu;
         public System.Windows.Forms.ToolStripMenuItem ViewWordWrap;
         public System.Windows.Forms.ToolStripMenuItem EditUndo;
@@ -885,9 +900,12 @@
         public System.Windows.Forms.ToolStripMenuItem EditSelectAll;
         public System.Windows.Forms.ToolStripMenuItem EditUpdateFilter;
         public System.Windows.Forms.ToolStripSplitButton tbFilter;
-        private System.Windows.Forms.ToolStripSeparator toolStripMenuItem3;
+        public System.Windows.Forms.ToolStripSeparator toolStripMenuItem3;
         public System.Windows.Forms.ToolStripMenuItem EditApplyFilter;
         public System.Windows.Forms.ToolStripMenuItem tbFilterUpdate;
         public System.Windows.Forms.ToolStripMenuItem tbFilterApply;
+        public System.Windows.Forms.ToolStripMenuItem ViewRuler;
+        public System.Windows.Forms.ToolStripMenuItem ViewLineNumbers;
+        private System.ComponentModel.IContainer components;
     }
 }

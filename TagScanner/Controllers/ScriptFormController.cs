@@ -134,7 +134,9 @@
         private void EditApplyFilter_Click(object sender, EventArgs e) => ApplyFilter();
         private void EditSelectAll_Click(object sender, EventArgs e) { TextBox.SelectAll(); UpdateUI(); }
 
-        private void ViewMenu_DropDownOpening(object sender, EventArgs e) => View.ViewWordWrap.Checked = TextBox.WordWrap;
+        private void ViewMenu_DropDownOpening(object sender, EventArgs e) => UpdateMenu();
+        private void ViewLineNumbers_Click(object sender, EventArgs e) => TextBox.ShowLineNumbers ^= true;
+        private void ViewRuler_Click(object sender, EventArgs e) => View.Ruler.Visible ^= true;
         private void ViewWordWrap_Click(object sender, EventArgs e) => TextBox.WordWrap ^= true;
 
         private void ScriptRun_Click(object sender, EventArgs e) => UpdateResult();
@@ -212,6 +214,8 @@
             View.EditSelectAll.Click += EditSelectAll_Click;
 
             View.ViewMenu.DropDownOpening += ViewMenu_DropDownOpening;
+            View.ViewRuler.Click += ViewRuler_Click;
+            View.ViewLineNumbers.Click += ViewLineNumbers_Click;
             View.ViewWordWrap.Click += ViewWordWrap_Click;
 
             View.ScriptRun.Click += ScriptRun_Click;
@@ -225,6 +229,12 @@
         }
 
         private void UpdateFilter() => CbFilter.Text = Text;
+
+        private void UpdateMenu()
+        {
+            View.ViewRuler.Checked = View.Ruler.Visible;
+            View.ViewWordWrap.Checked = TextBox.WordWrap;
+        }
 
         private void UpdateResult()
         {
