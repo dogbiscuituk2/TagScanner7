@@ -330,7 +330,7 @@
             Replacing = replacing;
             if (visible)
             {
-                ParentControl.Size = new Size(ParentControl.Width, replacing ? 75 : 52);
+                ParentControl.Size = new Size(ParentControl.Width,  50 + (replacing ? 75 : 52));
                 CbFind.Focus();
             }
         }

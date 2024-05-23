@@ -98,7 +98,7 @@
             ParentControl.Visible = visible;
             if (visible)
             {
-                ParentControl.Size = new Size(ParentControl.Width, 31);
+                ParentControl.Size = new Size(ParentControl.Width, 50 + 31);
                 CbFilter.Focus();
             }
         }

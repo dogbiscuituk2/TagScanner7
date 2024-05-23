@@ -41,11 +41,11 @@
             this.toolStripMenuItem14 = new System.Windows.Forms.ToolStripSeparator();
             this.TablePopupTags = new System.Windows.Forms.ToolStripMenuItem();
             this.TablePopupMoreActions = new System.Windows.Forms.ToolStripMenuItem();
-            this.FilterPanel = new System.Windows.Forms.Panel();
+            this.FilterPanel = new System.Windows.Forms.GroupBox();
             this.FilterControl = new TagScanner.Controls.FilterControl();
             this.SplitContainerRight = new System.Windows.Forms.SplitContainer();
             this.PictureBox = new System.Windows.Forms.PictureBox();
-            this.FindReplacePanel = new System.Windows.Forms.Panel();
+            this.FindReplacePanel = new System.Windows.Forms.GroupBox();
             this.FindReplaceControl = new TagScanner.Forms.FindReplaceControl();
             this.TabControl = new System.Windows.Forms.TabControl();
             this.tabTags = new System.Windows.Forms.TabPage();
@@ -328,7 +328,6 @@
             // 
             // FilterPanel
             // 
-            this.FilterPanel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.FilterPanel.Controls.Add(this.FilterControl);
             this.FilterPanel.Dock = System.Windows.Forms.DockStyle.Top;
             this.FilterPanel.Location = new System.Drawing.Point(0, 0);
@@ -381,7 +380,6 @@
             // 
             // FindReplacePanel
             // 
-            this.FindReplacePanel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.FindReplacePanel.Controls.Add(this.FindReplaceControl);
             this.FindReplacePanel.Dock = System.Windows.Forms.DockStyle.Top;
             this.FindReplacePanel.Location = new System.Drawing.Point(0, 0);
@@ -1447,7 +1445,7 @@
         public System.Windows.Forms.ToolStripMenuItem GroupByGenre;
         public System.Windows.Forms.ToolStripSeparator toolStripMenuItem7;
         public System.Windows.Forms.ToolStripMenuItem GroupByTitle;
-        public System.Windows.Forms.Panel FindReplacePanel;
+        public System.Windows.Forms.GroupBox FindReplacePanel;
         private System.ComponentModel.IContainer components;
         public FindReplaceControl FindReplaceControl;
         public System.Windows.Forms.ToolStripMenuItem tbFind;
@@ -1455,7 +1453,7 @@
         public Controls.FilterControl FilterControl;
         public System.Windows.Forms.ToolStripMenuItem EditFilter;
         public System.Windows.Forms.ToolStripMenuItem tbFilter;
-        public System.Windows.Forms.Panel FilterPanel;
+        public System.Windows.Forms.GroupBox FilterPanel;
     }
 }
 
