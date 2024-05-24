@@ -1,0 +1,7 @@
+﻿ʞɯɾ-program = block
+block = statement , [ separator , statement ]
+
+statement = 
+
+label = name , ":"
+separator = "," | ";"

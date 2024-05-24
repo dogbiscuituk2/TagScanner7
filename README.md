@@ -17,37 +17,37 @@ To see the scope/power of _ʞɯɾ_ language, it helps to get an overview of its 
   
 ## _ʞɯɾ_ Language Syntax <sup><i>(1)</i></sup>  
   
-_ʞɯɾ-program_ **\:\:=** _block_  
-_block_ **\:\:=** _\{ \{ label ... \} statement \{_ **\;** _\{ label ... \} statement ... \} \}_  
-_statement_ **\:\:=** _\{ label_ **\:** _\} compound | if-statement | do-loop |_ **break** _|_ **continue** _|_ **goto** _label _|_ **stop**&nbsp;<sup>(2)</sup>  
-_compound_ **\:\:=** _term \{ binary-op term ... \}_  
-_term_ **\:\:=** _\{ unary-op | cast ... \} value |_ **(** _block_ **)** _\{ \{_ **.** _\} function ... \}_  
-_value_ **\:\:=** _constant | field | function | variable_  
-_label_ **\:\:=** **\@\"\[\w\_]+\\:"**  
+_ʞɯɾ-program_ = _block_  
+_block_ = _\{ statement \{_ **\;** _statement ... \} \}_  
+_statement_ = _\{ label ... \} compound | if-statement | do-loop |_ **break** _|_ **continue** _|_ **goto** _label _|_ **stop**&nbsp;<sup>(2)</sup>  
+_compound_ = _term \{ binary-op term ... \}_  
+_term_ = _\{ unary-op | cast ... \} value |_ **(** _block_ **)** _\{ \{_ **.** _\} function ... \}_  
+_value_ = _constant | field | function | variable_  
+_label_ = **\@\"\[\w\_]+\\:"**  
   
-_if-statement_ **\:\:=** **if** _block_ **then** _block \{_ **else** _block \}_ **end**  
-_switch-statement_ **\:\:=** **switch** _block \{ \{_ **case** _term_ **:** _... \} block ... \} \{_ **default** **:** _block \}_ **end**  
-_do-loop_ **\:\:=** _\{_ **while** _block \}_ **do** _block \{_ **until** _block \}_ **end**  
-_try-block_ **\:\:=** **try** _block \{_ **catch** _catch-block ... \} \{_ **finally** _block \}_ **end**  
-_catch-block_ **\:\:=** **(** _exception-type variable_ **)** _block_
+_if-statement_ = **if** _block_ **then** _block \{_ **else** _block \}_ **end**  
+_switch-statement_ = **switch** _block \{ \{_ **case** _term_ **:** _... \} block ... \} \{_ **default** **:** _block \}_ **end**  
+_do-loop_ = _\{_ **while** _block \}_ **do** _block \{_ **until** _block \}_ **end**  
+_try-block_ = **try** _block \{_ **catch** _catch-block ... \} \{_ **finally** _block \}_ **end**  
+_catch-block_ = **(** _exception-type variable_ **)** _block_
   
-_cast_ **\:\:=** **(** _type_ **)**  
-_constant_ **\:\:=** _bool | char | datetime | decimal | double | float | int | long | string | timespan | uint | ulong_&nbsp;<sup>(3,5)</sup>  
-_function_ **\:\:=** _function-name \{ term |_ **\(** _\{ block \}_ **\)** _\}_  
-_variable_ **\:\:=** _(any unreserved word)_&nbsp;<sup>(3)</sup>  
+_cast_ = **(** _type_ **)**  
+_constant_ = _bool | char | datetime | decimal | double | float | int | long | string | timespan | uint | ulong_&nbsp;<sup>(3,5)</sup>  
+_function_ = _function-name \{ term |_ **\(** _\{ block \}_ **\)** _\}_  
+_variable_ = _(any unreserved word)_&nbsp;<sup>(3)</sup>  
   
-_binary-op_ **\:\:=** _assign-op | logical-op | relational-op | arithmetic-op_&nbsp;<sup>(4)</sup>  
-_arithmetic-op_ **\:\:=** _one of_ &nbsp; **+&nbsp;&nbsp; ＋&nbsp;&nbsp; -&nbsp;&nbsp; －&nbsp;&nbsp; \*&nbsp;&nbsp; ×&nbsp;&nbsp; ✕&nbsp;&nbsp; /&nbsp;&nbsp; ÷&nbsp;&nbsp; ／&nbsp;&nbsp; %**  
-_assign-op_ **\:\:=** _one of_ &nbsp; **\<-&nbsp;&nbsp; :=&nbsp;&nbsp; ←&nbsp;&nbsp; &=&nbsp;&nbsp; |=&nbsp;&nbsp; \^=&nbsp;&nbsp; +=&nbsp;&nbsp; -=&nbsp;&nbsp; \*=&nbsp;&nbsp; /=&nbsp;&nbsp; %=**  
-_logical-op_ **\:\:=** _one of_ &nbsp; **& &nbsp;&nbsp; &&&nbsp;&nbsp; |&nbsp;&nbsp; ||&nbsp;&nbsp; ^&nbsp;&nbsp; and&nbsp;&nbsp; or&nbsp;&nbsp; xor**  
-_relational-op_ **\:\:=** _one of_ &nbsp; **=&nbsp;&nbsp; ==&nbsp;&nbsp; !=&nbsp;&nbsp; <>&nbsp;&nbsp; #&nbsp;&nbsp; ≠&nbsp;&nbsp; <&nbsp;&nbsp; \<=&nbsp;&nbsp; ≤&nbsp;&nbsp; ≯&nbsp;&nbsp; >=&nbsp;&nbsp; ≥&nbsp;&nbsp; ≮&nbsp;&nbsp; >**  
-_unary-op_ **\:\:=** _one of_ &nbsp; **+&nbsp;&nbsp; ＋&nbsp;&nbsp; -&nbsp;&nbsp; －&nbsp;&nbsp; !&nbsp;&nbsp; not**&nbsp;<sup>(4)</sup>  
+_binary-op_ = _assign-op | logical-op | relational-op | arithmetic-op_&nbsp;<sup>(4)</sup>  
+_arithmetic-op_ = _one of_ &nbsp; **+&nbsp;&nbsp; ＋&nbsp;&nbsp; -&nbsp;&nbsp; －&nbsp;&nbsp; \*&nbsp;&nbsp; ×&nbsp;&nbsp; ✕&nbsp;&nbsp; /&nbsp;&nbsp; ÷&nbsp;&nbsp; ／&nbsp;&nbsp; %**  
+_assign-op_ = _one of_ &nbsp; **\<-&nbsp;&nbsp; :=&nbsp;&nbsp; ←&nbsp;&nbsp; &=&nbsp;&nbsp; |=&nbsp;&nbsp; \^=&nbsp;&nbsp; +=&nbsp;&nbsp; -=&nbsp;&nbsp; \*=&nbsp;&nbsp; /=&nbsp;&nbsp; %=**  
+_logical-op_ = _one of_ &nbsp; **& &nbsp;&nbsp; &&&nbsp;&nbsp; |&nbsp;&nbsp; ||&nbsp;&nbsp; ^&nbsp;&nbsp; and&nbsp;&nbsp; or&nbsp;&nbsp; xor**  
+_relational-op_ = _one of_ &nbsp; **=&nbsp;&nbsp; ==&nbsp;&nbsp; !=&nbsp;&nbsp; <>&nbsp;&nbsp; #&nbsp;&nbsp; ≠&nbsp;&nbsp; <&nbsp;&nbsp; \<=&nbsp;&nbsp; ≤&nbsp;&nbsp; ≯&nbsp;&nbsp; >=&nbsp;&nbsp; ≥&nbsp;&nbsp; ≮&nbsp;&nbsp; >**  
+_unary-op_ = _one of_ &nbsp; **+&nbsp;&nbsp; ＋&nbsp;&nbsp; -&nbsp;&nbsp; －&nbsp;&nbsp; !&nbsp;&nbsp; not**&nbsp;<sup>(4)</sup>  
   
-_bool_ **\:\:=** _one of_ &nbsp; **true&nbsp;&nbsp; false**  
-_char_ **\:\:=** _any one character enclosed in single quotes:_ **'A'**  
-_string_ **\:\:=** _any character sequence enclosed in double quotes:_ **"Hello, World!"**  
-_timespan_ **\:\:=** **@"\^\\[(?:(\d+)\\.)?(\d\d?)\\:(\d\d?)(?:\\:(\d\d?)(\\.\d+)?)?\\]"**  
-_datetime_ **\:\:=** **@"\^\\[(\d{4})-(\d\d?)\-(\d\d?)(?: (\d\d?)\\:(\d\d?)(?:\\:(\d\d?)(\\.\d+)?)?)?\\]"**  
+_bool_ = _one of_ &nbsp; **true&nbsp;&nbsp; false**  
+_char_ = _any one character enclosed in single quotes:_ **'A'**  
+_string_ = _any character sequence enclosed in double quotes:_ **"Hello, World!"**  
+_timespan_ = **@"\^\\[(?:(\d+)\\.)?(\d\d?)\\:(\d\d?)(?:\\:(\d\d?)(\\.\d+)?)?\\]"**  
+_datetime_ = **@"\^\\[(\d{4})-(\d\d?)\-(\d\d?)(?: (\d\d?)\\:(\d\d?)(?:\\:(\d\d?)(\\.\d+)?)?)?\\]"**  
 
 <details><summary><i>field</i> <b>::=</b> <i>one of</i> <b>Album</b><i>,</i> <b>Album&nbsp;Artist</b><i>,</i> ... <i>(click here for the full list of field names and their types)</i>&nbsp;<sup>(3)</sup></summary>  
 <blockquote>
