@@ -27,7 +27,7 @@
         [TestMethod]
         public void TestNullOrWhiteSpace(string text)
         {
-            var tokens = Tokenizer.GetTokens(text);
+            var tokens = Lexer.GetTokens(text);
             Assert.AreEqual(expected: 0, actual: tokens.Count());
         }
 
@@ -37,7 +37,7 @@
         [TestMethod]
         public void TestSingleTokenFail(string text, TokenKind tokenType, string value, string error)
         {
-            var tokens = Tokenizer.GetTokens(text);
+            var tokens = Lexer.GetTokens(text);
             Assert.IsTrue(tokens.Count() > 0);
             var token = tokens.First();
             Assert.AreEqual(expected: tokenType, actual: token.Kind);
@@ -130,7 +130,7 @@
         [TestMethod]
         public void TestSingleTokenPass(string text, TokenKind tokenType, string value)
         {
-            var tokens = Tokenizer.GetTokens(text);
+            var tokens = Lexer.GetTokens(text);
             Assert.AreEqual(expected: 1, actual: tokens.Count());
             var token = tokens.First();
             Assert.AreEqual(expected: null, actual: token.Error);
@@ -150,7 +150,7 @@
         [TestMethod]
         public void ScratchTestSingleTokenPass(string text, TokenKind tokenType, string value)
         {
-            var tokens = Tokenizer.GetTokens(text);
+            var tokens = Lexer.GetTokens(text);
             Assert.AreEqual(expected: 1, actual: tokens.Count());
             var token = tokens.First();
             Assert.AreEqual(expected: null, actual: token.Error);
@@ -176,7 +176,7 @@
 
             void TestString(string s, string t)
             {
-                var tokens = Tokenizer.GetTokens($" {t} ");
+                var tokens = Lexer.GetTokens($" {t} ");
                 Assert.AreEqual(expected: 1, actual: tokens.Count());
                 var token = tokens.First();
                 Assert.AreEqual(expected: null, actual: token.Error);

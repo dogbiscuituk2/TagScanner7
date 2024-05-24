@@ -10,6 +10,9 @@
     using Models;
     using Utils;
 
+    /// <summary>
+    /// Syntactic analyzer.
+    /// </summary>
     public class Parser
     {
         #region Public Properties
@@ -233,7 +236,7 @@
         private Term ParseStop()
         {
             AcceptToken(Keywords.Stop);
-            return new Goto(_labels[EndLabel].LabelTarget);
+            return new Goto(_labels[Label.End].LabelTarget);
         }
 
         private Switch ParseSwitch()
@@ -383,7 +386,7 @@
             // [5] is minutes,
             // [6] is seconds,
             // [7] is fraction of a second, including a leading decimal point.
-            var groups = Regex.Match(token, Tokenizer.DateTimePattern).Groups;
+            var groups = Regex.Match(token, Lexer.DateTimePattern).Groups;
             int year = int.Parse(groups[1].Value),
                 month = int.Parse(groups[2].Value),
                 day = int.Parse(groups[3].Value);
@@ -403,7 +406,7 @@
             // [3] is minutes,
             // [4] is seconds,
             // [5] is fraction of a second, including a leading decimal point.
-            var groups = Regex.Match(token, Tokenizer.TimeSpanPattern).Groups;
+            var groups = Regex.Match(token, Lexer.TimeSpanPattern).Groups;
             int.TryParse(groups[1].Value, out var days);
             int hours = int.Parse(groups[2].Value),
                 minutes = int.Parse(groups[3].Value);
@@ -447,7 +450,7 @@
         private Term DoParse(string program, bool caseSensitive)
         {
             _caseSensitive = caseSensitive;
-            AddLabel(EndLabel);
+            AddLabel(Label.End);
             BeginParse(program);
             var term = ParseBlock();
             if (term is Compound compound)

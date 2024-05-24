@@ -170,7 +170,7 @@
                 MinFragmentLength = 2,
                 SearchPattern = "[#\\w\\.]" // Directives begin with '#'.
             };
-            autocompleteMenu.Items.SetAutocompleteItems(new Collection<string>(Tokenizer.AutocompleteItems));
+            autocompleteMenu.Items.SetAutocompleteItems(new Collection<string>(Lexer.AutocompleteItems));
             autocompleteMenu.Items.MaximumSize = new System.Drawing.Size(200, 300);
             autocompleteMenu.Items.Width = 200;
         }
@@ -267,13 +267,13 @@
 
         private void UpdateStyles(Range range)
         {
-            var tokens = new List<Token>(Tokenizer.GetTokens(Text));
-            range.ClearStyle(Tokenizer.AllTextStyles);
+            var tokens = new List<Token>(Lexer.GetTokens(Text));
+            range.ClearStyle(Lexer.AllTextStyles);
             foreach (var token in tokens)
                 new Range(TextBox,
                     TextBox.PositionToPlace(token.Start),
                     TextBox.PositionToPlace(token.End))
-                    .SetStyle(Tokenizer.TextStyle(token.Kind));
+                    .SetStyle(Lexer.TextStyle(token.Kind));
             UpdateUI();
         }
 

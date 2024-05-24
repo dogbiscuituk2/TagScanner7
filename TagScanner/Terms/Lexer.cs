@@ -7,7 +7,10 @@
     using FastColoredTextBoxNS;
     using Models;
 
-    public class Tokenizer
+    /// <summary>
+    /// Lexical analyzer.
+    /// </summary>
+    public class Lexer
     {
         #region Public Properties
 
@@ -16,7 +19,6 @@
             .Union(Functors.FunctionNames)
             .Union(Types.Names)
             .Union(Keywords.All)
-            //.OrderBy(p => p.ToUpperInvariant())
             .ToList();
 
         #endregion
@@ -31,7 +33,7 @@
         /// </summary>
         /// <param name="text">The string to tokenize.</param>
         /// <returns>An IEnumerable sequence of Token objects.</returns>
-        public static IEnumerable<Token> GetTokens(string text) => new Tokenizer().EnumerateTokens(text);
+        public static IEnumerable<Token> GetTokens(string text) => new Lexer().EnumerateTokens(text);
 
         #endregion
 
@@ -54,7 +56,7 @@
                 if (string.IsNullOrWhiteSpace(Token.Value))
                     break;
                 Index += Token.Length;
-#if DEBUG_TOKENIZER
+#if DEBUG_LEXER
                 System.Diagnostics.Debug.WriteLine(token);
 #endif
                 yield return Token;

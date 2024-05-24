@@ -149,14 +149,14 @@
 
         private string Reset(string caller, int line, string program)
         {
-            program = $"{program}; {Parser.EndLabel}:";
             _tokens.Clear();
             _terms.Clear();
             _operators.Clear();
             _loops.Clear();
             _headerShown = false;
+            program = $"{program}{Environment.NewLine};{Environment.NewLine}{Label.End}:";
             Dump(caller, line, program);
-            foreach (var token in Tokenizer.GetTokens(program))
+            foreach (var token in Lexer.GetTokens(program))
                 if (!token.Value.IsComment())
                     _tokens.Enqueue(token);
             return program;

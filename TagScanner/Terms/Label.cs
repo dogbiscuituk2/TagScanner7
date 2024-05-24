@@ -6,6 +6,8 @@
     {
         public Label(LabelTarget labelTarget) : base(labelTarget) { }
 
+        public const string End = "_";
+
         public override Expression Expression => Expression.Label(LabelTarget);
 
         public override string ToString() => $"{LabelTarget.Name}:";
