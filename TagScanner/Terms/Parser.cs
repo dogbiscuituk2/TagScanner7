@@ -12,6 +12,12 @@
 
     public class Parser
     {
+        #region Public Properties
+
+        public const string EndLabel = "_";
+
+        #endregion
+
         #region Public Methods
 
         /// <summary>
@@ -48,20 +54,18 @@
 
         #endregion
 
-        #region Private Methods
-
-        #endregion
-
         #region Nonterminals
 
         private Term ParseBlock()
         {
             Term result = null;
             PushOperator();
-            while (PeekToken().Length > 0)
+            while (PeekToken() != null)
             {
-                while (PeekToken().Kind == TokenKind.Label)
+                while (PeekToken()?.Kind == TokenKind.Label)
                     Add(ParseLabel());
+                if (PeekToken() == null)
+                    break;
                 Add(ParseStatement());
                 var token = PeekToken().Value;
                 if (token == "," || token == ";")
@@ -220,8 +224,16 @@
                         return ParseGoto();
                     case Keywords.Try:
                         return ParseTry();
+                    case Keywords.Stop:
+                        return ParseStop();
                 }
             return ParseCompound();
+        }
+
+        private Term ParseStop()
+        {
+            AcceptToken(Keywords.Stop);
+            return new Goto(_labels[EndLabel].LabelTarget);
         }
 
         private Switch ParseSwitch()
@@ -435,6 +447,7 @@
         private Term DoParse(string program, bool caseSensitive)
         {
             _caseSensitive = caseSensitive;
+            AddLabel(EndLabel);
             BeginParse(program);
             var term = ParseBlock();
             if (term is Compound compound)

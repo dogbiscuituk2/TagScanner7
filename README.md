@@ -19,7 +19,7 @@ To see the scope/power of _ʞɯɾ_ language, it helps to get an overview of its 
   
 _ʞɯɾ-program_ **\:\:=** _block_  
 _block_ **\:\:=** _\{ \{ label ... \} statement \{_ **\;** _\{ label ... \} statement ... \} \}_  
-_statement_ **\:\:=** _\{ label_ **\:** _\} compound | if-statement | do-loop |_ **break** _|_ **continue** _|_ **goto** _label_&nbsp;<sup>(2)</sup>  
+_statement_ **\:\:=** _\{ label_ **\:** _\} compound | if-statement | do-loop |_ **break** _|_ **continue** _|_ **goto** _label _|_ **stop**&nbsp;<sup>(2)</sup>  
 _compound_ **\:\:=** _term \{ binary-op term ... \}_  
 _term_ **\:\:=** _\{ unary-op | cast ... \} value |_ **(** _block_ **)** _\{ \{_ **.** _\} function ... \}_  
 _value_ **\:\:=** _constant | field | function | variable_  
@@ -27,7 +27,7 @@ _label_ **\:\:=** **\@\"\[\w\_]+\\:"**
   
 _if-statement_ **\:\:=** **if** _block_ **then** _block \{_ **else** _block \}_ **end**  
 _switch-statement_ **\:\:=** **switch** _block \{ \{_ **case** _term_ **:** _... \} block ... \} \{_ **default** **:** _block \}_ **end**  
-_do-loop__ **\:\:=** _\{_ **while** _block \}_ **do** _block \{_ **until** _block \}_ **end**  
+_do-loop_ **\:\:=** _\{_ **while** _block \}_ **do** _block \{_ **until** _block \}_ **end**  
 _try-block_ **\:\:=** **try** _block \{_ **catch** _catch-block ... \} \{_ **finally** _block \}_ **end**  
 _catch-block_ **\:\:=** **(** _exception-type variable_ **)** _block_
   
@@ -232,7 +232,7 @@ _datetime_ **\:\:=** **@"\^\\[(\d{4})-(\d\d?)\-(\d\d?)(?: (\d\d?)\\:(\d\d?)(?:\\
     - _\{ item \}_ is an optional item (may appear 0 or 1 times);  
     - _\{ item ... \}_ may repeat any number of times (including 0).  
 
-2. The **break** and **continue** statements can only appear in the body (_block_ portion) of a _do-loop_.  
+2. The **break** and **continue** statements can only appear in the body (_block_ portion) of a _do-loop_, while the **stop** statement cannot transfer control to the interior of any such nested scope.  
 3. Case-insensitive.  
 4. Case-insensitive and reserved.  
 5. Numeric _constants_ follow these rules:  

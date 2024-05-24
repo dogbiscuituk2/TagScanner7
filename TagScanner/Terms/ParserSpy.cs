@@ -38,7 +38,6 @@
         #region Private Fields
 
         private static readonly string _ = string.Empty;
-        private readonly Token _end = new Token(TokenKind.None, 0, string.Empty);
         private bool _headerShown;
         private readonly Stack<Loop> _loops = new Stack<Loop>();
         private readonly Stack<Op> _operators = new Stack<Op>();
@@ -121,7 +120,7 @@
         private void Exception(string caller, int line, Exception exception, [CallerMemberName] string action = "") =>
             Dump(caller, line, exception.GetAllInformation(), action);
 
-        private Token NextToken() => _tokens.Any() ? _tokens.Peek() : _end;
+        private Token NextToken() => _tokens.Any() ? _tokens.Peek() : null;
 
         private Loop NewLoop() { var loop = new Loop(new EmptyTerm(), new EmptyTerm(), new EmptyTerm()); _loops.Push(loop); return loop; }
 
@@ -150,7 +149,7 @@
 
         private string Reset(string caller, int line, string program)
         {
-            _end.Start = program.Length;
+            program = $"{program}; {Parser.EndLabel}:";
             _tokens.Clear();
             _terms.Clear();
             _operators.Clear();
