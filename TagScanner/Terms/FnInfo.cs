@@ -51,7 +51,7 @@
             if (fix < 0)
                 return Expression.Call(_methodInfo, exps);
             var args = exps.Take(fix).ToList();
-            args.Add(Expression.NewArrayInit(typeof(object), exps.Skip(fix).Select(p => Expression.Convert(p, typeof(object)))));
+            args.Add(Expression.NewArrayInit(typeof(object), exps.Skip(fix).Select(p => Expression.ConvertChecked(p, typeof(object)))));
             return Expression.Call(_methodInfo, args);
         }
 

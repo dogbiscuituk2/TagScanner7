@@ -24,7 +24,7 @@
                         if (targetType == type)
                             return Expression.Call(type.GetMethod("Parse", new[] { sourceType }), FirstSubExpression);
                 }
-                return Expression.Convert(FirstSubExpression, targetType);
+                return Expression.ConvertChecked(FirstSubExpression, targetType);
             }
         }
 
