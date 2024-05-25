@@ -42,8 +42,8 @@
             // 
             this.Toolbar.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
             this.Toolbar.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.tbCaseSensitive,
             this.cbFilter,
+            this.tbCaseSensitive,
             this.tbApply,
             this.tbClear,
             this.tbEdit,

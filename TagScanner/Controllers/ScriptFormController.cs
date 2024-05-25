@@ -165,14 +165,10 @@
 
         private void CreateAutocompleteMenu()
         {
-            var autocompleteMenu = new AutocompleteMenu(TextBox)
-            {
-                MinFragmentLength = 2,
-                SearchPattern = "[#\\w\\.]" // Directives begin with '#'.
-            };
-            autocompleteMenu.Items.SetAutocompleteItems(new Collection<string>(Lexer.AutocompleteItems));
-            autocompleteMenu.Items.MaximumSize = new System.Drawing.Size(200, 300);
-            autocompleteMenu.Items.Width = 200;
+            var items = new AutocompleteMenu(TextBox) { MinFragmentLength = 3 }.Items;
+            items.SetAutocompleteItems(new Collection<string>(Lexer.AutocompleteItems));
+            items.MaximumSize = new System.Drawing.Size(200, 300);
+            items.Width = 200;
         }
 
         private ScriptForm CreateScriptForm()

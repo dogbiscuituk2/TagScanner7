@@ -2,6 +2,6 @@
 {
     public class Program : TryBlock
     {
-        public Program(Term bodyTerm) : base(bodyTerm, new[] { new Catch(typeof(SilentException))}) { }
+        public Program(Term bodyTerm) : base(bodyTerm, new[] { new Catch(typeof(StopException))}) { }
     }
 }

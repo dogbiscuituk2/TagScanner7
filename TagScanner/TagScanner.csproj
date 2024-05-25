@@ -220,7 +220,7 @@
     <Compile Include="Terms\ParserSpy.cs" />
     <Compile Include="Terms\Program.cs" />
     <Compile Include="Terms\Scope.cs" />
-    <Compile Include="Terms\SilentException.cs" />
+    <Compile Include="Terms\StopException.cs" />
     <Compile Include="Terms\Stop.cs" />
     <Compile Include="Terms\Switch.cs" />
     <Compile Include="Terms\Case.cs" />

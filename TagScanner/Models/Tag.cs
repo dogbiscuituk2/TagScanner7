@@ -2,7 +2,7 @@
 {
     public enum Tag
     {
-        Album,
+        Album = 1,
         AlbumArtists,
         AlbumArtistsCount,
         AlbumArtistsSort,
