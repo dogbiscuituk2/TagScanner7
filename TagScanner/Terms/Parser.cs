@@ -53,7 +53,6 @@
         private bool _caseSensitive;
         private readonly ParserSpy _spy = new ParserSpy();
         private readonly Dictionary<string, Label> _labels = new Dictionary<string, Label>();
-        private readonly Dictionary<string, Variable> _variables = new Dictionary<string, Variable>();
 
         #endregion
 
@@ -425,13 +424,14 @@
             value.Contains(".") ? double.Parse(value) :
             (Term)int.Parse(value);
 
-        private Variable ParseVariable(string value)
-        {
-            var key = value.ToUpperInvariant();
-            if (!_variables.ContainsKey(key))
-                _variables.Add(key, new Variable(value));
-            return _variables[key];
-        }
+        private Variable ParseVariable(string value) => GetVariable(value.ToUpperInvariant());
+
+        /*{
+   var key = value.ToUpperInvariant();
+   if (!_variables.ContainsKey(key))
+       _variables.Add(key, new Variable(value));
+   return _variables[key];
+}*/
 
         #endregion
 
@@ -612,6 +612,13 @@
         private Op PeekOperator([CallerLineNumber] int line = 0, [CallerMemberName] string caller = "") => _spy.PeekOperator(caller, line);
         private Op PopOperator([CallerLineNumber] int line = 0, [CallerMemberName] string caller = "") => _spy.PopOperator(caller, line);
         private void PushOperator(Op op = 0, [CallerLineNumber] int line = 0, [CallerMemberName] string caller = "") => _spy.PushOperator(caller, line, op);
+
+        #endregion
+        #region Scopes
+
+        private void BeginScope([CallerLineNumber] int line = 0, [CallerMemberName] string caller = "") => _spy.BeginScope(caller, line);
+        private void EndScope([CallerLineNumber] int line = 0, [CallerMemberName] string caller = "") => _spy.EndScope(caller, line);
+        private Variable GetVariable(string key, [CallerLineNumber] int line = 0, [CallerMemberName] string caller = "") => _spy.GetVariable(caller, line, key);
 
         #endregion
         #region Terms

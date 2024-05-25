@@ -17,11 +17,14 @@
         public void AcceptToken(string caller, int line, string expected) => Process(caller, line, p => AcceptToken(expected));
         public Loop BeginLoop(string caller, int line) => (Loop)Process(caller, line, p => NewLoop());
         public void BeginParse(string caller, int line, string program) => Process(caller, line, p => Reset(caller, line, program));
+        public Scope BeginScope(string caller, int line) => (Scope)Process(caller, line, p => PushScope());
         public Break Break(string caller, int line) => (Break)Process(caller, line, p => new Break(_loops.Peek().BreakTarget));
         public Compound Consolidate(string caller, int line, Term right) => (Compound)Process(caller, line, p => Consolidate(right));
         public Continue Continue(string caller, int line) => (Continue)Process(caller, line, p => new Continue(_loops.Peek().ContinueTarget));
         public Loop EndLoop(string caller, int line) => (Loop)Process(caller, line, p => _loops.Pop());
         public Term EndParse(string caller, int line, Term term) => (Term)Process(caller, line, p => EndParse(term));
+        public Scope EndScope(string caller, int line) => (Scope)Process(caller, line, p => PopScope());
+        public Variable GetVariable(string caller, int line, string key) => (Variable)Process(caller, line, p => GetVariable(key));
         public Term NewTerm(string caller, int line, Term term) { Process(caller, line, p => term); return term; }
         public Op PeekOperator(string caller, int line) => (Op)Process(caller, line, p => _operators.Peek());
         public Token PeekToken(string caller, int line) => (Token)Process(caller, line, p => NextToken());
@@ -43,6 +46,7 @@
         private readonly Stack<Op> _operators = new Stack<Op>();
         private readonly Stack<Term> _terms = new Stack<Term>();
         private readonly Queue<Token> _tokens = new Queue<Token>();
+        private readonly Stack<Scope> _scopes = new Stack<Scope>();
 
         #endregion
 
@@ -120,9 +124,23 @@
         private void Exception(string caller, int line, Exception exception, [CallerMemberName] string action = "") =>
             Dump(caller, line, exception.GetAllInformation(), action);
 
+        private Variable GetVariable(string key)
+        {
+            Variable variable;
+            foreach (var scope in _scopes)
+            {
+                variable = scope.FindVariable(key);
+                if (variable != null)
+                    return variable;
+            }
+            return _scopes.Peek().MakeVariable(key);
+        }
+
         private Token NextToken() => _tokens.Any() ? _tokens.Peek() : null;
 
         private Loop NewLoop() { var loop = new Loop(new EmptyTerm(), new EmptyTerm(), new EmptyTerm()); _loops.Push(loop); return loop; }
+
+        private Scope PopScope() => _scopes.Pop();
 
         private object PopToken(string expected)
         {
@@ -147,18 +165,23 @@
             return value;
         }
 
+        private Scope PushScope() { var scope = new Scope(); _scopes.Push(scope); return scope; }
+
         private string Reset(string caller, int line, string program)
         {
             _tokens.Clear();
             _terms.Clear();
             _operators.Clear();
             _loops.Clear();
+            _scopes.Clear();
             _headerShown = false;
+            PushScope();
             program = $"{program}{Environment.NewLine};{Environment.NewLine}{Label.End}:";
             Dump(caller, line, program);
             foreach (var token in Lexer.GetTokens(program))
                 if (!token.Value.IsComment())
                     _tokens.Enqueue(token);
+            PopScope();
             return program;
         }
 
