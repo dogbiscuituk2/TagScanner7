@@ -4,6 +4,7 @@
     using System.Collections.Generic;
     using System.Diagnostics;
     using System.Linq;
+    using System.Linq.Expressions;
     using System.Runtime.CompilerServices;
     using Utils;
 
@@ -11,30 +12,63 @@
     {
         #region Public Methods
 
-        public bool AnyOperators() => _operators.Any();
-        public bool AnyTokens() => _tokens.Any();
+        #region Labels
 
-        public void AcceptToken(string caller, int line, string expected) => Process(caller, line, p => AcceptToken(expected));
+        public Label AddLabel(string caller, int line, string labelName) => (Label)Process(caller, line, p => AddLabel(labelName));
+        public LabelTarget GetLabelTarget(string caller, int line, string labelName) => (LabelTarget)Process(caller, line, p => GetLabelTarget(labelName));
+
+        #endregion
+        #region Loops
+
         public Loop BeginLoop(string caller, int line) => (Loop)Process(caller, line, p => NewLoop());
-        public void BeginParse(string caller, int line, string program) => Process(caller, line, p => Reset(caller, line, program));
-        public Scope BeginScope(string caller, int line) => (Scope)Process(caller, line, p => PushScope());
         public Break Break(string caller, int line) => (Break)Process(caller, line, p => new Break(_loops.Peek().BreakTarget));
-        public Compound Consolidate(string caller, int line, Term right) => (Compound)Process(caller, line, p => Consolidate(right));
         public Continue Continue(string caller, int line) => (Continue)Process(caller, line, p => new Continue(_loops.Peek().ContinueTarget));
         public Loop EndLoop(string caller, int line) => (Loop)Process(caller, line, p => _loops.Pop());
-        public Term EndParse(string caller, int line, Term term) => (Term)Process(caller, line, p => EndParse(term));
-        public Scope EndScope(string caller, int line) => (Scope)Process(caller, line, p => PopScope());
-        public Variable GetVariable(string caller, int line, string key) => (Variable)Process(caller, line, p => GetVariable(key));
-        public Term NewTerm(string caller, int line, Term term) { Process(caller, line, p => term); return term; }
+
+        #endregion
+        #region Operators
+
+        public bool AnyOperators() => _operators.Any();
         public Op PeekOperator(string caller, int line) => (Op)Process(caller, line, p => _operators.Peek());
-        public Token PeekToken(string caller, int line) => (Token)Process(caller, line, p => NextToken());
         public Op PopOperator(string caller, int line) => (Op)Process(caller, line, p => _operators.Pop());
+        public void PushOperator(string caller, int line, Op op) => Process(caller, line, p => { _operators.Push(op); return op; });
+
+        #endregion
+        #region Parse
+
+        public void BeginParse(string caller, int line, string program) => Process(caller, line, p => Reset(caller, line, program));
+        public Compound Consolidate(string caller, int line, Term right) => (Compound)Process(caller, line, p => Consolidate(right));
+        public Term EndParse(string caller, int line, Term term) => (Term)Process(caller, line, p => EndParse(term));
+
+        #endregion
+        #region Scopes
+
+        public Scope BeginScope(string caller, int line) => (Scope)Process(caller, line, p => PushScope());
+        public Scope EndScope(string caller, int line) => (Scope)Process(caller, line, p => PopScope());
+
+        #endregion
+        #region Terms
+
+        public Term NewTerm(string caller, int line, Term term) { Process(caller, line, p => term); return term; }
         public Term PopTerm(string caller, int line) => (Term)Process(caller, line, p => _terms.Pop());
+        public void PushTerm(string caller, int line, Term term) => Process(caller, line, p => { _terms.Push(term); return term; });
+
+        #endregion
+        #region Tokens
+
+        public bool AnyTokens() => _tokens.Any();
+        public void AcceptToken(string caller, int line, string expected) => Process(caller, line, p => AcceptToken(expected));
+        public Token PeekToken(string caller, int line) => (Token)Process(caller, line, p => NextToken());
         public Token PopToken(string caller, int line) => (Token)Process(caller, line, p => _tokens.Dequeue());
         public bool PopToken(string caller, int line, string expected) => (bool)Process(caller, line, p => PopToken(expected));
-        public void PushOperator(string caller, int line, Op op) => Process(caller, line, p => { _operators.Push(op); return op; });
-        public void PushTerm(string caller, int line, Term term) => Process(caller, line, p => { _terms.Push(term); return term; });
         public object UnexpectedToken(string caller, int line, Token token) => Process(caller, line, p => UnexpectedToken(token));
+
+        #endregion
+        #region Variables
+
+        public Variable GetVariable(string caller, int line, string key) => (Variable)Process(caller, line, p => GetVariable(key));
+
+        #endregion
 
         #endregion
 
@@ -42,22 +76,35 @@
 
         private static readonly string _ = string.Empty;
         private bool _headerShown;
+        private readonly Dictionary<string, Label> _labels = new Dictionary<string, Label>();
         private readonly Stack<Loop> _loops = new Stack<Loop>();
         private readonly Stack<Op> _operators = new Stack<Op>();
+        private readonly Stack<Scope> _scopes = new Stack<Scope>();
         private readonly Stack<Term> _terms = new Stack<Term>();
         private readonly Queue<Token> _tokens = new Queue<Token>();
-        private readonly Stack<Scope> _scopes = new Stack<Scope>();
 
         #endregion
 
         #region Private Methods
 
-        private object AcceptToken(string expected)
+        private Token AcceptToken(string expected)
         {
             var token = _tokens.Peek();
             var ok = token.Value == expected;
-            return ok ? _tokens.Dequeue() : UnexpectedToken(token, expected);
+            return ok ? _tokens.Dequeue() : (Token)UnexpectedToken(token, expected);
         }
+
+        private Label AddLabel(string labelName)
+        {
+            if (!_labels.ContainsKey(labelName))
+            {
+                var label = new Label(Expression.Label(labelName));
+                _labels.Add(labelName, label);
+            }
+            return _labels[labelName];
+        }
+
+        private LabelTarget GetLabelTarget(string labelName) => _labels[labelName].LabelTarget;
 
         /// <summary>
         /// Merge a new Term with the current Term, respecting the Associativity of the current Op.
@@ -142,7 +189,7 @@
 
         private Scope PopScope() => _scopes.Pop();
 
-        private object PopToken(string expected)
+        private bool PopToken(string expected)
         {
             var ok = _tokens.Peek().Value == expected;
             if (ok)

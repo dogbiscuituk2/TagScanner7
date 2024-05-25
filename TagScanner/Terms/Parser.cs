@@ -52,7 +52,6 @@
 
         private bool _caseSensitive;
         private readonly ParserSpy _spy = new ParserSpy();
-        private readonly Dictionary<string, Label> _labels = new Dictionary<string, Label>();
 
         #endregion
 
@@ -235,7 +234,7 @@
         private Term ParseStop()
         {
             AcceptToken(Keywords.Stop);
-            return new Goto(_labels[Label.End].LabelTarget);
+            return new Goto(GetLabelTarget(Label.End));
         }
 
         private Switch ParseSwitch()
@@ -426,26 +425,9 @@
 
         private Variable ParseVariable(string value) => GetVariable(value.ToUpperInvariant());
 
-        /*{
-   var key = value.ToUpperInvariant();
-   if (!_variables.ContainsKey(key))
-       _variables.Add(key, new Variable(value));
-   return _variables[key];
-}*/
-
         #endregion
 
         #region Helper Methods
-
-        private Label AddLabel(string labelName)
-        {
-            if (!_labels.ContainsKey(labelName))
-            {
-                var label = new Label(Expression.Label(labelName));
-                _labels.Add(labelName, label);
-            }
-            return _labels[labelName];
-        }
 
         private Term DoParse(string program, bool caseSensitive)
         {
@@ -598,6 +580,12 @@
         private Term EndParse(Term term, [CallerLineNumber] int line = 0, [CallerMemberName] string caller = "") => _spy.EndParse(caller, line, term);
         private Term NewTerm(Term term, [CallerLineNumber] int line = 0, [CallerMemberName] string caller = "") => _spy.NewTerm(caller, line, term);
 
+        #region Labels
+
+        private Label AddLabel(string labelName, [CallerLineNumber] int line = 0, [CallerMemberName] string caller = "") => _spy.AddLabel(caller, line, labelName);
+        private LabelTarget GetLabelTarget(string labelName, [CallerLineNumber] int line = 0, [CallerMemberName] string caller = "") => _spy.GetLabelTarget(caller, line, labelName);
+
+        #endregion
         #region Loops
 
         private Loop BeginLoop([CallerLineNumber] int line = 0, [CallerMemberName] string caller = "") => _spy.BeginLoop(caller, line);
