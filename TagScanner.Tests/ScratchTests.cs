@@ -1,7 +1,6 @@
 ﻿namespace TagScanner.Tests
 {
     using Microsoft.VisualStudio.TestTools.UnitTesting;
-    using System.Linq.Expressions;
     using Terms;
 
     [TestClass]

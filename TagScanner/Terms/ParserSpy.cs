@@ -184,7 +184,7 @@
             return _scopes.Peek().MakeVariable(key);
         }
 
-        private Token NextToken() => _tokens.Any() ? _tokens.Peek() : null;
+        private Token NextToken() => _tokens.Any() ? _tokens.Peek() : Token.Empty;
 
         private Loop NewLoop() { var loop = new Loop(new EmptyTerm(), new EmptyTerm(), new EmptyTerm()); _loops.Push(loop); return loop; }
 

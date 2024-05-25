@@ -16,6 +16,7 @@
 
         #region Fields & Properties
 
+        public static Token Empty = new Token(TokenKind.None, 0, string.Empty);
         public int End => Start + Length;
         public string Error { get; set; }
         public string Key => Value.ToUpperInvariant();

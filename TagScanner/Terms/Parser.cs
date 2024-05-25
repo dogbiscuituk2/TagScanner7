@@ -63,7 +63,7 @@
             PushOperator();
             while (PeekToken() != null)
             {
-                while (PeekToken()?.Kind == TokenKind.Label)
+                while (PeekToken().Kind == TokenKind.Label)
                     Add(ParseLabel());
                 if (PeekToken() == null)
                     break;
