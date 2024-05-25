@@ -2,9 +2,12 @@
 {
     using System;
 
-    public class CatchBlock
+    public class Catch
     {
-        public CatchBlock(Type exceptionType, Variable variable, Term bodyTerm)
+        public Catch() : this(null, null, null) { }
+        public Catch(Type exceptionType) : this(exceptionType, null, null) { }
+        public Catch(Type exceptionType, Term bodyTerm) : this(exceptionType, null, bodyTerm) { }
+        public Catch(Type exceptionType, Variable variable, Term bodyTerm)
         {
             ExceptionType = exceptionType;
             Variable = variable;

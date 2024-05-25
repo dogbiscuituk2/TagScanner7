@@ -31,6 +31,8 @@
             ? throw new TypeAccessException()
             : _expression ?? (_expression = Expression.Parameter(ResultType, Name));
 
+        public ParameterExpression ParameterExpression => (ParameterExpression)Expression;
+
         public string Name { get; }
 
         public override IEnumerable<ParameterExpression> Parameters =>

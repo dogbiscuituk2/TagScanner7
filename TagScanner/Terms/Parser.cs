@@ -88,7 +88,7 @@
             }
         }
 
-        private CatchBlock ParseCatch()
+        private Catch ParseCatch()
         {
             AcceptToken(Keywords.Catch);
             AcceptToken("(");
@@ -96,7 +96,7 @@
             var variable = ParseVariable(PopToken().Value);
             AcceptToken(")");
             var bodyTerm = ParseBlock();
-            var catchBlock = new CatchBlock(type, variable, bodyTerm);
+            var catchBlock = new Catch(type, variable, bodyTerm);
             return catchBlock;
         }
 
@@ -234,7 +234,7 @@
         private Term ParseStop()
         {
             AcceptToken(Keywords.Stop);
-            return new Goto(GetLabelTarget(Label.End));
+            return new Stop();
         }
 
         private Switch ParseSwitch()
@@ -311,7 +311,7 @@
             Term
                 bodyBlock = new EmptyTerm(),
                 finallyBlock = new EmptyTerm();
-            var catchBlocks = new List<CatchBlock>();
+            var catchBlocks = new List<Catch>();
             AcceptToken(Keywords.Try);
             switch (PeekToken().Value)
             {
@@ -366,12 +366,13 @@
 
         #region Terminals
 
-        private Term ParseBoolean(string value) => value == "true";
-        private Term ParseCharacter(string value) => char.Parse(value.Substring(1, value.Length - 2));
-        private Term ParseDefault(string value) => new Default(value.Substring(1, value.Length - 2).ToType());
-        private Term ParseField(string value) => value.DisplayNameToTag();
+        private static Term ParseBoolean(string value) => value == "true";
+        private static Term ParseCharacter(string value) => char.Parse(value.Substring(1, value.Length - 2));
+        private static Term ParseDefault(string value) => new Default(value.Substring(1, value.Length - 2).ToType());
+        private static Term ParseField(string value) => value.DisplayNameToTag();
         private Term ParseLabel() => AddLabel(PopToken().Value.TrimEnd(':'));
-        private Term ParseString(string value) => value.Substring(1, value.Length - 2);
+        private static Term ParseString(string value) => value.Substring(1, value.Length - 2);
+        private Variable ParseVariable(string value) => GetVariable(value.ToUpperInvariant());
 
         private static Term ParseDateTime(string token)
         {
@@ -413,7 +414,7 @@
             return new TimeSpan(days, hours, minutes, seconds, (int)(ms * 1000));
         }
 
-        private Term ParseNumber(string value) =>
+        private static Term ParseNumber(string value) =>
             value.EndsWith("UL") || value.EndsWith("LU") ? ulong.Parse(value.TrimEnd('U', 'L')) :
             value.EndsWith("D") ? double.Parse(value.TrimEnd('D')) :
             value.EndsWith("F") ? float.Parse(value.TrimEnd('F')) :
@@ -423,8 +424,6 @@
             value.Contains(".") ? double.Parse(value) :
             (Term)int.Parse(value);
 
-        private Variable ParseVariable(string value) => GetVariable(value.ToUpperInvariant());
-
         #endregion
 
         #region Helper Methods
@@ -432,7 +431,6 @@
         private Term DoParse(string program, bool caseSensitive)
         {
             _caseSensitive = caseSensitive;
-            AddLabel(Label.End);
             BeginParse(program);
             var term = ParseBlock();
             if (term is Compound compound)
@@ -576,10 +574,6 @@
 
         #region ParserSpy Calls
 
-        private void BeginParse(string program, [CallerLineNumber] int line = 0, [CallerMemberName] string caller = "") => _spy.BeginParse(caller, line, program);
-        private Term EndParse(Term term, [CallerLineNumber] int line = 0, [CallerMemberName] string caller = "") => _spy.EndParse(caller, line, term);
-        private Term NewTerm(Term term, [CallerLineNumber] int line = 0, [CallerMemberName] string caller = "") => _spy.NewTerm(caller, line, term);
-
         #region Labels
 
         private Label AddLabel(string labelName, [CallerLineNumber] int line = 0, [CallerMemberName] string caller = "") => _spy.AddLabel(caller, line, labelName);
@@ -602,11 +596,17 @@
         private void PushOperator(Op op = 0, [CallerLineNumber] int line = 0, [CallerMemberName] string caller = "") => _spy.PushOperator(caller, line, op);
 
         #endregion
+        #region Parse
+
+        private void BeginParse(string program, [CallerLineNumber] int line = 0, [CallerMemberName] string caller = "") => _spy.BeginParse(caller, line, program);
+        private Term EndParse(Term term, [CallerLineNumber] int line = 0, [CallerMemberName] string caller = "") => _spy.EndParse(caller, line, term);
+        private Term NewTerm(Term term, [CallerLineNumber] int line = 0, [CallerMemberName] string caller = "") => _spy.NewTerm(caller, line, term);
+
+        #endregion
         #region Scopes
 
         private void BeginScope([CallerLineNumber] int line = 0, [CallerMemberName] string caller = "") => _spy.BeginScope(caller, line);
         private void EndScope([CallerLineNumber] int line = 0, [CallerMemberName] string caller = "") => _spy.EndScope(caller, line);
-        private Variable GetVariable(string key, [CallerLineNumber] int line = 0, [CallerMemberName] string caller = "") => _spy.GetVariable(caller, line, key);
 
         #endregion
         #region Terms
@@ -621,6 +621,11 @@
         private Token PeekToken([CallerLineNumber] int line = 0, [CallerMemberName] string caller = "") => _spy.PeekToken(caller, line);
         private Token PopToken([CallerLineNumber] int line = 0, [CallerMemberName] string caller = "") => _spy.PopToken(caller, line);
         private bool PopToken(string expected, [CallerLineNumber] int line = 0, [CallerMemberName] string caller = "") => _spy.PopToken(caller, line, expected);
+
+        #endregion
+        #region Variables
+
+        private Variable GetVariable(string key, [CallerLineNumber] int line = 0, [CallerMemberName] string caller = "") => _spy.GetVariable(caller, line, key);
 
         #endregion
 

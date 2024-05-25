@@ -197,7 +197,7 @@
     <Compile Include="Menus\CastEventArgs.cs" />
     <Compile Include="Terms\Associativity.cs" />
     <Compile Include="Terms\Break.cs" />
-    <Compile Include="Terms\CatchBlock.cs" />
+    <Compile Include="Terms\Catch.cs" />
     <Compile Include="Terms\Compound.cs" />
     <Compile Include="Terms\Continue.cs" />
     <Compile Include="Terms\Keywords.cs" />
@@ -218,7 +218,10 @@
     <Compile Include="Terms\Parser.cs" />
     <Compile Include="Terms\ParserException.cs" />
     <Compile Include="Terms\ParserSpy.cs" />
+    <Compile Include="Terms\Program.cs" />
     <Compile Include="Terms\Scope.cs" />
+    <Compile Include="Terms\SilentException.cs" />
+    <Compile Include="Terms\Stop.cs" />
     <Compile Include="Terms\Switch.cs" />
     <Compile Include="Terms\Case.cs" />
     <Compile Include="Terms\Token.cs" />

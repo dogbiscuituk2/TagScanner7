@@ -163,6 +163,7 @@
 
         private Term EndParse(Term term)
         {
+            PopScope();
             if (AnyTokens())
                 UnexpectedToken(_tokens.Peek());
             return term;
@@ -223,12 +224,10 @@
             _scopes.Clear();
             _headerShown = false;
             PushScope();
-            program = $"{program}{Environment.NewLine};{Environment.NewLine}{Label.End}:";
             Dump(caller, line, program);
             foreach (var token in Lexer.GetTokens(program))
                 if (!token.Value.IsComment())
                     _tokens.Enqueue(token);
-            PopScope();
             return program;
         }
 
