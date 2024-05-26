@@ -44,7 +44,7 @@
             StatusController = new StatusController(this);
             FindReplaceController = new FindReplaceController(this);
             AutoCompleter = new AutoCompleter(this, View.FindReplaceControl.cbFind, View.FindReplaceControl.cbReplace, View.FilterControl.cbFilter);
-            AutoCompleter.SetList(View.FilterControl.cbFilter, Lexer.AutocompleteItems);
+            AutoCompleter.SetList(View.FilterControl.cbFilter, Lexer.Constants);
             ModifiedChanged();
             UpdateUI();
         }
@@ -188,7 +188,6 @@
             View.EditCut.Enabled = View.tbCut.Enabled = View.TablePopupCut.Enabled =
                 View.EditCopy.Enabled = View.tbCopy.Enabled = View.TablePopupCopy.Enabled =
                 View.EditDelete.Enabled = View.tbDelete.Enabled = View.TablePopupDelete.Enabled =
-                /*View.EditFind.Enabled = View.tbFindReplace.Enabled = View.EditReplace.Enabled =*/
                 Selection.Tracks.Any();
             // Property Grid
             PropertyGridController.SetSelection(TableController.Selection);

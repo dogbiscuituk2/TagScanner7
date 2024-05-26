@@ -16,18 +16,7 @@
 
         public ScriptFormController(Controller parent) : base(parent)
         {
-            EditUpdateFilter = View.EditUpdateFilter;
-            EditApplyFilter = View.EditApplyFilter;
-            TbFilter = View.tbFilter;
-            TbFilterUpdate = View.tbFilterUpdate;
-            TbFilterApply = View.tbFilterApply;
             CbFilter = MainForm.FilterControl.cbFilter;
-
-            EditUpdateFilter.Click += EditUpdateFilter_Click;
-            EditApplyFilter.Click += EditApplyFilter_Click;
-            TbFilter.ButtonClick += EditApplyFilter_Click;
-            TbFilterUpdate.Click += EditUpdateFilter_Click;
-            TbFilterApply.Click += EditApplyFilter_Click;
         }
 
         #endregion
@@ -166,7 +155,10 @@
         private void CreateAutocompleteMenu()
         {
             var items = new AutocompleteMenu(TextBox) { MinFragmentLength = 3 }.Items;
-            items.SetAutocompleteItems(new Collection<string>(Lexer.AutocompleteItems));
+            //items.SetAutocompleteItems(new Collection<string>(Lexer.Constants));
+
+            items.SetAutocompleteItems(MainAutoCompleter.GetFieldList(0).Cast<string>().ToList());
+
             items.MaximumSize = new System.Drawing.Size(200, 300);
             items.Width = 200;
         }
@@ -175,6 +167,18 @@
         {
             _view = new ScriptForm();
             _scriptController = new MruScriptController(this, View.FileReopen);
+
+            EditUpdateFilter = View.EditUpdateFilter;
+            EditApplyFilter = View.EditApplyFilter;
+            TbFilter = View.tbFilter;
+            TbFilterUpdate = View.tbFilterUpdate;
+            TbFilterApply = View.tbFilterApply;
+
+            EditUpdateFilter.Click += EditUpdateFilter_Click;
+            EditApplyFilter.Click += EditApplyFilter_Click;
+            TbFilter.ButtonClick += EditApplyFilter_Click;
+            TbFilterUpdate.Click += EditUpdateFilter_Click;
+            TbFilterApply.Click += EditApplyFilter_Click;
 
             var index = 0;
             foreach (var language in Languages)

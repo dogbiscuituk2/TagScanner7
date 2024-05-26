@@ -1,26 +1,24 @@
 ﻿namespace TagScanner.Controllers
 {
+    using System;
     using System.Collections.Generic;
-    using System.ComponentModel;
     using System.Linq;
     using System.Windows.Forms;
+    using Controls;
     using Models;
+    using Terms;
 
     public class AutoCompleter : Controller
     {
         #region Constructor
 
-        public AutoCompleter(Controller parent, params Component[] controls) : base(parent)
+        public AutoCompleter(Controller parent, params IAutoComplete[] controls) : base(parent)
         {
             foreach (var control in controls)
-                if (control is ComboBox comboBox)
-                    Init(comboBox);
-                else if (control is TextBox textBox)
-                    Init(textBox);
-                else if (control is ToolStripComboBox tsComboBox)
-                    Init(tsComboBox);
-                else if (control is ToolStripTextBox tsTextBox)
-                    Init(tsTextBox);
+            {
+                control.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
+                control.AutoCompleteSource = AutoCompleteSource.CustomSource;
+            }
         }
 
         #endregion
@@ -29,37 +27,18 @@
 
         public AutoCompleteStringCollection GetFieldList(params Tag[] tags) => FieldLists[ValidateFieldList(tags)];
 
-        public void Init(ComboBox comboBox)
+        /// <summary>
+        /// Discard all field lists except that with key 0 (which is essentially a keyword list, unrelated to any tag).
+        /// </summary>
+        public void InvalidateFieldLists()
         {
-            comboBox.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
-            comboBox.AutoCompleteSource = AutoCompleteSource.CustomSource;
+            var tokens = FieldLists.ContainsKey("\0") ? FieldLists["\0"] : null;
+            FieldLists.Clear();
+            if (tokens != null)
+                FieldLists.Add("\0", tokens);
         }
 
-        public void Init(TextBox textBox)
-        {
-            textBox.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
-            textBox.AutoCompleteSource = AutoCompleteSource.CustomSource;
-        }
-
-        public void Init(ToolStripComboBox comboBox)
-        {
-            comboBox.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
-            comboBox.AutoCompleteSource = AutoCompleteSource.CustomSource;
-        }
-
-        public void Init(ToolStripTextBox textBox)
-        {
-            textBox.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
-            textBox.AutoCompleteSource = AutoCompleteSource.CustomSource;
-        }
-
-        public void InvalidateFieldLists() => FieldLists.Clear();
-
-        public void SetList(ComboBox comboBox, IEnumerable<string> items) => comboBox.AutoCompleteCustomSource = MakeList(items);
-        public void SetList(TextBox textBox, IEnumerable<string> items) => textBox.AutoCompleteCustomSource = MakeList(items);
-
-        public void SetList(ToolStripComboBox comboBox, IEnumerable<string> items) => comboBox.AutoCompleteCustomSource = MakeList(items);
-        public void SetList(ToolStripTextBox textBox, IEnumerable<string> items) => textBox.AutoCompleteCustomSource = MakeList(items);
+        public void SetList(IAutoComplete control, IEnumerable<string> items) => control.AutoCompleteCustomSource = MakeList(items);
 
         #endregion
 
@@ -71,13 +50,13 @@
 
         #region Private Methods
 
-        private string MakeKey(params Tag[] tags) =>
+        private static string MakeKey(params Tag[] tags) =>
             new string(
                 tags.Select(p => (char)p)
                 .OrderBy(p => p)
                 .ToArray());
 
-        private AutoCompleteStringCollection MakeList(IEnumerable<string> items)
+        private static AutoCompleteStringCollection MakeList(IEnumerable<string> items)
         {
             var list = new AutoCompleteStringCollection();
             list.AddRange(items.ToArray());
@@ -94,8 +73,18 @@
                     var subKey = MakeKey(tag);
                     if (!FieldLists.ContainsKey(subKey))
                     {
-                        var type = tag.TagToTagInfo().Type;
-                        var values = MainModel.Tracks.Select(p => p.GetPropertyValue(tag));
+                        Type type;
+                        IEnumerable<object> values;
+                        if (tag == 0)
+                        {
+                            type = typeof(string);
+                            values = Lexer.Constants;
+                        }
+                        else
+                        {
+                            type = tag.TagToTagInfo().Type;
+                            values = MainModel.Tracks.Select(p => p.GetPropertyValue(tag));
+                        }
                         var list = new AutoCompleteStringCollection();
                         list.AddRange((
                             type == typeof(string) ? values.Cast<string>() :

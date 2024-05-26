@@ -14,7 +14,7 @@
     {
         #region Public Properties
 
-        public static List<string> AutocompleteItems => Term.Booleans
+        public static List<string> Constants => Term.Booleans
             .Union(Tags.FieldNames)
             .Union(Functors.FunctionNames)
             .Union(Types.Names)
