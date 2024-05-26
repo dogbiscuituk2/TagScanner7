@@ -18,8 +18,9 @@ To see the scope/power of _ʞɯɾ_ language, it helps to get an overview of its 
 ## _ʞɯɾ_ Language Syntax <sup><i>(1)</i></sup>  
   
 _ʞɯɾ-program_ = _block_  
-_block_ = _\{ statement \{_ **\;** _statement ... \} \}_  
-_statement_ = _\{ label ... \} compound | if-statement | do-loop |_ **break** _|_ **continue** _|_ **goto** _label _|_ **stop**&nbsp;<sup>(2)</sup>  
+_block_ = _\{ statement \{ separator statement ... \} \}_  
+_statement_ = _\{ label ... \} compound | if-statement | switch-statement | do-loop | try-block |_ **break** _|_ **continue** _|_ **goto** _label _|_ **stop**&nbsp;<sup>(2)</sup>  
+_separator_ = _one of_ &nbsp; **\,** &nbsp;&nbsp; **\;**  
 _compound_ = _term \{ binary-op term ... \}_  
 _term_ = _\{ unary-op | cast ... \} value |_ **(** _block_ **)** _\{ \{_ **.** _\} function ... \}_  
 _value_ = _constant | field | function | variable_  
@@ -28,8 +29,8 @@ _label_ = **\@\"\[\w\_]+\\:"**
 _if-statement_ = **if** _block_ **then** _block \{_ **else** _block \}_ **end**  
 _switch-statement_ = **switch** _block \{ \{_ **case** _term_ **:** _... \} block ... \} \{_ **default** **:** _block \}_ **end**  
 _do-loop_ = _\{_ **while** _block \}_ **do** _block \{_ **until** _block \}_ **end**  
-_try-block_ = **try** _block \{_ **catch** _catch-block ... \} \{_ **finally** _block \}_ **end**  
-_catch-block_ = **(** _exception-type variable_ **)** _block_
+_try-block_ = **try** _block \{ catch-block ... \} \{_ **finally** _block \}_ **end**  
+_catch-block_ = **catch** _\{ exception-type \{ variable \} \}_ **:** _block_
   
 _cast_ = **(** _type_ **)**  
 _constant_ = _bool | char | datetime | decimal | double | float | int | long | string | timespan | uint | ulong_&nbsp;<sup>(3,5)</sup>  

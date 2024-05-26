@@ -1,7 +1,51 @@
-﻿ʞɯɾ-program = block
-block = statement , [ separator , statement ]
+﻿(* Brackets [ item ] mean 0 or 1. Braces { item } mean 0 or more. *)
 
-statement = 
+ʞɯɾ-program = block ;
+block = statement , { separator , statement } ;
 
-label = name , ":"
-separator = "," | ";"
+statement = { label } compound | if-statement | switch-statement | do-loop | try-block | 'break' | 'continue' | 'goto' , label | 'stop' ;
+compound = term , { binary-op , term } ;
+term = { unary-op | cast } , ( value | lparen , block , rparen ) , { [ dot ] , function } ;
+value = constant | field | function | variable ;
+label = name , colon ;
+separator = comma | semicolon ;
+
+if-statement = 'if' , block, 'then' , block , { 'else' , block } , 'end' ;
+switch-statement = 'switch' , block , { { 'case' , term , colon } , block } , [ 'default' , colon , block ] , 'end' ;
+do-loop = [ 'while' , block ] , 'do' , block , [ 'until' , block ] , 'end' ;
+try-block = 'try' , block , {  'catch' , catch-block } , [ 'finally' , block ] , 'end' ;
+catch-block = [ exception-type , [ variable ] ] , block ;
+
+cast = lparen , type , rparen ;
+constant = bool | char | datetime | decimal | double | float | int | long | string | timespan | uint | long ;
+function = function-name , [ term | lparen , block , rparen ] ;
+
+binary-op = assign-op | logical-op | relational-op | arithmetic-op
+
+colon = ':' ;
+comma = ',' ;
+dot = '.' ;
+lparen = '(' ;
+rparen = ')' ;
+semicolon = ';' ;
+
+
+
+/* EBNF variant compatible with https://rr.red-dove.com/ui */
+
+ʞɯɾ-program ::= block
+block ::= statement ( ( ',' | ';') statement )*
+statement ::= ( label )* ( compound | if-statement | switch-statement | do-loop | try-block | 'break' | 'continue' | 'goto' label | 'stop' )
+label ::= name ':'
+compound ::= term ( binary-op term )*
+
+if-statement ::= 'if' block 'then' block ( 'else' block )? 'end'
+switch-statement ::= 'switch' block ( ( 'case' term ':' )+ block)* ('default' ':' block )? 'end'
+do-loop ::= ( 'while' block )? 'do' block ( 'until' block )? 'end'
+try-block ::= 'try' block ( catch-block )* ( 'finally' block )? 'end'
+catch-block ::= 'catch' ( exception-type ( variable )? ':' )? block
+
+cast ::= '(' type ')'
+constant ::= bool | char | datetime | decimal | double | float | int | long | string | timespan | uint | ulong
+function ::= function-name ( term | '(' ( block ) ')' )?
+variable = (any unreserved word)
