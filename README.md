@@ -37,12 +37,12 @@ _constant_ = _bool | char | datetime | decimal | double | float | int | long | s
 _function_ = _function-name \{ term |_ **\(** _\{ block \}_ **\)** _\}_  
 _variable_ = _(any unreserved word)_&nbsp;<sup>(3)</sup>  
   
+_unary-op_ = _one of_ &nbsp; **+&nbsp;&nbsp; ＋&nbsp;&nbsp; -&nbsp;&nbsp; －&nbsp;&nbsp; !&nbsp;&nbsp; not**&nbsp;<sup>(4)</sup>  
 _binary-op_ = _assign-op | logical-op | relational-op | arithmetic-op_&nbsp;<sup>(4)</sup>  
 _arithmetic-op_ = _one of_ &nbsp; **+&nbsp;&nbsp; ＋&nbsp;&nbsp; -&nbsp;&nbsp; －&nbsp;&nbsp; \*&nbsp;&nbsp; ×&nbsp;&nbsp; ✕&nbsp;&nbsp; /&nbsp;&nbsp; ÷&nbsp;&nbsp; ／&nbsp;&nbsp; %**  
 _assign-op_ = _one of_ &nbsp; **\<-&nbsp;&nbsp; :=&nbsp;&nbsp; ←&nbsp;&nbsp; &=&nbsp;&nbsp; |=&nbsp;&nbsp; \^=&nbsp;&nbsp; +=&nbsp;&nbsp; -=&nbsp;&nbsp; \*=&nbsp;&nbsp; /=&nbsp;&nbsp; %=**  
 _logical-op_ = _one of_ &nbsp; **& &nbsp;&nbsp; &&&nbsp;&nbsp; |&nbsp;&nbsp; ||&nbsp;&nbsp; ^&nbsp;&nbsp; and&nbsp;&nbsp; or&nbsp;&nbsp; xor**  
 _relational-op_ = _one of_ &nbsp; **=&nbsp;&nbsp; ==&nbsp;&nbsp; !=&nbsp;&nbsp; <>&nbsp;&nbsp; #&nbsp;&nbsp; ≠&nbsp;&nbsp; <&nbsp;&nbsp; \<=&nbsp;&nbsp; ≤&nbsp;&nbsp; ≯&nbsp;&nbsp; >=&nbsp;&nbsp; ≥&nbsp;&nbsp; ≮&nbsp;&nbsp; >**  
-_unary-op_ = _one of_ &nbsp; **+&nbsp;&nbsp; ＋&nbsp;&nbsp; -&nbsp;&nbsp; －&nbsp;&nbsp; !&nbsp;&nbsp; not**&nbsp;<sup>(4)</sup>  
   
 _bool_ = _one of_ &nbsp; **true&nbsp;&nbsp; false**  
 _char_ = _any one character enclosed in single quotes:_ **'A'**  

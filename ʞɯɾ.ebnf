@@ -48,4 +48,11 @@ catch-block ::= 'catch' ( exception-type ( variable )? ':' )? block
 cast ::= '(' type ')'
 constant ::= bool | char | datetime | decimal | double | float | int | long | string | timespan | uint | ulong
 function ::= function-name ( term | '(' ( block ) ')' )?
-variable = (any unreserved word)
+name ::= [http://www.w3.org/TR/xml-names/#NT-NCName]
+
+unary-op ::= '+' | '＋' | '-' | '－' | '!' | 'not'
+binary-op ::= assign-op | logical-op | relational-op | arithmetic-op
+arithmetic-op ::= '+' | '＋' | '-' | '－' | '*' | '×' | '✕' | '/' | '÷' | '／' | '%'
+assign-op ::= '<-' | ':=' | '←' | '&=' | '|=' | '^=' | '+=' | '-=' | '*=' | '/=' | '%='
+logical-op ::= '&' | '&&' | '|' | '||' | '^' | 'and' | 'or' | 'xor'
+relational-op ::= '=' | '==' | '!=' | '<>' | '#' | '≠' | '<' | '<=' | '≤' | '≯ ' | '>=' | '≥' | '≮ ' | '>'
