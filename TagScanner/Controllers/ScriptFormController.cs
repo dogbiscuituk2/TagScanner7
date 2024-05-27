@@ -154,7 +154,7 @@
         private void CreateAutocompleteMenu()
         {
             var items = new AutocompleteMenu(TextBox) { MinFragmentLength = 3 }.Items;
-            items.SetAutocompleteItems(MainAutoCompleter.GetFilterAutoCompleteItems().Cast<string>().ToList());
+            items.SetAutocompleteItems(MainAutoCompleter.GetFilterAutoCompleteItems().Cast<string>().Distinct().ToList());
             items.MaximumSize = new System.Drawing.Size(200, 300);
             items.Width = 200;
         }
