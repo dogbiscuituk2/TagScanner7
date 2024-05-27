@@ -32,6 +32,7 @@
 
             TbCaseSensitive.Click += TbCaseSensitive_Click;
             CbFilter.DropDown += CbFilter_DropDown;
+            CbFilter.KeyDown += CbFilter_KeyDown;
             TbApply.Click += TbApply_Click;
             TbClear.Click += TbClear_Click;
             TbEdit.Click += TbEdit_Click;
@@ -90,6 +91,7 @@
         #region Event Handlers
 
         private void CbFilter_DropDown(object sender, EventArgs e) => AppController.GetFilterItems(CbFilter.Items);
+        private void CbFilter_KeyDown(object sender, KeyEventArgs e) { if (e.KeyData == Keys.Enter) ApplyFilter(); }
         private void EditFilter_Click(object sender, System.EventArgs e) => Show();
         private void TbApply_Click(object sender, EventArgs e) => ApplyFilter();
         private void TbCaseSensitive_Click(object sender, EventArgs e) => ToggleCaseSensitive();
