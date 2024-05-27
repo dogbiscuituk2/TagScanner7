@@ -306,20 +306,12 @@
 
         private void LibraryGridController_SelectionChanged(object sender, EventArgs e) => UpdateUI();
         private void Model_ModifiedChanged(object sender, EventArgs e) => ModifiedChanged();
-
         private void Model_TracksAdd(object sender, SelectionEventArgs e) => TracksAdd(e.Selection);
         private void Model_TracksChanged(object sender, EventArgs e) => TracksChanged();
         private void Model_TracksEdit(object sender, SelectionEditEventArgs e) => TracksEdit(e.Selection, e.Tag, e.Values);
-
         private void PersistenceController_FileSaving(object sender, CancelEventArgs e) => e.Cancel = !ContinueSaving();
         private void View_FormClosed(object sender, FormClosedEventArgs e) => AppController.CloseWindow(this);
-
-        private void View_FormClosing(object sender, FormClosingEventArgs e)
-        {
-            e.Cancel = !LibraryController.SaveIfModified();
-            //if (!e.Cancel)
-            //    new MruFilterController(this).RegistryWrite(View.FilterComboBox);
-        }
+        private void View_FormClosing(object sender, FormClosingEventArgs e) => e.Cancel = !LibraryController.SaveIfModified();
 
         #endregion
 

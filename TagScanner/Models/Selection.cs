@@ -246,10 +246,10 @@
         private int _audioBitrate = int.MaxValue;
         [Browsable(true)]
         [Category(Format)]
-        [Column(50)]
+        [Column(80)]
         [DefaultValue(0)]
         [Description("An integer containing the bit rate of the audio represented by the selected item(s). This value is equal to the first non-zero audio bit rate.")]
-        [DisplayName("Audio Bit Rate")]
+        [DisplayName("Bit Rate")]
         [ReadOnly(true)]
         public int AudioBitrate => GetInt(p => p.AudioBitrate, ref _audioBitrate);
 
@@ -272,10 +272,10 @@
         private int _audioSampleRate = int.MaxValue;
         [Browsable(false)]
         [Category(Format)]
-        [Column(50)]
+        [Column(80)]
         [DefaultValue(0)]
         [Description("An integer containing the sample rate of the audio represented by the selected item(s). This value is equal to the first non-zero audio sample rate.")]
-        [DisplayName("Audio Sample Rate")]
+        [DisplayName("Sample Rate")]
         [ReadOnly(true)]
         public int AudioSampleRate => GetInt(p => p.AudioSampleRate, ref _audioSampleRate);
 
@@ -318,7 +318,7 @@
         private string _century;
         [Browsable(false)]
         [Category(Category)]
-        [Column(50)]
+        [Column(80)]
         [Description("A string containing the century that the media represented by the selected item(s) was created, or zero if no value is present.")]
         [DisplayName("Century")]
         [ReadOnly(true)]
@@ -468,7 +468,7 @@
         private string _decade;
         [Browsable(false)]
         [Category(Category)]
-        [Column(50)]
+        [Column(80)]
         [Description("A string containing the decade that the media represented by the selected item(s) was created, or zero if no value is present. Following popular usage, years ending in '0' are treated as the start of a decade.")]
         [DisplayName("Decade")]
         [ReadOnly(true)]
@@ -493,7 +493,7 @@
         private int _discCount = int.MaxValue;
         [Browsable(true)]
         [Category(Media)]
-        [Column(50)]
+        [Column(80)]
         [DefaultValue(0)]
         [Description("An unsigned integer containing the number of discs in the boxed set containing the media represented by the selected item(s), or zero if not specified.")]
         [DisplayName("# Discs")]
@@ -513,7 +513,7 @@
         private int _discNumber = int.MaxValue;
         [Browsable(true)]
         [Category(Media)]
-        [Column(50)]
+        [Column(80)]
         [DefaultValue(0)]
         [Description("An unsigned integer containing the number of the disc containing the media represented by the selected item(s) in the boxed set.")]
         [DisplayName("Disc #")]
@@ -533,7 +533,7 @@
         private string _discOf;
         [Browsable(false)]
         [Category(Media)]
-        [Column(50, Alignment.Far)]
+        [Column(80, Alignment.Far)]
         [Description("A string containing both the number of the disc, and the total number of discs in the boxed set, containing the media represented by the selected item(s).")]
         [DisplayName("Disc # of #")]
         [ReadOnly(true)]
@@ -548,7 +548,7 @@
         [Category(Media)]
         [Column(80, Alignment.Far)]
         [Description("A string containing the track number, the total number of tracks, the disc number, and the total number of discs in the boxed set, containing the media represented by the selected item(s).")]
-        [DisplayName("Disc & Track #")]
+        [DisplayName("Disc/Track #")]
         [ReadOnly(true)]
         [Uses(Tag.DiscCount, Tag.DiscNumber, Tag.TrackCount, Tag.TrackNumber)]
         public string DiscTrack => GetString(p => p.DiscTrack, ref _discTrack);
@@ -559,7 +559,7 @@
         private TimeSpan _duration = TimeSpan.MaxValue;
         [Browsable(true)]
         [Category(Details)]
-        [Column(50)]
+        [Column(80)]
         [Description("A TimeSpan containing the duration of the media represented by the selected item(s). If the duration was set in the constructor, that value is returned. Otherwise, the longest codec duration is used.")]
         [DisplayName("Duration")]
         [ReadOnly(true)]
@@ -582,7 +582,7 @@
         private DateTime _fileCreationTime = DateTime.MaxValue;
         [Browsable(false)]
         [Category(File)]
-        [Column(100)]
+        [Column(125)]
         [Description("A DateTime value representing the date and time of creation of the file containing the selected media.")]
         [DisplayName("File Created")]
         [ReadOnly(true)]
@@ -594,7 +594,7 @@
         private DateTime _fileCreationTimeUtc = DateTime.MaxValue;
         [Browsable(false)]
         [Category(File)]
-        [Column(100)]
+        [Column(125)]
         [Description("A DateTime value representing the date and time of creation of the file containing the selected media, expressed in Coordinated Universal Time (UTC).")]
         [DisplayName("File Created (UTC)")]
         [ReadOnly(true)]
@@ -618,7 +618,7 @@
         private DateTime _fileLastAccessTime = DateTime.MaxValue;
         [Browsable(false)]
         [Category(File)]
-        [Column(100)]
+        [Column(125)]
         [Description("A DateTime value representing the date and time of last access of the file containing the selected media.")]
         [DisplayName("File Accessed")]
         [ReadOnly(true)]
@@ -630,7 +630,7 @@
         private DateTime _fileLastAccessTimeUtc = DateTime.MaxValue;
         [Browsable(false)]
         [Category(File)]
-        [Column(100)]
+        [Column(125)]
         [Description("A DateTime value representing the date and time of last access of the file containing the selected media, expressed in Coordinated Universal Time (UTC).")]
         [DisplayName("File Accessed (UTC)")]
         [ReadOnly(true)]
@@ -642,7 +642,7 @@
         private DateTime _fileLastWriteTime = DateTime.MaxValue;
         [Browsable(false)]
         [Category(File)]
-        [Column(100)]
+        [Column(125)]
         [Description("A DateTime value representing the date and time of last writing of the file containing the selected media.")]
         [DisplayName("File Modified")]
         [ReadOnly(true)]
@@ -654,7 +654,7 @@
         private DateTime _fileLastWriteTimeUtc = DateTime.MaxValue;
         [Browsable(false)]
         [Category(File)]
-        [Column(100)]
+        [Column(125)]
         [Description("A DateTime value representing the date and time of last writing of the file containing the selected media, expressed in Coordinated Universal Time (UTC).")]
         [DisplayName("File Modified (UTC)")]
         [ReadOnly(true)]
@@ -702,7 +702,7 @@
         private long _fileSize = long.MaxValue;
         [Browsable(true)]
         [Category(File)]
-        [Column(50)]
+        [Column(80)]
         [DefaultValue(0)]
         [Description("A long integer containing the byte length of the media file in the filesystem.")]
         [DisplayName("File Size")]
@@ -715,7 +715,7 @@
         private FileStatus _fileStatus = FileStatus.Unknown;
         [Browsable(true)]
         [Category(File)]
-        [Column(50)]
+        [Column(80)]
         [Description("An enumeration value containing the combined FileStatus values of all items in the selection. Possible values are:\r\n\r\n"
                      + "-- Unknown: the item has no recognised FileStatus value.\r\n"
                      + "-- Current: the item's library entry exactly matches its media file.\r\n"
@@ -1233,7 +1233,7 @@
         private Logical _isClassical = Logical.Unknown;
         [Browsable(false)]
         [Category(Category)]
-        [Column(50)]
+        [Column(80)]
         [Description("A bool indicating whether or not the first genre of the selected item(s) is 'Classical'.")]
         [DisplayName("Classical?")]
         [ReadOnly(true)]
@@ -1368,7 +1368,7 @@
         private string _millennium;
         [Browsable(false)]
         [Category(Category)]
-        [Column(50)]
+        [Column(80)]
         [Description("A string containing the millennium that the media represented by the selected item(s) was created, or zero if no value is present.")]
         [DisplayName("Millennium")]
         [ReadOnly(true)]
@@ -1830,7 +1830,7 @@
         private int _trackCount = int.MaxValue;
         [Browsable(true)]
         [Category(Media)]
-        [Column(50)]
+        [Column(80)]
         [DefaultValue(0)]
         [Description("An unsigned integer containing the number of tracks in the album containing the media represented by the selected item(s), or zero if not specified.")]
         [DisplayName("# Tracks")]
@@ -1861,7 +1861,7 @@
         private int _trackNumber = int.MaxValue;
         [Browsable(true)]
         [Category(Media)]
-        [Column(50)]
+        [Column(80)]
         [DefaultValue(0)]
         [Description("An unsigned integer containing the position of the media represented by the selected item(s) in its containing album, or zero if not specified.")]
         [DisplayName("Track #")]
@@ -1881,7 +1881,7 @@
         private string _trackOf;
         [Browsable(false)]
         [Category(Media)]
-        [Column(50, Alignment.Far)]
+        [Column(80, Alignment.Far)]
         [Description("A string containing both the number of the track, and the total number of tracks in the album, containing the media represented by the selected item(s).")]
         [DisplayName("Track # of #")]
         [ReadOnly(true)]
