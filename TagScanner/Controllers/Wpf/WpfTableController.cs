@@ -9,11 +9,11 @@
     using System.Windows.Controls;
     using System.Windows.Data;
     using System.Windows.Forms.Integration;
+    using Forms;
     using Menus;
     using Models;
     using Terms;
     using ValueConverters;
-    using Forms;
 
     public class WpfTableController : WpfGridController
     {
