@@ -28,7 +28,6 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FindReplaceControl));
             this.Toolbar = new TagScanner.Controls.FirstClickToolStrip();
             this.tbDropDown = new System.Windows.Forms.ToolStripButton();
             this.cbFind = new System.Windows.Forms.ToolStripComboBox();
@@ -209,11 +208,10 @@
             // 
             // tbPickTags
             // 
-            this.tbPickTags.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-            this.tbPickTags.Image = ((System.Drawing.Image)(resources.GetObject("tbPickTags.Image")));
-            this.tbPickTags.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.tbPickTags.Image = global::TagScanner.Properties.Resources.frSearch;
+            this.tbPickTags.ImageTransparentColor = System.Drawing.Color.White;
             this.tbPickTags.Name = "tbPickTags";
-            this.tbPickTags.Size = new System.Drawing.Size(86, 19);
+            this.tbPickTags.Size = new System.Drawing.Size(102, 20);
             this.tbPickTags.Text = "Search fields...";
             // 
             // FindReplaceControl
