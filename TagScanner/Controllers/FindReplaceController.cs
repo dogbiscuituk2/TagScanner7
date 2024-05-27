@@ -58,13 +58,11 @@
 
             TbDropDown.Click += TbDropDown_Click;
             CbFind.DropDown += CbFind_DropDown;
-            CbFind.KeyDown += CbFind_KeyDown;
             TbFindNext.Click += TbFindNext_Click;
             TbFindPrevious.Click += TbFindPrevious_Click;
             TbFindAll.Click += TbFindAll_Click;
             TbFindClose.Click += TbFindClose_Click;
             CbReplace.DropDown += CbReplace_DropDown;
-            CbReplace.KeyDown += CbReplace_KeyDown;
             TbCloseUp.Click += TbCloseUp_Click;
             TbReplaceNext.Click += TbReplaceNext_Click;
             TbReplaceAll.Click += TbReplaceAll_Click;
@@ -202,9 +200,7 @@
         #region Event Handlers
 
         private void CbFind_DropDown(object sender, EventArgs e) => AppController.GetFindItems(CbFind.Items);
-        private void CbFind_KeyDown(object sender, KeyEventArgs e) { if (e.KeyData == Keys.Enter) FindNext(); }
         private void CbReplace_DropDown(object sender, EventArgs e) => AppController.GetReplaceItems(CbReplace.Items);
-        private void CbReplace_KeyDown(object sender, KeyEventArgs e) { if (e.KeyData == Keys.Enter) ReplaceNext(); }
         private void EditFind_Click(object sender, EventArgs e) => Show(replace: false);
         private void EditReplace_Click(object sender, EventArgs e) => Show(replace: true);
         private void TbCaseSensitive_Click(object sender, EventArgs e) => ToggleCaseSensitive();
