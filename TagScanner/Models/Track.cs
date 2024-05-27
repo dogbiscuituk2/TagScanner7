@@ -30,7 +30,6 @@
 
         private bool FileExists => File.Exists(FilePath);
 
-        [field: NonSerialized, XmlIgnore] public bool IsHighlighted { get; set; }
         [NonSerialized, XmlIgnore] public bool IsModified;
         [NonSerialized, XmlIgnore] public bool IsNew;
 

@@ -1,14 +1,14 @@
 ﻿namespace TagScanner.Controllers.Wpf
 {
+    using Models;
     using System.Linq;
     using System.Windows;
     using System.Windows.Controls;
     using System.Windows.Data;
-    using Models;
     using Terms;
     using ValueConverters;
 
-    public abstract class WpfGridController: Controller
+    public abstract class WpfGridController : Controller
     {
         protected WpfGridController(Controller parent) : base(parent) { }
 

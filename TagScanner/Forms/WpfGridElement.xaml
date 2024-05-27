@@ -38,11 +38,8 @@
       <DataGrid.RowStyle>
         <Style TargetType="DataGridRow">
           <Style.Triggers>
-            <DataTrigger Binding="{Binding Year}" Value="1968">
+            <DataTrigger Binding="{Binding IsHighlighted}" Value="true">
               <Setter Property="Background" Value="Yellow"></Setter>
-            </DataTrigger>
-            <DataTrigger Binding="{Binding Year}" Value="1969">
-              <Setter Property="Background" Value="Cyan"></Setter>
             </DataTrigger>
           </Style.Triggers>
         </Style>
