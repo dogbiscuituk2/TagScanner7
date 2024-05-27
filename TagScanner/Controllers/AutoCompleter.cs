@@ -25,6 +25,8 @@
 
         #region Public Methods
 
+        public AutoCompleteStringCollection GetFilterAutoCompleteItems() => GetFieldList(0, Tag.JoinedPerformers, Tag.Album, Tag.Title);
+
         public AutoCompleteStringCollection GetFieldList(params Tag[] tags) => FieldLists[ValidateFieldList(tags)];
 
         /// <summary>
@@ -37,8 +39,6 @@
             if (tokens != null)
                 FieldLists.Add("\0", tokens);
         }
-
-        public void SetList(IAutoComplete control, IEnumerable<string> items) => control.AutoCompleteCustomSource = MakeList(items);
 
         #endregion
 
@@ -56,13 +56,6 @@
                 .OrderBy(p => p)
                 .ToArray());
 
-        private static AutoCompleteStringCollection MakeList(IEnumerable<string> items)
-        {
-            var list = new AutoCompleteStringCollection();
-            list.AddRange(items.ToArray());
-            return list;
-        }
-
         private string ValidateFieldList(params Tag[] tags)
         {
             var key = MakeKey(tags);
@@ -78,7 +71,11 @@
                         if (tag == 0)
                         {
                             type = typeof(string);
-                            values = Lexer.Constants;
+                            values = Term.Booleans
+                                .Union(Tags.FieldNames)
+                                .Union(Functors.FunctionNames)
+                                .Union(Types.Names)
+                                .Union(Keywords.All);
                         }
                         else
                         {

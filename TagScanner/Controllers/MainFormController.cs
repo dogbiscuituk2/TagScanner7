@@ -44,7 +44,7 @@
             StatusController = new StatusController(this);
             FindReplaceController = new FindReplaceController(this);
             AutoCompleter = new AutoCompleter(this, View.FindReplaceControl.cbFind, View.FindReplaceControl.cbReplace, View.FilterControl.cbFilter);
-            AutoCompleter.SetList(View.FilterControl.cbFilter, Lexer.Constants);
+            FilterController.UpdateAutoComplete();
             ModifiedChanged();
             UpdateUI();
         }
@@ -208,6 +208,7 @@
             else
             {
                 AutoCompleter.InvalidateFieldLists();
+                FilterController.UpdateAutoComplete();
                 FindReplaceController.UpdateAutoComplete();
             }
         }

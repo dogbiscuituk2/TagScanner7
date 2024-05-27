@@ -5,6 +5,7 @@
     using System.Windows.Forms;
     using Controls;
     using Forms;
+    using Models;
     using Terms;
     using Utils;
 
@@ -57,6 +58,8 @@
             else
                 UpdateFilterStatus(exception.GetAllInformation());
         }
+
+        public void UpdateAutoComplete() => CbFilter.AutoCompleteCustomSource = MainAutoCompleter.GetFilterAutoCompleteItems();
 
         #endregion
 

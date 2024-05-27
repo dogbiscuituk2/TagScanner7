@@ -2,13 +2,12 @@
 {
     using System;
     using System.Collections.Generic;
-    using System.Collections.ObjectModel;
     using System.Linq;
     using System.Windows.Forms;
     using FastColoredTextBoxNS;
+    using Forms;
     using Mru;
     using Terms;
-    using Forms;
 
     public class ScriptFormController : Controller
     {
@@ -155,10 +154,7 @@
         private void CreateAutocompleteMenu()
         {
             var items = new AutocompleteMenu(TextBox) { MinFragmentLength = 3 }.Items;
-            //items.SetAutocompleteItems(new Collection<string>(Lexer.Constants));
-
-            items.SetAutocompleteItems(MainAutoCompleter.GetFieldList(0).Cast<string>().ToList());
-
+            items.SetAutocompleteItems(MainAutoCompleter.GetFilterAutoCompleteItems().Cast<string>().ToList());
             items.MaximumSize = new System.Drawing.Size(200, 300);
             items.Width = 200;
         }

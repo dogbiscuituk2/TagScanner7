@@ -12,17 +12,6 @@
     /// </summary>
     public class Lexer
     {
-        #region Public Properties
-
-        public static List<string> Constants => Term.Booleans
-            .Union(Tags.FieldNames)
-            .Union(Functors.FunctionNames)
-            .Union(Types.Names)
-            .Union(Keywords.All)
-            .ToList();
-
-        #endregion
-
         #region Public Methods
 
         /// <summary>
