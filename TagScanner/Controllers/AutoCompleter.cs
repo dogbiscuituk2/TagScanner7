@@ -12,7 +12,7 @@
     {
         #region Constructor
 
-        public AutoCompleter(Controller parent, params IAutoComplete[] controls) : base(parent)
+        public AutoCompleter(Controller parent, params ToolStripComboBox[] controls) : base(parent)
         {
             foreach (var control in controls)
             {

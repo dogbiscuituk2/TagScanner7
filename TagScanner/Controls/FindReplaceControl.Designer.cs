@@ -31,14 +31,14 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FindReplaceControl));
             this.Toolbar = new TagScanner.Controls.FirstClickToolStrip();
             this.tbDropDown = new System.Windows.Forms.ToolStripButton();
-            this.cbFind = new TagScanner.Controls.AutoCompleteToolStripComboBox();
+            this.cbFind = new System.Windows.Forms.ToolStripComboBox();
             this.tbFind = new System.Windows.Forms.ToolStripSplitButton();
             this.tbFindNext = new System.Windows.Forms.ToolStripMenuItem();
             this.tbFindPrevious = new System.Windows.Forms.ToolStripMenuItem();
             this.tbFindAll = new System.Windows.Forms.ToolStripMenuItem();
             this.tbFindClose = new System.Windows.Forms.ToolStripButton();
             this.tbCloseUp = new System.Windows.Forms.ToolStripButton();
-            this.cbReplace = new TagScanner.Controls.AutoCompleteToolStripComboBox();
+            this.cbReplace = new System.Windows.Forms.ToolStripComboBox();
             this.tbReplaceNext = new System.Windows.Forms.ToolStripButton();
             this.tbReplaceAll = new System.Windows.Forms.ToolStripButton();
             this.tbCaseSensitive = new System.Windows.Forms.ToolStripButton();
@@ -236,11 +236,11 @@
 
         public TagScanner.Controls.FirstClickToolStrip Toolbar;
         public System.Windows.Forms.ToolStripButton tbDropDown;
-        public TagScanner.Controls.AutoCompleteToolStripComboBox cbFind;
+        public System.Windows.Forms.ToolStripComboBox cbFind;
         public System.Windows.Forms.ToolStripSplitButton tbFind;
         public System.Windows.Forms.ToolStripButton tbFindClose;
         public System.Windows.Forms.ToolStripButton tbCloseUp;
-        public TagScanner.Controls.AutoCompleteToolStripComboBox cbReplace;
+        public System.Windows.Forms.ToolStripComboBox cbReplace;
         public System.Windows.Forms.ToolStripButton tbReplaceNext;
         public System.Windows.Forms.ToolStripButton tbReplaceAll;
         public System.Windows.Forms.ToolStripButton tbCaseSensitive;

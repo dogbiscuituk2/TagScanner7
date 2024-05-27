@@ -30,7 +30,7 @@
         {
             this.Toolbar = new TagScanner.Controls.FirstClickToolStrip();
             this.tbCaseSensitive = new System.Windows.Forms.ToolStripButton();
-            this.cbFilter = new TagScanner.Controls.AutoCompleteToolStripComboBox();
+            this.cbFilter = new System.Windows.Forms.ToolStripComboBox();
             this.tbApply = new System.Windows.Forms.ToolStripButton();
             this.tbClear = new System.Windows.Forms.ToolStripButton();
             this.tbEdit = new System.Windows.Forms.ToolStripButton();
@@ -131,7 +131,7 @@
 
         public TagScanner.Controls.FirstClickToolStrip Toolbar;
         public System.Windows.Forms.ToolStripButton tbCaseSensitive;
-        public TagScanner.Controls.AutoCompleteToolStripComboBox cbFilter;
+        public System.Windows.Forms.ToolStripComboBox cbFilter;
         public System.Windows.Forms.ToolStripButton tbApply;
         public System.Windows.Forms.ToolStripButton tbClear;
         public System.Windows.Forms.ToolStripButton tbEdit;
