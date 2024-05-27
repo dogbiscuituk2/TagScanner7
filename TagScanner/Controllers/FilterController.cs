@@ -28,6 +28,11 @@
 
             MainForm.EditFilter.Click += EditFilter_Click;
             MainForm.tbFilter.Click += EditFilter_Click;
+            MainForm.FilterPopupMenu.Opening += FilterPopupMenu_Opening;
+            MainForm.PopupFilterApply.Click += TbApply_Click;
+            MainForm.PopupFilterClear.Click += TbClear_Click;
+            MainForm.PopupFilterClose.Click += TbClose_Click;
+            MainForm.PopupFilterEdit.Click += TbEdit_Click;
 
             TbCaseSensitive.Click += TbCaseSensitive_Click;
             CbFilter.DropDown += CbFilter_DropDown;
@@ -90,6 +95,7 @@
 
         private void CbFilter_DropDown(object sender, EventArgs e) => AppController.GetFilterItems(CbFilter.Items);
         private void EditFilter_Click(object sender, EventArgs e) => Show();
+        private void FilterPopupMenu_Opening(object sender, System.ComponentModel.CancelEventArgs e) => MainForm.PopupFilterCase.Checked = CaseSensitive;
         private void TbApply_Click(object sender, EventArgs e) => ApplyFilter();
         private void TbCaseSensitive_Click(object sender, EventArgs e) => ToggleCaseSensitive();
         private void TbClear_Click(object sender, EventArgs e) => ClearFilter();
