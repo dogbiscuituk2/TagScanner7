@@ -5,14 +5,12 @@
     using System.Collections.Generic;
     using System.Drawing;
     using System.Linq;
-    using System.Runtime.CompilerServices;
     using System.Text.RegularExpressions;
     using System.Windows.Data;
     using System.Windows.Forms;
     using Commands;
     using Forms;
     using Models;
-    using TagScanner.Properties;
     using Terms;
     using Utils;
 
