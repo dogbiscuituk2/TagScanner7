@@ -43,7 +43,7 @@
             this.tbCaseSensitive = new System.Windows.Forms.ToolStripButton();
             this.tbWholeWord = new System.Windows.Forms.ToolStripButton();
             this.tbUseRegex = new System.Windows.Forms.ToolStripButton();
-            this.tbPickTags = new System.Windows.Forms.ToolStripButton();
+            this.tbSearchFields = new System.Windows.Forms.ToolStripButton();
             this.Toolbar.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -62,7 +62,7 @@
             this.tbCaseSensitive,
             this.tbWholeWord,
             this.tbUseRegex,
-            this.tbPickTags});
+            this.tbSearchFields});
             this.Toolbar.LayoutStyle = System.Windows.Forms.ToolStripLayoutStyle.Flow;
             this.Toolbar.Location = new System.Drawing.Point(0, 0);
             this.Toolbar.Name = "Toolbar";
@@ -206,13 +206,13 @@
             this.tbUseRegex.Text = "toolStripButton8";
             this.tbUseRegex.ToolTipText = "Use regular expressions (Alt+E)";
             // 
-            // tbPickTags
+            // tbSearchFields
             // 
-            this.tbPickTags.Image = global::TagScanner.Properties.Resources.frSearch;
-            this.tbPickTags.ImageTransparentColor = System.Drawing.Color.White;
-            this.tbPickTags.Name = "tbPickTags";
-            this.tbPickTags.Size = new System.Drawing.Size(102, 20);
-            this.tbPickTags.Text = "Search fields...";
+            this.tbSearchFields.Image = global::TagScanner.Properties.Resources.frSearch;
+            this.tbSearchFields.ImageTransparentColor = System.Drawing.Color.White;
+            this.tbSearchFields.Name = "tbSearchFields";
+            this.tbSearchFields.Size = new System.Drawing.Size(102, 20);
+            this.tbSearchFields.Text = "Search fields...";
             // 
             // FindReplaceControl
             // 
@@ -244,7 +244,7 @@
         public System.Windows.Forms.ToolStripButton tbCaseSensitive;
         public System.Windows.Forms.ToolStripButton tbWholeWord;
         public System.Windows.Forms.ToolStripButton tbUseRegex;
-        public System.Windows.Forms.ToolStripButton tbPickTags;
+        public System.Windows.Forms.ToolStripButton tbSearchFields;
         public System.Windows.Forms.ToolStripMenuItem tbFindNext;
         public System.Windows.Forms.ToolStripMenuItem tbFindPrevious;
         public System.Windows.Forms.ToolStripMenuItem tbFindAll;

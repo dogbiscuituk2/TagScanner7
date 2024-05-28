@@ -35,7 +35,7 @@
             TbCaseSensitive = View.tbCaseSensitive;
             TbWholeWord = View.tbWholeWord;
             TbUseRegex = View.tbUseRegex;
-            TbPickTags = View.tbPickTags;
+            TbSearchFields = View.tbSearchFields;
 
             Hide();
 
@@ -45,7 +45,7 @@
             MainForm.EditReplace.Click += EditReplace_Click;
             MainForm.tbReplace.Click += EditReplace_Click;
 
-            MainForm.PopupSearchFields.Click += TbPickTags_Click;
+            MainForm.PopupSearchFields.Click += TbSearchFields_Click;
             MainForm.PopupMatchCase.Click += TbCaseSensitive_Click;
             MainForm.PopupWholeWord.Click += TbWholeWord_Click;
             MainForm.PopupUseRegex.Click += TbUseRegex_Click;
@@ -72,7 +72,7 @@
             TbCaseSensitive.Click += TbCaseSensitive_Click;
             TbWholeWord.Click += TbWholeWord_Click;
             TbUseRegex.Click += TbUseRegex_Click;
-            TbPickTags.Click += TbPickTags_Click;
+            TbSearchFields.Click += TbSearchFields_Click;
 
             View.Resize += View_Resize;
 
@@ -101,11 +101,15 @@
             {
                 _searchTags = value;
                 var any = value.Any();
-                TbPickTags.ToolTipText = !any ? "(none)" :
+                TbSearchFields.ToolTipText = !any ? "(none)" :
                     value.Select(p => p.DisplayName()).Aggregate((p, q) => $"{p}, {q}");
                 UpdateUI();
             }
         }
+
+        private int
+            SearchIndex = 0,
+            SearchCount = 0;
 
         private bool SearchForward = true;
         private List<Tag> _searchTags = new List<Tag>();
@@ -118,6 +122,7 @@
 
         private ListCollectionView ListCollectionView => MainTableController.ListCollectionView;
         private FindReplaceControl View => MainForm.FindReplaceControl;
+        private System.Windows.Controls.DataGrid DataGrid => MainTableController.DataGrid;
 
         private readonly Control ParentControl;
 
@@ -126,9 +131,9 @@
             TbCloseUp,
             TbDropDown,
             TbFindClose,
-            TbPickTags,
             TbReplaceAll,
             TbReplaceNext,
+            TbSearchFields,
             TbUseRegex,
             TbWholeWord;
 
@@ -148,10 +153,22 @@
 
         #region Properties
 
-        private bool CaseSensitive { get => TbCaseSensitive.Checked; set => TbCaseSensitive.Checked = value; }
+        private bool CanFind => !string.IsNullOrEmpty(CbFind.Text) && SearchTags.Any() && VisibleTracks.Any();
+        private bool CanReplace => CanFind && !string.IsNullOrEmpty(CbReplace.Text);
         private RegexOptions RegexOptions => CaseSensitive.AsRegexOptions();
-        private bool UseRegex { get => TbUseRegex.Checked; set => TbUseRegex.Checked = value; }
-        private bool WholeWord { get => TbWholeWord.Checked; set => TbWholeWord.Checked = value; }
+
+        private bool CaseSensitive
+        {
+            get => TbCaseSensitive.Checked;
+            set
+            {
+                if (CaseSensitive != value)
+                {
+                    TbCaseSensitive.Checked = value;
+                    SearchValid = false;
+                }
+            }
+        }
 
         private string Pattern
         {
@@ -183,6 +200,19 @@
             }
         }
 
+        private bool UseRegex
+        {
+            get => TbUseRegex.Checked;
+            set
+            {
+                if (UseRegex != value)
+                {
+                    TbUseRegex.Checked = value;
+                    SearchValid = false;
+                }
+            }
+        }
+
         private IEnumerable<Track> VisibleTracks
         {
             get
@@ -198,14 +228,27 @@
             }
         }
 
+        private bool WholeWord
+        {
+            get => TbWholeWord.Checked;
+            set
+            {
+                if (WholeWord != value)
+                {
+                    TbWholeWord.Checked = value;
+                    SearchValid = false;
+                }
+            }
+        }
+
         #endregion
 
         #region Event Handlers
 
         private void CbFind_DropDown(object sender, EventArgs e) => AppController.GetFindItems(CbFind.Items);
-        private void CbFind_TextChanged(object sender, EventArgs e) { SearchValid = false; UpdateUI(); }
+        private void CbFind_TextChanged(object sender, EventArgs e) { UpdateUI(); SearchValid = false; }
         private void CbReplace_DropDown(object sender, EventArgs e) => AppController.GetReplaceItems(CbReplace.Items);
-        private void CbReplace_TextChanged(object sender, EventArgs e) { SearchValid = false; }
+        private void CbReplace_TextChanged(object sender, EventArgs e) => UpdateUI();
         private void EditFind_Click(object sender, EventArgs e) => Show(replace: false);
         private void EditReplace_Click(object sender, EventArgs e) => Show(replace: true);
         private void TbCaseSensitive_Click(object sender, EventArgs e) => ToggleCaseSensitive();
@@ -216,10 +259,9 @@
         private void TbFindClose_Click(object sender, EventArgs e) => ShowFindReplace(visible: false);
         private void TbFindNext_Click(object sender, EventArgs e) => FindNext();
         private void TbFindPrevious_Click(object sender, EventArgs e) => FindPrevious();
-        
-        private void TbPickTags_Click(object sender, EventArgs e) => PickTags();
         private void TbReplaceAll_Click(object sender, EventArgs e) => ReplaceAll();
         private void TbReplaceNext_Click(object sender, EventArgs e) => ReplaceNext();
+        private void TbSearchFields_Click(object sender, EventArgs e) => ChooseSearchFields();
         private void TbUseRegex_Click(object sender, EventArgs e) => ToggleUseRegex();
         private void TbWholeWord_Click(object sender, EventArgs e) => ToggleWholeWord();
         private void View_Resize(object sender, EventArgs e) => Resize();
@@ -237,58 +279,87 @@
         private void UpdateFindItems() => AppController.UpdateFindItems(CbFind.Items, CbFind.Text);
         private void UpdateReplaceItems() => AppController.UpdateReplaceItems(CbReplace.Items, CbReplace.Text);
 
+        private void ChooseSearchFields()
+        {
+            var tags = SearchTags.ToList();
+            var ok = new TagsController(this).Execute("Select the Columns to display in the Media Table", tags);
+            if (ok)
+                SearchTags = tags;
+        }
+
         private bool Find()
         {
-            UpdateFindItems();
-            var term = MakeCondition();
-            AppController.AddFilter(term.ToString());
-            var visibleTracks = VisibleTracks;
-            var tracks = term.Filter(visibleTracks);
-            var tracksArray = tracks.ToArray();
-            Selection.Clear();
-            Selection.Add(tracksArray);
-            var result = Selection.Tracks.Any();
-            if (!result)
-                MessageBox.Show(
-                    MainForm,
-                    $"The following specified text was not found:{Environment.NewLine}{CbFind.Text}",
-                    "Find and Replace",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Information);
-
-            return result;
+            if (!SearchValid)
+            {
+                UpdateFindItems();
+                var term = MakeCondition();
+                AppController.AddFilter(term.ToString());
+                var visibleTracks = VisibleTracks;
+                var tracks = term.Filter(visibleTracks);
+                var tracksArray = tracks.ToArray();
+                Selection.Clear();
+                Selection.Add(tracksArray);
+                SearchValid = Selection.Tracks.Any();
+                if (!SearchValid)
+                    MessageBox.Show(
+                        MainForm,
+                        $"The following specified text was not found:{Environment.NewLine}{CbFind.Text}",
+                        "Find and Replace",
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Information);
+            }
+            SearchCount = Selection.Tracks.Count;
+            SearchIndex = 0;
+            return SearchValid;
         }
 
         private void FindAll()
         {
             if (Find())
-            {
                 AppController.NewWindow(
                     nameFormat: "<find results {0}>",
                     selection: Selection,
                     modified: false);
-                //TableController.Selection = Selection;
-                //TableController.DataGrid.ScrollIntoView(Selection.Tracks[0]);
-                MainTableController.DataGrid.Focus();
-                MainTableController.FindResults = Selection;
+        }
+
+        private void FindNext() => FindStep(+1);
+        private void FindPrevious() => FindStep(-1);
+
+        private void FindStep(int delta)
+        {
+            UpdateFindButton(forward: delta > 0);
+            if (SearchValid)
+            {
+                SearchIndex += delta;
+                if (SearchIndex >= SearchCount)
+                    SearchIndex = 0;
+                else if (SearchIndex < 0)
+                    SearchIndex = SearchCount - 1;
             }
+            else
+                Find();
+            if (SearchIndex < 0 || SearchIndex >= SearchCount)
+                return;
+            var track = Selection.Tracks[SearchIndex];
+            MainTableController.Selection = new Selection(new[] { track });
+            DataGrid.ScrollIntoView(track);
+            DataGrid.Focus();
         }
 
-        private void FindNext()
+        private Term MakeCondition()
         {
-            UpdateFindButton(forward: true);
-            UpdateFindItems();
-        }
-
-        private void FindPrevious()
-        {
-            UpdateFindButton(forward: false);
-            UpdateFindItems();
-        }
-
-        private void Replace()
-        {
-            UpdateReplaceItems();
+            var selectedTags = SearchTags;
+            if (!selectedTags.Any())
+                return true;
+            if (string.IsNullOrWhiteSpace(CbFind.Text))
+                return true;
+            var terms = new List<Term> { Environment.NewLine };
+            terms.AddRange(selectedTags.Select(p => new Field(p)));
+            return new Function(
+                Fn.ContainsX,
+                new Function(Fn.Join, terms.ToArray()),
+                Pattern,
+                CaseSensitive);
         }
 
         private void ReplaceAll()
@@ -325,30 +396,6 @@
             UpdateReplaceItems();
         }
 
-        private Term MakeCondition()
-        {
-            var selectedTags = SearchTags;
-            if (!selectedTags.Any())
-                return true;
-            if (string.IsNullOrWhiteSpace(CbFind.Text))
-                return true;
-            var terms = new List<Term> { Environment.NewLine };
-            terms.AddRange(selectedTags.Select(p => new Field(p)));
-            return new Function(
-                Fn.ContainsX,
-                new Function(Fn.Join, terms.ToArray()),
-                Pattern,
-                CaseSensitive);
-        }
-
-        private void PickTags()
-        {
-            var tags = SearchTags.ToList();
-            var ok = new TagsController(this).Execute("Select the Columns to display in the Media Table", tags);
-            if (ok)
-                SearchTags = tags;
-        }
-
         private void ShowFindReplace(bool visible, bool replacing = false)
         {
             ParentControl.Visible = visible;
@@ -383,17 +430,8 @@
 
         private void UpdateUI()
         {
-            bool
-                anySearchText = !string.IsNullOrEmpty(CbFind.Text),
-                anyTags = SearchTags.Any(),
-                anyTracks = MainModel.Tracks.Any();
-            TbFind.Enabled =
-                TbFindAll.Enabled =
-                TbFindNext.Enabled =
-                TbFindPrevious.Enabled =
-                TbReplaceNext.Enabled =
-                TbReplaceAll.Enabled =
-                anySearchText && anyTags && anyTracks;
+            TbFind.Enabled = TbFindNext.Enabled = TbFindPrevious.Enabled = TbFindAll.Enabled = CanFind;
+            TbReplaceNext.Enabled = TbReplaceAll.Enabled = CanReplace;
         }
 
         #endregion
