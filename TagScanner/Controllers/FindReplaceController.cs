@@ -90,8 +90,6 @@
 
         #region Fields
 
-        private readonly Control ParentControl;
-
         private List<Tag> _searchTags = new List<Tag>();
 
         private List<Tag> SearchTags
@@ -114,6 +112,15 @@
         }
 
         private readonly Selection Selection = new Selection();
+
+        #endregion
+
+        #region Controls
+
+        private ListCollectionView ListCollectionView => MainTableController.ListCollectionView;
+        private FindReplaceControl View => MainForm.FindReplaceControl;
+
+        private readonly Control ParentControl;
 
         private readonly ToolStripButton
             TbCaseSensitive,
@@ -141,9 +148,6 @@
         #endregion
 
         #region Properties
-
-        private ListCollectionView ListCollectionView => MainTableController.ListCollectionView;
-        private FindReplaceControl View => MainForm.FindReplaceControl;
 
         private bool CaseSensitive { get => TbCaseSensitive.Checked; set => TbCaseSensitive.Checked = value; }
         private RegexOptions RegexOptions => CaseSensitive.AsRegexOptions();

@@ -6,10 +6,10 @@
     using System.Windows.Forms;
     using System.Xml;
     using WK.Libraries.SharpClipboardNS;
+    using Forms;
     using Models;
     using Mru;
     using Utils;
-    using Forms;
 
     public static class AppController
     {
@@ -147,8 +147,10 @@
         #region Private Fields
 
         private const string LibraryNameFormat = "<untitled #{0}>";
-        private const string FindResultsNameFormat = "<find results #{0}>";
-        private const string ReplaceResultsNameFormat = "<replace results #{0}>";
+
+        #endregion
+
+        #region Private Properties
 
         private static List<MainFormController> Controllers { get; }
         private static SplashForm SplashForm { get; }
@@ -169,17 +171,17 @@
 
         private static void MainForm_FormClosing(object sender, FormClosingEventArgs e) => e.Cancel = !Shutdown();
 
+        public static void UpdateUI(MainFormController mainFormController)
+        {
+            mainFormController.UpdateLocalUI();
+            mainFormController.CommandProcessor.UpdateLocalUI();
+        }
+
         private static void WindowClick(object sender, EventArgs e)
         {
             var form = (MainForm)((ToolStripMenuItem)sender).Tag;
             form.BringToFront();
             form.Focus();
-        }
-
-        public static void UpdateUI(MainFormController mainFormController)
-        {
-            mainFormController.UpdateLocalUI();
-            mainFormController.CommandProcessor.UpdateLocalUI();
         }
 
         #endregion
