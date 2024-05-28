@@ -5,12 +5,14 @@
     using System.Collections.Generic;
     using System.Drawing;
     using System.Linq;
+    using System.Runtime.CompilerServices;
     using System.Text.RegularExpressions;
     using System.Windows.Data;
     using System.Windows.Forms;
     using Commands;
     using Forms;
     using Models;
+    using TagScanner.Properties;
     using Terms;
     using Utils;
 
@@ -40,7 +42,7 @@
             Hide();
 
             MainForm.EditFind.Click += EditFind_Click;
-            MainForm.tbFindReplace.ButtonClick += EditFind_Click;
+            MainForm.tbFindReplace.ButtonClick += TbFindReplace_ButtonClick;
             MainForm.tbFind.Click += EditFind_Click;
             MainForm.EditReplace.Click += EditReplace_Click;
             MainForm.tbReplace.Click += EditReplace_Click;
@@ -58,11 +60,13 @@
 
             TbDropDown.Click += TbDropDown_Click;
             CbFind.DropDown += CbFind_DropDown;
+            CbFind.TextChanged += CbFind_TextChanged;
             TbFindNext.Click += TbFindNext_Click;
             TbFindPrevious.Click += TbFindPrevious_Click;
             TbFindAll.Click += TbFindAll_Click;
             TbFindClose.Click += TbFindClose_Click;
             CbReplace.DropDown += CbReplace_DropDown;
+            CbReplace.TextChanged += CbReplace_TextChanged;
             TbCloseUp.Click += TbCloseUp_Click;
             TbReplaceNext.Click += TbReplaceNext_Click;
             TbReplaceAll.Click += TbReplaceAll_Click;
@@ -84,13 +88,12 @@
         {
             UpdateAutoComplete(CbFind);
             UpdateAutoComplete(CbReplace);
+            UpdateUI();
         }
 
         #endregion
 
         #region Fields
-
-        private List<Tag> _searchTags = new List<Tag>();
 
         private List<Tag> SearchTags
         {
@@ -101,16 +104,13 @@
                 var any = value.Any();
                 TbPickTags.ToolTipText = !any ? "(none)" :
                     value.Select(p => p.DisplayName()).Aggregate((p, q) => $"{p}, {q}");
-                TbFind.Enabled =
-                    TbFindAll.Enabled =
-                    TbFindNext.Enabled =
-                    TbFindPrevious.Enabled =
-                    TbReplaceNext.Enabled =
-                    TbReplaceAll.Enabled =
-                    any;
+                UpdateUI();
             }
         }
 
+        private bool SearchForward = true;
+        private List<Tag> _searchTags = new List<Tag>();
+        private bool SearchValid;
         private readonly Selection Selection = new Selection();
 
         #endregion
@@ -204,7 +204,9 @@
         #region Event Handlers
 
         private void CbFind_DropDown(object sender, EventArgs e) => AppController.GetFindItems(CbFind.Items);
+        private void CbFind_TextChanged(object sender, EventArgs e) => SearchValid = false;
         private void CbReplace_DropDown(object sender, EventArgs e) => AppController.GetReplaceItems(CbReplace.Items);
+        private void CbReplace_TextChanged(object sender, EventArgs e) => SearchValid = false;
         private void EditFind_Click(object sender, EventArgs e) => Show(replace: false);
         private void EditReplace_Click(object sender, EventArgs e) => Show(replace: true);
         private void TbCaseSensitive_Click(object sender, EventArgs e) => ToggleCaseSensitive();
@@ -214,6 +216,7 @@
         private void TbFindClose_Click(object sender, EventArgs e) => ShowFindReplace(visible: false);
         private void TbFindNext_Click(object sender, EventArgs e) => FindNext();
         private void TbFindPrevious_Click(object sender, EventArgs e) => FindPrevious();
+        private void TbFindReplace_ButtonClick(object sender, EventArgs e) { if (SearchForward) FindNext(); else FindPrevious(); }
         private void TbPickTags_Click(object sender, EventArgs e) => PickTags();
         private void TbReplaceAll_Click(object sender, EventArgs e) => ReplaceAll();
         private void TbReplaceNext_Click(object sender, EventArgs e) => ReplaceNext();
@@ -224,6 +227,15 @@
         #endregion
 
         #region Private Methods
+
+        private void Hide() => ShowFindReplace(visible: false);
+        private void Resize() => CbFind.Size = CbReplace.Size = new Size(View.Width - 81, CbFind.Height);
+        private void Show(bool replace) => ShowFindReplace(visible: true, replacing: replace);
+        private void ToggleCaseSensitive() => CaseSensitive ^= true;
+        private void ToggleUseRegex() => UseRegex ^= true;
+        private void ToggleWholeWord() => WholeWord ^= true;
+        private void UpdateFindItems() => AppController.UpdateFindItems(CbFind.Items, CbFind.Text);
+        private void UpdateReplaceItems() => AppController.UpdateReplaceItems(CbReplace.Items, CbReplace.Text);
 
         private bool Find()
         {
@@ -264,15 +276,15 @@
 
         private void FindNext()
         {
+            UpdateFindButton(forward: true);
             UpdateFindItems();
         }
 
         private void FindPrevious()
         {
+            UpdateFindButton(forward: false);
             UpdateFindItems();
         }
-
-        private void Hide() => ShowFindReplace(visible: false);
 
         private void Replace()
         {
@@ -313,15 +325,6 @@
             UpdateReplaceItems();
         }
 
-        private void Resize() => CbFind.Size = CbReplace.Size = new Size(View.Width - 81, CbFind.Height);
-        private void Show(bool replace) => ShowFindReplace(visible: true, replacing: replace);
-        private void ToggleCaseSensitive() => CaseSensitive ^= true;
-        private void ToggleUseRegex() => UseRegex ^= true;
-        private void ToggleWholeWord() => WholeWord ^= true;
-
-        private void UpdateFindItems() => AppController.UpdateFindItems(CbFind.Items, CbFind.Text);
-        private void UpdateReplaceItems() => AppController.UpdateReplaceItems(CbReplace.Items, CbReplace.Text);
-
         private Term MakeCondition()
         {
             var selectedTags = SearchTags;
@@ -359,6 +362,36 @@
 
         private void UpdateAutoComplete(ToolStripComboBox comboBox) =>
             comboBox.AutoCompleteCustomSource = MainAutoCompleter.GetFieldList(Tag.JoinedPerformers, Tag.Album, Tag.Title);
+
+        private void UpdateFindButton(bool forward)
+        {
+            if (SearchForward != forward)
+            {
+                SearchForward = forward;
+                InitFindButton(forward ? TbFindNext : TbFindPrevious);
+            }
+
+            void InitFindButton(ToolStripMenuItem item)
+            {
+                TbFind.Image = item.Image;
+                TbFind.ToolTipText = item.ToolTipText;
+            }
+        }
+
+        private void UpdateUI()
+        {
+            bool
+                anySearchText = !string.IsNullOrEmpty(CbFind.Text),
+                anyTags = SearchTags.Any(),
+                anyTracks = MainModel.Tracks.Any();
+            TbFind.Enabled =
+                TbFindAll.Enabled =
+                TbFindNext.Enabled =
+                TbFindPrevious.Enabled =
+                TbReplaceNext.Enabled =
+                TbReplaceAll.Enabled =
+                anySearchText && anyTags && anyTracks;
+        }
 
         #endregion
     }
