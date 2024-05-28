@@ -102,7 +102,7 @@
             this.tbFind.Name = "tbFind";
             this.tbFind.Size = new System.Drawing.Size(32, 20);
             this.tbFind.Text = "toolStripSplitButton1";
-            this.tbFind.ToolTipText = "Find Next (F3)";
+            this.tbFind.ToolTipText = "Find next (F3)";
             // 
             // tbFindNext
             // 
@@ -204,7 +204,7 @@
             this.tbUseRegex.Name = "tbUseRegex";
             this.tbUseRegex.Size = new System.Drawing.Size(23, 20);
             this.tbUseRegex.Text = "toolStripButton8";
-            this.tbUseRegex.ToolTipText = "Use Regular Expressions (Alt+E)";
+            this.tbUseRegex.ToolTipText = "Use regular expressions (Alt+E)";
             // 
             // tbPickTags
             // 

@@ -40,7 +40,7 @@
             Hide();
 
             MainForm.EditFind.Click += EditFind_Click;
-            MainForm.tbFindReplace.ButtonClick += TbFindReplace_ButtonClick;
+            MainForm.tbFindReplace.ButtonClick += EditFind_Click;
             MainForm.tbFind.Click += EditFind_Click;
             MainForm.EditReplace.Click += EditReplace_Click;
             MainForm.tbReplace.Click += EditReplace_Click;
@@ -59,6 +59,7 @@
             TbDropDown.Click += TbDropDown_Click;
             CbFind.DropDown += CbFind_DropDown;
             CbFind.TextChanged += CbFind_TextChanged;
+            TbFind.ButtonClick += TbFind_ButtonClick;
             TbFindNext.Click += TbFindNext_Click;
             TbFindPrevious.Click += TbFindPrevious_Click;
             TbFindAll.Click += TbFindAll_Click;
@@ -202,19 +203,20 @@
         #region Event Handlers
 
         private void CbFind_DropDown(object sender, EventArgs e) => AppController.GetFindItems(CbFind.Items);
-        private void CbFind_TextChanged(object sender, EventArgs e) => SearchValid = false;
+        private void CbFind_TextChanged(object sender, EventArgs e) { SearchValid = false; UpdateUI(); }
         private void CbReplace_DropDown(object sender, EventArgs e) => AppController.GetReplaceItems(CbReplace.Items);
-        private void CbReplace_TextChanged(object sender, EventArgs e) => SearchValid = false;
+        private void CbReplace_TextChanged(object sender, EventArgs e) { SearchValid = false; }
         private void EditFind_Click(object sender, EventArgs e) => Show(replace: false);
         private void EditReplace_Click(object sender, EventArgs e) => Show(replace: true);
         private void TbCaseSensitive_Click(object sender, EventArgs e) => ToggleCaseSensitive();
         private void TbCloseUp_Click(object sender, EventArgs e) => Show(replace: false);
         private void TbDropDown_Click(object sender, EventArgs e) => Show(replace: !Replacing);
+        private void TbFind_ButtonClick(object sender, EventArgs e) { if (SearchForward) FindNext(); else FindPrevious(); }
         private void TbFindAll_Click(object sender, EventArgs e) => FindAll();
         private void TbFindClose_Click(object sender, EventArgs e) => ShowFindReplace(visible: false);
         private void TbFindNext_Click(object sender, EventArgs e) => FindNext();
         private void TbFindPrevious_Click(object sender, EventArgs e) => FindPrevious();
-        private void TbFindReplace_ButtonClick(object sender, EventArgs e) { if (SearchForward) FindNext(); else FindPrevious(); }
+        
         private void TbPickTags_Click(object sender, EventArgs e) => PickTags();
         private void TbReplaceAll_Click(object sender, EventArgs e) => ReplaceAll();
         private void TbReplaceNext_Click(object sender, EventArgs e) => ReplaceNext();
@@ -366,13 +368,16 @@
             if (SearchForward != forward)
             {
                 SearchForward = forward;
-                InitFindButton(forward ? TbFindNext : TbFindPrevious);
-            }
-
-            void InitFindButton(ToolStripMenuItem item)
-            {
-                TbFind.Image = item.Image;
-                TbFind.ToolTipText = item.ToolTipText;
+                if (SearchForward)
+                {
+                    TbFind.Image = TbFindNext.Image;
+                    TbFind.ToolTipText = "Find next (F3)";
+                }
+                else
+                {
+                    TbFind.Image = TbFindPrevious.Image;
+                    TbFind.ToolTipText = "Find previous (Shift+F3)";
+                }
             }
         }
 
