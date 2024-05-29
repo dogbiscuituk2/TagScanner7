@@ -11,6 +11,7 @@
     using Commands;
     using Forms;
     using Models;
+    using Properties;
     using Terms;
     using Utils;
 
@@ -171,11 +172,13 @@
             }
         }
 
-        private string Pattern
+        private string SearchText => CbFind.Text;
+
+        private string SearchPattern
         {
             get
             {
-                var pattern = CbFind.Text;
+                var pattern = SearchText;
                 if (!UseRegex)
                     pattern = Regex.Escape(pattern);
                 if (WholeWord)
@@ -203,7 +206,7 @@
                     MainForm.PopupReplaceAll.Visible =
                     MainForm.PopupReplaceSeparator.Visible =
                     value;
-                TbDropDown.Image = value ? Properties.Resources.frCloseUp : Properties.Resources.frDropDown;
+                TbDropDown.Image = value ? Resources.frCloseUp : Resources.frDropDown;
             }
         }
 
@@ -365,7 +368,7 @@
             return new Function(
                 Fn.ContainsX,
                 new Function(Fn.Join, terms.ToArray()),
-                Pattern,
+                SearchPattern,
                 CaseSensitive);
         }
 
@@ -379,7 +382,7 @@
                 var tags = SearchTags.ToList();
                 var tagsCount = tags.Count();
                 var values = new object[tracksCount, tagsCount];
-                var pattern = Pattern;
+                var pattern = SearchPattern;
                 var options = RegexOptions;
                 for (var trackIndex = 0; trackIndex < tracksCount; trackIndex++)
                 {
