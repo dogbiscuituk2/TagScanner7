@@ -19,10 +19,10 @@
 
         public static CharCase GetCase(this string input)
         {
-            if (input.IsCase(CharCase.caMel)) return CharCase.caMel;
-            if (input.IsCase(CharCase.PasCal)) return CharCase.PasCal;
-            if (input.IsCase(CharCase.lower)) return CharCase.lower;
-            if (input.IsCase(CharCase.UPPER)) return CharCase.UPPER;
+            if (input.IsCase(CharCase.Camel)) return CharCase.Camel;
+            if (input.IsCase(CharCase.Pascal)) return CharCase.Pascal;
+            if (input.IsCase(CharCase.Lower)) return CharCase.Lower;
+            if (input.IsCase(CharCase.Upper)) return CharCase.Upper;
             return 0;
         }
 
@@ -30,10 +30,10 @@
         {
             switch (charCase)
             {
-                case CharCase.lower: return @"^[\P{Lu}]*$"; // Contains no uppercase letters.
-                case CharCase.UPPER: return @"^[\P{Ll}]*$"; // Contains no lowercase letters.
-                case CharCase.caMel: return @"^[\P{Lu}]*[\p{Ll}].*[\p{Lu}].*"; // First letter is lowercase, but contains also uppercase letter(s).
-                case CharCase.PasCal: return @"^[\P{Ll}]*[\p{Lu}].*[\p{Ll}].*"; // First letter is uppercase, but contains also lowercase letter(s).
+                case CharCase.Lower: return @"^[\P{Lu}]*$"; // Contains no uppercase letters.
+                case CharCase.Upper: return @"^[\P{Ll}]*$"; // Contains no lowercase letters.
+                case CharCase.Camel: return @"^[\P{Lu}]*[\p{Ll}].*[\p{Lu}].*"; // First letter is lowercase, but contains also uppercase letter(s).
+                case CharCase.Pascal: return @"^[\P{Ll}]*[\p{Lu}].*[\p{Ll}].*"; // First letter is uppercase, but contains also lowercase letter(s).
                 default: return ".*"; // Anything else.
             }
         }
@@ -52,11 +52,11 @@
                 from = sample.GetCase(),
                 to = output.GetCase();
             if (to == from // Casings already match.
-                || to == CharCase.lower && from != CharCase.UPPER // No case data in output string.
-                || to == CharCase.UPPER && from != CharCase.lower //
+                || to == CharCase.Lower && from != CharCase.Upper // No case data in output string.
+                || to == CharCase.Upper && from != CharCase.Lower //
                 ) return output;
-            if (from == CharCase.lower) return output.ToLowerInvariant();
-            if (from == CharCase.UPPER) return output.ToUpperInvariant();
+            if (from == CharCase.Lower) return output.ToLowerInvariant();
+            if (from == CharCase.Upper) return output.ToUpperInvariant();
             // Otherwise, just invert the case of the first output letter to convert between caMel & PasCal.
             var s = Regex.Match(output, @"^([\P{L}]*)([\p{L}])(.*)").Groups;
             return $"{s[1].Value}{s[2].Value[0].ToggleCase()}{s[3].Value}";

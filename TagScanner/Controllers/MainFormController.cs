@@ -117,14 +117,9 @@
                 View.tbAddLibrary.Click += AddLibrary_Click;
                 View.tbAdd.ButtonClick += AddFolder_Click;
                 View.tbAdd.DropDownOpening += TbAdd_DropDownOpening;
-
                 View.tbAddRecentFolder.DropDown = View.AddRecentFolder.DropDown;
 
                 View.HelpAbout.Click += HelpAbout_Click;
-
-                View.TablePopupMenu.Opening += GridPopupMenu_Opening;
-                View.TablePopupTags.Click += PopupTags_Click;
-                View.TablePopupMoreActions.Click += GridPopupMoreOptions_Click;
 
                 View.FormClosed += View_FormClosed;
                 View.FormClosing += View_FormClosing;
@@ -291,14 +286,6 @@
         }
 
         #endregion
-
-        #endregion
-
-        #region Popup Menus
-
-        private void GridPopupMenu_Opening(object sender, CancelEventArgs e) => View.TablePopupMoreActions.Enabled = TableController.Selection.SelectedFoldersCount == 1;
-        private void GridPopupMoreOptions_Click(object sender, EventArgs e) => TableController.PopupShellContextMenu();
-        private void PopupTags_Click(object sender, EventArgs e) => TableController.EditTagVisibility();
 
         #endregion
 

@@ -42,6 +42,11 @@
             set
             {
                 _view = value;
+
+                MainForm.TablePopupMenu.Opening += GridPopupMenu_Opening;
+                MainForm.TablePopupSelectColumns.Click += PopupSelectColumns_Click;
+                MainForm.TablePopupMoreActions.Click += GridPopupMoreOptions_Click;
+
                 MainForm.GroupByMenu.DropDownOpening += GroupByMenu_DropDownOpening;
                 MainForm.GroupByArtistAlbum.Click += GroupByArtistAlbum_Click;
                 MainForm.GroupByArtist.Click += GroupByArtist_Click;
@@ -49,6 +54,7 @@
                 MainForm.GroupByYear.Click += GroupByYear_Click;
                 MainForm.GroupByGenre.Click += GroupByGenre_Click;
                 MainForm.GroupByTitle.Click += GroupByTitle_Click;
+
                 View.Child = new GridElement();
                 InitColumns();
                 DataGrid.SelectionChanged += Grid_SelectionChanged;
@@ -94,6 +100,16 @@
         private void GroupByYear_Click(object sender, EventArgs e) => SetQuery(Query.ByYear);
         private void GroupByGenre_Click(object sender, EventArgs e) => SetQuery(Query.ByGenre);
         private void GroupByTitle_Click(object sender, EventArgs e) => SetQuery(Query.ByTitle);
+
+        #endregion
+
+        #region Event Handlers
+
+        private void GridPopupMenu_Opening(object sender, CancelEventArgs e) =>
+            MainForm.TablePopupMoreActions.Enabled = Selection.SelectedFoldersCount == 1;
+
+        private void GridPopupMoreOptions_Click(object sender, EventArgs e) => PopupShellContextMenu();
+        private void PopupSelectColumns_Click(object sender, EventArgs e) => EditTagVisibility();
 
         #endregion
 

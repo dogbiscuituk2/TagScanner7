@@ -39,7 +39,7 @@
             this.TablePopupPaste = new System.Windows.Forms.ToolStripMenuItem();
             this.TablePopupDelete = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem14 = new System.Windows.Forms.ToolStripSeparator();
-            this.TablePopupTags = new System.Windows.Forms.ToolStripMenuItem();
+            this.TablePopupSelectColumns = new System.Windows.Forms.ToolStripMenuItem();
             this.TablePopupMoreActions = new System.Windows.Forms.ToolStripMenuItem();
             this.FilterPanel = new System.Windows.Forms.GroupBox();
             this.FilterPopupMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
@@ -59,6 +59,7 @@
             this.PopupMatchCase = new System.Windows.Forms.ToolStripMenuItem();
             this.PopupWholeWord = new System.Windows.Forms.ToolStripMenuItem();
             this.PopupUseRegex = new System.Windows.Forms.ToolStripMenuItem();
+            this.PopupPreserveCase = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem15 = new System.Windows.Forms.ToolStripSeparator();
             this.PopupFindNext = new System.Windows.Forms.ToolStripMenuItem();
             this.PopupFindPrevious = new System.Windows.Forms.ToolStripMenuItem();
@@ -85,7 +86,6 @@
             this.AddFileDialog = new System.Windows.Forms.OpenFileDialog();
             this.ToolStripContainer = new System.Windows.Forms.ToolStripContainer();
             this.StatusBar = new System.Windows.Forms.StatusStrip();
-            this.PopupPreserveCase = new System.Windows.Forms.ToolStripMenuItem();
             this.FilterControl = new TagScanner.Controls.FilterControl();
             this.FindReplaceControl = new TagScanner.Forms.FindReplaceControl();
             this.MediaPlayer = new AxWMPLib.AxWindowsMediaPlayer();
@@ -268,7 +268,7 @@
             this.TablePopupPaste,
             this.TablePopupDelete,
             this.toolStripMenuItem14,
-            this.TablePopupTags,
+            this.TablePopupSelectColumns,
             this.TablePopupMoreActions});
             this.TablePopupMenu.Name = "PopupMenu";
             this.TablePopupMenu.Size = new System.Drawing.Size(166, 170);
@@ -339,11 +339,11 @@
             this.toolStripMenuItem14.Name = "toolStripMenuItem14";
             this.toolStripMenuItem14.Size = new System.Drawing.Size(162, 6);
             // 
-            // TablePopupTags
+            // TablePopupSelectColumns
             // 
-            this.TablePopupTags.Name = "TablePopupTags";
-            this.TablePopupTags.Size = new System.Drawing.Size(165, 22);
-            this.TablePopupTags.Text = "&Select Columns...";
+            this.TablePopupSelectColumns.Name = "TablePopupSelectColumns";
+            this.TablePopupSelectColumns.Size = new System.Drawing.Size(165, 22);
+            this.TablePopupSelectColumns.Text = "&Select Columns...";
             // 
             // TablePopupMoreActions
             // 
@@ -534,6 +534,13 @@
             this.PopupUseRegex.Size = new System.Drawing.Size(196, 22);
             this.PopupUseRegex.Text = "Use R&egex";
             // 
+            // PopupPreserveCase
+            // 
+            this.PopupPreserveCase.Name = "PopupPreserveCase";
+            this.PopupPreserveCase.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Alt | System.Windows.Forms.Keys.V)));
+            this.PopupPreserveCase.Size = new System.Drawing.Size(196, 22);
+            this.PopupPreserveCase.Text = "Preser&ve Case";
+            // 
             // toolStripMenuItem15
             // 
             this.toolStripMenuItem15.Name = "toolStripMenuItem15";
@@ -702,13 +709,13 @@
             // RecentLibraryPopupMenu
             // 
             this.RecentLibraryPopupMenu.Name = "RecentLibraryPopupMenu";
-            this.RecentLibraryPopupMenu.OwnerItem = this.FileReopen;
+            this.RecentLibraryPopupMenu.OwnerItem = this.AddRecentLibrary;
             this.RecentLibraryPopupMenu.Size = new System.Drawing.Size(61, 4);
             // 
             // RecentFolderPopupMenu
             // 
             this.RecentFolderPopupMenu.Name = "RecentFolderPopupMenu";
-            this.RecentFolderPopupMenu.OwnerItem = this.AddRecentFolder;
+            this.RecentFolderPopupMenu.OwnerItem = this.tbAddRecentFolder;
             this.RecentFolderPopupMenu.Size = new System.Drawing.Size(61, 4);
             // 
             // UndoPopupMenu
@@ -767,13 +774,6 @@
             this.StatusBar.Size = new System.Drawing.Size(784, 22);
             this.StatusBar.TabIndex = 10;
             this.StatusBar.Text = "Status";
-            // 
-            // PopupPreserveCase
-            // 
-            this.PopupPreserveCase.Name = "PopupPreserveCase";
-            this.PopupPreserveCase.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Alt | System.Windows.Forms.Keys.V)));
-            this.PopupPreserveCase.Size = new System.Drawing.Size(196, 22);
-            this.PopupPreserveCase.Text = "Preser&ve Case";
             // 
             // FilterControl
             // 
@@ -1564,7 +1564,7 @@
 		public System.Windows.Forms.FolderBrowserDialog AddFolderDialog;
 		public System.Windows.Forms.OpenFileDialog AddFileDialog;
 		public System.Windows.Forms.ContextMenuStrip TablePopupMenu;
-		public System.Windows.Forms.ToolStripMenuItem TablePopupTags;
+		public System.Windows.Forms.ToolStripMenuItem TablePopupSelectColumns;
 		public System.Windows.Forms.TabControl TabControl;
 		public System.Windows.Forms.TabPage tabTags;
 		public System.Windows.Forms.PropertyGrid PropertyGrid;
