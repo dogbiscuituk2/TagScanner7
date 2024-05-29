@@ -14,6 +14,7 @@
     using Properties;
     using Terms;
     using Utils;
+    using static System.Windows.Forms.Design.AxImporter;
 
     public class FindReplaceController : Controller
     {
@@ -280,8 +281,8 @@
 
         #region Private Methods
 
-        private void FindNext() => FindStep(+1);
-        private void FindPrevious() => FindStep(-1);
+        private void FindNext() => FindStep(delta: +1);
+        private void FindPrevious() => FindStep(delta: -1);
         private void Hide() => ShowFindReplace(visible: false);
         private void Resize() => CbFind.Size = CbReplace.Size = new Size(View.Width - 81, CbFind.Height);
         private void Show(bool replace) => ShowFindReplace(visible: true, replacing: replace);
@@ -289,8 +290,8 @@
         private void TogglePreserveCase() => PreserveCase ^= true;
         private void ToggleUseRegex() => UseRegex ^= true;
         private void ToggleWholeWord() => WholeWord ^= true;
-        private void UpdateFindItems() => AppController.UpdateFindItems(CbFind.Items, CbFind.Text);
-        private void UpdateReplaceItems() => AppController.UpdateReplaceItems(CbReplace.Items, CbReplace.Text);
+        private void UpdateFindItems() => AppController.UpdateFindItems(items: CbFind.Items, item: CbFind.Text);
+        private void UpdateReplaceItems() => AppController.UpdateReplaceItems(items: CbReplace.Items, item: CbReplace.Text);
 
         private void ChooseSearchFields()
         {
@@ -305,6 +306,7 @@
             if (!SearchValid)
             {
                 UpdateFindItems();
+                UpdateReplaceItems();
                 var term = MakeCondition();
                 AppController.AddFilter(term.ToString());
                 var visibleTracks = VisibleTracks;
@@ -335,7 +337,7 @@
                     modified: false);
         }
 
-        private void FindStep(int delta)
+        private bool FindStep(int delta)
         {
             UpdateFindButton(forward: delta > 0);
             if (SearchValid)
@@ -349,11 +351,12 @@
             else
                 Find();
             if (SearchIndex < 0 || SearchIndex >= SearchCount)
-                return;
+                return false;
             var track = Selection.Tracks[SearchIndex];
             MainTableController.Selection = new Selection(new[] { track });
             DataGrid.ScrollIntoView(track);
             DataGrid.Focus();
+            return true;
         }
 
         private Term MakeCondition()
@@ -372,9 +375,40 @@
                 CaseSensitive);
         }
 
-        private void ReplaceAll()
+        private bool Replace(bool all)
         {
-            UpdateReplaceItems();
+            if (!FindStep(+1))
+                return false;
+            var tags = SearchTags.ToList();
+            var tagsCount = tags.Count();
+            var tracks = Selection.Tracks;
+            if (!all)
+                tracks = new List<Track> { tracks[SearchIndex] };
+            var tracksCount = tracks.Count;
+            var values = new object[tracksCount, tagsCount];
+            var pattern = SearchPattern;
+            var options = RegexOptions;
+            for (var trackIndex = 0; trackIndex < tracksCount; trackIndex++)
+            {
+                var track = tracks[trackIndex];
+                for (var tagIndex = 0; tagIndex < tagsCount; tagIndex++)
+                {
+                    var tag = tags[tagIndex];
+                    var value = track.GetPropertyValue(tag).ToString();
+                    if (Regex.IsMatch(value, pattern, options))
+                        value = Regex.Replace(value, pattern, CbReplace.Text, options);
+                    values[trackIndex, tagIndex] = value;
+                }
+            }
+            var command = new ReplaceCommand(new Selection(tracks), tags.ToArray(), values);
+            MainCommandProcessor.Run(command);
+            return true;
+        }
+
+        private void ReplaceAll() => Replace(all: true);
+        private void ReplaceNext() => Replace(all: false);
+
+        /*{
             if (Find())
             {
                 var tracks = Selection.Tracks;
@@ -399,12 +433,29 @@
                 var command = new ReplaceCommand(Selection, tags.ToArray(), values);
                 MainCommandProcessor.Run(command);
             }
-        }
+        }*/
 
-        private void ReplaceNext()
+        /*private bool ReplaceNext()
         {
-            UpdateReplaceItems();
-        }
+            if (!FindStep(+1))
+                return false;
+            var track = Selection.Tracks[SearchIndex];
+            var tags = SearchTags.ToList();
+            var tagsCount = tags.Count();
+            var values = new object[tracksCount, tagsCount];
+            var pattern = SearchPattern;
+            var options = RegexOptions;
+            for (var tagIndex = 0; tagIndex < tagsCount; tagIndex++)
+            {
+                var tag = tags[tagIndex];
+                var value = track.GetPropertyValue(tag).ToString();
+                if (Regex.IsMatch(value, pattern, options))
+                    value = Regex.Replace(value, pattern, CbReplace.Text, options);
+                values[0, tagIndex] = value;
+            }
+
+            return true;
+        }*/
 
         private void ShowFindReplace(bool visible, bool replacing = false)
         {
