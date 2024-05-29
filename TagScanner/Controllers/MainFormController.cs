@@ -9,13 +9,13 @@
     using System.Text;
     using System.Windows.Forms;
     using Commands;
+    using Forms;
     using Models;
     using Mru;
     using Properties;
     using Streaming;
-    using TagScanner.Terms;
+    using Terms;
     using Utils;
-    using Forms;
     using Wpf;
 
     public class MainFormController : Controller
@@ -416,7 +416,7 @@
             return result;
         }
 
-        private void Say(StringBuilder message, List<Track> tracks, FileStatus status, string format)
+        private static void Say(StringBuilder message, List<Track> tracks, FileStatus status, string format)
         {
             var count = tracks.Count(t => (t.FileStatus & status) != 0);
             if (count > 0)
