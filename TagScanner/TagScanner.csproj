@@ -230,6 +230,7 @@
     <Compile Include="Terms\TryBlock.cs" />
     <Compile Include="Terms\Types.cs" />
     <Compile Include="Terms\Variable.cs" />
+    <Compile Include="Utils\CharCase.cs" />
     <Compile Include="Utils\Ink.cs" />
     <Compile Include="Utils\Inks.cs" />
     <Compile Include="Controllers\Controller.cs" />
@@ -423,6 +424,7 @@
     <None Include="Resources\frEdit.png" />
     <Content Include="Resources\frFindNext.png" />
     <None Include="Resources\frFindPrevious.png" />
+    <None Include="Resources\frPreserveCase.png" />
     <Content Include="Resources\frRegex.png" />
     <Content Include="Resources\frReplaceAll.png" />
     <Content Include="Resources\frReplaceNext.png" />

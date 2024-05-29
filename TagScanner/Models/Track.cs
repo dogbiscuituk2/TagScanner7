@@ -145,7 +145,7 @@
         }
 
         [JsonIgnore, XmlIgnore]
-        public string Century => Year > 0 ? ((long)(Year + 99) / 100).AsOrdinal() : string.Empty;
+        public string Century => Year > 0 ? ((ulong)(Year + 99) / 100).AsOrdinal() : string.Empty;
 
         private string _codecs = string.Empty;
         [DefaultValue("")]
@@ -640,7 +640,7 @@
         }
 
         [JsonIgnore, XmlIgnore]
-        public string Millennium => Year > 0 ? ((long)(Year + 999) / 1000).AsOrdinal() : string.Empty;
+        public string Millennium => Year > 0 ? ((ulong)(Year + 999) / 1000).AsOrdinal() : string.Empty;
 
         private string _mimeType = string.Empty;
         [DefaultValue("")]

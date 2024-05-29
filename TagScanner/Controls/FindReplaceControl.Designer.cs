@@ -36,7 +36,7 @@
             this.tbFindPrevious = new System.Windows.Forms.ToolStripMenuItem();
             this.tbFindAll = new System.Windows.Forms.ToolStripMenuItem();
             this.tbFindClose = new System.Windows.Forms.ToolStripButton();
-            this.tbCloseUp = new System.Windows.Forms.ToolStripButton();
+            this.tbPreserveCase = new System.Windows.Forms.ToolStripButton();
             this.cbReplace = new System.Windows.Forms.ToolStripComboBox();
             this.tbReplaceNext = new System.Windows.Forms.ToolStripButton();
             this.tbReplaceAll = new System.Windows.Forms.ToolStripButton();
@@ -55,7 +55,7 @@
             this.cbFind,
             this.tbFind,
             this.tbFindClose,
-            this.tbCloseUp,
+            this.tbPreserveCase,
             this.cbReplace,
             this.tbReplaceNext,
             this.tbReplaceAll,
@@ -139,16 +139,15 @@
             this.tbFindClose.Text = "toolStripButton2";
             this.tbFindClose.ToolTipText = "Close find/replace";
             // 
-            // tbCloseUp
+            // tbPreserveCase
             // 
-            this.tbCloseUp.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.tbCloseUp.Enabled = false;
-            this.tbCloseUp.Image = global::TagScanner.Properties.Resources.frBlank;
-            this.tbCloseUp.ImageTransparentColor = System.Drawing.Color.White;
-            this.tbCloseUp.Name = "tbCloseUp";
-            this.tbCloseUp.Size = new System.Drawing.Size(23, 20);
-            this.tbCloseUp.Text = "toolStripButton3";
-            this.tbCloseUp.ToolTipText = " Toggle to switch between find and replace modes";
+            this.tbPreserveCase.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.tbPreserveCase.Image = global::TagScanner.Properties.Resources.frPreserveCase;
+            this.tbPreserveCase.ImageTransparentColor = System.Drawing.Color.White;
+            this.tbPreserveCase.Name = "tbPreserveCase";
+            this.tbPreserveCase.Size = new System.Drawing.Size(23, 20);
+            this.tbPreserveCase.Text = "toolStripButton3";
+            this.tbPreserveCase.ToolTipText = "Preserve case (Alt+V)";
             // 
             // cbReplace
             // 
@@ -237,7 +236,7 @@
         public System.Windows.Forms.ToolStripComboBox cbFind;
         public System.Windows.Forms.ToolStripSplitButton tbFind;
         public System.Windows.Forms.ToolStripButton tbFindClose;
-        public System.Windows.Forms.ToolStripButton tbCloseUp;
+        public System.Windows.Forms.ToolStripButton tbPreserveCase;
         public System.Windows.Forms.ToolStripComboBox cbReplace;
         public System.Windows.Forms.ToolStripButton tbReplaceNext;
         public System.Windows.Forms.ToolStripButton tbReplaceAll;

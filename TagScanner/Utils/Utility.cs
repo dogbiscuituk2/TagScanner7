@@ -18,7 +18,7 @@
         #region Public Interface
 
         public static Logical AsLogical(this bool value) => value ? Logical.Yes : Logical.No;
-        public static string AsOrdinal(this long number) => string.Concat(number, GetSuffix(number));
+        public static string AsOrdinal(this ulong number) => string.Concat(number, GetSuffix(number));
 
         public static RegexOptions AsRegexOptions(this bool caseSensitive) =>
             caseSensitive ? RegexOptions.None : RegexOptions.IgnoreCase;
@@ -287,9 +287,59 @@
 
         #endregion
 
+        #region CharCase
+
+        public static CharCase GetCase(this string input)
+        {
+            if (input.IsCase(CharCase.caMel)) return CharCase.caMel;
+            if (input.IsCase(CharCase.PasCal)) return CharCase.PasCal;
+            if (input.IsCase(CharCase.lower)) return CharCase.lower;
+            if (input.IsCase(CharCase.UPPER)) return CharCase.UPPER;
+            return 0;
+        }
+
+        public static string GetRegexPattern(this CharCase charCase)
+        {
+            switch (charCase)
+            {
+                case CharCase.lower: return @"^[\P{Lu}]*$"; // Contains no uppercase letters.
+                case CharCase.UPPER: return @"^[\P{Ll}]*$"; // Contains no lowercase letters.
+                case CharCase.caMel: return @"^[\P{Lu}]*[\p{Ll}].*[\p{Lu}].*"; // First letter is lowercase, but contains also uppercase letter(s).
+                case CharCase.PasCal: return @"^[\P{Ll}]*[\p{Lu}].*[\p{Ll}].*"; // First letter is uppercase, but contains also lowercase letter(s).
+                default: return ".*"; // Anything else.
+            }
+        }
+
+        public static bool IsCase(this string input, CharCase charCase) => Regex.IsMatch(input, charCase.GetRegexPattern());
+
+        /// <summary>
+        /// Apply the character casing of a sample string to an output string.
+        /// </summary>
+        /// <param name="sample">The sample string.</param>
+        /// <param name="output">The output string.</param>
+        /// <returns>The output string, possibly modified to match the character casing of the provided sample string.</returns>
+        public static string PreserveCase(this string sample, string output)
+        {
+            CharCase
+                from = sample.GetCase(),
+                to = output.GetCase();
+            if (to == from // Casings already match.
+                || to == CharCase.lower && from != CharCase.UPPER // No case data in output string.
+                || to == CharCase.UPPER && from != CharCase.lower //
+                ) return output;
+            if (from == CharCase.lower) return output.ToLowerInvariant();
+            if (from == CharCase.UPPER) return output.ToUpperInvariant();
+            // Otherwise, just invert the case of the first output letter to convert between caMel & PasCal.
+            return Regex.Replace(output, @"([\p{L}])", Convert);
+
+            string Convert(Match m) => m.Groups[1].Value;
+        }
+
+        #endregion
+
         #region Private Implementation
 
-        private static string GetSuffix(long number)
+        private static string GetSuffix(ulong number)
         {
             switch (number % 100)
             {

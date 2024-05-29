@@ -580,6 +580,16 @@ namespace TagScanner.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap frPreserveCase {
+            get {
+                object obj = ResourceManager.GetObject("frPreserveCase", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap frRegex {
             get {
                 object obj = ResourceManager.GetObject("frRegex", resourceCulture);

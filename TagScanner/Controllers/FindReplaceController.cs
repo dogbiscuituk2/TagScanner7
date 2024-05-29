@@ -28,7 +28,7 @@
             TbFindPrevious = View.tbFindPrevious;
             TbFindAll = View.tbFindAll;
             TbFindClose = View.tbFindClose;
-            TbCloseUp = View.tbCloseUp;
+            TbPreserveCase = View.tbPreserveCase;
             CbReplace = View.cbReplace;
             TbReplaceNext = View.tbReplaceNext;
             TbReplaceAll = View.tbReplaceAll;
@@ -49,6 +49,7 @@
             MainForm.PopupMatchCase.Click += TbCaseSensitive_Click;
             MainForm.PopupWholeWord.Click += TbWholeWord_Click;
             MainForm.PopupUseRegex.Click += TbUseRegex_Click;
+            MainForm.PopupPreserveCase.Click += TbPreserveCase_Click;
             MainForm.PopupFindNext.Click += TbFindNext_Click;
             MainForm.PopupFindPrevious.Click += TbFindPrevious_Click;
             MainForm.PopupFindAll.Click += TbFindAll_Click;
@@ -64,9 +65,9 @@
             TbFindPrevious.Click += TbFindPrevious_Click;
             TbFindAll.Click += TbFindAll_Click;
             TbFindClose.Click += TbFindClose_Click;
+            TbPreserveCase.Click += TbPreserveCase_Click;
             CbReplace.DropDown += CbReplace_DropDown;
             CbReplace.TextChanged += CbReplace_TextChanged;
-            TbCloseUp.Click += TbCloseUp_Click;
             TbReplaceNext.Click += TbReplaceNext_Click;
             TbReplaceAll.Click += TbReplaceAll_Click;
             TbCaseSensitive.Click += TbCaseSensitive_Click;
@@ -128,9 +129,9 @@
 
         private readonly ToolStripButton
             TbCaseSensitive,
-            TbCloseUp,
             TbDropDown,
             TbFindClose,
+            TbPreserveCase,
             TbReplaceAll,
             TbReplaceNext,
             TbSearchFields,
@@ -183,12 +184,18 @@
             }
         }
 
+        private bool PreserveCase
+        {
+            get => TbPreserveCase.Checked;
+            set => TbPreserveCase.Checked = value;
+        }
+
         private bool Replacing
         {
-            get => TbCloseUp.Visible;
+            get => CbReplace.Visible;
             set
             {
-                TbCloseUp.Visible =
+                TbPreserveCase.Visible =
                     CbReplace.Visible =
                     TbReplaceNext.Visible =
                     TbReplaceAll.Visible =
@@ -252,13 +259,13 @@
         private void EditFind_Click(object sender, EventArgs e) => Show(replace: false);
         private void EditReplace_Click(object sender, EventArgs e) => Show(replace: true);
         private void TbCaseSensitive_Click(object sender, EventArgs e) => ToggleCaseSensitive();
-        private void TbCloseUp_Click(object sender, EventArgs e) => Show(replace: false);
         private void TbDropDown_Click(object sender, EventArgs e) => Show(replace: !Replacing);
         private void TbFind_ButtonClick(object sender, EventArgs e) { if (SearchForward) FindNext(); else FindPrevious(); }
         private void TbFindAll_Click(object sender, EventArgs e) => FindAll();
         private void TbFindClose_Click(object sender, EventArgs e) => ShowFindReplace(visible: false);
         private void TbFindNext_Click(object sender, EventArgs e) => FindNext();
         private void TbFindPrevious_Click(object sender, EventArgs e) => FindPrevious();
+        private void TbPreserveCase_Click(object sender, EventArgs e) => TogglePreserveCase();
         private void TbReplaceAll_Click(object sender, EventArgs e) => ReplaceAll();
         private void TbReplaceNext_Click(object sender, EventArgs e) => ReplaceNext();
         private void TbSearchFields_Click(object sender, EventArgs e) => ChooseSearchFields();
@@ -274,6 +281,7 @@
         private void Resize() => CbFind.Size = CbReplace.Size = new Size(View.Width - 81, CbFind.Height);
         private void Show(bool replace) => ShowFindReplace(visible: true, replacing: replace);
         private void ToggleCaseSensitive() => CaseSensitive ^= true;
+        private void TogglePreserveCase() => PreserveCase ^= true;
         private void ToggleUseRegex() => UseRegex ^= true;
         private void ToggleWholeWord() => WholeWord ^= true;
         private void UpdateFindItems() => AppController.UpdateFindItems(CbFind.Items, CbFind.Text);
