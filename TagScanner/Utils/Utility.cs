@@ -15,9 +15,193 @@
 
     public static class Utility
     {
-        #region Public Interface
+        #region CharCase
 
-        public static Logical AsLogical(this bool value) => value ? Logical.Yes : Logical.No;
+        public static CharCase GetCase(this string input)
+        {
+            if (input.IsCase(CharCase.caMel)) return CharCase.caMel;
+            if (input.IsCase(CharCase.PasCal)) return CharCase.PasCal;
+            if (input.IsCase(CharCase.lower)) return CharCase.lower;
+            if (input.IsCase(CharCase.UPPER)) return CharCase.UPPER;
+            return 0;
+        }
+
+        public static string GetRegexPattern(this CharCase charCase)
+        {
+            switch (charCase)
+            {
+                case CharCase.lower: return @"^[\P{Lu}]*$"; // Contains no uppercase letters.
+                case CharCase.UPPER: return @"^[\P{Ll}]*$"; // Contains no lowercase letters.
+                case CharCase.caMel: return @"^[\P{Lu}]*[\p{Ll}].*[\p{Lu}].*"; // First letter is lowercase, but contains also uppercase letter(s).
+                case CharCase.PasCal: return @"^[\P{Ll}]*[\p{Lu}].*[\p{Ll}].*"; // First letter is uppercase, but contains also lowercase letter(s).
+                default: return ".*"; // Anything else.
+            }
+        }
+
+        public static bool IsCase(this string input, CharCase charCase) => Regex.IsMatch(input, charCase.GetRegexPattern());
+
+        /// <summary>
+        /// Apply the character casing of a sample string to an output string.
+        /// </summary>
+        /// <param name="sample">The sample string.</param>
+        /// <param name="output">The output string.</param>
+        /// <returns>The output string, possibly modified to match the character casing of the provided sample string.</returns>
+        public static string PreserveCase(this string sample, string output)
+        {
+            CharCase
+                from = sample.GetCase(),
+                to = output.GetCase();
+            if (to == from // Casings already match.
+                || to == CharCase.lower && from != CharCase.UPPER // No case data in output string.
+                || to == CharCase.UPPER && from != CharCase.lower //
+                ) return output;
+            if (from == CharCase.lower) return output.ToLowerInvariant();
+            if (from == CharCase.UPPER) return output.ToUpperInvariant();
+            // Otherwise, just invert the case of the first output letter to convert between caMel & PasCal.
+            var s = Regex.Match(output, @"^([\P{L}]*)([\p{L}])(.*)").Groups;
+            return $"{s[1].Value}{s[2].Value[0].ToggleCase()}{s[3].Value}";
+        }
+
+        public static char ToggleCase(this char c) => char.IsLower(c) ? char.ToUpperInvariant(c) : char.ToLowerInvariant(c);
+
+        #endregion
+        #region Exceptions
+
+        public static string GetAllExceptionTypes(this Exception exception)
+        {
+            var result = exception.GetType().Name;
+            while (exception.InnerException != null)
+            {
+                exception = exception.InnerException;
+                result = $"{result} ({exception.GetType().Name})";
+            }
+            return result;
+        }
+
+        public static string GetAllInformation(this Exception exception)
+        {
+            var result = $"{exception.GetType().Name}: {exception.Message}";
+            while (exception.InnerException != null)
+            {
+                exception = exception.InnerException;
+                result = $"{result} ({exception.GetType().Name}: {exception.Message})";
+            }
+            return result;
+        }
+
+        public static string GetAllMessages(this Exception exception)
+        {
+            var result = exception.Message;
+            while (exception.InnerException != null)
+            {
+                exception = exception.InnerException;
+                result = $"{result} ({exception.Message})";
+            }
+            return result;
+        }
+
+        public static void LogException(
+            this Exception ex,
+            [CallerFilePath] string filePath = "",
+            [CallerMemberName] string memberName = "",
+            [CallerLineNumber] int lineNumber = 0)
+        {
+            Debug.WriteLine($"File Path: {filePath}");
+            Debug.WriteLine($"Member Name: {memberName}");
+            Debug.WriteLine($"Line Number: {lineNumber}");
+            while (true)
+            {
+                Debug.WriteLine("{0} - {1}", ex.GetType(), ex.Message);
+                ex = ex.InnerException;
+                if (ex == null)
+                    break;
+            }
+        }
+
+        public static void ShowDialog(this Exception exception, IWin32Window owner = null) => exception.ShowDialog(owner, string.Empty);
+        public static void ShowDialog(this Exception exception, string text) => exception.ShowDialog(null, text);
+
+        public static void ShowDialog(this Exception exception, IWin32Window owner, string text) =>
+            MessageBox.Show(owner,
+                $"{exception.GetAllMessages()}. {text}",
+                exception.GetAllExceptionTypes(),
+                MessageBoxButtons.OK,
+                MessageBoxIcon.Error);
+
+        #endregion
+        #region Files
+
+        /// <summary>
+        /// Find the longest initial segment of filesystem path shared by a given set of paths.
+        /// Where multiple distinct paths are supplied, this will be the lowest level folder common to all the files.
+        /// In the case of a single file, this will be the full path to that file.
+        /// Adapted from http://rosettacode.org/wiki/Find_common_directory_path#C.23
+        /// </summary>
+        /// <param name="paths">The given set of file paths.</param>
+        /// <returns>The lowest level common folder (or the file path, in the case of a single file).</returns>
+        public static string GetCommonPath(IEnumerable<string> paths)
+        {
+            var result = string.Empty;
+            if (paths != null && paths.Any())
+            {
+                var path = result;
+                var maxLen = paths.Max(p => p.Length);
+                var segments = paths.First(p => p.Length == maxLen).Split('\\').ToList();
+                for (var index = 0; index < segments.Count; index++)
+                {
+                    var segment = $"{path}{segments[index]}";
+                    if (!paths.All(p => p.StartsWith(segment)))
+                        break;
+                    path = segment;
+                    if (index < segments.Count - 1)
+                        path = $"{path}\\";
+                }
+                result = path;
+            }
+            return result;
+        }
+
+        public static Language GetLanguage(this string fileName)
+        {
+            var ext = Path.GetExtension(fileName);
+            switch (ext.ToLowerInvariant())
+            {
+                case ".cs": return Language.CSharp;
+                case ".vb": return Language.VB;
+                case ".html": return Language.HTML;
+                case ".xml": return Language.XML;
+                case ".sql": return Language.SQL;
+                case ".php": return Language.PHP;
+                case ".js": return Language.JS;
+                case ".lua": return Language.Lua;
+                default: return Language.Custom;
+            }
+        }
+
+        /// <summary>
+        /// Note that Path.GetInvalidFileNameChars() returns all the same characters as Path.GetInvalidPathChars() used in the companion method IsValidFilePath(),
+        /// but with the additions that the colon : asterisk * question mark ? slash / and backslash \ are also considered invalid.
+        /// </summary>
+        /// <param name="filePath"></param>
+        /// <returns></returns>
+        public static bool IsValidFileName(this string s) => s.IndexOfAny(Path.GetInvalidFileNameChars()) < 0;
+
+        /// <summary>
+        /// Note that Path.GetInvalidPathChars() returns all the same characters as Path.GetInvalidFileNameChars() used in the companion method IsValidFileName(),
+        /// with the exception that the colon : asterisk * question mark ? slash / and backslash \ are considered valid.
+        /// </summary>
+        /// <param name="filePath"></param>
+        /// <returns></returns>
+        public static bool IsValidFilePath(this string s) => s.IndexOfAny(Path.GetInvalidPathChars()) < 0;
+
+        #endregion
+        #region Graphics
+
+        public static RectangleF Expand(this RectangleF r) => r.IsEmpty ? r : new RectangleF(r.X, r.Y, r.Width + 99, r.Height);
+
+        #endregion
+        #region Strings
+
         public static string AsOrdinal(this ulong number) => string.Concat(number, GetSuffix(number));
 
         public static RegexOptions AsRegexOptions(this bool caseSensitive) =>
@@ -98,70 +282,44 @@
         }*/
 
         public static string Escape(this string s, char c = '&') => s.Replace($"{c}", $"{c}{c}");
-        public static RectangleF Expand(this RectangleF r) => r.IsEmpty ? r : new RectangleF(r.X, r.Y, r.Width + 99, r.Height);
 
-        public static string GetAllExceptionTypes(this Exception exception)
+        public static string GetIndex(this string s) => string.IsNullOrWhiteSpace(s) ? " " : (s.ToUpper() + " ").Substring(0, 1);
+
+        public static string GetSuffix(ulong number)
         {
-            var result = exception.GetType().Name;
-            while (exception.InnerException != null)
+            switch (number % 100)
             {
-                exception = exception.InnerException;
-                result = $"{result} ({exception.GetType().Name})";
+                case 11:
+                case 12:
+                case 13:
+                    return "th";
             }
-            return result;
+            switch (number % 10)
+            {
+                case 1: return "st";
+                case 2: return "nd";
+                case 3: return "rd";
+            }
+            return "th";
         }
 
-        public static string GetAllInformation(this Exception exception)
-        {
-            var result = $"{exception.GetType().Name}: {exception.Message}";
-            while (exception.InnerException != null)
-            {
-                exception = exception.InnerException;
-                result = $"{result} ({exception.GetType().Name}: {exception.Message})";
-            }
-            return result;
-        }
+        public static bool IsComment(this string text) => text.StartsWith("/*") || text.StartsWith("//");
 
-        public static string GetAllMessages(this Exception exception)
-        {
-            var result = exception.Message;
-            while (exception.InnerException != null)
-            {
-                exception = exception.InnerException;
-                result = $"{result} ({exception.Message})";
-            }
-            return result;
-        }
+        public static string Range(this string s, CharacterRange range) => s.Substring(range.First, range.Length);
 
-        /// <summary>
-        /// Find the longest initial segment of filesystem path shared by a given set of paths.
-        /// Where multiple distinct paths are supplied, this will be the lowest level folder common to all the files.
-        /// In the case of a single file, this will be the full path to that file.
-        /// Adapted from http://rosettacode.org/wiki/Find_common_directory_path#C.23
-        /// </summary>
-        /// <param name="paths">The given set of file paths.</param>
-        /// <returns>The lowest level common folder (or the file path, in the case of a single file).</returns>
-        public static string GetCommonPath(IEnumerable<string> paths)
-        {
-            var result = string.Empty;
-            if (paths != null && paths.Any())
-            {
-                var path = result;
-                var maxLen = paths.Max(p => p.Length);
-                var segments = paths.First(p => p.Length == maxLen).Split('\\').ToList();
-                for (var index = 0; index < segments.Count; index++)
-                {
-                    var segment = $"{path}{segments[index]}";
-                    if (!paths.All(p => p.StartsWith(segment)))
-                        break;
-                    path = segment;
-                    if (index < segments.Count - 1)
-                        path = $"{path}\\";
-                }
-                result = path;
-            }
-            return result;
-        }
+        public static string StringsToText(this IEnumerable<string> strings) => strings == null || !strings.Any()
+            ? string.Empty
+            : strings.Aggregate((p, q) => $"{p}{Environment.NewLine}{q}");
+
+        public static Tag TagFromString(this string tag) => (Tag)Enum.Parse(typeof(Tag), tag);
+
+        public static string[] TextToStrings(this string text) => text == null
+            ? Array.Empty<string>()
+            : text.Split(new[] { Environment.NewLine }, StringSplitOptions.None);
+
+        #endregion
+        #region Types
+        public static Logical AsLogical(this bool value) => value ? Logical.Yes : Logical.No;
 
         /// <summary>
         /// Find the "best" type to represent the result of a dyadic operation using the given operands.
@@ -181,7 +339,7 @@
                 return typeof(object);
             // If one is a value type and the other not, then use "object".
             if (type1.IsValueType ^ type2.IsValueType)
-                    return typeof(object);
+                return typeof(object);
             // Otherwise, use the "wider" of the two different non-null types.
             return MatchType(typeof(double), type1, type2) // Type "double" absorbs any "float", "int" or "long".
                 ?? MatchType(typeof(float), type1, type2) // Type "float" absorbs any "long" or "int".
@@ -206,155 +364,6 @@
                         type = type.GetCommonType(types[index]);
                     return type;
             }
-        }
-
-        public static string GetIndex(this string s) => string.IsNullOrWhiteSpace(s) ? " " : (s.ToUpper() + " ").Substring(0, 1);
-
-        public static Language GetLanguage(this string fileName)
-        {
-            var ext = Path.GetExtension(fileName);
-            switch (ext.ToLowerInvariant())
-            {
-                case ".cs": return Language.CSharp;
-                case ".vb": return Language.VB;
-                case ".html": return Language.HTML;
-                case ".xml": return Language.XML;
-                case ".sql": return Language.SQL;
-                case ".php": return Language.PHP;
-                case ".js": return Language.JS;
-                case ".lua": return Language.Lua;
-                default: return Language.Custom;
-            }
-        }
-
-        public static bool IsComment(this string text) => text.StartsWith("/*") || text.StartsWith("//");
-
-        /// <summary>
-        /// Note that Path.GetInvalidFileNameChars() returns all the same characters as Path.GetInvalidPathChars() used in the companion method IsValidFilePath(),
-        /// but with the additions that the colon : asterisk * question mark ? slash / and backslash \ are also considered invalid.
-        /// </summary>
-        /// <param name="filePath"></param>
-        /// <returns></returns>
-        public static bool IsValidFileName(this string s) => s.IndexOfAny(Path.GetInvalidFileNameChars()) < 0;
-
-        /// <summary>
-        /// Note that Path.GetInvalidPathChars() returns all the same characters as Path.GetInvalidFileNameChars() used in the companion method IsValidFileName(),
-        /// with the exception that the colon : asterisk * question mark ? slash / and backslash \ are considered valid.
-        /// </summary>
-        /// <param name="filePath"></param>
-        /// <returns></returns>
-        public static bool IsValidFilePath(this string s) => s.IndexOfAny(Path.GetInvalidPathChars()) < 0;
-
-        public static void LogException(
-            this Exception ex,
-            [CallerFilePath] string filePath = "",
-            [CallerMemberName] string memberName = "",
-            [CallerLineNumber] int lineNumber = 0)
-        {
-            Debug.WriteLine($"File Path: {filePath}");
-            Debug.WriteLine($"Member Name: {memberName}");
-            Debug.WriteLine($"Line Number: {lineNumber}");
-            while (true)
-            {
-                Debug.WriteLine("{0} - {1}", ex.GetType(), ex.Message);
-                ex = ex.InnerException;
-                if (ex == null)
-                    break;
-            }
-        }
-
-        public static string Range(this string s, CharacterRange range) => s.Substring(range.First, range.Length);
-
-        public static void ShowDialog(this Exception exception, IWin32Window owner = null) => exception.ShowDialog(owner, string.Empty);
-        public static void ShowDialog(this Exception exception, string text) => exception.ShowDialog(null, text);
-
-        public static void ShowDialog(this Exception exception, IWin32Window owner, string text) =>
-            MessageBox.Show(owner,
-                $"{exception.GetAllMessages()}. {text}",
-                exception.GetAllExceptionTypes(),
-                MessageBoxButtons.OK,
-                MessageBoxIcon.Error);
-
-        public static string StringsToText(this IEnumerable<string> strings) => strings == null || !strings.Any()
-            ? string.Empty
-            : strings.Aggregate((p, q) => $"{p}{Environment.NewLine}{q}");
-
-        public static Tag TagFromString(this string tag) => (Tag)Enum.Parse(typeof(Tag), tag);
-
-        public static string[] TextToStrings(this string text) => text == null
-            ? Array.Empty<string>()
-            : text.Split(new[] { Environment.NewLine }, StringSplitOptions.None);
-
-        #endregion
-
-        #region CharCase
-
-        public static CharCase GetCase(this string input)
-        {
-            if (input.IsCase(CharCase.caMel)) return CharCase.caMel;
-            if (input.IsCase(CharCase.PasCal)) return CharCase.PasCal;
-            if (input.IsCase(CharCase.lower)) return CharCase.lower;
-            if (input.IsCase(CharCase.UPPER)) return CharCase.UPPER;
-            return 0;
-        }
-
-        public static string GetRegexPattern(this CharCase charCase)
-        {
-            switch (charCase)
-            {
-                case CharCase.lower: return @"^[\P{Lu}]*$"; // Contains no uppercase letters.
-                case CharCase.UPPER: return @"^[\P{Ll}]*$"; // Contains no lowercase letters.
-                case CharCase.caMel: return @"^[\P{Lu}]*[\p{Ll}].*[\p{Lu}].*"; // First letter is lowercase, but contains also uppercase letter(s).
-                case CharCase.PasCal: return @"^[\P{Ll}]*[\p{Lu}].*[\p{Ll}].*"; // First letter is uppercase, but contains also lowercase letter(s).
-                default: return ".*"; // Anything else.
-            }
-        }
-
-        public static bool IsCase(this string input, CharCase charCase) => Regex.IsMatch(input, charCase.GetRegexPattern());
-
-        /// <summary>
-        /// Apply the character casing of a sample string to an output string.
-        /// </summary>
-        /// <param name="sample">The sample string.</param>
-        /// <param name="output">The output string.</param>
-        /// <returns>The output string, possibly modified to match the character casing of the provided sample string.</returns>
-        public static string PreserveCase(this string sample, string output)
-        {
-            CharCase
-                from = sample.GetCase(),
-                to = output.GetCase();
-            if (to == from // Casings already match.
-                || to == CharCase.lower && from != CharCase.UPPER // No case data in output string.
-                || to == CharCase.UPPER && from != CharCase.lower //
-                ) return output;
-            if (from == CharCase.lower) return output.ToLowerInvariant();
-            if (from == CharCase.UPPER) return output.ToUpperInvariant();
-            // Otherwise, just invert the case of the first output letter to convert between caMel & PasCal.
-            return Regex.Replace(output, @"([\p{L}])", Convert);
-
-            string Convert(Match m) => m.Groups[1].Value;
-        }
-
-        #endregion
-
-        #region Private Implementation
-
-        private static string GetSuffix(ulong number)
-        {
-            switch (number % 100)
-            {
-                case 11:
-                case 12:
-                case 13:
-                    return "th";
-            }
-            switch (number % 10)
-            {
-                case 1: return "st";
-                case 2: return "nd";
-                case 3: return "rd";
-            }
-            return "th";
         }
 
         #endregion

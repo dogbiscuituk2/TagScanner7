@@ -10,8 +10,8 @@
         [TestMethod]
         public void ScratchTest()
         {
-            var sample = "oneTwo";
-            var output = "ThreeFour";
+            var sample = "123 OneTwo";
+            var output = "123 threeFour";
             var result = sample.PreserveCase(output);
             return;
         }

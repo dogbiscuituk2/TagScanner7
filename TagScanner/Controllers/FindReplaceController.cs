@@ -277,6 +277,8 @@
 
         #region Private Methods
 
+        private void FindNext() => FindStep(+1);
+        private void FindPrevious() => FindStep(-1);
         private void Hide() => ShowFindReplace(visible: false);
         private void Resize() => CbFind.Size = CbReplace.Size = new Size(View.Width - 81, CbFind.Height);
         private void Show(bool replace) => ShowFindReplace(visible: true, replacing: replace);
@@ -329,9 +331,6 @@
                     selection: Selection,
                     modified: false);
         }
-
-        private void FindNext() => FindStep(+1);
-        private void FindPrevious() => FindStep(-1);
 
         private void FindStep(int delta)
         {
