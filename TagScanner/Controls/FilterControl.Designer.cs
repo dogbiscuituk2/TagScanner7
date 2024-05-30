@@ -29,8 +29,8 @@
         private void InitializeComponent()
         {
             this.Toolbar = new TagScanner.Controls.FirstClickToolStrip();
-            this.tbCaseSensitive = new System.Windows.Forms.ToolStripButton();
             this.cbFilter = new System.Windows.Forms.ToolStripComboBox();
+            this.tbCaseSensitive = new System.Windows.Forms.ToolStripButton();
             this.tbApply = new System.Windows.Forms.ToolStripButton();
             this.tbClear = new System.Windows.Forms.ToolStripButton();
             this.tbEdit = new System.Windows.Forms.ToolStripButton();
@@ -53,7 +53,14 @@
             this.Toolbar.Name = "Toolbar";
             this.Toolbar.Size = new System.Drawing.Size(349, 23);
             this.Toolbar.TabIndex = 0;
+            this.Toolbar.TabStop = true;
             this.Toolbar.Text = "toolStrip1";
+            // 
+            // cbFilter
+            // 
+            this.cbFilter.Name = "cbFilter";
+            this.cbFilter.Size = new System.Drawing.Size(140, 23);
+            this.cbFilter.ToolTipText = "Enter filter script";
             // 
             // tbCaseSensitive
             // 
@@ -64,12 +71,6 @@
             this.tbCaseSensitive.Size = new System.Drawing.Size(23, 20);
             this.tbCaseSensitive.Text = "Case sensitive";
             this.tbCaseSensitive.ToolTipText = "Case sensitive filter";
-            // 
-            // cbFilter
-            // 
-            this.cbFilter.Name = "cbFilter";
-            this.cbFilter.Size = new System.Drawing.Size(140, 23);
-            this.cbFilter.ToolTipText = "Enter filter script";
             // 
             // tbApply
             // 

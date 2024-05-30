@@ -393,10 +393,11 @@
                 var track = tracks[trackIndex];
                 for (var tagIndex = 0; tagIndex < tagsCount; tagIndex++)
                 {
-                    var tag = tags[tagIndex];
-                    var value = track.GetPropertyValue(tag).ToString();
-                    if (Regex.IsMatch(value, pattern, options))
-                        value = Regex.Replace(value, pattern, CbReplace.Text, options);
+                    var value = track.GetPropertyValue(tags[tagIndex]);
+                    if (value is string s)
+                        value = Regex.Replace(s, pattern, CbReplace.Text, options);
+                    else if (value is string[] ss)
+                        value = ss.Select(p => Regex.Replace(p, pattern, CbReplace.Text, options)).ToArray();
                     values[trackIndex, tagIndex] = value;
                 }
             }

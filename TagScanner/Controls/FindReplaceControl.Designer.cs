@@ -68,6 +68,7 @@
             this.Toolbar.Name = "Toolbar";
             this.Toolbar.Size = new System.Drawing.Size(186, 88);
             this.Toolbar.TabIndex = 1;
+            this.Toolbar.TabStop = true;
             this.Toolbar.Text = "toolStrip1";
             // 
             // tbDropDown
