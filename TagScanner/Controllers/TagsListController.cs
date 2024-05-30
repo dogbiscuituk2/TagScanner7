@@ -1,5 +1,6 @@
 ﻿namespace TagScanner.Controllers
 {
+    using System;
     using System.Collections;
     using System.Collections.Generic;
     using System.Drawing;
@@ -98,7 +99,7 @@
 
         private static ListViewGroup NewGroup(string header) => new ListViewGroup(header) { HeaderAlignment = HorizontalAlignment.Right };
 
-        public override void SetSelectedTags(IEnumerable<Tag> visibleTags)
+        public override void SetSelectedTags(IEnumerable<Tag> visibleTags, Func<Tag, bool> tagFilter)
         {
             var items = Items.Cast<ListViewItem>();
             foreach (var tag in Tags.Keys)

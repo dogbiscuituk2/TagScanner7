@@ -6,6 +6,7 @@
     using Models;
     using Terms;
     using Forms;
+    using System;
 
     public abstract class TagsViewController : Controller
     {
@@ -45,7 +46,7 @@
 
         public abstract IEnumerable<Tag> GetSelectedTags();
         protected abstract void InitGroups();
-        public abstract void SetSelectedTags(IEnumerable<Tag> visibleTags);
+        public abstract void SetSelectedTags(IEnumerable<Tag> visibleTags, Func<Tag, bool> tagFilter = null);
 
         protected IEnumerable<TagInfo> SortTags()
         {

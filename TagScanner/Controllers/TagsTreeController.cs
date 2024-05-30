@@ -1,5 +1,6 @@
 ﻿namespace TagScanner.Controllers
 {
+    using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Windows.Forms;
@@ -67,7 +68,7 @@
             Dialog.TreeNamesOnly.Checked = tree && GroupTagsBy == GroupTagsBy.None; ;
         }
 
-        public override void SetSelectedTags(IEnumerable<Tag> visibleTags)
+        public override void SetSelectedTags(IEnumerable<Tag> visibleTags, Func<Tag, bool> tagFilter = null)
         {
         }
 

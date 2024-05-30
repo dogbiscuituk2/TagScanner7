@@ -4,6 +4,7 @@
     using System.Windows.Forms;
     using Models;
     using Forms;
+    using System;
 
     public class TagsController : Controller
     {
@@ -17,10 +18,10 @@
 
         public GroupTagsBy GroupTagsBy;
 
-        public bool Execute(string caption, List<Tag> visibleTags)
+        public bool Execute(string caption, List<Tag> visibleTags, Func<Tag, bool> tagFilter = null)
         {
             Dialog.Text = caption;
-            _tagsListController.SetSelectedTags(visibleTags);
+            _tagsListController.SetSelectedTags(visibleTags, tagFilter);
             var ok = Dialog.ShowDialog(Owner) == DialogResult.OK;
             if (ok)
             {

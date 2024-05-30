@@ -14,7 +14,6 @@
     using Properties;
     using Terms;
     using Utils;
-    using static System.Windows.Forms.Design.AxImporter;
 
     public class FindReplaceController : Controller
     {
@@ -296,7 +295,10 @@
         private void ChooseSearchFields()
         {
             var tags = SearchTags.ToList();
-            var ok = new TagsController(this).Execute("Select the Columns to display in the Media Table", tags);
+            var ok = new TagsController(this).Execute(
+                "Select the Columns to display in the Media Table",
+                tags,
+                p => p.CanWrite() && (p.Type() == typeof(string) || p.Type() == typeof(string[])));
             if (ok)
                 SearchTags = tags;
         }
