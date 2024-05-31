@@ -18,7 +18,7 @@
 
         public GroupTagsBy GroupTagsBy;
 
-        public bool Execute(string caption, List<Tag> visibleTags, Func<Tag, bool> tagFilter = null)
+        public bool Execute(string caption, List<Tag> visibleTags, Func<Tag, bool> tagFilter)
         {
             Dialog.Text = caption;
             _tagsListController.SetSelectedTags(visibleTags, tagFilter);

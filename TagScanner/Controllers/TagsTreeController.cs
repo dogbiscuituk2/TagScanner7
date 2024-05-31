@@ -68,7 +68,7 @@
             Dialog.TreeNamesOnly.Checked = tree && GroupTagsBy == GroupTagsBy.None; ;
         }
 
-        public override void SetSelectedTags(IEnumerable<Tag> visibleTags, Func<Tag, bool> tagFilter = null)
+        public override void SetSelectedTags(IEnumerable<Tag> visibleTags, Func<Tag, bool> tagFilter)
         {
         }
 

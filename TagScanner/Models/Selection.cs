@@ -54,7 +54,7 @@
 
         #endregion
 
-        #region ITrack
+        #region ITrack Properties
 
         #region Album
 
@@ -153,7 +153,11 @@
         [Column(80, Alignment.Far)]
         [Description("A string containing the Album Gain setting in decibels for the selected item(s), as determined by the ReplayGain utility.")]
         [DisplayName("Album Gain")]
-        public string AlbumGain => GetString(p => p.AlbumGain, ref _albumGain);
+        public string AlbumGain
+        {
+            get => GetString(p => p.AlbumGain, ref _albumGain);
+            set => SetValue(Tag.AlbumGain, p => p.AlbumGain, p => p.AlbumGain = value);
+        }
 
         #endregion
         #region AlbumPeak
@@ -164,7 +168,11 @@
         [Column(80, Alignment.Far)]
         [Description("A string containing the Album Peak setting for the selected item(s), as determined by the ReplayGain utility.")]
         [DisplayName("Album Peak")]
-        public string AlbumPeak => GetString(p => p.AlbumPeak, ref _albumPeak);
+        public string AlbumPeak
+        {
+            get => GetString(p => p.AlbumPeak, ref _albumPeak);
+            set => SetValue(Tag.AlbumPeak, p => p.AlbumPeak, p => p.AlbumPeak = value);
+        }
 
         #endregion
         #region AlbumSort
@@ -1697,74 +1705,6 @@
         public Logical PossiblyCorrupt => GetLogical(p => p.PossiblyCorrupt, ref _possiblyCorrupt);
 
         #endregion
-        #region SelectedAlbumsCount
-
-        [Browsable(true)]
-        [Category(Selected)]
-        [Column(50)]
-        [Description("The number of unique album titles in the current selection.")]
-        [DisplayName("# Selected Albums")]
-        [ReadOnly(true)]
-        public int SelectedAlbumsCount => Tracks.Select(f => f.Album).Distinct().Count();
-
-        #endregion
-        #region SelectedArtistsCount
-
-        [Browsable(true)]
-        [Category(Selected)]
-        [Column(50)]
-        [Description("The number of unique artists in the current selection.")]
-        [DisplayName("# Selected Artists")]
-        [ReadOnly(true)]
-        public int SelectedArtistsCount => Tracks.SelectMany(f => f.Performers).Distinct().Count();
-
-        #endregion
-        #region SelectedFoldersCount
-
-        [Browsable(true)]
-        [Category(Selected)]
-        [Column(50)]
-        [Description("The number of distinct folders containing one or more items from the selection.")]
-        [DisplayName("# Selected Folders")]
-        [ReadOnly(true)]
-        public int SelectedFoldersCount
-        {
-            get
-            {
-                try
-                {
-                    return Tracks.Select(p => Path.GetDirectoryName(p.FilePath)).Distinct().Count();
-                }
-                catch (ArgumentException)
-                {
-                    return 0;
-                }
-            }
-        }
-
-        #endregion
-        #region SelectedGenresCount
-
-        [Browsable(true)]
-        [Category(Selected)]
-        [Column(50)]
-        [Description("The number of unique genres in the current selection.")]
-        [DisplayName("# Selected Genres")]
-        [ReadOnly(true)]
-        public int SelectedGenresCount => Tracks.SelectMany(f => f.Genres).Distinct().Count();
-
-        #endregion
-        #region SelectedTracksCount
-
-        [Browsable(true)]
-        [Category(Selected)]
-        [Column(50)]
-        [Description("The total number of tracks in the current selection.")]
-        [DisplayName("# Selected Tracks")]
-        [ReadOnly(true)]
-        public int SelectedTracksCount => Tracks.Count();
-
-        #endregion
         #region TagTypes
 
         private TagLib.TagTypes _tagTypes = TagLib.TagTypes.AllTags;
@@ -1853,7 +1793,12 @@
         [Column(80, Alignment.Far)]
         [Description("A string containing the Track Gain setting in decibels for the selected item(s), as determined by the ReplayGain utility.")]
         [DisplayName("Track Gain")]
-        public string TrackGain => GetString(p => p.TrackGain, ref _trackGain);
+        public string TrackGain
+        {
+            get => GetString(p => p.TrackGain, ref _trackGain);
+            set => SetValue(Tag.TrackGain, p => p.TrackGain, p => p.TrackGain = value);
+        }
+
 
         #endregion
         #region TrackNumber
@@ -1897,7 +1842,12 @@
         [Column(80, Alignment.Far)]
         [Description("A string containing the Track Peak setting for the selected item(s), as determined by the ReplayGain utility.")]
         [DisplayName("Track Peak")]
-        public string TrackPeak => GetString(p => p.TrackPeak, ref _trackPeak);
+        public string TrackPeak
+        {
+            get => GetString(p => p.TrackPeak, ref _trackPeak);
+            set => SetValue(Tag.TrackPeak, p => p.TrackPeak, p => p.TrackPeak = value);
+        }
+
 
         #endregion
         #region VideoHeight
@@ -1961,6 +1911,79 @@
         [ReadOnly(true)]
         [Uses(Tag.Album, Tag.Year)]
         public string YearAlbum => GetString(p => p.YearAlbum, ref _yearAlbum);
+
+        #endregion
+
+        #endregion
+
+        #region Selection Properties
+
+        #region SelectedAlbumsCount
+
+        [Browsable(true)]
+        [Category(Selected)]
+        [Column(50)]
+        [Description("The number of unique album titles in the current selection.")]
+        [DisplayName("# Albums in selection")]
+        [ReadOnly(true)]
+        public int SelectedAlbumsCount => Tracks.Select(f => f.Album).Distinct().Count();
+
+        #endregion
+        #region SelectedArtistsCount
+
+        [Browsable(true)]
+        [Category(Selected)]
+        [Column(50)]
+        [Description("The number of unique artists in the current selection.")]
+        [DisplayName("# Artists in selection")]
+        [ReadOnly(true)]
+        public int SelectedArtistsCount => Tracks.SelectMany(f => f.Performers).Distinct().Count();
+
+        #endregion
+        #region SelectedFoldersCount
+
+        [Browsable(true)]
+        [Category(Selected)]
+        [Column(50)]
+        [Description("The number of distinct folders containing one or more items from the selection.")]
+        [DisplayName("# Folders in selection")]
+        [ReadOnly(true)]
+        public int SelectedFoldersCount
+        {
+            get
+            {
+                try
+                {
+                    return Tracks.Select(p => Path.GetDirectoryName(p.FilePath)).Distinct().Count();
+                }
+                catch (ArgumentException)
+                {
+                    return 0;
+                }
+            }
+        }
+
+        #endregion
+        #region SelectedGenresCount
+
+        [Browsable(true)]
+        [Category(Selected)]
+        [Column(50)]
+        [Description("The number of unique genres in the current selection.")]
+        [DisplayName("# Genres in selection")]
+        [ReadOnly(true)]
+        public int SelectedGenresCount => Tracks.SelectMany(f => f.Genres).Distinct().Count();
+
+        #endregion
+        #region SelectedTracksCount
+
+        [Browsable(true)]
+        [Category(Selected)]
+        [Column(50)]
+        [Description("The total number of tracks in the current selection.")]
+        [DisplayName("# Tracks in selection")]
+        [ReadOnly(true)]
+        public int SelectedTracksCount => Tracks.Count();
 
         #endregion
 

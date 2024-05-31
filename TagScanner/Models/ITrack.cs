@@ -11,8 +11,8 @@
         int AlbumArtistsCount { get; }
         string[] AlbumArtistsSort { get; set; }
         int AlbumArtistsSortCount { get; }
-        string AlbumGain { get; } // ReplayGain
-        string AlbumPeak { get; } // ReplayGain
+        string AlbumGain { get; set; } // ReplayGain
+        string AlbumPeak { get; set; } // ReplayGain
         string AlbumSort { get; set; }
         string AmazonId { get; set; }
         string[] Artists { get; set; } // Obsolete
@@ -116,10 +116,10 @@
         string Title { get; set; }
         string TitleSort { get; set; }
         int TrackCount { get; set; }
-        string TrackGain { get; } // ReplayGain
+        string TrackGain { get; set; } // ReplayGain
         int TrackNumber { get; set; }
         string TrackOf { get; }
-        string TrackPeak { get; } // ReplayGain
+        string TrackPeak { get; set; } // ReplayGain
         int VideoHeight { get; }
         int VideoWidth { get; }
         int Year { get; set; }

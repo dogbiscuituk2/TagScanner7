@@ -1305,13 +1305,24 @@
             var id3v2Tag = tag.Tags.OfType<TagLib.Id3v2.Tag>().FirstOrDefault();
             if (id3v2Tag != null)
                 foreach (var frame in id3v2Tag.OfType<TagLib.Id3v2.UserTextInformationFrame>())
-                    SetUserValue(frame.Description, frame.Text.FirstOrDefault());
+                    ReadUserValue(frame.Description, frame.Text.FirstOrDefault());
         }
 
         private void ReadTagUserTextAsf(TagLib.Asf.Tag tag)
         {
             foreach (var frame in tag)
-                SetUserValue(frame.Name, frame.ToString());
+                ReadUserValue(frame.Name, frame.ToString());
+        }
+
+        private void ReadUserValue(string name, string value)
+        {
+            switch (name)
+            {
+                case "replaygain_album_gain": _albumGain = value; break;
+                case "replaygain_album_peak": _albumPeak = value; break;
+                case "replaygain_track_gain": _trackGain = value; break;
+                case "replaygain_track_peak": _trackPeak = value; break;
+            }
         }
 
         private void WriteTag(TagLib.Tag tag)
@@ -1353,8 +1364,29 @@
             tag.Track = (uint)_trackNumber;
             tag.TrackCount = (uint)_trackCount;
             tag.Year = (uint)_year;
-            if (tag is TagLib.Image.ImageTag imageTag)
+            WriteTagExtra(tag);
+        }
+
+        private void WriteTagExtra(TagLib.Tag tag)
+        {
+            if (tag is TagLib.CombinedTag combinedTag) // Including subtype TagLib.NonContainer.Tag
+                WriteTagUserText(combinedTag);
+            else if (tag is TagLib.Asf.Tag asfTag)
+                WriteTagUserTextAsf(asfTag);
+            else if (tag is TagLib.Image.ImageTag imageTag)
                 WriteTagImageData(imageTag);
+        }
+
+        private void WriteTagUserText(TagLib.CombinedTag combinedTag)
+        {
+        }
+
+        private void WriteTagUserTextAsf(TagLib.Asf.Tag asfTag)
+        {
+        }
+
+        private void WriteUserValue(string name, string value)
+        {
         }
 
         private void WriteTagImageData(TagLib.Image.ImageTag imageTag)
@@ -1403,17 +1435,6 @@
             {
                 field = value;
                 IsModified = true;
-            }
-        }
-
-        private void SetUserValue(string name, string value)
-        {
-            switch (name)
-            {
-                case "replaygain_album_gain": _albumGain = value; break;
-                case "replaygain_album_peak": _albumPeak = value; break;
-                case "replaygain_track_gain": _trackGain = value; break;
-                case "replaygain_track_peak": _trackPeak = value; break;
             }
         }
 

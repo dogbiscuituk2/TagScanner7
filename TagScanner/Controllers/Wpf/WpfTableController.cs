@@ -118,7 +118,7 @@
         public void EditTagVisibility()
         {
             var visibleTags = VisibleTags.ToList();
-            var ok = new TagsController(this).Execute("Select the Columns to display in the Media Table", visibleTags);
+            var ok = new TagsController(this).Execute("Select the Columns to display in the Media Table", visibleTags, p => true);
             if (ok)
                 VisibleTags = VisibleTags.Intersect(visibleTags).Union(visibleTags).ToList();
         }

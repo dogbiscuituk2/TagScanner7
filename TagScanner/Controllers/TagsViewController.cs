@@ -46,7 +46,7 @@
 
         public abstract IEnumerable<Tag> GetSelectedTags();
         protected abstract void InitGroups();
-        public abstract void SetSelectedTags(IEnumerable<Tag> visibleTags, Func<Tag, bool> tagFilter = null);
+        public abstract void SetSelectedTags(IEnumerable<Tag> visibleTags, Func<Tag, bool> tagFilter);
 
         protected IEnumerable<TagInfo> SortTags()
         {
