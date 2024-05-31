@@ -1300,17 +1300,17 @@
             _videoWidth = properties.VideoWidth;
         }
 
-        private void ReadTagUserText(TagLib.CombinedTag tag)
+        private void ReadTagUserText(TagLib.CombinedTag combinedTag)
         {
-            var id3v2Tag = tag.Tags.OfType<TagLib.Id3v2.Tag>().FirstOrDefault();
+            var id3v2Tag = combinedTag.Tags.OfType<TagLib.Id3v2.Tag>().FirstOrDefault();
             if (id3v2Tag != null)
                 foreach (var frame in id3v2Tag.OfType<TagLib.Id3v2.UserTextInformationFrame>())
                     ReadUserValue(frame.Description, frame.Text.FirstOrDefault());
         }
 
-        private void ReadTagUserTextAsf(TagLib.Asf.Tag tag)
+        private void ReadTagUserTextAsf(TagLib.Asf.Tag asfTag)
         {
-            foreach (var frame in tag)
+            foreach (var frame in asfTag)
                 ReadUserValue(frame.Name, frame.ToString());
         }
 
@@ -1318,10 +1318,10 @@
         {
             switch (name)
             {
-                case "replaygain_album_gain": _albumGain = value; break;
-                case "replaygain_album_peak": _albumPeak = value; break;
-                case "replaygain_track_gain": _trackGain = value; break;
-                case "replaygain_track_peak": _trackPeak = value; break;
+                case RgAlbumGain: _albumGain = value; break;
+                case RgAlbumPeak: _albumPeak = value; break;
+                case RgTrackGain: _trackGain = value; break;
+                case RgTrackPeak: _trackPeak = value; break;
             }
         }
 
@@ -1377,18 +1377,6 @@
                 WriteTagImageData(imageTag);
         }
 
-        private void WriteTagUserText(TagLib.CombinedTag combinedTag)
-        {
-        }
-
-        private void WriteTagUserTextAsf(TagLib.Asf.Tag asfTag)
-        {
-        }
-
-        private void WriteUserValue(string name, string value)
-        {
-        }
-
         private void WriteTagImageData(TagLib.Image.ImageTag imageTag)
         {
             imageTag.Altitude = ImageAltitude;
@@ -1408,6 +1396,31 @@
             imageTag.Rating = (uint)ImageRating;
             imageTag.Software = ImageSoftware;
         }
+
+        private void WriteTagUserText(TagLib.CombinedTag combinedTag)
+        {
+            var id3v2Tag = combinedTag.Tags.OfType<TagLib.Id3v2.Tag>().FirstOrDefault();
+            if (id3v2Tag != null)
+                foreach (var frame in id3v2Tag.OfType<TagLib.Id3v2.UserTextInformationFrame>())
+                    switch (frame.Description)
+                    {
+                        case RgAlbumGain: frame.Text = new[] { _albumGain }; break;
+                        case RgAlbumPeak: frame.Text = new[] { _albumPeak }; break;
+                        case RgTrackGain: frame.Text = new[] { _trackGain }; break;
+                        case RgTrackPeak: frame.Text = new[] { _trackPeak }; break;
+                    }
+        }
+
+        private void WriteTagUserTextAsf(TagLib.Asf.Tag asfTag)
+        {
+            WriteUserValue(asfTag, RgAlbumGain, _albumGain);
+            WriteUserValue(asfTag, RgAlbumPeak, _albumPeak);
+            WriteUserValue(asfTag, RgTrackGain, _trackGain);
+            WriteUserValue(asfTag, RgTrackPeak, _trackPeak);
+        }
+
+        private void WriteUserValue(TagLib.Asf.Tag asfTag, string name, string value) =>
+            asfTag.SetDescriptors(name, new TagLib.Asf.ContentDescriptor(name, value));
 
         #endregion
 
@@ -1437,6 +1450,16 @@
                 IsModified = true;
             }
         }
+
+        #endregion
+
+        #region Private Fields
+
+        private const string
+            RgAlbumGain = "replaygain_album_gain",
+            RgAlbumPeak = "replaygain_album_peak",
+            RgTrackGain = "replaygain_track_gain",
+            RgTrackPeak = "replaygain_track_peak";
 
         #endregion
     }
