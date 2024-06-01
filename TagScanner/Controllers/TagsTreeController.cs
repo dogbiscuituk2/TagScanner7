@@ -9,7 +9,7 @@
 
     public class TagsTreeController : TagsViewController
     {
-        #region Construictor
+        #region Constructor
 
         public TagsTreeController(Controller parent) : base(parent) { }
 
@@ -22,22 +22,28 @@
             InitNodes();
             RootNode.Expand();
             Dialog.TreeMenu.DropDownOpening += (sender, e) => UpdateMenu();
-            TreeView.MouseClick += TreeView_MouseClick;
-        }
-
-        private void TreeView_MouseClick(object sender, MouseEventArgs e)
-        {
+            TriStateTreeController = new TriStateTreeController(TreeView);
         }
 
         public override IEnumerable<Tag> GetSelectedTags()
         {
             var result = new List<Tag>();
-            Visit(p => { if (p.Tag is TagInfo tagInfo && p.StateImageIndex == (int)TreeNodeState.Checked) result.Add(tagInfo.Tag); });
+            Visit(p =>
+            {
+                if (p.Tag is TagInfo tagInfo && p.StateImageIndex == (int)TreeNodeState.Checked)
+                    result.Add(tagInfo.Tag);
+            });
             return result;
         }
 
-        public override void SetSelectedTags(IEnumerable<Tag> visibleTags) =>
-            Visit(p => { if (p.Tag is TagInfo tagInfo) p.Checked = visibleTags.Contains(tagInfo.Tag); });
+        public override void SetSelectedTags(IEnumerable<Tag> visibleTags) => Visit(p =>
+        {
+            if (p.Tag is TagInfo tagInfo)
+                TriStateTreeController.SetNodeState(p, 
+                    visibleTags.Contains(tagInfo.Tag)
+                    ? TreeNodeState.Checked
+                    : TreeNodeState.Unchecked);
+        });
 
         #endregion
 
@@ -58,6 +64,7 @@
 
         #region Private Properties
 
+        private TriStateTreeController TriStateTreeController;
         private TreeNodeCollection Nodes => RootNode.Nodes;
         private TreeNode RootNode => TreeView.Nodes[0];
         private TreeView TreeView => Dialog.TreeView;

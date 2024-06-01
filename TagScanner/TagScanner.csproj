@@ -162,6 +162,7 @@
     <Compile Include="Controllers\ScriptFormController.cs" />
     <Compile Include="Controllers\SplashController.cs" />
     <Compile Include="Controllers\TreeNodeState.cs" />
+    <Compile Include="Controllers\TriStateTreeController.cs" />
     <Compile Include="Controls\FilterControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
