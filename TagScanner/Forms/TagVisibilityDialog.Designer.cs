@@ -46,9 +46,8 @@
             this.TreeMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.TreeByCategory = new System.Windows.Forms.ToolStripMenuItem();
             this.TreeByDataType = new System.Windows.Forms.ToolStripMenuItem();
-            this.TreeNamesOnly = new System.Windows.Forms.ToolStripMenuItem();
+            this.TreeAlphabetically = new System.Windows.Forms.ToolStripMenuItem();
             this.TreeView = new System.Windows.Forms.TreeView();
-            this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripSeparator();
             this.panel1.SuspendLayout();
             this.MainMenu.SuspendLayout();
             this.SuspendLayout();
@@ -184,10 +183,9 @@
             // TreeMenu
             // 
             this.TreeMenu.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.TreeAlphabetically,
             this.TreeByCategory,
-            this.TreeByDataType,
-            this.toolStripMenuItem1,
-            this.TreeNamesOnly});
+            this.TreeByDataType});
             this.TreeMenu.Name = "TreeMenu";
             this.TreeMenu.Size = new System.Drawing.Size(40, 20);
             this.TreeMenu.Text = "&Tree";
@@ -204,11 +202,11 @@
             this.TreeByDataType.Size = new System.Drawing.Size(180, 22);
             this.TreeByDataType.Text = "by &Data Type";
             // 
-            // TreeNamesOnly
+            // TreeAlphabetically
             // 
-            this.TreeNamesOnly.Name = "TreeNamesOnly";
-            this.TreeNamesOnly.Size = new System.Drawing.Size(180, 22);
-            this.TreeNamesOnly.Text = "&Names only";
+            this.TreeAlphabetically.Name = "TreeAlphabetically";
+            this.TreeAlphabetically.Size = new System.Drawing.Size(180, 22);
+            this.TreeAlphabetically.Text = "&Alphabetically";
             // 
             // TreeView
             // 
@@ -217,11 +215,6 @@
             this.TreeView.Name = "TreeView";
             this.TreeView.Size = new System.Drawing.Size(152, 121);
             this.TreeView.TabIndex = 5;
-            // 
-            // toolStripMenuItem1
-            // 
-            this.toolStripMenuItem1.Name = "toolStripMenuItem1";
-            this.toolStripMenuItem1.Size = new System.Drawing.Size(177, 6);
             // 
             // TagVisibilityDialog
             // 
@@ -271,7 +264,6 @@
         public System.Windows.Forms.ToolStripMenuItem TreeMenu;
         public System.Windows.Forms.ToolStripMenuItem TreeByCategory;
         public System.Windows.Forms.ToolStripMenuItem TreeByDataType;
-        public System.Windows.Forms.ToolStripMenuItem TreeNamesOnly;
-        private System.Windows.Forms.ToolStripSeparator toolStripMenuItem1;
+        public System.Windows.Forms.ToolStripMenuItem TreeAlphabetically;
     }
 }

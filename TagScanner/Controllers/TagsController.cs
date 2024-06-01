@@ -77,9 +77,9 @@
             _tagsTreeController.InitView();
             Dialog.TreeByCategory.Click += (sender, e) => UseTreeView(GroupTagsBy.Category);
             Dialog.TreeByDataType.Click += (sender, e) => UseTreeView(GroupTagsBy.DataType);
-            Dialog.TreeNamesOnly.Click += (sender, e) => UseTreeView(GroupTagsBy.None);
+            Dialog.TreeAlphabetically.Click += (sender, e) => UseTreeView(GroupTagsBy.None);
 
-            Dialog.ListByCategory.PerformClick();
+            Dialog.TreeByCategory.PerformClick();
             return Dialog;
         }
 

@@ -19,9 +19,15 @@
 
         public void InitView()
         {
+            TreeView.BeforeCheck += TreeView_BeforeCheck;
             InitNodes();
             RootNode.Expand();
             Dialog.TreeMenu.DropDownOpening += (sender, e) => UpdateMenu();
+        }
+
+        private void TreeView_BeforeCheck(object sender, TreeViewCancelEventArgs e)
+        {
+            return;
         }
 
         public override IEnumerable<Tag> GetSelectedTags()
@@ -83,7 +89,7 @@
                 case GroupTagsBy.Category:
                     return AvailableTags.Select(p => p.Category());
                 case GroupTagsBy.DataType:
-                    return AvailableTags.Select(p => p.Type().Say());
+                    return AvailableTags.Select(p => p.Type().Name);
                 default:
                     return Array.Empty<string>();
             }
@@ -101,13 +107,14 @@
                 node.ToolTipText = tag.Details;
                 node.Tag = tag;
             }
+            RootNode.Expand();
         }
 
         private void UpdateMenu()
         {
             Dialog.TreeByCategory.Checked = Active && GroupTagsBy == GroupTagsBy.Category;
             Dialog.TreeByDataType.Checked = Active && GroupTagsBy == GroupTagsBy.DataType;
-            Dialog.TreeNamesOnly.Checked = Active && GroupTagsBy == GroupTagsBy.None; ;
+            Dialog.TreeAlphabetically.Checked = Active && GroupTagsBy == GroupTagsBy.None; ;
         }
 
         private void Visit(Action<TreeNode> action)
