@@ -11,31 +11,100 @@
 
     public class TagsListController : TagsViewController, IComparer
     {
-        #region Public Interface
+        #region Constructor
 
-        public TagsListController(Controller parent, ListView listView = null) : base(parent)
+        public TagsListController(Controller parent) : base(parent) { }
+
+        #endregion
+
+        #region Public Methods
+
+        public void InitView()
         {
-            _listView = listView;
-        }
-
-        private ListView _listView;
-
-        public override Control Control => ListView;
-        public ListView ListView => _listView ?? Dialog.ListView;
-
-        public void InitListView()
-        {
-            InitItems(includeReadOnly: true);
+            InitItems();
             ListView.ColumnClick += (sender, e) => SortByColumn(e.Column);
             ListView.ListViewItemSorter = this;
-            if (Dialog != null)
-                Dialog.ListMenu.DropDownOpening += (sender, e) => InitListMenu();
+            Dialog.ListMenu.DropDownOpening += (sender, e) => UpdateMenu();
         }
 
-        public void InitItems(bool includeReadOnly)
+        public void ShowView(View view)
+        {
+            ShowView();
+            ListView.View = view;
+        }
+
+        public override IEnumerable<Tag> GetSelectedTags()
+        {
+            var result = new List<Tag>();
+            result.AddRange(ListView.Items.Cast<ListViewItem>().Where(t => t.Checked).Select(t => (Tag)t.Tag));
+            return result;
+        }
+
+        public override void SetSelectedTags(IEnumerable<Tag> visibleTags)
+        {
+            var items = Items.Cast<ListViewItem>();
+            foreach (var tag in AvailableTags)
+            {
+                var item = items.FirstOrDefault(p => (Tag)p.Tag == tag);
+                if (item != null)
+                    item.Checked = visibleTags.Contains(tag);
+            }
+        }
+
+        #endregion
+
+        #region Public Interface IComparer
+
+        public int Compare(object x, object y) => string.CompareOrdinal(GetValue(x), GetValue(y)) * (_sortDescending ? -1 : +1);
+
+        #endregion
+
+        #region Protected Properties
+
+        protected override Control Control => ListView;
+
+        #endregion
+
+        #region Protected Methods
+
+        protected override void InitGroups()
+        {
+            ListView.ShowGroups = GroupTagsBy == GroupTagsBy.Category || GroupTagsBy == GroupTagsBy.DataType;
+            Groups.Clear();
+            foreach (var header in GetGroupHeaders())
+                Groups.Add(NewGroup(header));
+            foreach (ListViewItem item in Items)
+                item.Group = Groups.Cast<ListViewGroup>().First(p => p.Header == GetGroupHeader((Tag)item.Tag));
+        }
+
+        #endregion
+
+        #region Private Fields
+
+        private int _sortColumn;
+        private bool _sortDescending;
+
+        #endregion
+
+        #region Private Properties
+
+        private ListViewGroupCollection Groups => ListView.Groups;
+        private ListView.ListViewItemCollection Items => ListView.Items;
+        private ListView ListView => Dialog.ListView;
+
+        #endregion
+
+        #region Private Methods
+
+        private IEnumerable<string> GetGroupHeaders() =>
+            Items.Cast<ListViewItem>().Select(item => (Tag)item.Tag).Select(GetGroupHeader).Distinct().OrderBy(p => p);
+
+        private string GetValue(object o) => _sortColumn == 0 ? ((ListViewItem)o).Text : ((ListViewItem)o).SubItems[_sortColumn].Text;
+
+        private void InitItems()
         {
             Items.Clear();
-            foreach (var tag in includeReadOnly ? Tags.Keys : Tags.Keys.Where(p => p.CanWrite()))
+            foreach (var tag in AvailableTags)
             {
                 var item = Items.Add(tag.DisplayName());
                 item.Name = tag.Name();
@@ -50,65 +119,7 @@
             }
         }
 
-        #endregion
-
-        #region Public Interface IComparer
-
-        public int Compare(object x, object y) => string.CompareOrdinal(GetValue(x), GetValue(y)) * (_sortDescending ? -1 : +1);
-
-        #endregion
-
-        #region Private/Protected Implementation
-
-        private int _sortColumn;
-        private bool _sortDescending;
-
-        private ListViewGroupCollection Groups => ListView.Groups;
-        private ListView.ListViewItemCollection Items => ListView.Items;
-
-        private IEnumerable<string> GetGroupHeaders() =>
-            Items.Cast<ListViewItem>().Select(item => (Tag)item.Tag).Select(GetGroupHeader).Distinct().OrderBy(p => p);
-
-        private string GetValue(object o) => _sortColumn == 0 ? ((ListViewItem)o).Text : ((ListViewItem)o).SubItems[_sortColumn].Text;
-
-        public override IEnumerable<Tag> GetSelectedTags()
-        {
-            var result = new List<Tag>();
-            result.AddRange(ListView.Items.Cast<ListViewItem>().Where(t => t.Checked).Select(t => (Tag)t.Tag));
-            return result;
-        }
-
-        protected override void InitGroups()
-        {
-            ListView.ShowGroups = GroupTagsBy == GroupTagsBy.Category || GroupTagsBy == GroupTagsBy.DataType;
-            Groups.Clear();
-            foreach (var header in GetGroupHeaders())
-                Groups.Add(NewGroup(header));
-            foreach (ListViewItem item in Items)
-                item.Group = Groups.Cast<ListViewGroup>().First(p => p.Header == GetGroupHeader((Tag)item.Tag));
-        }
-
-        private void InitListMenu()
-        {
-            var list = ListView.Visible;
-            Dialog.ListAlphabetically.Checked = list && GroupTagsBy == GroupTagsBy.None && ListView.View == View.Details;
-            Dialog.ListByCategory.Checked = list && GroupTagsBy == GroupTagsBy.Category;
-            Dialog.ListByDataType.Checked = list && GroupTagsBy == GroupTagsBy.DataType;
-            Dialog.ListNamesOnly.Checked = list && GroupTagsBy == GroupTagsBy.None && ListView.View == View.List;
-        }
-
         private static ListViewGroup NewGroup(string header) => new ListViewGroup(header) { HeaderAlignment = HorizontalAlignment.Right };
-
-        public override void SetSelectedTags(IEnumerable<Tag> visibleTags, Func<Tag, bool> tagFilter)
-        {
-            var items = Items.Cast<ListViewItem>();
-            foreach (var tag in Tags.Keys)
-            {
-                var item = items.FirstOrDefault(p => (Tag)p.Tag == tag);
-                if (item != null)
-                    item.Checked = visibleTags.Contains(tag);
-            }
-        }
 
         private void SortByColumn(int column)
         {
@@ -120,6 +131,14 @@
             else
                 _sortDescending = !_sortDescending;
             ListView.Sort();
+        }
+
+        private void UpdateMenu()
+        {
+            Dialog.ListAlphabetically.Checked = Active && GroupTagsBy == GroupTagsBy.None && ListView.View == View.Details;
+            Dialog.ListByCategory.Checked = Active && GroupTagsBy == GroupTagsBy.Category;
+            Dialog.ListByDataType.Checked = Active && GroupTagsBy == GroupTagsBy.DataType;
+            Dialog.ListNamesOnly.Checked = Active && GroupTagsBy == GroupTagsBy.None && ListView.View == View.List;
         }
 
         #endregion

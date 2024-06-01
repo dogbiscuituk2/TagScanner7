@@ -62,8 +62,6 @@
             set => Set(ref _albumArtistsSort, value);
         }
 
-        public int AlbumArtistsSortCount => AlbumArtistsSort.Length;
-
         private string _albumGain = string.Empty;
         [DefaultValue("")]
         public string AlbumGain
@@ -179,9 +177,6 @@
             get => Get(_composersSort);
             set => Set(ref _composersSort, value);
         }
-
-        [JsonIgnore, XmlIgnore]
-        public int ComposersSortCount => ComposersSort.Length;
 
         private string _conductor = string.Empty;
         [DefaultValue("")]
@@ -746,9 +741,6 @@
             set => Set(ref _performersSort, value);
         }
 
-        [JsonIgnore, XmlIgnore]
-        public int PerformersSortCount => PerformersSort.Length;
-
         private int _photoHeight;
         [DefaultValue(0)]
         public int PhotoHeight
@@ -908,7 +900,6 @@
                 case Tag.AlbumArtists: return AlbumArtists;
                 case Tag.AlbumArtistsCount: return AlbumArtistsCount;
                 case Tag.AlbumArtistsSort: return AlbumArtistsSort;
-                case Tag.AlbumArtistsSortCount: return AlbumArtistsSortCount;
                 case Tag.AlbumGain: return AlbumGain;
                 case Tag.AlbumPeak: return AlbumPeak;
                 case Tag.AlbumSort: return AlbumSort;
@@ -926,7 +917,6 @@
                 case Tag.Composers: return Composers;
                 case Tag.ComposersCount: return ComposersCount;
                 case Tag.ComposersSort: return ComposersSort;
-                case Tag.ComposersSortCount: return ComposersSortCount;
                 case Tag.Conductor: return Conductor;
                 case Tag.Copyright: return Copyright;
                 case Tag.Decade: return Decade;
@@ -1002,7 +992,6 @@
                 case Tag.Performers: return Performers;
                 case Tag.PerformersCount: return PerformersCount;
                 case Tag.PerformersSort: return PerformersSort;
-                case Tag.PerformersSortCount: return PerformersSortCount;
                 case Tag.PhotoHeight: return PhotoHeight;
                 case Tag.PhotoQuality: return PhotoQuality;
                 case Tag.PhotoWidth: return PhotoWidth;

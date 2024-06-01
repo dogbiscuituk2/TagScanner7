@@ -3,24 +3,26 @@
     using System.Collections.Generic;
     using System.Linq;
     using System.Windows.Forms;
-    using Models;
-    using Terms;
     using Forms;
-    using System;
+    using Models;
 
     public abstract class TagsViewController : Controller
     {
-        #region Public Interface
+        #region Constructor
 
-        protected TagsViewController(Controller parent) : base(parent) { }
+        public TagsViewController(Controller parent) : base(parent) { }
 
-        private TagsController TagsController => Parent as TagsController;
+        #endregion
 
-        public abstract Control Control { get; }
-        public TagVisibilityDialog Dialog => TagsController?.Dialog;
-        public GroupTagsBy GroupTagsBy => ((TagsController)Parent).GroupTagsBy;
+        #region Public Properties
 
-        public void HideView() => Control?.Hide();
+        public bool Active => Control.Visible;
+
+        #endregion
+
+        #region Public Methods
+
+        public void HideView() => Control.Hide();
 
         public void ShowView()
         {
@@ -30,9 +32,21 @@
             InitGroups();
         }
 
+        public abstract IEnumerable<Tag> GetSelectedTags();
+        public abstract void SetSelectedTags(IEnumerable<Tag> visibleTags);
+
         #endregion
 
-        #region Protected Implementation
+        #region Protected Properties
+
+        protected IEnumerable<Tag> AvailableTags => TagsController.AvailableTags;
+        protected abstract Control Control { get; }
+        protected TagVisibilityDialog Dialog => TagsController.Dialog;
+        protected GroupTagsBy GroupTagsBy => TagsController.GroupTagsBy;
+
+        #endregion
+
+        #region Protected Methods
 
         protected string GetGroupHeader(Tag tag)
         {
@@ -44,9 +58,7 @@
             }
         }
 
-        public abstract IEnumerable<Tag> GetSelectedTags();
         protected abstract void InitGroups();
-        public abstract void SetSelectedTags(IEnumerable<Tag> visibleTags, Func<Tag, bool> tagFilter);
 
         protected IEnumerable<TagInfo> SortTags()
         {
@@ -58,6 +70,12 @@
                 default: return tagInfo.OrderBy(t => t.DisplayName);
             }
         }
+
+        #endregion
+
+        #region Private Properties
+
+        private TagsController TagsController => Parent as TagsController;
 
         #endregion
     }

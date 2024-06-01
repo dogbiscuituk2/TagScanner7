@@ -10,7 +10,6 @@
         string[] AlbumArtists { get; set; }
         int AlbumArtistsCount { get; }
         string[] AlbumArtistsSort { get; set; }
-        int AlbumArtistsSortCount { get; }
         string AlbumGain { get; set; } // ReplayGain
         string AlbumPeak { get; set; } // ReplayGain
         string AlbumSort { get; set; }
@@ -28,7 +27,6 @@
         string[] Composers { get; set; }
         int ComposersCount { get; }
         string[] ComposersSort { get; set; }
-        int ComposersSortCount { get; }
         string Conductor { get; set; }
         string Copyright { get; set; }
         string Decade { get; }
@@ -104,7 +102,6 @@
         string[] Performers { get; set; }
         int PerformersCount { get; }
         string[] PerformersSort { get; set; }
-        int PerformersSortCount { get; }
         int PhotoHeight { get; }
         int PhotoQuality { get; }
         int PhotoWidth { get; }

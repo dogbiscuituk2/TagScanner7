@@ -131,20 +131,6 @@
         }
 
         #endregion
-        #region AlbumArtistsSortCount
-
-        private int _albumArtistsSortCount = int.MaxValue;
-        [Browsable(false)]
-        [Category(Personnel)]
-        [Column(50)]
-        [DefaultValue(0)]
-        [Description("An integer indicating the number of band(s) or artist(s) credited in the creation of the entire album or collection containing the media described by the selected item(s), or zero if none are present.")]
-        [DisplayName("# Album Artists (sorted)")]
-        [ReadOnly(true)]
-        [Uses(Tag.AlbumArtistsSort)]
-        public int AlbumArtistsSortCount => GetInt(p => p.AlbumArtistsSortCount, ref _albumArtistsSortCount);
-
-        #endregion
         #region AlbumGain
 
         private string _albumGain;
@@ -417,20 +403,6 @@
                 _firstComposerSort = null;
             }
         }
-
-        #endregion
-        #region ComposersSortCount
-
-        private int _composersSortCount = int.MaxValue;
-        [Browsable(false)]
-        [Category(Personnel)]
-        [Column(50)]
-        [DefaultValue(0)]
-        [Description("An integer indicating the number of composers of the media represented by the selected item(s), or zero if none are present.")]
-        [DisplayName("# Composers (sorted)")]
-        [ReadOnly(true)]
-        [Uses(Tag.ComposersSort)]
-        public int ComposersSortCount => GetInt(p => p.ComposersSortCount, ref _composersSortCount);
 
         #endregion
         #region Conductor
@@ -1614,20 +1586,6 @@
         }
 
         #endregion
-        #region PerformersSortCount
-
-        private int _performersSortCount = int.MaxValue;
-        [Browsable(false)]
-        [Category(Personnel)]
-        [Column(50)]
-        [DefaultValue(0)]
-        [Description("An integer indicating the number of performers or artists who performed in the media described by the selected item(s), or zero if none are present.")]
-        [DisplayName("# Performers (sorted)")]
-        [ReadOnly(true)]
-        [Uses(Tag.PerformersSort)]
-        public int PerformersSortCount => GetInt(p => p.PerformersSortCount, ref _performersSortCount);
-
-        #endregion
         #region PhotoHeight
 
         private int _photoHeight = int.MaxValue;
@@ -2273,7 +2231,6 @@
         private void InvalidateIntegerFields() // 27 fields
         {
             _albumArtistsCount =
-                _albumArtistsSortCount =
                 _artistsCount =
                 _audioBitrate =
                 _audioChannels =
@@ -2281,7 +2238,6 @@
                 _beatsPerMinute =
                 _bitsPerSample =
                 _composersCount =
-                _composersSortCount =
                 _discCount =
                 _discNumber =
                 _genresCount =
@@ -2289,7 +2245,6 @@
                 _imageISOSpeedRatings =
                 _imageRating =
                 _performersCount =
-                _performersSortCount =
                 _photoHeight =
                 _photoQuality =
                 _photoWidth =
