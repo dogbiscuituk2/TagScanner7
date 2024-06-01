@@ -7,13 +7,13 @@
     using Forms;
     using Models;
 
-    public class TagsController : Controller
+    public class TagsSelectorController : Controller
     {
         #region Constructors
 
-        public TagsController(Controller parent) : this(parent, p => true) { }
+        public TagsSelectorController(Controller parent) : this(parent, p => true) { }
 
-        public TagsController(Controller parent, Func<Tag, bool> tagFilter) : base(parent)
+        public TagsSelectorController(Controller parent, Func<Tag, bool> tagFilter) : base(parent)
         {
             AvailableTags = Tags.Keys.Where(tagFilter);
             _tagsListController = new TagsListController(this);
@@ -40,7 +40,7 @@
             if (ok)
             {
                 selectedTags.Clear();
-                selectedTags.AddRange(_tagsListController.GetSelectedTags());
+                selectedTags.AddRange(ActiveController.GetSelectedTags());
             }
             return ok;
         }

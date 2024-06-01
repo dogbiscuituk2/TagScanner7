@@ -295,7 +295,7 @@
         private void ChooseSearchFields()
         {
             var tags = SearchTags.ToList();
-            var ok = new TagsController(this, p => p.CanWrite() && (p.Type() == typeof(string) || p.Type() == typeof(string[])))
+            var ok = new TagsSelectorController(this, p => p.CanWrite() && (p.Type() == typeof(string) || p.Type() == typeof(string[])))
                 .Execute("Select the Columns to display in the Media Table", tags);
             if (ok)
                 SearchTags = tags;

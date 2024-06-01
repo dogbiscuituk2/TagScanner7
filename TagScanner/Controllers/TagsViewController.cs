@@ -39,10 +39,10 @@
 
         #region Protected Properties
 
-        protected IEnumerable<Tag> AvailableTags => TagsController.AvailableTags;
+        protected IEnumerable<Tag> AvailableTags => TagsSelectorController.AvailableTags;
         protected abstract Control Control { get; }
-        protected TagSelectorDialog Dialog => TagsController.Dialog;
-        protected GroupTagsBy GroupTagsBy => TagsController.GroupTagsBy;
+        protected TagSelectorDialog Dialog => TagsSelectorController.Dialog;
+        protected GroupTagsBy GroupTagsBy => TagsSelectorController.GroupTagsBy;
 
         #endregion
 
@@ -75,7 +75,7 @@
 
         #region Private Properties
 
-        private TagsController TagsController => Parent as TagsController;
+        private TagsSelectorController TagsSelectorController => Parent as TagsSelectorController;
 
         #endregion
     }
