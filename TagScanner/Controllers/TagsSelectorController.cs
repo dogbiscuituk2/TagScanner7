@@ -49,7 +49,7 @@
 
         #region Private Fields
 
-        private static TagSelectorDialog _dialog;
+        private TagSelectorDialog _dialog;
         private readonly TagsListController _tagsListController;
         private readonly TagsTreeController _tagsTreeController;
 
