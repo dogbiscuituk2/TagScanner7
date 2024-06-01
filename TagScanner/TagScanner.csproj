@@ -332,11 +332,11 @@
     <Compile Include="Utils\Utility.cs" />
     <Compile Include="Models\Model.cs" />
     <Compile Include="Models\Selection.cs" />
-    <Compile Include="Forms\TagVisibilityDialog.cs">
+    <Compile Include="Forms\TagSelectorDialog.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Forms\TagVisibilityDialog.Designer.cs">
-      <DependentUpon>TagVisibilityDialog.cs</DependentUpon>
+    <Compile Include="Forms\TagSelectorDialog.Designer.cs">
+      <DependentUpon>TagSelectorDialog.cs</DependentUpon>
     </Compile>
     <EmbeddedResource Include="Controls\FilterControl.resx">
       <DependentUpon>FilterControl.cs</DependentUpon>
@@ -362,8 +362,8 @@
     <EmbeddedResource Include="Forms\SplashForm.resx">
       <DependentUpon>SplashForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Forms\TagVisibilityDialog.resx">
-      <DependentUpon>TagVisibilityDialog.cs</DependentUpon>
+    <EmbeddedResource Include="Forms\TagSelectorDialog.resx">
+      <DependentUpon>TagSelectorDialog.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="packages.config" />
     <None Include="Properties\DataSources\TagScanner.Models.Library.datasource" />

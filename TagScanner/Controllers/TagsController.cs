@@ -49,7 +49,7 @@
 
         #region Private Fields
 
-        private static TagVisibilityDialog _dialog;
+        private static TagSelectorDialog _dialog;
         private readonly TagsListController _tagsListController;
         private readonly TagsTreeController _tagsTreeController;
 
@@ -58,15 +58,15 @@
         #region Private Properties
 
         private TagsViewController ActiveController => _tagsListController.Active ? _tagsListController : (TagsViewController)_tagsTreeController;
-        public TagVisibilityDialog Dialog => _dialog ?? CreateDialog();
+        public TagSelectorDialog Dialog => _dialog ?? CreateDialog();
 
         #endregion
 
         #region Private Methods
 
-        private TagVisibilityDialog CreateDialog()
+        private TagSelectorDialog CreateDialog()
         {
-            _dialog = new TagVisibilityDialog();
+            _dialog = new TagSelectorDialog();
 
             _tagsListController.InitView();
             Dialog.ListAlphabetically.Click += (sender, e) => UseListView(View.Details, GroupTagsBy.None);

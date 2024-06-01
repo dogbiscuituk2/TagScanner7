@@ -41,7 +41,7 @@
 
         protected IEnumerable<Tag> AvailableTags => TagsController.AvailableTags;
         protected abstract Control Control { get; }
-        protected TagVisibilityDialog Dialog => TagsController.Dialog;
+        protected TagSelectorDialog Dialog => TagsController.Dialog;
         protected GroupTagsBy GroupTagsBy => TagsController.GroupTagsBy;
 
         #endregion

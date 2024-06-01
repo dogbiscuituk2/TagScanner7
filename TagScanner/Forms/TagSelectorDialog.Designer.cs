@@ -1,6 +1,6 @@
 ﻿namespace TagScanner.Forms
 {
-	partial class TagVisibilityDialog
+	partial class TagSelectorDialog
 	{
 		/// <summary>
 		/// Required designer variable.
@@ -44,9 +44,9 @@
             this.toolStripMenuItem2 = new System.Windows.Forms.ToolStripSeparator();
             this.ListNamesOnly = new System.Windows.Forms.ToolStripMenuItem();
             this.TreeMenu = new System.Windows.Forms.ToolStripMenuItem();
+            this.TreeAlphabetically = new System.Windows.Forms.ToolStripMenuItem();
             this.TreeByCategory = new System.Windows.Forms.ToolStripMenuItem();
             this.TreeByDataType = new System.Windows.Forms.ToolStripMenuItem();
-            this.TreeAlphabetically = new System.Windows.Forms.ToolStripMenuItem();
             this.TreeView = new System.Windows.Forms.TreeView();
             this.panel1.SuspendLayout();
             this.MainMenu.SuspendLayout();
@@ -154,30 +154,30 @@
             // ListAlphabetically
             // 
             this.ListAlphabetically.Name = "ListAlphabetically";
-            this.ListAlphabetically.Size = new System.Drawing.Size(180, 22);
+            this.ListAlphabetically.Size = new System.Drawing.Size(149, 22);
             this.ListAlphabetically.Text = "&Alphabetically";
             // 
             // ListByCategory
             // 
             this.ListByCategory.Name = "ListByCategory";
-            this.ListByCategory.Size = new System.Drawing.Size(180, 22);
+            this.ListByCategory.Size = new System.Drawing.Size(149, 22);
             this.ListByCategory.Text = "by &Category";
             // 
             // ListByDataType
             // 
             this.ListByDataType.Name = "ListByDataType";
-            this.ListByDataType.Size = new System.Drawing.Size(180, 22);
+            this.ListByDataType.Size = new System.Drawing.Size(149, 22);
             this.ListByDataType.Text = "by &Data Type";
             // 
             // toolStripMenuItem2
             // 
             this.toolStripMenuItem2.Name = "toolStripMenuItem2";
-            this.toolStripMenuItem2.Size = new System.Drawing.Size(177, 6);
+            this.toolStripMenuItem2.Size = new System.Drawing.Size(146, 6);
             // 
             // ListNamesOnly
             // 
             this.ListNamesOnly.Name = "ListNamesOnly";
-            this.ListNamesOnly.Size = new System.Drawing.Size(180, 22);
+            this.ListNamesOnly.Size = new System.Drawing.Size(149, 22);
             this.ListNamesOnly.Text = "&Names only";
             // 
             // TreeMenu
@@ -190,33 +190,32 @@
             this.TreeMenu.Size = new System.Drawing.Size(40, 20);
             this.TreeMenu.Text = "&Tree";
             // 
+            // TreeAlphabetically
+            // 
+            this.TreeAlphabetically.Name = "TreeAlphabetically";
+            this.TreeAlphabetically.Size = new System.Drawing.Size(149, 22);
+            this.TreeAlphabetically.Text = "&Alphabetically";
+            // 
             // TreeByCategory
             // 
             this.TreeByCategory.Name = "TreeByCategory";
-            this.TreeByCategory.Size = new System.Drawing.Size(180, 22);
+            this.TreeByCategory.Size = new System.Drawing.Size(149, 22);
             this.TreeByCategory.Text = "by &Category";
             // 
             // TreeByDataType
             // 
             this.TreeByDataType.Name = "TreeByDataType";
-            this.TreeByDataType.Size = new System.Drawing.Size(180, 22);
+            this.TreeByDataType.Size = new System.Drawing.Size(149, 22);
             this.TreeByDataType.Text = "by &Data Type";
-            // 
-            // TreeAlphabetically
-            // 
-            this.TreeAlphabetically.Name = "TreeAlphabetically";
-            this.TreeAlphabetically.Size = new System.Drawing.Size(180, 22);
-            this.TreeAlphabetically.Text = "&Alphabetically";
             // 
             // TreeView
             // 
-            this.TreeView.CheckBoxes = true;
             this.TreeView.Location = new System.Drawing.Point(172, 28);
             this.TreeView.Name = "TreeView";
             this.TreeView.Size = new System.Drawing.Size(152, 121);
             this.TreeView.TabIndex = 5;
             // 
-            // TagVisibilityDialog
+            // TagSelectorDialog
             // 
             this.AcceptButton = this.btnOK;
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 17F);
@@ -232,7 +231,7 @@
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.MinimumSize = new System.Drawing.Size(640, 480);
-            this.Name = "TagVisibilityDialog";
+            this.Name = "TagSelectorDialog";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Visible Tags";
             this.panel1.ResumeLayout(false);

@@ -2,9 +2,9 @@
 {
     using System.Windows.Forms;
 
-    public partial class TagVisibilityDialog : Form
+    public partial class TagSelectorDialog : Form
     {
-        public TagVisibilityDialog()
+        public TagSelectorDialog()
         {
             InitializeComponent();
         }

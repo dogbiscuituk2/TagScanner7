@@ -16,8 +16,7 @@
             InitializeComponent();
             DrawMode = TreeViewDrawMode.OwnerDrawAll;
             CheckBoxes = true;
-            _3rdStateImage = _imageList.Images[2];
-            base.StateImageList = _imageList;
+            _3rdStateImage = StateImageList.Images[2];
         }
 
         protected override void Dispose(bool disposing)
@@ -30,19 +29,6 @@
                     _components.Dispose();
             }
             base.Dispose(disposing);
-        }
-
-        #endregion
-
-        #region Public Properties
-
-        // Since ThreeStateTreeview comes with its own StateImageList, prevent reassignment.
-        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        [EditorBrowsable(EditorBrowsableState.Never)]
-        public new ImageList StateImageList
-        {
-            get => base.StateImageList;
-            set { }
         }
 
         #endregion
@@ -139,7 +125,6 @@
         private IContainer _components;
         private Graphics _graphics;
         private bool _ignoreCheckEvents = false;
-        private ImageList _imageList;
 
         #endregion
 
@@ -175,16 +160,7 @@
         {
             _components = new Container();
             ComponentResourceManager resources = new ComponentResourceManager(typeof(TriStateTreeview));
-            _imageList = new ImageList(_components);
             SuspendLayout();
-            // 
-            // imageList1
-            // 
-            _imageList.ImageStream = ((ImageListStreamer)(resources.GetObject("imageList1.ImageStream")));
-            _imageList.TransparentColor = Color.Transparent;
-            _imageList.Images.SetKeyName(0, "UnChecked.ico");
-            _imageList.Images.SetKeyName(1, "Checked.ico");
-            _imageList.Images.SetKeyName(2, "Indeterminated.ico");
             // 
             // ThreeStateTreeview
             // 
