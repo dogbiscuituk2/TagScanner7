@@ -19,15 +19,9 @@
 
         public void InitView()
         {
-            TreeView.BeforeCheck += TreeView_BeforeCheck;
             InitNodes();
             RootNode.Expand();
             Dialog.TreeMenu.DropDownOpening += (sender, e) => UpdateMenu();
-        }
-
-        private void TreeView_BeforeCheck(object sender, TreeViewCancelEventArgs e)
-        {
-            return;
         }
 
         public override IEnumerable<Tag> GetSelectedTags()
