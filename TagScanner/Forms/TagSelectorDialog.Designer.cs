@@ -28,6 +28,8 @@
 		/// </summary>
 		private void InitializeComponent()
 		{
+            this.components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(TagSelectorDialog));
             this.ListView = new System.Windows.Forms.ListView();
             this.chTagName = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.chCategory = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
@@ -36,6 +38,8 @@
             this.panel1 = new System.Windows.Forms.Panel();
             this.btnCancel = new System.Windows.Forms.Button();
             this.btnOK = new System.Windows.Forms.Button();
+            this.TreeView = new System.Windows.Forms.TreeView();
+            this.TreeViewStateImageList = new System.Windows.Forms.ImageList(this.components);
             this.MainMenu = new TagScanner.Controls.FirstClickMenuStrip();
             this.ListMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.ListAlphabetically = new System.Windows.Forms.ToolStripMenuItem();
@@ -47,7 +51,6 @@
             this.TreeAlphabetically = new System.Windows.Forms.ToolStripMenuItem();
             this.TreeByCategory = new System.Windows.Forms.ToolStripMenuItem();
             this.TreeByDataType = new System.Windows.Forms.ToolStripMenuItem();
-            this.TreeView = new System.Windows.Forms.TreeView();
             this.panel1.SuspendLayout();
             this.MainMenu.SuspendLayout();
             this.SuspendLayout();
@@ -127,6 +130,22 @@
             this.btnOK.TabIndex = 19;
             this.btnOK.Text = "OK";
             this.btnOK.UseVisualStyleBackColor = true;
+            // 
+            // TreeView
+            // 
+            this.TreeView.Location = new System.Drawing.Point(172, 28);
+            this.TreeView.Name = "TreeView";
+            this.TreeView.Size = new System.Drawing.Size(152, 121);
+            this.TreeView.StateImageList = this.TreeViewStateImageList;
+            this.TreeView.TabIndex = 5;
+            // 
+            // TreeViewStateImageList
+            // 
+            this.TreeViewStateImageList.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("TreeViewStateImageList.ImageStream")));
+            this.TreeViewStateImageList.TransparentColor = System.Drawing.Color.Transparent;
+            this.TreeViewStateImageList.Images.SetKeyName(0, "frClear.png");
+            this.TreeViewStateImageList.Images.SetKeyName(1, "frApply.png");
+            this.TreeViewStateImageList.Images.SetKeyName(2, "frPartial.png");
             // 
             // MainMenu
             // 
@@ -208,13 +227,6 @@
             this.TreeByDataType.Size = new System.Drawing.Size(149, 22);
             this.TreeByDataType.Text = "by &Data Type";
             // 
-            // TreeView
-            // 
-            this.TreeView.Location = new System.Drawing.Point(172, 28);
-            this.TreeView.Name = "TreeView";
-            this.TreeView.Size = new System.Drawing.Size(152, 121);
-            this.TreeView.TabIndex = 5;
-            // 
             // TagSelectorDialog
             // 
             this.AcceptButton = this.btnOK;
@@ -264,5 +276,6 @@
         public System.Windows.Forms.ToolStripMenuItem TreeByCategory;
         public System.Windows.Forms.ToolStripMenuItem TreeByDataType;
         public System.Windows.Forms.ToolStripMenuItem TreeAlphabetically;
+        private System.Windows.Forms.ImageList TreeViewStateImageList;
     }
 }

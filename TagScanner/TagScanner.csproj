@@ -161,6 +161,7 @@
     <Compile Include="Controllers\PropertyGridController.cs" />
     <Compile Include="Controllers\ScriptFormController.cs" />
     <Compile Include="Controllers\SplashController.cs" />
+    <Compile Include="Controllers\TreeNodeState.cs" />
     <Compile Include="Controls\FilterControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -172,9 +173,6 @@
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Controls\FirstClickToolStrip.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="Controls\TriStateTreeview.cs">
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Menus\ShellContextMenu.cs" />

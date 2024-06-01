@@ -22,12 +22,17 @@
             InitNodes();
             RootNode.Expand();
             Dialog.TreeMenu.DropDownOpening += (sender, e) => UpdateMenu();
+            TreeView.MouseClick += TreeView_MouseClick;
+        }
+
+        private void TreeView_MouseClick(object sender, MouseEventArgs e)
+        {
         }
 
         public override IEnumerable<Tag> GetSelectedTags()
         {
             var result = new List<Tag>();
-            Visit(p => { if (p.Tag is TagInfo tagInfo && p.Checked) result.Add(tagInfo.Tag); });
+            Visit(p => { if (p.Tag is TagInfo tagInfo && p.StateImageIndex == (int)TreeNodeState.Checked) result.Add(tagInfo.Tag); });
             return result;
         }
 
@@ -61,6 +66,21 @@
 
         #region Private Methods
 
+        private TreeNode AddNode(TreeNodeCollection nodes, TagInfo tag)
+        {
+            var node = AddNode(nodes, tag.Name, tag.DisplayName);
+            node.Tag = tag;
+            node.ToolTipText = tag.Details;
+            return node;
+        }
+
+        private TreeNode AddNode(TreeNodeCollection nodes, string key, string text = null)
+        {
+            var node = nodes.Add(key, text ?? key);
+            node.StateImageIndex = 0;
+            return node;
+        }
+
         private TreeNode FindNode(string text) => Nodes.Cast<TreeNode>().FirstOrDefault(p => p.Text == text) ?? Nodes.Add(text);
 
         private TreeNode FindParent(TagInfo tag)
@@ -92,15 +112,11 @@
         private void InitNodes()
         {
             TreeView.Nodes.Clear();
-            TreeView.Nodes.Add("All Tags");
+            AddNode(TreeView.Nodes, "All Tags");
             foreach (var parentName in GetParentNames().Distinct().OrderBy(p => p))
-                RootNode.Nodes.Add(parentName);
+                AddNode(RootNode.Nodes, parentName);
             foreach (var tag in SortTags())
-            {
-                var node = FindParent(tag).Nodes.Add(tag.Name, tag.DisplayName);
-                node.ToolTipText = tag.Details;
-                node.Tag = tag;
-            }
+                AddNode(FindParent(tag).Nodes, tag);
             RootNode.Expand();
         }
 
