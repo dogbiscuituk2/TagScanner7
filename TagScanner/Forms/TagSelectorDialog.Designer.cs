@@ -40,18 +40,34 @@
             this.btnOK = new System.Windows.Forms.Button();
             this.TreeView = new System.Windows.Forms.TreeView();
             this.TreeViewStateImageList = new System.Windows.Forms.ImageList(this.components);
+            this.toolStripContainer1 = new System.Windows.Forms.ToolStripContainer();
+            this.toolStrip1 = new System.Windows.Forms.ToolStrip();
+            this.toolStripButton1 = new System.Windows.Forms.ToolStripButton();
+            this.toolStripButton2 = new System.Windows.Forms.ToolStripButton();
             this.MainMenu = new TagScanner.Controls.FirstClickMenuStrip();
+            this.TreeMenu = new System.Windows.Forms.ToolStripMenuItem();
+            this.TreeAlphabetically = new System.Windows.Forms.ToolStripMenuItem();
+            this.TreeByCategory = new System.Windows.Forms.ToolStripMenuItem();
+            this.TreeByDataType = new System.Windows.Forms.ToolStripMenuItem();
             this.ListMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.ListAlphabetically = new System.Windows.Forms.ToolStripMenuItem();
             this.ListByCategory = new System.Windows.Forms.ToolStripMenuItem();
             this.ListByDataType = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem2 = new System.Windows.Forms.ToolStripSeparator();
             this.ListNamesOnly = new System.Windows.Forms.ToolStripMenuItem();
-            this.TreeMenu = new System.Windows.Forms.ToolStripMenuItem();
-            this.TreeAlphabetically = new System.Windows.Forms.ToolStripMenuItem();
-            this.TreeByCategory = new System.Windows.Forms.ToolStripMenuItem();
-            this.TreeByDataType = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripButton3 = new System.Windows.Forms.ToolStripButton();
+            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+            this.toolStripButton4 = new System.Windows.Forms.ToolStripButton();
+            this.toolStripButton5 = new System.Windows.Forms.ToolStripButton();
+            this.toolStripButton6 = new System.Windows.Forms.ToolStripButton();
+            this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
+            this.toolStripButton7 = new System.Windows.Forms.ToolStripButton();
             this.panel1.SuspendLayout();
+            this.toolStripContainer1.ContentPanel.SuspendLayout();
+            this.toolStripContainer1.LeftToolStripPanel.SuspendLayout();
+            this.toolStripContainer1.TopToolStripPanel.SuspendLayout();
+            this.toolStripContainer1.SuspendLayout();
+            this.toolStrip1.SuspendLayout();
             this.MainMenu.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -67,7 +83,7 @@
             this.chWritable});
             this.ListView.FullRowSelect = true;
             this.ListView.HideSelection = false;
-            this.ListView.Location = new System.Drawing.Point(13, 28);
+            this.ListView.Location = new System.Drawing.Point(161, 39);
             this.ListView.Margin = new System.Windows.Forms.Padding(4);
             this.ListView.Name = "ListView";
             this.ListView.ShowItemToolTips = true;
@@ -101,17 +117,17 @@
             this.panel1.Controls.Add(this.btnCancel);
             this.panel1.Controls.Add(this.btnOK);
             this.panel1.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.panel1.Location = new System.Drawing.Point(0, 390);
+            this.panel1.Location = new System.Drawing.Point(0, 366);
             this.panel1.Margin = new System.Windows.Forms.Padding(4);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(624, 51);
+            this.panel1.Size = new System.Drawing.Size(600, 51);
             this.panel1.TabIndex = 3;
             // 
             // btnCancel
             // 
             this.btnCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.btnCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.btnCancel.Location = new System.Drawing.Point(522, 9);
+            this.btnCancel.Location = new System.Drawing.Point(466, 9);
             this.btnCancel.Margin = new System.Windows.Forms.Padding(4);
             this.btnCancel.Name = "btnCancel";
             this.btnCancel.Size = new System.Drawing.Size(88, 30);
@@ -123,7 +139,7 @@
             // 
             this.btnOK.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.btnOK.DialogResult = System.Windows.Forms.DialogResult.OK;
-            this.btnOK.Location = new System.Drawing.Point(428, 9);
+            this.btnOK.Location = new System.Drawing.Point(372, 9);
             this.btnOK.Margin = new System.Windows.Forms.Padding(4);
             this.btnOK.Name = "btnOK";
             this.btnOK.Size = new System.Drawing.Size(88, 30);
@@ -133,7 +149,7 @@
             // 
             // TreeView
             // 
-            this.TreeView.Location = new System.Drawing.Point(172, 28);
+            this.TreeView.Location = new System.Drawing.Point(345, 39);
             this.TreeView.Name = "TreeView";
             this.TreeView.Size = new System.Drawing.Size(152, 121);
             this.TreeView.StateImageList = this.TreeViewStateImageList;
@@ -147,16 +163,106 @@
             this.TreeViewStateImageList.Images.SetKeyName(1, "frApply.png");
             this.TreeViewStateImageList.Images.SetKeyName(2, "frPartial.png");
             // 
+            // toolStripContainer1
+            // 
+            // 
+            // toolStripContainer1.ContentPanel
+            // 
+            this.toolStripContainer1.ContentPanel.Controls.Add(this.panel1);
+            this.toolStripContainer1.ContentPanel.Controls.Add(this.ListView);
+            this.toolStripContainer1.ContentPanel.Controls.Add(this.TreeView);
+            this.toolStripContainer1.ContentPanel.Size = new System.Drawing.Size(600, 417);
+            this.toolStripContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
+            // 
+            // toolStripContainer1.LeftToolStripPanel
+            // 
+            this.toolStripContainer1.LeftToolStripPanel.Controls.Add(this.toolStrip1);
+            this.toolStripContainer1.Location = new System.Drawing.Point(0, 0);
+            this.toolStripContainer1.Name = "toolStripContainer1";
+            this.toolStripContainer1.Size = new System.Drawing.Size(624, 441);
+            this.toolStripContainer1.TabIndex = 6;
+            this.toolStripContainer1.Text = "toolStripContainer1";
+            // 
+            // toolStripContainer1.TopToolStripPanel
+            // 
+            this.toolStripContainer1.TopToolStripPanel.Controls.Add(this.MainMenu);
+            // 
+            // toolStrip1
+            // 
+            this.toolStrip1.Dock = System.Windows.Forms.DockStyle.None;
+            this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolStripButton1,
+            this.toolStripButton2,
+            this.toolStripButton3,
+            this.toolStripSeparator1,
+            this.toolStripButton4,
+            this.toolStripButton5,
+            this.toolStripButton6,
+            this.toolStripSeparator2,
+            this.toolStripButton7});
+            this.toolStrip1.Location = new System.Drawing.Point(0, 3);
+            this.toolStrip1.Name = "toolStrip1";
+            this.toolStrip1.Size = new System.Drawing.Size(24, 184);
+            this.toolStrip1.TabIndex = 7;
+            this.toolStrip1.Text = "toolStrip1";
+            // 
+            // toolStripButton1
+            // 
+            this.toolStripButton1.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.toolStripButton1.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton1.Image")));
+            this.toolStripButton1.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButton1.Name = "toolStripButton1";
+            this.toolStripButton1.Size = new System.Drawing.Size(22, 20);
+            this.toolStripButton1.Text = "toolStripButton1";
+            // 
+            // toolStripButton2
+            // 
+            this.toolStripButton2.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.toolStripButton2.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton2.Image")));
+            this.toolStripButton2.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButton2.Name = "toolStripButton2";
+            this.toolStripButton2.Size = new System.Drawing.Size(22, 20);
+            this.toolStripButton2.Text = "toolStripButton2";
+            // 
             // MainMenu
             // 
+            this.MainMenu.Dock = System.Windows.Forms.DockStyle.None;
             this.MainMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.ListMenu,
-            this.TreeMenu});
+            this.TreeMenu,
+            this.ListMenu});
             this.MainMenu.Location = new System.Drawing.Point(0, 0);
             this.MainMenu.Name = "MainMenu";
             this.MainMenu.Size = new System.Drawing.Size(624, 24);
-            this.MainMenu.TabIndex = 4;
+            this.MainMenu.TabIndex = 7;
             this.MainMenu.Text = "menuStrip1";
+            // 
+            // TreeMenu
+            // 
+            this.TreeMenu.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.TreeAlphabetically,
+            this.TreeByCategory,
+            this.TreeByDataType});
+            this.TreeMenu.Name = "TreeMenu";
+            this.TreeMenu.Size = new System.Drawing.Size(40, 20);
+            this.TreeMenu.Text = "&Tree";
+            // 
+            // TreeAlphabetically
+            // 
+            this.TreeAlphabetically.Name = "TreeAlphabetically";
+            this.TreeAlphabetically.Size = new System.Drawing.Size(149, 22);
+            this.TreeAlphabetically.Text = "&Alphabetically";
+            // 
+            // TreeByCategory
+            // 
+            this.TreeByCategory.Name = "TreeByCategory";
+            this.TreeByCategory.Size = new System.Drawing.Size(149, 22);
+            this.TreeByCategory.Text = "by &Category";
+            // 
+            // TreeByDataType
+            // 
+            this.TreeByDataType.Name = "TreeByDataType";
+            this.TreeByDataType.Size = new System.Drawing.Size(149, 22);
+            this.TreeByDataType.Text = "by &Data Type";
             // 
             // ListMenu
             // 
@@ -199,33 +305,60 @@
             this.ListNamesOnly.Size = new System.Drawing.Size(149, 22);
             this.ListNamesOnly.Text = "&Names only";
             // 
-            // TreeMenu
+            // toolStripButton3
             // 
-            this.TreeMenu.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.TreeAlphabetically,
-            this.TreeByCategory,
-            this.TreeByDataType});
-            this.TreeMenu.Name = "TreeMenu";
-            this.TreeMenu.Size = new System.Drawing.Size(40, 20);
-            this.TreeMenu.Text = "&Tree";
+            this.toolStripButton3.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.toolStripButton3.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton3.Image")));
+            this.toolStripButton3.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButton3.Name = "toolStripButton3";
+            this.toolStripButton3.Size = new System.Drawing.Size(22, 20);
+            this.toolStripButton3.Text = "toolStripButton3";
             // 
-            // TreeAlphabetically
+            // toolStripSeparator1
             // 
-            this.TreeAlphabetically.Name = "TreeAlphabetically";
-            this.TreeAlphabetically.Size = new System.Drawing.Size(149, 22);
-            this.TreeAlphabetically.Text = "&Alphabetically";
+            this.toolStripSeparator1.Name = "toolStripSeparator1";
+            this.toolStripSeparator1.Size = new System.Drawing.Size(22, 6);
             // 
-            // TreeByCategory
+            // toolStripButton4
             // 
-            this.TreeByCategory.Name = "TreeByCategory";
-            this.TreeByCategory.Size = new System.Drawing.Size(149, 22);
-            this.TreeByCategory.Text = "by &Category";
+            this.toolStripButton4.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.toolStripButton4.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton4.Image")));
+            this.toolStripButton4.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButton4.Name = "toolStripButton4";
+            this.toolStripButton4.Size = new System.Drawing.Size(22, 20);
+            this.toolStripButton4.Text = "toolStripButton4";
             // 
-            // TreeByDataType
+            // toolStripButton5
             // 
-            this.TreeByDataType.Name = "TreeByDataType";
-            this.TreeByDataType.Size = new System.Drawing.Size(149, 22);
-            this.TreeByDataType.Text = "by &Data Type";
+            this.toolStripButton5.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.toolStripButton5.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton5.Image")));
+            this.toolStripButton5.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButton5.Name = "toolStripButton5";
+            this.toolStripButton5.Size = new System.Drawing.Size(22, 20);
+            this.toolStripButton5.Text = "toolStripButton5";
+            // 
+            // toolStripButton6
+            // 
+            this.toolStripButton6.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.toolStripButton6.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton6.Image")));
+            this.toolStripButton6.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButton6.Name = "toolStripButton6";
+            this.toolStripButton6.Size = new System.Drawing.Size(22, 20);
+            this.toolStripButton6.Text = "toolStripButton6";
+            // 
+            // toolStripSeparator2
+            // 
+            this.toolStripSeparator2.Name = "toolStripSeparator2";
+            this.toolStripSeparator2.Size = new System.Drawing.Size(22, 6);
+            // 
+            // toolStripButton7
+            // 
+            this.toolStripButton7.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.toolStripButton7.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton7.Image")));
+            this.toolStripButton7.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButton7.Name = "toolStripButton7";
+            this.toolStripButton7.Size = new System.Drawing.Size(22, 20);
+            this.toolStripButton7.Text = "toolStripButton7";
             // 
             // TagSelectorDialog
             // 
@@ -234,10 +367,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.btnCancel;
             this.ClientSize = new System.Drawing.Size(624, 441);
-            this.Controls.Add(this.ListView);
-            this.Controls.Add(this.MainMenu);
-            this.Controls.Add(this.panel1);
-            this.Controls.Add(this.TreeView);
+            this.Controls.Add(this.toolStripContainer1);
             this.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Margin = new System.Windows.Forms.Padding(4);
             this.MaximizeBox = false;
@@ -247,10 +377,18 @@
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Visible Tags";
             this.panel1.ResumeLayout(false);
+            this.toolStripContainer1.ContentPanel.ResumeLayout(false);
+            this.toolStripContainer1.LeftToolStripPanel.ResumeLayout(false);
+            this.toolStripContainer1.LeftToolStripPanel.PerformLayout();
+            this.toolStripContainer1.TopToolStripPanel.ResumeLayout(false);
+            this.toolStripContainer1.TopToolStripPanel.PerformLayout();
+            this.toolStripContainer1.ResumeLayout(false);
+            this.toolStripContainer1.PerformLayout();
+            this.toolStrip1.ResumeLayout(false);
+            this.toolStrip1.PerformLayout();
             this.MainMenu.ResumeLayout(false);
             this.MainMenu.PerformLayout();
             this.ResumeLayout(false);
-            this.PerformLayout();
 
 		}
 
@@ -264,18 +402,29 @@
         public System.Windows.Forms.ColumnHeader chDataType;
         public System.Windows.Forms.ColumnHeader chCategory;
         public System.Windows.Forms.ColumnHeader chWritable;
-        public TagScanner.Controls.FirstClickMenuStrip MainMenu;
         public System.Windows.Forms.TreeView TreeView;
+        private System.Windows.Forms.ImageList TreeViewStateImageList;
+        private System.Windows.Forms.ToolStripContainer toolStripContainer1;
+        private System.Windows.Forms.ToolStrip toolStrip1;
+        private System.Windows.Forms.ToolStripButton toolStripButton1;
+        private System.Windows.Forms.ToolStripButton toolStripButton2;
+        public Controls.FirstClickMenuStrip MainMenu;
+        public System.Windows.Forms.ToolStripMenuItem TreeMenu;
+        public System.Windows.Forms.ToolStripMenuItem TreeAlphabetically;
+        public System.Windows.Forms.ToolStripMenuItem TreeByCategory;
+        public System.Windows.Forms.ToolStripMenuItem TreeByDataType;
         public System.Windows.Forms.ToolStripMenuItem ListMenu;
         public System.Windows.Forms.ToolStripMenuItem ListAlphabetically;
         public System.Windows.Forms.ToolStripMenuItem ListByCategory;
         public System.Windows.Forms.ToolStripMenuItem ListByDataType;
         public System.Windows.Forms.ToolStripSeparator toolStripMenuItem2;
         public System.Windows.Forms.ToolStripMenuItem ListNamesOnly;
-        public System.Windows.Forms.ToolStripMenuItem TreeMenu;
-        public System.Windows.Forms.ToolStripMenuItem TreeByCategory;
-        public System.Windows.Forms.ToolStripMenuItem TreeByDataType;
-        public System.Windows.Forms.ToolStripMenuItem TreeAlphabetically;
-        private System.Windows.Forms.ImageList TreeViewStateImageList;
+        private System.Windows.Forms.ToolStripButton toolStripButton3;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
+        private System.Windows.Forms.ToolStripButton toolStripButton4;
+        private System.Windows.Forms.ToolStripButton toolStripButton5;
+        private System.Windows.Forms.ToolStripButton toolStripButton6;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
+        private System.Windows.Forms.ToolStripButton toolStripButton7;
     }
 }

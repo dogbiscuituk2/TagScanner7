@@ -39,6 +39,12 @@
             TbUseRegex = View.tbUseRegex;
             TbSearchFields = View.tbSearchFields;
 
+            PopupFindNext = MainForm.PopupFindNext;
+            PopupFindPrevious = MainForm.PopupFindPrevious;
+            PopupFindAll = MainForm.PopupFindAll;
+            PopupReplaceNext = MainForm.PopupReplaceNext;
+            PopupReplaceAll = MainForm.PopupReplaceAll;
+
             Hide();
 
             MainForm.EditFind.Click += EditFind_Click;
@@ -52,11 +58,6 @@
             MainForm.PopupWholeWord.Click += TbWholeWord_Click;
             MainForm.PopupUseRegex.Click += TbUseRegex_Click;
             MainForm.PopupPreserveCase.Click += TbPreserveCase_Click;
-            MainForm.PopupFindNext.Click += TbFindNext_Click;
-            MainForm.PopupFindPrevious.Click += TbFindPrevious_Click;
-            MainForm.PopupFindAll.Click += TbFindAll_Click;
-            MainForm.PopupReplaceNext.Click += TbReplaceNext_Click;
-            MainForm.PopupReplaceAll.Click += TbReplaceAll_Click;
             MainForm.PopupCloseFindReplace.Click += TbFindClose_Click;
 
             TbDropDown.Click += TbDropDown_Click;
@@ -76,6 +77,12 @@
             TbWholeWord.Click += TbWholeWord_Click;
             TbUseRegex.Click += TbUseRegex_Click;
             TbSearchFields.Click += TbSearchFields_Click;
+
+            PopupFindNext.Click += TbFindNext_Click;
+            PopupFindPrevious.Click += TbFindPrevious_Click;
+            PopupFindAll.Click += TbFindAll_Click;
+            PopupReplaceNext.Click += TbReplaceNext_Click;
+            PopupReplaceAll.Click += TbReplaceAll_Click;
 
             View.Resize += View_Resize;
 
@@ -152,7 +159,12 @@
         private readonly ToolStripMenuItem
             TbFindAll,
             TbFindNext,
-            TbFindPrevious;
+            TbFindPrevious,
+            PopupFindAll,
+            PopupFindNext,
+            PopupFindPrevious,
+            PopupReplaceAll,
+            PopupReplaceNext;
 
         private readonly ToolStripSplitButton
             TbFind;
@@ -300,7 +312,7 @@
         {
             var tags = SearchTags.ToList();
             var ok = new TagsSelectorController(this, p => p.CanWrite() && (p.Type() == typeof(string) || p.Type() == typeof(string[])))
-                .Execute("Select the Columns to display in the Media Table", tags);
+                .Execute("Select the Fields to be used in the Search or Replace operation", tags);
             if (ok)
                 SearchTags = tags;
         }
@@ -450,14 +462,22 @@
             string
                 findReason = !anyTracks ? _noTracks : !anyFindTags ? _noFindTags : _noFindTerm,
                 replaceReason = !canFind ? findReason : !anyReplaceTags ? _noReplaceTags : _noReplaceTerm;
+            Color
+                window = Color.FromKnownColor(KnownColor.Window);
 
-            var window = Color.FromKnownColor(KnownColor.Window);
             CbFind.BackColor = anyFindText ? window : Color.MistyRose;
             CbFind.ToolTipText = anyFindText ? _findTerm : _noFindTerm;
-            TbFind.Enabled = TbFindNext.Enabled = TbFindPrevious.Enabled = TbFindAll.Enabled = canFind;
             CbReplace.BackColor = anyReplaceText ? window : Color.MistyRose;
             CbReplace.ToolTipText = anyReplaceText ? _replaceTerm : _noReplaceTerm;
-            TbReplaceNext.Enabled = TbReplaceAll.Enabled = canReplace;
+
+            TbFind.Enabled =
+                TbFindNext.Enabled = PopupFindNext.Enabled =
+                TbFindPrevious.Enabled = PopupFindPrevious.Enabled =
+                TbFindAll.Enabled = PopupFindAll.Enabled = canFind;
+
+            TbReplaceNext.Enabled = PopupReplaceNext.Enabled =
+                TbReplaceAll.Enabled = PopupReplaceAll.Enabled = canReplace;
+
             TbFind.ToolTipText = canFind ? SearchForward ? _findNext : _findPrevious : findReason;
             TbReplaceNext.ToolTipText = canReplace ? _replaceNext : replaceReason;
             TbReplaceAll.ToolTipText = canReplace ? _replaceAll : replaceReason;
