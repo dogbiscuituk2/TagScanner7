@@ -19,8 +19,6 @@
 
         #region Public Fields
 
-        public List<Track> Tracks { get; private set; }
-
         public const string
             Category = "Category",
             Details = "Details",
@@ -1942,6 +1940,12 @@
         [DisplayName("# Tracks in selection")]
         [ReadOnly(true)]
         public int SelectedTracksCount => Tracks.Count();
+
+        #endregion
+        #region Tracks
+
+        [Browsable(false)]
+        public List<Track> Tracks { get; private set; }
 
         #endregion
 

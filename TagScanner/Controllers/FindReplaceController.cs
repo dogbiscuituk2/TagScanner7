@@ -22,6 +22,7 @@
         public FindReplaceController(Controller parent) : base(parent)
         {
             ParentControl = View.Parent;
+            Toolbar = View.Toolbar;
             TbDropDown = View.tbDropDown;
             CbFind = View.cbFind;
             TbFind = View.tbFind;
@@ -114,7 +115,9 @@
             SearchCount = 0;
 
         private bool SearchForward = true;
-        private List<Tag> _searchTags = new List<Tag>();
+        private List<Tag>
+            _searchTags = new List<Tag>(),
+            _replaceTags = new List<Tag>();
         private bool SearchValid;
         private readonly Selection Selection = new Selection();
 
@@ -127,6 +130,9 @@
         private System.Windows.Controls.DataGrid DataGrid => MainTableController.DataGrid;
 
         private readonly Control ParentControl;
+
+        private readonly ToolStrip
+            Toolbar;
 
         private readonly ToolStripButton
             TbCaseSensitive,
@@ -155,8 +161,6 @@
 
         #region Properties
 
-        private bool CanFind => !string.IsNullOrEmpty(CbFind.Text) && SearchTags.Any() && VisibleTracks.Any();
-        private bool CanReplace => CanFind && !string.IsNullOrEmpty(CbReplace.Text);
         private RegexOptions RegexOptions => CaseSensitive.AsRegexOptions();
 
         private bool CaseSensitive
@@ -409,55 +413,6 @@
         private void ReplaceAll() => Replace(all: true);
         private void ReplaceNext() => Replace(all: false);
 
-        /*{
-            if (Find())
-            {
-                var tracks = Selection.Tracks;
-                var tracksCount = tracks.Count;
-                var tags = SearchTags.ToList();
-                var tagsCount = tags.Count();
-                var values = new object[tracksCount, tagsCount];
-                var pattern = SearchPattern;
-                var options = RegexOptions;
-                for (var trackIndex = 0; trackIndex < tracksCount; trackIndex++)
-                {
-                    var track = tracks[trackIndex];
-                    for (var tagIndex = 0; tagIndex < tagsCount; tagIndex++)
-                    {
-                        var tag = tags[tagIndex];
-                        var value = track.GetPropertyValue(tag).ToString();
-                        if (Regex.IsMatch(value, pattern, options))
-                            value = Regex.Replace(value, pattern, CbReplace.Text, options);
-                        values[trackIndex, tagIndex] = value;
-                    }
-                }
-                var command = new ReplaceCommand(Selection, tags.ToArray(), values);
-                MainCommandProcessor.Run(command);
-            }
-        }*/
-
-        /*private bool ReplaceNext()
-        {
-            if (!FindStep(+1))
-                return false;
-            var track = Selection.Tracks[SearchIndex];
-            var tags = SearchTags.ToList();
-            var tagsCount = tags.Count();
-            var values = new object[tracksCount, tagsCount];
-            var pattern = SearchPattern;
-            var options = RegexOptions;
-            for (var tagIndex = 0; tagIndex < tagsCount; tagIndex++)
-            {
-                var tag = tags[tagIndex];
-                var value = track.GetPropertyValue(tag).ToString();
-                if (Regex.IsMatch(value, pattern, options))
-                    value = Regex.Replace(value, pattern, CbReplace.Text, options);
-                values[0, tagIndex] = value;
-            }
-
-            return true;
-        }*/
-
         private void ShowFindReplace(bool visible, bool replacing = false)
         {
             ParentControl.Visible = visible;
@@ -477,24 +432,53 @@
             if (SearchForward != forward)
             {
                 SearchForward = forward;
-                if (SearchForward)
-                {
-                    TbFind.Image = TbFindNext.Image;
-                    TbFind.ToolTipText = "Find next (F3)";
-                }
-                else
-                {
-                    TbFind.Image = TbFindPrevious.Image;
-                    TbFind.ToolTipText = "Find previous (Shift+F3)";
-                }
+                TbFind.Image = forward ? TbFindNext.Image : TbFindPrevious.Image;
+                UpdateUI();
             }
         }
 
         private void UpdateUI()
         {
-            TbFind.Enabled = TbFindNext.Enabled = TbFindPrevious.Enabled = TbFindAll.Enabled = CanFind;
-            TbReplaceNext.Enabled = TbReplaceAll.Enabled = CanReplace;
+            bool
+                anyTracks = VisibleTracks.Any(),
+                anyFindTags = SearchTags.Any(),
+                anyFindText = !string.IsNullOrEmpty(CbFind.Text),
+                anyReplaceTags = SearchTags.Any(p => p.CanWrite()),
+                anyReplaceText = !string.IsNullOrEmpty(CbReplace.Text),
+                canFind = anyTracks && anyFindTags && anyFindText,
+                canReplace = canFind && anyReplaceTags; // !anyReplaceText => warning only.
+            string
+                findReason = !anyTracks ? _noTracks : !anyFindTags ? _noFindTags : _noFindTerm,
+                replaceReason = !canFind ? findReason : !anyReplaceTags ? _noReplaceTags : _noReplaceTerm;
+
+            var window = Color.FromKnownColor(KnownColor.Window);
+            CbFind.BackColor = anyFindText ? window : Color.MistyRose;
+            CbFind.ToolTipText = anyFindText ? _findTerm : _noFindTerm;
+            TbFind.Enabled = TbFindNext.Enabled = TbFindPrevious.Enabled = TbFindAll.Enabled = canFind;
+            CbReplace.BackColor = anyReplaceText ? window : Color.MistyRose;
+            CbReplace.ToolTipText = anyReplaceText ? _replaceTerm : _noReplaceTerm;
+            TbReplaceNext.Enabled = TbReplaceAll.Enabled = canReplace;
+            TbFind.ToolTipText = canFind ? SearchForward ? _findNext : _findPrevious : findReason;
+            TbReplaceNext.ToolTipText = canReplace ? _replaceNext : replaceReason;
+            TbReplaceAll.ToolTipText = canReplace ? _replaceAll : replaceReason;
         }
+
+        #endregion
+
+        #region TODO: Localize
+
+        private const string
+            _findNext = "Find next (F3)",
+            _findPrevious = "Find previous (Shift+F3)",
+            _replaceNext = "Replace next (Alt+R)",
+            _replaceAll = "Replace all (Alt+A)",
+            _noTracks = "There are no tracks to search.",
+            _noFindTags = "There are no data fields to search.",
+            _findTerm = "Search term",
+            _noFindTerm = "Search term is blank.",
+            _noReplaceTags = "There are no writable fields to update.",
+            _replaceTerm = "Replacement term",
+            _noReplaceTerm = "Replacement term is blank.";
 
         #endregion
     }
