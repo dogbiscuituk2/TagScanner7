@@ -541,6 +541,16 @@
     <Content Include="Resources\TextboxHS.png" />
     <Content Include="Resources\TileWindowsHorizontallyHS.png" />
     <Content Include="Resources\Views_7953_32.bmp" />
+    <None Include="Resources\vsLabelBlue.png" />
+    <None Include="Resources\vsLabelGreen.png" />
+    <None Include="Resources\vsCheckedsListBoxBlue.png" />
+    <None Include="Resources\vsCheckedsListBoxGreen.png" />
+    <None Include="Resources\vsTreeViewBlue.png" />
+    <None Include="Resources\vsTreeViewGreen.png" />
+    <None Include="Resources\vsLinkLabel.png" />
+    <None Include="Resources\vsLabel.png" />
+    <None Include="Resources\vsTreeView.png" />
+    <None Include="Resources\vsCheckedsListBox.png" />
     <Content Include="Resources\WebInsertHyperlinkHS.png" />
     <Content Include="Resources\ZoomHS.png" />
   </ItemGroup>
