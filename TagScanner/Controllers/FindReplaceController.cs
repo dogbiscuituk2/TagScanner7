@@ -312,7 +312,7 @@
         {
             var tags = SearchTags.ToList();
             var ok = new TagsSelectorController(this, p => p.CanWrite() && (p.Type() == typeof(string) || p.Type() == typeof(string[])))
-                .Execute("Select the Fields to be used in the Search or Replace operation", tags);
+                .Execute("Select the Fields to be included in this Search or Replace operation", tags);
             if (ok)
                 SearchTags = tags;
         }
