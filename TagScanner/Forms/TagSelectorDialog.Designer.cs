@@ -41,7 +41,7 @@
             this.TreeView = new System.Windows.Forms.TreeView();
             this.TreeViewStateImageList = new System.Windows.Forms.ImageList(this.components);
             this.toolStripContainer1 = new System.Windows.Forms.ToolStripContainer();
-            this.toolStrip1 = new System.Windows.Forms.ToolStrip();
+            this.toolStrip1 = new TagScanner.Controls.FirstClickToolStrip();
             this.tbTreeAlpha = new System.Windows.Forms.ToolStripButton();
             this.tbTreeCat = new System.Windows.Forms.ToolStripButton();
             this.tbTreeType = new System.Windows.Forms.ToolStripButton();
@@ -215,15 +215,19 @@
             this.tbTreeAlpha.Name = "tbTreeAlpha";
             this.tbTreeAlpha.Size = new System.Drawing.Size(22, 20);
             this.tbTreeAlpha.Text = "toolStripButton1";
+            this.tbTreeAlpha.ToolTipText = "Tree (alphabetical)";
             // 
             // tbTreeCat
             // 
+            this.tbTreeCat.Checked = true;
+            this.tbTreeCat.CheckState = System.Windows.Forms.CheckState.Checked;
             this.tbTreeCat.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
             this.tbTreeCat.Image = ((System.Drawing.Image)(resources.GetObject("tbTreeCat.Image")));
             this.tbTreeCat.ImageTransparentColor = System.Drawing.Color.Transparent;
             this.tbTreeCat.Name = "tbTreeCat";
             this.tbTreeCat.Size = new System.Drawing.Size(22, 20);
             this.tbTreeCat.Text = "toolStripButton2";
+            this.tbTreeCat.ToolTipText = "Tree (by category)";
             // 
             // tbTreeType
             // 
@@ -233,6 +237,7 @@
             this.tbTreeType.Name = "tbTreeType";
             this.tbTreeType.Size = new System.Drawing.Size(22, 20);
             this.tbTreeType.Text = "toolStripButton3";
+            this.tbTreeType.ToolTipText = "Tree (by data type)";
             // 
             // toolStripSeparator1
             // 
@@ -246,7 +251,7 @@
             this.tbListAlpha.ImageTransparentColor = System.Drawing.Color.Transparent;
             this.tbListAlpha.Name = "tbListAlpha";
             this.tbListAlpha.Size = new System.Drawing.Size(22, 20);
-            this.tbListAlpha.Text = "toolStripButton4";
+            this.tbListAlpha.ToolTipText = "List (alphabetical)";
             // 
             // tbListCat
             // 
@@ -254,8 +259,9 @@
             this.tbListCat.Image = global::TagScanner.Properties.Resources.fff_app_list_C_16;
             this.tbListCat.ImageTransparentColor = System.Drawing.Color.Transparent;
             this.tbListCat.Name = "tbListCat";
-            this.tbListCat.Size = new System.Drawing.Size(30, 20);
+            this.tbListCat.Size = new System.Drawing.Size(22, 20);
             this.tbListCat.Text = "toolStripButton5";
+            this.tbListCat.ToolTipText = "List (by category)";
             // 
             // tbListType
             // 
@@ -263,8 +269,9 @@
             this.tbListType.Image = global::TagScanner.Properties.Resources.fff_app_list_T_16;
             this.tbListType.ImageTransparentColor = System.Drawing.Color.Transparent;
             this.tbListType.Name = "tbListType";
-            this.tbListType.Size = new System.Drawing.Size(30, 20);
+            this.tbListType.Size = new System.Drawing.Size(22, 20);
             this.tbListType.Text = "toolStripButton6";
+            this.tbListType.ToolTipText = "List (by data type)";
             // 
             // toolStripSeparator2
             // 
@@ -279,6 +286,7 @@
             this.tbListNames.Name = "tbListNames";
             this.tbListNames.Size = new System.Drawing.Size(22, 20);
             this.tbListNames.Text = "toolStripButton7";
+            this.tbListNames.ToolTipText = "List (names only)";
             // 
             // MainMenu
             // 
@@ -343,7 +351,7 @@
             this.ListAlphabetically.Image = global::TagScanner.Properties.Resources.fff_app_list_16;
             this.ListAlphabetically.ImageTransparentColor = System.Drawing.Color.Transparent;
             this.ListAlphabetically.Name = "ListAlphabetically";
-            this.ListAlphabetically.Size = new System.Drawing.Size(180, 22);
+            this.ListAlphabetically.Size = new System.Drawing.Size(149, 22);
             this.ListAlphabetically.Text = "&Alphabetically";
             // 
             // ListByCategory
@@ -351,7 +359,7 @@
             this.ListByCategory.Image = global::TagScanner.Properties.Resources.fff_app_list_C_16;
             this.ListByCategory.ImageTransparentColor = System.Drawing.Color.Transparent;
             this.ListByCategory.Name = "ListByCategory";
-            this.ListByCategory.Size = new System.Drawing.Size(180, 22);
+            this.ListByCategory.Size = new System.Drawing.Size(149, 22);
             this.ListByCategory.Text = "by &Category";
             // 
             // ListByDataType
@@ -359,20 +367,20 @@
             this.ListByDataType.Image = global::TagScanner.Properties.Resources.fff_app_list_T_16;
             this.ListByDataType.ImageTransparentColor = System.Drawing.Color.Transparent;
             this.ListByDataType.Name = "ListByDataType";
-            this.ListByDataType.Size = new System.Drawing.Size(180, 22);
+            this.ListByDataType.Size = new System.Drawing.Size(149, 22);
             this.ListByDataType.Text = "by &Data Type";
             // 
             // toolStripMenuItem2
             // 
             this.toolStripMenuItem2.Name = "toolStripMenuItem2";
-            this.toolStripMenuItem2.Size = new System.Drawing.Size(177, 6);
+            this.toolStripMenuItem2.Size = new System.Drawing.Size(146, 6);
             // 
             // ListNamesOnly
             // 
             this.ListNamesOnly.Image = global::TagScanner.Properties.Resources.fff_app_columns_16;
             this.ListNamesOnly.ImageTransparentColor = System.Drawing.Color.Transparent;
             this.ListNamesOnly.Name = "ListNamesOnly";
-            this.ListNamesOnly.Size = new System.Drawing.Size(180, 22);
+            this.ListNamesOnly.Size = new System.Drawing.Size(149, 22);
             this.ListNamesOnly.Text = "&Names only";
             // 
             // TagSelectorDialog
@@ -418,11 +426,11 @@
         public System.Windows.Forms.ColumnHeader chCategory;
         public System.Windows.Forms.ColumnHeader chWritable;
         public System.Windows.Forms.TreeView TreeView;
-        private System.Windows.Forms.ImageList TreeViewStateImageList;
-        private System.Windows.Forms.ToolStripContainer toolStripContainer1;
-        private System.Windows.Forms.ToolStrip toolStrip1;
-        private System.Windows.Forms.ToolStripButton tbTreeAlpha;
-        private System.Windows.Forms.ToolStripButton tbTreeCat;
+        public System.Windows.Forms.ImageList TreeViewStateImageList;
+        public System.Windows.Forms.ToolStripContainer toolStripContainer1;
+        public Controls.FirstClickToolStrip toolStrip1;
+        public System.Windows.Forms.ToolStripButton tbTreeAlpha;
+        public System.Windows.Forms.ToolStripButton tbTreeCat;
         public Controls.FirstClickMenuStrip MainMenu;
         public System.Windows.Forms.ToolStripMenuItem TreeMenu;
         public System.Windows.Forms.ToolStripMenuItem TreeAlphabetically;
@@ -434,12 +442,12 @@
         public System.Windows.Forms.ToolStripMenuItem ListByDataType;
         public System.Windows.Forms.ToolStripSeparator toolStripMenuItem2;
         public System.Windows.Forms.ToolStripMenuItem ListNamesOnly;
-        private System.Windows.Forms.ToolStripButton tbTreeType;
-        private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
-        private System.Windows.Forms.ToolStripButton tbListAlpha;
-        private System.Windows.Forms.ToolStripButton tbListCat;
-        private System.Windows.Forms.ToolStripButton tbListType;
-        private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
-        private System.Windows.Forms.ToolStripButton tbListNames;
+        public System.Windows.Forms.ToolStripButton tbTreeType;
+        public System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
+        public System.Windows.Forms.ToolStripButton tbListAlpha;
+        public System.Windows.Forms.ToolStripButton tbListCat;
+        public System.Windows.Forms.ToolStripButton tbListType;
+        public System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
+        public System.Windows.Forms.ToolStripButton tbListNames;
     }
 }

@@ -10,27 +10,32 @@
     {
         #region Constructor
 
-        public TagsViewController(Controller parent) : base(parent) { }
+        public TagsViewController(Controller parent, Control control) : base(parent) { Control = control; }
 
         #endregion
 
         #region Public Properties
 
-        public bool Active => Control.Visible;
+        private bool _active;
+        public bool Active
+        {
+            get => _active;
+            set
+            {
+                _active = value;
+                Control.Visible = Active;
+                if (Active)
+                {
+                    Control.BringToFront();
+                    Control.Dock = DockStyle.Fill;
+                    InitGroups();
+                }
+            }
+        }
 
         #endregion
 
         #region Public Methods
-
-        public void HideView() => Control.Hide();
-
-        public void ShowView()
-        {
-            Control.Visible = true;
-            Control.BringToFront();
-            Control.Dock = DockStyle.Fill;
-            InitGroups();
-        }
 
         public abstract IEnumerable<Tag> GetSelectedTags();
         public abstract void SetSelectedTags(IEnumerable<Tag> visibleTags);
@@ -40,8 +45,7 @@
         #region Protected Properties
 
         protected IEnumerable<Tag> AvailableTags => TagsSelectorController.AvailableTags;
-        protected abstract Control Control { get; }
-        protected TagSelectorDialog Dialog => TagsSelectorController.Dialog;
+        protected Control Control { get; private set; }
         protected GroupTagsBy GroupTagsBy => TagsSelectorController.GroupTagsBy;
 
         #endregion

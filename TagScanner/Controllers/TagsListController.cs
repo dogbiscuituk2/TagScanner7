@@ -13,7 +13,17 @@
     {
         #region Constructor
 
-        public TagsListController(Controller parent) : base(parent) { }
+        public TagsListController(Controller parent, ListView listView) : base(parent, listView) { }
+
+        #endregion
+
+        #region Public Properties
+
+        public View ViewMode
+        {
+            get => ListView.View;
+            set => ListView.View = value;
+        }
 
         #endregion
 
@@ -24,12 +34,11 @@
             InitItems();
             ListView.ColumnClick += (sender, e) => SortByColumn(e.Column);
             ListView.ListViewItemSorter = this;
-            Dialog.ListMenu.DropDownOpening += (sender, e) => UpdateMenu();
         }
 
         public void ShowView(View view)
         {
-            ShowView();
+            Active = true;
             ListView.View = view;
         }
 
@@ -59,12 +68,6 @@
 
         #endregion
 
-        #region Protected Properties
-
-        protected override Control Control => ListView;
-
-        #endregion
-
         #region Protected Methods
 
         protected override void InitGroups()
@@ -90,7 +93,7 @@
 
         private ListViewGroupCollection Groups => ListView.Groups;
         private ListView.ListViewItemCollection Items => ListView.Items;
-        private ListView ListView => Dialog.ListView;
+        private ListView ListView => (ListView)Control;
 
         #endregion
 
@@ -103,6 +106,8 @@
 
         private void InitItems()
         {
+            var foo = ListView.View;
+
             Items.Clear();
             foreach (var tag in AvailableTags)
             {
@@ -131,14 +136,6 @@
             else
                 _sortDescending = !_sortDescending;
             ListView.Sort();
-        }
-
-        private void UpdateMenu()
-        {
-            Dialog.ListAlphabetically.Checked = Active && GroupTagsBy == GroupTagsBy.None && ListView.View == View.Details;
-            Dialog.ListByCategory.Checked = Active && GroupTagsBy == GroupTagsBy.Category;
-            Dialog.ListByDataType.Checked = Active && GroupTagsBy == GroupTagsBy.DataType;
-            Dialog.ListNamesOnly.Checked = Active && GroupTagsBy == GroupTagsBy.None && ListView.View == View.List;
         }
 
         #endregion

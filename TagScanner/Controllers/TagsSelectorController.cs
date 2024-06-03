@@ -16,8 +16,47 @@
         public TagsSelectorController(Controller parent, Func<Tag, bool> tagFilter) : base(parent)
         {
             AvailableTags = Tags.Keys.Where(tagFilter);
-            _tagsListController = new TagsListController(this);
-            _tagsTreeController = new TagsTreeController(this);
+
+            _tagsListController = new TagsListController(this, Dialog.ListView);
+            _tagsTreeController = new TagsTreeController(this, Dialog.TreeView);
+
+            TreeAlphabetically = Dialog.TreeAlphabetically;
+            TreeByCategory = Dialog.TreeByCategory;
+            TreeByDataType = Dialog.TreeByDataType;
+
+            ListAlphabetically = Dialog.ListAlphabetically;
+            ListByCategory = Dialog.ListByCategory;
+            ListByDataType = Dialog.ListByDataType;
+            ListNamesOnly = Dialog.ListNamesOnly;
+
+            tbTreeAlpha = Dialog.tbTreeAlpha;
+            tbTreeCat = Dialog.tbTreeCat;
+            tbTreeType = Dialog.tbTreeType;
+
+            tbListAlpha = Dialog.tbListAlpha;
+            tbListCat = Dialog.tbListCat;
+            tbListType = Dialog.tbListType;
+            tbListNames = Dialog.tbListNames;
+
+            _tagsTreeController.InitView();
+            TreeAlphabetically.Click += TreeAlphabetically_Click;
+            TreeByCategory.Click += TreeByCategory_Click;
+            TreeByDataType.Click += TreeByDataType_Click;
+            tbTreeAlpha.Click += TreeAlphabetically_Click;
+            tbTreeCat.Click += TreeByCategory_Click;
+            tbTreeType.Click += TreeByDataType_Click;
+
+            _tagsListController.InitView();
+            ListAlphabetically.Click += ListAlphabetically_Click;
+            ListByCategory.Click += ListByCategory_Click;
+            ListByDataType.Click += ListByDataType_Click;
+            ListNamesOnly.Click += ListNamesOnly_Click;
+            tbListAlpha.Click += ListAlphabetically_Click;
+            tbListCat.Click += ListByCategory_Click;
+            tbListType.Click += ListByDataType_Click;
+            tbListNames.Click += ListNamesOnly_Click;
+
+            UseTreeView(GroupTagsBy.Category);
         }
 
         #endregion
@@ -27,6 +66,7 @@
         public IEnumerable<Tag> AvailableTags { get; private set; }
 
         public GroupTagsBy GroupTagsBy;
+        private bool MultiColumn;
 
         #endregion
 
@@ -58,7 +98,37 @@
         #region Private Properties
 
         private TagsViewController ActiveController => _tagsListController.Active ? _tagsListController : (TagsViewController)_tagsTreeController;
-        public TagSelectorDialog Dialog => _dialog ?? CreateDialog();
+        private TagSelectorDialog Dialog => _dialog ?? CreateDialog();
+
+        private ToolStripMenuItem
+            ListAlphabetically,
+            ListByCategory,
+            ListByDataType,
+            ListNamesOnly,
+            TreeAlphabetically,
+            TreeByCategory,
+            TreeByDataType;
+
+        private ToolStripButton
+            tbListAlpha,
+            tbListCat,
+            tbListType,
+            tbListNames,
+            tbTreeAlpha,
+            tbTreeCat,
+            tbTreeType;
+
+        #endregion
+
+        #region Event Handlers
+
+        private void TreeAlphabetically_Click(object sender, EventArgs e) => UseTreeView(GroupTagsBy.None);
+        private void TreeByCategory_Click(object sender, EventArgs e) => UseTreeView(GroupTagsBy.Category);
+        private void TreeByDataType_Click(object sender, EventArgs e) => UseTreeView(GroupTagsBy.DataType);
+        private void ListAlphabetically_Click(object sender, EventArgs e) => UseListView(GroupTagsBy.None);
+        private void ListByCategory_Click(object sender, EventArgs e) => UseListView(GroupTagsBy.Category);
+        private void ListByDataType_Click(object sender, EventArgs e) => UseListView(GroupTagsBy.DataType);
+        private void ListNamesOnly_Click(object sender, EventArgs e) => UseListView(GroupTagsBy.None, true);
 
         #endregion
 
@@ -68,40 +138,36 @@
         {
             _dialog = new TagSelectorDialog();
 
-            _tagsListController.InitView();
-            Dialog.ListAlphabetically.Click += (sender, e) => UseListView(View.Details, GroupTagsBy.None);
-            Dialog.ListByCategory.Click += (sender, e) => UseListView(View.Details, GroupTagsBy.Category);
-            Dialog.ListByDataType.Click += (sender, e) => UseListView(View.Details, GroupTagsBy.DataType);
-            Dialog.ListNamesOnly.Click += (sender, e) => UseListView(View.List, GroupTagsBy.None);
-
-            _tagsTreeController.InitView();
-            Dialog.TreeByCategory.Click += (sender, e) => UseTreeView(GroupTagsBy.Category);
-            Dialog.TreeByDataType.Click += (sender, e) => UseTreeView(GroupTagsBy.DataType);
-            Dialog.TreeAlphabetically.Click += (sender, e) => UseTreeView(GroupTagsBy.None);
-
-            Dialog.TreeByCategory.PerformClick();
             return Dialog;
         }
 
         private IEnumerable<Tag> GetSelectedTags() => ActiveController.GetSelectedTags();
         private void SetSelectedTags(IEnumerable<Tag> selectedTags) => ActiveController.SetSelectedTags(selectedTags);
 
-        private void UseListView(View view, GroupTagsBy groupTagsBy)
+        private void UpdateMenu()
         {
-            var selectedTags = GetSelectedTags();
-            GroupTagsBy = groupTagsBy;
-            _tagsTreeController.HideView();
-            _tagsListController.ShowView(view);
-            SetSelectedTags(selectedTags);
+            bool tree = _tagsTreeController.Active;
+            TreeAlphabetically.Checked = tbTreeAlpha.Checked = tree && GroupTagsBy == GroupTagsBy.None; ;
+            TreeByCategory.Checked = tbTreeCat.Checked = tree && GroupTagsBy == GroupTagsBy.Category;
+            TreeByDataType.Checked = tbTreeType.Checked = tree && GroupTagsBy == GroupTagsBy.DataType;
+            ListAlphabetically.Checked = tbListAlpha.Checked = !tree && GroupTagsBy == GroupTagsBy.None && !MultiColumn;
+            ListByCategory.Checked = tbListCat.Checked = !tree && GroupTagsBy == GroupTagsBy.Category;
+            ListByDataType.Checked = tbListType.Checked = !tree && GroupTagsBy == GroupTagsBy.DataType;
+            ListNamesOnly.Checked = tbListNames.Checked = !tree && GroupTagsBy == GroupTagsBy.None && MultiColumn;
         }
 
-        private void UseTreeView(GroupTagsBy groupTagsBy)
+        private void UseListView(GroupTagsBy groupTagsBy, bool multiColumn = false) => UseTreeView(groupTagsBy, tree: false, multiColumn);
+
+        private void UseTreeView(GroupTagsBy groupTagsBy, bool tree = true, bool multiColumn = false)
         {
             var selectedTags = GetSelectedTags();
             GroupTagsBy = groupTagsBy;
-            _tagsListController.HideView();
-            _tagsTreeController.ShowView();
+            MultiColumn = multiColumn;
+            _tagsListController.ViewMode = multiColumn ? View.List : View.Details;
+            _tagsListController.Active = !tree;
+            _tagsTreeController.Active = tree;
             SetSelectedTags(selectedTags);
+            UpdateMenu();
         }
 
         #endregion

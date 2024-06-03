@@ -11,7 +11,7 @@
     {
         #region Constructor
 
-        public TagsTreeController(Controller parent) : base(parent) { }
+        public TagsTreeController(Controller parent, TreeView treeView) : base(parent, treeView) { }
 
         #endregion
 
@@ -21,7 +21,6 @@
         {
             InitNodes();
             RootNode.Expand();
-            Dialog.TreeMenu.DropDownOpening += (sender, e) => UpdateMenu();
             TriStateTreeController = new TriStateTreeController(TreeView);
         }
 
@@ -47,12 +46,6 @@
 
         #endregion
 
-        #region Protected Properties
-
-        protected override Control Control => TreeView;
-
-        #endregion
-
         #region Protected Methods
 
         protected override void InitGroups()
@@ -67,7 +60,7 @@
         private TriStateTreeController TriStateTreeController;
         private TreeNodeCollection Nodes => RootNode.Nodes;
         private TreeNode RootNode => TreeView.Nodes[0];
-        private TreeView TreeView => Dialog.TreeView;
+        private TreeView TreeView => (TreeView)Control;
 
         #endregion
 
@@ -125,13 +118,6 @@
             foreach (var tag in SortTags())
                 AddNode(FindParent(tag).Nodes, tag);
             RootNode.Expand();
-        }
-
-        private void UpdateMenu()
-        {
-            Dialog.TreeByCategory.Checked = Active && GroupTagsBy == GroupTagsBy.Category;
-            Dialog.TreeByDataType.Checked = Active && GroupTagsBy == GroupTagsBy.DataType;
-            Dialog.TreeAlphabetically.Checked = Active && GroupTagsBy == GroupTagsBy.None; ;
         }
 
         private void Visit(Action<TreeNode> action)
