@@ -50,6 +50,7 @@
             this.PopupFilterEdit = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem19 = new System.Windows.Forms.ToolStripSeparator();
             this.PopupFilterClose = new System.Windows.Forms.ToolStripMenuItem();
+            this.FilterControl = new TagScanner.Controls.FilterControl();
             this.SplitContainerRight = new System.Windows.Forms.SplitContainer();
             this.PictureBox = new System.Windows.Forms.PictureBox();
             this.FindReplacePanel = new System.Windows.Forms.GroupBox();
@@ -69,6 +70,7 @@
             this.PopupReplaceAll = new System.Windows.Forms.ToolStripMenuItem();
             this.PopupReplaceSeparator = new System.Windows.Forms.ToolStripSeparator();
             this.PopupCloseFindReplace = new System.Windows.Forms.ToolStripMenuItem();
+            this.FindReplaceControl = new TagScanner.Forms.FindReplaceControl();
             this.TabControl = new System.Windows.Forms.TabControl();
             this.tabTags = new System.Windows.Forms.TabPage();
             this.PropertyGridPopupMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
@@ -78,17 +80,21 @@
             this.tabPlayer = new System.Windows.Forms.TabPage();
             this.splitContainer3 = new System.Windows.Forms.SplitContainer();
             this.PlaylistElementHost = new System.Windows.Forms.Integration.ElementHost();
+            this.PlayerPopupMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.selectColumnsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.MediaPlayer = new AxWMPLib.AxWindowsMediaPlayer();
             this.RecentLibraryPopupMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.FileReopen = new System.Windows.Forms.ToolStripMenuItem();
             this.RecentFolderPopupMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.AddRecentFolder = new System.Windows.Forms.ToolStripMenuItem();
             this.UndoPopupMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.tbUndo = new System.Windows.Forms.ToolStripSplitButton();
             this.RedoPopupMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.tbRedo = new System.Windows.Forms.ToolStripSplitButton();
             this.AddFolderDialog = new System.Windows.Forms.FolderBrowserDialog();
             this.AddFileDialog = new System.Windows.Forms.OpenFileDialog();
             this.ToolStripContainer = new System.Windows.Forms.ToolStripContainer();
             this.StatusBar = new System.Windows.Forms.StatusStrip();
-            this.FilterControl = new TagScanner.Controls.FilterControl();
-            this.FindReplaceControl = new TagScanner.Forms.FindReplaceControl();
-            this.MediaPlayer = new AxWMPLib.AxWindowsMediaPlayer();
             this.ToolStrip = new TagScanner.Controls.FirstClickToolStrip();
             this.tbNew = new System.Windows.Forms.ToolStripSplitButton();
             this.tbNewLibrary = new System.Windows.Forms.ToolStripMenuItem();
@@ -101,8 +107,6 @@
             this.tbSaveAs = new System.Windows.Forms.ToolStripMenuItem();
             this.saveAllToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
-            this.tbUndo = new System.Windows.Forms.ToolStripSplitButton();
-            this.tbRedo = new System.Windows.Forms.ToolStripSplitButton();
             this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
             this.tbCut = new System.Windows.Forms.ToolStripButton();
             this.tbCopy = new System.Windows.Forms.ToolStripButton();
@@ -125,7 +129,6 @@
             this.FileMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.FileNew = new System.Windows.Forms.ToolStripMenuItem();
             this.FileOpen = new System.Windows.Forms.ToolStripMenuItem();
-            this.FileReopen = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripSeparator();
             this.FileSave = new System.Windows.Forms.ToolStripMenuItem();
             this.FileSaveAs = new System.Windows.Forms.ToolStripMenuItem();
@@ -154,7 +157,6 @@
             this.AddFolder = new System.Windows.Forms.ToolStripMenuItem();
             this.AddLibrary = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem3 = new System.Windows.Forms.ToolStripSeparator();
-            this.AddRecentFolder = new System.Windows.Forms.ToolStripMenuItem();
             this.AddRecentLibrary = new System.Windows.Forms.ToolStripMenuItem();
             this.GroupByMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.GroupByArtistAlbum = new System.Windows.Forms.ToolStripMenuItem();
@@ -195,12 +197,13 @@
             this.splitContainer3.Panel1.SuspendLayout();
             this.splitContainer3.Panel2.SuspendLayout();
             this.splitContainer3.SuspendLayout();
+            this.PlayerPopupMenu.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.MediaPlayer)).BeginInit();
             this.ToolStripContainer.BottomToolStripPanel.SuspendLayout();
             this.ToolStripContainer.ContentPanel.SuspendLayout();
             this.ToolStripContainer.LeftToolStripPanel.SuspendLayout();
             this.ToolStripContainer.TopToolStripPanel.SuspendLayout();
             this.ToolStripContainer.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.MediaPlayer)).BeginInit();
             this.ToolStrip.SuspendLayout();
             this.MainMenu.SuspendLayout();
             this.SuspendLayout();
@@ -427,6 +430,16 @@
             this.PopupFilterClose.Size = new System.Drawing.Size(136, 22);
             this.PopupFilterClose.Text = "Cl&ose Filter";
             // 
+            // FilterControl
+            // 
+            this.FilterControl.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.FilterControl.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.FilterControl.Location = new System.Drawing.Point(3, 21);
+            this.FilterControl.Margin = new System.Windows.Forms.Padding(4);
+            this.FilterControl.Name = "FilterControl";
+            this.FilterControl.Size = new System.Drawing.Size(533, 24);
+            this.FilterControl.TabIndex = 0;
+            // 
             // SplitContainerRight
             // 
             this.SplitContainerRight.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -606,6 +619,16 @@
             this.PopupCloseFindReplace.Size = new System.Drawing.Size(196, 22);
             this.PopupCloseFindReplace.Text = "Close find/replace";
             // 
+            // FindReplaceControl
+            // 
+            this.FindReplaceControl.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.FindReplaceControl.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.FindReplaceControl.Location = new System.Drawing.Point(3, 21);
+            this.FindReplaceControl.Margin = new System.Windows.Forms.Padding(4);
+            this.FindReplaceControl.Name = "FindReplaceControl";
+            this.FindReplaceControl.Size = new System.Drawing.Size(194, 68);
+            this.FindReplaceControl.TabIndex = 0;
+            // 
             // TabControl
             // 
             this.TabControl.Controls.Add(this.tabTags);
@@ -690,21 +713,46 @@
             // splitContainer3.Panel2
             // 
             this.splitContainer3.Panel2.Controls.Add(this.MediaPlayer);
-            this.splitContainer3.Size = new System.Drawing.Size(187, 275);
-            this.splitContainer3.SplitterDistance = 71;
+            this.splitContainer3.Size = new System.Drawing.Size(187, 271);
+            this.splitContainer3.SplitterDistance = 69;
             this.splitContainer3.SplitterWidth = 5;
             this.splitContainer3.TabIndex = 1;
             // 
             // PlaylistElementHost
             // 
+            this.PlaylistElementHost.ContextMenuStrip = this.PlayerPopupMenu;
             this.PlaylistElementHost.Dock = System.Windows.Forms.DockStyle.Fill;
             this.PlaylistElementHost.Location = new System.Drawing.Point(0, 0);
             this.PlaylistElementHost.Margin = new System.Windows.Forms.Padding(4);
             this.PlaylistElementHost.Name = "PlaylistElementHost";
-            this.PlaylistElementHost.Size = new System.Drawing.Size(187, 71);
+            this.PlaylistElementHost.Size = new System.Drawing.Size(187, 69);
             this.PlaylistElementHost.TabIndex = 0;
             this.PlaylistElementHost.Text = "elementHost1";
             this.PlaylistElementHost.Child = null;
+            // 
+            // PlayerPopupMenu
+            // 
+            this.PlayerPopupMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.selectColumnsToolStripMenuItem});
+            this.PlayerPopupMenu.Name = "PlayerPopupMenu";
+            this.PlayerPopupMenu.Size = new System.Drawing.Size(166, 26);
+            // 
+            // selectColumnsToolStripMenuItem
+            // 
+            this.selectColumnsToolStripMenuItem.Name = "selectColumnsToolStripMenuItem";
+            this.selectColumnsToolStripMenuItem.Size = new System.Drawing.Size(165, 22);
+            this.selectColumnsToolStripMenuItem.Text = "&Select Columns...";
+            // 
+            // MediaPlayer
+            // 
+            this.MediaPlayer.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.MediaPlayer.Enabled = true;
+            this.MediaPlayer.Location = new System.Drawing.Point(0, 0);
+            this.MediaPlayer.Margin = new System.Windows.Forms.Padding(4);
+            this.MediaPlayer.Name = "MediaPlayer";
+            this.MediaPlayer.OcxState = ((System.Windows.Forms.AxHost.State)(resources.GetObject("MediaPlayer.OcxState")));
+            this.MediaPlayer.Size = new System.Drawing.Size(187, 197);
+            this.MediaPlayer.TabIndex = 0;
             // 
             // RecentLibraryPopupMenu
             // 
@@ -712,11 +760,25 @@
             this.RecentLibraryPopupMenu.OwnerItem = this.AddRecentLibrary;
             this.RecentLibraryPopupMenu.Size = new System.Drawing.Size(61, 4);
             // 
+            // FileReopen
+            // 
+            this.FileReopen.DropDown = this.RecentLibraryPopupMenu;
+            this.FileReopen.Name = "FileReopen";
+            this.FileReopen.Size = new System.Drawing.Size(161, 22);
+            this.FileReopen.Text = "&Reopen";
+            // 
             // RecentFolderPopupMenu
             // 
             this.RecentFolderPopupMenu.Name = "RecentFolderPopupMenu";
             this.RecentFolderPopupMenu.OwnerItem = this.tbAddRecentFolder;
             this.RecentFolderPopupMenu.Size = new System.Drawing.Size(61, 4);
+            // 
+            // AddRecentFolder
+            // 
+            this.AddRecentFolder.DropDown = this.RecentFolderPopupMenu;
+            this.AddRecentFolder.Name = "AddRecentFolder";
+            this.AddRecentFolder.Size = new System.Drawing.Size(149, 22);
+            this.AddRecentFolder.Text = "&Recent Folder";
             // 
             // UndoPopupMenu
             // 
@@ -724,11 +786,33 @@
             this.UndoPopupMenu.OwnerItem = this.tbUndo;
             this.UndoPopupMenu.Size = new System.Drawing.Size(61, 4);
             // 
+            // tbUndo
+            // 
+            this.tbUndo.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.tbUndo.DropDown = this.UndoPopupMenu;
+            this.tbUndo.Image = global::TagScanner.Properties.Resources.Edit_UndoHS;
+            this.tbUndo.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.tbUndo.Name = "tbUndo";
+            this.tbUndo.Size = new System.Drawing.Size(31, 20);
+            this.tbUndo.Text = "tbUndo";
+            this.tbUndo.ToolTipText = "Undo (^Z)";
+            // 
             // RedoPopupMenu
             // 
             this.RedoPopupMenu.Name = "RedoPopupMenu";
             this.RedoPopupMenu.OwnerItem = this.tbRedo;
             this.RedoPopupMenu.Size = new System.Drawing.Size(61, 4);
+            // 
+            // tbRedo
+            // 
+            this.tbRedo.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.tbRedo.DropDown = this.RedoPopupMenu;
+            this.tbRedo.Image = global::TagScanner.Properties.Resources.Edit_RedoHS;
+            this.tbRedo.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.tbRedo.Name = "tbRedo";
+            this.tbRedo.Size = new System.Drawing.Size(31, 20);
+            this.tbRedo.Text = "tbRedo";
+            this.tbRedo.ToolTipText = "Redo (^Y)";
             // 
             // AddFolderDialog
             // 
@@ -774,37 +858,6 @@
             this.StatusBar.Size = new System.Drawing.Size(784, 22);
             this.StatusBar.TabIndex = 10;
             this.StatusBar.Text = "Status";
-            // 
-            // FilterControl
-            // 
-            this.FilterControl.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.FilterControl.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.FilterControl.Location = new System.Drawing.Point(3, 21);
-            this.FilterControl.Margin = new System.Windows.Forms.Padding(4);
-            this.FilterControl.Name = "FilterControl";
-            this.FilterControl.Size = new System.Drawing.Size(533, 24);
-            this.FilterControl.TabIndex = 0;
-            // 
-            // FindReplaceControl
-            // 
-            this.FindReplaceControl.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.FindReplaceControl.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.FindReplaceControl.Location = new System.Drawing.Point(3, 21);
-            this.FindReplaceControl.Margin = new System.Windows.Forms.Padding(4);
-            this.FindReplaceControl.Name = "FindReplaceControl";
-            this.FindReplaceControl.Size = new System.Drawing.Size(194, 68);
-            this.FindReplaceControl.TabIndex = 0;
-            // 
-            // MediaPlayer
-            // 
-            this.MediaPlayer.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.MediaPlayer.Enabled = true;
-            this.MediaPlayer.Location = new System.Drawing.Point(0, 0);
-            this.MediaPlayer.Margin = new System.Windows.Forms.Padding(4);
-            this.MediaPlayer.Name = "MediaPlayer";
-            this.MediaPlayer.OcxState = ((System.Windows.Forms.AxHost.State)(resources.GetObject("MediaPlayer.OcxState")));
-            this.MediaPlayer.Size = new System.Drawing.Size(187, 199);
-            this.MediaPlayer.TabIndex = 0;
             // 
             // ToolStrip
             // 
@@ -932,28 +985,6 @@
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
             this.toolStripSeparator1.Size = new System.Drawing.Size(31, 6);
-            // 
-            // tbUndo
-            // 
-            this.tbUndo.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.tbUndo.DropDown = this.UndoPopupMenu;
-            this.tbUndo.Image = global::TagScanner.Properties.Resources.Edit_UndoHS;
-            this.tbUndo.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.tbUndo.Name = "tbUndo";
-            this.tbUndo.Size = new System.Drawing.Size(31, 20);
-            this.tbUndo.Text = "tbUndo";
-            this.tbUndo.ToolTipText = "Undo (^Z)";
-            // 
-            // tbRedo
-            // 
-            this.tbRedo.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.tbRedo.DropDown = this.RedoPopupMenu;
-            this.tbRedo.Image = global::TagScanner.Properties.Resources.Edit_RedoHS;
-            this.tbRedo.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.tbRedo.Name = "tbRedo";
-            this.tbRedo.Size = new System.Drawing.Size(31, 20);
-            this.tbRedo.Text = "tbRedo";
-            this.tbRedo.ToolTipText = "Redo (^Y)";
             // 
             // toolStripSeparator3
             // 
@@ -1157,13 +1188,6 @@
             this.FileOpen.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.O)));
             this.FileOpen.Size = new System.Drawing.Size(161, 22);
             this.FileOpen.Text = "&Open...";
-            // 
-            // FileReopen
-            // 
-            this.FileReopen.DropDown = this.RecentLibraryPopupMenu;
-            this.FileReopen.Name = "FileReopen";
-            this.FileReopen.Size = new System.Drawing.Size(161, 22);
-            this.FileReopen.Text = "&Reopen";
             // 
             // toolStripMenuItem1
             // 
@@ -1387,13 +1411,6 @@
             this.toolStripMenuItem3.Name = "toolStripMenuItem3";
             this.toolStripMenuItem3.Size = new System.Drawing.Size(146, 6);
             // 
-            // AddRecentFolder
-            // 
-            this.AddRecentFolder.DropDown = this.RecentFolderPopupMenu;
-            this.AddRecentFolder.Name = "AddRecentFolder";
-            this.AddRecentFolder.Size = new System.Drawing.Size(149, 22);
-            this.AddRecentFolder.Text = "&Recent Folder";
-            // 
             // AddRecentLibrary
             // 
             this.AddRecentLibrary.DropDown = this.RecentLibraryPopupMenu;
@@ -1538,6 +1555,8 @@
             this.splitContainer3.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer3)).EndInit();
             this.splitContainer3.ResumeLayout(false);
+            this.PlayerPopupMenu.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.MediaPlayer)).EndInit();
             this.ToolStripContainer.BottomToolStripPanel.ResumeLayout(false);
             this.ToolStripContainer.BottomToolStripPanel.PerformLayout();
             this.ToolStripContainer.ContentPanel.ResumeLayout(false);
@@ -1547,7 +1566,6 @@
             this.ToolStripContainer.TopToolStripPanel.PerformLayout();
             this.ToolStripContainer.ResumeLayout(false);
             this.ToolStripContainer.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.MediaPlayer)).EndInit();
             this.ToolStrip.ResumeLayout(false);
             this.ToolStrip.PerformLayout();
             this.MainMenu.ResumeLayout(false);
@@ -1701,8 +1719,10 @@
         public System.Windows.Forms.ToolStripMenuItem PopupFilterEdit;
         public System.Windows.Forms.ToolStripSeparator toolStripMenuItem19;
         public System.Windows.Forms.ToolStripMenuItem PopupFilterClose;
-        private System.ComponentModel.IContainer components;
         public System.Windows.Forms.ToolStripMenuItem PopupPreserveCase;
+        public System.Windows.Forms.ContextMenuStrip PlayerPopupMenu;
+        public System.Windows.Forms.ToolStripMenuItem selectColumnsToolStripMenuItem;
+        private System.ComponentModel.IContainer components;
     }
 }
 
