@@ -169,21 +169,28 @@
 
         public void UpdateLocalUI()
         {
+            bool
+                anyTracks = Selection.Tracks.Any(),
+                canSave = CommandProcessor.IsModified,
+                recentFolder = View.RecentFolderPopupMenu.Items.Count > 0,
+                recentLibrary = View.RecentLibraryPopupMenu.Items.Count > 0;
             // Window Caption
             View.Text = LibraryController.WindowCaption;
             // File Operations
             View.FileReopen.Enabled = View.tbReopen.Enabled =
                 View.AddRecentLibrary.Enabled = View.tbAddRecentLibrary.Enabled =
-                View.RecentLibraryPopupMenu.Items.Count > 0;
-            var enabled = CommandProcessor.IsModified;
-            View.FileSave.Enabled = View.tbSaveLibrary.Enabled = enabled;
+                recentLibrary;
+            View.FileSave.Enabled = View.tbSaveLibrary.Enabled =
+                canSave;
             View.AddRecentFolder.Enabled = View.tbAddRecentFolder.Enabled =
-                View.RecentFolderPopupMenu.Items.Count > 0;
-            // Edit Items
+                recentFolder;
+            // Edit & Play Items
             View.EditCut.Enabled = View.tbCut.Enabled = View.TablePopupCut.Enabled =
                 View.EditCopy.Enabled = View.tbCopy.Enabled = View.TablePopupCopy.Enabled =
                 View.EditDelete.Enabled = View.tbDelete.Enabled = View.TablePopupDelete.Enabled =
-                Selection.Tracks.Any();
+                View.TablePopupPlay.Enabled = View.TablePopupPlayAddToQueue.Enabled = View.TablePopupPlayNewPlaylist.Enabled =
+                View.tbPlay.Enabled = View.tbAddToQueue.Enabled = View.tbNewPlaylist.Enabled =
+                anyTracks;
             // Property Grid
             PropertyGridController.SetSelection(TableController.Selection);
         }

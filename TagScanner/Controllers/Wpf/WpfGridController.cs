@@ -1,18 +1,49 @@
 ﻿namespace TagScanner.Controllers.Wpf
 {
-    using Models;
+    using System.Collections.Generic;
     using System.Linq;
     using System.Windows;
     using System.Windows.Controls;
     using System.Windows.Data;
+    using Models;
     using Terms;
     using ValueConverters;
 
     public abstract class WpfGridController : Controller
     {
+        #region Constructor
+
         protected WpfGridController(Controller parent) : base(parent) { }
 
+        #endregion
+
+        #region Public Properties
+
         public abstract DataGrid DataGrid { get; }
+
+        public List<Tag> VisibleTags
+        {
+            get => _visibleTags;
+            set
+            {
+                if (VisibleTags.SequenceEqual(value))
+                    return;
+                _visibleTags = value;
+                InitVisibleTags();
+            }
+        }
+
+        #endregion
+
+        #region Protected Methods
+
+        protected void EditTagVisibility(string detail)
+        {
+            var visibleTags = VisibleTags.ToList();
+            var ok = new TagsSelectorController(this).Execute($"Select the Columns to display in the {detail} Table", visibleTags);
+            if (ok)
+                VisibleTags = VisibleTags.Intersect(visibleTags).Union(visibleTags).ToList();
+        }
 
         protected virtual DataGridBoundColumn GetColumn(TagInfo tagInfo)
         {
@@ -41,6 +72,11 @@
                 case TagType.Strings: return new StringsConverter();
                 case TagType.TimeSpan: return new TimeSpanConverter();
             }
+            switch (tagInfo.Tag)
+            {
+                case Tag.FileSize:
+                    return new FileSizeConverter();
+            }
             return null;
         }
 
@@ -54,7 +90,16 @@
             DataGrid.GridLinesVisibility = DataGridGridLinesVisibility.Vertical;
         }
 
+        #endregion
+
+        #region Private Fields
+
         private static Style _rightAlignStyle;
+        private List<Tag> _visibleTags = new List<Tag>();
+
+        #endregion
+
+        #region Private Methods
 
         private static Style GetNewRightAlignStyle()
         {
@@ -66,5 +111,20 @@
             });
             return _rightAlignStyle;
         }
+
+        private void InitVisibleTags()
+        {
+            foreach (var column in DataGrid.Columns)
+                column.Visibility = Visibility.Collapsed;
+            var displayIndex = 0;
+            foreach (var tag in VisibleTags)
+            {
+                var column = DataGrid.Columns.Single(c => ((TagInfo)c.Header).Name == tag.ToString());
+                column.DisplayIndex = displayIndex++;
+                column.Visibility = Visibility.Visible;
+            }
+        }
+
+        #endregion
     }
 }

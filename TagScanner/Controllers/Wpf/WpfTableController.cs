@@ -5,7 +5,6 @@
     using System.ComponentModel;
     using System.IO;
     using System.Linq;
-    using System.Windows;
     using System.Windows.Controls;
     using System.Windows.Data;
     using System.Windows.Forms.Integration;
@@ -13,7 +12,6 @@
     using Menus;
     using Models;
     using Terms;
-    using ValueConverters;
 
     public class WpfTableController : WpfGridController
     {
@@ -109,57 +107,7 @@
             MainForm.TablePopupMoreActions.Enabled = Selection.SelectedFoldersCount == 1;
 
         private void GridPopupMoreOptions_Click(object sender, EventArgs e) => PopupShellContextMenu();
-        private void PopupSelectColumns_Click(object sender, EventArgs e) => EditTagVisibility();
-
-        #endregion
-
-        #region Columns
-
-        public void EditTagVisibility()
-        {
-            var visibleTags = VisibleTags.ToList();
-            var ok = new TagsSelectorController(this).Execute("Select the Columns to display in the Media Table", visibleTags);
-            if (ok)
-                VisibleTags = VisibleTags.Intersect(visibleTags).Union(visibleTags).ToList();
-        }
-
-        protected override IValueConverter GetConverter(TagInfo tagInfo)
-        {
-            var result = base.GetConverter(tagInfo);
-            if (result != null) return result;
-            switch (tagInfo.Tag)
-            {
-                case Tag.FileSize:
-                    return new FileSizeConverter();
-            }
-            return null;
-        }
-
-        private List<Tag> _visibleTags = new List<Tag>{ Tag.FilePath };
-        public List<Tag> VisibleTags
-        {
-            get => _visibleTags;
-            set
-            {
-                if (VisibleTags.SequenceEqual(value))
-                    return;
-                _visibleTags = value;
-                InitVisibleTags();
-            }
-        }
-
-        private void InitVisibleTags()
-        {
-            foreach (var column in DataGrid.Columns)
-                column.Visibility = Visibility.Collapsed;
-            var displayIndex = 0;
-            foreach (var tag in VisibleTags)
-            {
-                var column = DataGrid.Columns.Single(c => ((TagInfo)c.Header).Name == tag.ToString());
-                column.DisplayIndex = displayIndex++;
-                column.Visibility = Visibility.Visible;
-            }
-        }
+        private void PopupSelectColumns_Click(object sender, EventArgs e) => EditTagVisibility("Media");
 
         #endregion
 
