@@ -127,7 +127,7 @@
             // 
             this.btnCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.btnCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.btnCancel.Location = new System.Drawing.Point(466, 9);
+            this.btnCancel.Location = new System.Drawing.Point(499, 9);
             this.btnCancel.Margin = new System.Windows.Forms.Padding(4);
             this.btnCancel.Name = "btnCancel";
             this.btnCancel.Size = new System.Drawing.Size(88, 30);
@@ -139,7 +139,7 @@
             // 
             this.btnOK.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.btnOK.DialogResult = System.Windows.Forms.DialogResult.OK;
-            this.btnOK.Location = new System.Drawing.Point(372, 9);
+            this.btnOK.Location = new System.Drawing.Point(403, 9);
             this.btnOK.Margin = new System.Windows.Forms.Padding(4);
             this.btnOK.Name = "btnOK";
             this.btnOK.Size = new System.Drawing.Size(88, 30);
@@ -210,17 +210,17 @@
             // tbTreeAlpha
             // 
             this.tbTreeAlpha.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.tbTreeAlpha.Image = global::TagScanner.Properties.Resources.vsTreeView;
-            this.tbTreeAlpha.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.tbTreeAlpha.Image = global::TagScanner.Properties.Resources.fff_app_tree_16;
+            this.tbTreeAlpha.ImageTransparentColor = System.Drawing.Color.Transparent;
             this.tbTreeAlpha.Name = "tbTreeAlpha";
-            this.tbTreeAlpha.Size = new System.Drawing.Size(30, 20);
+            this.tbTreeAlpha.Size = new System.Drawing.Size(22, 20);
             this.tbTreeAlpha.Text = "toolStripButton1";
             // 
             // tbTreeCat
             // 
             this.tbTreeCat.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.tbTreeCat.Image = global::TagScanner.Properties.Resources.vsTreeViewGreen;
-            this.tbTreeCat.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.tbTreeCat.Image = ((System.Drawing.Image)(resources.GetObject("tbTreeCat.Image")));
+            this.tbTreeCat.ImageTransparentColor = System.Drawing.Color.Transparent;
             this.tbTreeCat.Name = "tbTreeCat";
             this.tbTreeCat.Size = new System.Drawing.Size(22, 20);
             this.tbTreeCat.Text = "toolStripButton2";
@@ -228,8 +228,8 @@
             // tbTreeType
             // 
             this.tbTreeType.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.tbTreeType.Image = global::TagScanner.Properties.Resources.vsTreeViewBlue;
-            this.tbTreeType.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.tbTreeType.Image = ((System.Drawing.Image)(resources.GetObject("tbTreeType.Image")));
+            this.tbTreeType.ImageTransparentColor = System.Drawing.Color.Transparent;
             this.tbTreeType.Name = "tbTreeType";
             this.tbTreeType.Size = new System.Drawing.Size(22, 20);
             this.tbTreeType.Text = "toolStripButton3";
@@ -237,13 +237,13 @@
             // toolStripSeparator1
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(30, 6);
+            this.toolStripSeparator1.Size = new System.Drawing.Size(22, 6);
             // 
             // tbListAlpha
             // 
             this.tbListAlpha.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.tbListAlpha.Image = global::TagScanner.Properties.Resources.vsCheckedsListBox;
-            this.tbListAlpha.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.tbListAlpha.Image = global::TagScanner.Properties.Resources.fff_app_list_16;
+            this.tbListAlpha.ImageTransparentColor = System.Drawing.Color.Transparent;
             this.tbListAlpha.Name = "tbListAlpha";
             this.tbListAlpha.Size = new System.Drawing.Size(22, 20);
             this.tbListAlpha.Text = "toolStripButton4";
@@ -251,33 +251,33 @@
             // tbListCat
             // 
             this.tbListCat.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.tbListCat.Image = global::TagScanner.Properties.Resources.vsCheckedsListBoxGreen;
-            this.tbListCat.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.tbListCat.Image = global::TagScanner.Properties.Resources.fff_app_list_C_16;
+            this.tbListCat.ImageTransparentColor = System.Drawing.Color.Transparent;
             this.tbListCat.Name = "tbListCat";
-            this.tbListCat.Size = new System.Drawing.Size(22, 20);
+            this.tbListCat.Size = new System.Drawing.Size(30, 20);
             this.tbListCat.Text = "toolStripButton5";
             // 
             // tbListType
             // 
             this.tbListType.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.tbListType.Image = global::TagScanner.Properties.Resources.vsCheckedsListBoxBlue;
-            this.tbListType.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.tbListType.Image = global::TagScanner.Properties.Resources.fff_app_list_T_16;
+            this.tbListType.ImageTransparentColor = System.Drawing.Color.Transparent;
             this.tbListType.Name = "tbListType";
-            this.tbListType.Size = new System.Drawing.Size(22, 20);
+            this.tbListType.Size = new System.Drawing.Size(30, 20);
             this.tbListType.Text = "toolStripButton6";
             // 
             // toolStripSeparator2
             // 
             this.toolStripSeparator2.Name = "toolStripSeparator2";
-            this.toolStripSeparator2.Size = new System.Drawing.Size(30, 6);
+            this.toolStripSeparator2.Size = new System.Drawing.Size(22, 6);
             // 
             // tbListNames
             // 
             this.tbListNames.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.tbListNames.Image = global::TagScanner.Properties.Resources.vsLinkLabel;
-            this.tbListNames.ImageTransparentColor = System.Drawing.Color.White;
+            this.tbListNames.Image = global::TagScanner.Properties.Resources.fff_app_columns_16;
+            this.tbListNames.ImageTransparentColor = System.Drawing.Color.Transparent;
             this.tbListNames.Name = "tbListNames";
-            this.tbListNames.Size = new System.Drawing.Size(30, 20);
+            this.tbListNames.Size = new System.Drawing.Size(22, 20);
             this.tbListNames.Text = "toolStripButton7";
             // 
             // MainMenu
@@ -304,21 +304,24 @@
             // 
             // TreeAlphabetically
             // 
-            this.TreeAlphabetically.Image = global::TagScanner.Properties.Resources.vsTreeView;
+            this.TreeAlphabetically.Image = global::TagScanner.Properties.Resources.fff_app_tree_16;
+            this.TreeAlphabetically.ImageTransparentColor = System.Drawing.Color.Transparent;
             this.TreeAlphabetically.Name = "TreeAlphabetically";
             this.TreeAlphabetically.Size = new System.Drawing.Size(180, 22);
             this.TreeAlphabetically.Text = "&Alphabetically";
             // 
             // TreeByCategory
             // 
-            this.TreeByCategory.Image = global::TagScanner.Properties.Resources.vsTreeViewGreen;
+            this.TreeByCategory.Image = ((System.Drawing.Image)(resources.GetObject("TreeByCategory.Image")));
+            this.TreeByCategory.ImageTransparentColor = System.Drawing.Color.Transparent;
             this.TreeByCategory.Name = "TreeByCategory";
             this.TreeByCategory.Size = new System.Drawing.Size(180, 22);
             this.TreeByCategory.Text = "by &Category";
             // 
             // TreeByDataType
             // 
-            this.TreeByDataType.Image = global::TagScanner.Properties.Resources.vsTreeViewBlue;
+            this.TreeByDataType.Image = ((System.Drawing.Image)(resources.GetObject("TreeByDataType.Image")));
+            this.TreeByDataType.ImageTransparentColor = System.Drawing.Color.Transparent;
             this.TreeByDataType.Name = "TreeByDataType";
             this.TreeByDataType.Size = new System.Drawing.Size(180, 22);
             this.TreeByDataType.Text = "by &Data Type";
@@ -337,21 +340,24 @@
             // 
             // ListAlphabetically
             // 
-            this.ListAlphabetically.Image = global::TagScanner.Properties.Resources.vsCheckedsListBox;
+            this.ListAlphabetically.Image = global::TagScanner.Properties.Resources.fff_app_list_16;
+            this.ListAlphabetically.ImageTransparentColor = System.Drawing.Color.Transparent;
             this.ListAlphabetically.Name = "ListAlphabetically";
             this.ListAlphabetically.Size = new System.Drawing.Size(180, 22);
             this.ListAlphabetically.Text = "&Alphabetically";
             // 
             // ListByCategory
             // 
-            this.ListByCategory.Image = global::TagScanner.Properties.Resources.vsCheckedsListBoxGreen;
+            this.ListByCategory.Image = global::TagScanner.Properties.Resources.fff_app_list_C_16;
+            this.ListByCategory.ImageTransparentColor = System.Drawing.Color.Transparent;
             this.ListByCategory.Name = "ListByCategory";
             this.ListByCategory.Size = new System.Drawing.Size(180, 22);
             this.ListByCategory.Text = "by &Category";
             // 
             // ListByDataType
             // 
-            this.ListByDataType.Image = global::TagScanner.Properties.Resources.vsCheckedsListBoxBlue;
+            this.ListByDataType.Image = global::TagScanner.Properties.Resources.fff_app_list_T_16;
+            this.ListByDataType.ImageTransparentColor = System.Drawing.Color.Transparent;
             this.ListByDataType.Name = "ListByDataType";
             this.ListByDataType.Size = new System.Drawing.Size(180, 22);
             this.ListByDataType.Text = "by &Data Type";
@@ -363,8 +369,8 @@
             // 
             // ListNamesOnly
             // 
-            this.ListNamesOnly.Image = global::TagScanner.Properties.Resources.vsLinkLabel;
-            this.ListNamesOnly.ImageTransparentColor = System.Drawing.Color.White;
+            this.ListNamesOnly.Image = global::TagScanner.Properties.Resources.fff_app_columns_16;
+            this.ListNamesOnly.ImageTransparentColor = System.Drawing.Color.Transparent;
             this.ListNamesOnly.Name = "ListNamesOnly";
             this.ListNamesOnly.Size = new System.Drawing.Size(180, 22);
             this.ListNamesOnly.Text = "&Names only";

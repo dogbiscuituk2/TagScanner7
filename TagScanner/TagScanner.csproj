@@ -405,7 +405,14 @@
     <Content Include="Resources\eps_open_largeHS.png" />
     <Content Include="Resources\Expand.bmp" />
     <Content Include="Resources\Expand_32.bmp" />
-    <None Include="Resources\Fatcow-Farm-Fresh-Filter.16.png" />
+    <Content Include="Resources\fff-app-columns.16.png" />
+    <Content Include="Resources\fff-app-Filter.16.png" />
+    <Content Include="Resources\fff-app-list-C.16.png" />
+    <Content Include="Resources\fff-app-list-T.16.png" />
+    <Content Include="Resources\fff-app-list.16.png" />
+    <Content Include="Resources\fff-app-tree-C.16.png" />
+    <Content Include="Resources\fff-app-tree-T.16.png" />
+    <Content Include="Resources\fff-app-tree.16.png" />
     <Content Include="Resources\FFwdHS.png" />
     <Content Include="Resources\FindHS.png" />
     <Content Include="Resources\FindNextHS.png" />
@@ -549,9 +556,9 @@
     <None Include="Resources\vsTreeViewGreen.png" />
     <None Include="Resources\vsLinkLabel.png" />
     <None Include="Resources\vsLabel.png" />
-    <None Include="Resources\vsTreeView.png" />
     <None Include="Resources\vsCheckedsListBox.png" />
     <Content Include="Resources\WebInsertHyperlinkHS.png" />
+    <None Include="Resources\wTreeView.png" />
     <Content Include="Resources\ZoomHS.png" />
   </ItemGroup>
   <ItemGroup>

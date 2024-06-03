@@ -371,9 +371,79 @@ namespace TagScanner.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap Fatcow_Farm_Fresh_Filter_16 {
+        internal static System.Drawing.Bitmap fff_app_columns_16 {
             get {
-                object obj = ResourceManager.GetObject("Fatcow-Farm-Fresh-Filter.16", resourceCulture);
+                object obj = ResourceManager.GetObject("fff_app_columns_16", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap fff_app_Filter_16 {
+            get {
+                object obj = ResourceManager.GetObject("fff_app_Filter_16", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap fff_app_list_16 {
+            get {
+                object obj = ResourceManager.GetObject("fff_app_list_16", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap fff_app_list_C_16 {
+            get {
+                object obj = ResourceManager.GetObject("fff_app_list_C_16", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap fff_app_list_T_16 {
+            get {
+                object obj = ResourceManager.GetObject("fff_app_list_T_16", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap fff_app_tree_16 {
+            get {
+                object obj = ResourceManager.GetObject("fff_app_tree_16", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap fff_app_tree_C_16 {
+            get {
+                object obj = ResourceManager.GetObject("fff_app_tree_C_16", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap fff_app_tree_T_16 {
+            get {
+                object obj = ResourceManager.GetObject("fff_app_tree_T_16", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

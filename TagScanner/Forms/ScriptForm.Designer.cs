@@ -316,7 +316,7 @@
             // 
             // EditApplyFilter
             // 
-            this.EditApplyFilter.Image = global::TagScanner.Properties.Resources.Fatcow_Farm_Fresh_Filter_16;
+            this.EditApplyFilter.Image = global::TagScanner.Properties.Resources.fff_app_Filter_16;
             this.EditApplyFilter.ImageTransparentColor = System.Drawing.Color.White;
             this.EditApplyFilter.Name = "EditApplyFilter";
             this.EditApplyFilter.ShortcutKeyDisplayString = "^L";
@@ -555,7 +555,7 @@
             this.tbFilter.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.tbFilterUpdate,
             this.tbFilterApply});
-            this.tbFilter.Image = global::TagScanner.Properties.Resources.Fatcow_Farm_Fresh_Filter_16;
+            this.tbFilter.Image = global::TagScanner.Properties.Resources.fff_app_Filter_16;
             this.tbFilter.ImageTransparentColor = System.Drawing.Color.White;
             this.tbFilter.Name = "tbFilter";
             this.tbFilter.Size = new System.Drawing.Size(31, 20);

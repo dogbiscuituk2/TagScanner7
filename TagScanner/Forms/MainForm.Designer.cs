@@ -1039,7 +1039,7 @@
             // tbFilter
             // 
             this.tbFilter.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.tbFilter.Image = global::TagScanner.Properties.Resources.Fatcow_Farm_Fresh_Filter_16;
+            this.tbFilter.Image = global::TagScanner.Properties.Resources.fff_app_Filter_16;
             this.tbFilter.ImageTransparentColor = System.Drawing.Color.White;
             this.tbFilter.Name = "tbFilter";
             this.tbFilter.Size = new System.Drawing.Size(31, 20);
@@ -1328,7 +1328,7 @@
             // 
             // EditFilter
             // 
-            this.EditFilter.Image = global::TagScanner.Properties.Resources.Fatcow_Farm_Fresh_Filter_16;
+            this.EditFilter.Image = global::TagScanner.Properties.Resources.fff_app_Filter_16;
             this.EditFilter.ImageTransparentColor = System.Drawing.Color.White;
             this.EditFilter.Name = "EditFilter";
             this.EditFilter.ShortcutKeyDisplayString = "^L";
