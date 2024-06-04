@@ -1,9 +1,11 @@
 ﻿namespace TagScanner.Controllers
 {
+    using System.Collections.Generic;
+    using System.Linq;
     using System.Windows.Forms;
     using Commands;
-    using Models;
     using Forms;
+    using Models;
     using Wpf;
 
     public abstract class Controller
@@ -19,5 +21,8 @@
         protected virtual IWin32Window Owner => Parent?.Owner;
         protected Controller Parent { get; }
         protected Controller Root => Parent == null ? this : Parent.Root;
+
+        protected string TagsToString(IEnumerable<Tag> tags) =>
+            tags.Any() ? tags.Select(p => p.DisplayName()).Aggregate((p, q) => $"{p}, {q}") : "(none selected)";
     }
 }

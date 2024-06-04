@@ -110,9 +110,7 @@
             set
             {
                 _searchTags = value;
-                var any = value.Any();
-                TbSearchFields.ToolTipText = !any ? "(none)" :
-                    value.Select(p => p.DisplayName()).Aggregate((p, q) => $"{p}, {q}");
+                TbSearchFields.ToolTipText = TagsToString(value);
                 UpdateUI();
             }
         }

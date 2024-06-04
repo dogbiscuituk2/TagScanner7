@@ -1,5 +1,6 @@
 ﻿namespace TagScanner.Controllers
 {
+    using System;
     using System.Linq;
     using System.Windows.Forms;
 
@@ -22,6 +23,12 @@
 
         #endregion
 
+        #region Public Events
+
+        public event EventHandler NodeStateChanged;
+
+        #endregion
+
         #region Public Methods
 
         public TreeNodeState GetNodeState(TreeNode node) => (TreeNodeState)node.StateImageIndex;
@@ -30,7 +37,14 @@
         {
             InitDescendants(node, state);
             InitAncestors(node);
+            OnNodeStateChanged();
         }
+
+        #endregion
+
+        #region Protected Methods
+
+        protected virtual void OnNodeStateChanged() => NodeStateChanged?.Invoke(this, EventArgs.Empty);
 
         #endregion
 

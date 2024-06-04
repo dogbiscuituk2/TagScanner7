@@ -1,9 +1,9 @@
 ﻿namespace TagScanner.Controllers
 {
+    using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Windows.Forms;
-    using Forms;
     using Models;
 
     public abstract class TagsViewController : Controller

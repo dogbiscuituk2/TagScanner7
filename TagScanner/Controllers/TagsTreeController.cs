@@ -11,7 +11,7 @@
     {
         #region Constructor
 
-        public TagsTreeController(Controller parent, TreeView treeView) : base(parent, treeView) { }
+        public TagsTreeController(TagsSelectorController parent, TreeView treeView) : base(parent, treeView) { }
 
         #endregion
 
@@ -22,6 +22,7 @@
             InitNodes();
             RootNode.Expand();
             TriStateTreeController = new TriStateTreeController(TreeView);
+            TriStateTreeController.NodeStateChanged += TriStateTreeController_NodeStateChanged;
         }
 
         public override IEnumerable<Tag> GetSelectedTags()
@@ -61,6 +62,12 @@
         private TreeNodeCollection Nodes => RootNode.Nodes;
         private TreeNode RootNode => TreeView.Nodes[0];
         private TreeView TreeView => (TreeView)Control;
+
+        #endregion
+
+        #region Event Handlers
+
+        private void TriStateTreeController_NodeStateChanged(object sender, EventArgs e) => ((TagsSelectorController)Parent).UpdateSelection();
 
         #endregion
 

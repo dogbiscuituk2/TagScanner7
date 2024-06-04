@@ -13,7 +13,10 @@
     {
         #region Constructor
 
-        public TagsListController(Controller parent, ListView listView) : base(parent, listView) { }
+        public TagsListController(TagsSelectorController parent, ListView listView) : base(parent, listView)
+        {
+            listView.ItemChecked += (sender, e) => parent.UpdateSelection();
+        }
 
         #endregion
 
