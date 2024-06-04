@@ -110,7 +110,7 @@
             set
             {
                 _searchTags = value;
-                TbSearchFields.ToolTipText = TagsToString(value);
+                TbSearchFields.ToolTipText = value.Say();
                 UpdateUI();
             }
         }

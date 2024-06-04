@@ -134,6 +134,7 @@
             this.TextBox.Cursor = System.Windows.Forms.Cursors.IBeam;
             this.TextBox.DisabledColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))));
             this.TextBox.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.TextBox.Font = new System.Drawing.Font("Courier New", 9.75F);
             this.TextBox.IsReplaceMode = false;
             this.TextBox.Location = new System.Drawing.Point(0, 0);
             this.TextBox.Margin = new System.Windows.Forms.Padding(4);
@@ -803,6 +804,7 @@
             this.ClientSize = new System.Drawing.Size(784, 561);
             this.Controls.Add(this.ToolStripContainer);
             this.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MainMenuStrip = this.MainMenu;
             this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "ScriptForm";

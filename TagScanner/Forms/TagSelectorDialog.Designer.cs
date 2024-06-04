@@ -133,10 +133,8 @@
             this.tbSearchFields.Name = "tbSearchFields";
             this.tbSearchFields.ReadOnly = true;
             this.tbSearchFields.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.tbSearchFields.Size = new System.Drawing.Size(516, 46);
+            this.tbSearchFields.Size = new System.Drawing.Size(524, 54);
             this.tbSearchFields.TabIndex = 21;
-            this.tbSearchFields.Text = "One, Two, Three, \r\nOne, Two, Three, \r\nOne, Two, Three, \r\nOne, Two, Three, \r\nOne, " +
-    "Two, Three, \r\n";
             // 
             // PopupMenu
             // 
@@ -174,7 +172,7 @@
             // toolStripContainer1.ContentPanel
             // 
             this.toolStripContainer1.ContentPanel.Controls.Add(this.splitContainer1);
-            this.toolStripContainer1.ContentPanel.Size = new System.Drawing.Size(592, 417);
+            this.toolStripContainer1.ContentPanel.Size = new System.Drawing.Size(600, 417);
             this.toolStripContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
             // 
             // toolStripContainer1.LeftToolStripPanel
@@ -206,9 +204,9 @@
             // 
             this.splitContainer1.Panel2.Controls.Add(this.gbSelectedTags);
             this.splitContainer1.Panel2.Controls.Add(this.panel2);
-            this.splitContainer1.Panel2MinSize = 70;
-            this.splitContainer1.Size = new System.Drawing.Size(592, 417);
-            this.splitContainer1.SplitterDistance = 343;
+            this.splitContainer1.Panel2MinSize = 78;
+            this.splitContainer1.Size = new System.Drawing.Size(600, 417);
+            this.splitContainer1.SplitterDistance = 335;
             this.splitContainer1.TabIndex = 6;
             // 
             // gbSelectedTags
@@ -217,26 +215,26 @@
             this.gbSelectedTags.Dock = System.Windows.Forms.DockStyle.Fill;
             this.gbSelectedTags.Location = new System.Drawing.Point(0, 0);
             this.gbSelectedTags.Name = "gbSelectedTags";
-            this.gbSelectedTags.Size = new System.Drawing.Size(522, 70);
+            this.gbSelectedTags.Size = new System.Drawing.Size(530, 78);
             this.gbSelectedTags.TabIndex = 22;
             this.gbSelectedTags.TabStop = false;
-            this.gbSelectedTags.Text = "Selected Tags";
+            this.gbSelectedTags.Text = "Selection";
             // 
             // panel2
             // 
             this.panel2.Controls.Add(this.btnCancel);
             this.panel2.Controls.Add(this.btnOK);
             this.panel2.Dock = System.Windows.Forms.DockStyle.Right;
-            this.panel2.Location = new System.Drawing.Point(522, 0);
+            this.panel2.Location = new System.Drawing.Point(530, 0);
             this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(70, 70);
+            this.panel2.Size = new System.Drawing.Size(70, 78);
             this.panel2.TabIndex = 23;
             // 
             // btnCancel
             // 
             this.btnCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.btnCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.btnCancel.Location = new System.Drawing.Point(10, 39);
+            this.btnCancel.Location = new System.Drawing.Point(10, 47);
             this.btnCancel.Margin = new System.Windows.Forms.Padding(4);
             this.btnCancel.Name = "btnCancel";
             this.btnCancel.Size = new System.Drawing.Size(56, 27);
@@ -248,7 +246,7 @@
             // 
             this.btnOK.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.btnOK.DialogResult = System.Windows.Forms.DialogResult.OK;
-            this.btnOK.Location = new System.Drawing.Point(10, 4);
+            this.btnOK.Location = new System.Drawing.Point(10, 12);
             this.btnOK.Margin = new System.Windows.Forms.Padding(4);
             this.btnOK.Name = "btnOK";
             this.btnOK.Size = new System.Drawing.Size(56, 27);
@@ -271,7 +269,7 @@
             this.tbListNames});
             this.Toolbar.Location = new System.Drawing.Point(0, 3);
             this.Toolbar.Name = "Toolbar";
-            this.Toolbar.Size = new System.Drawing.Size(32, 203);
+            this.Toolbar.Size = new System.Drawing.Size(24, 184);
             this.Toolbar.TabIndex = 7;
             this.Toolbar.Text = "toolStrip1";
             // 
@@ -419,7 +417,7 @@
             this.ListAlphabetically.Image = global::TagScanner.Properties.Resources.fff_app_list_16;
             this.ListAlphabetically.ImageTransparentColor = System.Drawing.Color.Transparent;
             this.ListAlphabetically.Name = "ListAlphabetically";
-            this.ListAlphabetically.Size = new System.Drawing.Size(180, 22);
+            this.ListAlphabetically.Size = new System.Drawing.Size(149, 22);
             this.ListAlphabetically.Text = "&Alphabetically";
             // 
             // ListByCategory
@@ -427,7 +425,7 @@
             this.ListByCategory.Image = global::TagScanner.Properties.Resources.fff_app_list_C2_16;
             this.ListByCategory.ImageTransparentColor = System.Drawing.Color.Transparent;
             this.ListByCategory.Name = "ListByCategory";
-            this.ListByCategory.Size = new System.Drawing.Size(180, 22);
+            this.ListByCategory.Size = new System.Drawing.Size(149, 22);
             this.ListByCategory.Text = "by &Category";
             // 
             // ListByDataType
@@ -435,20 +433,20 @@
             this.ListByDataType.Image = global::TagScanner.Properties.Resources.fff_app_list_T_16;
             this.ListByDataType.ImageTransparentColor = System.Drawing.Color.Transparent;
             this.ListByDataType.Name = "ListByDataType";
-            this.ListByDataType.Size = new System.Drawing.Size(180, 22);
+            this.ListByDataType.Size = new System.Drawing.Size(149, 22);
             this.ListByDataType.Text = "by &Data Type";
             // 
             // toolStripMenuItem2
             // 
             this.toolStripMenuItem2.Name = "toolStripMenuItem2";
-            this.toolStripMenuItem2.Size = new System.Drawing.Size(177, 6);
+            this.toolStripMenuItem2.Size = new System.Drawing.Size(146, 6);
             // 
             // ListNamesOnly
             // 
             this.ListNamesOnly.Image = global::TagScanner.Properties.Resources.fff_app_columns_16;
             this.ListNamesOnly.ImageTransparentColor = System.Drawing.Color.Transparent;
             this.ListNamesOnly.Name = "ListNamesOnly";
-            this.ListNamesOnly.Size = new System.Drawing.Size(180, 22);
+            this.ListNamesOnly.Size = new System.Drawing.Size(149, 22);
             this.ListNamesOnly.Text = "&Names only";
             // 
             // TagSelectorDialog
@@ -460,6 +458,7 @@
             this.ClientSize = new System.Drawing.Size(624, 441);
             this.Controls.Add(this.toolStripContainer1);
             this.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Margin = new System.Windows.Forms.Padding(4);
             this.MaximizeBox = false;
             this.MinimizeBox = false;

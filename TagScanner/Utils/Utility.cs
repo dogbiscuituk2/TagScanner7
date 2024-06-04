@@ -253,36 +253,7 @@
             return t.ToString(format);
         }
 
-        /// <summary>
-        /// Return the first non-void string value from a pair.
-        /// </summary>
-        /// <param name="a">First string value.</param>
-        /// <param name="b">Second string value.</param>
-        /// <returns>Value a, if a is non-null, non-empty, and not just whitespace; otherwise, value b.</returns>
-        public static string Coalesce(this string a, string b) => !string.IsNullOrWhiteSpace(a) ? a : b;
-
-        /*public static string Format(this object value, string propertyName, Type type, bool exact)
-        {
-            if (value == null)
-                return string.Empty;
-            switch (propertyName)
-            {
-                case Tags.Duration:
-                    return ((TimeSpan)value).AsString(exact);
-                case Tags.FileSize:
-                    var fileSize = (long)value;
-                    return exact ? $"{fileSize:n0}" : fileSize.AsString(true);
-                case Tags.Year:
-                    return (int)value == 0 ? string.Empty : value.ToString();
-            }
-            return
-                type == typeof(int?) || type == typeof(uint?) || type == typeof(long?)
-                    ? Convert.ToInt64(value) == 0 ? string.Empty : $"{value:n0}"
-                    : value.ToString();
-        }*/
-
         public static string Escape(this string s, char c = '&') => s.Replace($"{c}", $"{c}{c}");
-
         public static string GetIndex(this string s) => string.IsNullOrWhiteSpace(s) ? " " : (s.ToUpper() + " ").Substring(0, 1);
 
         public static string GetSuffix(ulong number)

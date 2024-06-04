@@ -190,7 +190,7 @@
         public void UpdateSelection()
         {
             var tags = GetSelectedTags();
-            TbSearchFields.Text = TagsToString(tags);
+            TbSearchFields.Text = tags.Say();
             GbSelectedTags.Enabled = PopupRemove.Enabled = tags.Any();
         }
 

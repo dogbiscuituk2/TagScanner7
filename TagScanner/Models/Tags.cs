@@ -91,22 +91,11 @@
         public static string DisplayName(this Tag tag) => tag.TagToTagInfo().DisplayName;
         public static string Name(this Tag tag) => tag.TagToTagInfo().Name;
         public static bool ReadOnly(this Tag tag) => tag.TagToTagInfo().ReadOnly;
+        public static string Say(this IEnumerable<Tag> tags) => tags.Any() ? tags.Select(p => p.DisplayName()).Aggregate((p, q) => $"{p}, {q}") : "(none)";
         public static Type Type(this Tag tag) => tag.TagToTagInfo().Type;
         public static string TypeName(this Tag tag) => tag.TagToTagInfo().TypeName;
         public static Tag[] Uses(this Tag tag) => tag.TagToTagInfo().Uses;
-
-        public static void SetBrowsable(this Tag tag, bool value)
-        {
-            var property = _tagToInfo[tag];
-            if (property.Browsable == value) return;
-            UseField(tag, typeof(BrowsableAttribute), "browsable", value);
-            property.Browsable = value;
-        }
-
-        public static void WriteBrowsableTags(List<Tag> tags)
-        {
-            foreach (var tag in Keys) tag.SetBrowsable(tags.Contains(tag));
-        }
+        public static void WriteBrowsableTags(List<Tag> tags) { foreach (var tag in Keys) tag.SetBrowsable(tags.Contains(tag)); }
 
         #endregion
 
@@ -126,6 +115,14 @@
         private static string GetDisplayName(Tag tag) => (string)UseField(tag, typeof(DisplayNameAttribute), "_displayName");
         private static bool GetReadOnly(Tag tag) => (bool)UseField(tag, typeof(ReadOnlyAttribute), "isReadOnly");
         private static Tag[] GetUses(Tag tag) => (Tag[])UseField(tag, typeof(UsesAttribute), "_propertyNames");
+
+        private static void SetBrowsable(this Tag tag, bool value)
+        {
+            var property = _tagToInfo[tag];
+            if (property.Browsable == value) return;
+            UseField(tag, typeof(BrowsableAttribute), "browsable", value);
+            property.Browsable = value;
+        }
 
         private static object UseField(Tag tag, Type attributeType, string fieldName, object value = null)
         {

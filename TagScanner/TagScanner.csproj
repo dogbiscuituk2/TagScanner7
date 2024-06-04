@@ -52,6 +52,9 @@
     <AllowUnsafeBlocks>false</AllowUnsafeBlocks>
     <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
   </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>fff-Music.ico</ApplicationIcon>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="FastColoredTextBox, Version=2.16.24.0, Culture=neutral, PublicKeyToken=fb8aa12b994ef61b, processorArchitecture=MSIL">
       <HintPath>..\packages\FCTB.2.16.24\lib\FastColoredTextBox.dll</HintPath>
@@ -377,6 +380,7 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="fff-Music.ico" />
     <Content Include="Resources\action_add_16xLG.png" />
     <Content Include="Resources\arrow_Down_16xLG.png" />
     <Content Include="Resources\arrow_Up_16xLG.png" />
@@ -416,6 +420,10 @@
     <Content Include="Resources\fff-app-tree-T.16.png" />
     <Content Include="Resources\fff-app-tree-T2.16.png" />
     <Content Include="Resources\fff-app-tree.16.png" />
+    <Content Include="Resources\fff-Table-select-column.16.png" />
+    <Content Include="Resources\fff-Table-select-column.24.png" />
+    <Content Include="Resources\fff-Table-select-column.32.png" />
+    <Content Include="Resources\fff-Table-select-column.ico" />
     <Content Include="Resources\FFwdHS.png" />
     <Content Include="Resources\FindHS.png" />
     <Content Include="Resources\FindNextHS.png" />

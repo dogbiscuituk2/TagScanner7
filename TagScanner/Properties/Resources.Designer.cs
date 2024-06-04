@@ -471,6 +471,16 @@ namespace TagScanner.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap fff_Table_select_column_16 {
+            get {
+                object obj = ResourceManager.GetObject("fff-Table-select-column.16", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap FFwdHS {
             get {
                 object obj = ResourceManager.GetObject("FFwdHS", resourceCulture);
