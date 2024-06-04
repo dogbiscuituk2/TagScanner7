@@ -127,6 +127,9 @@
   <data name="Collapse" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\resources\collapse.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="RoutingSlipHS" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\RoutingSlipHS.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
   <data name="Op2_Divide" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Op2_Divide.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
@@ -232,6 +235,12 @@
   <data name="Expand_32" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\resources\expand_32.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="fff_app_list_16" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\fff-app-list.16.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ZoomHS" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\ZoomHS.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
   <data name="frPreserveCase" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\frPreserveCase.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
@@ -253,6 +262,9 @@
   <data name="PauseHS" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\PauseHS.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="fff_app_tree_16" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\fff-app-tree.16.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
   <data name="RewindHS" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\RewindHS.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
@@ -268,14 +280,14 @@
   <data name="PointerHS" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\PointerHS.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="eps_openHS" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\eps_openHS.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
   <data name="DataContainer_MoveNextHS" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\DataContainer_MoveNextHS.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="CandyStripe_00" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\CandyStripe_00.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="frEdit" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\frEdit.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="Op_Divide" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Op_Divide.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -334,14 +346,14 @@
   <data name="folder_Open_16xLG" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\resources\folder_open_16xlg.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="Op2_Add" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Op2_Add.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
   <data name="vsTreeView" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\vsTreeView.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="FlipHorizontalHS" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\FlipHorizontalHS.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Op_NotLessThan" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Op_NotLessThan.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="TracksAdded" xml:space="preserve">
     <value>-- {0:n0} new track(s) will be added to the library file.
@@ -397,8 +409,8 @@
   <data name="frReplaceNext" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\frReplaceNext.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="PauseRecorderHS" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\PauseRecorderHS.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="fff_app_list_T_16" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\fff-app-list-T.16.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="CandyStripe_01__Segoe_UI_24_" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\CandyStripe_01 (Segoe UI 24).bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -476,6 +488,9 @@
   <data name="Expand" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\resources\expand.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="fff-app-tree-C2.16" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\fff-app-tree-C2.16.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
   <data name="TracksUpdated" xml:space="preserve">
     <value>-- The contents of the library file will be updated to match the currently embedded ID3 tag data of {0:n0} track(s).
 </value>
@@ -504,6 +519,9 @@
   <data name="Select_the_file_to_open" xml:space="preserve">
     <value>Select the file to open</value>
   </data>
+  <data name="PauseRecorderHS" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\PauseRecorderHS.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
   <data name="NoteHS" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\NoteHS.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
@@ -522,8 +540,8 @@
   <data name="PrimaryKeyHS" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\PrimaryKeyHS.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="RoutingSlipHS" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\RoutingSlipHS.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="fff_app_tree_T_16" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\fff-app-tree-T.16.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="FullScreenHS" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\FullScreenHS.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -537,8 +555,8 @@
   <data name="info" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\info.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="frEdit" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\frEdit.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="eps_openHS" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\eps_openHS.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="Op2_EqualTo" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Op2_EqualTo.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -561,14 +579,20 @@
   <data name="FormRunHS" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\FormRunHS.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="fff_app_Filter_16" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\fff-app-Filter.16.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
   <data name="FlipVerticalHS" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\FlipVerticalHS.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="action_add_16xLG" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\action_add_16xLG.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="ZoomHS" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\ZoomHS.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="fff_app_list_C_16" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\fff-app-list-C.16.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Op2_Add" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Op2_Add.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="Op2_LessThan" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Op2_LessThan.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -585,8 +609,8 @@
   <data name="vsTreeViewBlue" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\vsTreeViewBlue.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="Op_NotLessThan" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Op_NotLessThan.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="fff_app_columns_16" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\fff-app-columns.16.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="Op_NotGreaterThan" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Op_NotGreaterThan.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -628,6 +652,9 @@
   <data name="DoubleLeftArrowHS" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\DoubleLeftArrowHS.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="fff_app_tree_C_16" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\fff-app-tree-C.16.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
   <data name="Op_Xor" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Op_Xor.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
@@ -644,28 +671,7 @@
     <value>
 Continue to synchronize and save?</value>
   </data>
-  <data name="fff_app_columns_16" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\fff-app-columns.16.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="fff_app_Filter_16" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\fff-app-Filter.16.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="fff_app_list_16" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\fff-app-list.16.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="fff_app_tree_16" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\fff-app-tree.16.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="fff_app_list_C_16" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\fff-app-list-C.16.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="fff_app_list_T_16" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\fff-app-list-T.16.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="fff_app_tree_C_16" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\fff-app-tree-C.16.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="fff_app_tree_T_16" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\fff-app-tree-T.16.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="fff-app-list-C2.16" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\fff-app-list-C2.16.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
 </root>

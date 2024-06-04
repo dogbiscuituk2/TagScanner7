@@ -408,10 +408,13 @@
     <Content Include="Resources\fff-app-columns.16.png" />
     <Content Include="Resources\fff-app-Filter.16.png" />
     <Content Include="Resources\fff-app-list-C.16.png" />
+    <None Include="Resources\fff-app-list-C2.16.png" />
     <Content Include="Resources\fff-app-list-T.16.png" />
     <Content Include="Resources\fff-app-list.16.png" />
     <Content Include="Resources\fff-app-tree-C.16.png" />
+    <Content Include="Resources\fff-app-tree-C2.16.png" />
     <Content Include="Resources\fff-app-tree-T.16.png" />
+    <Content Include="Resources\fff-app-tree-T2.16.png" />
     <Content Include="Resources\fff-app-tree.16.png" />
     <Content Include="Resources\FFwdHS.png" />
     <Content Include="Resources\FindHS.png" />

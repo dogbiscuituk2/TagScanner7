@@ -411,6 +411,16 @@ namespace TagScanner.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap fff_app_list_C2_16 {
+            get {
+                object obj = ResourceManager.GetObject("fff-app-list-C2.16", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap fff_app_list_T_16 {
             get {
                 object obj = ResourceManager.GetObject("fff_app_list_T_16", resourceCulture);
@@ -434,6 +444,16 @@ namespace TagScanner.Properties {
         internal static System.Drawing.Bitmap fff_app_tree_C_16 {
             get {
                 object obj = ResourceManager.GetObject("fff_app_tree_C_16", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap fff_app_tree_C2_16 {
+            get {
+                object obj = ResourceManager.GetObject("fff-app-tree-C2.16", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
