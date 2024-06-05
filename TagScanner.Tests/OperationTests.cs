@@ -31,22 +31,50 @@
             }
         }
 
+        #region Assignment Operators
+
+        [DataRow("a ← b ← 123", 123)]
+        [DataRow("a ← 123; b ← a; b", 123)]
+        [DataRow("a ← 123; b ← a + 456", 579)]
+
+        [DataRow("a <- b <- 123", 123)]
+        [DataRow("a <- 123; b <- a; b", 123)]
+        [DataRow("a <- 123; b <- a + 456", 579)]
+
+        [DataRow("a := b := 123", 123)]
+        [DataRow("a := 123; b := a; b", 123)]
+        [DataRow("a := 123; b := a + 456", 579)]
+
+        [DataRow("a := false; b := false; a |= b; a", false)]
+        [DataRow("a := false; b := true; a |= b; a", true)]
+        [DataRow("a := true; b := false; a |= b; a", true)]
+        [DataRow("a := true; b := true; a |= b; a", true)]
+
+        [DataRow("a := false; b := false; a ^= b; a", false)]
+        [DataRow("a := false; b := true; a ^= b; a", true)]
+        [DataRow("a := true; b := false; a ^= b; a", true)]
+        [DataRow("a := true; b := true; a ^= b; a", false)]
+
+        [DataRow("a := false; b := false; a &= b; a", false)]
+        [DataRow("a := false; b := true; a &= b; a", false)]
+        [DataRow("a := true; b := false; a &= b; a", false)]
+        [DataRow("a := true; b := true; a &= b; a", true)]
+
+        [DataRow("a := 3; b := 6; a |= b; a", 7)]
+        [DataRow("a := 3; b := 6; a ^= b; a", 5)]
+        [DataRow("a := 3; b := 6; a &= b; a", 2)]
+
+        [DataRow("a := 3; b := 6; a <<= b; a", 192)]
+        [DataRow("a := 192; b := 3; a >>= b; a", 24)]
+
+        [DataRow("a := 123; a += 456; a", 579)]
+        [DataRow("a := 579; a -= 456; a", 123)]
+        [DataRow("a := 12; a *= 24", 288)]
+        [DataRow("a := 144; a /= 24", 6)]
+        [DataRow("a := 1025; a %= 24", 17)]
+
+        #endregion
         #region Logical Operators
-
-        [DataRow("false & false", false)]
-        [DataRow("False & True", false)]
-        [DataRow("truE & falsE", false)]
-        [DataRow("TRUE & TRUE", true)]
-
-        [DataRow("false && false", false)]
-        [DataRow("False && True", false)]
-        [DataRow("truE && falsE", false)]
-        [DataRow("TRUE && TRUE", true)]
-
-        [DataRow("false and false", false)]
-        [DataRow("False And True", false)]
-        [DataRow("truE anD falsE", false)]
-        [DataRow("TRUE AND TRUE", true)]
 
         [DataRow("false | false", false)]
         [DataRow("False | True", true)]
@@ -77,6 +105,21 @@
         [DataRow("False Xor True", true)]
         [DataRow("truE xoR falsE", true)]
         [DataRow("TRUE XOR TRUE", false)]
+
+        [DataRow("false & false", false)]
+        [DataRow("False & True", false)]
+        [DataRow("truE & falsE", false)]
+        [DataRow("TRUE & TRUE", true)]
+
+        [DataRow("false && false", false)]
+        [DataRow("False && True", false)]
+        [DataRow("truE && falsE", false)]
+        [DataRow("TRUE && TRUE", true)]
+
+        [DataRow("false and false", false)]
+        [DataRow("False And True", false)]
+        [DataRow("truE anD falsE", false)]
+        [DataRow("TRUE AND TRUE", true)]
 
         #endregion
         #region Equality | Relational Operations
