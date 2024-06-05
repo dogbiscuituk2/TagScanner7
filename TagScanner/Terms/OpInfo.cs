@@ -1,21 +1,20 @@
 ﻿namespace TagScanner.Terms
 {
     using System;
-    using System.Drawing;
     using System.Linq.Expressions;
 
     public class OpInfo
     {
         #region Constructor
 
-        public OpInfo(string label, string format, ExpressionType expressionType, Rank rank, Type operandType, Image image = null)
+        public OpInfo(Op op, ExpressionType expressionType, Rank rank, Type operandType, string symbol)
         {
             ExpressionType = expressionType;
-            Format = format;
-            Image = image;
-            Label = label;
+            Format = rank == Rank.Unary ? $"{symbol}{{0}}" : $"{{0}} {symbol} {{1}}";
+            Op = op;
             OperandType = operandType;
             Rank = rank;
+            Symbol = symbol;
         }
 
         #endregion
@@ -24,11 +23,10 @@
 
         public ExpressionType ExpressionType;
         public string Format;
-        public Image Image;
-        public string Label;
         public Op Op;
         public Type OperandType;
         public Rank Rank;
+        public string Symbol;
 
         #endregion
     }

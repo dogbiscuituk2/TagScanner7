@@ -2,10 +2,8 @@
 {
     using System;
     using System.Collections.Generic;
-    using System.Drawing;
     using System.Linq;
     using System.Linq.Expressions;
-    using Icons = Properties.Resources;
 
     public static class Operators
     {
@@ -33,86 +31,55 @@
                 o = typeof(object),
                 s = typeof(string);
 
-            _operators = new Dictionary<Op, OpInfo>
-            {
-                { 0, new OpInfo("(", null, 0, 0, null) },
-                { Op.Assign, new OpInfo("←", "{0} ← {1}", ExpressionType.Assign, ass, o) },
-                { Op.OrAssign, new OpInfo("|=", "{0} |= {1}", ExpressionType.OrAssign, ass, o) },
-                { Op.XorAssign, new OpInfo("^=", "{0} ^= {1}", ExpressionType.ExclusiveOrAssign, ass, o) },
-                { Op.AndAssign, new OpInfo("&=", "{0} &= {1}", ExpressionType.AndAssign, ass, o) },
-                { Op.LeftShiftAssign, new OpInfo("<<=", "{0} <<= {1}", ExpressionType.LeftShiftAssign, ass, L) },
-                { Op.RightShiftAssign, new OpInfo(">>=", "{0} >>= {1}", ExpressionType.RightShiftAssign, ass, L) },
-                { Op.AddAssign, new OpInfo("+=", "{0} += {1}", ExpressionType.AddAssignChecked, ass, o) },
-                { Op.SubtractAssign, new OpInfo("-=", "{0} -= {1}", ExpressionType.SubtractAssignChecked, ass, o) },
-                { Op.MultiplyAssign, new OpInfo("*=", "{0} *= {1}", ExpressionType.MultiplyAssignChecked, ass, o) },
-                { Op.DivideAssign, new OpInfo("/=", "{0} /= {1}", ExpressionType.DivideAssign, ass, o) },
-                { Op.ModuloAssign, new OpInfo("%=", "{0} %= {1}", ExpressionType.ModuloAssign, ass, o) },
-                { Op.Or, new OpInfo("||", "{0} || {1}", ExpressionType.OrElse, or, b, Icons.Op2_Or) },
-                { Op.And, new OpInfo("&&", "{0} && {1}", ExpressionType.AndAlso, and, b, Icons.Op2_And) },
-                { Op.BitwiseOr, new OpInfo("|", "{0} | {1}", ExpressionType.Or, bo, L, Icons.Op2_Or) },
-                { Op.Xor, new OpInfo("^", "{0} ^ {1}", ExpressionType.ExclusiveOr, x, b, Icons.Op2_Xor) },
-                { Op.BitwiseAnd, new OpInfo("&", "{0} & {1}", ExpressionType.And, ba, L, Icons.Op2_And) },
-                { Op.EqualTo, new OpInfo("=", "{0} = {1}", ExpressionType.Equal, e, o, Icons.Op2_EqualTo) },
-                { Op.NotEqualTo, new OpInfo("≠", "{0} ≠ {1}", ExpressionType.NotEqual, e, o, Icons.Op2_NotEqualTo) },
-                { Op.LessThan, new OpInfo("<", "{0} < {1}", ExpressionType.LessThan, r, d, Icons.Op2_LessThan) },
-                { Op.NotLessThan, new OpInfo("≥", "{0} ≥ {1}", ExpressionType.GreaterThanOrEqual, r, d, Icons.Op2_NotLessThan) },
-                { Op.GreaterThan, new OpInfo(">", "{0} > {1}", ExpressionType.GreaterThan, r, d, Icons.Op2_GreaterThan) },
-                { Op.NotGreaterThan, new OpInfo("≤", "{0} ≤ {1}", ExpressionType.LessThanOrEqual, r, d, Icons.Op2_NotGreaterThan) },
-                { Op.LeftShift, new OpInfo("<<", "{0} << {1}", ExpressionType.LeftShift, sh, L) },
-                { Op.RightShift, new OpInfo(">>", "{0} >> {1}", ExpressionType.RightShift, sh, L) },
-                { Op.Concatenate, new OpInfo("+", "{0} + {1}", ExpressionType.Add, add, s, Icons.Op2_Add) },
-                { Op.Add, new OpInfo("+", "{0} + {1}", ExpressionType.AddChecked, add, d, Icons.Op2_Add) },
-                { Op.Subtract, new OpInfo("-", "{0} - {1}", ExpressionType.SubtractChecked, add, d, Icons.Op2_Subtract) },
-                { Op.Multiply, new OpInfo("×", "{0} × {1}", ExpressionType.MultiplyChecked, m, d, Icons.Op2_Multiply) },
-                { Op.Divide, new OpInfo("÷", "{0} ÷ {1}", ExpressionType.Divide, m, d, Icons.Op2_Divide) },
-                { Op.Modulo, new OpInfo("%", "{0} % {1}", ExpressionType.Modulo, m, d, Icons.Op2_Modulo) },
-                { Op.Positive, new OpInfo("+", "+{0}", ExpressionType.UnaryPlus, u, d, Icons.Op2_Add) },
-                { Op.Negative, new OpInfo("-", "-{0}", ExpressionType.NegateChecked, u, d, Icons.Op2_Subtract) },
-                { Op.Not, new OpInfo("!", "!{0}", ExpressionType.Not, u, b, Icons.Op2_Not) },
-                { Op.BitwiseNot, new OpInfo("~", "~{0}", ExpressionType.OnesComplement, u, L) },
-            };
+            _operators = new Dictionary<Op, OpInfo>();
 
-            foreach (var op in _operators)
-                op.Value.Op = op.Key;
-
-            Add(Op.Assign, "<-", ":=", "←");
-            Add(Op.AddAssign, "+=");
-            Add(Op.SubtractAssign, "-=");
-            Add(Op.MultiplyAssign, "*=");
-            Add(Op.DivideAssign, "/=");
-            Add(Op.ModuloAssign, "%=");
-            Add(Op.AndAssign, "&=");
-            Add(Op.OrAssign, "|=");
-            Add(Op.XorAssign, "^=");
-            Add(Op.Or, "||", "OR");
-            Add(Op.And, "&&", "AND");
-            Add(Op.BitwiseOr, "|");
-            Add(Op.Xor, "^", "XOR");
-            Add(Op.BitwiseAnd, "&");
-            Add(Op.EqualTo, "=", "==");
-            Add(Op.NotEqualTo, "!=", "<>", "#", "≠");
-            Add(Op.LessThan, "<");
-            Add(Op.NotLessThan, ">=", "≥", "≮");
-            Add(Op.GreaterThan, ">");
-            Add(Op.NotGreaterThan, "<=", "≤", "≯");
-            Add(Op.Add, "+", "＋"); // Op.Positive when Unary, Op.Concatenate in string context.
-            Add(Op.Subtract, "-", "－");  // Op.Negative when Unary.
-            Add(Op.Multiply, "*", "×", "✕");
-            Add(Op.Divide, "/", "÷", "／");
-            Add(Op.Modulo, "%");
-            Add(Op.Positive, "+", "＋");
-            Add(Op.Negative, "-", "－");
-            Add(Op.Not, "!", "NOT");
-            Add(Op.BitwiseNot, "~");
+            Add(0, 0, 0, null, "(");
+            Add(Op.Assign, ExpressionType.Assign, ass, o, "←", "<-", ":=");
+            Add(Op.OrAssign, ExpressionType.OrAssign, ass, o, "|=");
+            Add(Op.XorAssign, ExpressionType.ExclusiveOrAssign, ass, o, "^=");
+            Add(Op.AndAssign, ExpressionType.AndAssign, ass, o, "&=");
+            Add(Op.LeftShiftAssign, ExpressionType.LeftShiftAssign, ass, L, "<<=");
+            Add(Op.RightShiftAssign, ExpressionType.RightShiftAssign, ass, L, ">>=");
+            Add(Op.AddAssign, ExpressionType.AddAssignChecked, ass, o, "+=");
+            Add(Op.SubtractAssign, ExpressionType.SubtractAssignChecked, ass, o, "-=");
+            Add(Op.MultiplyAssign, ExpressionType.MultiplyAssignChecked, ass, o, "*=");
+            Add(Op.DivideAssign, ExpressionType.DivideAssign, ass, o, "/=");
+            Add(Op.ModuloAssign, ExpressionType.ModuloAssign, ass, o, "%=");
+            Add(Op.Or, ExpressionType.OrElse, or, b, "||", "OR");
+            Add(Op.And, ExpressionType.AndAlso, and, b, "&&", "AND");
+            Add(Op.BitwiseOr, ExpressionType.Or, bo, L, "|");
+            Add(Op.Xor, ExpressionType.ExclusiveOr, x, b, "^", "XOR");
+            Add(Op.BitwiseAnd, ExpressionType.And, ba, L, "&");
+            Add(Op.EqualTo, ExpressionType.Equal, e, o, "=", "==");
+            Add(Op.NotEqualTo, ExpressionType.NotEqual, e, o, "≠", "!=", "<>", "#");
+            Add(Op.LessThan, ExpressionType.LessThan, r, d, "<");
+            Add(Op.NotLessThan, ExpressionType.GreaterThanOrEqual, r, d, "≥", ">=", "≮");
+            Add(Op.GreaterThan, ExpressionType.GreaterThan, r, d, ">");
+            Add(Op.NotGreaterThan, ExpressionType.LessThanOrEqual, r, d, "≤", "<=", "≯");
+            Add(Op.LeftShift, ExpressionType.LeftShift, sh, L, "<<");
+            Add(Op.RightShift, ExpressionType.RightShift, sh, L, ">>");
+            Add(Op.Concatenate, ExpressionType.Add, add, s, "+", "＋");
+            Add(Op.Add, ExpressionType.AddChecked, add, d, "+", "＋");
+            Add(Op.Subtract, ExpressionType.SubtractChecked, add, d, "-", "－");
+            Add(Op.Multiply, ExpressionType.MultiplyChecked, m, d, "×", "*", "✕");
+            Add(Op.Divide, ExpressionType.Divide, m, d, "÷", "/", "／");
+            Add(Op.Modulo, ExpressionType.Modulo, m, d, "%");
+            Add(Op.Positive, ExpressionType.UnaryPlus, u, d, "+", "＋");
+            Add(Op.Negative, ExpressionType.NegateChecked, u, d, "-", "－");
+            Add(Op.Not, ExpressionType.Not, u, b, "!", "NOT");
+            Add(Op.BitwiseNot, ExpressionType.OnesComplement, u, L, "~");
 
             _symbols.AddRange(_unarySymbols.Union(_binarySymbols).Union(new[] { ".", ",", ";", ":", "(", ")" }));
 
-            void Add(Op op, params string[] symbols)
+            void Add(Op op, ExpressionType expressionType, Rank rank, Type operandType, params string[] symbols)
             {
-                var unary = op.IsUnary();
+                var opInfo = new OpInfo(op, expressionType, rank, operandType, symbols[0]);
+                _operators.Add(op, opInfo);
+                var unary = rank == Rank.Unary;
                 var dictionary = GetDictionary(unary);
                 foreach (var symbol in symbols)
-                    dictionary.Add(symbol, op);
+                    if (!dictionary.ContainsKey(symbol))
+                        dictionary.Add(symbol, op);
                 (unary ? _unarySymbols : _binarySymbols).AddRange(symbols);
             }
         }
@@ -152,16 +119,15 @@
         public static string GetFormat(this Op op) => _operators[op].Format;
         public static Rank GetRank(this Op op) => _operators[op].Rank;
 
-        public static Image Image(this Op op) => _operators[op].Image;
         public static bool IsAssignment(this Op op) => (op & Op.Assignment) != 0;
         public static bool IsBinary(this Op op) => (op & Op.Binary) != 0;
         public static bool IsInfinitary(this Op op) => op.GetAssociativity() != 0;
         public static bool IsLogical(this Op op) => (op & Op.Logical) != 0;
         public static bool IsUnary(this Op op) => (op & Op.Unary) != 0;
         public static bool IsVisible(this Op op) => (op & Op.Visible) != 0;
-        public static string Label(this Op op) => _operators[op].Label;
         public static Type OperandType(this Op op) => _operators[op].OperandType;
         public static OpInfo OpInfo(this Op op) => _operators[op];
+        public static string Symbol(this Op op) => _operators[op].Symbol;
 
         public static Type ResultType(this Op op) =>
             op.IsLogical() ? typeof(bool) :

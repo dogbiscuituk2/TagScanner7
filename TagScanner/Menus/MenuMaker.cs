@@ -69,9 +69,6 @@
             {
                 var text = op.ToString();
                 var opInfo = op.OpInfo();
-                var image = opInfo.Image;
-                if (image != null)
-                    items.Append(text, op, click, image);
             }
         }
 

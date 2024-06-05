@@ -146,7 +146,7 @@
             if (action.StartsWith("New") || action.StartsWith("Peek"))
                 return;
             Debug.WriteLine(format, _, _, "Tokens", Say(_tokens.Select(p => p.Value)));
-            Debug.WriteLine(format, _, _, "Operators", Say(_operators.Select(p => p.Label())));
+            Debug.WriteLine(format, _, _, "Operators", Say(_operators.Select(p => p.Symbol())));
             Debug.WriteLine(format, _, _, "Terms", _terms.Any() ? TermInfo(_terms.First()) : string.Empty);
             if (_terms.Count > 1)
                 foreach (var term in _terms?.Skip(1))
@@ -209,7 +209,7 @@
                 Exception(caller, line, exception, action);
                 throw;
             }
-            Dump(caller, line, value is Op op ? op.Label() : value, action);
+            Dump(caller, line, value is Op op ? op.Symbol() : value, action);
             return value;
         }
 
