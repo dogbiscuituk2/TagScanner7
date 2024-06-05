@@ -122,6 +122,12 @@
         [DataRow("TRUE AND TRUE", true)]
 
         #endregion
+        #region Bitwise Operators
+
+        [DataRow("7 | 12", 15)]
+        [DataRow("7 & 12", 4)]
+
+        #endregion
         #region Equality | Relational Operations
 
         [DataRow("2 = 2", true)]
