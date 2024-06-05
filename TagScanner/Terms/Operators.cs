@@ -73,13 +73,13 @@
 
             void Add(Op op, ExpressionType expressionType, Rank rank, Type operandType, params string[] symbols)
             {
-                var opInfo = new OpInfo(op, expressionType, rank, operandType, symbols[0]);
-                _operators.Add(op, opInfo);
+                _operators.Add(op, new OpInfo(op, expressionType, rank, operandType, symbols[0]));
+                if (op == Op.Concatenate) // Will be implemented by a function, not an operation.
+                    return;
                 var unary = rank == Rank.Unary;
                 var dictionary = GetDictionary(unary);
                 foreach (var symbol in symbols)
-                    if (!dictionary.ContainsKey(symbol))
-                        dictionary.Add(symbol, op);
+                    dictionary.Add(symbol, op);
                 (unary ? _unarySymbols : _binarySymbols).AddRange(symbols);
             }
         }
