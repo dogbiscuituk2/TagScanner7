@@ -125,7 +125,10 @@
         #region Bitwise Operators
 
         [DataRow("7 | 12", 15)]
+        //[DataRow("7 ^ 12", 11)]
         [DataRow("7 & 12", 4)]
+        [DataRow("5 << 3", 40)]
+        [DataRow("40 >> 2", 10)]
 
         #endregion
         #region Equality | Relational Operations
@@ -281,9 +284,11 @@
         public void TestOperationResult(string text, object sense, object nonsense = null) =>
             TestResult(text, sense, nonsense ?? sense);
 
-        [DataRow("2 - (3 - 5)", 4)]
+        [DataRow("true ? false ? 1 : true ? 2 : 3 : false ? 4 : 5", 2)]
         [TestMethod]
-        public void ScratchTestOperationResult(string text, object sense, object nonsense = null) =>
+        public void ScratchTestOperationResult(string text, object sense, object nonsense = null)
+        {
             TestResult(text, sense, nonsense ?? sense);
+        }
     }
 }

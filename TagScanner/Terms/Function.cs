@@ -118,9 +118,9 @@
 
     #region Derived Function Classes
 
-    public class Conditional : Function
+    public class InlineIf : Function
     {
-        public Conditional(Term condition, Term consequent, Term alternative)
+        public InlineIf(Term condition, Term consequent, Term alternative)
             : base(Fn.IfThenElse, condition, consequent, alternative) { }
     }
 

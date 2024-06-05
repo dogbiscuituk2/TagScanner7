@@ -204,6 +204,7 @@
     <Compile Include="Terms\Break.cs" />
     <Compile Include="Terms\Catch.cs" />
     <Compile Include="Terms\Compound.cs" />
+    <Compile Include="Terms\Conditional.cs" />
     <Compile Include="Terms\Continue.cs" />
     <Compile Include="Terms\Keywords.cs" />
     <Compile Include="Terms\Label.cs" />

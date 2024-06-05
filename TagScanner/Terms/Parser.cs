@@ -532,9 +532,10 @@
                     }
                     return;
                 }
-                var commonType = Utility.GetCompatibleType(operands.Select(p => p.ResultType).ToArray());
+                var first = op == Op.Else ? 1 : 0;
+                var commonType = Utility.GetCompatibleType(operands.Skip(first).Select(p => p.ResultType).ToArray());
                 var adjustCase = !_caseSensitive && op.CanChain();
-                for (var index = 0; index < count; index++)
+                for (var index = first; index < count; index++)
                 {
                     var operand = operands[index];
                     if (operand.ResultType != commonType)

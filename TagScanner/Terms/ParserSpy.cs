@@ -119,6 +119,10 @@
         {
             var left = _terms.Pop();
             var op = _operators.Pop();
+
+            if (op == Op.Else && left is Operation foo && foo.Op == Op.Then)
+                return new Conditional(foo.Operands[0], foo.Operands[1], right);
+
             var ass = op.GetAssociativity();
             bool
                 lop = left is Compound leftOp && leftOp.Op == op,

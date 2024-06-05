@@ -17,6 +17,7 @@
                 ass = Rank.Assignment,
                 ba = Rank.BitwiseAnd,
                 bo = Rank.BitwiseOr,
+                c = Rank.Conditional,
                 e = Rank.Equality,
                 m = Rank.Multiplicative,
                 or = Rank.ConditionalOr,
@@ -45,6 +46,8 @@
             Add(Op.MultiplyAssign, ExpressionType.MultiplyAssignChecked, ass, o, "*=");
             Add(Op.DivideAssign, ExpressionType.DivideAssign, ass, o, "/=");
             Add(Op.ModuloAssign, ExpressionType.ModuloAssign, ass, o, "%=");
+            Add(Op.Then, ExpressionType.Conditional, c, o, "?");
+            Add(Op.Else, ExpressionType.Conditional, c, o, ":");
             Add(Op.Or, ExpressionType.OrElse, or, b, "||", "OR");
             Add(Op.And, ExpressionType.AndAlso, and, b, "&&", "AND");
             Add(Op.BitwiseOr, ExpressionType.Or, bo, L, "|");

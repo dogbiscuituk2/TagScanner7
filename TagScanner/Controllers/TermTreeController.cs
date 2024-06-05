@@ -71,9 +71,9 @@
                 album = new Operation(Tag.Album, '=', "Let It Be"),
                 duration = new Operation(Tag.Duration, ">=", "00:03:30"),
                 lyrics = !new Function(Fn.Empty, Tag.Lyrics),
-                tree = new Conditional(band, song, album | duration & lyrics),
-                tree2 = new Conditional(band, song, album | duration & lyrics & tree);
-            Add(new Conditional(band, song, album | duration & tree2));
+                tree = new InlineIf(band, song, album | duration & lyrics),
+                tree2 = new InlineIf(band, song, album | duration & lyrics & tree);
+            Add(new InlineIf(band, song, album | duration & tree2));
             Term
                 a = new Operation('A', Op.EqualTo, 'B'),
                 b = a | a, c = b | b, d = c | c, e = d | d, f = e | e, g = f | f, h = g | g;
