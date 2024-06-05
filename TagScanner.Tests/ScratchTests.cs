@@ -10,10 +10,8 @@
         [TestMethod]
         public void ScratchTest()
         {
-            var sample = "123 OneTwo";
-            var output = "123 threeFour";
-            var result = sample.PreserveCase(output);
-            return;
+            var text = "~123";
+            var term = Parser.Parse(text, caseSensitive: false);
         }
     }
 }

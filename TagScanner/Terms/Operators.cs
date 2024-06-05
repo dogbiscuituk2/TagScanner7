@@ -17,15 +17,19 @@
                 add = Rank.Additive,
                 and = Rank.ConditionalAnd,
                 ass = Rank.Assignment,
+                ba = Rank.BitwiseAnd,
+                bo = Rank.BitwiseOr,
                 e = Rank.Equality,
                 m = Rank.Multiplicative,
                 or = Rank.ConditionalOr,
                 r = Rank.Relational,
+                sh = Rank.Shift,
                 u = Rank.Unary,
                 x = Rank.BitwiseXor;
             Type
                 b = typeof(bool),
                 d = typeof(double),
+                L = typeof(long),
                 o = typeof(object),
                 s = typeof(string);
 
@@ -33,23 +37,29 @@
             {
                 { 0, new OpInfo("(", null, 0, 0, null) },
                 { Op.Assign, new OpInfo("←", "{0} ← {1}", ExpressionType.Assign, ass, o) },
-                { Op.AndAssign, new OpInfo("&=", "{0} &= {1}", ExpressionType.AndAssign, ass, o) },
                 { Op.OrAssign, new OpInfo("|=", "{0} |= {1}", ExpressionType.OrAssign, ass, o) },
                 { Op.XorAssign, new OpInfo("^=", "{0} ^= {1}", ExpressionType.ExclusiveOrAssign, ass, o) },
+                { Op.AndAssign, new OpInfo("&=", "{0} &= {1}", ExpressionType.AndAssign, ass, o) },
+                { Op.LeftShiftAssign, new OpInfo("<<=", "{0} <<= {1}", ExpressionType.LeftShiftAssign, ass, L) },
+                { Op.RightShiftAssign, new OpInfo(">>=", "{0} >>= {1}", ExpressionType.RightShiftAssign, ass, L) },
                 { Op.AddAssign, new OpInfo("+=", "{0} += {1}", ExpressionType.AddAssignChecked, ass, o) },
                 { Op.SubtractAssign, new OpInfo("-=", "{0} -= {1}", ExpressionType.SubtractAssignChecked, ass, o) },
                 { Op.MultiplyAssign, new OpInfo("*=", "{0} *= {1}", ExpressionType.MultiplyAssignChecked, ass, o) },
                 { Op.DivideAssign, new OpInfo("/=", "{0} /= {1}", ExpressionType.DivideAssign, ass, o) },
                 { Op.ModuloAssign, new OpInfo("%=", "{0} %= {1}", ExpressionType.ModuloAssign, ass, o) },
-                { Op.And, new OpInfo("&", "{0} & {1}", ExpressionType.AndAlso, and, b, Icons.Op2_And) },
-                { Op.Or, new OpInfo("|", "{0} | {1}", ExpressionType.OrElse, or, b, Icons.Op2_Or) },
+                { Op.Or, new OpInfo("||", "{0} || {1}", ExpressionType.OrElse, or, b, Icons.Op2_Or) },
+                { Op.And, new OpInfo("&&", "{0} && {1}", ExpressionType.AndAlso, and, b, Icons.Op2_And) },
+                { Op.BitwiseOr, new OpInfo("|", "{0} | {1}", ExpressionType.Or, bo, L, Icons.Op2_Or) },
                 { Op.Xor, new OpInfo("^", "{0} ^ {1}", ExpressionType.ExclusiveOr, x, b, Icons.Op2_Xor) },
+                { Op.BitwiseAnd, new OpInfo("&", "{0} & {1}", ExpressionType.And, ba, L, Icons.Op2_And) },
                 { Op.EqualTo, new OpInfo("=", "{0} = {1}", ExpressionType.Equal, e, o, Icons.Op2_EqualTo) },
                 { Op.NotEqualTo, new OpInfo("≠", "{0} ≠ {1}", ExpressionType.NotEqual, e, o, Icons.Op2_NotEqualTo) },
                 { Op.LessThan, new OpInfo("<", "{0} < {1}", ExpressionType.LessThan, r, d, Icons.Op2_LessThan) },
                 { Op.NotLessThan, new OpInfo("≥", "{0} ≥ {1}", ExpressionType.GreaterThanOrEqual, r, d, Icons.Op2_NotLessThan) },
                 { Op.GreaterThan, new OpInfo(">", "{0} > {1}", ExpressionType.GreaterThan, r, d, Icons.Op2_GreaterThan) },
                 { Op.NotGreaterThan, new OpInfo("≤", "{0} ≤ {1}", ExpressionType.LessThanOrEqual, r, d, Icons.Op2_NotGreaterThan) },
+                { Op.LeftShift, new OpInfo("<<", "{0} << {1}", ExpressionType.LeftShift, sh, L) },
+                { Op.RightShift, new OpInfo(">>", "{0} >> {1}", ExpressionType.RightShift, sh, L) },
                 { Op.Concatenate, new OpInfo("+", "{0} + {1}", ExpressionType.Add, add, s, Icons.Op2_Add) },
                 { Op.Add, new OpInfo("+", "{0} + {1}", ExpressionType.AddChecked, add, d, Icons.Op2_Add) },
                 { Op.Subtract, new OpInfo("-", "{0} - {1}", ExpressionType.SubtractChecked, add, d, Icons.Op2_Subtract) },
@@ -59,6 +69,7 @@
                 { Op.Positive, new OpInfo("+", "+{0}", ExpressionType.UnaryPlus, u, d, Icons.Op2_Add) },
                 { Op.Negative, new OpInfo("-", "-{0}", ExpressionType.NegateChecked, u, d, Icons.Op2_Subtract) },
                 { Op.Not, new OpInfo("!", "!{0}", ExpressionType.Not, u, b, Icons.Op2_Not) },
+                { Op.BitwiseNot, new OpInfo("~", "~{0}", ExpressionType.OnesComplement, u, L) },
             };
 
             foreach (var op in _operators)
@@ -73,9 +84,11 @@
             Add(Op.AndAssign, "&=");
             Add(Op.OrAssign, "|=");
             Add(Op.XorAssign, "^=");
-            Add(Op.And, "&", "&&", "AND");
-            Add(Op.Or, "|", "||", "OR");
+            Add(Op.Or, "||", "OR");
+            Add(Op.And, "&&", "AND");
+            Add(Op.BitwiseOr, "|");
             Add(Op.Xor, "^", "XOR");
+            Add(Op.BitwiseAnd, "&");
             Add(Op.EqualTo, "=", "==");
             Add(Op.NotEqualTo, "!=", "<>", "#", "≠");
             Add(Op.LessThan, "<");
@@ -90,6 +103,7 @@
             Add(Op.Positive, "+", "＋");
             Add(Op.Negative, "-", "－");
             Add(Op.Not, "!", "NOT");
+            Add(Op.BitwiseNot, "~");
 
             _symbols.AddRange(_unarySymbols.Union(_binarySymbols).Union(new[] { ".", ",", ";", ":", "(", ")" }));
 
