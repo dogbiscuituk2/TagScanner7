@@ -50,6 +50,7 @@
         #region Terms
 
         public Term NewTerm(string caller, int line, Term term) { Process(caller, line, p => term); return term; }
+        public Term PeekTerm(string caller, int line) => (Term)Process(caller, line, p => _terms.Peek());
         public Term PopTerm(string caller, int line) => (Term)Process(caller, line, p => _terms.Pop());
         public void PushTerm(string caller, int line, Term term) => Process(caller, line, p => { _terms.Push(term); return term; });
 

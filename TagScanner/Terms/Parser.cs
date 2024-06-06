@@ -601,6 +601,7 @@
 
         private void BeginParse(string program, [CallerLineNumber] int line = 0, [CallerMemberName] string caller = "") => _spy.BeginParse(caller, line, program);
         private Term EndParse(Term term, [CallerLineNumber] int line = 0, [CallerMemberName] string caller = "") => _spy.EndParse(caller, line, term);
+        private Term PeekTerm([CallerLineNumber] int line = 0, [CallerMemberName] string caller = "") => _spy.PeekTerm(caller, line);
         private Term NewTerm(Term term, [CallerLineNumber] int line = 0, [CallerMemberName] string caller = "") => _spy.NewTerm(caller, line, term);
 
         #endregion
