@@ -5,9 +5,8 @@
     using System.Drawing;
     using System.Windows.Forms;
     using Controllers;
-    using Models;
-    using Utils;
     using Forms;
+    using Utils;
 
     public class CommandProcessor : Controller
     {
@@ -31,19 +30,9 @@
 
         #endregion
 
-        #region Fields
-
-        private readonly Stack<Command> UndoStack, RedoStack;
-        private int LastSave, UpdateCount;
-        private bool Busy;
-
-        #endregion
-
-        #region Properties
+        #region Public Properties
 
         public bool IsModified => LastSave != UndoStack.Count;
-
-        private List<Track> Tracks => MainModel.Tracks;
 
         #endregion
 
@@ -93,7 +82,7 @@
 
         #endregion
 
-        #region Private Methods
+        #region Event Handlers
 
         private void EditUndo_Click(object sender, EventArgs e) => Undo();
         private void EditRedo_Click(object sender, EventArgs e) => Redo();
@@ -104,13 +93,36 @@
         private static void Menu_MouseEnter(object sender, EventArgs e) => HighlightMenu((ToolStripItem)sender);
         private static void Menu_Paint(object sender, PaintEventArgs e) => HighlightMenu((ToolStripItem)sender);
 
+        private void UndoMultiple(object sender, EventArgs e) => DoMultiple(sender, undo: true);
+        private void RedoMultiple(object sender, EventArgs e) => DoMultiple(sender, undo: false);
+
+        #endregion
+
+        #region Private Fields
+
+        private readonly Stack<Command> UndoStack, RedoStack;
+        private int LastSave, UpdateCount;
+        private bool Busy;
+
+        #endregion
+
+        #region Private Properties
+
         private bool CanRedo => RedoStack.Count > 0;
         private bool CanUndo => UndoStack.Count > 0;
 
         private string UndoAction => UndoStack.Peek().ToString();
         private string RedoAction => RedoStack.Peek().ToString();
 
-        private void BeginUpdate() { ++UpdateCount; }
+        #endregion
+
+        #region Private Methods
+
+        private int Undo() => CanUndo ? Undo(UndoStack.Pop()) : 0;
+        private int Redo() => CanRedo ? Redo(RedoStack.Pop()) : 0;
+        private int Undo(Command command) => DoCommand(command, undo: true, spoof: false);
+        private int Redo(Command command, bool spoof = false) => DoCommand(command, undo: false, spoof);
+        private void UpdateUI() => AppController.UpdateUI(MainFormController);
 
         private int DoCommand(Command command, bool undo, bool spoof = false)
         {
@@ -129,6 +141,19 @@
             }
             return result;
         }
+
+        private void DoMultiple(object item, bool undo)
+        {
+            BeginUpdate();
+            var peek = ((ToolStripItem)item).Tag;
+            if (undo)
+                do Undo(); while (RedoStack.Peek() != peek);
+            else
+                do Redo(); while (UndoStack.Peek() != peek);
+            EndUpdate();
+        }
+
+        private void BeginUpdate() => ++UpdateCount;
 
         private void EndUpdate()
         {
@@ -164,30 +189,6 @@
                 menuItems.Add(item);
             }
         }
-
-        private int Undo() => CanUndo ? Undo(UndoStack.Pop()) : 0;
-        private int Redo() => CanRedo ? Redo(RedoStack.Pop()) : 0;
-
-        private int Undo(Command command) => DoCommand(command, undo: true, spoof: false);
-        private int Redo(Command command, bool spoof = false) => DoCommand(command, undo: false, spoof);
-
-        private void RedoMultiple(object sender, EventArgs e)
-        {
-            BeginUpdate();
-            var peek = ((ToolStripItem)sender).Tag;
-            do Redo(); while (UndoStack.Peek() != peek);
-            EndUpdate();
-        }
-
-        private void UndoMultiple(object sender, EventArgs e)
-        {
-            BeginUpdate();
-            var peek = ((ToolStripItem)sender).Tag;
-            do Undo(); while (RedoStack.Peek() != peek);
-            EndUpdate();
-        }
-
-        private void UpdateUI() => AppController.UpdateUI(MainFormController);
 
         #endregion
     }

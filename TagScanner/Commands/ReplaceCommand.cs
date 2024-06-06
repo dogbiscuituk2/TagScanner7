@@ -5,16 +5,24 @@
 
     public class ReplaceCommand : Command
     {
+        #region Constructor
+
         public ReplaceCommand(Selection selection, Tag[] tags, object[,] values) : base(selection)
         {
             Tags = tags;
             Values = values;
         }
 
+        #endregion
+
+        #region Public Properties
+
         public Tag[] Tags { get; set; }
         public object[,] Values { get; set; }
 
-        private int ChangesCount;
+        #endregion
+
+        #region Public Methods
 
         public override int Run(Model model)
         {
@@ -34,5 +42,13 @@
         }
 
         public override string ToString() => $"Replace {ChangesCount} values in {Summary}";
+
+        #endregion
+
+        #region Private Fields
+
+        private int ChangesCount;
+
+        #endregion
     }
 }

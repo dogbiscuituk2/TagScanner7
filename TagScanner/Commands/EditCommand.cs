@@ -7,14 +7,24 @@
 
     public class EditCommand : Command
     {
+        #region Constructor
+
         public EditCommand(Selection selection, Tag tag, List<object> values) : base(selection)
         {
             Tag = tag;
             Values = values;
         }
 
+        #endregion
+
+        #region Public Properties
+
         public Tag Tag { get; set; }
         public List<object> Values { get; set; }
+
+        #endregion
+
+        #region Public Methods
 
         public override int Run(Model model)
         {
@@ -33,5 +43,7 @@
 
         public override string ToString() =>
             $"Change {Tag.DisplayName()} {(Values.Distinct().Count() == 1 ? $"to '{Values[0]}' " : string.Empty)}on {Summary}";
+
+        #endregion
     }
 }

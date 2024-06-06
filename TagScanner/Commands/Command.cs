@@ -7,7 +7,19 @@
 
     public abstract class Command
     {
+        #region Constructor
+
         protected Command(Selection selection) => Selection = selection;
+
+        #endregion
+
+        #region Public Properties
+
+        public int TracksCount => Tracks.Count;
+
+        #endregion
+
+        #region Public Methods
 
         public virtual int Do(Model model)
         {
@@ -16,7 +28,11 @@
             return result;
         }
 
-        public int TracksCount => Tracks.Count;
+        public abstract int Run(Model model);
+
+        #endregion
+
+        #region Protected Properties
 
         protected Selection Selection { get; }
         protected List<Track> Tracks => Selection.Tracks;
@@ -51,8 +67,12 @@
             }
         }
 
+        #endregion
+
+        #region Protected Methods
+
         protected virtual void Invert() { }
 
-        public abstract int Run(Model model);
+        #endregion
     }
 }
