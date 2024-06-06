@@ -119,10 +119,16 @@
         {
             var left = _terms.Pop();
             var op = _operators.Pop();
-
-            if (op == Op.Else && left is Operation foo && foo.Op == Op.Then)
-                return new Conditional(foo.Operands[0], foo.Operands[1], right);
-
+            switch (op)
+            {
+                case Op.Then:
+                    if (right is Operation foo && foo.Op == Op.Else)
+                        return new Conditional(left, foo.Operands[0], foo.Operands[1]);
+                    else
+                        throw new NotImplementedException();
+                case Op.Else:
+                    return new Operation(Op.Else, left, right);
+            }
             var ass = op.GetAssociativity();
             bool
                 lop = left is Compound leftOp && leftOp.Op == op,
@@ -137,8 +143,6 @@
         private void Dump(string caller, int line, object value, [CallerMemberName] string action = "")
         {
 #if DEBUG_PARSER
-            if (action.StartsWith("New") || action.StartsWith("Peek"))
-                return;
             const string format = "{0,19}{1,6}  {2,12}  {3}";
             if (!_headerShown)
             {
@@ -153,7 +157,7 @@
                 return;
             Debug.WriteLine(format, _, _, "Tokens", Say(_tokens.Select(p => p.Value)));
             Debug.WriteLine(format, _, _, "Operators", Say(_operators.Select(p => p.Symbol())));
-            Debug.WriteLine(format, _, _, "Terms", _terms.Any() ? TermInfo(_terms.First()) : string.Empty);
+            Debug.WriteLine(format, _, _, "Terms", _terms.Any() ? TermInfo(_terms.First()) : _);
             if (_terms.Count > 1)
                 foreach (var term in _terms?.Skip(1))
                     Debug.WriteLine(format, _, _, _, TermInfo(term));

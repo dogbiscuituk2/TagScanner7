@@ -10,14 +10,15 @@
         [TestMethod]
         public void TestOperations()
         {
-            foreach (var op in Operators.Keys.Where(p => p != 0 && !p.IsAssignment()))
+            foreach (var op in Operators.Keys.Where(p => p != 0 && !p.IsAssignment() && !p.IsConditional()))
             {
-                var operation = new Operation(op);
-                var infinitary = op.IsInfinitary();
-                var unary = op.IsUnary();
                 var associativity = op.GetAssociativity();
-                var associates = associativity != 0;
+                bool
+                    associates = associativity != 0,
+                    infinitary = op.IsInfinitary(),
+                    unary = op.IsUnary();
                 var operandsCount = unary ? 1 : associates ? 4 : 2;
+                var operation = new Operation(op);
                 Assert.IsNotNull(operation);
                 Assert.AreEqual(expected: associates, actual: operation.Associates);
                 Assert.AreEqual(expected: associativity, actual: operation.Associativity);
@@ -283,15 +284,5 @@
         [TestMethod]
         public void TestOperationResult(string text, object sense, object nonsense = null) =>
             TestResult(text, sense, nonsense ?? sense);
-
-        //[DataRow("true ? 1 : 2", 1)]
-        [DataRow("1 + 1 == 2 ? (3, 4) : (5, 6)", 4)]
-        //[DataRow("true ? false ? 1 : true ? 2 : 3 : false ? 4 : 5", 2)]
-        [TestMethod]
-        public void ScratchTestOperationResult(string text, object sense, object nonsense = null)
-        {
-            var term = Parser.Parse(text, caseSensitive: true);
-            //Assert.AreEqual(expected: sense, actual: term.Result);
-        }
     }
 }

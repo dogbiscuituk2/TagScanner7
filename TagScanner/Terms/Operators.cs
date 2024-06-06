@@ -13,7 +13,6 @@
         {
             _operators = new Dictionary<Op, OpInfo>();
 
-            Add(0, 0, 0, 0, null, "(");
             Add(Op.Assign, ExpressionType.Assign, Rank.Assignment, Associativity.Right, typeof(object), "←", "<-", ":=");
             Add(Op.OrAssign, ExpressionType.OrAssign, Rank.Assignment, Associativity.Right, typeof(object), "|=");
             Add(Op.XorAssign, ExpressionType.ExclusiveOrAssign, Rank.Assignment, Associativity.Right, typeof(object), "^=");
@@ -78,25 +77,9 @@
 
         #region Public Methods
 
-        public static Associativity GetAssociativity(this Op op)
-        {
-            if (op.IsUnary())
-                return Associativity.None;
-            if (op.IsAssignment() || op.IsConditional())
-                return Associativity.Right;
-            switch (op)
-            {
-                case Op.Subtract:
-                case Op.Divide:
-                case Op.Modulo:
-                    return Associativity.Left;
-                default:
-                    return Associativity.Full;
-            }
-        }
-
         public static bool CanChain(this Op op) => (op & Op.Chains) != 0;
         public static ExpressionType ExpType(this Op op) => _operators[op].ExpressionType;
+        public static Associativity GetAssociativity(this Op op) => _operators[op].Associativity;
         public static string GetFormat(this Op op) => _operators[op].Format;
         public static Rank GetRank(this Op op) => _operators[op].Rank;
 
@@ -108,7 +91,7 @@
         public static bool IsUnary(this Op op) => (op & Op.Unary) != 0;
         public static Type OperandType(this Op op) => _operators[op].OperandType;
         public static OpInfo OpInfo(this Op op) => _operators[op];
-        public static string Symbol(this Op op) => _operators[op].Symbol;
+        public static string Symbol(this Op op) => op == Op.None ? "(" : _operators[op].Symbol;
 
         public static Type ResultType(this Op op) =>
             op.IsLogical() ? typeof(bool) :
