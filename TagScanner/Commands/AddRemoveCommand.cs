@@ -4,7 +4,11 @@
 
     public abstract class AddRemoveCommand : Command
     {
+        #region Constructor
+
         public AddRemoveCommand(Selection selection, bool add) : base(selection) => Add = add;
+
+        #endregion
 
         protected bool Add;
 
