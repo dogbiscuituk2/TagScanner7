@@ -68,18 +68,14 @@
 
         #region Public Methods
 
-        public override int Start(int index) =>
-            index == 0 ? Name.Length + 1 : Start(index - 1) + Operands[index - 1].Length + 2;
+        public override int Start(int index) => index == 0 ? Name.Length + 1 : Start(index - 1) + Operands[index - 1].Length + 2;
 
         public override string ToString()
         {
-            var result = Name;
-            var skip = 0;
-            var count = Operands.Count;
-            if (count <= skip)
-                return result;
-            var operands = Operands.Skip(skip).Select(p => p.ToString()).Aggregate((p, q) => $"{p}, {q}");
-            return $"{result}({operands})";
+            var operands = Operands.Any()
+                ? Operands.Select(p => p.ToString()).Aggregate((p, q) => $"{p}, {q}")
+                : string.Empty;
+            return $"{Name}({operands})";
         }
 
         #endregion

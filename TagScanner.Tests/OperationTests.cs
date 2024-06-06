@@ -284,11 +284,14 @@
         public void TestOperationResult(string text, object sense, object nonsense = null) =>
             TestResult(text, sense, nonsense ?? sense);
 
-        [DataRow("true ? false ? 1 : true ? 2 : 3 : false ? 4 : 5", 2)]
+        //[DataRow("true ? 1 : 2", 1)]
+        [DataRow("1 + 1 == 2 ? (3, 4) : (5, 6)", 4)]
+        //[DataRow("true ? false ? 1 : true ? 2 : 3 : false ? 4 : 5", 2)]
         [TestMethod]
         public void ScratchTestOperationResult(string text, object sense, object nonsense = null)
         {
-            TestResult(text, sense, nonsense ?? sense);
+            var term = Parser.Parse(text, caseSensitive: true);
+            Assert.AreEqual(expected: sense, actual: term.Result);
         }
     }
 }

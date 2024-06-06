@@ -47,8 +47,9 @@
         All = -1,
         Assignment = Assign | OrAssign | XorAssign | AndAssign | LeftShiftAssign | RightShiftAssign |
             AddAssign | SubtractAssign | MultiplyAssign | DivideAssign | ModuloAssign,
+        Conditional = Then | Else,
         Unary = Positive | Negative | Not | BitwiseNot,
-        Trinary = Then | Else,
+        Trinary = Conditional,
         Binary = All & ~(Unary | Trinary),
         Equality = EqualTo | NotEqualTo,
         Relational = LessThan | NotLessThan | GreaterThan | NotGreaterThan,

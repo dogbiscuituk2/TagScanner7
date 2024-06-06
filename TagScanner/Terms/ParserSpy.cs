@@ -137,6 +137,8 @@
         private void Dump(string caller, int line, object value, [CallerMemberName] string action = "")
         {
 #if DEBUG_PARSER
+            if (action.StartsWith("New") || action.StartsWith("Peek"))
+                return;
             const string format = "{0,19}{1,6}  {2,12}  {3}";
             if (!_headerShown)
             {

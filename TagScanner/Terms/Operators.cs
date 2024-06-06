@@ -11,72 +11,51 @@
 
         static Operators()
         {
-            Rank
-                add = Rank.Additive,
-                and = Rank.ConditionalAnd,
-                ass = Rank.Assignment,
-                ba = Rank.BitwiseAnd,
-                bo = Rank.BitwiseOr,
-                c = Rank.Conditional,
-                e = Rank.Equality,
-                m = Rank.Multiplicative,
-                or = Rank.ConditionalOr,
-                r = Rank.Relational,
-                sh = Rank.Shift,
-                u = Rank.Unary,
-                x = Rank.BitwiseXor;
-            Type
-                b = typeof(bool),
-                d = typeof(double),
-                L = typeof(long),
-                o = typeof(object),
-                s = typeof(string);
-
             _operators = new Dictionary<Op, OpInfo>();
 
-            Add(0, 0, 0, null, "(");
-            Add(Op.Assign, ExpressionType.Assign, ass, o, "←", "<-", ":=");
-            Add(Op.OrAssign, ExpressionType.OrAssign, ass, o, "|=");
-            Add(Op.XorAssign, ExpressionType.ExclusiveOrAssign, ass, o, "^=");
-            Add(Op.AndAssign, ExpressionType.AndAssign, ass, o, "&=");
-            Add(Op.LeftShiftAssign, ExpressionType.LeftShiftAssign, ass, L, "<<=");
-            Add(Op.RightShiftAssign, ExpressionType.RightShiftAssign, ass, L, ">>=");
-            Add(Op.AddAssign, ExpressionType.AddAssignChecked, ass, o, "+=");
-            Add(Op.SubtractAssign, ExpressionType.SubtractAssignChecked, ass, o, "-=");
-            Add(Op.MultiplyAssign, ExpressionType.MultiplyAssignChecked, ass, o, "*=");
-            Add(Op.DivideAssign, ExpressionType.DivideAssign, ass, o, "/=");
-            Add(Op.ModuloAssign, ExpressionType.ModuloAssign, ass, o, "%=");
-            Add(Op.Then, ExpressionType.Conditional, c, o, "?");
-            Add(Op.Else, ExpressionType.Conditional, c, o, ":");
-            Add(Op.Or, ExpressionType.OrElse, or, b, "||", "OR");
-            Add(Op.And, ExpressionType.AndAlso, and, b, "&&", "AND");
-            Add(Op.BitwiseOr, ExpressionType.Or, bo, L, "|");
-            Add(Op.Xor, ExpressionType.ExclusiveOr, x, b, "^", "XOR");
-            Add(Op.BitwiseAnd, ExpressionType.And, ba, L, "&");
-            Add(Op.EqualTo, ExpressionType.Equal, e, o, "=", "==");
-            Add(Op.NotEqualTo, ExpressionType.NotEqual, e, o, "≠", "!=", "<>", "#");
-            Add(Op.LessThan, ExpressionType.LessThan, r, d, "<");
-            Add(Op.NotLessThan, ExpressionType.GreaterThanOrEqual, r, d, "≥", ">=", "≮");
-            Add(Op.GreaterThan, ExpressionType.GreaterThan, r, d, ">");
-            Add(Op.NotGreaterThan, ExpressionType.LessThanOrEqual, r, d, "≤", "<=", "≯");
-            Add(Op.LeftShift, ExpressionType.LeftShift, sh, L, "<<");
-            Add(Op.RightShift, ExpressionType.RightShift, sh, L, ">>");
-            Add(Op.Concatenate, ExpressionType.Add, add, s, "+", "＋");
-            Add(Op.Add, ExpressionType.AddChecked, add, d, "+", "＋");
-            Add(Op.Subtract, ExpressionType.SubtractChecked, add, d, "-", "－");
-            Add(Op.Multiply, ExpressionType.MultiplyChecked, m, d, "×", "*", "✕");
-            Add(Op.Divide, ExpressionType.Divide, m, d, "÷", "/", "／");
-            Add(Op.Modulo, ExpressionType.Modulo, m, d, "%");
-            Add(Op.Positive, ExpressionType.UnaryPlus, u, d, "+", "＋");
-            Add(Op.Negative, ExpressionType.NegateChecked, u, d, "-", "－");
-            Add(Op.Not, ExpressionType.Not, u, b, "!", "NOT");
-            Add(Op.BitwiseNot, ExpressionType.OnesComplement, u, L, "~");
+            Add(0, 0, 0, 0, null, "(");
+            Add(Op.Assign, ExpressionType.Assign, Rank.Assignment, Associativity.Right, typeof(object), "←", "<-", ":=");
+            Add(Op.OrAssign, ExpressionType.OrAssign, Rank.Assignment, Associativity.Right, typeof(object), "|=");
+            Add(Op.XorAssign, ExpressionType.ExclusiveOrAssign, Rank.Assignment, Associativity.Right, typeof(object), "^=");
+            Add(Op.AndAssign, ExpressionType.AndAssign, Rank.Assignment, Associativity.Right, typeof(object), "&=");
+            Add(Op.LeftShiftAssign, ExpressionType.LeftShiftAssign, Rank.Assignment, Associativity.Right, typeof(long), "<<=");
+            Add(Op.RightShiftAssign, ExpressionType.RightShiftAssign, Rank.Assignment, Associativity.Right, typeof(long), ">>=");
+            Add(Op.AddAssign, ExpressionType.AddAssignChecked, Rank.Assignment, Associativity.Right, typeof(object), "+=");
+            Add(Op.SubtractAssign, ExpressionType.SubtractAssignChecked, Rank.Assignment, Associativity.Right, typeof(object), "-=");
+            Add(Op.MultiplyAssign, ExpressionType.MultiplyAssignChecked, Rank.Assignment, Associativity.Right, typeof(object), "*=");
+            Add(Op.DivideAssign, ExpressionType.DivideAssign, Rank.Assignment, Associativity.Right, typeof(object), "/=");
+            Add(Op.ModuloAssign, ExpressionType.ModuloAssign, Rank.Assignment, Associativity.Right, typeof(object), "%=");
+            Add(Op.Then, ExpressionType.Conditional, Rank.Conditional, Associativity.Right, typeof(object), "?");
+            Add(Op.Else, ExpressionType.Conditional, Rank.Conditional, Associativity.Right, typeof(object), ":");
+            Add(Op.Or, ExpressionType.OrElse, Rank.ConditionalOr, Associativity.Full, typeof(bool), "||", "OR");
+            Add(Op.And, ExpressionType.AndAlso, Rank.ConditionalAnd, Associativity.Full, typeof(bool), "&&", "AND");
+            Add(Op.BitwiseOr, ExpressionType.Or, Rank.BitwiseOr, Associativity.Full, typeof(long), "|");
+            Add(Op.Xor, ExpressionType.ExclusiveOr, Rank.BitwiseXor, Associativity.Full, typeof(bool), "^", "XOR");
+            Add(Op.BitwiseAnd, ExpressionType.And, Rank.BitwiseAnd, Associativity.Full, typeof(long), "&");
+            Add(Op.EqualTo, ExpressionType.Equal, Rank.Equality, Associativity.Full, typeof(object), "=", "==");
+            Add(Op.NotEqualTo, ExpressionType.NotEqual, Rank.Equality, Associativity.Full, typeof(object), "≠", "!=", "<>", "#");
+            Add(Op.LessThan, ExpressionType.LessThan, Rank.Relational, Associativity.Full, typeof(double), "<");
+            Add(Op.NotLessThan, ExpressionType.GreaterThanOrEqual, Rank.Relational, Associativity.Full, typeof(double), "≥", ">=", "≮");
+            Add(Op.GreaterThan, ExpressionType.GreaterThan, Rank.Relational, Associativity.Full, typeof(double), ">");
+            Add(Op.NotGreaterThan, ExpressionType.LessThanOrEqual, Rank.Relational, Associativity.Full, typeof(double), "≤", "<=", "≯");
+            Add(Op.LeftShift, ExpressionType.LeftShift, Rank.Shift, Associativity.Full, typeof(long), "<<");
+            Add(Op.RightShift, ExpressionType.RightShift, Rank.Shift, Associativity.Full, typeof(long), ">>");
+            Add(Op.Concatenate, ExpressionType.Add, Rank.Additive, Associativity.Full, typeof(string), "+", "＋");
+            Add(Op.Add, ExpressionType.AddChecked, Rank.Additive, Associativity.Full, typeof(double), "+", "＋");
+            Add(Op.Subtract, ExpressionType.SubtractChecked, Rank.Additive, Associativity.Left, typeof(double), "-", "－");
+            Add(Op.Multiply, ExpressionType.MultiplyChecked, Rank.Multiplicative, Associativity.Full, typeof(double), "×", "*", "✕");
+            Add(Op.Divide, ExpressionType.Divide, Rank.Multiplicative, Associativity.Left, typeof(double), "÷", "/", "／");
+            Add(Op.Modulo, ExpressionType.Modulo, Rank.Multiplicative, Associativity.Left, typeof(double), "%");
+            Add(Op.Positive, ExpressionType.UnaryPlus, Rank.Unary, Associativity.None, typeof(double), "+", "＋");
+            Add(Op.Negative, ExpressionType.NegateChecked, Rank.Unary, Associativity.None, typeof(double), "-", "－");
+            Add(Op.Not, ExpressionType.Not, Rank.Unary, Associativity.None, typeof(bool), "!", "NOT");
+            Add(Op.BitwiseNot, ExpressionType.OnesComplement, Rank.Unary, Associativity.None, typeof(long), "~");
 
             _symbols.AddRange(_unarySymbols.Union(_binarySymbols).Union(new[] { ".", ",", ";", ":", "(", ")" }));
 
-            void Add(Op op, ExpressionType expressionType, Rank rank, Type operandType, params string[] symbols)
+            void Add(Op op, ExpressionType expressionType, Rank rank, Associativity associativity, Type operandType, params string[] symbols)
             {
-                _operators.Add(op, new OpInfo(op, expressionType, rank, operandType, symbols[0]));
+                _operators.Add(op, new OpInfo(op, expressionType, rank, associativity, operandType, symbols[0]));
                 if (op == Op.Concatenate) // Will be implemented by a function, not an operation.
                     return;
                 var unary = rank == Rank.Unary;
@@ -103,7 +82,7 @@
         {
             if (op.IsUnary())
                 return Associativity.None;
-            if (op.IsAssignment())
+            if (op.IsAssignment() || op.IsConditional())
                 return Associativity.Right;
             switch (op)
             {
@@ -124,6 +103,7 @@
 
         public static bool IsAssignment(this Op op) => (op & Op.Assignment) != 0;
         public static bool IsBinary(this Op op) => (op & Op.Binary) != 0;
+        public static bool IsConditional(this Op op) => (op & Op.Conditional) != 0;
         public static bool IsInfinitary(this Op op) => op.GetAssociativity() != 0;
         public static bool IsLogical(this Op op) => (op & Op.Logical) != 0;
         public static bool IsUnary(this Op op) => (op & Op.Unary) != 0;

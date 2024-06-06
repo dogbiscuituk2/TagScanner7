@@ -66,11 +66,11 @@
 
         protected virtual string ToString(string opFormat, bool unary)
         {
-            var count = Operands.Count;
-            if (count < 1)
+            if (!Operands.Any())
                 return string.Empty;
+            var count = Operands.Count;
             var operands = new string[count];
-            for (var index = 0; index < Operands.Count; index++)
+            for (var index = 0; index < count; index++)
                 operands[index] = WrapTerm(index);
             var result = operands[0];
             if (unary)
