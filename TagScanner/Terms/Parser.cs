@@ -59,8 +59,8 @@
 
         private Term ParseBlock()
         {
-            Term result = null;
             PushOperator();
+            PushTerm(new EmptyTerm());
             while (PeekToken() != null)
             {
                 while (PeekToken().Kind == TokenKind.Label)
@@ -75,16 +75,20 @@
                     break;
             }
             PopOperator();
-            return result ?? new EmptyTerm();
+            return PopTerm();
 
             void Add(Term term)
             {
-                if (result == null)
-                    result = term;
-                else if (result is Block block)
+                var pop = PopTerm();
+                if (pop is EmptyTerm)
+                    PushTerm(term);
+                else if (pop is Block block)
+                {
                     block.Operands.Add(term);
+                    PushTerm(block);
+                }
                 else
-                    result = new Block(result, term);
+                    PushTerm(new Block(pop, term));
             }
         }
 
@@ -614,6 +618,7 @@
         #region Terms
 
         private Compound Consolidate(Term right, [CallerLineNumber] int line = 0, [CallerMemberName] string caller = "") => _spy.Consolidate(caller, line, right);
+        private Term PopTerm([CallerLineNumber] int line = 0, [CallerMemberName] string caller = "") => _spy.PopTerm(caller, line);
         private void PushTerm(Term term, [CallerLineNumber] int line = 0, [CallerMemberName] string caller = "") => _spy.PushTerm(caller, line, term);
 
         #endregion
