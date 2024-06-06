@@ -35,15 +35,6 @@
           </GroupStyle.ContainerStyle>
         </GroupStyle>
       </DataGrid.GroupStyle>
-      <DataGrid.RowStyle>
-        <Style TargetType="DataGridRow">
-          <Style.Triggers>
-            <DataTrigger Binding="{Binding IsHighlighted}" Value="true">
-              <Setter Property="Background" Value="Yellow"></Setter>
-            </DataTrigger>
-          </Style.Triggers>
-        </Style>
-      </DataGrid.RowStyle>
     </DataGrid>
   </Grid>
 </UserControl>
