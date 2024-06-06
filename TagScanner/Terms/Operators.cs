@@ -89,7 +89,6 @@
                 case Op.Subtract:
                 case Op.Divide:
                 case Op.Modulo:
-                case Op.Dot:
                     return Associativity.Left;
                 default:
                     return Associativity.Full;
@@ -107,7 +106,6 @@
         public static bool IsInfinitary(this Op op) => op.GetAssociativity() != 0;
         public static bool IsLogical(this Op op) => (op & Op.Logical) != 0;
         public static bool IsUnary(this Op op) => (op & Op.Unary) != 0;
-        public static bool IsVisible(this Op op) => (op & Op.Visible) != 0;
         public static Type OperandType(this Op op) => _operators[op].OperandType;
         public static OpInfo OpInfo(this Op op) => _operators[op];
         public static string Symbol(this Op op) => _operators[op].Symbol;

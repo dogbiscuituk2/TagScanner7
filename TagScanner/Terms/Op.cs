@@ -42,7 +42,6 @@
         Negative = 1L << 33,
         Not = 1L << 34,
         BitwiseNot = 1L << 35,
-        Dot = 1L << 36,
 
         All = -1,
         Assignment = Assign | OrAssign | XorAssign | AndAssign | LeftShiftAssign | RightShiftAssign |
@@ -55,6 +54,5 @@
         Relational = LessThan | NotLessThan | GreaterThan | NotGreaterThan,
         Chains = Equality | Relational,
         Logical = And | AndAssign | Or | OrAssign | Xor | XorAssign | Chains | Not,
-        Visible = ~Dot, // Also excludes "None".
     }
 }
