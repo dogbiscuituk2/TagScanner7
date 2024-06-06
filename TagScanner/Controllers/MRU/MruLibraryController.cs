@@ -17,10 +17,6 @@
 
         #endregion
 
-        #region Properties
-
-        #endregion
-
         #region Methods
 
         protected override void ClearDocument() => MainModel.Clear();

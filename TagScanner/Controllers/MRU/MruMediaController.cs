@@ -22,14 +22,14 @@
 
         #endregion
 
-        #region Fields & Properties
+        #region Private Fields
 
         private readonly FolderBrowserDialog _folderBrowserDialog;
         private readonly OpenFileDialog _openFileDialog;
 
         #endregion
 
-        #region Methods
+        #region Public Methods
 
         public void AddFiles()
         {
@@ -63,17 +63,9 @@
             AddFolder(folderPath, filter);
         }
 
-        private string GetFilter() => _openFileDialog.Filter.Split('|')[2 * _openFileDialog.FilterIndex - 1];
+        #endregion
 
-        private void AddFolder(string folderPath, string filter)
-        {
-            var progress = CreateNewProgress();
-            Task.Run(() => MainModel.AddFolder(folderPath, filter, progress));
-        }
-
-        private IProgress<ProgressEventArgs> CreateNewProgress() => MainFormController.StatusController.CreateNewProgress();
-
-        private static string MakeItem(string folderPath, string filter) => string.Concat(folderPath, '|', filter);
+        #region Protected Methods
 
         protected override void Reuse(ToolStripItem menuItem)
         {
@@ -89,6 +81,20 @@
                     Resources.Add_Recent_Folder, MessageBoxButtons.YesNo) == DialogResult.Yes)
                 RemoveItem(item);
         }
+
+        #endregion
+
+        #region Private Methods
+
+        private void AddFolder(string folderPath, string filter)
+        {
+            var progress = CreateNewProgress();
+            Task.Run(() => MainModel.AddFolder(folderPath, filter, progress));
+        }
+
+        private IProgress<ProgressEventArgs> CreateNewProgress() => MainFormController.StatusController.CreateNewProgress();
+        private string GetFilter() => _openFileDialog.Filter.Split('|')[2 * _openFileDialog.FilterIndex - 1];
+        private static string MakeItem(string folderPath, string filter) => string.Concat(folderPath, '|', filter);
 
         #endregion
     }

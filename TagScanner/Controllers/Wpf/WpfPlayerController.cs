@@ -13,6 +13,8 @@
 
     public class WpfPlayerController : WpfGridController
     {
+        #region Constructor
+
         public WpfPlayerController(Controller parent) : base(parent)
         {
             MainForm.tbPlay.ButtonClick += PlaylistAddToQueue_Click;
@@ -29,17 +31,38 @@
             VisibleTags = new List<Tag> { Tag.Title, Tag.JoinedPerformers, Tag.YearAlbum, Tag.Duration, Tag.FileSize };
         }
 
-        public System.Windows.Controls.DataGrid PlaylistGrid => DataGrid;
+        #endregion
 
-        private AxWindowsMediaPlayer Player => MainForm.MediaPlayer;
+        #region Public Properties
 
         public override System.Windows.Controls.DataGrid DataGrid => ((GridElement)MainForm.PlaylistElementHost.Child).DataGrid;
 
+        public System.Windows.Controls.DataGrid PlaylistGrid => DataGrid;
+
+        #endregion
+
+        #region Private Fields
+
         private readonly ObservableCollection<Track> _currentPlaylist = new ObservableCollection<Track>();
 
+        #endregion
+
+        #region Private Properties
+
+        private AxWindowsMediaPlayer Player => MainForm.MediaPlayer;
+
+        #endregion
+
+        #region Event Handlers
+
+        private void Player_CurrentItemChange(object sender, _WMPOCXEvents_CurrentItemChangeEvent e) => UpdatePlaylist(e.pdispMedia as IWMPMedia);
         private void PlayerPopupSelectColumns_Click(object sender, EventArgs e) => EditTagVisibility("Player");
         private void PlaylistAddToQueue_Click(object sender, EventArgs e) => PlaySelection(newPlaylist: false);
         private void PlaylistCreateNew_Click(object sender, EventArgs e) => PlaySelection(newPlaylist: true);
+
+        #endregion
+
+        #region Private Methods
 
         private void PlaySelection(bool newPlaylist)
         {
@@ -60,8 +83,6 @@
             MainForm.TabControl.SelectedTab = MainForm.tabPlayer;
         }
 
-        private void Player_CurrentItemChange(object sender, _WMPOCXEvents_CurrentItemChangeEvent e) => UpdatePlaylist(e.pdispMedia as IWMPMedia);
-
         private void UpdatePlaylist(IWMPMedia currentItem)
         {
             foreach (var track in _currentPlaylist)
@@ -72,5 +93,7 @@
                     break;
                 }
         }
+
+        #endregion
     }
 }

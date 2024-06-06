@@ -19,7 +19,7 @@
 
         #endregion
 
-        #region Fields & Properties
+        #region Protected Fields & Properties
 
         protected readonly string _subKeyName;
 

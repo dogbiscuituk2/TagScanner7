@@ -9,7 +9,7 @@
 
     public abstract class MruMenuController : MruController
     {
-        #region Constructors
+        #region Constructor
 
         protected MruMenuController(Controller parent, string subKeyName, ToolStripItemCollection recentItems)
             : base(parent, subKeyName)
@@ -20,7 +20,7 @@
 
         #endregion
 
-        #region Private Fields
+        #region Protected Fields
 
         protected ToolStripDropDownItem _parentItem;
         protected ContextMenuStrip _parentMenu;
@@ -28,32 +28,32 @@
 
         #endregion
 
-        #region Properties
+        #region Public Properties
 
         public bool Merging { get; set; }
 
         #endregion
 
-        #region Methods
+        #region Event Handlers
+
+        private void OnItemClick(object sender, EventArgs e) => Reuse((ToolStripItem)sender);
+
+        private void OnRecentClear_Click(object sender, EventArgs e)
+        {
+            ClearItems();
+            if (_recentItems == null) return;
+            _recentItems.Clear();
+            SetEnabled(false);
+        }
+
+        #endregion
+
+        #region Protected Methods
 
         protected override void AddItem(string item)
         {
             base.AddItem(item);
             RefreshRecentMenu();
-        }
-
-        private static string CompactMenuText(string text)
-        {
-            var result = text;
-            TextRenderer.MeasureText(
-                result,
-                SystemFonts.MenuFont,
-                new Size(320, 0),
-                TextFormatFlags.PathEllipsis | TextFormatFlags.ModifyString);
-            var length = result.IndexOf((char)0);
-            if (length >= 0)
-                result = result.Substring(0, length);
-            return result.Escape();
         }
 
         protected void RefreshRecentMenu()
@@ -98,26 +98,30 @@
 
         protected abstract void Reuse(ToolStripItem menuItem);
 
+        #endregion
+
+        #region Private Methods
+
+        private static string CompactMenuText(string text)
+        {
+            var result = text;
+            TextRenderer.MeasureText(
+                result,
+                SystemFonts.MenuFont,
+                new Size(320, 0),
+                TextFormatFlags.PathEllipsis | TextFormatFlags.ModifyString);
+            var length = result.IndexOf((char)0);
+            if (length >= 0)
+                result = result.Substring(0, length);
+            return result.Escape();
+        }
+
         private void SetEnabled(bool value)
         {
             if (_parentMenu != null)
                 _parentMenu.Enabled = value;
             else if (_parentItem != null)
                 _parentItem.Enabled = value;
-        }
-
-        #endregion
-
-        #region Event Handlers
-
-        private void OnItemClick(object sender, EventArgs e) => Reuse((ToolStripItem)sender);
-
-        private void OnRecentClear_Click(object sender, EventArgs e)
-        {
-            ClearItems();
-            if (_recentItems == null) return;
-            _recentItems.Clear();
-            SetEnabled(false);
         }
 
         #endregion

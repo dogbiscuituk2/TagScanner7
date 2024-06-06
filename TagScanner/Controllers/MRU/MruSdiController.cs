@@ -22,7 +22,7 @@
 
         #endregion
 
-        #region Properties & Fields
+        #region Public Properties
 
         public string FilePath
         {
@@ -34,8 +34,6 @@
                 OnFilePathChanged();
             }
         }
-
-        protected virtual bool DocumentIsModified => MainCommandProcessor.IsModified;
 
         public string WindowCaption
         {
@@ -54,13 +52,17 @@
             }
         }
 
-        private string _filePath = string.Empty;
-        private readonly OpenFileDialog _openFileDialog;
-        private readonly SaveFileDialog _saveFileDialog;
+        #endregion
+
+        #region Public Events
+
+        public event EventHandler<CancelEventArgs> FileLoading;
+        public event EventHandler<CancelEventArgs> FileSaving;
+        public event EventHandler FilePathChanged;
 
         #endregion
 
-        #region Methods
+        #region Public Methods
 
         public bool AddLibrary()
         {
@@ -80,52 +82,12 @@
             return true;
         }
 
-        protected abstract void ClearDocument();
-
-        protected object LoadDocument(Stream stream, Type documentType, StreamFormat format)
-        {
-            var result = Streamer.LoadFromStream(stream, documentType, format);
-            if (!Merging && result != null)
-                MainCommandProcessor.Clear();
-            return result;
-        }
-
-        private bool LoadFromFile(string filePath)
-        {
-            if (!Merging && !OnFileLoading()) return false;
-            var format = filePath.GetStreamFormat();
-            using (var stream = new FileStream(filePath, FileMode.Open, FileAccess.Read))
-                if (!LoadFromStream(stream, format))
-                    return false;
-            if (!Merging)
-                FilePath = filePath;
-            AddItem(filePath);
-            return true;
-        }
-
-        protected abstract bool LoadFromStream(Stream stream, StreamFormat format);
-
         public bool Open()
         {
             Merging = false;
             return SaveIfModified()
                 && _openFileDialog.ShowDialog(Owner) == DialogResult.OK
                 && LoadFromFile(_openFileDialog.FileName);
-        }
-
-        protected override void Reuse(ToolStripItem menuItem)
-        {
-            var filePath = menuItem.ToolTipText;
-            if (!File.Exists(filePath))
-            {
-                if (MessageBox.Show(Owner,
-                    $"File \"{filePath}\" no longer exists. Remove from menu?",
-                    "Reopen file",
-                    MessageBoxButtons.YesNo) == DialogResult.Yes)
-                    RemoveItem(filePath);
-            }
-            if (Merging || SaveIfModified())
-                LoadFromFile(filePath);
         }
 
         public bool Save() =>
@@ -140,14 +102,6 @@
             var fileName = _saveFileDialog.FileName;
             var format = fileName.GetStreamFormat();
             return SaveToFile(fileName, format);
-        }
-
-        protected bool SaveDocument(Stream stream, object document, StreamFormat format)
-        {
-            var result = Streamer.SaveToStream(stream, document, format);
-            if (result)
-                MainCommandProcessor.Clear();
-            return result;
         }
 
         public bool SaveIfModified()
@@ -168,31 +122,27 @@
             return true;
         }
 
-        private bool SaveToFile(string filePath, StreamFormat format)
-        {
-            if (!OnFileSaving()) return false;
-            using (var stream = new FileStream(filePath, FileMode.Create, FileAccess.Write))
-            {
-                if (SaveToStream(stream, format))
-                {
-                    stream.Flush();
-                    FilePath = filePath;
-                    AddItem(filePath);
-                    return true;
-                }
-            }
-            return false;
-        }
-
-        protected abstract bool SaveToStream(Stream stream, StreamFormat format);
-
         #endregion
 
-        #region Event Handlers
+        #region Protected Properties
 
-        public event EventHandler<CancelEventArgs> FileLoading;
-        public event EventHandler<CancelEventArgs> FileSaving;
-        public event EventHandler FilePathChanged;
+        protected virtual bool DocumentIsModified => MainCommandProcessor.IsModified;
+
+        #endregion#
+
+        #region Protected Methods
+
+        protected abstract void ClearDocument();
+
+        protected object LoadDocument(Stream stream, Type documentType, StreamFormat format)
+        {
+            var result = Streamer.LoadFromStream(stream, documentType, format);
+            if (!Merging && result != null)
+                MainCommandProcessor.Clear();
+            return result;
+        }
+
+        protected abstract bool LoadFromStream(Stream stream, StreamFormat format);
 
         protected virtual bool OnFileLoading()
         {
@@ -216,6 +166,72 @@
             var e = new CancelEventArgs();
             fileSaving(this, e);
             return !e.Cancel;
+        }
+
+        protected override void Reuse(ToolStripItem menuItem)
+        {
+            var filePath = menuItem.ToolTipText;
+            if (!File.Exists(filePath))
+            {
+                if (MessageBox.Show(Owner,
+                    $"File \"{filePath}\" no longer exists. Remove from menu?",
+                    "Reopen file",
+                    MessageBoxButtons.YesNo) == DialogResult.Yes)
+                    RemoveItem(filePath);
+            }
+            if (Merging || SaveIfModified())
+                LoadFromFile(filePath);
+        }
+
+        protected bool SaveDocument(Stream stream, object document, StreamFormat format)
+        {
+            var result = Streamer.SaveToStream(stream, document, format);
+            if (result)
+                MainCommandProcessor.Clear();
+            return result;
+        }
+
+        protected abstract bool SaveToStream(Stream stream, StreamFormat format);
+
+        #endregion
+
+        #region Private Fields
+
+        private string _filePath = string.Empty;
+        private readonly OpenFileDialog _openFileDialog;
+        private readonly SaveFileDialog _saveFileDialog;
+
+        #endregion
+
+        #region Private Methods
+
+        private bool LoadFromFile(string filePath)
+        {
+            if (!Merging && !OnFileLoading()) return false;
+            var format = filePath.GetStreamFormat();
+            using (var stream = new FileStream(filePath, FileMode.Open, FileAccess.Read))
+                if (!LoadFromStream(stream, format))
+                    return false;
+            if (!Merging)
+                FilePath = filePath;
+            AddItem(filePath);
+            return true;
+        }
+
+        private bool SaveToFile(string filePath, StreamFormat format)
+        {
+            if (!OnFileSaving()) return false;
+            using (var stream = new FileStream(filePath, FileMode.Create, FileAccess.Write))
+            {
+                if (SaveToStream(stream, format))
+                {
+                    stream.Flush();
+                    FilePath = filePath;
+                    AddItem(filePath);
+                    return true;
+                }
+            }
+            return false;
         }
 
         #endregion

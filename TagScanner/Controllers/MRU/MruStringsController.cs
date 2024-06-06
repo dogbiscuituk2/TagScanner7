@@ -9,7 +9,13 @@
 
     public class MruStringsController : MruController
     {
+        #region Controller
+
         public MruStringsController(Controller parent, string subKeyName) : base(parent, subKeyName) { }
+
+        #endregion
+
+        #region Public Methods
 
         public void AddValue(string value) => RegistryWrite(new[] { value });
 
@@ -18,11 +24,6 @@
             items.Clear();
             items.AddRange(ReadValues().ToArray());
         }
-
-        private void RegistryWrite(ComboBox.ObjectCollection items) => RegistryWrite(items.Cast<string>());
-
-        private void RegistryWrite(IEnumerable<string> values) =>
-            WriteValues(values.Union(ReadValues()).Where(p => !string.IsNullOrWhiteSpace(p)));
 
         public void UpdateItems(ComboBox.ObjectCollection items, string item)
         {
@@ -34,6 +35,15 @@
             }
             RegistryWrite(items);
         }
+
+        #endregion
+
+        #region Private Methods
+
+        private void RegistryWrite(ComboBox.ObjectCollection items) => RegistryWrite(items.Cast<string>());
+
+        private void RegistryWrite(IEnumerable<string> values) =>
+            WriteValues(values.Union(ReadValues()).Where(p => !string.IsNullOrWhiteSpace(p)));
 
         private IEnumerable<string> ReadValues()
         {
@@ -47,5 +57,7 @@
         }
 
         private void WriteValues(IEnumerable<string> values) => AddItem("Filter", values.StringsToText());
+
+        #endregion
     }
 }
