@@ -27,7 +27,7 @@
 
         #endregion
 
-        #region Public Properties
+        #region Public Fields
 
         public static MruFilterController MruFilterController = new MruFilterController(null);
         public static MruStringsController MruFindController = new MruStringsController(null, "FindMRU");
@@ -114,7 +114,22 @@
 
         #endregion
 
-        #region Events
+        #region Private Fields
+
+        private const string LibraryNameFormat = "<untitled #{0}>";
+
+        #endregion
+
+        #region Private Properties
+
+        private static List<MainFormController> Controllers { get; }
+        private static SplashForm SplashForm { get; }
+
+        #endregion
+
+        #region Event Handlers
+
+        private static void MainForm_FormClosing(object sender, FormClosingEventArgs e) => e.Cancel = !Shutdown();
 
         private static void SharpClipboard_ClipboardChanged(object sender, SharpClipboard.ClipboardChangedEventArgs e)
         {
@@ -142,18 +157,12 @@
             }
         }
 
-        #endregion
-
-        #region Private Fields
-
-        private const string LibraryNameFormat = "<untitled #{0}>";
-
-        #endregion
-
-        #region Private Properties
-
-        private static List<MainFormController> Controllers { get; }
-        private static SplashForm SplashForm { get; }
+        private static void WindowClick(object sender, EventArgs e)
+        {
+            var form = (MainForm)((ToolStripMenuItem)sender).Tag;
+            form.BringToFront();
+            form.Focus();
+        }
 
         #endregion
 
@@ -169,19 +178,10 @@
             }
         }
 
-        private static void MainForm_FormClosing(object sender, FormClosingEventArgs e) => e.Cancel = !Shutdown();
-
         public static void UpdateUI(MainFormController mainFormController)
         {
             mainFormController.UpdateLocalUI();
             mainFormController.CommandProcessor.UpdateLocalUI();
-        }
-
-        private static void WindowClick(object sender, EventArgs e)
-        {
-            var form = (MainForm)((ToolStripMenuItem)sender).Tag;
-            form.BringToFront();
-            form.Focus();
         }
 
         #endregion

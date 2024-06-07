@@ -67,7 +67,7 @@
 
         #endregion
 
-        #region Fields
+        #region Private Fields
 
         private readonly Control ParentControl;
         private ScriptFormController ScriptFormController;
@@ -84,7 +84,7 @@
 
         #endregion
 
-        #region Properties
+        #region Private Properties
 
         private bool CaseSensitive { get => TbCaseSensitive.Checked; set => TbCaseSensitive.Checked = value; }
         private FilterControl View => MainForm.FilterControl;
@@ -107,7 +107,7 @@
 
         #region Private Methods
 
-        private void EditFilter() => ScriptFormController.ShowModal(Owner, CbFilter.Text);
+        private void EditFilter() => ScriptFormController.ShowModal(CbFilter.Text);
         private void Hide() => Show(false);
         private void Resize() => CbFilter.Size = new Size(View.Width - 118, CbFilter.Height);
         private void ToggleCaseSensitive() => CaseSensitive ^= true;

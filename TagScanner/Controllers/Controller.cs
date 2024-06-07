@@ -8,7 +8,13 @@
 
     public abstract class Controller
     {
+        #region Constructor 
+
         protected Controller(Controller parent) => Parent = parent;
+
+        #endregion
+
+        #region Protected Properties
 
         protected AutoCompleter MainAutoCompleter => MainFormController.AutoCompleter;
         protected CommandProcessor MainCommandProcessor => MainFormController.CommandProcessor;
@@ -19,5 +25,7 @@
         protected virtual IWin32Window Owner => Parent?.Owner;
         protected Controller Parent { get; }
         protected Controller Root => Parent == null ? this : Parent.Root;
+
+        #endregion
     }
 }

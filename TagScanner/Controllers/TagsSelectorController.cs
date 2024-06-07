@@ -74,8 +74,11 @@
 
         public IEnumerable<Tag> AvailableTags { get; private set; }
 
+        #endregion
+
+        #region Public Fields
+
         public GroupTagsBy GroupTagsBy;
-        private bool MultiColumn;
 
         #endregion
 
@@ -94,9 +97,41 @@
             return ok;
         }
 
+        public void UpdateSelection()
+        {
+            var tags = GetSelectedTags();
+            TbSearchFields.Text = tags.Say();
+            GbSelectedTags.Enabled = PopupRemove.Enabled = tags.Any();
+        }
+
         #endregion
 
         #region Private Fields
+
+        private bool MultiColumn;
+
+        private readonly ToolStripMenuItem
+            ListAlphabetically,
+            ListByCategory,
+            ListByDataType,
+            ListNamesOnly,
+            TreeAlphabetically,
+            TreeByCategory,
+            TreeByDataType;
+
+        private readonly ToolStripButton
+            tbListAlpha,
+            tbListCat,
+            tbListType,
+            tbListNames,
+            tbTreeAlpha,
+            tbTreeCat,
+            tbTreeType;
+
+        private readonly ContextMenuStrip PopupMenu;
+        private readonly ToolStripMenuItem PopupRemove;
+        private readonly TextBox TbSearchFields;
+        private readonly GroupBox GbSelectedTags;
 
         private TagSelectorDialog _dialog;
         private readonly TagsListController _tagsListController;
@@ -108,29 +143,6 @@
 
         private TagsViewController ActiveController => _tagsListController.Active ? _tagsListController : (TagsViewController)_tagsTreeController;
         private TagSelectorDialog Dialog => _dialog ?? CreateDialog();
-
-        private ToolStripMenuItem
-            ListAlphabetically,
-            ListByCategory,
-            ListByDataType,
-            ListNamesOnly,
-            TreeAlphabetically,
-            TreeByCategory,
-            TreeByDataType;
-
-        private ToolStripButton
-            tbListAlpha,
-            tbListCat,
-            tbListType,
-            tbListNames,
-            tbTreeAlpha,
-            tbTreeCat,
-            tbTreeType;
-
-        private ContextMenuStrip PopupMenu;
-        private ToolStripMenuItem PopupRemove;
-        private TextBox TbSearchFields;
-        private GroupBox GbSelectedTags;
 
         #endregion
 
@@ -186,13 +198,6 @@
         private void SetSelectedTags(IEnumerable<Tag> selectedTags) => ActiveController.SetSelectedTags(selectedTags);
 
         private void UpdatePopupMenu() => PopupRemove.Enabled = TbSearchFields.SelectionLength > 0;
-
-        public void UpdateSelection()
-        {
-            var tags = GetSelectedTags();
-            TbSearchFields.Text = tags.Say();
-            GbSelectedTags.Enabled = PopupRemove.Enabled = tags.Any();
-        }
 
         private void UpdateUI()
         {

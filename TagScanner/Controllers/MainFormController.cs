@@ -51,9 +51,32 @@
 
         #endregion
 
-        #region View
+        #region Public Fields
 
-        private MainForm _view;
+        public readonly AutoCompleter AutoCompleter;
+        public readonly CommandProcessor CommandProcessor;
+        public readonly DragDropController DragDropController;
+        public readonly FilterController FilterController;
+        public readonly FindReplaceController FindReplaceController;
+        public readonly MruLibraryController LibraryController;
+        public readonly MruMediaController MediaController;
+        public readonly Model Model;
+        public readonly PictureController PictureController;
+        public readonly WpfPlayerController PlayerController;
+        public readonly PropertyGridController PropertyGridController;
+        public readonly StatusController StatusController;
+        public readonly WpfTableController TableController;
+
+        #endregion
+
+        #region Public Properties
+
+        public string FilePath
+        {
+            get => LibraryController.FilePath;
+            set => LibraryController.FilePath = value;
+        }
+
         public MainForm View
         {
             get => _view;
@@ -128,72 +151,10 @@
 
         #endregion
 
-        #region Fields
-
-        public readonly Model Model;
-
-        public readonly AutoCompleter AutoCompleter;
-        public readonly CommandProcessor CommandProcessor;
-        public readonly FilterController FilterController;
-        public readonly FindReplaceController FindReplaceController;
-        public readonly WpfTableController TableController;
-        public readonly MruMediaController MediaController;
-        public readonly MruLibraryController LibraryController;
-        public readonly PictureController PictureController;
-        public readonly WpfPlayerController PlayerController;
-        public readonly PropertyGridController PropertyGridController;
-        public readonly StatusController StatusController;
-
-        public DragDropController DragDropController;
-
-        #endregion
-
-        #region Properties
-
-        public string FilePath
-        {
-            get => LibraryController.FilePath;
-            set => LibraryController.FilePath = value;
-        }
-
-        protected override IWin32Window Owner => View;
-
-        private Selection Selection => TableController.Selection;
-
-        #endregion
-
-        #region Methods
+        #region Public Methods
 
         public void EnablePaste(bool enable) =>
             View.EditPaste.Enabled = View.tbPaste.Enabled = View.TablePopupPaste.Enabled = enable;
-
-        public void UpdateLocalUI()
-        {
-            bool
-                anyTracks = Selection.Tracks.Any(),
-                canSave = CommandProcessor.IsModified,
-                recentFolder = View.RecentFolderPopupMenu.Items.Count > 0,
-                recentLibrary = View.RecentLibraryPopupMenu.Items.Count > 0;
-            // Window Caption
-            View.Text = LibraryController.WindowCaption;
-            // File Operations
-            View.FileReopen.Enabled = View.tbReopen.Enabled =
-                View.AddRecentLibrary.Enabled = View.tbAddRecentLibrary.Enabled =
-                recentLibrary;
-            View.FileSave.Enabled = View.tbSaveLibrary.Enabled =
-                canSave;
-            View.AddRecentFolder.Enabled = View.tbAddRecentFolder.Enabled =
-                recentFolder;
-            // Edit & Play Items
-            View.EditCut.Enabled = View.tbCut.Enabled = View.TablePopupCut.Enabled =
-                View.EditCopy.Enabled = View.tbCopy.Enabled = View.TablePopupCopy.Enabled =
-                View.EditDelete.Enabled = View.tbDelete.Enabled = View.TablePopupDelete.Enabled =
-                View.TablePopupPlay.Enabled = View.TablePopupPlayAddToQueue.Enabled = View.TablePopupPlayNewPlaylist.Enabled =
-                View.tbPlay.Enabled = View.tbAddToQueue.Enabled = View.tbNewPlaylist.Enabled =
-                anyTracks;
-            // Property Grid
-            PropertyGridController.SetSelection(TableController.Selection);
-        }
 
         public void TracksAdd(Selection selection)
         {
@@ -231,21 +192,59 @@
                 CommandProcessor.Run(new RemoveCommand(selection), spoof: false);
         }
 
+        public void UpdateLocalUI()
+        {
+            bool
+                anyTracks = Selection.Tracks.Any(),
+                canSave = CommandProcessor.IsModified,
+                recentFolder = View.RecentFolderPopupMenu.Items.Count > 0,
+                recentLibrary = View.RecentLibraryPopupMenu.Items.Count > 0;
+            // Window Caption
+            View.Text = LibraryController.WindowCaption;
+            // File Operations
+            View.FileReopen.Enabled = View.tbReopen.Enabled =
+                View.AddRecentLibrary.Enabled = View.tbAddRecentLibrary.Enabled =
+                recentLibrary;
+            View.FileSave.Enabled = View.tbSaveLibrary.Enabled =
+                canSave;
+            View.AddRecentFolder.Enabled = View.tbAddRecentFolder.Enabled =
+                recentFolder;
+            // Edit & Play Items
+            View.EditCut.Enabled = View.tbCut.Enabled = View.TablePopupCut.Enabled =
+                View.EditCopy.Enabled = View.tbCopy.Enabled = View.TablePopupCopy.Enabled =
+                View.EditDelete.Enabled = View.tbDelete.Enabled = View.TablePopupDelete.Enabled =
+                View.TablePopupPlay.Enabled = View.TablePopupPlayAddToQueue.Enabled = View.TablePopupPlayNewPlaylist.Enabled =
+                View.tbPlay.Enabled = View.tbAddToQueue.Enabled = View.tbNewPlaylist.Enabled =
+                anyTracks;
+            // Property Grid
+            PropertyGridController.SetSelection(TableController.Selection);
+        }
+
         #endregion
 
-        #region Main Menu
+        #region Protected Properties
 
-        #region File
+        protected override IWin32Window Owner => View;
+
+        #endregion
+
+        #region Private Fields
+
+        private MainForm _view;
+
+        #endregion
+
+        #region Private Properties
+
+        private Selection Selection => TableController.Selection;
+
+        #endregion
+
+        #region Event Handlers
 
         private void Menu_DropDownOpening(object sender, EventArgs e) => UpdateUI();
 
-        private void FileNewLibrary_Click(object sender, EventArgs e)
-        {
-            var filePath = FilePath;
-            if (LibraryController.Clear())
-                FilePath = filePath.IsValidFilePath() ? AppController.GetTempFileName() : filePath;
-        }
-
+        private void FileNewLibrary_Click(object sender, EventArgs e) => NewLibrary();
         private void FileNewWindow_Click(object sender, EventArgs e) => AppController.NewWindow();
         private void FileOpen_Click(object sender, EventArgs e) => LibraryController.Open();
         private void FileReopen_DropDownOpening(object sender, EventArgs e) => LibraryController.Merging = false;
@@ -254,10 +253,6 @@
         private void FileClose_Click(object sender, EventArgs e) => View.Close();
         private void FileExit_Click(object sender, EventArgs e) => AppController.Shutdown();
 
-        #endregion
-
-        #region Edit
-
         private void EditCut_Click(object sender, EventArgs e) => Cut();
         private void EditCopy_Click(object sender, EventArgs e) => Copy();
         private void EditPaste_Click(object sender, EventArgs e) => Paste();
@@ -265,15 +260,7 @@
         private void EditSelectAll_Click(object sender, EventArgs e) => TableController.SelectAll();
         private void EditInvertSelection_Click(object sender, EventArgs e) => TableController.InvertSelection();
 
-        #endregion
-
-        #region View
-
         private void ViewWindow_DropDownOpening(object sender, EventArgs e) => AppController.PopulateWindowMenu(View.WindowMenu);
-
-        #endregion
-
-        #region Add
 
         private void AddMedia_Click(object sender, EventArgs e) => MediaController.AddFiles();
         private void AddFolder_Click(object sender, EventArgs e) => MediaController.AddFolder();
@@ -281,22 +268,12 @@
         private void AddRecentLibrary_DropDownOpening(object sender, EventArgs e) => LibraryController.Merging = true;
         private void TbAdd_DropDownOpening(object sender, EventArgs e) => View.tbAddRecentFolder.Enabled = View.AddRecentFolder.Enabled;
 
-        #endregion
-
-        #region Help
-
         private void HelpAbout_Click(object sender, EventArgs e)
         {
             MessageBox.Show(View,
                 $"{Application.CompanyName}{Environment.NewLine}{Application.ProductName}{Environment.NewLine}Version {Application.ProductVersion}",
                 string.Concat("About ", Application.ProductName));
         }
-
-        #endregion
-
-        #endregion
-
-        #region Event Handlers
 
         private void LibraryGridController_SelectionChanged(object sender, EventArgs e) => UpdateUI();
         private void Model_ModifiedChanged(object sender, EventArgs e) => ModifiedChanged();
@@ -357,6 +334,13 @@
         private void Delete() => TracksRemove(Selection);
 
         private void ModifiedChanged() => UpdateUI();
+
+        private void NewLibrary()
+        {
+            var filePath = FilePath;
+            if (LibraryController.Clear())
+                FilePath = filePath.IsValidFilePath() ? AppController.GetTempFileName() : filePath;
+        }
 
         private void Paste() => PasteFromClipboard();
 

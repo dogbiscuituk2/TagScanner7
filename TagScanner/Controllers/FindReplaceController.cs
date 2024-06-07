@@ -102,33 +102,32 @@
 
         #endregion
 
-        #region Fields
+        #region Private Fields
 
-        private List<Tag> SearchTags
-        {
-            get => _searchTags;
-            set
-            {
-                _searchTags = value;
-                TbSearchFields.ToolTipText = value.Say();
-                UpdateUI();
-            }
-        }
+        private const string
+            _findNext = "Find next (F3)",
+            _findPrevious = "Find previous (Shift+F3)",
+            _replaceNext = "Replace next (Alt+R)",
+            _replaceAll = "Replace all (Alt+A)",
+            _noTracks = "There are no tracks to search.",
+            _noFindTags = "There are no data fields to search.",
+            _findTerm = "Search term",
+            _noFindTerm = "Search term is blank.",
+            _noReplaceTags = "There are no writable fields to update.",
+            _replaceTerm = "Replacement term",
+            _noReplaceTerm = "Replacement term is blank.";
 
         private int
             SearchIndex = 0,
             SearchCount = 0;
 
-        private bool SearchForward = true;
         private List<Tag>
             _searchTags = new List<Tag>(),
             _replaceTags = new List<Tag>();
+
+        private bool SearchForward = true;
         private bool SearchValid;
         private readonly Selection Selection = new Selection();
-
-        #endregion
-
-        #region Controls
 
         private ListCollectionView ListCollectionView => MainTableController.ListCollectionView;
         private FindReplaceControl View => MainForm.FindReplaceControl;
@@ -169,8 +168,9 @@
 
         #endregion
 
-        #region Properties
+        #region Private Properties
 
+        private string SearchText => CbFind.Text;
         private RegexOptions RegexOptions => CaseSensitive.AsRegexOptions();
 
         private bool CaseSensitive
@@ -185,8 +185,6 @@
                 }
             }
         }
-
-        private string SearchText => CbFind.Text;
 
         private string SearchPattern
         {
@@ -221,6 +219,17 @@
                     MainForm.PopupReplaceSeparator.Visible =
                     value;
                 TbDropDown.Image = value ? Resources.frCloseUp : Resources.frDropDown;
+            }
+        }
+
+        private List<Tag> SearchTags
+        {
+            get => _searchTags;
+            set
+            {
+                _searchTags = value;
+                TbSearchFields.ToolTipText = value.Say();
+                UpdateUI();
             }
         }
 
@@ -297,6 +306,8 @@
         private void FindNext() => FindStep(delta: +1);
         private void FindPrevious() => FindStep(delta: -1);
         private void Hide() => ShowFindReplace(visible: false);
+        private void ReplaceAll() => Replace(all: true);
+        private void ReplaceNext() => Replace(all: false);
         private void Resize() => CbFind.Size = CbReplace.Size = new Size(View.Width - 81, CbFind.Height);
         private void Show(bool replace) => ShowFindReplace(visible: true, replacing: replace);
         private void ToggleCaseSensitive() => CaseSensitive ^= true;
@@ -420,9 +431,6 @@
             return true;
         }
 
-        private void ReplaceAll() => Replace(all: true);
-        private void ReplaceNext() => Replace(all: false);
-
         private void ShowFindReplace(bool visible, bool replacing = false)
         {
             ParentControl.Visible = visible;
@@ -480,23 +488,6 @@
             TbReplaceNext.ToolTipText = canReplace ? _replaceNext : replaceReason;
             TbReplaceAll.ToolTipText = canReplace ? _replaceAll : replaceReason;
         }
-
-        #endregion
-
-        #region TODO: Localize
-
-        private const string
-            _findNext = "Find next (F3)",
-            _findPrevious = "Find previous (Shift+F3)",
-            _replaceNext = "Replace next (Alt+R)",
-            _replaceAll = "Replace all (Alt+A)",
-            _noTracks = "There are no tracks to search.",
-            _noFindTags = "There are no data fields to search.",
-            _findTerm = "Search term",
-            _noFindTerm = "Search term is blank.",
-            _noReplaceTags = "There are no writable fields to update.",
-            _replaceTerm = "Replacement term",
-            _noReplaceTerm = "Replacement term is blank.";
 
         #endregion
     }

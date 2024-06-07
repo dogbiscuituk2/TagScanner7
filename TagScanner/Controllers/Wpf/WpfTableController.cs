@@ -25,15 +25,131 @@
 
         #endregion
 
-        #region Model
+        #region Public Properties
 
-        private void Model_TracksChanged(object sender, EventArgs e) => RefreshDataSource();
+        public override DataGrid DataGrid => ((GridElement)View.Child).DataGrid;
+
+        public IEnumerable<Tag> Groups
+        {
+            get => _groups;
+            set
+            {
+                if (Groups.SequenceEqual(value)) return;
+                _groups = value;
+                InitSortsAndGroups();
+            }
+        }
+
+        public ListCollectionView ListCollectionView
+        {
+            get => (ListCollectionView)DataGrid.ItemsSource;
+            set => DataGrid.ItemsSource = value;
+        }
+
+        public Selection Selection
+        {
+            get => _selection ?? (_selection = GetSelection());
+            set
+            {
+                BeginUpdateSelection();
+                DataGrid.SelectedItems.Clear();
+                foreach (var track in value.Tracks)
+                    DataGrid.SelectedItems.Add(track);
+                EndUpdateSelection();
+            }
+        }
+
+        public IEnumerable<SortDescription> Sorts
+        {
+            get => _sorts;
+            set
+            {
+                if (Sorts.SequenceEqual(value)) return;
+                _sorts = value;
+                InitSortsAndGroups();
+            }
+        }
+
+        public int TracksCountAll => MainModel.Tracks.Count;
+        public int TracksCountVisible => ListCollectionView.Count;
 
         #endregion
 
-        #region Views
+        #region Public Events
 
+        public event EventHandler SelectionChanged;
+
+        #endregion
+
+        #region Public Methods
+
+        public void ClearFilter() => ListCollectionView.Filter = null;
+        public void SetFilter(Term term) => ListCollectionView.Filter = p => term.Predicate((Track)p);
+
+        public void InvertSelection()
+        {
+            var allItems = DataGrid.Items;
+            var selectedItems = DataGrid.SelectedItems;
+            var total = allItems.Count;
+            var selection = selectedItems.Cast<object>().ToList();
+            var oldCount = selection.Count;
+            var newCount = total - oldCount;
+            BeginUpdateSelection();
+            if (newCount < oldCount)
+            {
+                selection = allItems.Cast<object>().Except(selection).ToList();
+                selectedItems.Clear();
+                foreach (var item in selection)
+                    selectedItems.Add(item);
+            }
+            else
+            {
+                DataGrid.SelectAll();
+                foreach (var item in selection)
+                    selectedItems.Remove(item);
+            }
+            EndUpdateSelection();
+        }
+
+        public void PopupShellContextMenu()
+        {
+            var menu = new ShellContextMenu();
+            menu.ShowContextMenu(GetSelectedFileInfos(), System.Windows.Forms.Cursor.Position);
+        }
+
+        public void SelectAll()
+        {
+            BeginUpdateSelection();
+            DataGrid.SelectAll();
+            EndUpdateSelection();
+        }
+
+        #endregion
+
+        #region Protected Methods
+
+        protected virtual void OnSelectionChanged()
+        {
+            if (UpdatingSelectionCount != 0) return;
+            InvalidateSelection();
+            SelectionChanged?.Invoke(this, EventArgs.Empty);
+        }
+
+        #endregion
+
+        #region Private Fields
+
+        private IEnumerable<Tag> _groups = new List<Tag>();
+        private Selection _selection;
+        private IEnumerable<SortDescription> _sorts = new List<SortDescription>();
         private ElementHost _view;
+
+        #endregion
+
+        #region Private Properties
+
+        private int UpdatingSelectionCount { get; set; }
+
         private ElementHost View
         {
             get => _view;
@@ -61,26 +177,23 @@
             }
         }
 
-        public override DataGrid DataGrid => ((GridElement)View.Child).DataGrid;
+        #endregion
 
-        public ListCollectionView ListCollectionView
-        {
-            get => (ListCollectionView)DataGrid.ItemsSource;
-            set => DataGrid.ItemsSource = value;
-        }
+        #region Event Handlers
 
-        private bool QueryMatches(Query query) => Groups.SequenceEqual(query.Groups);
+        private void GridPopupMoreOptions_Click(object sender, EventArgs e) => PopupShellContextMenu();
+        private void Grid_SelectionChanged(object sender, SelectionChangedEventArgs e) => OnSelectionChanged();
+        private void GroupByArtistAlbum_Click(object sender, EventArgs e) => SetQuery(Query.ByArtistAlbum);
+        private void GroupByArtist_Click(object sender, EventArgs e) => SetQuery(Query.ByArtist);
+        private void GroupByAlbum_Click(object sender, EventArgs e) => SetQuery(Query.ByAlbum);
+        private void GroupByYear_Click(object sender, EventArgs e) => SetQuery(Query.ByYear);
+        private void GroupByGenre_Click(object sender, EventArgs e) => SetQuery(Query.ByGenre);
+        private void GroupByTitle_Click(object sender, EventArgs e) => SetQuery(Query.ByTitle);
+        private void Model_TracksChanged(object sender, EventArgs e) => RefreshDataSource();
+        private void PopupSelectColumns_Click(object sender, EventArgs e) => EditTagVisibility("Media");
 
-        private void RefreshDataSource()
-        {
-            if (View.InvokeRequired)
-                View.Invoke(new Action(RefreshDataSource));
-            else
-            {
-                ListCollectionView = new ListCollectionView(MainModel.Tracks);
-                InitSortsAndGroups();
-            }
-        }
+        private void GridPopupMenu_Opening(object sender, CancelEventArgs e) =>
+            MainForm.TablePopupMoreActions.Enabled = Selection.SelectedFoldersCount == 1;
 
         private void GroupByMenu_DropDownOpening(object sender, EventArgs e)
         {
@@ -92,59 +205,28 @@
             MainForm.GroupByTitle.Checked = QueryMatches(Query.ByTitle);
         }
 
-        private void GroupByArtistAlbum_Click(object sender, EventArgs e) => SetQuery(Query.ByArtistAlbum);
-        private void GroupByArtist_Click(object sender, EventArgs e) => SetQuery(Query.ByArtist);
-        private void GroupByAlbum_Click(object sender, EventArgs e) => SetQuery(Query.ByAlbum);
-        private void GroupByYear_Click(object sender, EventArgs e) => SetQuery(Query.ByYear);
-        private void GroupByGenre_Click(object sender, EventArgs e) => SetQuery(Query.ByGenre);
-        private void GroupByTitle_Click(object sender, EventArgs e) => SetQuery(Query.ByTitle);
+        private void Selection_TracksEdit(object sender, SelectionEditEventArgs e) =>
+            MainFormController.TracksEdit(e.Selection, e.Tag, e.Values);
 
         #endregion
 
-        #region Event Handlers
+        #region Private Methods
 
-        private void GridPopupMenu_Opening(object sender, CancelEventArgs e) =>
-            MainForm.TablePopupMoreActions.Enabled = Selection.SelectedFoldersCount == 1;
+        private void BeginUpdateSelection() => UpdatingSelectionCount++;
 
-        private void GridPopupMoreOptions_Click(object sender, EventArgs e) => PopupShellContextMenu();
-        private void PopupSelectColumns_Click(object sender, EventArgs e) => EditTagVisibility("Media");
-
-        #endregion
-
-        #region Filtering
-
-        public void ClearFilter() => ListCollectionView.Filter = null;
-        public void SetFilter(Term term) => ListCollectionView.Filter = p => term.Predicate((Track)p);
-
-        public int TracksCountAll => MainModel.Tracks.Count;
-        public int TracksCountVisible => ListCollectionView.Count;
-
-        #endregion
-
-        #region Sorting and Grouping
-
-        private IEnumerable<SortDescription> _sorts = new List<SortDescription>();
-        public IEnumerable<SortDescription> Sorts
+        private void EndUpdateSelection()
         {
-            get => _sorts;
-            set
-            {
-                if (Sorts.SequenceEqual(value)) return;
-                _sorts = value;
-                InitSortsAndGroups();
-            }
+            UpdatingSelectionCount--;
+            OnSelectionChanged();
         }
 
-        private IEnumerable<Tag> _groups = new List<Tag>();
-        public IEnumerable<Tag> Groups
+        private FileInfo[] GetSelectedFileInfos() => Selection.Tracks.Select(p => new FileInfo(p.FilePath)).ToArray();
+
+        private Selection GetSelection()
         {
-            get => _groups;
-            set
-            {
-                if (Groups.SequenceEqual(value)) return;
-                _groups = value;
-                InitSortsAndGroups();
-            }
+            var selection = new Selection(DataGrid.SelectedItems.OfType<Track>());
+            selection.TracksEdit += Selection_TracksEdit;
+            return selection;
         }
 
         private void InitGroups()
@@ -171,111 +253,20 @@
             InitGroups();
         }
 
-        #endregion
-
-        #region Selection
-
-        private Selection _selection;
-        public Selection Selection
-        {
-            get => _selection ?? (_selection = GetSelection());
-            set
-            {
-                BeginUpdateSelection();
-                DataGrid.SelectedItems.Clear();
-                foreach (var track in value.Tracks)
-                    DataGrid.SelectedItems.Add(track);
-                EndUpdateSelection();
-            }
-        }
-
-        public event EventHandler SelectionChanged;
-
-        private int UpdatingSelectionCount { get; set; }
-
         private void InvalidateSelection() => _selection = null;
 
-        private void BeginUpdateSelection() => UpdatingSelectionCount++;
+        private bool QueryMatches(Query query) => Groups.SequenceEqual(query.Groups);
 
-        private void EndUpdateSelection()
+        private void RefreshDataSource()
         {
-            UpdatingSelectionCount--;
-            OnSelectionChanged();
-        }
-
-        public void InvertSelection()
-        {
-            var allItems = DataGrid.Items;
-            var selectedItems = DataGrid.SelectedItems;
-            var total = allItems.Count;
-            var selection = selectedItems.Cast<object>().ToList();
-            var oldCount = selection.Count;
-            var newCount = total - oldCount;
-            BeginUpdateSelection();
-            if (newCount < oldCount)
-            {
-                selection = allItems.Cast<object>().Except(selection).ToList();
-                selectedItems.Clear();
-                foreach (var item in selection)
-                    selectedItems.Add(item);
-            }
+            if (View.InvokeRequired)
+                View.Invoke(new Action(RefreshDataSource));
             else
             {
-                DataGrid.SelectAll();
-                foreach (var item in selection)
-                    selectedItems.Remove(item);
+                ListCollectionView = new ListCollectionView(MainModel.Tracks);
+                InitSortsAndGroups();
             }
-            EndUpdateSelection();
         }
-
-        protected virtual void OnSelectionChanged()
-        {
-            if (UpdatingSelectionCount != 0) return;
-            InvalidateSelection();
-            SelectionChanged?.Invoke(this, EventArgs.Empty);
-        }
-
-        public void PopupShellContextMenu()
-        {
-            var menu = new ShellContextMenu();
-            menu.ShowContextMenu(GetSelectedFileInfos(), System.Windows.Forms.Cursor.Position);
-        }
-
-        public void SelectAll()
-        {
-            BeginUpdateSelection();
-            DataGrid.SelectAll();
-            EndUpdateSelection();
-        }
-
-        private FileInfo[] GetSelectedFileInfos() => Selection.Tracks.Select(p => new FileInfo(p.FilePath)).ToArray();
-
-        private Selection GetSelection()
-        {
-            var selection = new Selection(DataGrid.SelectedItems.OfType<Track>());
-            selection.TracksEdit += Selection_TracksEdit;
-            return selection;
-        }
-
-        private void Grid_SelectionChanged(object sender, SelectionChangedEventArgs e) => OnSelectionChanged();
-
-        private void Selection_TracksEdit(object sender, SelectionEditEventArgs e) =>
-            MainFormController.TracksEdit(e.Selection, e.Tag, e.Values);
-
-        #endregion
-
-        #region Find / Replace
-
-        private Selection _findResults;
-        public Selection FindResults
-        {
-            get => _selection;
-            set => _selection = value;
-        }
-
-        #endregion
-
-        #region Presets
 
         private void SetQuery(Query query)
         {

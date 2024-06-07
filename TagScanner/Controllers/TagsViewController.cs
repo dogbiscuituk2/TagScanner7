@@ -15,7 +15,6 @@
 
         #region Public Properties
 
-        private bool _active;
         public bool Active
         {
             get => _active;
@@ -73,6 +72,12 @@
                 default: return tagInfo.OrderBy(t => t.DisplayName);
             }
         }
+
+        #endregion
+
+        #region Private Fields
+
+        private bool _active;
 
         #endregion
 

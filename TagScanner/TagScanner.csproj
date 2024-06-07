@@ -240,7 +240,6 @@
     <Compile Include="Utils\Ink.cs" />
     <Compile Include="Utils\Inks.cs" />
     <Compile Include="Controllers\Controller.cs" />
-    <Compile Include="Controllers\OperatorPickerController.cs" />
     <Compile Include="Controllers\TagsListController.cs" />
     <Compile Include="Controllers\TagsTreeController.cs" />
     <Compile Include="Controllers\TagsViewController.cs" />
@@ -256,7 +255,6 @@
     <Compile Include="Controllers\Wpf\WpfPlayerController.cs" />
     <Compile Include="Controllers\Mru\MruSdiController.cs" />
     <Compile Include="Controllers\TagsSelectorController.cs" />
-    <Compile Include="Controllers\TermTreeController.cs" />
     <Compile Include="Models\Tag.cs" />
     <Compile Include="Terms\Constant.cs" />
     <Compile Include="Terms\Functors.cs" />

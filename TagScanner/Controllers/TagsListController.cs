@@ -32,17 +32,13 @@
 
         #region Public Methods
 
+        public int Compare(object x, object y) => string.CompareOrdinal(GetValue(x), GetValue(y)) * (_sortDescending ? -1 : +1);
+
         public void InitView()
         {
             InitItems();
             ListView.ColumnClick += (sender, e) => SortByColumn(e.Column);
             ListView.ListViewItemSorter = this;
-        }
-
-        public void ShowView(View view)
-        {
-            Active = true;
-            ListView.View = view;
         }
 
         public override IEnumerable<Tag> GetSelectedTags()
@@ -63,11 +59,11 @@
             }
         }
 
-        #endregion
-
-        #region Public Interface IComparer
-
-        public int Compare(object x, object y) => string.CompareOrdinal(GetValue(x), GetValue(y)) * (_sortDescending ? -1 : +1);
+        public void ShowView(View view)
+        {
+            Active = true;
+            ListView.View = view;
+        }
 
         #endregion
 

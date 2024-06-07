@@ -4,7 +4,6 @@
     using System.Collections.Generic;
     using System.Linq;
     using System.Windows.Forms;
-    using Controls;
     using Models;
     using Terms;
 
@@ -50,11 +49,7 @@
 
         #region Private Methods
 
-        private static string MakeKey(params Tag[] tags) =>
-            new string(
-                tags.Select(p => (char)p)
-                .OrderBy(p => p)
-                .ToArray());
+        private static string MakeKey(params Tag[] tags) => new string(tags.Select(p => (char)p).OrderBy(p => p).ToArray());
 
         private string ValidateFieldList(params Tag[] tags)
         {

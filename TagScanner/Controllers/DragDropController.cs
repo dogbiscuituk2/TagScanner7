@@ -2,8 +2,8 @@
 {
     using System.Linq;
     using System.Windows.Forms;
-    using Mru;
     using Forms;
+    using Mru;
 
     public class DragDropController : Controller
     {
@@ -27,13 +27,12 @@
         #region Event Handlers
 
         private void MainForm_DragDrop(object sender, DragEventArgs e) => DragDrop(GetFilePaths(e.Data));
+        private void Table_Drop(object sender, System.Windows.DragEventArgs e) => DragDrop(GetFilePaths(e.Data));
 
         private void MainForm_DragOver(object sender, DragEventArgs e) =>
             e.Effect = DragOver(e.Data)
             ? DragDropEffects.Move
             : DragDropEffects.None;
-
-        private void Table_Drop(object sender, System.Windows.DragEventArgs e) => DragDrop(GetFilePaths(e.Data));
 
         private void Table_DragOver(object sender, System.Windows.DragEventArgs e) =>
             e.Effects = DragOver(e.Data)

@@ -13,10 +13,7 @@
     {
         #region Constructor
 
-        public ScriptFormController(Controller parent) : base(parent)
-        {
-            CbFilter = MainForm.FilterControl.cbFilter;
-        }
+        public ScriptFormController(Controller parent) : base(parent) => CbFilter = MainForm.FilterControl.cbFilter;
 
         #endregion
 
@@ -56,7 +53,7 @@
             return result;
         }
 
-        public void ShowModal(IWin32Window owner, string text)
+        public void ShowModal(string text)
         {
             Text = text;
             Execute();
@@ -70,7 +67,7 @@
         private MruScriptController _scriptController;
         private ScriptForm _view;
 
-        private ToolStripComboBox
+        private readonly ToolStripComboBox
             CbFilter;
 
         private ToolStripSplitButton

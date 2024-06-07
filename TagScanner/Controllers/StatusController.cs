@@ -8,7 +8,13 @@
 
     public class StatusController : Controller
     {
+        #region Constructor
+
         public StatusController(Controller parent) : base(parent) { }
+
+        #endregion
+
+        #region Public Methods
 
         public IProgress<ProgressEventArgs> CreateNewProgress()
         {
@@ -45,6 +51,12 @@
             return progress;
         }
 
+        #endregion
+
+        #region Event Handlers
+
         private static void CancelButton_ButtonClick(object sender, EventArgs e) => ((ToolStripItem)sender).Enabled = false;
+
+        #endregion
     }
 }

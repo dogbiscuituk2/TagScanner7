@@ -17,14 +17,6 @@
 
         #region Public Methods
 
-        public void InitView()
-        {
-            InitNodes();
-            RootNode.Expand();
-            TriStateTreeController = new TriStateTreeController(TreeView);
-            TriStateTreeController.NodeStateChanged += TriStateTreeController_NodeStateChanged;
-        }
-
         public override IEnumerable<Tag> GetSelectedTags()
         {
             var result = new List<Tag>();
@@ -34,6 +26,14 @@
                     result.Add(tagInfo.Tag);
             });
             return result;
+        }
+
+        public void InitView()
+        {
+            InitNodes();
+            RootNode.Expand();
+            TriStateTreeController = new TriStateTreeController(TreeView);
+            TriStateTreeController.NodeStateChanged += TriStateTreeController_NodeStateChanged;
         }
 
         public override void SetSelectedTags(IEnumerable<Tag> visibleTags) => Visit(p =>
@@ -56,9 +56,14 @@
 
         #endregion
 
-        #region Private Properties
+        #region Private Fields
 
         private TriStateTreeController TriStateTreeController;
+
+        #endregion
+
+        #region Private Properties
+
         private TreeNodeCollection Nodes => RootNode.Nodes;
         private TreeNode RootNode => TreeView.Nodes[0];
         private TreeView TreeView => (TreeView)Control;

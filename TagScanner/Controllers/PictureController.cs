@@ -11,7 +11,7 @@
 
     public class PictureController
     {
-        #region Lifetime Management
+        #region Constructor
 
         public PictureController(PictureBox pictureBox, PropertyGrid propertyGrid, System.Windows.Controls.DataGrid playlistGrid)
         {
@@ -22,41 +22,11 @@
 
         #endregion
 
-        #region Properties
+        #region Private Fields
 
         private PictureBox _pictureBox;
-        private PictureBox PictureBox
-        {
-            get => _pictureBox;
-            set
-            {
-                _pictureBox = value;
-                PictureBox.Resize += PictureBox_Resize;
-            }
-        }
-
-        private PropertyGrid _propertyGrid;
-        private PropertyGrid PropertyGrid
-        {
-            get => _propertyGrid;
-            set
-            {
-                _propertyGrid = value;
-                PropertyGrid.SelectedGridItemChanged += PropertyGrid_SelectedGridItemChanged;
-                PropertyGrid.SelectedObjectsChanged += PropertyGrid_SelectedObjectsChanged;
-            }
-        }
-
         private System.Windows.Controls.DataGrid _playlistGrid;
-        private System.Windows.Controls.DataGrid PlaylistGrid
-        {
-            get => _playlistGrid;
-            set
-            {
-                _playlistGrid = value;
-                PlaylistGrid.SelectionChanged += PlaylistGrid_SelectionChanged;
-            }
-        }
+        private PropertyGrid _propertyGrid;
 
         private static readonly RotateFlipType[] RotateFlipTypes =
         {
@@ -73,7 +43,42 @@
 
         #endregion
 
-        #region Events
+        #region Private Properties
+
+        private PictureBox PictureBox
+        {
+            get => _pictureBox;
+            set
+            {
+                _pictureBox = value;
+                PictureBox.Resize += PictureBox_Resize;
+            }
+        }
+
+        private System.Windows.Controls.DataGrid PlaylistGrid
+        {
+            get => _playlistGrid;
+            set
+            {
+                _playlistGrid = value;
+                PlaylistGrid.SelectionChanged += PlaylistGrid_SelectionChanged;
+            }
+        }
+
+        private PropertyGrid PropertyGrid
+        {
+            get => _propertyGrid;
+            set
+            {
+                _propertyGrid = value;
+                PropertyGrid.SelectedGridItemChanged += PropertyGrid_SelectedGridItemChanged;
+                PropertyGrid.SelectedObjectsChanged += PropertyGrid_SelectedObjectsChanged;
+            }
+        }
+
+        #endregion
+
+        #region Event Handlers
 
         private void PictureBox_Resize(object sender, EventArgs e) => InitSizeMode();
         private void PlaylistGrid_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e) => InitPictureFromTrack(PlaylistGrid.SelectedItem);
@@ -82,7 +87,7 @@
 
         #endregion
 
-        #region Methods
+        #region Private Methods
 
         private Image GetImageFromFile(string filePath, TagLib.Image.ImageOrientation orientation)
         {
