@@ -460,9 +460,6 @@
 
         private Term PrepareCompound(Compound compound)
         {
-
-            return compound;
-
             var operands = compound.Operands;
             var count = operands.Count;
             foreach (var term in operands.OfType<Compound>())
