@@ -41,6 +41,10 @@
         [TestMethod]
         public void ScratchTest2()
         {
+#pragma warning disable CS0219 // Variable is assigned but its value is never used
+            var foo = true ? true ? 1 : 2 : 3;
+#pragma warning restore CS0219 // Variable is assigned but its value is never used
+
             var text = "true ? true ? 1 : 2 : 3";
             var term = Parser.Parse(text, caseSensitive: false);
             var actual = term.Result;

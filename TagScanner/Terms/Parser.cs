@@ -123,7 +123,7 @@
                 while (AnyOperators())
                 {
                     var op = PeekOperator();
-                    if (op == 0)
+                    if (op == 0 || op == Op.Then)
                         break;
                     var oldRank = op.GetRank();
                     if (oldRank < newRank || oldRank == newRank && op.GetAssociativity() == Associativity.Right)

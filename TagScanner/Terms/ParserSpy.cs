@@ -120,15 +120,10 @@
         {
             var left = _terms.Pop();
             var op = _operators.Pop();
-            switch (op)
+            if (op == Op.Else)
             {
-                case Op.Then:
-                    if (right is Operation foo && foo.Op == Op.Else)
-                        return new Conditional(left, foo.Operands[0], foo.Operands[1]);
-                    else
-                        throw new NotImplementedException();
-                case Op.Else:
-                    return new Operation(Op.Else, left, right);
+                _operators.Pop(); // Then ?
+                return new Conditional(_terms.Pop(), left, right);
             }
             var ass = op.GetAssociativity();
             bool
