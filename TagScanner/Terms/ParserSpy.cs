@@ -2,7 +2,6 @@
 {
     using System;
     using System.Collections.Generic;
-    using System.Diagnostics;
     using System.Linq;
     using System.Linq.Expressions;
     using System.Runtime.CompilerServices;
@@ -75,8 +74,6 @@
 
         #region Private Fields
 
-        private static readonly string _ = string.Empty;
-        private bool _headerShown;
         private readonly Dictionary<string, Label> _labels = new Dictionary<string, Label>();
         private readonly Stack<Loop> _loops = new Stack<Loop>();
         private readonly Stack<Op> _operators = new Stack<Op>();

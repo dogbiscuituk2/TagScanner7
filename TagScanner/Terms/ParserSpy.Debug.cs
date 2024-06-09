@@ -1,24 +1,28 @@
 ﻿namespace TagScanner.Terms
 {
+    using System;
+    using System.Collections;
     using System.Collections.Generic;
     using System.Diagnostics;
     using System.Linq;
     using System.Runtime.CompilerServices;
-    using System;
 
     partial class ParserSpy
     {
 
 #if DEBUG_PARSER
 
+        private static readonly string _ = string.Empty;
+        private const string _format = "{0,19}{1,6}  {2,12}  {3}";
+        private bool _headerShown;
+
         private void Dump(string caller, int line, object value, [CallerMemberName] string action = "")
         {
             {
-                const string format = "{0,19}{1,6}  {2,12}  {3}";                                                                                                                                 r
                 if (!_headerShown)
                 {
                     DrawLine();
-                    Debug.WriteLine(format, "CALLER", "LINE", "ACTION", "VALUE");
+                    Say4("CALLER", "LINE", "ACTION", "VALUE");
                     DrawLine();
                     _headerShown = true;
                 }
@@ -31,16 +35,17 @@
 #if !DEBUG_PARSER_NEW
                 if (isNewTerm) return;
 #endif
-                Debug.WriteLine(format, caller, line, action, Say(value));
+                Say4(caller, line, action, value);
                 if (isNewTerm || isPeek)
                     return;
-                Debug.WriteLine(format, _, _, "Tokens", Says(_tokens));
-                Debug.WriteLine(format, _, _, "Operators", Says(_operators.Cast<object>()));
 
-                Debug.WriteLine(format, _, _, "Terms", _terms.Any() ? Say(_terms.First()) : _);
+                Say2("Tokens", _tokens);
+                Say2("Operators", _operators.Select(p => SayObject(p)));
+                Say4(_, _, "Terms", _terms.Any() ? _terms.First() : _);
+
                 if (_terms.Count > 1)
                     foreach (var term in _terms?.Skip(1))
-                        Debug.WriteLine(format, _, _, _, Say(term));
+                        Say4(_, _, _, term);
 
                 if (action == "EndParse")
                     DrawLine();
@@ -48,34 +53,26 @@
                     Debug.WriteLine(_);
 
                 void DrawLine() => Debug.WriteLine(new string('_', 132) + Environment.NewLine);
-
-                /*void SayFormat(string format, string header, IEnumerable<object> values)
-                {
-                    if ((!values.Any()))
-                        return;
-                    var first = true;
-                    foreach (var value in values)
-                    {
-
-                    }
-
-                }*/
             }
         }
 
-        private static string Say(object o) =>
+        private static void Say2(string header, IEnumerable<object> list) => Say4(_, _, header, SayList(list));
+
+        private static void Say4(params object[] values) => Debug.WriteLine(string.Format(_format, values));
+
+        private static string 30(object o) =>
             o is Token token ? token.Value :
             o is Op op ? $"{op}" :
             o is Term term ? $"{term.GetType().Say()} {term}" :
             o.ToString();
 
-        private static string Say(IEnumerable<object> s)
+        private static string SayList(IEnumerable<object> values)
         {
-            if (!s.Any())
+            if (!values.Any())
                 return _;
-            if (s.Count() == 1)
-                return Say(s.First());
-            return (string)s.Aggregate((p, q) => $"{Say(p)} {Say(q)}");
+            if (values.Count() == 1)
+                return SayObject(values.First());
+            return (string)values.Aggregate((p, q) => $"{SayObject(p)} {SayObject(q)}");
         }
 
 #endif
