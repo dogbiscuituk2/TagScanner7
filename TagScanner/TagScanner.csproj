@@ -203,6 +203,8 @@
     <Compile Include="Terms\Associativity.cs" />
     <Compile Include="Terms\Break.cs" />
     <Compile Include="Terms\Catch.cs" />
+    <Compile Include="Terms\ParserSpy.Debug.cs" />
+    <Compile Include="Terms\ParserSpy.NoDebug.cs" />
     <Compile Include="Terms\Compound.cs" />
     <Compile Include="Terms\Conditional.cs" />
     <Compile Include="Terms\Continue.cs" />

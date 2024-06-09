@@ -8,7 +8,7 @@
     using System.Runtime.CompilerServices;
     using Utils;
 
-    public class ParserSpy
+    public partial class ParserSpy
     {
         #region Public Methods
 
@@ -139,33 +139,73 @@
         private void Dump(string caller, int line, object value, [CallerMemberName] string action = "")
         {
 #if DEBUG_PARSER
-            const string format = "{0,19}{1,6}  {2,12}  {3}";
-            if (!_headerShown)
             {
-                Debug.WriteLine(format, "CALLER", "LINE", "ACTION", "VALUE");
-                DrawLine();
-                _headerShown = true;
-            }
-            if (action == "NewTerm")
-                value = TermInfo(value);
-            Debug.WriteLine(format, caller, line, action, value);
-            if (action.StartsWith("New") || action.StartsWith("Peek"))
-                return;
-            Debug.WriteLine(format, _, _, "Tokens", Say(_tokens.Select(p => p.Value)));
-            Debug.WriteLine(format, _, _, "Operators", Say(_operators.Select(p => p.Symbol())));
-            Debug.WriteLine(format, _, _, "Terms", _terms.Any() ? TermInfo(_terms.First()) : _);
-            if (_terms.Count > 1)
-                foreach (var term in _terms?.Skip(1))
-                    Debug.WriteLine(format, _, _, _, TermInfo(term));
-            if (action == "EndParse")
-                DrawLine();
-            else
-                Debug.WriteLine(_);
+                const string format = "{0,19}{1,6}  {2,12}  {3}";
+                if (!_headerShown)
+                {
+                    DrawLine();
+                    Debug.WriteLine(format, "CALLER", "LINE", "ACTION", "VALUE");
+                    DrawLine();
+                    _headerShown = true;
+                }
+                bool
+                    isPeek = action.StartsWith("Peek"),
+                    isNewTerm = action == "NewTerm";
+#if !DEBUG_PARSER_PEEK
+                if (isPeek) return;
+#endif
+#if !DEBUG_PARSER_NEW
+                if (isNewTerm) return;
+#endif
+                Debug.WriteLine(format, caller, line, action, Say(value));
+                if (isNewTerm || isPeek)
+                    return;
+                Debug.WriteLine(format, _, _, "Tokens", Says(_tokens));
+                Debug.WriteLine(format, _, _, "Operators", Says(_operators.Cast<object>()));
 
-            void DrawLine() => Debug.WriteLine(new string('_', 80) + Environment.NewLine);
-            string TermInfo(object term) => $"{term.GetType().Say()}: {term}";
+                Debug.WriteLine(format, _, _, "Terms", _terms.Any() ? Say(_terms.First()) : _);
+                if (_terms.Count > 1)
+                    foreach (var term in _terms?.Skip(1))
+                        Debug.WriteLine(format, _, _, _, Say(term));
+
+                if (action == "EndParse")
+                    DrawLine();
+                else
+                    Debug.WriteLine(_);
+
+                void DrawLine() => Debug.WriteLine(new string('_', 132) + Environment.NewLine);
+
+                /*void SayFormat(string format, string header, IEnumerable<object> values)
+                {
+                    if ((!values.Any()))
+                        return;
+                    var first = true;
+                    foreach (var value in values)
+                    {
+
+                    }
+
+                }*/
+
+                string Says(IEnumerable<object> s)
+                {
+                    if (!s.Any())
+                        return _;
+                    if (s.Count() == 1)
+                        return Say(s.First());
+                    return (string)s.Aggregate((p, q) => $"{Say(p)} {Say(q)}");
+                }
+            }
 #endif
         }
+
+#if DEBUG_PARSER
+        private static string Say(object o) =>
+            o is Token token ? token.Value :
+            o is Op op ? $"{op}" :
+            o is Term term ? $"{term.GetType().Say()} {term}" :
+            o.ToString();
+#endif
 
         private Term EndParse(Term term)
         {
@@ -215,7 +255,7 @@
                 Exception(caller, line, exception, action);
                 throw;
             }
-            Dump(caller, line, value is Op op ? op.Symbol() : value, action);
+            Dump(caller, line, value, action);
             return value;
         }
 
@@ -237,8 +277,6 @@
             return program;
         }
 
-        private static object Say(IEnumerable<object> s) => s.Any() ? s.Aggregate((p, q) => $"{p} {q}") : _;
-
         private static object UnexpectedToken(Token token, string expected = "")
         {
             var error = $"Unexpected input at index {token.Start}:";
@@ -247,6 +285,6 @@
                 : $"{error} expected {expected}, actual {token}.");
         }
 
-        #endregion
+#endregion
     }
 }

@@ -26,6 +26,8 @@
 
         #region Public Properties
 
+        public string Declaration => $"{ResultType} {Name}";
+
         public override Expression Expression =>
             ResultType == null
             ? throw new TypeAccessException()
