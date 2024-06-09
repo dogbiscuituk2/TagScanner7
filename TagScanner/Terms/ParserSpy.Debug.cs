@@ -5,6 +5,7 @@
     using System.Diagnostics;
     using System.Linq;
     using System.Runtime.CompilerServices;
+    using System.Text;
 
     partial class ParserSpy
     {
@@ -14,13 +15,18 @@
         private const string _format = "{0,19}{1,6}  {2,12}  {3}";
         private bool _headerShown;
 
+        private string
+            _prevTokens = string.Empty,
+            _prevOperators = string.Empty,
+            _prevTerms = string.Empty;
+
         private void Dump(string caller, int line, object value, [CallerMemberName] string action = "")
         {
             {
                 if (!_headerShown)
                 {
                     DrawLine();
-                    Say("CALLER", "LINE", "ACTION", "VALUE");
+                    Print("CALLER", "LINE", "ACTION", "VALUE");
                     DrawLine();
                     _headerShown = true;
                 }
@@ -33,12 +39,14 @@
 #if !DEBUG_PARSER_NEW
                 if (isNewTerm) return;
 #endif
-                Say(caller, line, action, ObjectToString(value));
+                Print(caller, line, action, ObjectToString(value));
                 if (isNewTerm || isPeek)
                     return;
-                Say("Tokens", _tokens);
-                Say("Operators", _operators.Select(p => ObjectToString(p)));
-                SayMultiline("Terms", _terms);
+
+                Say("Tokens", ref _prevTokens, _tokens, singleLine: true);
+                Say("Operators", ref _prevOperators, _operators.Select(p => ObjectToString(p)), singleLine: true);
+                Say("Terms", ref _prevTerms, _terms, singleLine: false);
+
                 if (action == "EndParse")
                     DrawLine();
                 else
@@ -47,8 +55,31 @@
         }
 
         private static void DrawLine() => Debug.WriteLine(new string('_', 132) + Environment.NewLine);
-        private static void Say(string header, IEnumerable<object> list) => Say(string.Empty, string.Empty, header, ListToString(list));
-        private static void Say(params object[] values) => Debug.WriteLine(string.Format(_format, values));
+
+        private static void Say(string header, ref string prev, IEnumerable<object> values, bool singleLine)
+        {
+            var s = new StringBuilder();
+            if (singleLine)
+                Add(ListToString(values));
+            else
+                foreach (object value in values)
+                {
+                    Add(ObjectToString(value));
+                    header = string.Empty;
+                }
+            var result = s.ToString();
+            if (prev != result)
+            {
+                prev = result;
+                Debug.Write(result);
+            }
+
+            void Add(string t) => s.AppendLine(Format(string.Empty, string.Empty, header, t));
+        }
+
+        private static string Format(params object[] values) => string.Format(_format, values);
+
+        private static void Print(params object[] values) => Debug.WriteLine(Format(values));
 
         private static string ListToString(IEnumerable<object> values) =>
             !values.Any() ? string.Empty :
@@ -60,16 +91,6 @@
             o is Op op ? $"{op}" :
             o is Term term ? $"{term.GetType().Say()} {term}" :
             o.ToString();
-
-        private void SayMultiline(string header, IEnumerable<object> values)
-        {
-            if (!values.Any()) return;
-            foreach (object value in values)
-            {
-                Say(string.Empty, string.Empty, header, ObjectToString(value));
-                header = string.Empty;
-            }
-        }
 
 #endif
 

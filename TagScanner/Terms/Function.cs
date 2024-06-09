@@ -48,7 +48,7 @@
         public override Expression Expression => GetExpression();
         public override bool IsInfinitary => FnInfo.IsInfinitary;
         public string Name => $"{Fn}";
-        public override Op Op => Op.None;
+        public override Op Op => Op.End;
 
         public override Type ResultType
         {

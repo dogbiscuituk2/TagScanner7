@@ -5,7 +5,7 @@
     [Flags]
     public enum Op: long
     {
-        None = 0L,
+        End = 0L,
         Assign = 1L << 0, // :=
         OrAssign = 1L << 1, // |=
         XorAssign = 1L << 2, // ^=

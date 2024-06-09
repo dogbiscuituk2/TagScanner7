@@ -91,7 +91,7 @@
         public static bool IsUnary(this Op op) => (op & Op.Unary) != 0;
         public static Type OperandType(this Op op) => _operators[op].OperandType;
         public static OpInfo OpInfo(this Op op) => _operators[op];
-        public static string Symbol(this Op op) => op == Op.None ? "(" : _operators[op].Symbol;
+        public static string Symbol(this Op op) => op == Op.End ? "(" : _operators[op].Symbol;
 
         public static Type ResultType(this Op op) =>
             op.IsLogical() ? typeof(bool) :
