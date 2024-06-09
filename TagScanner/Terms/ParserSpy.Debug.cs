@@ -1,7 +1,6 @@
 ﻿namespace TagScanner.Terms
 {
     using System;
-    using System.Collections;
     using System.Collections.Generic;
     using System.Diagnostics;
     using System.Linq;
@@ -12,7 +11,6 @@
 
 #if DEBUG_PARSER
 
-        private static readonly string _ = string.Empty;
         private const string _format = "{0,19}{1,6}  {2,12}  {3}";
         private bool _headerShown;
 
@@ -22,7 +20,7 @@
                 if (!_headerShown)
                 {
                     DrawLine();
-                    Say4("CALLER", "LINE", "ACTION", "VALUE");
+                    Say("CALLER", "LINE", "ACTION", "VALUE");
                     DrawLine();
                     _headerShown = true;
                 }
@@ -35,44 +33,42 @@
 #if !DEBUG_PARSER_NEW
                 if (isNewTerm) return;
 #endif
-                Say4(caller, line, action, value);
+                Say(caller, line, action, ObjectToString(value));
                 if (isNewTerm || isPeek)
                     return;
-
-                Say2("Tokens", _tokens);
-                Say2("Operators", _operators.Select(p => SayObject(p)));
-                Say4(_, _, "Terms", _terms.Any() ? _terms.First() : _);
-
-                if (_terms.Count > 1)
-                    foreach (var term in _terms?.Skip(1))
-                        Say4(_, _, _, term);
-
+                Say("Tokens", _tokens);
+                Say("Operators", _operators.Select(p => ObjectToString(p)));
+                SayMultiline("Terms", _terms);
                 if (action == "EndParse")
                     DrawLine();
                 else
-                    Debug.WriteLine(_);
-
-                void DrawLine() => Debug.WriteLine(new string('_', 132) + Environment.NewLine);
+                    Debug.WriteLine(string.Empty);
             }
         }
 
-        private static void Say2(string header, IEnumerable<object> list) => Say4(_, _, header, SayList(list));
+        private static void DrawLine() => Debug.WriteLine(new string('_', 132) + Environment.NewLine);
+        private static void Say(string header, IEnumerable<object> list) => Say(string.Empty, string.Empty, header, ListToString(list));
+        private static void Say(params object[] values) => Debug.WriteLine(string.Format(_format, values));
 
-        private static void Say4(params object[] values) => Debug.WriteLine(string.Format(_format, values));
+        private static string ListToString(IEnumerable<object> values) =>
+            !values.Any() ? string.Empty :
+            values.Count() == 1 ? ObjectToString(values.First()) :
+            (string)values.Aggregate((p, q) => $"{ObjectToString(p)} {ObjectToString(q)}");
 
-        private static string 30(object o) =>
+        private static string ObjectToString(object o) =>
             o is Token token ? token.Value :
             o is Op op ? $"{op}" :
             o is Term term ? $"{term.GetType().Say()} {term}" :
             o.ToString();
 
-        private static string SayList(IEnumerable<object> values)
+        private void SayMultiline(string header, IEnumerable<object> values)
         {
-            if (!values.Any())
-                return _;
-            if (values.Count() == 1)
-                return SayObject(values.First());
-            return (string)values.Aggregate((p, q) => $"{SayObject(p)} {SayObject(q)}");
+            if (!values.Any()) return;
+            foreach (object value in values)
+            {
+                Say(string.Empty, string.Empty, header, ObjectToString(value));
+                header = string.Empty;
+            }
         }
 
 #endif
