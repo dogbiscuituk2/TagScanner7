@@ -44,9 +44,9 @@
             {
                 DrawLine();
 #if VERBOSE
-                Debug.WriteLine("#undef VERBOSE for less detail.");
+                Debug.WriteLine("#undef VERBOSE to reduce the level of detail in this output.");
 #else
-                Debug.WriteLine("#define VERBOSE for more detail.");
+                Debug.WriteLine("#define VERBOSE to increase the level of detail in this output.");
 #endif
             }
             Debug.WriteLine(string.Empty);
