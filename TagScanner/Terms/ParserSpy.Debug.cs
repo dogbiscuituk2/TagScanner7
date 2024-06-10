@@ -9,15 +9,11 @@
 
     partial class ParserSpy
     {
-#if PARSER
-        private const string _format = "{0,19}{1,6}  {2,12}  {3}";
-        private bool _headerShown;
-        private string
-            _prevTokens = null,
-            _prevOperators = null,
-            _prevTerms = null;
-
         private void Dump(string caller, int line, object value, [CallerMemberName] string action = "")
+#if !PARSER
+        {
+        }
+#else // PARSER
         {
             if (action == "Reset")
                 _headerShown = false;
@@ -30,7 +26,7 @@
             }
             var skip = action.StartsWith("Peek") || action == "NewTerm";
 #if !VERBOSE
-                if (skip) return;
+            if (skip) return;
 #endif // !VERBOSE
             Print(caller, line, action, ObjectToString(value));
             if (skip)
@@ -51,6 +47,13 @@
             }
             Debug.WriteLine(string.Empty);
         }
+
+        private const string _format = "{0,19}{1,6}  {2,12}  {3}";
+        private bool _headerShown;
+        private string
+            _prevTokens = null,
+            _prevOperators = null,
+            _prevTerms = null;
 
         private static void DrawLine() => Debug.WriteLine(new string('_', 132) + Environment.NewLine);
 
