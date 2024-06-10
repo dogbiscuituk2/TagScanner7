@@ -34,7 +34,7 @@
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
     <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>TRACE;DEBUG;DEBUG_PARSER; DONT_DEBUG_TOKENIZER</DefineConstants>
+    <DefineConstants>TRACE;DEBUG;DEBUG_PARSER; DEBUG_PARSER_VERBOSE; NODEBUG_LEXER</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <Prefer32Bit>false</Prefer32Bit>
@@ -46,7 +46,7 @@
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>TRACE;DEBUG;DEBUG_PARSER</DefineConstants>
+    <DefineConstants>NODEBUG_PARSER; NODEBUG_PARSER_VERBOSE; NODEBUG_LEXER</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <AllowUnsafeBlocks>false</AllowUnsafeBlocks>

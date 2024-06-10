@@ -10,11 +10,10 @@
     partial class ParserSpy
     {
 
-#if DEBUG_PARSER
+#if DEBUG_PARSER || DEBUG_PARSER_VERBOSE
 
         private const string _format = "{0,19}{1,6}  {2,12}  {3}";
         private bool _headerShown;
-
         private string
             _prevTokens = string.Empty,
             _prevOperators = string.Empty,
@@ -22,36 +21,35 @@
 
         private void Dump(string caller, int line, object value, [CallerMemberName] string action = "")
         {
+            if (action == "Reset")
+                _headerShown = false;
+            if (!_headerShown)
             {
-                if (!_headerShown)
-                {
-                    DrawLine();
-                    Print("CALLER", "LINE", "ACTION", "VALUE");
-                    DrawLine();
-                    _headerShown = true;
-                }
-                bool
-                    isPeek = action.StartsWith("Peek"),
-                    isNewTerm = action == "NewTerm";
-#if !DEBUG_PARSER_PEEK
-                if (isPeek) return;
-#endif
-#if !DEBUG_PARSER_NEW
-                if (isNewTerm) return;
-#endif
-                Print(caller, line, action, ObjectToString(value));
-                if (isNewTerm || isPeek)
-                    return;
-
-                Say("Tokens", ref _prevTokens, _tokens, singleLine: true);
-                Say("Operators", ref _prevOperators, _operators.Select(p => ObjectToString(p)), singleLine: true);
-                Say("Terms", ref _prevTerms, _terms, singleLine: false);
-
-                if (action == "EndParse")
-                    DrawLine();
-                else
-                    Debug.WriteLine(string.Empty);
+                DrawLine();
+                Print("CALLER", "LINE", "ACTION", "VALUE");
+                DrawLine();
+                _headerShown = true;
             }
+            var skip = action.StartsWith("Peek") || action == "NewTerm";
+
+#if !DEBUG_PARSER_VERBOSE
+
+                if (skip) return;
+
+#endif // !DEBUG_PARSER_VERBOSE
+
+            Print(caller, line, action, ObjectToString(value));
+            if (skip)
+                return;
+
+            Say("Tokens", ref _prevTokens, _tokens, singleLine: true);
+            Say("Operators", ref _prevOperators, _operators.Select(p => ObjectToString(p)), singleLine: true);
+            Say("Terms", ref _prevTerms, _terms, singleLine: false);
+
+            if (action == "EndParse")
+                DrawLine();
+            else
+                Debug.WriteLine(string.Empty);
         }
 
         private static void DrawLine() => Debug.WriteLine(new string('_', 132) + Environment.NewLine);
@@ -68,11 +66,20 @@
                     header = string.Empty;
                 }
             var result = s.ToString();
+
+#if DEBUG_PARSER_VERBOSE
+
+            Debug.Write(result);
+
+#else // !DEBUG_PARSER_VERBOSE
+
             if (prev != result)
             {
                 prev = result;
                 Debug.Write(result);
             }
+
+#endif // DEBUG_PARSER_VERBOSE
 
             void Add(string t) => s.AppendLine(Format(string.Empty, string.Empty, header, t));
         }
@@ -92,7 +99,7 @@
             o is Term term ? $"{term.GetType().Say()} {term}" :
             o.ToString();
 
-#endif
+#endif // DEBUG_PARSER || DEBUG_PARSER_VERBOSE
 
     }
 }

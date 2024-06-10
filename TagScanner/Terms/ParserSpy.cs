@@ -194,7 +194,6 @@
             _operators.Clear();
             _loops.Clear();
             _scopes.Clear();
-            _headerShown = false;
             PushScope();
             Dump(caller, line, program);
             foreach (var token in Lexer.GetTokens(program))
