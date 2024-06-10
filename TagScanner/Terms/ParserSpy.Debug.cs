@@ -9,15 +9,13 @@
 
     partial class ParserSpy
     {
-
-#if DEBUG_PARSER || DEBUG_PARSER_VERBOSE
-
+#if PARSER
         private const string _format = "{0,19}{1,6}  {2,12}  {3}";
         private bool _headerShown;
         private string
-            _prevTokens = string.Empty,
-            _prevOperators = string.Empty,
-            _prevTerms = string.Empty;
+            _prevTokens = null,
+            _prevOperators = null,
+            _prevTerms = null;
 
         private void Dump(string caller, int line, object value, [CallerMemberName] string action = "")
         {
@@ -31,13 +29,9 @@
                 _headerShown = true;
             }
             var skip = action.StartsWith("Peek") || action == "NewTerm";
-
-#if !DEBUG_PARSER_VERBOSE
-
+#if !VERBOSE
                 if (skip) return;
-
-#endif // !DEBUG_PARSER_VERBOSE
-
+#endif // !VERBOSE
             Print(caller, line, action, ObjectToString(value));
             if (skip)
                 return;
@@ -47,40 +41,42 @@
             Say("Terms", ref _prevTerms, _terms, singleLine: false);
 
             if (action == "EndParse")
+            {
                 DrawLine();
-            else
-                Debug.WriteLine(string.Empty);
+#if VERBOSE
+                Debug.WriteLine("#undef VERBOSE for less detail.");
+#else
+                Debug.WriteLine("#define VERBOSE for more detail.");
+#endif
+            }
+            Debug.WriteLine(string.Empty);
         }
 
         private static void DrawLine() => Debug.WriteLine(new string('_', 132) + Environment.NewLine);
 
         private static void Say(string header, ref string prev, IEnumerable<object> values, bool singleLine)
         {
-            var s = new StringBuilder();
+            var s = new StringBuilder(string.Empty);
             if (singleLine)
                 Add(ListToString(values));
-            else
+            else if (values.Any())
                 foreach (object value in values)
                 {
                     Add(ObjectToString(value));
                     header = string.Empty;
                 }
+            else
+                Add(string.Empty);
             var result = s.ToString();
-
-#if DEBUG_PARSER_VERBOSE
-
+#if VERBOSE
             Debug.Write(result);
-
-#else // !DEBUG_PARSER_VERBOSE
-
+#else // !VERBOSE
             if (prev != result)
             {
                 prev = result;
                 Debug.Write(result);
             }
-
-#endif // DEBUG_PARSER_VERBOSE
-
+#endif // VERBOSE
             void Add(string t) => s.AppendLine(Format(string.Empty, string.Empty, header, t));
         }
 
@@ -98,8 +94,6 @@
             o is Op op ? $"{op}" :
             o is Term term ? $"{term.GetType().Say()} {term}" :
             o.ToString();
-
-#endif // DEBUG_PARSER || DEBUG_PARSER_VERBOSE
-
+#endif // PARSER
     }
 }

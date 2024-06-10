@@ -45,7 +45,7 @@
                 if (string.IsNullOrWhiteSpace(Token.Value))
                     break;
                 Index += Token.Length;
-#if DEBUG_LEXER
+#if LEXER
                 System.Diagnostics.Debug.WriteLine(token);
 #endif
                 yield return Token;
