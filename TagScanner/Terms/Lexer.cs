@@ -46,7 +46,7 @@
                     break;
                 Index += Token.Length;
 #if LEXER
-                System.Diagnostics.Debug.WriteLine(token);
+                System.Diagnostics.Debug.WriteLine(Token);
 #endif
                 yield return Token;
             }
