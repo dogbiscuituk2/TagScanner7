@@ -109,10 +109,10 @@
             Term term = ParseTerm();
             while (PeekToken().IsBinaryOperator())
             {
-                var newOp = PopToken().ToBinaryOperator();
-                ApplyOperators(newOp.GetRank());
+                var op = PopToken().ToBinaryOperator();
+                ApplyOperators(op.GetRank());
                 PushTerm(term);
-                PushOperator(newOp);
+                PushOperator(op);
                 term = ParseTerm();
             }
             ApplyOperators();
@@ -122,11 +122,11 @@
             {
                 while (AnyOperators())
                 {
-                    var op = PeekOperator();
-                    if (op == 0 || op == Op.Then)
+                    var oldOp = PeekOperator();
+                    if (oldOp == Op.End || oldOp == Op.Then)
                         break;
-                    var oldRank = op.GetRank();
-                    if (oldRank < newRank || oldRank == newRank && op.GetAssociativity() == Associativity.Right)
+                    var oldRank = oldOp.GetRank();
+                    if (oldRank < newRank || oldRank == newRank && oldOp.GetAssociativity() == Associativity.Right)
                         break;
                     term = Consolidate(term);
                 }
