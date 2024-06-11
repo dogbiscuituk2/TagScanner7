@@ -81,7 +81,7 @@
         public static ExpressionType ExpType(this Op op) => _operators[op].ExpressionType;
         public static Associativity GetAssociativity(this Op op) => _operators[op].Associativity;
         public static string GetFormat(this Op op) => _operators[op].Format;
-        public static Rank GetRank(this Op op) => _operators[op].Rank;
+        public static Rank GetRank(this Op op) => op == Op.End ? Rank.None : _operators[op].Rank;
 
         public static bool IsAssignment(this Op op) => (op & Op.Assignment) != 0;
         public static bool IsBinary(this Op op) => (op & Op.Binary) != 0;
