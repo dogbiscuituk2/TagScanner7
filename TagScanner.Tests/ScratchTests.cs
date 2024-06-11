@@ -42,8 +42,8 @@
         public void ScratchTest2()
         {
 #pragma warning disable CS0219 // Variable is assigned but its value is never used
-            var x_1 = true ? false ? 1 : 2 : 3;
-            var x2 = "true ? false ? 1 : 2 : 3";
+            var x_1 = true ? false ? 1 : 2 : false ? 3 : 4;
+            var x2 = "true ? false ? 1 : 2 : false ? 3 : 4";
 #pragma warning restore CS0219 // Variable is assigned but its value is never used
 
             var expected = x_1;
