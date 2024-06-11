@@ -24,8 +24,8 @@
             Add(Op.MultiplyAssign, ExpressionType.MultiplyAssignChecked, Rank.Assignment, Associativity.Right, typeof(object), "*=");
             Add(Op.DivideAssign, ExpressionType.DivideAssign, Rank.Assignment, Associativity.Right, typeof(object), "/=");
             Add(Op.ModuloAssign, ExpressionType.ModuloAssign, Rank.Assignment, Associativity.Right, typeof(object), "%=");
-            Add(Op.Then, ExpressionType.Conditional, Rank.Conditional, Associativity.Right, typeof(object), "?");
-            Add(Op.Else, ExpressionType.Conditional, Rank.Conditional, Associativity.Right, typeof(object), ":");
+            Add(Op.Then, ExpressionType.Conditional, Rank.Conditional, Associativity.None, typeof(object), "?");
+            Add(Op.Else, ExpressionType.Conditional, Rank.Conditional, Associativity.None, typeof(object), ":");
             Add(Op.Or, ExpressionType.OrElse, Rank.ConditionalOr, Associativity.Full, typeof(bool), "||", "OR");
             Add(Op.And, ExpressionType.AndAlso, Rank.ConditionalAnd, Associativity.Full, typeof(bool), "&&", "AND");
             Add(Op.BitwiseOr, ExpressionType.Or, Rank.BitwiseOr, Associativity.Full, typeof(long), "|");

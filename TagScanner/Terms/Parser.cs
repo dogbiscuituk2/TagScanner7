@@ -106,21 +106,20 @@
 
         private Term ParseCompound()
         {
-            Op newOp;
+            Op op;
             Term term = ParseTerm();
             while (PeekToken().IsBinaryOperator())
             {
-                newOp = PopToken().ToBinaryOperator();
-                ApplyOperators();
+                op = PopToken().ToBinaryOperator();
+                ApplyOperators(op);
                 PushTerm(term);
-                PushOperator(newOp);
+                PushOperator(op);
                 term = ParseTerm();
             }
-            newOp = Op.End;
-            ApplyOperators();
+            ApplyOperators(Op.End);
             return term;
 
-            void ApplyOperators()
+            void ApplyOperators(Op newOp)
             {
                 var newRank = newOp.GetRank();
                 while (AnyOperators())
