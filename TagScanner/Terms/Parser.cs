@@ -109,10 +109,10 @@
             Term term = ParseTerm();
             while (PeekToken().IsBinaryOperator())
             {
-                var token = PopToken();
-                ApplyOperators(token.GetRank(unary: false));
+                var newOp = PopToken().ToBinaryOperator();
+                ApplyOperators(newOp.GetRank());
                 PushTerm(term);
-                PushOperator(token.ToBinaryOperator());
+                PushOperator(newOp);
                 term = ParseTerm();
             }
             ApplyOperators();

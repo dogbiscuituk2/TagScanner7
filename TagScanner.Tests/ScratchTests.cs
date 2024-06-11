@@ -43,7 +43,7 @@
         {
 #pragma warning disable CS0219 // Variable is assigned but its value is never used
             var x_1 = true ? false ? 1 : 2 : 3;
-            var x2 = "x := 1; y := 2; true ? false ? 1 : 2 : 3";
+            var x2 = "true ? false ? 1 : 2 : 3";
 #pragma warning restore CS0219 // Variable is assigned but its value is never used
 
             var expected = x_1;
