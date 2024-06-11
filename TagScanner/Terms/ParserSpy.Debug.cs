@@ -39,10 +39,15 @@
             if (action == "EndParse")
             {
                 DrawLine();
-#if VERBOSE
-                Debug.WriteLine("#undef VERBOSE to reduce the level of detail in this output.");
+#if TERSE
+                Debug.WriteLine("#undef TERSE to display the state in a standard, full-frame format.");
 #else
-                Debug.WriteLine("#define VERBOSE to increase the level of detail in this output.");
+                Debug.WriteLine("#define TERSE to display the state in a reduced, partial-frame format.");
+#endif
+#if VERBOSE
+                Debug.WriteLine("#undef VERBOSE to exclude Peek & NewTerm operations from this output.");
+#else
+                Debug.WriteLine("#define VERBOSE to include Peek & NewTerm operations in this output.");
 #endif
             }
             Debug.WriteLine(string.Empty);
@@ -71,21 +76,19 @@
             else
                 Add(string.Empty);
             var result = s.ToString();
-#if VERBOSE
-            Debug.Write(result);
-#else // !VERBOSE
+#if TERSE
             if (prev != result)
             {
                 prev = result;
                 Debug.Write(result);
             }
-#endif // VERBOSE
+#else // !TERSE
+            Debug.Write(result);
+#endif // TERSE
             void Add(string t) => s.AppendLine(Format(string.Empty, string.Empty, header, t));
         }
 
         private static string Format(params object[] values) => string.Format(_format, values);
-
-        private static void Print(params object[] values) => Debug.WriteLine(Format(values));
 
         private static string ListToString(IEnumerable<object> values) =>
             !values.Any() ? string.Empty :
@@ -97,6 +100,8 @@
             o is Op op ? $"{op}" :
             o is Term term ? $"{term.GetType().Say()} {term}" :
             o.ToString();
+
+        private static void Print(params object[] values) => Debug.WriteLine(Format(values));
 #endif // PARSER
     }
 }
