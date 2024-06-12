@@ -1,6 +1,6 @@
 ﻿# _ʞɯɾ_ (pronounced _your_) Language  
   
-The TagScanner7 app uses _ʞɯɾ_ language to interrogate and maintain ID3v2 metadata tags on audiovisual media files. So what is _ʞɯɾ_ language? Here's an example:  
+The TagScanner7 app uses _ʞɯɾ_ language to interrogate and maintain ID3v2 metadata tags on audiovisual media files. So what's _ʞɯɾ_ language? Here's an example:  
   
     Artist = "The Beatles"  
     and (Album.StartsWith("Sgt. Pepper's") or Album.Contains("Beatles"))  
@@ -21,7 +21,8 @@ _ʞɯɾ-program_ = _block_
 _block_ = _\{ statement \{ separator statement ... \} \}_  
 _statement_ = _\{ label ... \} compound | if-statement | switch-statement | do-loop | try-block |_ **break** _|_ **continue** _|_ **goto** _label _|_ **stop**&nbsp;<sup>(2)</sup>  
 _separator_ = _one of_ &nbsp; **\,** &nbsp;&nbsp; **\;**  
-_compound_ = _term \{ binary-op term ... \}_  
+_compound_ = _term \{ binary-op term ... \}_ | _conditional_  
+_conditional_ = _compound_ **?** _compound_ **:** _compound_  
 _term_ = _\{ unary-op | cast ... \} value |_ **(** _block_ **)** _\{ \{_ **.** _\} function ... \}_  
 _value_ = _constant | field | function | variable_  
 _label_ = **\@\"\[\w\_]+\\:"**  
@@ -247,7 +248,7 @@ _datetime_ = **@"\^\\[(\d{4})-(\d\d?)\-(\d\d?)(?: (\d\d?)\\:(\d\d?)(?:\\:(\d\d?)
   
 - ***Comments***, /* using C notation, */ are treated as // whitespace.  
 - **All *functions*** are implemented as extensions, and may be invoked using either member or static syntax, with or without the dot "operator" (which is therefore optional, and treated as whitespace whenever present).  
-- **A *function*'s parentheses** are optional if the number of _terms_ to be enclosed is 0 or 1; otherwise, a semicolon-separated list in parentheses is needed. Note that the definition of a single _term_ allows for the daisy-chaining of any number of follow-on _functions_, and that any initial _cast(s)_ or _unary-ops_ apply to the result of the entire chain.
+- **A *function*'s parentheses** are optional if the number of _terms_ to be enclosed is 0 or 1; otherwise, a comma- or semicolon-separated list in parentheses is needed. Note that the definition of a single _term_ allows for the daisy-chaining of any number of follow-on _functions_, and that any initial _cast(s)_ or _unary-ops_ apply to the result of the entire chain.
   
 So for example, the following filter conditions are all equivalent:  
   
