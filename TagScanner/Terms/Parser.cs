@@ -125,9 +125,9 @@
                 while (AnyOperators())
                 {
                     var oldOp = PeekOperator();
-                    if (oldOp == Op.End || oldOp == Op.Then)
-                        break;
                     var oldRank = oldOp.GetRank();
+                    if (oldOp == Op.End || oldOp == Op.Then || oldRank == Rank.Conditional && newOp == Op.Then)
+                        break;
                     if (oldRank < newRank || oldRank == newRank && oldOp.GetAssociativity() == Associativity.Right)
                         break;
                     term = Consolidate(term);
@@ -439,8 +439,10 @@
             _caseSensitive = caseSensitive;
             BeginParse(program);
             var term = ParseBlock();
+
             if (term is Compound compound)
                 term = PrepareCompound(compound);
+
             return EndParse(term);
         }
 
