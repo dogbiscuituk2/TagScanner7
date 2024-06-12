@@ -4,7 +4,7 @@
     using Terms;
 
     [TestClass]
-    public class ScratchTests : BaseTests
+    public class ConditionalTests : BaseTests
     {
         [DataRow("a := 1, b := 1, a + b == 2 ? \"Andy\" : \"Bill\"", "Andy")]
         [DataRow("a := 1, b := 1, a + b == 3 ? \"Andy\" : \"Bill\"", "Bill")]
@@ -31,7 +31,7 @@
         [DataRow("x := 2; y := 1; x = 1 ? y = 1 ? 11 : 12 : y = 1 ? 21 : 22", 21)]
         [DataRow("x := 2; y := 2; x = 1 ? y = 1 ? 11 : 12 : y = 1 ? 21 : 22", 22)]
         [TestMethod]
-        public void ScratchTest(string text, object expected)
+        public void ConditionalTest(string text, object expected)
         {
             var term = Parser.Parse(text, caseSensitive: false);
             var actual = term.Result;
@@ -39,7 +39,7 @@
         }
 
         [TestMethod]
-        public void ScratchTest2()
+        public void ConditionalTest2()
         {
 #pragma warning disable CS0219 // Variable is assigned but its value is never used
             var x_1 = true ? false ? 1 : 2 : false ? 3 : 4;
@@ -53,7 +53,7 @@
         }
 
         [TestMethod]
-        public void ScratchTest3()
+        public void ConditionalTest3()
         {
             var x2 = "x = 1 ? 2 : 3";
             var term = Parser.Parse(x2, caseSensitive: false);

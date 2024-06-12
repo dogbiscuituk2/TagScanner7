@@ -148,7 +148,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <Compile Include="ScratchTests.cs" />
+    <Compile Include="ConditionalTests.cs" />
     <Compile Include="TestTracks.cs" />
     <Compile Include="FunctionResultTests.cs" />
     <Compile Include="OperationTests.cs" />
