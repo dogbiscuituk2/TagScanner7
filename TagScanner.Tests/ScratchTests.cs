@@ -55,7 +55,6 @@
         [TestMethod]
         public void ScratchTest3()
         {
-            //var x_1 = true ? false ? 1 : 2 : false ? 3 : 4;
             var x2 = "x = 1 ? 2 : 3";
             var term = Parser.Parse(x2, caseSensitive: false);
             return;
