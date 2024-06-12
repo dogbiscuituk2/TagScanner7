@@ -439,10 +439,8 @@
             _caseSensitive = caseSensitive;
             BeginParse(program);
             var term = ParseBlock();
-
             if (term is Compound compound)
                 term = PrepareCompound(compound);
-
             return EndParse(term);
         }
 

@@ -24,45 +24,28 @@
                 DrawLine();
                 _headerShown = true;
             }
-            var skip = action.StartsWith("Peek") || action == "NewTerm";
-#if !VERBOSE
-            if (skip) return;
-#endif // !VERBOSE
-            Print(caller, line, action, ObjectToString(value));
-            if (skip)
+            if (action.StartsWith("Peek") || action == "NewTerm")
                 return;
 
-            Say("Tokens", ref _prevTokens, _tokens, singleLine: true);
-            Say("Operators", ref _prevOperators, _operators.Select(p => ObjectToString(p)), singleLine: true);
-            Say("Terms", ref _prevTerms, _terms, singleLine: false);
+            Print(caller, line, action, ObjectToString(value));
+            Say("Tokens", _tokens);
+            Say("Operators", _operators.Select(p => ObjectToString(p)));
+            Say("Terms", _terms, singleLine: false);
 
             if (action == "EndParse")
-            {
                 DrawLine();
-#if TERSE
-                Debug.WriteLine("#undef TERSE to display the state in a standard, full-frame format.");
-#else
-                Debug.WriteLine("#define TERSE to display the state in a reduced, partial-frame format.");
-#endif
-#if VERBOSE
-                Debug.WriteLine("#undef VERBOSE to exclude Peek & NewTerm operations from this output.");
-#else
-                Debug.WriteLine("#define VERBOSE to include Peek & NewTerm operations in this output.");
-#endif
-            }
             Debug.WriteLine(string.Empty);
         }
 
         private const string _format = "{0,19}{1,6}  {2,12}  {3}";
         private bool _headerShown;
-        private string
-            _prevTokens = null,
-            _prevOperators = null,
-            _prevTerms = null;
 
         private static void DrawLine() => Debug.WriteLine(new string('_', 132) + Environment.NewLine);
 
-        private static void Say(string header, ref string prev, IEnumerable<object> values, bool singleLine)
+        private static void Say(string header, IEnumerable<object> values, bool singleLine = true) =>
+            Say(string.Empty, string.Empty, header, values, singleLine);
+
+        private static void Say(string h1, string h2, string h3, IEnumerable<object> values, bool singleLine)
         {
             var s = new StringBuilder(string.Empty);
             if (singleLine)
@@ -71,21 +54,14 @@
                 foreach (object value in values)
                 {
                     Add(ObjectToString(value));
-                    header = string.Empty;
+                    h1 = h2 = h3 = string.Empty;
                 }
             else
                 Add(string.Empty);
             var result = s.ToString();
-#if TERSE
-            if (prev != result)
-            {
-                prev = result;
-                Debug.Write(result);
-            }
-#else // !TERSE
             Debug.Write(result);
-#endif // TERSE
-            void Add(string t) => s.AppendLine(Format(string.Empty, string.Empty, header, t));
+
+            void Add(string t) => s.AppendLine(Format(h1, h2, h3, t));
         }
 
         private static string Format(params object[] values) => string.Format(_format, values);
