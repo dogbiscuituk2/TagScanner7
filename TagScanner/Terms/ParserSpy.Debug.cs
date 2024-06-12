@@ -5,7 +5,6 @@
     using System.Diagnostics;
     using System.Linq;
     using System.Runtime.CompilerServices;
-    using System.Text;
 
     partial class ParserSpy
     {
@@ -20,18 +19,16 @@
             if (!_headerShown)
             {
                 DrawLine();
-                Print("CALLER", "LINE", "ACTION", "VALUE");
+                Say("CALLER", "LINE", "ACTION", new[] { "VALUE" });
                 DrawLine();
                 _headerShown = true;
             }
             if (action.StartsWith("Peek") || action == "NewTerm")
                 return;
-
-            Print(caller, line, action, ObjectToString(value));
+            Say(caller, line, action, ObjectToString(value).Split('\r', '\n').Where(p => p.Length > 0), singleLine: false);
             Say("Tokens", _tokens);
             Say("Operators", _operators.Select(p => ObjectToString(p)));
             Say("Terms", _terms, singleLine: false);
-
             if (action == "EndParse")
                 DrawLine();
             Debug.WriteLine(string.Empty);
@@ -45,23 +42,20 @@
         private static void Say(string header, IEnumerable<object> values, bool singleLine = true) =>
             Say(string.Empty, string.Empty, header, values, singleLine);
 
-        private static void Say(string h1, string h2, string h3, IEnumerable<object> values, bool singleLine)
+        private static void Say(object h1, object h2, object h3, IEnumerable<object> values, bool singleLine = true)
         {
-            var s = new StringBuilder(string.Empty);
             if (singleLine)
-                Add(ListToString(values));
+                Write(ListToString(values));
             else if (values.Any())
                 foreach (object value in values)
                 {
-                    Add(ObjectToString(value));
+                    Write(ObjectToString(value));
                     h1 = h2 = h3 = string.Empty;
                 }
             else
-                Add(string.Empty);
-            var result = s.ToString();
-            Debug.Write(result);
+                Write(string.Empty);
 
-            void Add(string t) => s.AppendLine(Format(h1, h2, h3, t));
+            void Write(string s) => Debug.WriteLine(Format(h1, h2, h3, s));
         }
 
         private static string Format(params object[] values) => string.Format(_format, values);
@@ -76,8 +70,6 @@
             o is Op op ? $"{op}" :
             o is Term term ? $"{term.GetType().Say()} {term}" :
             o.ToString();
-
-        private static void Print(params object[] values) => Debug.WriteLine(Format(values));
 #endif // PARSER
     }
 }
