@@ -11,6 +11,7 @@
     using Forms;
     using Menus;
     using Models;
+    using TagScanner.Commands;
     using Terms;
 
     public class WpfTableController : WpfGridController
@@ -171,6 +172,7 @@
 
                 View.Child = new GridElement();
                 InitColumns();
+                DataGrid.CellEditEnding += Grid_CellEditEnding;
                 DataGrid.SelectionChanged += Grid_SelectionChanged;
                 RefreshDataSource();
                 SetQuery(Query.ByTitle);
@@ -182,6 +184,7 @@
         #region Event Handlers
 
         private void GridPopupMoreOptions_Click(object sender, EventArgs e) => PopupShellContextMenu();
+        private void Grid_CellEditEnding(object sender, DataGridCellEditEndingEventArgs e) => CellEdit(e);
         private void Grid_SelectionChanged(object sender, SelectionChangedEventArgs e) => OnSelectionChanged();
         private void GroupByArtistAlbum_Click(object sender, EventArgs e) => SetQuery(Query.ByArtistAlbum);
         private void GroupByArtist_Click(object sender, EventArgs e) => SetQuery(Query.ByArtist);
@@ -213,6 +216,18 @@
         #region Private Methods
 
         private void BeginUpdateSelection() => UpdatingSelectionCount++;
+
+        private void CellEdit(DataGridCellEditEndingEventArgs e)
+        {
+            if (e.EditAction == DataGridEditAction.Cancel)
+                e.Cancel = true;
+            if (e.Cancel)
+                return;
+            var track = e.Row.DataContext as Track;
+            var tag = ((TagInfo)e.Column.Header).Tag;
+            var text = ((TextBox)e.EditingElement).Text;
+            MainCommandProcessor.Run(new EditCommand(new Selection(new[] { track }), tag, new List<object> { text }));
+        }
 
         private void EndUpdateSelection()
         {
