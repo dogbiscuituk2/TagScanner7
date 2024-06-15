@@ -1,11 +1,14 @@
 ﻿namespace TagScanner.Commands
 {
+    using System.Collections.Generic;
     using Models;
 
     public abstract class AddRemoveCommand : Command
     {
-        #region Constructor
+        #region Constructors
 
+        public AddRemoveCommand(Track track, bool add) : base(track) => Add = add;
+        public AddRemoveCommand(IEnumerable<Track> tracks, bool add) : base(tracks) => Add = add;
         public AddRemoveCommand(Selection selection, bool add) : base(selection) => Add = add;
 
         #endregion
@@ -32,8 +35,10 @@
 
     public class AddCommand : AddRemoveCommand
     {
-        #region Constructor
+        #region Constructors
 
+        public AddCommand(Track track) : base(track, add: true) { }
+        public AddCommand(IEnumerable<Track> tracks) : base(tracks, add: true) { }
         public AddCommand(Selection selection) : base(selection, add: true) { }
 
         #endregion
@@ -41,8 +46,10 @@
 
     public class RemoveCommand : AddRemoveCommand
     {
-        #region Constructor
+        #region Constructors
 
+        public RemoveCommand(Track track) : base(track, add: true) { }
+        public RemoveCommand(IEnumerable<Track> tracks) : base(tracks, add: true) { }
         public RemoveCommand(Selection selection) : base(selection, add: false) { }
 
         #endregion

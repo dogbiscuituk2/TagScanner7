@@ -226,7 +226,7 @@
             var track = e.Row.DataContext as Track;
             var tag = ((TagInfo)e.Column.Header).Tag;
             var text = ((TextBox)e.EditingElement).Text;
-            MainCommandProcessor.Run(new EditCommand(new Selection(new[] { track }), tag, new List<object> { text }));
+            Run(new EditCommand(track, tag, new List<object> { text }));
         }
 
         private void EndUpdateSelection()

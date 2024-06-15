@@ -426,8 +426,7 @@
                     values[trackIndex, tagIndex] = value;
                 }
             }
-            var command = new ReplaceCommand(new Selection(tracks), tags.ToArray(), values);
-            MainCommandProcessor.Run(command);
+            Run(new ReplaceCommand(tracks, tags, values));
             return true;
         }
 

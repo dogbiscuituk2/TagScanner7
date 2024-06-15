@@ -7,13 +7,11 @@
 
     public class EditCommand : Command
     {
-        #region Constructor
+        #region Constructors
 
-        public EditCommand(Selection selection, Tag tag, List<object> values) : base(selection)
-        {
-            Tag = tag;
-            Values = values;
-        }
+        public EditCommand(Track track, Tag tag, List<object> values) : base(track) { Tag = tag; Values = values; }
+        public EditCommand(IEnumerable<Track> tracks, Tag tag, List<object> values) : base(tracks) { Tag = tag; Values = values; }
+        public EditCommand(Selection selection, Tag tag, List<object> values) : base(selection) { Tag = tag; Values = values; }
 
         #endregion
 

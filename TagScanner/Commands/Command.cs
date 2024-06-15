@@ -7,8 +7,10 @@
 
     public abstract class Command
     {
-        #region Constructor
+        #region Constructors
 
+        protected Command(Track track) : this(new Selection(new[] { track })) { }
+        protected Command(IEnumerable<Track> tracks) : this(new Selection(tracks)) { }
         protected Command(Selection selection) => Selection = selection;
 
         #endregion

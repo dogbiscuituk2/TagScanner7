@@ -1,23 +1,22 @@
 ﻿namespace TagScanner.Commands
 {
+    using System.Collections.Generic;
     using System.Linq;
     using Models;
 
     public class ReplaceCommand : Command
     {
-        #region Constructor
+        #region Constructors
 
-        public ReplaceCommand(Selection selection, Tag[] tags, object[,] values) : base(selection)
-        {
-            Tags = tags;
-            Values = values;
-        }
+        public ReplaceCommand(Track track, IEnumerable<Tag> tags, object[,] values) : base(track) { Tags = tags; Values = values; }
+        public ReplaceCommand(IEnumerable<Track> tracks, IEnumerable<Tag> tags, object[,] values) : base(tracks) { Tags = tags; Values = values; }
+        public ReplaceCommand(Selection selection, IEnumerable<Tag> tags, object[,] values) : base(selection) { Tags = tags; Values = values; }
 
         #endregion
 
         #region Public Properties
 
-        public Tag[] Tags { get; set; }
+        public IEnumerable<Tag> Tags { get; set; }
         public object[,] Values { get; set; }
 
         #endregion
@@ -26,11 +25,12 @@
 
         public override int Run(Model model)
         {
+            var tags = Tags.ToList();
             ChangesCount = 0;
             for (var trackIndex = 0; trackIndex < Tracks.Count; trackIndex++)
                 for (var tagIndex = 0; tagIndex < Tags.Count(); tagIndex++)
                 {
-                    var tag = Tags[tagIndex];
+                    var tag = tags[tagIndex];
                     var value = Values[trackIndex, tagIndex];
                     if (Tracks[trackIndex].ChangeValue(tag, ref value))
                     {

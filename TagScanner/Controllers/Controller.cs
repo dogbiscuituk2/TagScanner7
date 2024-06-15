@@ -27,5 +27,11 @@
         protected Controller Root => Parent == null ? this : Parent.Root;
 
         #endregion
+
+        #region Protected Methods
+
+        protected void Run(Command command, bool spoof = false) => MainCommandProcessor.Run(command, spoof);
+
+        #endregion
     }
 }
