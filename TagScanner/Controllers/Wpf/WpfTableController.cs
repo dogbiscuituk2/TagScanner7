@@ -8,10 +8,10 @@
     using System.Windows.Controls;
     using System.Windows.Data;
     using System.Windows.Forms.Integration;
+    using Commands;
     using Forms;
     using Menus;
     using Models;
-    using TagScanner.Commands;
     using Terms;
 
     public class WpfTableController : WpfGridController
