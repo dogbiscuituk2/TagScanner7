@@ -4,9 +4,9 @@
     using System.ComponentModel;
 
     [Flags]
-    public enum FileStatus
+    public enum Status
     {
-        [Description("Unknown: the item has no recognised FileStatus value.")]
+        [Description("Unknown: the item has no recognised Status value.")]
         Unknown = 0x00,
         [Description("Current: the item's library entry exactly matches its media file.")]
         Current = 0x01,

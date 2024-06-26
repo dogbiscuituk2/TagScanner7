@@ -48,7 +48,7 @@
         string FileNameWithoutExtension { get; }
         string FilePath { get; }
         long FileSize { get; }
-        FileStatus FileStatus { get; }
+        Status Status { get; }
         string FirstAlbumArtist { get; }
         string FirstAlbumArtistSort { get; }
         string FirstArtist { get; } // Obsolete
@@ -57,6 +57,7 @@
         string FirstGenre { get; }
         string FirstPerformer { get; }
         string FirstPerformerSort { get; }
+        string FolderPath { get; }
         string[] Genres { get; set; }
         int GenresCount { get; }
         string Grouping { get; set; }

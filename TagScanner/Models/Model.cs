@@ -55,13 +55,13 @@
 
         public bool ProcessTrack(Track track)
         {
-            switch (track.FileStatus)
+            switch (track.Status)
             {
-                case FileStatus.New: return AddTrack(track);
-                case FileStatus.Pending: return SaveTrack(track);
-                case FileStatus.New | FileStatus.Pending: return AddAndSaveTrack(track);
-                case FileStatus.Updated: return LoadTrack(track);
-                case FileStatus.Deleted: return DropTrack(track);
+                case Status.New: return AddTrack(track);
+                case Status.Pending: return SaveTrack(track);
+                case Status.New | Status.Pending: return AddAndSaveTrack(track);
+                case Status.Updated: return LoadTrack(track);
+                case Status.Deleted: return DropTrack(track);
                 default: return false;
             }
         }

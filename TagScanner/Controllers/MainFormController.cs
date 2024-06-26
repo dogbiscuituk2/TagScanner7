@@ -290,15 +290,15 @@
 
         private bool ContinueSaving()
         {
-            var tracks = Model.Tracks.Where(t => (t.FileStatus & FileStatus.Changed) != 0).ToList();
+            var tracks = Model.Tracks.Where(t => (t.Status & Status.Changed) != 0).ToList();
             if (!tracks.Any())
                 return true;
             var message = new StringBuilder();
-            Say(message, tracks, FileStatus.Changed, Resources.TracksChanged);
-            Say(message, tracks, FileStatus.New, Resources.TracksAdded);
-            Say(message, tracks, FileStatus.Updated, Resources.TracksUpdated);
-            Say(message, tracks, FileStatus.Pending, Resources.TracksPending);
-            Say(message, tracks, FileStatus.Deleted, Resources.TracksDeleted);
+            Say(message, tracks, Status.Changed, Resources.TracksChanged);
+            Say(message, tracks, Status.New, Resources.TracksAdded);
+            Say(message, tracks, Status.Updated, Resources.TracksUpdated);
+            Say(message, tracks, Status.Pending, Resources.TracksPending);
+            Say(message, tracks, Status.Deleted, Resources.TracksDeleted);
             message.Append(Resources.ConfirmSync);
             var decision = MessageBox.Show(
                 View,
@@ -407,9 +407,9 @@
             return result;
         }
 
-        private static void Say(StringBuilder message, List<Track> tracks, FileStatus status, string format)
+        private static void Say(StringBuilder message, List<Track> tracks, Status status, string format)
         {
-            var count = tracks.Count(t => (t.FileStatus & status) != 0);
+            var count = tracks.Count(t => (t.Status & status) != 0);
             if (count > 0)
                 message.AppendFormat(format, count);
         }

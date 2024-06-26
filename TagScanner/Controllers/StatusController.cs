@@ -3,8 +3,9 @@
     using System;
     using System.IO;
     using System.Windows.Forms;
-    using Models;
     using Forms;
+    using Models;
+    using Utils;
 
     public class StatusController : Controller
     {
@@ -37,7 +38,7 @@
                 {
                     progressBar.Maximum = e.Count;
                     progressBar.Value = e.Index;
-                    statusLine.Text = Path.GetDirectoryName(e.Path);
+                    statusLine.Text = Path.GetDirectoryName(e.Path).Escape();
                 }
                 else
                 {

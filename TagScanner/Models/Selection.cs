@@ -688,30 +688,6 @@
         public long FileSize => GetLong(p => p.FileSize, ref _fileSize, true); // Files.Sum(f => f.FileSize);
 
         #endregion
-        #region FileStatus
-
-        private FileStatus _fileStatus = FileStatus.Unknown;
-        [Browsable(true)]
-        [Category(File)]
-        [Column(80)]
-        [Description("An enumeration value containing the combined FileStatus values of all items in the selection. Possible values are:\r\n\r\n"
-                     + "-- Unknown: the item has no recognised FileStatus value.\r\n"
-                     + "-- Current: the item's library entry exactly matches its media file.\r\n"
-                     + "-- New: the item's media file does not yet have a corresponding saved library entry.\r\n"
-                     + "-- Pending: the item's library entry contains more recent edits than its media file.\r\n"
-                     + "-- Updated: the item's media file contains more recent edits than its library entry.\r\n"
-                     + "-- Deleted: the item's media file no longer exists; its library entry is orphaned.\r\n"
-                     + "-- Changed: the item's status is a combination of New, Pending, Updated and/or Deleted.\r\n\r\n"
-                     + "During the synchronization process, Changed items are processed as follows:\r\n\r\n"
-                     + "-- New items are added to the library.\r\n"
-                     + "-- Pending edits are applied to the corresponding media files.\r\n"
-                     + "-- Updated items have their library entries brought up to date.\r\n"
-                     + "-- Deleted items are removed from the library.")]
-        [DisplayName("File Status")]
-        [ReadOnly(true)]
-        public FileStatus FileStatus => GetFileStatus(p => p.FileStatus, ref _fileStatus);
-
-        #endregion
         #region FirstAlbumArtist
 
         private string _firstAlbumArtist;
@@ -815,6 +791,18 @@
         [ReadOnly(true)]
         [Uses(Tag.PerformersSort)]
         public string FirstPerformerSort => GetString(p => p.FirstPerformerSort, ref _firstPerformerSort);
+
+        #endregion
+        #region FolderPath
+
+        private string _folderPath;
+        [Browsable(false)]
+        [Category(File)]
+        [Column(320)]
+        [Description("A string containing just the directory portion of the full path to the media file in the filesystem.")]
+        [DisplayName("Folder Path")]
+        [ReadOnly(true)]
+        public string FolderPath => GetString(p => p.FolderPath, ref _folderPath);
 
         #endregion
         #region Genres
@@ -1661,6 +1649,30 @@
         public Logical PossiblyCorrupt => GetLogical(p => p.PossiblyCorrupt, ref _possiblyCorrupt);
 
         #endregion
+        #region Status
+
+        private Status _status = Status.Unknown;
+        [Browsable(true)]
+        [Category(Metadata)]
+        [Column(80)]
+        [Description("An enumeration value containing the combined Status values of all items in the selection. Possible values are:\r\n\r\n"
+                     + "-- Unknown: the item has no recognised Status value.\r\n"
+                     + "-- Current: the item's library entry exactly matches its media file.\r\n"
+                     + "-- New: the item's media file does not yet have a corresponding saved library entry.\r\n"
+                     + "-- Pending: the item's library entry contains more recent edits than its media file.\r\n"
+                     + "-- Updated: the item's media file contains more recent edits than its library entry.\r\n"
+                     + "-- Deleted: the item's media file no longer exists; its library entry is orphaned.\r\n"
+                     + "-- Changed: the item's status is a combination of New, Pending, Updated and/or Deleted.\r\n\r\n"
+                     + "During the synchronization process, Changed items are processed as follows:\r\n\r\n"
+                     + "-- New items are added to the library.\r\n"
+                     + "-- Pending edits are applied to the corresponding media files.\r\n"
+                     + "-- Updated items have their library entries brought up to date.\r\n"
+                     + "-- Deleted items are removed from the library.")]
+        [DisplayName("Status")]
+        [ReadOnly(true)]
+        public Status Status => GetStatus(p => p.Status, ref _status);
+
+        #endregion
         #region TagTypes
 
         private TagLib.TagTypes _tagTypes = TagLib.TagTypes.AllTags;
@@ -2015,15 +2027,6 @@
             return result;
         }
 
-        private FileStatus GetFileStatus(Func<Track, FileStatus> getFileStatus, ref FileStatus result)
-        {
-            if (result == FileStatus.Unknown && Tracks != null)
-                result = Tracks
-                    .Select(getFileStatus)
-                    .Aggregate(result, (p, q) => p | q);
-            return result;
-        }
-
         private TagLib.Image.ImageOrientation GetImageOrientation(
             Func<Track, TagLib.Image.ImageOrientation> getImageOrientation,
             ref TagLib.Image.ImageOrientation result)
@@ -2139,6 +2142,15 @@
                     }
                 result = pictureList.ToArray();
             }
+            return result;
+        }
+
+        private Status GetStatus(Func<Track, Status> getStatus, ref Status result)
+        {
+            if (result == Status.Unknown && Tracks != null)
+                result = Tracks
+                    .Select(getStatus)
+                    .Aggregate(result, (p, q) => p | q);
             return result;
         }
 
@@ -2272,7 +2284,7 @@
         private void InvalidateMiscellaneousFields() // 10 fields
         {
             _duration = TimeSpan.MaxValue;
-            _fileStatus = FileStatus.Unknown;
+            _status = Status.Unknown;
             _imageOrientation = TagLib.Image.ImageOrientation.None;
             _isClassical = _isEmpty = _possiblyCorrupt = Logical.Unknown;
             _mediaTypes = AllMediaTypes;

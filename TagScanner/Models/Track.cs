@@ -317,26 +317,26 @@
         }
 
         [JsonIgnore, XmlIgnore]
-        public FileStatus FileStatus
+        public Status Status
         {
             get
             {
                 if (!FileExists)
-                    return FileStatus.Deleted;
+                    return Status.Deleted;
                 if (IsNew)
-                    return IsModified ? FileStatus.New | FileStatus.Pending : FileStatus.New;
+                    return IsModified ? Status.New | Status.Pending : Status.New;
                 if (IsModified)
-                    return FileStatus.Pending;
+                    return Status.Pending;
                 // TODO: check for resolution inaccuracies & daylight saving time transitions.
                 var elapsedTime = FileLastWriteTimeUtc - File.GetLastWriteTimeUtc(FilePath);
                 switch (Math.Sign(elapsedTime.Ticks))
                 {
                     case +1:
-                        return FileStatus.Pending;
+                        return Status.Pending;
                     case -1:
-                        return FileStatus.Updated;
+                        return Status.Updated;
                 }
-                return FileStatus.Current;
+                return Status.Current;
             }
         }
 
@@ -403,6 +403,9 @@
             get => Get(_firstPerformerSort);
             set => Set(ref _firstPerformerSort, value);
         }
+
+        [JsonIgnore, XmlIgnore]
+        public string FolderPath => Path.GetDirectoryName(FilePath);
 
         private string[] _genres = Array.Empty<string>();
         public string[] Genres
@@ -938,7 +941,7 @@
                 case Tag.FileNameWithoutExtension: return FileNameWithoutExtension;
                 case Tag.FilePath: return FilePath;
                 case Tag.FileSize: return FileSize;
-                case Tag.FileStatus: return FileStatus;
+                case Tag.Status: return Status;
                 case Tag.FirstAlbumArtist: return FirstAlbumArtist;
                 case Tag.FirstAlbumArtistSort: return FirstAlbumArtistSort;
                 case Tag.FirstArtist: return FirstArtist;
