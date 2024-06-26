@@ -387,7 +387,7 @@
         {
             if (Clipboard.ContainsFileDropList())
                 PasteFileDropList();
-            if (Clipboard.ContainsText())
+            else if (Clipboard.ContainsText())
                 PasteXmlDocument();
         }
 

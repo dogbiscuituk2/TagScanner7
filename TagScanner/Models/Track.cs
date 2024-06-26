@@ -1123,12 +1123,19 @@
             }
         }
 
-        public void Load()
+        public void Load() => Load(p => true);
+
+        public bool Load(Func<Track, bool> fileFilter)
         {
             ReadFileMetadata();
-            using (var file = GetTagLibFile())
-                ReadTagFile(file);
-            IsModified = false;
+            var result = fileFilter(this);
+            if (result)
+            {
+                using (var file = GetTagLibFile())
+                    ReadTagFile(file);
+                IsModified = false;
+            }
+            return result;
         }
 
         public void Save()
