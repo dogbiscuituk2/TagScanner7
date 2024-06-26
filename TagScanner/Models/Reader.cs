@@ -74,11 +74,11 @@
             return progressEventArgs.Continue;
         }
 
-        private bool DoAddTracks(IEnumerable<string> filePathList)
+        private bool DoAddTracks(IEnumerable<string> filePaths)
         {
             try
             {
-                return filePathList.FirstOrDefault(p => !DoAddTrack(p)) == null;
+                return filePaths.FirstOrDefault(p => !DoAddTrack(p)) == null;
             }
             catch (Exception exception)
             {
