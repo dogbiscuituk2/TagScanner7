@@ -6,9 +6,19 @@
 
     public class FileFilterController : Controller
     {
+        #region Constructor
+
         public FileFilterController(Controller parent) : base(parent) { }
 
+        #endregion
+
+        #region Public Properties
+
         public FileFilterDialog View => _fileFilterDialog ?? (_fileFilterDialog = new FileFilterDialog());
+
+        #endregion
+
+        #region Public Methods
 
         public bool Execute(ref FileFilter filter)
         {
@@ -18,6 +28,16 @@
                 filter = Process(new FileFilter(), loading: false);
             return ok;
         }
+
+        #endregion
+
+        #region Private Fields
+
+        private FileFilterDialog _fileFilterDialog;
+
+        #endregion
+
+        #region Private Methods
 
         private FileFilter Process(FileFilter filter, bool loading)
         {
@@ -87,6 +107,6 @@
             void SetFlag(FileFilterFlags flag) => filter.Flags |= flag;
         }
 
-        private FileFilterDialog _fileFilterDialog;
+        #endregion
     }
 }
