@@ -42,6 +42,7 @@
             PictureController = new PictureController(View.PictureBox, View.PropertyGrid, PlayerController.PlaylistGrid);
             PropertyGridController = new PropertyGridController(this);
             StatusController = new StatusController(this);
+            MaskController = new MaskController(this);
             FindReplaceController = new FindReplaceController(this);
             AutoCompleter = new AutoCompleter(this, View.FindReplaceControl.cbFind, View.FindReplaceControl.cbReplace, View.FilterControl.cbFilter);
             FilterController.UpdateAutoComplete();
@@ -58,6 +59,7 @@
         public readonly DragDropController DragDropController;
         public readonly FilterController FilterController;
         public readonly FindReplaceController FindReplaceController;
+        public readonly MaskController MaskController;
         public readonly MruLibraryController LibraryController;
         public readonly MruMediaController MediaController;
         public readonly Model Model;

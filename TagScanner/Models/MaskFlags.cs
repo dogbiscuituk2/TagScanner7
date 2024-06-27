@@ -3,7 +3,7 @@
     using System;
 
     [Flags]
-    public enum FileFilterFlags
+    public enum MaskFlags
     {
         DateCreatedMin = 1 << 0,
         DateCreatedMax = 1 << 1,

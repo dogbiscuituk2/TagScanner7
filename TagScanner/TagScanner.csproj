@@ -154,7 +154,7 @@
     <Compile Include="Commands\ReplaceCommand.cs" />
     <Compile Include="Controllers\AutoCompleter.cs" />
     <Compile Include="Controllers\DragDropController.cs" />
-    <Compile Include="Controllers\FileFilterController.cs" />
+    <Compile Include="Controllers\MaskController.cs" />
     <Compile Include="Controllers\FilterController.cs" />
     <Compile Include="Controllers\AppController.cs" />
     <Compile Include="Controllers\FindReplaceController.cs" />
@@ -181,15 +181,15 @@
     <Compile Include="Controls\FirstClickToolStrip.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="Forms\FileFilterDialog.cs">
+    <Compile Include="Forms\MaskDialog.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Forms\FileFilterDialog.Designer.cs">
-      <DependentUpon>FileFilterDialog.cs</DependentUpon>
+    <Compile Include="Forms\MaskDialog.Designer.cs">
+      <DependentUpon>MaskDialog.cs</DependentUpon>
     </Compile>
     <Compile Include="Menus\ShellContextMenu.cs" />
-    <Compile Include="Models\FileFilter.cs" />
-    <Compile Include="Models\FileFilterFlags.cs" />
+    <Compile Include="Models\Mask.cs" />
+    <Compile Include="Models\MaskFlags.cs" />
     <Compile Include="Models\FindReplaceResult.cs" />
     <Compile Include="Models\Query.cs" />
     <Compile Include="Models\SelectionEventArgs.cs" />
@@ -358,8 +358,8 @@
     <EmbeddedResource Include="Controls\FindReplaceControl.resx">
       <DependentUpon>FindReplaceControl.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Forms\FileFilterDialog.resx">
-      <DependentUpon>FileFilterDialog.cs</DependentUpon>
+    <EmbeddedResource Include="Forms\MaskDialog.resx">
+      <DependentUpon>MaskDialog.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\InputBox.resx">
       <DependentUpon>InputBox.cs</DependentUpon>
