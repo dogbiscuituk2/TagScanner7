@@ -29,37 +29,61 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.TreeNode treeNode17 = new System.Windows.Forms.TreeNode("*.m4a");
-            System.Windows.Forms.TreeNode treeNode18 = new System.Windows.Forms.TreeNode("*.mp3");
-            System.Windows.Forms.TreeNode treeNode19 = new System.Windows.Forms.TreeNode("*.wma");
-            System.Windows.Forms.TreeNode treeNode20 = new System.Windows.Forms.TreeNode("Audio Files", new System.Windows.Forms.TreeNode[] {
+            System.Windows.Forms.TreeNode treeNode1 = new System.Windows.Forms.TreeNode("Advanced Audio Coding (*.aac)");
+            System.Windows.Forms.TreeNode treeNode2 = new System.Windows.Forms.TreeNode("Audio Interchange (*.aiff)");
+            System.Windows.Forms.TreeNode treeNode3 = new System.Windows.Forms.TreeNode("Free Lossless Audio Codec (*.flac)");
+            System.Windows.Forms.TreeNode treeNode4 = new System.Windows.Forms.TreeNode("Monkey\'s Audio (*.ape)");
+            System.Windows.Forms.TreeNode treeNode5 = new System.Windows.Forms.TreeNode("MPEG Audio Layer-3 (*.mp3)");
+            System.Windows.Forms.TreeNode treeNode6 = new System.Windows.Forms.TreeNode("MPEG-4 Audio (*.m4a)");
+            System.Windows.Forms.TreeNode treeNode7 = new System.Windows.Forms.TreeNode("Ogg Vorbis (*.ogg)");
+            System.Windows.Forms.TreeNode treeNode8 = new System.Windows.Forms.TreeNode("Real Audio (*.ra)");
+            System.Windows.Forms.TreeNode treeNode9 = new System.Windows.Forms.TreeNode("Waveform Audio (*.wav)");
+            System.Windows.Forms.TreeNode treeNode10 = new System.Windows.Forms.TreeNode("Windows Media Audio (*.wma)");
+            System.Windows.Forms.TreeNode treeNode11 = new System.Windows.Forms.TreeNode("Audio", new System.Windows.Forms.TreeNode[] {
+            treeNode1,
+            treeNode2,
+            treeNode3,
+            treeNode4,
+            treeNode5,
+            treeNode6,
+            treeNode7,
+            treeNode8,
+            treeNode9,
+            treeNode10});
+            System.Windows.Forms.TreeNode treeNode12 = new System.Windows.Forms.TreeNode("Advanced Video Coding (*.avchd)");
+            System.Windows.Forms.TreeNode treeNode13 = new System.Windows.Forms.TreeNode("Audio Video Interleave (*.avi)");
+            System.Windows.Forms.TreeNode treeNode14 = new System.Windows.Forms.TreeNode("Flash (*.flv)");
+            System.Windows.Forms.TreeNode treeNode15 = new System.Windows.Forms.TreeNode("Matroska Video (*.mkv)");
+            System.Windows.Forms.TreeNode treeNode16 = new System.Windows.Forms.TreeNode("MPEG-4 Part 14 (*.mp4)");
+            System.Windows.Forms.TreeNode treeNode17 = new System.Windows.Forms.TreeNode("QuickTime (*.mov)");
+            System.Windows.Forms.TreeNode treeNode18 = new System.Windows.Forms.TreeNode("Web Media (*.webm)");
+            System.Windows.Forms.TreeNode treeNode19 = new System.Windows.Forms.TreeNode("Windows Media Video (*.wmv)");
+            System.Windows.Forms.TreeNode treeNode20 = new System.Windows.Forms.TreeNode("Video", new System.Windows.Forms.TreeNode[] {
+            treeNode12,
+            treeNode13,
+            treeNode14,
+            treeNode15,
+            treeNode16,
             treeNode17,
             treeNode18,
             treeNode19});
-            System.Windows.Forms.TreeNode treeNode21 = new System.Windows.Forms.TreeNode("*.avi");
-            System.Windows.Forms.TreeNode treeNode22 = new System.Windows.Forms.TreeNode("*.mp4");
-            System.Windows.Forms.TreeNode treeNode23 = new System.Windows.Forms.TreeNode("*.wmv");
-            System.Windows.Forms.TreeNode treeNode24 = new System.Windows.Forms.TreeNode("Video Files", new System.Windows.Forms.TreeNode[] {
+            System.Windows.Forms.TreeNode treeNode21 = new System.Windows.Forms.TreeNode("*.bmp");
+            System.Windows.Forms.TreeNode treeNode22 = new System.Windows.Forms.TreeNode("*.gif");
+            System.Windows.Forms.TreeNode treeNode23 = new System.Windows.Forms.TreeNode("*.jpeg");
+            System.Windows.Forms.TreeNode treeNode24 = new System.Windows.Forms.TreeNode("*.jpg");
+            System.Windows.Forms.TreeNode treeNode25 = new System.Windows.Forms.TreeNode("*.png");
+            System.Windows.Forms.TreeNode treeNode26 = new System.Windows.Forms.TreeNode("Images", new System.Windows.Forms.TreeNode[] {
             treeNode21,
             treeNode22,
-            treeNode23});
-            System.Windows.Forms.TreeNode treeNode25 = new System.Windows.Forms.TreeNode("*.bmp");
-            System.Windows.Forms.TreeNode treeNode26 = new System.Windows.Forms.TreeNode("*.gif");
-            System.Windows.Forms.TreeNode treeNode27 = new System.Windows.Forms.TreeNode("*.jpeg");
-            System.Windows.Forms.TreeNode treeNode28 = new System.Windows.Forms.TreeNode("*.jpg");
-            System.Windows.Forms.TreeNode treeNode29 = new System.Windows.Forms.TreeNode("*.png");
-            System.Windows.Forms.TreeNode treeNode30 = new System.Windows.Forms.TreeNode("Image Files", new System.Windows.Forms.TreeNode[] {
-            treeNode25,
-            treeNode26,
-            treeNode27,
-            treeNode28,
-            treeNode29});
-            System.Windows.Forms.TreeNode treeNode31 = new System.Windows.Forms.TreeNode("Custom Files");
-            System.Windows.Forms.TreeNode treeNode32 = new System.Windows.Forms.TreeNode("All Files (*.*)", new System.Windows.Forms.TreeNode[] {
-            treeNode20,
+            treeNode23,
             treeNode24,
-            treeNode30,
-            treeNode31});
+            treeNode25});
+            System.Windows.Forms.TreeNode treeNode27 = new System.Windows.Forms.TreeNode("Other");
+            System.Windows.Forms.TreeNode treeNode28 = new System.Windows.Forms.TreeNode("All Files (*.*)", new System.Windows.Forms.TreeNode[] {
+            treeNode11,
+            treeNode20,
+            treeNode26,
+            treeNode27});
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MaskDialog));
             this.label1 = new System.Windows.Forms.Label();
             this.dtpCreatedMin = new System.Windows.Forms.DateTimePicker();
@@ -108,7 +132,7 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(232, 58);
+            this.label1.Location = new System.Drawing.Point(331, 58);
             this.label1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(54, 17);
@@ -119,7 +143,7 @@
             // dtpCreatedMin
             // 
             this.dtpCreatedMin.Format = System.Windows.Forms.DateTimePickerFormat.Short;
-            this.dtpCreatedMin.Location = new System.Drawing.Point(325, 55);
+            this.dtpCreatedMin.Location = new System.Drawing.Point(424, 55);
             this.dtpCreatedMin.Margin = new System.Windows.Forms.Padding(4);
             this.dtpCreatedMin.Name = "dtpCreatedMin";
             this.dtpCreatedMin.Size = new System.Drawing.Size(105, 25);
@@ -130,7 +154,7 @@
             // dtpCreatedMax
             // 
             this.dtpCreatedMax.Format = System.Windows.Forms.DateTimePickerFormat.Short;
-            this.dtpCreatedMax.Location = new System.Drawing.Point(461, 56);
+            this.dtpCreatedMax.Location = new System.Drawing.Point(560, 56);
             this.dtpCreatedMax.Margin = new System.Windows.Forms.Padding(4);
             this.dtpCreatedMax.Name = "dtpCreatedMax";
             this.dtpCreatedMax.Size = new System.Drawing.Size(104, 25);
@@ -140,7 +164,7 @@
             // dtpModifiedMax
             // 
             this.dtpModifiedMax.Format = System.Windows.Forms.DateTimePickerFormat.Short;
-            this.dtpModifiedMax.Location = new System.Drawing.Point(461, 90);
+            this.dtpModifiedMax.Location = new System.Drawing.Point(560, 90);
             this.dtpModifiedMax.Margin = new System.Windows.Forms.Padding(4);
             this.dtpModifiedMax.Name = "dtpModifiedMax";
             this.dtpModifiedMax.Size = new System.Drawing.Size(104, 25);
@@ -150,7 +174,7 @@
             // dtpModifiedMin
             // 
             this.dtpModifiedMin.Format = System.Windows.Forms.DateTimePickerFormat.Short;
-            this.dtpModifiedMin.Location = new System.Drawing.Point(326, 89);
+            this.dtpModifiedMin.Location = new System.Drawing.Point(425, 89);
             this.dtpModifiedMin.Margin = new System.Windows.Forms.Padding(4);
             this.dtpModifiedMin.Name = "dtpModifiedMin";
             this.dtpModifiedMin.Size = new System.Drawing.Size(104, 25);
@@ -160,7 +184,7 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(232, 92);
+            this.label2.Location = new System.Drawing.Point(331, 92);
             this.label2.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(61, 17);
@@ -171,7 +195,7 @@
             // dtpAccessedMax
             // 
             this.dtpAccessedMax.Format = System.Windows.Forms.DateTimePickerFormat.Short;
-            this.dtpAccessedMax.Location = new System.Drawing.Point(461, 121);
+            this.dtpAccessedMax.Location = new System.Drawing.Point(560, 121);
             this.dtpAccessedMax.Margin = new System.Windows.Forms.Padding(4);
             this.dtpAccessedMax.Name = "dtpAccessedMax";
             this.dtpAccessedMax.Size = new System.Drawing.Size(104, 25);
@@ -181,7 +205,7 @@
             // dtpAccessedMin
             // 
             this.dtpAccessedMin.Format = System.Windows.Forms.DateTimePickerFormat.Short;
-            this.dtpAccessedMin.Location = new System.Drawing.Point(326, 123);
+            this.dtpAccessedMin.Location = new System.Drawing.Point(425, 123);
             this.dtpAccessedMin.Margin = new System.Windows.Forms.Padding(4);
             this.dtpAccessedMin.Name = "dtpAccessedMin";
             this.dtpAccessedMin.Size = new System.Drawing.Size(104, 25);
@@ -191,7 +215,7 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(232, 126);
+            this.label3.Location = new System.Drawing.Point(331, 126);
             this.label3.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(62, 17);
@@ -201,7 +225,7 @@
             // 
             // label4
             // 
-            this.label4.Location = new System.Drawing.Point(289, 17);
+            this.label4.Location = new System.Drawing.Point(388, 17);
             this.label4.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(42, 30);
@@ -211,7 +235,7 @@
             // 
             // label5
             // 
-            this.label5.Location = new System.Drawing.Point(421, 15);
+            this.label5.Location = new System.Drawing.Point(520, 15);
             this.label5.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(51, 30);
@@ -222,7 +246,7 @@
             // cbFileSizeMin
             // 
             this.cbFileSizeMin.AutoSize = true;
-            this.cbFileSizeMin.Location = new System.Drawing.Point(302, 163);
+            this.cbFileSizeMin.Location = new System.Drawing.Point(401, 163);
             this.cbFileSizeMin.Margin = new System.Windows.Forms.Padding(4);
             this.cbFileSizeMin.Name = "cbFileSizeMin";
             this.cbFileSizeMin.Size = new System.Drawing.Size(15, 14);
@@ -233,7 +257,7 @@
             // label6
             // 
             this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(232, 160);
+            this.label6.Location = new System.Drawing.Point(331, 160);
             this.label6.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(54, 17);
@@ -244,7 +268,7 @@
             // cbFileSizeMax
             // 
             this.cbFileSizeMax.AutoSize = true;
-            this.cbFileSizeMax.Location = new System.Drawing.Point(439, 161);
+            this.cbFileSizeMax.Location = new System.Drawing.Point(538, 161);
             this.cbFileSizeMax.Margin = new System.Windows.Forms.Padding(4);
             this.cbFileSizeMax.Name = "cbFileSizeMax";
             this.cbFileSizeMax.Size = new System.Drawing.Size(15, 14);
@@ -255,7 +279,7 @@
             // label7
             // 
             this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(232, 197);
+            this.label7.Location = new System.Drawing.Point(331, 197);
             this.label7.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(67, 17);
@@ -266,7 +290,7 @@
             // label8
             // 
             this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(232, 233);
+            this.label8.Location = new System.Drawing.Point(331, 233);
             this.label8.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(50, 17);
@@ -277,7 +301,7 @@
             // label9
             // 
             this.label9.AutoSize = true;
-            this.label9.Location = new System.Drawing.Point(391, 198);
+            this.label9.Location = new System.Drawing.Point(490, 198);
             this.label9.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label9.Name = "label9";
             this.label9.Size = new System.Drawing.Size(49, 17);
@@ -288,7 +312,7 @@
             // label10
             // 
             this.label10.AutoSize = true;
-            this.label10.Location = new System.Drawing.Point(391, 233);
+            this.label10.Location = new System.Drawing.Point(490, 233);
             this.label10.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label10.Name = "label10";
             this.label10.Size = new System.Drawing.Size(50, 17);
@@ -304,7 +328,7 @@
             "",
             "Set",
             "Clear"});
-            this.cbAttrReadOnly.Location = new System.Drawing.Point(302, 193);
+            this.cbAttrReadOnly.Location = new System.Drawing.Point(401, 193);
             this.cbAttrReadOnly.Margin = new System.Windows.Forms.Padding(4);
             this.cbAttrReadOnly.Name = "cbAttrReadOnly";
             this.cbAttrReadOnly.Size = new System.Drawing.Size(67, 25);
@@ -319,7 +343,7 @@
             "",
             "Set",
             "Clear"});
-            this.cbAttrHidden.Location = new System.Drawing.Point(302, 229);
+            this.cbAttrHidden.Location = new System.Drawing.Point(401, 229);
             this.cbAttrHidden.Margin = new System.Windows.Forms.Padding(4);
             this.cbAttrHidden.Name = "cbAttrHidden";
             this.cbAttrHidden.Size = new System.Drawing.Size(67, 25);
@@ -334,7 +358,7 @@
             "",
             "Set",
             "Clear"});
-            this.cbAttrSystem.Location = new System.Drawing.Point(461, 194);
+            this.cbAttrSystem.Location = new System.Drawing.Point(560, 194);
             this.cbAttrSystem.Margin = new System.Windows.Forms.Padding(4);
             this.cbAttrSystem.Name = "cbAttrSystem";
             this.cbAttrSystem.Size = new System.Drawing.Size(67, 25);
@@ -349,7 +373,7 @@
             "",
             "Set",
             "Clear"});
-            this.cbAttrArchive.Location = new System.Drawing.Point(461, 229);
+            this.cbAttrArchive.Location = new System.Drawing.Point(560, 229);
             this.cbAttrArchive.Margin = new System.Windows.Forms.Padding(4);
             this.cbAttrArchive.Name = "cbAttrArchive";
             this.cbAttrArchive.Size = new System.Drawing.Size(67, 25);
@@ -359,7 +383,7 @@
             // btnOK
             // 
             this.btnOK.DialogResult = System.Windows.Forms.DialogResult.OK;
-            this.btnOK.Location = new System.Drawing.Point(404, 270);
+            this.btnOK.Location = new System.Drawing.Point(503, 270);
             this.btnOK.Margin = new System.Windows.Forms.Padding(4);
             this.btnOK.Name = "btnOK";
             this.btnOK.Size = new System.Drawing.Size(88, 30);
@@ -370,7 +394,7 @@
             // btnCancel
             // 
             this.btnCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.btnCancel.Location = new System.Drawing.Point(500, 270);
+            this.btnCancel.Location = new System.Drawing.Point(599, 270);
             this.btnCancel.Margin = new System.Windows.Forms.Padding(4);
             this.btnCancel.Name = "btnCancel";
             this.btnCancel.Size = new System.Drawing.Size(88, 30);
@@ -380,18 +404,19 @@
             // 
             // label11
             // 
-            this.label11.Location = new System.Drawing.Point(232, 17);
+            this.label11.Location = new System.Drawing.Point(331, 17);
             this.label11.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label11.Name = "label11";
             this.label11.Size = new System.Drawing.Size(49, 30);
             this.label11.TabIndex = 39;
             this.label11.Text = "Date";
             this.label11.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.label11.Visible = false;
             // 
             // cbCreatedUtc
             // 
             this.cbCreatedUtc.AutoSize = true;
-            this.cbCreatedUtc.Location = new System.Drawing.Point(573, 61);
+            this.cbCreatedUtc.Location = new System.Drawing.Point(672, 61);
             this.cbCreatedUtc.Margin = new System.Windows.Forms.Padding(4);
             this.cbCreatedUtc.Name = "cbCreatedUtc";
             this.cbCreatedUtc.Size = new System.Drawing.Size(15, 14);
@@ -402,7 +427,7 @@
             // cbModifiedUtc
             // 
             this.cbModifiedUtc.AutoSize = true;
-            this.cbModifiedUtc.Location = new System.Drawing.Point(573, 94);
+            this.cbModifiedUtc.Location = new System.Drawing.Point(672, 94);
             this.cbModifiedUtc.Margin = new System.Windows.Forms.Padding(4);
             this.cbModifiedUtc.Name = "cbModifiedUtc";
             this.cbModifiedUtc.Size = new System.Drawing.Size(15, 14);
@@ -413,7 +438,7 @@
             // cbAccessedUtc
             // 
             this.cbAccessedUtc.AutoSize = true;
-            this.cbAccessedUtc.Location = new System.Drawing.Point(573, 128);
+            this.cbAccessedUtc.Location = new System.Drawing.Point(672, 128);
             this.cbAccessedUtc.Margin = new System.Windows.Forms.Padding(4);
             this.cbAccessedUtc.Name = "cbAccessedUtc";
             this.cbAccessedUtc.Size = new System.Drawing.Size(15, 14);
@@ -424,7 +449,7 @@
             // cbCreatedMin
             // 
             this.cbCreatedMin.AutoSize = true;
-            this.cbCreatedMin.Location = new System.Drawing.Point(302, 61);
+            this.cbCreatedMin.Location = new System.Drawing.Point(401, 61);
             this.cbCreatedMin.Margin = new System.Windows.Forms.Padding(4);
             this.cbCreatedMin.Name = "cbCreatedMin";
             this.cbCreatedMin.Size = new System.Drawing.Size(15, 14);
@@ -435,7 +460,7 @@
             // cbModifiedMin
             // 
             this.cbModifiedMin.AutoSize = true;
-            this.cbModifiedMin.Location = new System.Drawing.Point(302, 95);
+            this.cbModifiedMin.Location = new System.Drawing.Point(401, 95);
             this.cbModifiedMin.Margin = new System.Windows.Forms.Padding(4);
             this.cbModifiedMin.Name = "cbModifiedMin";
             this.cbModifiedMin.Size = new System.Drawing.Size(15, 14);
@@ -446,7 +471,7 @@
             // cbAccessedMin
             // 
             this.cbAccessedMin.AutoSize = true;
-            this.cbAccessedMin.Location = new System.Drawing.Point(302, 129);
+            this.cbAccessedMin.Location = new System.Drawing.Point(401, 129);
             this.cbAccessedMin.Margin = new System.Windows.Forms.Padding(4);
             this.cbAccessedMin.Name = "cbAccessedMin";
             this.cbAccessedMin.Size = new System.Drawing.Size(15, 14);
@@ -457,7 +482,7 @@
             // cbAccessedMax
             // 
             this.cbAccessedMax.AutoSize = true;
-            this.cbAccessedMax.Location = new System.Drawing.Point(438, 128);
+            this.cbAccessedMax.Location = new System.Drawing.Point(537, 128);
             this.cbAccessedMax.Margin = new System.Windows.Forms.Padding(4);
             this.cbAccessedMax.Name = "cbAccessedMax";
             this.cbAccessedMax.Size = new System.Drawing.Size(15, 14);
@@ -468,7 +493,7 @@
             // cbModifiedMax
             // 
             this.cbModifiedMax.AutoSize = true;
-            this.cbModifiedMax.Location = new System.Drawing.Point(438, 95);
+            this.cbModifiedMax.Location = new System.Drawing.Point(537, 95);
             this.cbModifiedMax.Margin = new System.Windows.Forms.Padding(4);
             this.cbModifiedMax.Name = "cbModifiedMax";
             this.cbModifiedMax.Size = new System.Drawing.Size(15, 14);
@@ -479,7 +504,7 @@
             // cbCreatedMax
             // 
             this.cbCreatedMax.AutoSize = true;
-            this.cbCreatedMax.Location = new System.Drawing.Point(438, 61);
+            this.cbCreatedMax.Location = new System.Drawing.Point(537, 61);
             this.cbCreatedMax.Margin = new System.Windows.Forms.Padding(4);
             this.cbCreatedMax.Name = "cbCreatedMax";
             this.cbCreatedMax.Size = new System.Drawing.Size(15, 14);
@@ -489,46 +514,84 @@
             // 
             // TreeView
             // 
-            this.TreeView.Location = new System.Drawing.Point(14, 16);
+            this.TreeView.Location = new System.Drawing.Point(13, 13);
             this.TreeView.Margin = new System.Windows.Forms.Padding(4);
             this.TreeView.Name = "TreeView";
-            treeNode17.Name = "Node6";
-            treeNode17.Text = "*.m4a";
-            treeNode18.Name = "Node4";
-            treeNode18.Text = "*.mp3";
-            treeNode19.Name = "Node5";
-            treeNode19.Text = "*.wma";
-            treeNode20.Name = "Node0";
-            treeNode20.Text = "Audio Files";
-            treeNode21.Name = "Node7";
-            treeNode21.Text = "*.avi";
-            treeNode22.Name = "Node8";
-            treeNode22.Text = "*.mp4";
-            treeNode23.Name = "Node9";
-            treeNode23.Text = "*.wmv";
-            treeNode24.Name = "Node1";
-            treeNode24.Text = "Video Files";
-            treeNode25.Name = "Node10";
-            treeNode25.Text = "*.bmp";
-            treeNode26.Name = "Node11";
-            treeNode26.Text = "*.gif";
-            treeNode27.Name = "Node12";
-            treeNode27.Text = "*.jpeg";
-            treeNode28.Name = "Node13";
-            treeNode28.Text = "*.jpg";
-            treeNode29.Name = "Node14";
-            treeNode29.Text = "*.png";
-            treeNode30.Name = "Node2";
-            treeNode30.Text = "Image Files";
-            treeNode31.Name = "Node3";
-            treeNode31.Text = "Custom Files";
-            treeNode32.Name = "Node0";
-            treeNode32.StateImageIndex = 0;
-            treeNode32.Text = "All Files (*.*)";
-            treeNode32.ToolTipText = "*.*";
+            treeNode1.Name = "Node4";
+            treeNode1.StateImageIndex = 0;
+            treeNode1.Text = "Advanced Audio Coding (*.aac)";
+            treeNode2.Name = "Node1";
+            treeNode2.StateImageIndex = 0;
+            treeNode2.Text = "Audio Interchange (*.aiff)";
+            treeNode3.Name = "Node2";
+            treeNode3.StateImageIndex = 0;
+            treeNode3.Text = "Free Lossless Audio Codec (*.flac)";
+            treeNode4.Name = "Node5";
+            treeNode4.StateImageIndex = 0;
+            treeNode4.Text = "Monkey\'s Audio (*.ape)";
+            treeNode5.Name = "Node4";
+            treeNode5.StateImageIndex = 0;
+            treeNode5.Text = "MPEG Audio Layer-3 (*.mp3)";
+            treeNode6.Name = "Node6";
+            treeNode6.StateImageIndex = 0;
+            treeNode6.Text = "MPEG-4 Audio (*.m4a)";
+            treeNode7.Name = "Node3";
+            treeNode7.StateImageIndex = 0;
+            treeNode7.Text = "Ogg Vorbis (*.ogg)";
+            treeNode8.Name = "Node6";
+            treeNode8.StateImageIndex = 0;
+            treeNode8.Text = "Real Audio (*.ra)";
+            treeNode9.Name = "Node0";
+            treeNode9.StateImageIndex = 0;
+            treeNode9.Text = "Waveform Audio (*.wav)";
+            treeNode10.Name = "Node5";
+            treeNode10.StateImageIndex = 0;
+            treeNode10.Text = "Windows Media Audio (*.wma)";
+            treeNode11.Name = "Node0";
+            treeNode11.StateImageIndex = 0;
+            treeNode11.Text = "Audio";
+            treeNode12.Name = "Node9";
+            treeNode12.Text = "Advanced Video Coding (*.avchd)";
+            treeNode13.Name = "Node7";
+            treeNode13.Text = "Audio Video Interleave (*.avi)";
+            treeNode14.Name = "Node8";
+            treeNode14.Text = "Flash (*.flv)";
+            treeNode15.Name = "Node11";
+            treeNode15.Text = "Matroska Video (*.mkv)";
+            treeNode16.Name = "Node8";
+            treeNode16.Text = "MPEG-4 Part 14 (*.mp4)";
+            treeNode17.Name = "Node7";
+            treeNode17.Text = "QuickTime (*.mov)";
+            treeNode18.Name = "Node10";
+            treeNode18.Text = "Web Media (*.webm)";
+            treeNode19.Name = "Node9";
+            treeNode19.Text = "Windows Media Video (*.wmv)";
+            treeNode20.Name = "Node1";
+            treeNode20.StateImageIndex = 0;
+            treeNode20.Text = "Video";
+            treeNode21.Name = "Node10";
+            treeNode21.Text = "*.bmp";
+            treeNode22.Name = "Node11";
+            treeNode22.Text = "*.gif";
+            treeNode23.Name = "Node12";
+            treeNode23.Text = "*.jpeg";
+            treeNode24.Name = "Node13";
+            treeNode24.Text = "*.jpg";
+            treeNode25.Name = "Node14";
+            treeNode25.Text = "*.png";
+            treeNode26.Name = "Node2";
+            treeNode26.StateImageIndex = 0;
+            treeNode26.Text = "Images";
+            treeNode27.Name = "Node3";
+            treeNode27.StateImageIndex = 0;
+            treeNode27.Text = "Other";
+            treeNode28.Name = "Node0";
+            treeNode28.StateImageIndex = 0;
+            treeNode28.Text = "All Files (*.*)";
+            treeNode28.ToolTipText = "*.*";
             this.TreeView.Nodes.AddRange(new System.Windows.Forms.TreeNode[] {
-            treeNode32});
-            this.TreeView.Size = new System.Drawing.Size(204, 284);
+            treeNode28});
+            this.TreeView.Size = new System.Drawing.Size(310, 284);
             this.TreeView.StateImageList = this.TreeViewStateImageList;
             this.TreeView.TabIndex = 49;
             // 
@@ -542,7 +605,7 @@
             // 
             // label12
             // 
-            this.label12.Location = new System.Drawing.Point(561, 15);
+            this.label12.Location = new System.Drawing.Point(660, 15);
             this.label12.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label12.Name = "label12";
             this.label12.Size = new System.Drawing.Size(40, 30);
@@ -553,7 +616,7 @@
             // seFileSizeMin
             // 
             this.seFileSizeMin.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.seFileSizeMin.Location = new System.Drawing.Point(326, 157);
+            this.seFileSizeMin.Location = new System.Drawing.Point(425, 157);
             this.seFileSizeMin.Maximum = new decimal(new int[] {
             0,
             0,
@@ -568,7 +631,7 @@
             // seFileSizeMax
             // 
             this.seFileSizeMax.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.seFileSizeMax.Location = new System.Drawing.Point(461, 157);
+            this.seFileSizeMax.Location = new System.Drawing.Point(560, 157);
             this.seFileSizeMax.Maximum = new decimal(new int[] {
             0,
             0,
@@ -586,7 +649,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 17F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.btnCancel;
-            this.ClientSize = new System.Drawing.Size(598, 308);
+            this.ClientSize = new System.Drawing.Size(704, 315);
             this.Controls.Add(this.seFileSizeMax);
             this.Controls.Add(this.seFileSizeMin);
             this.Controls.Add(this.label12);
