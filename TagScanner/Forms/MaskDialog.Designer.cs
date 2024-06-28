@@ -29,37 +29,37 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.TreeNode treeNode1 = new System.Windows.Forms.TreeNode("*.m4a");
-            System.Windows.Forms.TreeNode treeNode2 = new System.Windows.Forms.TreeNode("*.mp3");
-            System.Windows.Forms.TreeNode treeNode3 = new System.Windows.Forms.TreeNode("*.wma");
-            System.Windows.Forms.TreeNode treeNode4 = new System.Windows.Forms.TreeNode("Audio Files", new System.Windows.Forms.TreeNode[] {
-            treeNode1,
-            treeNode2,
-            treeNode3});
-            System.Windows.Forms.TreeNode treeNode5 = new System.Windows.Forms.TreeNode("*.avi");
-            System.Windows.Forms.TreeNode treeNode6 = new System.Windows.Forms.TreeNode("*.mp4");
-            System.Windows.Forms.TreeNode treeNode7 = new System.Windows.Forms.TreeNode("*.wmv");
-            System.Windows.Forms.TreeNode treeNode8 = new System.Windows.Forms.TreeNode("Video Files", new System.Windows.Forms.TreeNode[] {
-            treeNode5,
-            treeNode6,
-            treeNode7});
-            System.Windows.Forms.TreeNode treeNode9 = new System.Windows.Forms.TreeNode("*.bmp");
-            System.Windows.Forms.TreeNode treeNode10 = new System.Windows.Forms.TreeNode("*.gif");
-            System.Windows.Forms.TreeNode treeNode11 = new System.Windows.Forms.TreeNode("*.jpeg");
-            System.Windows.Forms.TreeNode treeNode12 = new System.Windows.Forms.TreeNode("*.jpg");
-            System.Windows.Forms.TreeNode treeNode13 = new System.Windows.Forms.TreeNode("*.png");
-            System.Windows.Forms.TreeNode treeNode14 = new System.Windows.Forms.TreeNode("Image Files", new System.Windows.Forms.TreeNode[] {
-            treeNode9,
-            treeNode10,
-            treeNode11,
-            treeNode12,
-            treeNode13});
-            System.Windows.Forms.TreeNode treeNode15 = new System.Windows.Forms.TreeNode("Custom Files");
-            System.Windows.Forms.TreeNode treeNode16 = new System.Windows.Forms.TreeNode("All Files (*.*)", new System.Windows.Forms.TreeNode[] {
-            treeNode4,
-            treeNode8,
-            treeNode14,
-            treeNode15});
+            System.Windows.Forms.TreeNode treeNode17 = new System.Windows.Forms.TreeNode("*.m4a");
+            System.Windows.Forms.TreeNode treeNode18 = new System.Windows.Forms.TreeNode("*.mp3");
+            System.Windows.Forms.TreeNode treeNode19 = new System.Windows.Forms.TreeNode("*.wma");
+            System.Windows.Forms.TreeNode treeNode20 = new System.Windows.Forms.TreeNode("Audio Files", new System.Windows.Forms.TreeNode[] {
+            treeNode17,
+            treeNode18,
+            treeNode19});
+            System.Windows.Forms.TreeNode treeNode21 = new System.Windows.Forms.TreeNode("*.avi");
+            System.Windows.Forms.TreeNode treeNode22 = new System.Windows.Forms.TreeNode("*.mp4");
+            System.Windows.Forms.TreeNode treeNode23 = new System.Windows.Forms.TreeNode("*.wmv");
+            System.Windows.Forms.TreeNode treeNode24 = new System.Windows.Forms.TreeNode("Video Files", new System.Windows.Forms.TreeNode[] {
+            treeNode21,
+            treeNode22,
+            treeNode23});
+            System.Windows.Forms.TreeNode treeNode25 = new System.Windows.Forms.TreeNode("*.bmp");
+            System.Windows.Forms.TreeNode treeNode26 = new System.Windows.Forms.TreeNode("*.gif");
+            System.Windows.Forms.TreeNode treeNode27 = new System.Windows.Forms.TreeNode("*.jpeg");
+            System.Windows.Forms.TreeNode treeNode28 = new System.Windows.Forms.TreeNode("*.jpg");
+            System.Windows.Forms.TreeNode treeNode29 = new System.Windows.Forms.TreeNode("*.png");
+            System.Windows.Forms.TreeNode treeNode30 = new System.Windows.Forms.TreeNode("Image Files", new System.Windows.Forms.TreeNode[] {
+            treeNode25,
+            treeNode26,
+            treeNode27,
+            treeNode28,
+            treeNode29});
+            System.Windows.Forms.TreeNode treeNode31 = new System.Windows.Forms.TreeNode("Custom Files");
+            System.Windows.Forms.TreeNode treeNode32 = new System.Windows.Forms.TreeNode("All Files (*.*)", new System.Windows.Forms.TreeNode[] {
+            treeNode20,
+            treeNode24,
+            treeNode30,
+            treeNode31});
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MaskDialog));
             this.label1 = new System.Windows.Forms.Label();
             this.dtpCreatedMin = new System.Windows.Forms.DateTimePicker();
@@ -98,6 +98,11 @@
             this.TreeView = new System.Windows.Forms.TreeView();
             this.TreeViewStateImageList = new System.Windows.Forms.ImageList(this.components);
             this.label12 = new System.Windows.Forms.Label();
+            this.seFileSizeMin = new System.Windows.Forms.NumericUpDown();
+            this.seFileSizeMax = new System.Windows.Forms.NumericUpDown();
+            this.ToolTip = new System.Windows.Forms.ToolTip(this.components);
+            ((System.ComponentModel.ISupportInitialize)(this.seFileSizeMin)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.seFileSizeMax)).BeginInit();
             this.SuspendLayout();
             // 
             // label1
@@ -119,6 +124,7 @@
             this.dtpCreatedMin.Name = "dtpCreatedMin";
             this.dtpCreatedMin.Size = new System.Drawing.Size(105, 25);
             this.dtpCreatedMin.TabIndex = 1;
+            this.ToolTip.SetToolTip(this.dtpCreatedMin, "Earliest Created Date");
             this.dtpCreatedMin.Value = new System.DateTime(2024, 9, 27, 21, 20, 0, 0);
             // 
             // dtpCreatedMax
@@ -129,6 +135,7 @@
             this.dtpCreatedMax.Name = "dtpCreatedMax";
             this.dtpCreatedMax.Size = new System.Drawing.Size(104, 25);
             this.dtpCreatedMax.TabIndex = 3;
+            this.ToolTip.SetToolTip(this.dtpCreatedMax, "Latest Created Date");
             // 
             // dtpModifiedMax
             // 
@@ -138,6 +145,7 @@
             this.dtpModifiedMax.Name = "dtpModifiedMax";
             this.dtpModifiedMax.Size = new System.Drawing.Size(104, 25);
             this.dtpModifiedMax.TabIndex = 6;
+            this.ToolTip.SetToolTip(this.dtpModifiedMax, "Latest Modified Date");
             // 
             // dtpModifiedMin
             // 
@@ -147,6 +155,7 @@
             this.dtpModifiedMin.Name = "dtpModifiedMin";
             this.dtpModifiedMin.Size = new System.Drawing.Size(104, 25);
             this.dtpModifiedMin.TabIndex = 5;
+            this.ToolTip.SetToolTip(this.dtpModifiedMin, "Earliest Modified Date");
             // 
             // label2
             // 
@@ -167,6 +176,7 @@
             this.dtpAccessedMax.Name = "dtpAccessedMax";
             this.dtpAccessedMax.Size = new System.Drawing.Size(104, 25);
             this.dtpAccessedMax.TabIndex = 9;
+            this.ToolTip.SetToolTip(this.dtpAccessedMax, "Latest Accessed Date");
             // 
             // dtpAccessedMin
             // 
@@ -176,6 +186,7 @@
             this.dtpAccessedMin.Name = "dtpAccessedMin";
             this.dtpAccessedMin.Size = new System.Drawing.Size(104, 25);
             this.dtpAccessedMin.TabIndex = 8;
+            this.ToolTip.SetToolTip(this.dtpAccessedMin, "Earliest Accessed Date");
             // 
             // label3
             // 
@@ -216,6 +227,7 @@
             this.cbFileSizeMin.Name = "cbFileSizeMin";
             this.cbFileSizeMin.Size = new System.Drawing.Size(15, 14);
             this.cbFileSizeMin.TabIndex = 13;
+            this.ToolTip.SetToolTip(this.cbFileSizeMin, "Use Minimum File Size");
             this.cbFileSizeMin.UseVisualStyleBackColor = true;
             // 
             // label6
@@ -237,6 +249,7 @@
             this.cbFileSizeMax.Name = "cbFileSizeMax";
             this.cbFileSizeMax.Size = new System.Drawing.Size(15, 14);
             this.cbFileSizeMax.TabIndex = 16;
+            this.ToolTip.SetToolTip(this.cbFileSizeMax, "Use Maximum File Size");
             this.cbFileSizeMax.UseVisualStyleBackColor = true;
             // 
             // label7
@@ -245,9 +258,9 @@
             this.label7.Location = new System.Drawing.Point(232, 197);
             this.label7.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(68, 17);
+            this.label7.Size = new System.Drawing.Size(67, 17);
             this.label7.TabIndex = 20;
-            this.label7.Text = "Read Only";
+            this.label7.Text = "Read-only";
             this.label7.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // label8
@@ -264,7 +277,7 @@
             // label9
             // 
             this.label9.AutoSize = true;
-            this.label9.Location = new System.Drawing.Point(428, 198);
+            this.label9.Location = new System.Drawing.Point(391, 198);
             this.label9.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label9.Name = "label9";
             this.label9.Size = new System.Drawing.Size(49, 17);
@@ -275,7 +288,7 @@
             // label10
             // 
             this.label10.AutoSize = true;
-            this.label10.Location = new System.Drawing.Point(428, 233);
+            this.label10.Location = new System.Drawing.Point(391, 233);
             this.label10.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label10.Name = "label10";
             this.label10.Size = new System.Drawing.Size(50, 17);
@@ -289,13 +302,14 @@
             this.cbAttrReadOnly.FormattingEnabled = true;
             this.cbAttrReadOnly.Items.AddRange(new object[] {
             "",
-            "True",
-            "False"});
+            "Set",
+            "Clear"});
             this.cbAttrReadOnly.Location = new System.Drawing.Point(302, 193);
             this.cbAttrReadOnly.Margin = new System.Windows.Forms.Padding(4);
             this.cbAttrReadOnly.Name = "cbAttrReadOnly";
             this.cbAttrReadOnly.Size = new System.Drawing.Size(67, 25);
             this.cbAttrReadOnly.TabIndex = 33;
+            this.ToolTip.SetToolTip(this.cbAttrReadOnly, "Check \'Read-only\' attribute");
             // 
             // cbAttrHidden
             // 
@@ -303,13 +317,14 @@
             this.cbAttrHidden.FormattingEnabled = true;
             this.cbAttrHidden.Items.AddRange(new object[] {
             "",
-            "True",
-            "False"});
+            "Set",
+            "Clear"});
             this.cbAttrHidden.Location = new System.Drawing.Point(302, 229);
             this.cbAttrHidden.Margin = new System.Windows.Forms.Padding(4);
             this.cbAttrHidden.Name = "cbAttrHidden";
             this.cbAttrHidden.Size = new System.Drawing.Size(67, 25);
             this.cbAttrHidden.TabIndex = 34;
+            this.ToolTip.SetToolTip(this.cbAttrHidden, "Check \'Hidden\' attribute");
             // 
             // cbAttrSystem
             // 
@@ -317,13 +332,14 @@
             this.cbAttrSystem.FormattingEnabled = true;
             this.cbAttrSystem.Items.AddRange(new object[] {
             "",
-            "True",
-            "False"});
-            this.cbAttrSystem.Location = new System.Drawing.Point(498, 194);
+            "Set",
+            "Clear"});
+            this.cbAttrSystem.Location = new System.Drawing.Point(461, 194);
             this.cbAttrSystem.Margin = new System.Windows.Forms.Padding(4);
             this.cbAttrSystem.Name = "cbAttrSystem";
             this.cbAttrSystem.Size = new System.Drawing.Size(67, 25);
             this.cbAttrSystem.TabIndex = 35;
+            this.ToolTip.SetToolTip(this.cbAttrSystem, "Check \'System\' attribute");
             // 
             // cbAttrArchive
             // 
@@ -331,13 +347,14 @@
             this.cbAttrArchive.FormattingEnabled = true;
             this.cbAttrArchive.Items.AddRange(new object[] {
             "",
-            "True",
-            "False"});
-            this.cbAttrArchive.Location = new System.Drawing.Point(498, 229);
+            "Set",
+            "Clear"});
+            this.cbAttrArchive.Location = new System.Drawing.Point(461, 229);
             this.cbAttrArchive.Margin = new System.Windows.Forms.Padding(4);
             this.cbAttrArchive.Name = "cbAttrArchive";
             this.cbAttrArchive.Size = new System.Drawing.Size(67, 25);
             this.cbAttrArchive.TabIndex = 36;
+            this.ToolTip.SetToolTip(this.cbAttrArchive, "Check \'Archive\' attribute");
             // 
             // btnOK
             // 
@@ -379,6 +396,7 @@
             this.cbCreatedUtc.Name = "cbCreatedUtc";
             this.cbCreatedUtc.Size = new System.Drawing.Size(15, 14);
             this.cbCreatedUtc.TabIndex = 40;
+            this.ToolTip.SetToolTip(this.cbCreatedUtc, "Use UTC Created Date");
             this.cbCreatedUtc.UseVisualStyleBackColor = true;
             // 
             // cbModifiedUtc
@@ -389,6 +407,7 @@
             this.cbModifiedUtc.Name = "cbModifiedUtc";
             this.cbModifiedUtc.Size = new System.Drawing.Size(15, 14);
             this.cbModifiedUtc.TabIndex = 41;
+            this.ToolTip.SetToolTip(this.cbModifiedUtc, "Use UTC Modified Date");
             this.cbModifiedUtc.UseVisualStyleBackColor = true;
             // 
             // cbAccessedUtc
@@ -399,6 +418,7 @@
             this.cbAccessedUtc.Name = "cbAccessedUtc";
             this.cbAccessedUtc.Size = new System.Drawing.Size(15, 14);
             this.cbAccessedUtc.TabIndex = 42;
+            this.ToolTip.SetToolTip(this.cbAccessedUtc, "Use UTC Accessed Date");
             this.cbAccessedUtc.UseVisualStyleBackColor = true;
             // 
             // cbCreatedMin
@@ -409,6 +429,7 @@
             this.cbCreatedMin.Name = "cbCreatedMin";
             this.cbCreatedMin.Size = new System.Drawing.Size(15, 14);
             this.cbCreatedMin.TabIndex = 43;
+            this.ToolTip.SetToolTip(this.cbCreatedMin, "Use Earliest Created Date");
             this.cbCreatedMin.UseVisualStyleBackColor = true;
             // 
             // cbModifiedMin
@@ -419,6 +440,7 @@
             this.cbModifiedMin.Name = "cbModifiedMin";
             this.cbModifiedMin.Size = new System.Drawing.Size(15, 14);
             this.cbModifiedMin.TabIndex = 44;
+            this.ToolTip.SetToolTip(this.cbModifiedMin, "Use Earliest Modified Date");
             this.cbModifiedMin.UseVisualStyleBackColor = true;
             // 
             // cbAccessedMin
@@ -429,6 +451,7 @@
             this.cbAccessedMin.Name = "cbAccessedMin";
             this.cbAccessedMin.Size = new System.Drawing.Size(15, 14);
             this.cbAccessedMin.TabIndex = 45;
+            this.ToolTip.SetToolTip(this.cbAccessedMin, "Use Earliest Accessed Date");
             this.cbAccessedMin.UseVisualStyleBackColor = true;
             // 
             // cbAccessedMax
@@ -439,6 +462,7 @@
             this.cbAccessedMax.Name = "cbAccessedMax";
             this.cbAccessedMax.Size = new System.Drawing.Size(15, 14);
             this.cbAccessedMax.TabIndex = 48;
+            this.ToolTip.SetToolTip(this.cbAccessedMax, "Use Latest Accessed Date");
             this.cbAccessedMax.UseVisualStyleBackColor = true;
             // 
             // cbModifiedMax
@@ -449,6 +473,7 @@
             this.cbModifiedMax.Name = "cbModifiedMax";
             this.cbModifiedMax.Size = new System.Drawing.Size(15, 14);
             this.cbModifiedMax.TabIndex = 47;
+            this.ToolTip.SetToolTip(this.cbModifiedMax, "Use Latest Modified Date");
             this.cbModifiedMax.UseVisualStyleBackColor = true;
             // 
             // cbCreatedMax
@@ -459,6 +484,7 @@
             this.cbCreatedMax.Name = "cbCreatedMax";
             this.cbCreatedMax.Size = new System.Drawing.Size(15, 14);
             this.cbCreatedMax.TabIndex = 46;
+            this.ToolTip.SetToolTip(this.cbCreatedMax, "Use Latest Created Date");
             this.cbCreatedMax.UseVisualStyleBackColor = true;
             // 
             // TreeView
@@ -466,42 +492,42 @@
             this.TreeView.Location = new System.Drawing.Point(14, 16);
             this.TreeView.Margin = new System.Windows.Forms.Padding(4);
             this.TreeView.Name = "TreeView";
-            treeNode1.Name = "Node6";
-            treeNode1.Text = "*.m4a";
-            treeNode2.Name = "Node4";
-            treeNode2.Text = "*.mp3";
-            treeNode3.Name = "Node5";
-            treeNode3.Text = "*.wma";
-            treeNode4.Name = "Node0";
-            treeNode4.Text = "Audio Files";
-            treeNode5.Name = "Node7";
-            treeNode5.Text = "*.avi";
-            treeNode6.Name = "Node8";
-            treeNode6.Text = "*.mp4";
-            treeNode7.Name = "Node9";
-            treeNode7.Text = "*.wmv";
-            treeNode8.Name = "Node1";
-            treeNode8.Text = "Video Files";
-            treeNode9.Name = "Node10";
-            treeNode9.Text = "*.bmp";
-            treeNode10.Name = "Node11";
-            treeNode10.Text = "*.gif";
-            treeNode11.Name = "Node12";
-            treeNode11.Text = "*.jpeg";
-            treeNode12.Name = "Node13";
-            treeNode12.Text = "*.jpg";
-            treeNode13.Name = "Node14";
-            treeNode13.Text = "*.png";
-            treeNode14.Name = "Node2";
-            treeNode14.Text = "Image Files";
-            treeNode15.Name = "Node3";
-            treeNode15.Text = "Custom Files";
-            treeNode16.Name = "Node0";
-            treeNode16.StateImageIndex = 0;
-            treeNode16.Text = "All Files (*.*)";
-            treeNode16.ToolTipText = "*.*";
+            treeNode17.Name = "Node6";
+            treeNode17.Text = "*.m4a";
+            treeNode18.Name = "Node4";
+            treeNode18.Text = "*.mp3";
+            treeNode19.Name = "Node5";
+            treeNode19.Text = "*.wma";
+            treeNode20.Name = "Node0";
+            treeNode20.Text = "Audio Files";
+            treeNode21.Name = "Node7";
+            treeNode21.Text = "*.avi";
+            treeNode22.Name = "Node8";
+            treeNode22.Text = "*.mp4";
+            treeNode23.Name = "Node9";
+            treeNode23.Text = "*.wmv";
+            treeNode24.Name = "Node1";
+            treeNode24.Text = "Video Files";
+            treeNode25.Name = "Node10";
+            treeNode25.Text = "*.bmp";
+            treeNode26.Name = "Node11";
+            treeNode26.Text = "*.gif";
+            treeNode27.Name = "Node12";
+            treeNode27.Text = "*.jpeg";
+            treeNode28.Name = "Node13";
+            treeNode28.Text = "*.jpg";
+            treeNode29.Name = "Node14";
+            treeNode29.Text = "*.png";
+            treeNode30.Name = "Node2";
+            treeNode30.Text = "Image Files";
+            treeNode31.Name = "Node3";
+            treeNode31.Text = "Custom Files";
+            treeNode32.Name = "Node0";
+            treeNode32.StateImageIndex = 0;
+            treeNode32.Text = "All Files (*.*)";
+            treeNode32.ToolTipText = "*.*";
             this.TreeView.Nodes.AddRange(new System.Windows.Forms.TreeNode[] {
-            treeNode16});
+            treeNode32});
             this.TreeView.Size = new System.Drawing.Size(204, 284);
             this.TreeView.StateImageList = this.TreeViewStateImageList;
             this.TreeView.TabIndex = 49;
@@ -524,6 +550,36 @@
             this.label12.Text = "UTC?";
             this.label12.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
+            // seFileSizeMin
+            // 
+            this.seFileSizeMin.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.seFileSizeMin.Location = new System.Drawing.Point(326, 157);
+            this.seFileSizeMin.Maximum = new decimal(new int[] {
+            0,
+            0,
+            0,
+            0});
+            this.seFileSizeMin.Name = "seFileSizeMin";
+            this.seFileSizeMin.Size = new System.Drawing.Size(104, 25);
+            this.seFileSizeMin.TabIndex = 51;
+            this.seFileSizeMin.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.ToolTip.SetToolTip(this.seFileSizeMin, "Minimum File Size");
+            // 
+            // seFileSizeMax
+            // 
+            this.seFileSizeMax.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.seFileSizeMax.Location = new System.Drawing.Point(461, 157);
+            this.seFileSizeMax.Maximum = new decimal(new int[] {
+            0,
+            0,
+            0,
+            0});
+            this.seFileSizeMax.Name = "seFileSizeMax";
+            this.seFileSizeMax.Size = new System.Drawing.Size(104, 25);
+            this.seFileSizeMax.TabIndex = 52;
+            this.seFileSizeMax.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.ToolTip.SetToolTip(this.seFileSizeMax, "Maximum File Size");
+            // 
             // MaskDialog
             // 
             this.AcceptButton = this.btnOK;
@@ -531,6 +587,8 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.btnCancel;
             this.ClientSize = new System.Drawing.Size(598, 308);
+            this.Controls.Add(this.seFileSizeMax);
+            this.Controls.Add(this.seFileSizeMin);
             this.Controls.Add(this.label12);
             this.Controls.Add(this.TreeView);
             this.Controls.Add(this.cbAccessedMax);
@@ -575,6 +633,8 @@
             this.Name = "MaskDialog";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "File Mask Options";
+            ((System.ComponentModel.ISupportInitialize)(this.seFileSizeMin)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.seFileSizeMax)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -619,5 +679,8 @@
         public System.Windows.Forms.TreeView TreeView;
         public System.Windows.Forms.ImageList TreeViewStateImageList;
         public System.Windows.Forms.Label label12;
+        public System.Windows.Forms.NumericUpDown seFileSizeMin;
+        public System.Windows.Forms.NumericUpDown seFileSizeMax;
+        private System.Windows.Forms.ToolTip ToolTip;
     }
 }

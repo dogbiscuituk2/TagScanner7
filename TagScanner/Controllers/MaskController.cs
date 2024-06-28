@@ -1,5 +1,6 @@
 ﻿namespace TagScanner.Controllers
 {
+    using System;
     using System.Windows.Forms;
     using Forms;
     using Models;
@@ -17,7 +18,7 @@
 
         #region Public Properties
 
-        public MaskDialog View => _maskDialog ?? CreateView();
+        public MaskDialog View => _maskDialog;
 
         #endregion
 
@@ -25,6 +26,8 @@
 
         public bool Execute(ref Mask mask)
         {
+            if (View == null)
+                CreateView();
             Process(mask, loading: true);
             UpdateUI();
             var ok = View.ShowDialog(Owner) == DialogResult.OK;
@@ -39,83 +42,178 @@
 
         private MaskDialog _maskDialog;
         private TriStateTreeController _maskTreeController;
+        private bool _updating;
+
+        private CheckBox
+            CbCreatedMin, CbCreatedMax, CbCreatedUtc,
+            CbModifiedMin, CbModifiedMax, CbModifiedUtc,
+            CbAccessedMin, CbAccessedMax, CbAccessedUtc,
+            CbFileSizeMin, CbFileSizeMax;
+
+        private ComboBox
+            CbReadOnly, CbHidden, CbSystem, CbArchive;
+
+        private DateTimePicker
+            DtpCreatedMin, DtpCreatedMax,
+            DtpModifiedMin, DtpModifiedMax,
+            DtpAccessedMin, DtpAccessedMax;
+
+        private NumericUpDown
+            SeFileSizeMin, SeFileSizeMax;
 
         #endregion
 
         #region Event Handlers
 
-        private void AddOptions_Click(object sender, System.EventArgs e)
+        private void AddOptions_Click(object sender, EventArgs e)
         {
             var mask = new Mask();
             Execute(ref mask);
         }
 
-        private void CheckBox_CheckedChanged(object sender, System.EventArgs e)
-        {
-            UpdateUI();
-        }
+        private void CheckBox_CheckedChanged(object sender, EventArgs e) => UpdateUI();
 
         #endregion
 
         #region Private Methods
 
+        private void AdjustDate(DateTimePicker min, DateTimePicker max, bool lower)
+        {
+            if (!_updating)
+            {
+                _updating = true;
+                if (lower)
+                {
+                    if (min.Value > max.Value)
+                        min.Value = max.Value;
+                }
+                else
+                {
+                    if (max.Value < min.Value)
+                        max.Value = min.Value;
+                }
+                _updating = false;
+            }
+        }
+
+        private void AdjustFileSize(bool lower)
+        {
+            if (!_updating)
+            {
+                _updating = true;
+                decimal
+                    min = SeFileSizeMin.Value,
+                    max = SeFileSizeMax.Value;
+                if (lower)
+                    SeFileSizeMin.Value = Math.Min(min, max);
+                else
+                    SeFileSizeMax.Value = Math.Max(min, max);
+                _updating = false;
+            }
+            AdjustIncrement(SeFileSizeMin);
+            AdjustIncrement(SeFileSizeMax);
+        }
+
+        private void AdjustIncrement(NumericUpDown control) =>
+            control.Increment = Math.Max(1, Math.Truncate(control.Value / 100));
+
         private MaskDialog CreateView()
         {
             _maskDialog = new MaskDialog();
             _maskTreeController = new TriStateTreeController(View.TreeView);
-            View.cbCreatedMin.CheckedChanged += CheckBox_CheckedChanged;
-            View.cbModifiedMin.CheckedChanged += CheckBox_CheckedChanged;
-            View.cbAccessedMin.CheckedChanged += CheckBox_CheckedChanged;
-            View.cbFileSizeMin.CheckedChanged += CheckBox_CheckedChanged;
-            View.cbCreatedMax.CheckedChanged += CheckBox_CheckedChanged;
-            View.cbModifiedMax.CheckedChanged += CheckBox_CheckedChanged;
-            View.cbAccessedMax.CheckedChanged += CheckBox_CheckedChanged;
-            View.cbFileSizeMax.CheckedChanged += CheckBox_CheckedChanged;
+
+            CbCreatedMin = View.cbCreatedMin;
+            CbCreatedMax = View.cbCreatedMax;
+            CbCreatedUtc = View.cbCreatedUtc;
+            CbModifiedMin = View.cbModifiedMin;
+            CbModifiedMax = View.cbModifiedMax;
+            CbModifiedUtc = View.cbModifiedUtc;
+            CbAccessedMin = View.cbAccessedMin;
+            CbAccessedMax = View.cbAccessedMax;
+            CbAccessedUtc = View.cbAccessedUtc;
+            CbFileSizeMin = View.cbFileSizeMin;
+            CbFileSizeMax = View.cbFileSizeMax;
+
+            CbReadOnly = View.cbAttrReadOnly;
+            CbHidden = View.cbAttrHidden;
+            CbSystem = View.cbAttrSystem;
+            CbArchive = View.cbAttrArchive;
+
+            DtpCreatedMin = View.dtpCreatedMin;
+            DtpCreatedMax = View.dtpCreatedMax;
+            DtpModifiedMin = View.dtpModifiedMin;
+            DtpModifiedMax = View.dtpModifiedMax;
+            DtpAccessedMin = View.dtpAccessedMin;
+            DtpAccessedMax = View.dtpAccessedMax;
+
+            SeFileSizeMin = View.seFileSizeMin;
+            SeFileSizeMax = View.seFileSizeMax;
+
+            SeFileSizeMin.Maximum = SeFileSizeMax.Maximum = ulong.MaxValue;
+
+            CbCreatedMin.CheckedChanged += CheckBox_CheckedChanged;
+            CbModifiedMin.CheckedChanged += CheckBox_CheckedChanged;
+            CbAccessedMin.CheckedChanged += CheckBox_CheckedChanged;
+            CbFileSizeMin.CheckedChanged += CheckBox_CheckedChanged;
+            CbCreatedMax.CheckedChanged += CheckBox_CheckedChanged;
+            CbModifiedMax.CheckedChanged += CheckBox_CheckedChanged;
+            CbAccessedMax.CheckedChanged += CheckBox_CheckedChanged;
+            CbFileSizeMax.CheckedChanged += CheckBox_CheckedChanged;
+
+            DtpCreatedMin.ValueChanged += (sender, e) => AdjustDate(DtpCreatedMin, DtpCreatedMax, lower: false);
+            DtpCreatedMax.ValueChanged += (sender, e) => AdjustDate(DtpCreatedMin, DtpCreatedMax, lower: true);
+            DtpModifiedMin.ValueChanged += (sender, e) => AdjustDate(DtpModifiedMin, DtpModifiedMax, lower: false);
+            DtpModifiedMax.ValueChanged += (sender, e) => AdjustDate(DtpModifiedMin, DtpModifiedMax, lower: true);
+            DtpAccessedMin.ValueChanged += (sender, e) => AdjustDate(DtpAccessedMin, DtpAccessedMax, lower: false);
+            DtpAccessedMax.ValueChanged += (sender, e) => AdjustDate(DtpAccessedMin, DtpAccessedMax, lower: true);
+
+            SeFileSizeMin.ValueChanged += (sender, e) => AdjustFileSize(lower: false);
+            SeFileSizeMax.ValueChanged += (sender, e) => AdjustFileSize(lower: true);
+
             return _maskDialog;
         }
 
         private Mask Process(Mask mask, bool loading)
         {
-            ProcessCheckBox(View.cbCreatedMin, MaskFlags.DateCreatedMin);
-            ProcessCheckBox(View.cbCreatedMax, MaskFlags.DateCreatedMax);
-            ProcessCheckBox(View.cbCreatedUtc, MaskFlags.DateCreatedUtc);
-            ProcessCheckBox(View.cbModifiedMin, MaskFlags.DateModifiedMin);
-            ProcessCheckBox(View.cbModifiedMax, MaskFlags.DateModifiedMax);
-            ProcessCheckBox(View.cbModifiedUtc, MaskFlags.DateModifiedUtc);
-            ProcessCheckBox(View.cbAccessedMin, MaskFlags.DateAccessedMin);
-            ProcessCheckBox(View.cbAccessedMax, MaskFlags.DateAccessedMax);
-            ProcessCheckBox(View.cbAccessedUtc, MaskFlags.DateAccessedUtc);
-            ProcessCheckBox(View.cbFileSizeMin, MaskFlags.FileSizeMin);
-            ProcessCheckBox(View.cbFileSizeMax, MaskFlags.FileSizeMax);
+            ProcessCheckBox(CbCreatedMin, MaskFlags.DateCreatedMin);
+            ProcessCheckBox(CbCreatedMax, MaskFlags.DateCreatedMax);
+            ProcessCheckBox(CbCreatedUtc, MaskFlags.DateCreatedUtc);
+            ProcessCheckBox(CbModifiedMin, MaskFlags.DateModifiedMin);
+            ProcessCheckBox(CbModifiedMax, MaskFlags.DateModifiedMax);
+            ProcessCheckBox(CbModifiedUtc, MaskFlags.DateModifiedUtc);
+            ProcessCheckBox(CbAccessedMin, MaskFlags.DateAccessedMin);
+            ProcessCheckBox(CbAccessedMax, MaskFlags.DateAccessedMax);
+            ProcessCheckBox(CbAccessedUtc, MaskFlags.DateAccessedUtc);
+            ProcessCheckBox(CbFileSizeMin, MaskFlags.FileSizeMin);
+            ProcessCheckBox(CbFileSizeMax, MaskFlags.FileSizeMax);
 
             if (loading)
             {
-                View.dtpCreatedMin.Value = mask.DateCreatedMin;
-                View.dtpCreatedMax.Value = mask.DateCreatedMax;
-                View.dtpModifiedMin.Value = mask.DateModifiedMin;
-                View.dtpModifiedMax.Value = mask.DateModifiedMax;
-                View.dtpAccessedMin.Value = mask.DateAccessedMin;
-                View.dtpAccessedMax.Value = mask.DateAccessedMax;
-                //View.meFileSizeMin.Text = mask.FileSizeMin.ToString();
-                //View.meFileSizeMax.Text = mask.FileSizeMax.ToString();
+                DtpCreatedMin.Value = mask.DateCreatedMin;
+                DtpCreatedMax.Value = mask.DateCreatedMax;
+                DtpModifiedMin.Value = mask.DateModifiedMin;
+                DtpModifiedMax.Value = mask.DateModifiedMax;
+                DtpAccessedMin.Value = mask.DateAccessedMin;
+                DtpAccessedMax.Value = mask.DateAccessedMax;
+                SeFileSizeMin.Value = mask.FileSizeMin;
+                SeFileSizeMax.Value = mask.FileSizeMax;
             }
             else
             {
-                mask.DateCreatedMin = View.dtpCreatedMin.Value;
-                mask.DateCreatedMax = View.dtpCreatedMax.Value;
-                mask.DateModifiedMin = View.dtpModifiedMin.Value;
-                mask.DateModifiedMax = View.dtpModifiedMax.Value;
-                mask.DateAccessedMin = View.dtpAccessedMin.Value;
-                mask.DateAccessedMax = View.dtpAccessedMax.Value;
-
-                //mask.FileSizeMin = long.Parse(View.meFileSizeMin.Text);
-                //mask.FileSizeMax = long.Parse(View.meFileSizeMax.Text);
+                mask.DateCreatedMin = DtpCreatedMin.Value;
+                mask.DateCreatedMax = DtpCreatedMax.Value;
+                mask.DateModifiedMin = DtpModifiedMin.Value;
+                mask.DateModifiedMax = DtpModifiedMax.Value;
+                mask.DateAccessedMin = DtpAccessedMin.Value;
+                mask.DateAccessedMax = DtpAccessedMax.Value;
+                mask.FileSizeMin = (ulong)SeFileSizeMin.Value;
+                mask.FileSizeMax = (ulong)SeFileSizeMax.Value;
             }
 
-            ProcessComboBox(View.cbAttrReadOnly, MaskFlags.ReadOnlyTrue, MaskFlags.ReadOnlyFalse);
-            ProcessComboBox(View.cbAttrHidden, MaskFlags.HiddenTrue, MaskFlags.HiddenFalse);
-            ProcessComboBox(View.cbAttrSystem, MaskFlags.SystemTrue, MaskFlags.SystemFalse);
-            ProcessComboBox(View.cbAttrArchive, MaskFlags.ArchiveTrue, MaskFlags.ArchiveFalse);
+            ProcessComboBox(CbReadOnly, MaskFlags.ReadOnlyTrue, MaskFlags.ReadOnlyFalse);
+            ProcessComboBox(CbHidden, MaskFlags.HiddenTrue, MaskFlags.HiddenFalse);
+            ProcessComboBox(CbSystem, MaskFlags.SystemTrue, MaskFlags.SystemFalse);
+            ProcessComboBox(CbArchive, MaskFlags.ArchiveTrue, MaskFlags.ArchiveFalse);
 
             return mask;
 
@@ -145,15 +243,14 @@
 
         private void UpdateUI()
         {
-            View.dtpCreatedMin.Enabled = View.cbCreatedMin.Checked;
-            View.dtpModifiedMin.Enabled = View.cbModifiedMin.Checked;
-            View.dtpAccessedMin.Enabled = View.cbAccessedMin.Checked;
-            View.dtpCreatedMax.Enabled = View.cbCreatedMax.Checked;
-            View.dtpModifiedMax.Enabled = View.cbModifiedMax.Checked;
-            View.dtpAccessedMax.Enabled = View.cbAccessedMax.Checked;
-
-            //View.seFileSizeMin.Enabled = View.cbFileSizeMin.Checked;
-            //View.seFileSizeMax.Enabled = View.cbFileSizeMax.Checked;
+            DtpCreatedMin.Enabled = CbCreatedMin.Checked;
+            DtpModifiedMin.Enabled = CbModifiedMin.Checked;
+            DtpAccessedMin.Enabled = CbAccessedMin.Checked;
+            DtpCreatedMax.Enabled = CbCreatedMax.Checked;
+            DtpModifiedMax.Enabled = CbModifiedMax.Checked;
+            DtpAccessedMax.Enabled = CbAccessedMax.Checked;
+            SeFileSizeMin.Enabled = CbFileSizeMin.Checked;
+            SeFileSizeMax.Enabled = CbFileSizeMax.Checked;
         }
 
         #endregion
