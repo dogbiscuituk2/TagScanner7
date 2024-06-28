@@ -1,6 +1,7 @@
 ﻿namespace TagScanner.Controllers
 {
     using System;
+    using System.Text;
     using System.Windows.Forms;
     using Forms;
     using Models;
@@ -41,6 +42,7 @@
         #region Private Fields
 
         private MaskDialog _maskDialog;
+        private TreeView TreeView;
         private TriStateTreeController _maskTreeController;
         private bool _updating;
 
@@ -120,7 +122,8 @@
         private MaskDialog CreateView()
         {
             _maskDialog = new MaskDialog();
-            _maskTreeController = new TriStateTreeController(View.TreeView);
+            TreeView = View.TreeView;
+            _maskTreeController = new TriStateTreeController(TreeView);
 
             CbCreatedMin = View.cbCreatedMin;
             CbCreatedMax = View.cbCreatedMax;
@@ -173,8 +176,34 @@
             return _maskDialog;
         }
 
+        private string GetFileSpecs()
+        {
+            var result = new StringBuilder();
+            Traverse(TreeView.Nodes);
+            return result.ToString();
+
+            void Traverse(TreeNodeCollection nodes)
+            {
+                foreach (TreeNode node in nodes)
+                {
+                    if (node.Tag != null && node.StateImageIndex == 1)
+                    {
+                        if (result.Length > 0)
+                            result.Append('|');
+                        result.Append(node.Tag);
+                    }
+                    Traverse(node.Nodes);
+                }
+            }
+        }
+
         private Mask Process(Mask mask, bool loading)
         {
+            if (loading)
+                SetFileSpecs(mask.FileSpecs);
+            else
+                mask.FileSpecs = GetFileSpecs();
+
             ProcessCheckBox(CbCreatedMin, MaskFlags.DateCreatedMin);
             ProcessCheckBox(CbCreatedMax, MaskFlags.DateCreatedMax);
             ProcessCheckBox(CbCreatedUtc, MaskFlags.DateCreatedUtc);
@@ -239,6 +268,25 @@
 
             bool GetFlag(MaskFlags flag) => (mask.Flags & flag) != 0;
             void SetFlag(MaskFlags flag) => mask.Flags |= flag;
+        }
+
+        private void SetFileSpecs(string fileSpecs)
+        {
+            fileSpecs = $"|{fileSpecs}|";
+            Traverse(TreeView.Nodes);
+
+            void Traverse(TreeNodeCollection nodes)
+            {
+                foreach (TreeNode node in nodes)
+                {
+                    if (node.Tag != null)
+                    {
+                        var check = fileSpecs.Contains($"|{node.Tag}|");
+                        _maskTreeController.SetNodeState(node, check ? TreeNodeState.Checked : TreeNodeState.Unchecked);
+                    }
+                    Traverse(node.Nodes);
+                }
+            }
         }
 
         private void UpdateUI()

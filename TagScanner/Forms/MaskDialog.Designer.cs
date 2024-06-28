@@ -39,7 +39,7 @@
             System.Windows.Forms.TreeNode treeNode8 = new System.Windows.Forms.TreeNode("Real Audio (*.ra)");
             System.Windows.Forms.TreeNode treeNode9 = new System.Windows.Forms.TreeNode("Waveform Audio (*.wav)");
             System.Windows.Forms.TreeNode treeNode10 = new System.Windows.Forms.TreeNode("Windows Media Audio (*.wma)");
-            System.Windows.Forms.TreeNode treeNode11 = new System.Windows.Forms.TreeNode("Audio", new System.Windows.Forms.TreeNode[] {
+            System.Windows.Forms.TreeNode treeNode11 = new System.Windows.Forms.TreeNode("Audio Files", new System.Windows.Forms.TreeNode[] {
             treeNode1,
             treeNode2,
             treeNode3,
@@ -58,7 +58,7 @@
             System.Windows.Forms.TreeNode treeNode17 = new System.Windows.Forms.TreeNode("QuickTime (*.mov)");
             System.Windows.Forms.TreeNode treeNode18 = new System.Windows.Forms.TreeNode("Web Media (*.webm)");
             System.Windows.Forms.TreeNode treeNode19 = new System.Windows.Forms.TreeNode("Windows Media Video (*.wmv)");
-            System.Windows.Forms.TreeNode treeNode20 = new System.Windows.Forms.TreeNode("Video", new System.Windows.Forms.TreeNode[] {
+            System.Windows.Forms.TreeNode treeNode20 = new System.Windows.Forms.TreeNode("Video Files", new System.Windows.Forms.TreeNode[] {
             treeNode12,
             treeNode13,
             treeNode14,
@@ -67,23 +67,35 @@
             treeNode17,
             treeNode18,
             treeNode19});
-            System.Windows.Forms.TreeNode treeNode21 = new System.Windows.Forms.TreeNode("*.bmp");
-            System.Windows.Forms.TreeNode treeNode22 = new System.Windows.Forms.TreeNode("*.gif");
-            System.Windows.Forms.TreeNode treeNode23 = new System.Windows.Forms.TreeNode("*.jpeg");
-            System.Windows.Forms.TreeNode treeNode24 = new System.Windows.Forms.TreeNode("*.jpg");
-            System.Windows.Forms.TreeNode treeNode25 = new System.Windows.Forms.TreeNode("*.png");
-            System.Windows.Forms.TreeNode treeNode26 = new System.Windows.Forms.TreeNode("Images", new System.Windows.Forms.TreeNode[] {
+            System.Windows.Forms.TreeNode treeNode21 = new System.Windows.Forms.TreeNode("Adobe Illustrator Document (*.ai)");
+            System.Windows.Forms.TreeNode treeNode22 = new System.Windows.Forms.TreeNode("Adobe Indesign Document (*.indd)");
+            System.Windows.Forms.TreeNode treeNode23 = new System.Windows.Forms.TreeNode("Bitmap (*.bmp)");
+            System.Windows.Forms.TreeNode treeNode24 = new System.Windows.Forms.TreeNode("Encapsulated Postscript (*.eps)");
+            System.Windows.Forms.TreeNode treeNode25 = new System.Windows.Forms.TreeNode("Graphics Interchange Format (*.gif)");
+            System.Windows.Forms.TreeNode treeNode26 = new System.Windows.Forms.TreeNode("Joint Photographic Experts Group (*.jpeg|*.jpg)");
+            System.Windows.Forms.TreeNode treeNode27 = new System.Windows.Forms.TreeNode("Photoshop Document (*.psd)");
+            System.Windows.Forms.TreeNode treeNode28 = new System.Windows.Forms.TreeNode("Portable Document Format (*.pdf)");
+            System.Windows.Forms.TreeNode treeNode29 = new System.Windows.Forms.TreeNode("Portable Network Graphics (*.png)");
+            System.Windows.Forms.TreeNode treeNode30 = new System.Windows.Forms.TreeNode("Raw Image Format (*.raw)");
+            System.Windows.Forms.TreeNode treeNode31 = new System.Windows.Forms.TreeNode("Tagged Image File (*.tiff)");
+            System.Windows.Forms.TreeNode treeNode32 = new System.Windows.Forms.TreeNode("Image Files", new System.Windows.Forms.TreeNode[] {
             treeNode21,
             treeNode22,
             treeNode23,
             treeNode24,
-            treeNode25});
-            System.Windows.Forms.TreeNode treeNode27 = new System.Windows.Forms.TreeNode("Other");
-            System.Windows.Forms.TreeNode treeNode28 = new System.Windows.Forms.TreeNode("All Files (*.*)", new System.Windows.Forms.TreeNode[] {
+            treeNode25,
+            treeNode26,
+            treeNode27,
+            treeNode28,
+            treeNode29,
+            treeNode30,
+            treeNode31});
+            System.Windows.Forms.TreeNode treeNode33 = new System.Windows.Forms.TreeNode("Other Files");
+            System.Windows.Forms.TreeNode treeNode34 = new System.Windows.Forms.TreeNode("All Formats", new System.Windows.Forms.TreeNode[] {
             treeNode11,
             treeNode20,
-            treeNode26,
-            treeNode27});
+            treeNode32,
+            treeNode33});
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MaskDialog));
             this.label1 = new System.Windows.Forms.Label();
             this.dtpCreatedMin = new System.Windows.Forms.DateTimePicker();
@@ -519,78 +531,137 @@
             this.TreeView.Name = "TreeView";
             treeNode1.Name = "Node4";
             treeNode1.StateImageIndex = 0;
+            treeNode1.Tag = "*.aac";
             treeNode1.Text = "Advanced Audio Coding (*.aac)";
             treeNode2.Name = "Node1";
             treeNode2.StateImageIndex = 0;
+            treeNode2.Tag = "*.aiff";
             treeNode2.Text = "Audio Interchange (*.aiff)";
             treeNode3.Name = "Node2";
             treeNode3.StateImageIndex = 0;
+            treeNode3.Tag = "*.flac";
             treeNode3.Text = "Free Lossless Audio Codec (*.flac)";
             treeNode4.Name = "Node5";
             treeNode4.StateImageIndex = 0;
+            treeNode4.Tag = "*.ape";
             treeNode4.Text = "Monkey\'s Audio (*.ape)";
             treeNode5.Name = "Node4";
             treeNode5.StateImageIndex = 0;
+            treeNode5.Tag = "*.mp3";
             treeNode5.Text = "MPEG Audio Layer-3 (*.mp3)";
             treeNode6.Name = "Node6";
             treeNode6.StateImageIndex = 0;
+            treeNode6.Tag = "*.m4a";
             treeNode6.Text = "MPEG-4 Audio (*.m4a)";
             treeNode7.Name = "Node3";
             treeNode7.StateImageIndex = 0;
+            treeNode7.Tag = "*.ogg";
             treeNode7.Text = "Ogg Vorbis (*.ogg)";
             treeNode8.Name = "Node6";
             treeNode8.StateImageIndex = 0;
+            treeNode8.Tag = "*.ra";
             treeNode8.Text = "Real Audio (*.ra)";
             treeNode9.Name = "Node0";
             treeNode9.StateImageIndex = 0;
+            treeNode9.Tag = "*.wav";
             treeNode9.Text = "Waveform Audio (*.wav)";
             treeNode10.Name = "Node5";
             treeNode10.StateImageIndex = 0;
+            treeNode10.Tag = "*.wma";
             treeNode10.Text = "Windows Media Audio (*.wma)";
             treeNode11.Name = "Node0";
             treeNode11.StateImageIndex = 0;
-            treeNode11.Text = "Audio";
+            treeNode11.Text = "Audio Files";
             treeNode12.Name = "Node9";
+            treeNode12.StateImageIndex = 0;
+            treeNode12.Tag = "*.avchd";
             treeNode12.Text = "Advanced Video Coding (*.avchd)";
             treeNode13.Name = "Node7";
+            treeNode13.StateImageIndex = 0;
+            treeNode13.Tag = "*.avi";
             treeNode13.Text = "Audio Video Interleave (*.avi)";
             treeNode14.Name = "Node8";
+            treeNode14.StateImageIndex = 0;
+            treeNode14.Tag = "*.flv";
             treeNode14.Text = "Flash (*.flv)";
             treeNode15.Name = "Node11";
+            treeNode15.StateImageIndex = 0;
+            treeNode15.Tag = "*.mkv";
             treeNode15.Text = "Matroska Video (*.mkv)";
             treeNode16.Name = "Node8";
+            treeNode16.StateImageIndex = 0;
+            treeNode16.Tag = "*.mp4";
             treeNode16.Text = "MPEG-4 Part 14 (*.mp4)";
             treeNode17.Name = "Node7";
+            treeNode17.StateImageIndex = 0;
+            treeNode17.Tag = "*.mov";
             treeNode17.Text = "QuickTime (*.mov)";
             treeNode18.Name = "Node10";
+            treeNode18.StateImageIndex = 0;
+            treeNode18.Tag = "*.webm";
             treeNode18.Text = "Web Media (*.webm)";
             treeNode19.Name = "Node9";
+            treeNode19.StateImageIndex = 0;
+            treeNode19.Tag = "*.wmv";
             treeNode19.Text = "Windows Media Video (*.wmv)";
             treeNode20.Name = "Node1";
             treeNode20.StateImageIndex = 0;
-            treeNode20.Text = "Video";
-            treeNode21.Name = "Node10";
-            treeNode21.Text = "*.bmp";
-            treeNode22.Name = "Node11";
-            treeNode22.Text = "*.gif";
-            treeNode23.Name = "Node12";
-            treeNode23.Text = "*.jpeg";
-            treeNode24.Name = "Node13";
-            treeNode24.Text = "*.jpg";
-            treeNode25.Name = "Node14";
-            treeNode25.Text = "*.png";
-            treeNode26.Name = "Node2";
+            treeNode20.Text = "Video Files";
+            treeNode21.Name = "Node15";
+            treeNode21.StateImageIndex = 0;
+            treeNode21.Tag = "*.ai";
+            treeNode21.Text = "Adobe Illustrator Document (*.ai)";
+            treeNode22.Name = "Node16";
+            treeNode22.StateImageIndex = 0;
+            treeNode22.Tag = "*.indd";
+            treeNode22.Text = "Adobe Indesign Document (*.indd)";
+            treeNode23.Name = "Node10";
+            treeNode23.StateImageIndex = 0;
+            treeNode23.Tag = "*.bmp";
+            treeNode23.Text = "Bitmap (*.bmp)";
+            treeNode24.Name = "Node14";
+            treeNode24.StateImageIndex = 0;
+            treeNode24.Tag = "*.eps";
+            treeNode24.Text = "Encapsulated Postscript (*.eps)";
+            treeNode25.Name = "Node11";
+            treeNode25.StateImageIndex = 0;
+            treeNode25.Tag = "*.gif";
+            treeNode25.Text = "Graphics Interchange Format (*.gif)";
+            treeNode26.Name = "Node12";
             treeNode26.StateImageIndex = 0;
-            treeNode26.Text = "Images";
-            treeNode27.Name = "Node3";
+            treeNode26.Tag = "*.jpeg|*.jpg";
+            treeNode26.Text = "Joint Photographic Experts Group (*.jpeg|*.jpg)";
+            treeNode27.Name = "Node12";
             treeNode27.StateImageIndex = 0;
-            treeNode27.Text = "Other";
-            treeNode28.Name = "Node0";
+            treeNode27.Tag = "*.psd";
+            treeNode27.Text = "Photoshop Document (*.psd)";
+            treeNode28.Name = "Node13";
             treeNode28.StateImageIndex = 0;
-            treeNode28.Text = "All Files (*.*)";
-            treeNode28.ToolTipText = "*.*";
+            treeNode28.Tag = "*.pdf";
+            treeNode28.Text = "Portable Document Format (*.pdf)";
+            treeNode29.Name = "Node14";
+            treeNode29.StateImageIndex = 0;
+            treeNode29.Tag = "*.png";
+            treeNode29.Text = "Portable Network Graphics (*.png)";
+            treeNode30.Name = "Node17";
+            treeNode30.StateImageIndex = 0;
+            treeNode30.Tag = "*.raw";
+            treeNode30.Text = "Raw Image Format (*.raw)";
+            treeNode31.Name = "Node13";
+            treeNode31.StateImageIndex = 0;
+            treeNode31.Tag = "*.tiff";
+            treeNode31.Text = "Tagged Image File (*.tiff)";
+            treeNode32.Name = "Node2";
+            treeNode32.StateImageIndex = 0;
+            treeNode32.Text = "Image Files";
+            treeNode33.Name = "Node3";
+            treeNode33.StateImageIndex = 0;
+            treeNode33.Text = "Other Files";
+            treeNode34.Name = "Node0";
+            treeNode34.StateImageIndex = 0;
+            treeNode34.Text = "All Formats";
             this.TreeView.Nodes.AddRange(new System.Windows.Forms.TreeNode[] {
-            treeNode28});
+            treeNode34});
             this.TreeView.Size = new System.Drawing.Size(310, 284);
             this.TreeView.StateImageList = this.TreeViewStateImageList;
             this.TreeView.TabIndex = 49;

@@ -11,8 +11,7 @@
                 DateTime.Now;
         }
 
-        public string FileMasks { get; set; }
-
+        public string FileSpecs { get; set; }
         public MaskFlags Flags { get; set; }
 
         public DateTime DateCreatedMax { get; set; }
