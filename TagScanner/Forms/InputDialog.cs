@@ -10,9 +10,9 @@
     using System.Threading.Tasks;
     using System.Windows.Forms;
 
-    public partial class InputBox : Form
+    public partial class InputDialog : Form
     {
-        public InputBox()
+        public InputDialog()
         {
             InitializeComponent();
         }

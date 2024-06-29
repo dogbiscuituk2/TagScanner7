@@ -1,6 +1,6 @@
 ﻿namespace TagScanner.Forms
 {
-    partial class InputBox
+    partial class InputDialog
     {
         /// <summary>
         /// Required designer variable.
@@ -28,17 +28,17 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.ComboBox = new System.Windows.Forms.ComboBox();
+            this.Control = new System.Windows.Forms.ComboBox();
             this.OKButton = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
-            // ComboBox
+            // Control
             // 
-            this.ComboBox.FormattingEnabled = true;
-            this.ComboBox.Location = new System.Drawing.Point(12, 12);
-            this.ComboBox.Name = "ComboBox";
-            this.ComboBox.Size = new System.Drawing.Size(242, 21);
-            this.ComboBox.TabIndex = 0;
+            this.Control.FormattingEnabled = true;
+            this.Control.Location = new System.Drawing.Point(12, 12);
+            this.Control.Name = "Control";
+            this.Control.Size = new System.Drawing.Size(242, 21);
+            this.Control.TabIndex = 0;
             // 
             // OKButton
             // 
@@ -52,19 +52,19 @@
             this.OKButton.Text = "OK";
             this.OKButton.UseVisualStyleBackColor = true;
             // 
-            // InputBox
+            // InputDialog
             // 
             this.AcceptButton = this.OKButton;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(304, 41);
             this.Controls.Add(this.OKButton);
-            this.Controls.Add(this.ComboBox);
+            this.Controls.Add(this.Control);
             this.Cursor = System.Windows.Forms.Cursors.Default;
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.MaximizeBox = false;
             this.MinimizeBox = false;
-            this.Name = "InputBox";
+            this.Name = "InputDialog";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Input Value";
             this.ResumeLayout(false);
@@ -74,7 +74,7 @@
 
         #endregion
 
-        public System.Windows.Forms.ComboBox ComboBox;
+        public System.Windows.Forms.ComboBox Control;
         public System.Windows.Forms.Button OKButton;
     }
 }

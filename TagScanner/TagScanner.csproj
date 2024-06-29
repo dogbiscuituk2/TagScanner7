@@ -158,7 +158,7 @@
     <Compile Include="Controllers\FilterController.cs" />
     <Compile Include="Controllers\AppController.cs" />
     <Compile Include="Controllers\FindReplaceController.cs" />
-    <Compile Include="Controllers\InputBoxController.cs" />
+    <Compile Include="Controllers\InputDialogController.cs" />
     <Compile Include="Controllers\Mru\MruController.cs" />
     <Compile Include="Controllers\Mru\MruFilterController.cs" />
     <Compile Include="Controllers\Mru\MruScriptController.cs" />
@@ -309,11 +309,11 @@
     <Compile Include="Controls\FindReplaceControl.Designer.cs">
       <DependentUpon>FindReplaceControl.cs</DependentUpon>
     </Compile>
-    <Compile Include="Forms\InputBox.cs">
+    <Compile Include="Forms\InputDialog.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Forms\InputBox.Designer.cs">
-      <DependentUpon>InputBox.cs</DependentUpon>
+    <Compile Include="Forms\InputDialog.Designer.cs">
+      <DependentUpon>InputDialog.cs</DependentUpon>
     </Compile>
     <Compile Include="Forms\ScriptForm.cs">
       <SubType>Form</SubType>
@@ -361,8 +361,8 @@
     <EmbeddedResource Include="Forms\MaskDialog.resx">
       <DependentUpon>MaskDialog.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Forms\InputBox.resx">
-      <DependentUpon>InputBox.cs</DependentUpon>
+    <EmbeddedResource Include="Forms\InputDialog.resx">
+      <DependentUpon>InputDialog.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\MainForm.resx">
       <DependentUpon>MainForm.cs</DependentUpon>

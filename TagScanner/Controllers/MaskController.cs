@@ -3,6 +3,7 @@
     using System;
     using System.Text;
     using System.Windows.Forms;
+    using System.Xml.Linq;
     using Forms;
     using Models;
 
@@ -14,12 +15,6 @@
         {
             MainForm.AddOptions.Click += AddOptions_Click;
         }
-
-        #endregion
-
-        #region Public Properties
-
-        public MaskDialog View => _maskDialog;
 
         #endregion
 
@@ -41,10 +36,12 @@
 
         #region Private Fields
 
-        private MaskDialog _maskDialog;
-        private TreeView TreeView;
-        private TriStateTreeController _maskTreeController;
-        private bool _updating;
+        private MaskDialog View;
+        private TriStateTreeController MaskTreeController;
+        private bool Updating;
+
+        private Button
+            BtnAdd, BtnEdit, BtnDelete;
 
         private CheckBox
             CbCreatedMin, CbCreatedMax, CbCreatedUtc,
@@ -63,9 +60,27 @@
         private NumericUpDown
             SeFileSizeMin, SeFileSizeMax;
 
+        private ToolStripMenuItem
+            PopupAdd, PopupEdit, PopupDelete;
+
         #endregion
 
-        #region Event Handlers
+        #region Private Properties
+
+        private TreeNodeCollection Nodes => TreeView.Nodes;
+        private TreeNode OtherFormats => RootNode.Nodes[3];
+        private TreeNode RootNode => Nodes[0];
+        private TreeView TreeView => View.TreeView;
+
+        private TreeNode SelectedNode
+        {
+            get => TreeView.SelectedNode;
+            set => TreeView.SelectedNode = value;
+        }
+
+        #endregion
+
+            #region Event Handlers
 
         private void AddOptions_Click(object sender, EventArgs e)
         {
@@ -74,6 +89,7 @@
         }
 
         private void CheckBox_CheckedChanged(object sender, EventArgs e) => UpdateUI();
+        private void TreeView_AfterSelect(object sender, TreeViewEventArgs e) => UpdateUI();
 
         #endregion
 
@@ -81,9 +97,9 @@
 
         private void AdjustDate(DateTimePicker min, DateTimePicker max, bool lower)
         {
-            if (!_updating)
+            if (!Updating)
             {
-                _updating = true;
+                Updating = true;
                 if (lower)
                 {
                     if (min.Value > max.Value)
@@ -94,15 +110,15 @@
                     if (max.Value < min.Value)
                         max.Value = min.Value;
                 }
-                _updating = false;
+                Updating = false;
             }
         }
 
         private void AdjustFileSize(bool lower)
         {
-            if (!_updating)
+            if (!Updating)
             {
-                _updating = true;
+                Updating = true;
                 decimal
                     min = SeFileSizeMin.Value,
                     max = SeFileSizeMax.Value;
@@ -110,7 +126,7 @@
                     SeFileSizeMin.Value = Math.Min(min, max);
                 else
                     SeFileSizeMax.Value = Math.Max(min, max);
-                _updating = false;
+                Updating = false;
             }
             AdjustIncrement(SeFileSizeMin);
             AdjustIncrement(SeFileSizeMax);
@@ -119,11 +135,15 @@
         private void AdjustIncrement(NumericUpDown control) =>
             control.Increment = Math.Max(1, Math.Truncate(control.Value / 100));
 
-        private MaskDialog CreateView()
+        private void CreateView()
         {
-            _maskDialog = new MaskDialog();
-            TreeView = View.TreeView;
-            _maskTreeController = new TriStateTreeController(TreeView);
+            View = new MaskDialog();
+            MaskTreeController = new TriStateTreeController(TreeView);
+            SetNodeState(RootNode, TreeNodeState.Unchecked);
+
+            BtnAdd = View.btnAdd;
+            BtnEdit = View.btnEdit;
+            BtnDelete = View.btnDelete;
 
             CbCreatedMin = View.cbCreatedMin;
             CbCreatedMax = View.cbCreatedMax;
@@ -152,7 +172,13 @@
             SeFileSizeMin = View.seFileSizeMin;
             SeFileSizeMax = View.seFileSizeMax;
 
+            PopupAdd = View.PopupAdd;
+            PopupEdit = View.PopupEdit;
+            PopupDelete = View.PopupDelete;
+
             SeFileSizeMin.Maximum = SeFileSizeMax.Maximum = ulong.MaxValue;
+
+            TreeView.AfterSelect += TreeView_AfterSelect;
 
             CbCreatedMin.CheckedChanged += CheckBox_CheckedChanged;
             CbModifiedMin.CheckedChanged += CheckBox_CheckedChanged;
@@ -173,13 +199,49 @@
             SeFileSizeMin.ValueChanged += (sender, e) => AdjustFileSize(lower: false);
             SeFileSizeMax.ValueChanged += (sender, e) => AdjustFileSize(lower: true);
 
-            return _maskDialog;
+            BtnAdd.Click += (sender, e) => FilespecAdd();
+            PopupAdd.Click += (sender, e) => FilespecAdd();
+            BtnEdit.Click += (sender, e) => FilespecEdit();
+            PopupEdit.Click += (sender, e) => FilespecEdit();
+            BtnDelete.Click += (sender, e) => FilespecDelete();
+            PopupDelete.Click += (sender, e) => FilespecDelete();
+        }
+
+        private string EditValue(string prompt, string value) => new InputDialogController(this).Execute(prompt, value);
+
+        private void FilespecAdd()
+        {
+            var value = EditValue("Add a new Filespec", "*.*");
+            if (value != null)
+            {
+                var node = OtherFormats.Nodes.Add(value);
+                SetNodeState(node, TreeNodeState.Checked);
+                InitNode(node, value);
+            }
+        }
+
+        private void FilespecDelete()
+        {
+            var node = SelectedNode;
+            if (MessageBox.Show("Sure?", "Really?", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+            {
+                Nodes.Remove(node);
+                SelectedNode = OtherFormats;
+            }
+        }
+
+        private void FilespecEdit()
+        {
+            var node = SelectedNode;
+            var value = EditValue("Add a new Filespec", node.Text);
+            if (value != null)
+                InitNode(node, value);
         }
 
         private string GetFileSpecs()
         {
             var result = new StringBuilder();
-            Traverse(TreeView.Nodes);
+            Traverse(Nodes);
             return result.ToString();
 
             void Traverse(TreeNodeCollection nodes)
@@ -195,6 +257,15 @@
                     Traverse(node.Nodes);
                 }
             }
+        }
+
+        private void InitNode(TreeNode node, string value)
+        {
+            SelectedNode = node;
+            node.Text = value;
+            node.Tag = value;
+            node.EnsureVisible();
+            TreeView.Focus();
         }
 
         private Mask Process(Mask mask, bool loading)
@@ -273,7 +344,7 @@
         private void SetFileSpecs(string fileSpecs)
         {
             fileSpecs = $"|{fileSpecs}|";
-            Traverse(TreeView.Nodes);
+            Traverse(Nodes);
 
             void Traverse(TreeNodeCollection nodes)
             {
@@ -282,15 +353,20 @@
                     if (node.Tag != null)
                     {
                         var check = fileSpecs.Contains($"|{node.Tag}|");
-                        _maskTreeController.SetNodeState(node, check ? TreeNodeState.Checked : TreeNodeState.Unchecked);
+                        SetNodeState(node, check ? TreeNodeState.Checked : TreeNodeState.Unchecked);
                     }
                     Traverse(node.Nodes);
                 }
             }
         }
 
+        private void SetNodeState(TreeNode node, TreeNodeState state) => MaskTreeController.SetNodeState(node, state);
+
         private void UpdateUI()
         {
+            BtnAdd.Enabled = PopupAdd.Enabled = SelectedNode == OtherFormats;
+            BtnEdit.Enabled = PopupEdit.Enabled = BtnDelete.Enabled = PopupDelete.Enabled =
+                SelectedNode?.Parent == OtherFormats;
             DtpCreatedMin.Enabled = CbCreatedMin.Checked;
             DtpModifiedMin.Enabled = CbModifiedMin.Checked;
             DtpAccessedMin.Enabled = CbAccessedMin.Checked;

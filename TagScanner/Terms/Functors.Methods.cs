@@ -67,7 +67,7 @@
         #endregion
         #region I/O
 
-        public static string Input(this string prompt) => new InputBoxController(null).Execute(prompt);
+        public static string Input(this string prompt) => new InputDialogController(null).Execute(prompt);
         public static void Print(params object[] values) => Console.Write(Concat(values));
         public static void PrintLine(params object[] values) => Console.WriteLine(Concat(values));
 
