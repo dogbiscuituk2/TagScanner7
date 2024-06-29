@@ -3,11 +3,11 @@
     using System.Windows.Forms;
     using Forms;
 
-    public class FileFormatDialogController : Controller
+    public class FileFormatController : Controller
     {
         #region Constructor
 
-        public FileFormatDialogController(Controller parent) : base(parent) { }
+        public FileFormatController(Controller parent) : base(parent) { }
 
         #endregion
 

@@ -1,10 +1,12 @@
 ﻿namespace TagScanner.Controllers
 {
     using System;
+    using System.Linq;
     using System.Text;
     using System.Windows.Forms;
     using Forms;
     using Models;
+    using Utils;
 
     public class FileOptionsController : Controller
     {
@@ -17,12 +19,76 @@
 
         #endregion
 
+        #region Public Properties
+
+        public string Schema
+        {
+            get
+            {
+                var schema = new StringBuilder();
+                AddNodes(Nodes);
+                return schema.ToString();
+
+                void AddNode(TreeNode node)
+                {
+                    schema.AppendLine(NodeString(node));
+                    AddNodes(node.Nodes);
+                }
+
+                void AddNodes(TreeNodeCollection nodes)
+                {
+                    foreach (TreeNode node in nodes)
+                        AddNode(node);
+                }
+
+                string NodeString(TreeNode node)
+                {
+                    var text = node.Text;
+                    switch (node.Level)
+                    {
+                        case 0:
+                            return text;
+                        case 1:
+                            return $">{text}";
+                        default:
+                            var filespec = node.Tag.ToString();
+                            return $"{filespec}>{text.Substring(0, text.Length - filespec.Length - 3)}";
+                    }
+                }
+            }
+            set
+            {
+                Nodes.Clear();
+                foreach (var item in value.TextToStrings().Where(p => !string.IsNullOrWhiteSpace(p)))
+                {
+                    int
+                        count = item.Length,
+                        index = item.IndexOf('>');
+                    string
+                        description = item.Substring(index + 1, count - index - 1),
+                        filespec = index > 0 ? item.Substring(0, index) : string.Empty;
+                    var nodes = Nodes;
+                    for (var level = Math.Sign(index); level > -1; level--)
+                        nodes = nodes.OfType<TreeNode>().Last().Nodes;
+                    var node = nodes.Add(description);
+                    InitNode(node, description, filespec, TreeNodeState.Unchecked);
+               }
+            }
+        }
+
+        #endregion
+
         #region Public Methods
 
         public bool Execute(ref FileOptions options)
         {
             if (View == null)
                 CreateView();
+
+            var foo = Schema;
+            Schema = foo;
+            var bar = Schema;
+
             Process(options, loading: true);
             UpdateUI();
             var ok = View.ShowDialog(Owner) == DialogResult.OK;
@@ -101,8 +167,7 @@
             if (EditValue("Add a new File Format", ref description, ref filespec))
             {
                 var node = OtherFormats.Nodes.Add(description);
-                InitNode(node, description, filespec);
-                SetNodeState(node, TreeNodeState.Checked);
+                InitNode(node, description, filespec, TreeNodeState.Checked);
             }
         }
 
@@ -223,12 +288,13 @@
             var node = SelectedNode;
             var description = node.Text;
             var filespec = node.Tag.ToString();
+            description = description.Substring(0, description.Length - filespec.Length - 3);
             if (EditValue("Edit this File Format", ref description, ref filespec))
                 InitNode(node, description, filespec);
         }
 
         private bool EditValue(string prompt, ref string description, ref string filespec) =>
-            new FileFormatDialogController(this).Execute(prompt, ref description, ref filespec);
+            new FileFormatController(this).Execute(prompt, ref description, ref filespec);
 
         private string GetFileFormats()
         {
@@ -251,11 +317,13 @@
             }
         }
 
-        private void InitNode(TreeNode node, string description, string filespec)
+        private void InitNode(TreeNode node, string description, string filespec, TreeNodeState state = TreeNodeState.Indeterminate)
         {
             SelectedNode = node;
-            node.Text = description;
+            node.Text = string.IsNullOrWhiteSpace(filespec) ? description : $"{description} ({filespec})";
             node.Tag = filespec;
+            if (state != TreeNodeState.Indeterminate)
+                SetNodeState(node, state);
             node.EnsureVisible();
             TreeView.Focus();
         }

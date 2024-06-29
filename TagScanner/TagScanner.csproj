@@ -158,7 +158,7 @@
     <Compile Include="Controllers\FilterController.cs" />
     <Compile Include="Controllers\AppController.cs" />
     <Compile Include="Controllers\FindReplaceController.cs" />
-    <Compile Include="Controllers\FileFormatDialogController.cs" />
+    <Compile Include="Controllers\FileFormatController.cs" />
     <Compile Include="Controllers\InputDialogController.cs" />
     <Compile Include="Controllers\Mru\MruController.cs" />
     <Compile Include="Controllers\Mru\MruFilterController.cs" />
