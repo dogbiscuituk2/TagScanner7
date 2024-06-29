@@ -158,6 +158,7 @@
     <Compile Include="Controllers\FilterController.cs" />
     <Compile Include="Controllers\AppController.cs" />
     <Compile Include="Controllers\FindReplaceController.cs" />
+    <Compile Include="Controllers\FileFormatDialogController.cs" />
     <Compile Include="Controllers\InputDialogController.cs" />
     <Compile Include="Controllers\Mru\MruController.cs" />
     <Compile Include="Controllers\Mru\MruFilterController.cs" />
@@ -186,6 +187,12 @@
     </Compile>
     <Compile Include="Forms\FileOptionsDialog.Designer.cs">
       <DependentUpon>FileOptionsDialog.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\FileFormatDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\FileFormatDialog.Designer.cs">
+      <DependentUpon>FileFormatDialog.cs</DependentUpon>
     </Compile>
     <Compile Include="Menus\ShellContextMenu.cs" />
     <Compile Include="Models\FileOptions.cs" />
@@ -360,6 +367,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\FileOptionsDialog.resx">
       <DependentUpon>FileOptionsDialog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\FileFormatDialog.resx">
+      <DependentUpon>FileFormatDialog.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\InputDialog.resx">
       <DependentUpon>InputDialog.cs</DependentUpon>

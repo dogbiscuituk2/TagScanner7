@@ -94,6 +94,18 @@
 
         #region Private Methods
 
+        private void Add()
+        {
+            var description = string.Empty;
+            var filespec = string.Empty;
+            if (EditValue("Add a new File Format", ref description, ref filespec))
+            {
+                var node = OtherFormats.Nodes.Add(description);
+                InitNode(node, description, filespec);
+                SetNodeState(node, TreeNodeState.Checked);
+            }
+        }
+
         private void AdjustDate(DateTimePicker min, DateTimePicker max, bool lower)
         {
             if (!Updating)
@@ -198,55 +210,31 @@
             SeFileSizeMin.ValueChanged += (sender, e) => AdjustFileSize(lower: false);
             SeFileSizeMax.ValueChanged += (sender, e) => AdjustFileSize(lower: true);
 
-            BtnAdd.Click += (sender, e) => FilespecAdd();
-            PopupAdd.Click += (sender, e) => FilespecAdd();
-            BtnEdit.Click += (sender, e) => FilespecEdit();
-            PopupEdit.Click += (sender, e) => FilespecEdit();
-            BtnDelete.Click += (sender, e) => FilespecDelete();
-            PopupDelete.Click += (sender, e) => FilespecDelete();
+            BtnAdd.Click += (sender, e) => Add();
+            PopupAdd.Click += (sender, e) => Add();
+            BtnEdit.Click += (sender, e) => Edit();
+            PopupEdit.Click += (sender, e) => Edit();
+            BtnDelete.Click += (sender, e) => Remove();
+            PopupDelete.Click += (sender, e) => Remove();
         }
 
-        private string EditValue(string prompt, string value) => new InputDialogController(this).Execute(prompt, value);
-
-        private void FilespecAdd()
-        {
-            var value = EditValue("Add a new Filespec", "*.*");
-            if (value != null)
-            {
-                var node = OtherFormats.Nodes.Add(value);
-                SetNodeState(node, TreeNodeState.Checked);
-                InitNode(node, value);
-            }
-        }
-
-        private void FilespecDelete()
+        private void Edit()
         {
             var node = SelectedNode;
-            if (MessageBox.Show(
-                $"Delete '{node.Text}' from the list of active filespecs?",
-                "Remove File Format",
-                MessageBoxButtons.YesNo,
-                MessageBoxIcon.Question
-                ) == DialogResult.Yes)
-            {
-                Nodes.Remove(node);
-                SelectedNode = OtherFormats;
-            }
+            var description = node.Text;
+            var filespec = node.Tag.ToString();
+            if (EditValue("Edit this File Format", ref description, ref filespec))
+                InitNode(node, description, filespec);
         }
 
-        private void FilespecEdit()
-        {
-            var node = SelectedNode;
-            var value = EditValue("Add a new Filespec", node.Text);
-            if (value != null)
-                InitNode(node, value);
-        }
+        private bool EditValue(string prompt, ref string description, ref string filespec) =>
+            new FileFormatDialogController(this).Execute(prompt, ref description, ref filespec);
 
-        private string GetFileSpecs()
+        private string GetFileFormats()
         {
-            var result = new StringBuilder();
+            var formats = new StringBuilder();
             Traverse(Nodes);
-            return result.ToString();
+            return formats.ToString();
 
             void Traverse(TreeNodeCollection nodes)
             {
@@ -254,20 +242,20 @@
                 {
                     if (node.Tag != null && node.StateImageIndex == 1)
                     {
-                        if (result.Length > 0)
-                            result.Append('|');
-                        result.Append(node.Tag);
+                        if (formats.Length > 0)
+                            formats.Append('|');
+                        formats.Append(node.Tag);
                     }
                     Traverse(node.Nodes);
                 }
             }
         }
 
-        private void InitNode(TreeNode node, string value)
+        private void InitNode(TreeNode node, string description, string filespec)
         {
             SelectedNode = node;
-            node.Text = value;
-            node.Tag = value;
+            node.Text = description;
+            node.Tag = filespec;
             node.EnsureVisible();
             TreeView.Focus();
         }
@@ -275,9 +263,9 @@
         private FileOptions Process(FileOptions options, bool loading)
         {
             if (loading)
-                SetFileSpecs(options.FileSpecs);
+                SetFileFormats(options.FileFormats);
             else
-                options.FileSpecs = GetFileSpecs();
+                options.FileFormats = GetFileFormats();
 
             ProcessCheckBox(CbCreatedMin, FileFlags.DateCreatedMin);
             ProcessCheckBox(CbCreatedMax, FileFlags.DateCreatedMax);
@@ -345,9 +333,24 @@
             void SetFlag(FileFlags flag) => options.Flags |= flag;
         }
 
-        private void SetFileSpecs(string fileSpecs)
+        private void Remove()
         {
-            fileSpecs = $"|{fileSpecs}|";
+            var node = SelectedNode;
+            if (MessageBox.Show(
+                $"Remove '{node.Text}' from the list of available file formats?",
+                "Remove File Format",
+                MessageBoxButtons.YesNo,
+                MessageBoxIcon.Question
+                ) == DialogResult.Yes)
+            {
+                Nodes.Remove(node);
+                SelectedNode = OtherFormats;
+            }
+        }
+
+        private void SetFileFormats(string formats)
+        {
+            formats = $"|{formats}|";
             Traverse(Nodes);
 
             void Traverse(TreeNodeCollection nodes)
@@ -356,7 +359,7 @@
                 {
                     if (node.Tag != null)
                     {
-                        var check = fileSpecs.Contains($"|{node.Tag}|");
+                        var check = formats.Contains($"|{node.Tag}|");
                         SetNodeState(node, check ? TreeNodeState.Checked : TreeNodeState.Unchecked);
                     }
                     Traverse(node.Nodes);
@@ -368,9 +371,8 @@
 
         private void UpdateUI()
         {
-            BtnAdd.Enabled = PopupAdd.Enabled = SelectedNode == OtherFormats;
             BtnEdit.Enabled = PopupEdit.Enabled = BtnDelete.Enabled = PopupDelete.Enabled =
-                SelectedNode?.Parent == OtherFormats;
+                SelectedNode?.Level == 2;
             DtpCreatedMin.Enabled = CbCreatedMin.Checked;
             DtpModifiedMin.Enabled = CbModifiedMin.Checked;
             DtpAccessedMin.Enabled = CbAccessedMin.Checked;
