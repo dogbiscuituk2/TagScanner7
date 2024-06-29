@@ -2,9 +2,9 @@
 {
     using System;
 
-    public class Mask
+    public class FileOptions
     {
-        public Mask()
+        public FileOptions()
         {
             DateCreatedMin = DateModifiedMin = DateAccessedMin =
                 DateCreatedMax = DateModifiedMax = DateAccessedMax =
@@ -12,7 +12,7 @@
         }
 
         public string FileSpecs { get; set; }
-        public MaskFlags Flags { get; set; }
+        public FileFlags Flags { get; set; }
 
         public DateTime DateCreatedMax { get; set; }
         public DateTime DateCreatedMin { get; set; }
@@ -26,8 +26,8 @@
         public ulong FileSizeMax { get; set; }
         public ulong FileSizeMin { get; set; }
 
-        public bool HasAttributeFilter => (Flags & MaskFlags.Attributes) != 0;
-        public bool HasDateFilter => (Flags & MaskFlags.Date) != 0;
-        public bool HasFileSizeFilter => (Flags & MaskFlags.FileSize) != 0;
+        public bool HasAttributeFilter => (Flags & FileFlags.Attributes) != 0;
+        public bool HasDateFilter => (Flags & FileFlags.Date) != 0;
+        public bool HasFileSizeFilter => (Flags & FileFlags.FileSize) != 0;
     }
 }

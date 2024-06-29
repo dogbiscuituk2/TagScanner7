@@ -3,15 +3,14 @@
     using System;
     using System.Text;
     using System.Windows.Forms;
-    using System.Xml.Linq;
     using Forms;
     using Models;
 
-    public class MaskController : Controller
+    public class FileOptionsController : Controller
     {
         #region Constructor
 
-        public MaskController(Controller parent) : base(parent)
+        public FileOptionsController(Controller parent) : base(parent)
         {
             MainForm.AddOptions.Click += AddOptions_Click;
         }
@@ -20,15 +19,15 @@
 
         #region Public Methods
 
-        public bool Execute(ref Mask mask)
+        public bool Execute(ref FileOptions options)
         {
             if (View == null)
                 CreateView();
-            Process(mask, loading: true);
+            Process(options, loading: true);
             UpdateUI();
             var ok = View.ShowDialog(Owner) == DialogResult.OK;
             if (ok)
-                mask = Process(new Mask(), loading: false);
+                options = Process(new FileOptions(), loading: false);
             return ok;
         }
 
@@ -36,8 +35,8 @@
 
         #region Private Fields
 
-        private MaskDialog View;
-        private TriStateTreeController MaskTreeController;
+        private FileOptionsDialog View;
+        private TriStateTreeController TriStateTreeController;
         private bool Updating;
 
         private Button
@@ -80,12 +79,12 @@
 
         #endregion
 
-            #region Event Handlers
+        #region Event Handlers
 
         private void AddOptions_Click(object sender, EventArgs e)
         {
-            var mask = new Mask();
-            Execute(ref mask);
+            var options = new FileOptions();
+            Execute(ref options);
         }
 
         private void CheckBox_CheckedChanged(object sender, EventArgs e) => UpdateUI();
@@ -137,8 +136,8 @@
 
         private void CreateView()
         {
-            View = new MaskDialog();
-            MaskTreeController = new TriStateTreeController(TreeView);
+            View = new FileOptionsDialog();
+            TriStateTreeController = new TriStateTreeController(TreeView);
             SetNodeState(RootNode, TreeNodeState.Unchecked);
 
             BtnAdd = View.btnAdd;
@@ -223,7 +222,12 @@
         private void FilespecDelete()
         {
             var node = SelectedNode;
-            if (MessageBox.Show("Sure?", "Really?", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+            if (MessageBox.Show(
+                $"Delete '{node.Text}' from the list of active filespecs?",
+                "Remove File Format",
+                MessageBoxButtons.YesNo,
+                MessageBoxIcon.Question
+                ) == DialogResult.Yes)
             {
                 Nodes.Remove(node);
                 SelectedNode = OtherFormats;
@@ -268,56 +272,56 @@
             TreeView.Focus();
         }
 
-        private Mask Process(Mask mask, bool loading)
+        private FileOptions Process(FileOptions options, bool loading)
         {
             if (loading)
-                SetFileSpecs(mask.FileSpecs);
+                SetFileSpecs(options.FileSpecs);
             else
-                mask.FileSpecs = GetFileSpecs();
+                options.FileSpecs = GetFileSpecs();
 
-            ProcessCheckBox(CbCreatedMin, MaskFlags.DateCreatedMin);
-            ProcessCheckBox(CbCreatedMax, MaskFlags.DateCreatedMax);
-            ProcessCheckBox(CbCreatedUtc, MaskFlags.DateCreatedUtc);
-            ProcessCheckBox(CbModifiedMin, MaskFlags.DateModifiedMin);
-            ProcessCheckBox(CbModifiedMax, MaskFlags.DateModifiedMax);
-            ProcessCheckBox(CbModifiedUtc, MaskFlags.DateModifiedUtc);
-            ProcessCheckBox(CbAccessedMin, MaskFlags.DateAccessedMin);
-            ProcessCheckBox(CbAccessedMax, MaskFlags.DateAccessedMax);
-            ProcessCheckBox(CbAccessedUtc, MaskFlags.DateAccessedUtc);
-            ProcessCheckBox(CbFileSizeMin, MaskFlags.FileSizeMin);
-            ProcessCheckBox(CbFileSizeMax, MaskFlags.FileSizeMax);
+            ProcessCheckBox(CbCreatedMin, FileFlags.DateCreatedMin);
+            ProcessCheckBox(CbCreatedMax, FileFlags.DateCreatedMax);
+            ProcessCheckBox(CbCreatedUtc, FileFlags.DateCreatedUtc);
+            ProcessCheckBox(CbModifiedMin, FileFlags.DateModifiedMin);
+            ProcessCheckBox(CbModifiedMax, FileFlags.DateModifiedMax);
+            ProcessCheckBox(CbModifiedUtc, FileFlags.DateModifiedUtc);
+            ProcessCheckBox(CbAccessedMin, FileFlags.DateAccessedMin);
+            ProcessCheckBox(CbAccessedMax, FileFlags.DateAccessedMax);
+            ProcessCheckBox(CbAccessedUtc, FileFlags.DateAccessedUtc);
+            ProcessCheckBox(CbFileSizeMin, FileFlags.FileSizeMin);
+            ProcessCheckBox(CbFileSizeMax, FileFlags.FileSizeMax);
 
             if (loading)
             {
-                DtpCreatedMin.Value = mask.DateCreatedMin;
-                DtpCreatedMax.Value = mask.DateCreatedMax;
-                DtpModifiedMin.Value = mask.DateModifiedMin;
-                DtpModifiedMax.Value = mask.DateModifiedMax;
-                DtpAccessedMin.Value = mask.DateAccessedMin;
-                DtpAccessedMax.Value = mask.DateAccessedMax;
-                SeFileSizeMin.Value = mask.FileSizeMin;
-                SeFileSizeMax.Value = mask.FileSizeMax;
+                DtpCreatedMin.Value = options.DateCreatedMin;
+                DtpCreatedMax.Value = options.DateCreatedMax;
+                DtpModifiedMin.Value = options.DateModifiedMin;
+                DtpModifiedMax.Value = options.DateModifiedMax;
+                DtpAccessedMin.Value = options.DateAccessedMin;
+                DtpAccessedMax.Value = options.DateAccessedMax;
+                SeFileSizeMin.Value = options.FileSizeMin;
+                SeFileSizeMax.Value = options.FileSizeMax;
             }
             else
             {
-                mask.DateCreatedMin = DtpCreatedMin.Value;
-                mask.DateCreatedMax = DtpCreatedMax.Value;
-                mask.DateModifiedMin = DtpModifiedMin.Value;
-                mask.DateModifiedMax = DtpModifiedMax.Value;
-                mask.DateAccessedMin = DtpAccessedMin.Value;
-                mask.DateAccessedMax = DtpAccessedMax.Value;
-                mask.FileSizeMin = (ulong)SeFileSizeMin.Value;
-                mask.FileSizeMax = (ulong)SeFileSizeMax.Value;
+                options.DateCreatedMin = DtpCreatedMin.Value;
+                options.DateCreatedMax = DtpCreatedMax.Value;
+                options.DateModifiedMin = DtpModifiedMin.Value;
+                options.DateModifiedMax = DtpModifiedMax.Value;
+                options.DateAccessedMin = DtpAccessedMin.Value;
+                options.DateAccessedMax = DtpAccessedMax.Value;
+                options.FileSizeMin = (ulong)SeFileSizeMin.Value;
+                options.FileSizeMax = (ulong)SeFileSizeMax.Value;
             }
 
-            ProcessComboBox(CbReadOnly, MaskFlags.ReadOnlyTrue, MaskFlags.ReadOnlyFalse);
-            ProcessComboBox(CbHidden, MaskFlags.HiddenTrue, MaskFlags.HiddenFalse);
-            ProcessComboBox(CbSystem, MaskFlags.SystemTrue, MaskFlags.SystemFalse);
-            ProcessComboBox(CbArchive, MaskFlags.ArchiveTrue, MaskFlags.ArchiveFalse);
+            ProcessComboBox(CbReadOnly, FileFlags.ReadOnlyTrue, FileFlags.ReadOnlyFalse);
+            ProcessComboBox(CbHidden, FileFlags.HiddenTrue, FileFlags.HiddenFalse);
+            ProcessComboBox(CbSystem, FileFlags.SystemTrue, FileFlags.SystemFalse);
+            ProcessComboBox(CbArchive, FileFlags.ArchiveTrue, FileFlags.ArchiveFalse);
 
-            return mask;
+            return options;
 
-            void ProcessCheckBox(CheckBox control, MaskFlags flag)
+            void ProcessCheckBox(CheckBox control, FileFlags flag)
             {
                 if (loading)
                     control.Checked = GetFlag(flag);
@@ -325,7 +329,7 @@
                     SetFlag(control.Checked ? flag : 0);
             }
 
-            void ProcessComboBox(ComboBox control, MaskFlags yes, MaskFlags no)
+            void ProcessComboBox(ComboBox control, FileFlags yes, FileFlags no)
             {
                 if (loading)
                     control.SelectedIndex = GetFlag(yes) ? 1 : GetFlag(no) ? 2 : 0;
@@ -337,8 +341,8 @@
                     }
             }
 
-            bool GetFlag(MaskFlags flag) => (mask.Flags & flag) != 0;
-            void SetFlag(MaskFlags flag) => mask.Flags |= flag;
+            bool GetFlag(FileFlags flag) => (options.Flags & flag) != 0;
+            void SetFlag(FileFlags flag) => options.Flags |= flag;
         }
 
         private void SetFileSpecs(string fileSpecs)
@@ -360,7 +364,7 @@
             }
         }
 
-        private void SetNodeState(TreeNode node, TreeNodeState state) => MaskTreeController.SetNodeState(node, state);
+        private void SetNodeState(TreeNode node, TreeNodeState state) => TriStateTreeController.SetNodeState(node, state);
 
         private void UpdateUI()
         {

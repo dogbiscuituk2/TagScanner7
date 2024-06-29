@@ -2,9 +2,9 @@
 {
     using System.Windows.Forms;
 
-    public partial class MaskDialog : Form
+    public partial class FileOptionsDialog : Form
     {
-        public MaskDialog()
+        public FileOptionsDialog()
         {
             InitializeComponent();
         }
