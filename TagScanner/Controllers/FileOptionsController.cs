@@ -88,7 +88,10 @@
             UpdateUI();
             var ok = View.ShowDialog(Owner) == DialogResult.OK;
             if (ok)
+            {
                 options = Process(new FileOptions(), loading: false);
+                AppController.WriteSchema(Schema);
+            }
             return ok;
         }
 
@@ -266,7 +269,7 @@
             PopupDelete.Click += (sender, e) => Remove();
 
             TriStateTreeController = new TriStateTreeController(TreeView);
-            Schema = Resources.DefaultSchema;
+            Schema = AppController.Schema;
             var root = RootNode;
             if (root != null)
                 foreach (TreeNode node in RootNode.Nodes)

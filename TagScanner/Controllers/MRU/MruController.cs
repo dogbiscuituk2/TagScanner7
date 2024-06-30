@@ -48,7 +48,6 @@
             catch (Exception exception) { LogException(exception); }
         }
 
-
         protected void ClearItems()
         {
             try
@@ -63,7 +62,8 @@
             catch (Exception exception) { LogException(exception); }
         }
 
-        protected Win32.RegistryKey CreateSubKey() => User.CreateSubKey(_subKeyName, Win32.RegistryKeyPermissionCheck.ReadWriteSubTree);
+        protected Win32.RegistryKey CreateSubKey() =>
+            User.CreateSubKey(_subKeyName, Win32.RegistryKeyPermissionCheck.ReadWriteSubTree);
 
         protected static void DeleteItem(Win32.RegistryKey key, string item)
         {

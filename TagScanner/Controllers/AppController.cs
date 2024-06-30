@@ -10,6 +10,7 @@
     using Models;
     using Mru;
     using Utils;
+    using TagScanner.Properties;
 
     public static class AppController
     {
@@ -32,6 +33,17 @@
         public static MruFilterController MruFilterController = new MruFilterController(null);
         public static MruStringsController MruFindController = new MruStringsController(null, "FindMRU");
         public static MruStringsController MruReplaceController = new MruStringsController(null, "ReplaceMRU");
+        public static MruSchemaController MruSchemaController = new MruSchemaController(null, "DefaultSchema");
+
+        #endregion
+
+        #region Public Properties
+
+        public static string Schema
+        {
+            get => ReadSchema();
+            set => WriteSchema(value);
+        }
 
         #endregion
 
@@ -178,11 +190,24 @@
             }
         }
 
+        public static string ReadSchema()
+        {
+            var schema = MruSchemaController.ReadSchema();
+            if (string.IsNullOrWhiteSpace(schema))
+            {
+                schema = Resources.DefaultSchema;
+                WriteSchema(schema);
+            }
+            return schema;
+        }
+
         public static void UpdateUI(MainFormController mainFormController)
         {
             mainFormController.UpdateLocalUI();
             mainFormController.CommandProcessor.UpdateLocalUI();
         }
+
+        public static void WriteSchema(string schema) => MruSchemaController.WriteSchema(schema);
 
         #endregion
     }

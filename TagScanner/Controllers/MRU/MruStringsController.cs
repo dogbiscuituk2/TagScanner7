@@ -50,7 +50,7 @@
             string[] values = Array.Empty<string>();
             if (TryReadKey(out Win32.RegistryKey key))
             {
-                values = key?.GetValue("Filter")?.ToString()?.TextToStrings() ?? Array.Empty<string>(); ;
+                values = key?.GetValue("Filter")?.ToString()?.TextToStrings() ?? Array.Empty<string>();
                 key?.Close();
             }
             return values;
