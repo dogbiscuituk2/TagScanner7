@@ -211,8 +211,6 @@
         private void CreateView()
         {
             View = new FileOptionsDialog();
-            TriStateTreeController = new TriStateTreeController(TreeView);
-            SetNodeState(RootNode, TreeNodeState.Unchecked);
 
             BtnAdd = View.btnAdd;
             BtnEdit = View.btnEdit;
@@ -267,8 +265,8 @@
             BtnDelete.Click += (sender, e) => Remove();
             PopupDelete.Click += (sender, e) => Remove();
 
+            TriStateTreeController = new TriStateTreeController(TreeView);
             Schema = Resources.DefaultSchema;
-
             var root = RootNode;
             if (root != null)
                 foreach (TreeNode node in RootNode.Nodes)
