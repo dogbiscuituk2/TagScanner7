@@ -6,6 +6,7 @@
     using System.Windows.Forms;
     using Forms;
     using Models;
+    using TagScanner.Properties;
     using Utils;
 
     public class FileOptionsController : Controller
@@ -266,9 +267,7 @@
             BtnDelete.Click += (sender, e) => Remove();
             PopupDelete.Click += (sender, e) => Remove();
 
-            var foo = Schema;
-            Schema = foo;
-            var bar = Schema == foo;
+            Schema = Resources.DefaultSchema;
 
             var root = RootNode;
             if (root != null)

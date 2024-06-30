@@ -1,0 +1,39 @@
+﻿All Media
+>Audio Files
+*.aac>Advanced Audio Coding
+*.aif|*.aifc|*.aiff>Audio Interchange
+*.cda>CD Audio Track
+*.flac>Free Lossless Audio Codec
+*.ape>Monkey's Audio
+*.mp3>MPEG Audio Layer-3
+*.m4a>MPEG-4 Audio
+*.mid|*.midi|*.rmi>Musical Instrument Digital Interface
+*.ogg>Ogg Vorbis
+*.ra>Real Audio
+*.au|*.snd>Sun Microsystems & NeXT
+*.wav>Waveform Audio
+*.aac|*.adt|*.adts>Windows audio file
+*.wma>Windows Media Audio
+>Video Files
+*.avchd>Advanced Video Coding
+*.avi>Audio Video Interleave
+*.flv>Flash
+*.ivf>Indeo Video Technology
+*.mkv>Matroska Video
+*.mp4>MPEG-4 Part 14
+*.mov>QuickTime
+*.webm>Web Media
+*.wmv>Windows Media Video
+>Image Files
+*.ai>Adobe Illustrator Document
+*.indd>Adobe Indesign Document
+*.bmp>Bitmap
+*.eps>Encapsulated Postscript
+*.gif>Graphics Interchange Format
+*.jpeg|*.jpg>Joint Photographic Experts Group
+*.psd>Photoshop Document
+*.pdf>Portable Document Format
+*.png>Portable Network Graphics
+*.raw>Raw Image Format
+*.tiff>Tagged Image File
+>Other Files

@@ -422,6 +422,7 @@
     <Content Include="Resources\DataContainer_MoveLastHS.png" />
     <Content Include="Resources\DataContainer_MoveNextHS.png" />
     <Content Include="Resources\DataContainer_MovePreviousHS.png" />
+    <Content Include="Resources\DefaultSchema.txt" />
     <Content Include="Resources\Delete.png" />
     <Content Include="Resources\DoubleLeftArrowHS.png" />
     <Content Include="Resources\DoubleRightArrowHS.png" />

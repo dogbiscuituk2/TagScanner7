@@ -547,6 +547,7 @@
             treeNode7.Text = "MPEG-4 Audio (*.m4a)";
             treeNode8.Name = "Node0";
             treeNode8.StateImageIndex = 0;
+            treeNode8.Tag = "*.mid|*.midi|*.rmi";
             treeNode8.Text = "Musical Instrument Digital Interface (*.mid|*.midi|*.rmi)";
             treeNode9.Name = "Node7";
             treeNode9.StateImageIndex = 0;
