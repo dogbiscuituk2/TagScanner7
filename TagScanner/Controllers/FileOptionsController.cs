@@ -84,11 +84,6 @@
         {
             if (View == null)
                 CreateView();
-
-            var foo = Schema;
-            Schema = foo;
-            var bar = Schema;
-
             Process(options, loading: true);
             UpdateUI();
             var ok = View.ShowDialog(Owner) == DialogResult.OK;
@@ -281,6 +276,13 @@
             PopupEdit.Click += (sender, e) => Edit();
             BtnDelete.Click += (sender, e) => Remove();
             PopupDelete.Click += (sender, e) => Remove();
+
+            var foo = Schema;
+            Schema = foo;
+            var bar = Schema == foo;
+
+            foreach (TreeNode node in RootNode.Nodes)
+                node.Collapse();
         }
 
         private void Edit()
