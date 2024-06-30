@@ -126,7 +126,7 @@
 
         private TreeNodeCollection Nodes => TreeView.Nodes;
         private TreeNode OtherFormats => RootNode.Nodes[3];
-        private TreeNode RootNode => Nodes[0];
+        private TreeNode RootNode => Nodes.Count > 0 ? Nodes[0] : null;
         private TreeView TreeView => View.TreeView;
 
         private TreeNode SelectedNode
@@ -139,12 +139,7 @@
 
         #region Event Handlers
 
-        private void AddOptions_Click(object sender, EventArgs e)
-        {
-            var options = new FileOptions();
-            Execute(ref options);
-        }
-
+        private void AddOptions_Click(object sender, EventArgs e) => AddOptions();
         private void CheckBox_CheckedChanged(object sender, EventArgs e) => UpdateUI();
         private void TreeView_AfterSelect(object sender, TreeViewEventArgs e) => UpdateUI();
 
@@ -164,6 +159,12 @@
         {
             var node = nodes.Add(description);
             InitNode(node, description, filespec, check ? TreeNodeState.Checked : TreeNodeState.Unchecked);
+        }
+
+        private void AddOptions()
+        {
+            var options = new FileOptions();
+            Execute(ref options);
         }
 
         private void AdjustDate(DateTimePicker min, DateTimePicker max, bool lower)
@@ -269,8 +270,10 @@
             Schema = foo;
             var bar = Schema == foo;
 
-            foreach (TreeNode node in RootNode.Nodes)
-                node.Collapse();
+            var root = RootNode;
+            if (root != null)
+                foreach (TreeNode node in RootNode.Nodes)
+                    node.Collapse();
         }
 
         private void Edit()
