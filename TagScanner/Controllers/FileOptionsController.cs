@@ -70,8 +70,7 @@
                     var nodes = Nodes;
                     for (var level = Math.Sign(index); level > -1; level--)
                         nodes = nodes.OfType<TreeNode>().Last().Nodes;
-                    var node = nodes.Add(description);
-                    InitNode(node, description, filespec, TreeNodeState.Unchecked);
+                    AddNode(nodes, description, filespec, check: false);
                }
             }
         }
@@ -104,9 +103,7 @@
             BtnAdd, BtnEdit, BtnDelete;
 
         private CheckBox
-            CbCreatedMin, CbCreatedMax, CbCreatedUtc,
-            CbModifiedMin, CbModifiedMax, CbModifiedUtc,
-            CbAccessedMin, CbAccessedMax, CbAccessedUtc,
+            CbCreatedUtc, CbModifiedUtc, CbAccessedUtc,
             CbFileSizeMin, CbFileSizeMax;
 
         private ComboBox
@@ -160,10 +157,13 @@
             var description = string.Empty;
             var filespec = string.Empty;
             if (EditValue("Add a new File Format", ref description, ref filespec))
-            {
-                var node = OtherFormats.Nodes.Add(description);
-                InitNode(node, description, filespec, TreeNodeState.Checked);
-            }
+                AddNode(OtherFormats.Nodes, description, filespec, check: true);
+        }
+
+        private void AddNode(TreeNodeCollection nodes, string description, string filespec, bool check)
+        {
+            var node = nodes.Add(description);
+            InitNode(node, description, filespec, check ? TreeNodeState.Checked : TreeNodeState.Unchecked);
         }
 
         private void AdjustDate(DateTimePicker min, DateTimePicker max, bool lower)
@@ -216,14 +216,8 @@
             BtnEdit = View.btnEdit;
             BtnDelete = View.btnDelete;
 
-            CbCreatedMin = View.cbCreatedMin;
-            CbCreatedMax = View.cbCreatedMax;
             CbCreatedUtc = View.cbCreatedUtc;
-            CbModifiedMin = View.cbModifiedMin;
-            CbModifiedMax = View.cbModifiedMax;
             CbModifiedUtc = View.cbModifiedUtc;
-            CbAccessedMin = View.cbAccessedMin;
-            CbAccessedMax = View.cbAccessedMax;
             CbAccessedUtc = View.cbAccessedUtc;
             CbFileSizeMin = View.cbFileSizeMin;
             CbFileSizeMax = View.cbFileSizeMax;
@@ -251,13 +245,7 @@
 
             TreeView.AfterSelect += TreeView_AfterSelect;
 
-            CbCreatedMin.CheckedChanged += CheckBox_CheckedChanged;
-            CbModifiedMin.CheckedChanged += CheckBox_CheckedChanged;
-            CbAccessedMin.CheckedChanged += CheckBox_CheckedChanged;
             CbFileSizeMin.CheckedChanged += CheckBox_CheckedChanged;
-            CbCreatedMax.CheckedChanged += CheckBox_CheckedChanged;
-            CbModifiedMax.CheckedChanged += CheckBox_CheckedChanged;
-            CbAccessedMax.CheckedChanged += CheckBox_CheckedChanged;
             CbFileSizeMax.CheckedChanged += CheckBox_CheckedChanged;
 
             DtpCreatedMin.ValueChanged += (sender, e) => AdjustDate(DtpCreatedMin, DtpCreatedMax, lower: false);
@@ -319,15 +307,19 @@
             }
         }
 
-        private void InitNode(TreeNode node, string description, string filespec, TreeNodeState state = TreeNodeState.Indeterminate)
+        private void InitNode(TreeNode node, string description, string filespec)
         {
             SelectedNode = node;
             node.Text = string.IsNullOrWhiteSpace(filespec) ? description : $"{description} ({filespec})";
             node.Tag = filespec;
-            if (state != TreeNodeState.Indeterminate)
-                SetNodeState(node, state);
             node.EnsureVisible();
             TreeView.Focus();
+        }
+
+        private void InitNode(TreeNode node, string description, string filespec, TreeNodeState state)
+        {
+            InitNode(node, description, filespec);
+            SetNodeState(node, state);
         }
 
         private FileOptions Process(FileOptions options, bool loading)
@@ -337,14 +329,14 @@
             else
                 options.FileFormats = GetFileFormats();
 
-            ProcessCheckBox(CbCreatedMin, FileFlags.DateCreatedMin);
-            ProcessCheckBox(CbCreatedMax, FileFlags.DateCreatedMax);
+            ProcessDtpCheckBox(DtpCreatedMin, FileFlags.DateCreatedMin);
+            ProcessDtpCheckBox(DtpCreatedMax, FileFlags.DateCreatedMax);
             ProcessCheckBox(CbCreatedUtc, FileFlags.DateCreatedUtc);
-            ProcessCheckBox(CbModifiedMin, FileFlags.DateModifiedMin);
-            ProcessCheckBox(CbModifiedMax, FileFlags.DateModifiedMax);
+            ProcessDtpCheckBox(DtpModifiedMin, FileFlags.DateModifiedMin);
+            ProcessDtpCheckBox(DtpModifiedMax, FileFlags.DateModifiedMax);
             ProcessCheckBox(CbModifiedUtc, FileFlags.DateModifiedUtc);
-            ProcessCheckBox(CbAccessedMin, FileFlags.DateAccessedMin);
-            ProcessCheckBox(CbAccessedMax, FileFlags.DateAccessedMax);
+            ProcessDtpCheckBox(DtpAccessedMin, FileFlags.DateAccessedMin);
+            ProcessDtpCheckBox(DtpAccessedMax, FileFlags.DateAccessedMax);
             ProcessCheckBox(CbAccessedUtc, FileFlags.DateAccessedUtc);
             ProcessCheckBox(CbFileSizeMin, FileFlags.FileSizeMin);
             ProcessCheckBox(CbFileSizeMax, FileFlags.FileSizeMax);
@@ -380,6 +372,14 @@
             return options;
 
             void ProcessCheckBox(CheckBox control, FileFlags flag)
+            {
+                if (loading)
+                    control.Checked = GetFlag(flag);
+                else
+                    SetFlag(control.Checked ? flag : 0);
+            }
+
+            void ProcessDtpCheckBox(DateTimePicker control, FileFlags flag)
             {
                 if (loading)
                     control.Checked = GetFlag(flag);
@@ -443,12 +443,6 @@
         {
             BtnEdit.Enabled = PopupEdit.Enabled = BtnDelete.Enabled = PopupDelete.Enabled =
                 SelectedNode?.Level == 2;
-            DtpCreatedMin.Enabled = CbCreatedMin.Checked;
-            DtpModifiedMin.Enabled = CbModifiedMin.Checked;
-            DtpAccessedMin.Enabled = CbAccessedMin.Checked;
-            DtpCreatedMax.Enabled = CbCreatedMax.Checked;
-            DtpModifiedMax.Enabled = CbModifiedMax.Checked;
-            DtpAccessedMax.Enabled = CbAccessedMax.Checked;
             SeFileSizeMin.Enabled = CbFileSizeMin.Checked;
             SeFileSizeMax.Enabled = CbFileSizeMax.Checked;
         }

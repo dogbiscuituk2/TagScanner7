@@ -125,12 +125,6 @@
             this.cbCreatedUtc = new System.Windows.Forms.CheckBox();
             this.cbModifiedUtc = new System.Windows.Forms.CheckBox();
             this.cbAccessedUtc = new System.Windows.Forms.CheckBox();
-            this.cbCreatedMin = new System.Windows.Forms.CheckBox();
-            this.cbModifiedMin = new System.Windows.Forms.CheckBox();
-            this.cbAccessedMin = new System.Windows.Forms.CheckBox();
-            this.cbAccessedMax = new System.Windows.Forms.CheckBox();
-            this.cbModifiedMax = new System.Windows.Forms.CheckBox();
-            this.cbCreatedMax = new System.Windows.Forms.CheckBox();
             this.TreeView = new System.Windows.Forms.TreeView();
             this.PopupMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.PopupAdd = new System.Windows.Forms.ToolStripMenuItem();
@@ -153,7 +147,7 @@
             // 
             this.label1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(331, 58);
+            this.label1.Location = new System.Drawing.Point(331, 46);
             this.label1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(54, 17);
@@ -165,11 +159,11 @@
             // 
             this.dtpCreatedMin.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.dtpCreatedMin.Format = System.Windows.Forms.DateTimePickerFormat.Short;
-            this.dtpCreatedMin.Location = new System.Drawing.Point(424, 55);
+            this.dtpCreatedMin.Location = new System.Drawing.Point(402, 40);
             this.dtpCreatedMin.Margin = new System.Windows.Forms.Padding(4);
             this.dtpCreatedMin.Name = "dtpCreatedMin";
             this.dtpCreatedMin.ShowCheckBox = true;
-            this.dtpCreatedMin.Size = new System.Drawing.Size(105, 25);
+            this.dtpCreatedMin.Size = new System.Drawing.Size(128, 25);
             this.dtpCreatedMin.TabIndex = 1;
             this.ToolTip.SetToolTip(this.dtpCreatedMin, "Earliest Created Date");
             this.dtpCreatedMin.Value = new System.DateTime(2024, 9, 27, 21, 20, 0, 0);
@@ -178,10 +172,11 @@
             // 
             this.dtpCreatedMax.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.dtpCreatedMax.Format = System.Windows.Forms.DateTimePickerFormat.Short;
-            this.dtpCreatedMax.Location = new System.Drawing.Point(560, 56);
+            this.dtpCreatedMax.Location = new System.Drawing.Point(538, 40);
             this.dtpCreatedMax.Margin = new System.Windows.Forms.Padding(4);
             this.dtpCreatedMax.Name = "dtpCreatedMax";
-            this.dtpCreatedMax.Size = new System.Drawing.Size(104, 25);
+            this.dtpCreatedMax.ShowCheckBox = true;
+            this.dtpCreatedMax.Size = new System.Drawing.Size(126, 25);
             this.dtpCreatedMax.TabIndex = 3;
             this.ToolTip.SetToolTip(this.dtpCreatedMax, "Latest Created Date");
             // 
@@ -189,10 +184,11 @@
             // 
             this.dtpModifiedMax.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.dtpModifiedMax.Format = System.Windows.Forms.DateTimePickerFormat.Short;
-            this.dtpModifiedMax.Location = new System.Drawing.Point(560, 90);
+            this.dtpModifiedMax.Location = new System.Drawing.Point(538, 73);
             this.dtpModifiedMax.Margin = new System.Windows.Forms.Padding(4);
             this.dtpModifiedMax.Name = "dtpModifiedMax";
-            this.dtpModifiedMax.Size = new System.Drawing.Size(104, 25);
+            this.dtpModifiedMax.ShowCheckBox = true;
+            this.dtpModifiedMax.Size = new System.Drawing.Size(126, 25);
             this.dtpModifiedMax.TabIndex = 6;
             this.ToolTip.SetToolTip(this.dtpModifiedMax, "Latest Modified Date");
             // 
@@ -200,10 +196,11 @@
             // 
             this.dtpModifiedMin.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.dtpModifiedMin.Format = System.Windows.Forms.DateTimePickerFormat.Short;
-            this.dtpModifiedMin.Location = new System.Drawing.Point(425, 89);
+            this.dtpModifiedMin.Location = new System.Drawing.Point(402, 73);
             this.dtpModifiedMin.Margin = new System.Windows.Forms.Padding(4);
             this.dtpModifiedMin.Name = "dtpModifiedMin";
-            this.dtpModifiedMin.Size = new System.Drawing.Size(104, 25);
+            this.dtpModifiedMin.ShowCheckBox = true;
+            this.dtpModifiedMin.Size = new System.Drawing.Size(128, 25);
             this.dtpModifiedMin.TabIndex = 5;
             this.ToolTip.SetToolTip(this.dtpModifiedMin, "Earliest Modified Date");
             // 
@@ -211,7 +208,7 @@
             // 
             this.label2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(331, 92);
+            this.label2.Location = new System.Drawing.Point(331, 77);
             this.label2.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(61, 17);
@@ -223,10 +220,11 @@
             // 
             this.dtpAccessedMax.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.dtpAccessedMax.Format = System.Windows.Forms.DateTimePickerFormat.Short;
-            this.dtpAccessedMax.Location = new System.Drawing.Point(560, 121);
+            this.dtpAccessedMax.Location = new System.Drawing.Point(538, 106);
             this.dtpAccessedMax.Margin = new System.Windows.Forms.Padding(4);
             this.dtpAccessedMax.Name = "dtpAccessedMax";
-            this.dtpAccessedMax.Size = new System.Drawing.Size(104, 25);
+            this.dtpAccessedMax.ShowCheckBox = true;
+            this.dtpAccessedMax.Size = new System.Drawing.Size(126, 25);
             this.dtpAccessedMax.TabIndex = 9;
             this.ToolTip.SetToolTip(this.dtpAccessedMax, "Latest Accessed Date");
             // 
@@ -234,10 +232,11 @@
             // 
             this.dtpAccessedMin.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.dtpAccessedMin.Format = System.Windows.Forms.DateTimePickerFormat.Short;
-            this.dtpAccessedMin.Location = new System.Drawing.Point(425, 123);
+            this.dtpAccessedMin.Location = new System.Drawing.Point(402, 106);
             this.dtpAccessedMin.Margin = new System.Windows.Forms.Padding(4);
             this.dtpAccessedMin.Name = "dtpAccessedMin";
-            this.dtpAccessedMin.Size = new System.Drawing.Size(104, 25);
+            this.dtpAccessedMin.ShowCheckBox = true;
+            this.dtpAccessedMin.Size = new System.Drawing.Size(128, 25);
             this.dtpAccessedMin.TabIndex = 8;
             this.ToolTip.SetToolTip(this.dtpAccessedMin, "Earliest Accessed Date");
             // 
@@ -245,7 +244,7 @@
             // 
             this.label3.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(331, 126);
+            this.label3.Location = new System.Drawing.Point(331, 110);
             this.label3.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(62, 17);
@@ -256,10 +255,11 @@
             // label4
             // 
             this.label4.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.label4.Location = new System.Drawing.Point(388, 17);
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(399, 15);
             this.label4.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(42, 30);
+            this.label4.Size = new System.Drawing.Size(38, 17);
             this.label4.TabIndex = 10;
             this.label4.Text = "From";
             this.label4.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -267,10 +267,11 @@
             // label5
             // 
             this.label5.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.label5.Location = new System.Drawing.Point(520, 15);
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(536, 15);
             this.label5.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(51, 30);
+            this.label5.Size = new System.Drawing.Size(41, 17);
             this.label5.TabIndex = 11;
             this.label5.Text = "Up to";
             this.label5.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -279,7 +280,7 @@
             // 
             this.cbFileSizeMin.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.cbFileSizeMin.AutoSize = true;
-            this.cbFileSizeMin.Location = new System.Drawing.Point(401, 163);
+            this.cbFileSizeMin.Location = new System.Drawing.Point(402, 148);
             this.cbFileSizeMin.Margin = new System.Windows.Forms.Padding(4);
             this.cbFileSizeMin.Name = "cbFileSizeMin";
             this.cbFileSizeMin.Size = new System.Drawing.Size(15, 14);
@@ -291,7 +292,7 @@
             // 
             this.label6.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(331, 160);
+            this.label6.Location = new System.Drawing.Point(332, 145);
             this.label6.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(54, 17);
@@ -303,7 +304,7 @@
             // 
             this.cbFileSizeMax.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.cbFileSizeMax.AutoSize = true;
-            this.cbFileSizeMax.Location = new System.Drawing.Point(538, 161);
+            this.cbFileSizeMax.Location = new System.Drawing.Point(539, 146);
             this.cbFileSizeMax.Margin = new System.Windows.Forms.Padding(4);
             this.cbFileSizeMax.Name = "cbFileSizeMax";
             this.cbFileSizeMax.Size = new System.Drawing.Size(15, 14);
@@ -315,7 +316,7 @@
             // 
             this.label7.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(331, 197);
+            this.label7.Location = new System.Drawing.Point(332, 182);
             this.label7.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(67, 17);
@@ -327,7 +328,7 @@
             // 
             this.label8.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(331, 233);
+            this.label8.Location = new System.Drawing.Point(332, 218);
             this.label8.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(50, 17);
@@ -339,7 +340,7 @@
             // 
             this.label9.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.label9.AutoSize = true;
-            this.label9.Location = new System.Drawing.Point(490, 198);
+            this.label9.Location = new System.Drawing.Point(491, 183);
             this.label9.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label9.Name = "label9";
             this.label9.Size = new System.Drawing.Size(49, 17);
@@ -351,7 +352,7 @@
             // 
             this.label10.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.label10.AutoSize = true;
-            this.label10.Location = new System.Drawing.Point(490, 233);
+            this.label10.Location = new System.Drawing.Point(491, 218);
             this.label10.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label10.Name = "label10";
             this.label10.Size = new System.Drawing.Size(50, 17);
@@ -368,7 +369,7 @@
             "",
             "Set",
             "Clear"});
-            this.cbAttrReadOnly.Location = new System.Drawing.Point(401, 193);
+            this.cbAttrReadOnly.Location = new System.Drawing.Point(402, 178);
             this.cbAttrReadOnly.Margin = new System.Windows.Forms.Padding(4);
             this.cbAttrReadOnly.Name = "cbAttrReadOnly";
             this.cbAttrReadOnly.Size = new System.Drawing.Size(67, 25);
@@ -384,7 +385,7 @@
             "",
             "Set",
             "Clear"});
-            this.cbAttrHidden.Location = new System.Drawing.Point(401, 229);
+            this.cbAttrHidden.Location = new System.Drawing.Point(402, 214);
             this.cbAttrHidden.Margin = new System.Windows.Forms.Padding(4);
             this.cbAttrHidden.Name = "cbAttrHidden";
             this.cbAttrHidden.Size = new System.Drawing.Size(67, 25);
@@ -400,7 +401,7 @@
             "",
             "Set",
             "Clear"});
-            this.cbAttrSystem.Location = new System.Drawing.Point(560, 194);
+            this.cbAttrSystem.Location = new System.Drawing.Point(561, 179);
             this.cbAttrSystem.Margin = new System.Windows.Forms.Padding(4);
             this.cbAttrSystem.Name = "cbAttrSystem";
             this.cbAttrSystem.Size = new System.Drawing.Size(67, 25);
@@ -416,7 +417,7 @@
             "",
             "Set",
             "Clear"});
-            this.cbAttrArchive.Location = new System.Drawing.Point(560, 229);
+            this.cbAttrArchive.Location = new System.Drawing.Point(561, 214);
             this.cbAttrArchive.Margin = new System.Windows.Forms.Padding(4);
             this.cbAttrArchive.Name = "cbAttrArchive";
             this.cbAttrArchive.Size = new System.Drawing.Size(67, 25);
@@ -427,7 +428,7 @@
             // 
             this.btnOK.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.btnOK.DialogResult = System.Windows.Forms.DialogResult.OK;
-            this.btnOK.Location = new System.Drawing.Point(555, 285);
+            this.btnOK.Location = new System.Drawing.Point(555, 251);
             this.btnOK.Margin = new System.Windows.Forms.Padding(4);
             this.btnOK.Name = "btnOK";
             this.btnOK.Size = new System.Drawing.Size(64, 27);
@@ -439,7 +440,7 @@
             // 
             this.btnCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.btnCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.btnCancel.Location = new System.Drawing.Point(627, 285);
+            this.btnCancel.Location = new System.Drawing.Point(627, 251);
             this.btnCancel.Margin = new System.Windows.Forms.Padding(4);
             this.btnCancel.Name = "btnCancel";
             this.btnCancel.Size = new System.Drawing.Size(64, 27);
@@ -450,10 +451,11 @@
             // label11
             // 
             this.label11.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.label11.Location = new System.Drawing.Point(331, 17);
+            this.label11.AutoSize = true;
+            this.label11.Location = new System.Drawing.Point(332, 15);
             this.label11.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label11.Name = "label11";
-            this.label11.Size = new System.Drawing.Size(49, 30);
+            this.label11.Size = new System.Drawing.Size(35, 17);
             this.label11.TabIndex = 39;
             this.label11.Text = "Date";
             this.label11.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -463,7 +465,7 @@
             // 
             this.cbCreatedUtc.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.cbCreatedUtc.AutoSize = true;
-            this.cbCreatedUtc.Location = new System.Drawing.Point(672, 61);
+            this.cbCreatedUtc.Location = new System.Drawing.Point(672, 46);
             this.cbCreatedUtc.Margin = new System.Windows.Forms.Padding(4);
             this.cbCreatedUtc.Name = "cbCreatedUtc";
             this.cbCreatedUtc.Size = new System.Drawing.Size(15, 14);
@@ -475,7 +477,7 @@
             // 
             this.cbModifiedUtc.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.cbModifiedUtc.AutoSize = true;
-            this.cbModifiedUtc.Location = new System.Drawing.Point(672, 94);
+            this.cbModifiedUtc.Location = new System.Drawing.Point(672, 79);
             this.cbModifiedUtc.Margin = new System.Windows.Forms.Padding(4);
             this.cbModifiedUtc.Name = "cbModifiedUtc";
             this.cbModifiedUtc.Size = new System.Drawing.Size(15, 14);
@@ -487,85 +489,13 @@
             // 
             this.cbAccessedUtc.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.cbAccessedUtc.AutoSize = true;
-            this.cbAccessedUtc.Location = new System.Drawing.Point(672, 128);
+            this.cbAccessedUtc.Location = new System.Drawing.Point(672, 112);
             this.cbAccessedUtc.Margin = new System.Windows.Forms.Padding(4);
             this.cbAccessedUtc.Name = "cbAccessedUtc";
             this.cbAccessedUtc.Size = new System.Drawing.Size(15, 14);
             this.cbAccessedUtc.TabIndex = 42;
             this.ToolTip.SetToolTip(this.cbAccessedUtc, "Use UTC Accessed Date");
             this.cbAccessedUtc.UseVisualStyleBackColor = true;
-            // 
-            // cbCreatedMin
-            // 
-            this.cbCreatedMin.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.cbCreatedMin.AutoSize = true;
-            this.cbCreatedMin.Location = new System.Drawing.Point(401, 61);
-            this.cbCreatedMin.Margin = new System.Windows.Forms.Padding(4);
-            this.cbCreatedMin.Name = "cbCreatedMin";
-            this.cbCreatedMin.Size = new System.Drawing.Size(15, 14);
-            this.cbCreatedMin.TabIndex = 43;
-            this.ToolTip.SetToolTip(this.cbCreatedMin, "Use Earliest Created Date");
-            this.cbCreatedMin.UseVisualStyleBackColor = true;
-            // 
-            // cbModifiedMin
-            // 
-            this.cbModifiedMin.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.cbModifiedMin.AutoSize = true;
-            this.cbModifiedMin.Location = new System.Drawing.Point(401, 95);
-            this.cbModifiedMin.Margin = new System.Windows.Forms.Padding(4);
-            this.cbModifiedMin.Name = "cbModifiedMin";
-            this.cbModifiedMin.Size = new System.Drawing.Size(15, 14);
-            this.cbModifiedMin.TabIndex = 44;
-            this.ToolTip.SetToolTip(this.cbModifiedMin, "Use Earliest Modified Date");
-            this.cbModifiedMin.UseVisualStyleBackColor = true;
-            // 
-            // cbAccessedMin
-            // 
-            this.cbAccessedMin.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.cbAccessedMin.AutoSize = true;
-            this.cbAccessedMin.Location = new System.Drawing.Point(401, 129);
-            this.cbAccessedMin.Margin = new System.Windows.Forms.Padding(4);
-            this.cbAccessedMin.Name = "cbAccessedMin";
-            this.cbAccessedMin.Size = new System.Drawing.Size(15, 14);
-            this.cbAccessedMin.TabIndex = 45;
-            this.ToolTip.SetToolTip(this.cbAccessedMin, "Use Earliest Accessed Date");
-            this.cbAccessedMin.UseVisualStyleBackColor = true;
-            // 
-            // cbAccessedMax
-            // 
-            this.cbAccessedMax.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.cbAccessedMax.AutoSize = true;
-            this.cbAccessedMax.Location = new System.Drawing.Point(537, 128);
-            this.cbAccessedMax.Margin = new System.Windows.Forms.Padding(4);
-            this.cbAccessedMax.Name = "cbAccessedMax";
-            this.cbAccessedMax.Size = new System.Drawing.Size(15, 14);
-            this.cbAccessedMax.TabIndex = 48;
-            this.ToolTip.SetToolTip(this.cbAccessedMax, "Use Latest Accessed Date");
-            this.cbAccessedMax.UseVisualStyleBackColor = true;
-            // 
-            // cbModifiedMax
-            // 
-            this.cbModifiedMax.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.cbModifiedMax.AutoSize = true;
-            this.cbModifiedMax.Location = new System.Drawing.Point(537, 95);
-            this.cbModifiedMax.Margin = new System.Windows.Forms.Padding(4);
-            this.cbModifiedMax.Name = "cbModifiedMax";
-            this.cbModifiedMax.Size = new System.Drawing.Size(15, 14);
-            this.cbModifiedMax.TabIndex = 47;
-            this.ToolTip.SetToolTip(this.cbModifiedMax, "Use Latest Modified Date");
-            this.cbModifiedMax.UseVisualStyleBackColor = true;
-            // 
-            // cbCreatedMax
-            // 
-            this.cbCreatedMax.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.cbCreatedMax.AutoSize = true;
-            this.cbCreatedMax.Location = new System.Drawing.Point(537, 61);
-            this.cbCreatedMax.Margin = new System.Windows.Forms.Padding(4);
-            this.cbCreatedMax.Name = "cbCreatedMax";
-            this.cbCreatedMax.Size = new System.Drawing.Size(15, 14);
-            this.cbCreatedMax.TabIndex = 46;
-            this.ToolTip.SetToolTip(this.cbCreatedMax, "Use Latest Created Date");
-            this.cbCreatedMax.UseVisualStyleBackColor = true;
             // 
             // TreeView
             // 
@@ -710,7 +640,7 @@
             treeNode34.Text = "All File Formats";
             this.TreeView.Nodes.AddRange(new System.Windows.Forms.TreeNode[] {
             treeNode34});
-            this.TreeView.Size = new System.Drawing.Size(310, 295);
+            this.TreeView.Size = new System.Drawing.Size(310, 265);
             this.TreeView.StateImageList = this.TreeViewStateImageList;
             this.TreeView.TabIndex = 49;
             // 
@@ -755,10 +685,11 @@
             // label12
             // 
             this.label12.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.label12.Location = new System.Drawing.Point(660, 15);
+            this.label12.AutoSize = true;
+            this.label12.Location = new System.Drawing.Point(662, 15);
             this.label12.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label12.Name = "label12";
-            this.label12.Size = new System.Drawing.Size(40, 30);
+            this.label12.Size = new System.Drawing.Size(37, 17);
             this.label12.TabIndex = 50;
             this.label12.Text = "UTC?";
             this.label12.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -767,7 +698,7 @@
             // 
             this.seFileSizeMin.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.seFileSizeMin.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.seFileSizeMin.Location = new System.Drawing.Point(425, 157);
+            this.seFileSizeMin.Location = new System.Drawing.Point(426, 142);
             this.seFileSizeMin.Maximum = new decimal(new int[] {
             0,
             0,
@@ -783,7 +714,7 @@
             // 
             this.seFileSizeMax.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.seFileSizeMax.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.seFileSizeMax.Location = new System.Drawing.Point(560, 157);
+            this.seFileSizeMax.Location = new System.Drawing.Point(561, 142);
             this.seFileSizeMax.Maximum = new decimal(new int[] {
             0,
             0,
@@ -798,7 +729,7 @@
             // btnDelete
             // 
             this.btnDelete.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnDelete.Location = new System.Drawing.Point(483, 285);
+            this.btnDelete.Location = new System.Drawing.Point(483, 251);
             this.btnDelete.Margin = new System.Windows.Forms.Padding(4);
             this.btnDelete.Name = "btnDelete";
             this.btnDelete.Size = new System.Drawing.Size(64, 27);
@@ -810,7 +741,7 @@
             // btnEdit
             // 
             this.btnEdit.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnEdit.Location = new System.Drawing.Point(415, 285);
+            this.btnEdit.Location = new System.Drawing.Point(415, 251);
             this.btnEdit.Margin = new System.Windows.Forms.Padding(4);
             this.btnEdit.Name = "btnEdit";
             this.btnEdit.Size = new System.Drawing.Size(60, 27);
@@ -822,7 +753,7 @@
             // btnAdd
             // 
             this.btnAdd.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnAdd.Location = new System.Drawing.Point(347, 285);
+            this.btnAdd.Location = new System.Drawing.Point(347, 251);
             this.btnAdd.Margin = new System.Windows.Forms.Padding(4);
             this.btnAdd.Name = "btnAdd";
             this.btnAdd.Size = new System.Drawing.Size(60, 27);
@@ -837,7 +768,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 17F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.btnCancel;
-            this.ClientSize = new System.Drawing.Size(704, 321);
+            this.ClientSize = new System.Drawing.Size(704, 291);
             this.Controls.Add(this.btnAdd);
             this.Controls.Add(this.btnEdit);
             this.Controls.Add(this.btnDelete);
@@ -845,12 +776,6 @@
             this.Controls.Add(this.seFileSizeMin);
             this.Controls.Add(this.label12);
             this.Controls.Add(this.TreeView);
-            this.Controls.Add(this.cbAccessedMax);
-            this.Controls.Add(this.cbModifiedMax);
-            this.Controls.Add(this.cbCreatedMax);
-            this.Controls.Add(this.cbAccessedMin);
-            this.Controls.Add(this.cbModifiedMin);
-            this.Controls.Add(this.cbCreatedMin);
             this.Controls.Add(this.cbAccessedUtc);
             this.Controls.Add(this.cbModifiedUtc);
             this.Controls.Add(this.cbCreatedUtc);
@@ -882,7 +807,7 @@
             this.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Margin = new System.Windows.Forms.Padding(4);
             this.MinimizeBox = false;
-            this.MinimumSize = new System.Drawing.Size(720, 360);
+            this.MinimumSize = new System.Drawing.Size(720, 330);
             this.Name = "FileOptionsDialog";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "File Options";
@@ -924,12 +849,6 @@
         public System.Windows.Forms.CheckBox cbCreatedUtc;
         public System.Windows.Forms.CheckBox cbModifiedUtc;
         public System.Windows.Forms.CheckBox cbAccessedUtc;
-        public System.Windows.Forms.CheckBox cbCreatedMin;
-        public System.Windows.Forms.CheckBox cbModifiedMin;
-        public System.Windows.Forms.CheckBox cbAccessedMin;
-        public System.Windows.Forms.CheckBox cbAccessedMax;
-        public System.Windows.Forms.CheckBox cbModifiedMax;
-        public System.Windows.Forms.CheckBox cbCreatedMax;
         public System.Windows.Forms.TreeView TreeView;
         public System.Windows.Forms.ImageList TreeViewStateImageList;
         public System.Windows.Forms.Label label12;
