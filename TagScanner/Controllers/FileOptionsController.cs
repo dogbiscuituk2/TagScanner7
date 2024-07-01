@@ -98,11 +98,23 @@
 
         public string GetErrors(Control control)
         {
-            var errors = new StringBuilder("FAIL");
-            if (control == DtpCreatedMin)
-            {
-            }
+            var errors = new StringBuilder();
+            if (control == DtpCreatedMin || control == DtpCreatedMax)
+                CheckDates(DtpCreatedMin, DtpCreatedMax, "Created Date");
+            if (control == DtpModifiedMin || control == DtpModifiedMax)
+                CheckDates(DtpModifiedMin, DtpModifiedMax, "Modified Date");
+            if (control == DtpAccessedMin || control == DtpAccessedMax)
+                CheckDates(DtpAccessedMin, DtpAccessedMax, "Accessed Date");
+            if (control == SeFileSizeMin || control == SeFileSizeMax)
+                if (CbFileSizeMin.Checked && CbFileSizeMax.Checked && SeFileSizeMin.Value > SeFileSizeMax.Value)
+                    errors.AppendLine("The minimum File Size cannot be greater than the maximum.");
             return errors.ToString().Trim();
+
+            void CheckDates(DateTimePicker min, DateTimePicker max, string date)
+            {
+                if (min.Checked && max.Checked && min.Value > max.Value)
+                    errors.AppendLine($"The first {date} cannot be later than the last.");
+            }
         }
 
         #endregion
@@ -183,43 +195,6 @@
             Execute(ref options);
         }
 
-        private void AdjustDate(DateTimePicker min, DateTimePicker max, bool lower)
-        {
-            if (!Updating)
-            {
-                Updating = true;
-                if (lower)
-                {
-                    if (min.Value > max.Value)
-                        min.Value = max.Value;
-                }
-                else
-                {
-                    if (max.Value < min.Value)
-                        max.Value = min.Value;
-                }
-                Updating = false;
-            }
-        }
-
-        private void AdjustFileSize(bool lower)
-        {
-            if (!Updating)
-            {
-                Updating = true;
-                decimal
-                    min = SeFileSizeMin.Value,
-                    max = SeFileSizeMax.Value;
-                if (lower)
-                    SeFileSizeMin.Value = Math.Min(min, max);
-                else
-                    SeFileSizeMax.Value = Math.Max(min, max);
-                Updating = false;
-            }
-            AdjustIncrement(SeFileSizeMin);
-            AdjustIncrement(SeFileSizeMax);
-        }
-
         private void AdjustIncrement(NumericUpDown control) =>
             control.Increment = Math.Max(1, Math.Truncate(control.Value / 100));
 
@@ -263,15 +238,8 @@
             CbFileSizeMin.CheckedChanged += CheckBox_CheckedChanged;
             CbFileSizeMax.CheckedChanged += CheckBox_CheckedChanged;
 
-            DtpCreatedMin.ValueChanged += (sender, e) => AdjustDate(DtpCreatedMin, DtpCreatedMax, lower: false);
-            DtpCreatedMax.ValueChanged += (sender, e) => AdjustDate(DtpCreatedMin, DtpCreatedMax, lower: true);
-            DtpModifiedMin.ValueChanged += (sender, e) => AdjustDate(DtpModifiedMin, DtpModifiedMax, lower: false);
-            DtpModifiedMax.ValueChanged += (sender, e) => AdjustDate(DtpModifiedMin, DtpModifiedMax, lower: true);
-            DtpAccessedMin.ValueChanged += (sender, e) => AdjustDate(DtpAccessedMin, DtpAccessedMax, lower: false);
-            DtpAccessedMax.ValueChanged += (sender, e) => AdjustDate(DtpAccessedMin, DtpAccessedMax, lower: true);
-
-            SeFileSizeMin.ValueChanged += (sender, e) => AdjustFileSize(lower: false);
-            SeFileSizeMax.ValueChanged += (sender, e) => AdjustFileSize(lower: true);
+            SeFileSizeMin.ValueChanged += (sender, e) => AdjustIncrement(SeFileSizeMin);
+            SeFileSizeMax.ValueChanged += (sender, e) => AdjustIncrement(SeFileSizeMax);
 
             BtnAdd.Click += (sender, e) => Add();
             PopupAdd.Click += (sender, e) => Add();

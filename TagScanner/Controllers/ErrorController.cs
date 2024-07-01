@@ -37,7 +37,7 @@
         {
             if (Form.DialogResult == DialogResult.OK)
             {
-                var errors = Controls.Select(p => GetErrors(p)).Where(q => !string.IsNullOrEmpty(q));
+                var errors = Controls.Select(p => GetErrors(p)).Where(q => !string.IsNullOrEmpty(q)).Distinct();
                 if (e.Cancel = errors.Any())
                     MessageBox.Show(
                         Form,
