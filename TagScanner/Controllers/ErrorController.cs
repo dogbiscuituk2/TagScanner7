@@ -42,7 +42,7 @@
                     MessageBox.Show(
                         Form,
                         errors.Aggregate((p, q) => $"{p}{Environment.NewLine}{q}"),
-                        "Data Validation Failed",
+                        "Data Validation",
                         MessageBoxButtons.OK,
                         MessageBoxIcon.Error);
             }
