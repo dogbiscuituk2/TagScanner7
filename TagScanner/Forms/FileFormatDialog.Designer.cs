@@ -28,12 +28,15 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.cbDescription = new System.Windows.Forms.ComboBox();
             this.btnOK = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.cbFilespec = new System.Windows.Forms.ComboBox();
             this.btnCancel = new System.Windows.Forms.Button();
+            this.ErrorProvider = new System.Windows.Forms.ErrorProvider(this.components);
+            ((System.ComponentModel.ISupportInitialize)(this.ErrorProvider)).BeginInit();
             this.SuspendLayout();
             // 
             // cbDescription
@@ -41,7 +44,7 @@
             this.cbDescription.FormattingEnabled = true;
             this.cbDescription.Location = new System.Drawing.Point(78, 12);
             this.cbDescription.Name = "cbDescription";
-            this.cbDescription.Size = new System.Drawing.Size(294, 21);
+            this.cbDescription.Size = new System.Drawing.Size(280, 21);
             this.cbDescription.TabIndex = 0;
             // 
             // btnOK
@@ -49,7 +52,7 @@
             this.btnOK.AutoSize = true;
             this.btnOK.Cursor = System.Windows.Forms.Cursors.Default;
             this.btnOK.DialogResult = System.Windows.Forms.DialogResult.OK;
-            this.btnOK.Location = new System.Drawing.Point(266, 86);
+            this.btnOK.Location = new System.Drawing.Point(252, 86);
             this.btnOK.Name = "btnOK";
             this.btnOK.Size = new System.Drawing.Size(50, 23);
             this.btnOK.TabIndex = 1;
@@ -79,7 +82,7 @@
             this.cbFilespec.FormattingEnabled = true;
             this.cbFilespec.Location = new System.Drawing.Point(78, 39);
             this.cbFilespec.Name = "cbFilespec";
-            this.cbFilespec.Size = new System.Drawing.Size(294, 21);
+            this.cbFilespec.Size = new System.Drawing.Size(280, 21);
             this.cbFilespec.TabIndex = 3;
             // 
             // btnCancel
@@ -87,12 +90,16 @@
             this.btnCancel.AutoSize = true;
             this.btnCancel.Cursor = System.Windows.Forms.Cursors.Default;
             this.btnCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.btnCancel.Location = new System.Drawing.Point(322, 86);
+            this.btnCancel.Location = new System.Drawing.Point(308, 86);
             this.btnCancel.Name = "btnCancel";
             this.btnCancel.Size = new System.Drawing.Size(50, 23);
             this.btnCancel.TabIndex = 5;
             this.btnCancel.Text = "Cancel";
             this.btnCancel.UseVisualStyleBackColor = true;
+            // 
+            // ErrorProvider
+            // 
+            this.ErrorProvider.ContainerControl = this;
             // 
             // FileFormatDialog
             // 
@@ -114,6 +121,7 @@
             this.Name = "FileFormatDialog";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "File Format";
+            ((System.ComponentModel.ISupportInitialize)(this.ErrorProvider)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -127,5 +135,6 @@
         private System.Windows.Forms.Label label2;
         public System.Windows.Forms.ComboBox cbFilespec;
         public System.Windows.Forms.Button btnCancel;
+        public System.Windows.Forms.ErrorProvider ErrorProvider;
     }
 }
