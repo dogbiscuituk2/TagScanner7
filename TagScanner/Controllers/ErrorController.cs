@@ -28,7 +28,7 @@
         #region Private Properties
 
         private ErrorProvider ErrorProvider => Getter.ErrorProvider;
-        private IGetError Getter => Parent as IGetError;
+        private IGetErrors Getter => Parent as IGetErrors;
 
         #endregion
 
@@ -38,7 +38,7 @@
         {
             if (Form.DialogResult == DialogResult.OK)
             {
-                var errors = Controls.Select(p => GetError(p)).Where(q => !string.IsNullOrEmpty(q));
+                var errors = Controls.Select(p => GetErrors(p)).Where(q => !string.IsNullOrEmpty(q));
                 if (e.Cancel = errors.Any())
                     MessageBox.Show(
                         Form,
@@ -59,12 +59,12 @@
             {
                 SetIconAlignment(control, ErrorIconAlignment.MiddleRight);
                 SetIconPadding(control, 4);
-                control.Validated += (sender, e) => SetError((Control)sender, GetError(control));
+                control.Validated += (sender, e) => SetError((Control)sender, GetErrors(control));
             }
             Form.FormClosing += Form_FormClosing;
         }
 
-        private string GetError(Control control) => Getter.GetError(control);
+        private string GetErrors(Control control) => Getter.GetErrors(control);
         private void SetError(Control control, string value) => ErrorProvider.SetError(control, value);
         private void SetIconAlignment(Control control, ErrorIconAlignment alignment) => ErrorProvider.SetIconAlignment(control, alignment);
         private void SetIconPadding(Control control, int padding) => ErrorProvider.SetIconPadding(control, padding);

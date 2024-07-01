@@ -2,9 +2,9 @@
 {
     using System.Windows.Forms;
 
-    public interface IGetError
+    public interface IGetErrors
     {
         ErrorProvider ErrorProvider { get; }
-        string GetError(Control control);
+        string GetErrors(Control control);
     }
 }

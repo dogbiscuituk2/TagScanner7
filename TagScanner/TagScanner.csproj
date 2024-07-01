@@ -160,7 +160,7 @@
     <Compile Include="Controllers\AppController.cs" />
     <Compile Include="Controllers\FindReplaceController.cs" />
     <Compile Include="Controllers\FileFormatController.cs" />
-    <Compile Include="Controllers\IGetError.cs" />
+    <Compile Include="Controllers\IGetErrors.cs" />
     <Compile Include="Controllers\InputDialogController.cs" />
     <Compile Include="Controllers\Mru\MruController.cs" />
     <Compile Include="Controllers\Mru\MruFilterController.cs" />

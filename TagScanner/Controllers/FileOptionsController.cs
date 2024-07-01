@@ -52,8 +52,8 @@
                         case 1:
                             return $">{text}";
                         default:
-                            var filespec = node.Tag.ToString();
-                            return $"{filespec}>{text.Substring(0, text.Length - filespec.Length - 3)}";
+                            var filespecs = node.Tag.ToString();
+                            return $"{filespecs}>{text.Substring(0, text.Length - filespecs.Length - 3)}";
                     }
                 }
             }
@@ -67,11 +67,11 @@
                         index = item.IndexOf('>');
                     string
                         description = item.Substring(index + 1, count - index - 1),
-                        filespec = index > 0 ? item.Substring(0, index) : string.Empty;
+                        filespecs = index > 0 ? item.Substring(0, index) : string.Empty;
                     var nodes = Nodes;
                     for (var level = Math.Sign(index); level > -1; level--)
                         nodes = nodes.OfType<TreeNode>().Last().Nodes;
-                    AddNode(nodes, description, filespec, check: false);
+                    AddNode(nodes, description, filespecs, check: false);
                }
             }
         }
@@ -153,16 +153,17 @@
 
         private void Add()
         {
-            var description = string.Empty;
-            var filespec = string.Empty;
-            if (EditValue("Add a new File Format", ref description, ref filespec))
-                AddNode(OtherFormats.Nodes, description, filespec, check: true);
+            string
+                description = string.Empty,
+                filespecs = string.Empty;
+            if (EditValue("Add a new File Format", ref description, ref filespecs))
+                AddNode(OtherFormats.Nodes, description, filespecs, check: true);
         }
 
-        private void AddNode(TreeNodeCollection nodes, string description, string filespec, bool check)
+        private void AddNode(TreeNodeCollection nodes, string description, string filespecs, bool check)
         {
             var node = nodes.Add(description);
-            InitNode(node, description, filespec, check ? TreeNodeState.Checked : TreeNodeState.Unchecked);
+            InitNode(node, description, filespecs, check ? TreeNodeState.Checked : TreeNodeState.Unchecked);
         }
 
         private void AddOptions()
@@ -280,14 +281,14 @@
         {
             var node = SelectedNode;
             var description = node.Text;
-            var filespec = node.Tag.ToString();
-            description = description.Substring(0, description.Length - filespec.Length - 3);
-            if (EditValue("Edit this File Format", ref description, ref filespec))
-                InitNode(node, description, filespec);
+            var filespecs = node.Tag.ToString();
+            description = description.Substring(0, description.Length - filespecs.Length - 3);
+            if (EditValue("Edit this File Format", ref description, ref filespecs))
+                InitNode(node, description, filespecs);
         }
 
-        private bool EditValue(string prompt, ref string description, ref string filespec) =>
-            new FileFormatController(this).Execute(prompt, ref description, ref filespec);
+        private bool EditValue(string prompt, ref string description, ref string filespecs) =>
+            new FileFormatController(this).Execute(prompt, ref description, ref filespecs);
 
         private string GetFileFormats()
         {
@@ -310,18 +311,18 @@
             }
         }
 
-        private void InitNode(TreeNode node, string description, string filespec)
+        private void InitNode(TreeNode node, string description, string filespecs)
         {
             SelectedNode = node;
-            node.Text = string.IsNullOrWhiteSpace(filespec) ? description : $"{description} ({filespec})";
-            node.Tag = filespec;
+            node.Text = string.IsNullOrWhiteSpace(filespecs) ? description : $"{description} ({filespecs})";
+            node.Tag = filespecs;
             node.EnsureVisible();
             TreeView.Focus();
         }
 
-        private void InitNode(TreeNode node, string description, string filespec, TreeNodeState state)
+        private void InitNode(TreeNode node, string description, string filespecs, TreeNodeState state)
         {
-            InitNode(node, description, filespec);
+            InitNode(node, description, filespecs);
             SetNodeState(node, state);
         }
 

@@ -1,9 +1,10 @@
 ﻿namespace TagScanner.Controllers
 {
+    using System.Text;
     using System.Windows.Forms;
     using Forms;
 
-    public class FileFormatController : Controller, IGetError
+    public class FileFormatController : Controller, IGetErrors
     {
         #region Constructor
 
@@ -21,41 +22,53 @@
 
         public ErrorProvider ErrorProvider => Dialog.ErrorProvider;
 
-        public string Filespec
+        public string Filespecs
         {
-            get => CbFilespec.Text;
-            set => CbFilespec.Text = value;
+            get => CbFilespecs.Text;
+            set => CbFilespecs.Text = value;
         }
 
         #endregion
 
         #region Public Methods
 
-        public bool Execute(string prompt, ref string description, ref string filespec)
+        public bool Execute(string prompt, ref string description, ref string filespecs)
         {
             if (Dialog == null)
             {
                 Dialog = new FileFormatDialog();
-                ErrorController = new ErrorController(this, CbDescription, CbFilespec);
+                ErrorController = new ErrorController(this, CbDescription, CbFilespecs);
             }
             Dialog.Text = prompt;
             Description = description;
-            Filespec = filespec;
+            Filespecs = filespecs;
             var ok = Dialog.ShowDialog(Owner) == DialogResult.OK;
             if (ok)
             {
                 description = Description;
-                filespec = Filespec;
+                filespecs = Filespecs;
             }
             return ok;
         }
 
-        public string GetError(Control control) =>
-            control == CbDescription && string.IsNullOrWhiteSpace(CbDescription.Text) ?
-            "Description cannot be blank." :
-            control == CbFilespec && string.IsNullOrWhiteSpace(CbFilespec.Text) ?
-            "Filespec cannot be blank." :
-            string.Empty;
+        public string GetErrors(Control control)
+        {
+            var errors = new StringBuilder();
+            if (control == CbDescription)
+            {
+                if (string.IsNullOrWhiteSpace(CbDescription.Text))
+                    errors.AppendLine("Description cannot be blank.");
+            }
+            if (control == CbFilespecs)
+            {
+                var text = CbFilespecs.Text;
+                if (string.IsNullOrWhiteSpace(text))
+                    errors.AppendLine("Filespec(s) cannot be blank.");
+                var foo = text.Split('|');
+
+            }
+            return errors.ToString().Trim();
+        }
 
         #endregion
 
@@ -69,7 +82,7 @@
         #region Private Properties
 
         private Control CbDescription => Dialog.cbDescription;
-        private Control CbFilespec => Dialog.cbFilespec;
+        private Control CbFilespecs => Dialog.cbFilespecs;
 
         #endregion
     }
