@@ -3,7 +3,7 @@
     using System.Windows.Forms;
     using Forms;
 
-    public class FileFormatController : ErrorProviderController
+    public class FileFormatController : Controller, IGetError
     {
         #region Constructor
 
@@ -18,6 +18,8 @@
             get => CbDescription.Text;
             set => CbDescription.Text = value;
         }
+
+        public ErrorProvider ErrorProvider => Dialog.ErrorProvider;
 
         public string Filespec
         {
@@ -34,9 +36,7 @@
             if (Dialog == null)
             {
                 Dialog = new FileFormatDialog();
-                InitErrorProvider(CbDescription);
-                InitErrorProvider(CbFilespec);
-                Dialog.FormClosing += Dialog_FormClosing;
+                ErrorController = new ErrorController(this, CbDescription, CbFilespec);
             }
             Dialog.Text = prompt;
             Description = description;
@@ -50,32 +50,19 @@
             return ok;
         }
 
-        #endregion
-
-        #region Protected Properties
-
-        protected override ErrorProvider ErrorProvider => Dialog.ErrorProvider;
-
-        #endregion
-
-        #region Protected Methods
-
-        protected override string GetError(Control control) =>
+        public string GetError(Control control) =>
             control == CbDescription && string.IsNullOrWhiteSpace(CbDescription.Text) ?
-            "Description cannot be blank" :
+            "Description cannot be blank." :
             control == CbFilespec && string.IsNullOrWhiteSpace(CbFilespec.Text) ?
-            "Filespec cannot be blank" :
+            "Filespec cannot be blank." :
             string.Empty;
 
         #endregion
 
-        private void Dialog_FormClosing(object sender, FormClosingEventArgs e)
-        {
-        }
-
         #region Private Fields
 
         private FileFormatDialog Dialog;
+        private ErrorController ErrorController;
 
         #endregion
 

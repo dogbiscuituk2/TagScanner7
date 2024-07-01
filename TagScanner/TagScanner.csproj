@@ -154,12 +154,13 @@
     <Compile Include="Commands\ReplaceCommand.cs" />
     <Compile Include="Controllers\AutoCompleter.cs" />
     <Compile Include="Controllers\DragDropController.cs" />
-    <Compile Include="Controllers\ErrorProviderController.cs" />
+    <Compile Include="Controllers\ErrorController.cs" />
     <Compile Include="Controllers\FileOptionsController.cs" />
     <Compile Include="Controllers\FilterController.cs" />
     <Compile Include="Controllers\AppController.cs" />
     <Compile Include="Controllers\FindReplaceController.cs" />
     <Compile Include="Controllers\FileFormatController.cs" />
+    <Compile Include="Controllers\IGetError.cs" />
     <Compile Include="Controllers\InputDialogController.cs" />
     <Compile Include="Controllers\Mru\MruController.cs" />
     <Compile Include="Controllers\Mru\MruFilterController.cs" />
