@@ -6,10 +6,9 @@
     using System.Windows.Forms;
     using Forms;
     using Models;
-    using TagScanner.Properties;
     using Utils;
 
-    public class FileOptionsController : Controller
+    public class FileOptionsController : Controller, IGetErrors
     {
         #region Constructor
 
@@ -21,6 +20,8 @@
         #endregion
 
         #region Public Properties
+
+        public ErrorProvider ErrorProvider => View.ErrorProvider;
 
         public string Schema
         {
@@ -95,12 +96,22 @@
             return ok;
         }
 
+        public string GetErrors(Control control)
+        {
+            var errors = new StringBuilder("FAIL");
+            if (control == DtpCreatedMin)
+            {
+            }
+            return errors.ToString().Trim();
+        }
+
         #endregion
 
         #region Private Fields
 
         private FileOptionsDialog View;
         private TriStateTreeController TriStateTreeController;
+        private ErrorController ErrorController;
         private bool Updating;
 
         private Button
@@ -275,6 +286,12 @@
             if (root != null)
                 foreach (TreeNode node in RootNode.Nodes)
                     node.Collapse();
+
+            ErrorController = new ErrorController(this,
+                DtpCreatedMin, DtpCreatedMax,
+                DtpModifiedMin, DtpModifiedMax,
+                DtpAccessedMin, DtpAccessedMax,
+                SeFileSizeMin, SeFileSizeMax);
         }
 
         private void Edit()

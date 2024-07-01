@@ -1,8 +1,11 @@
 ﻿namespace TagScanner.Controllers
 {
+    using System.IO;
+    using System.Linq;
     using System.Text;
     using System.Windows.Forms;
     using Forms;
+    using Utils;
 
     public class FileFormatController : Controller, IGetErrors
     {
@@ -64,8 +67,8 @@
                 var text = CbFilespecs.Text;
                 if (string.IsNullOrWhiteSpace(text))
                     errors.AppendLine("Filespec(s) cannot be blank.");
-                var foo = text.Split('|');
-
+                if (text.Split('|').Any(p => !p.IsValidFilePath()))
+                    errors.AppendLine($"Invalid character(s) in Filespec(s).");
             }
             return errors.ToString().Trim();
         }
