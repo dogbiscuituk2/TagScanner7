@@ -106,7 +106,7 @@
 
         public static bool SaveToTemporaryFile(this object document, StreamFormat format = 0)
         {
-            if (format == 0)
+            if (format == StreamFormat.None)
                 format = StreamFormat.Binary;
             var now = DateTime.Now.ToString("[yyyy-MM-dd HH.mm.ss.fffffff]");
             var filePath = $@"{now}.{format}";
