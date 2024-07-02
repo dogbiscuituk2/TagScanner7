@@ -2,16 +2,17 @@
 {
     using System;
 
+    [Serializable]
     public class FileOptions
     {
+        public string Schema { get; set; }
+
         public FileOptions()
         {
             DateCreatedMin = DateModifiedMin = DateAccessedMin =
                 DateCreatedMax = DateModifiedMax = DateAccessedMax =
                 DateTime.Now;
         }
-
-        public string FileFormats { get; set; }
 
         public FileFlags Flags { get; set; }
 

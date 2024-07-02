@@ -254,21 +254,20 @@ namespace TagScanner.Properties {
         ///*.aac&gt;Advanced Audio Coding
         ///*.aif|*.aifc|*.aiff&gt;Audio Interchange
         ///*.cda&gt;CD Audio Track
-        ///*.flac&gt;Free Lossless Audio Codec
-        ///*.ape&gt;Monkey&apos;s Audio
-        ///*.mp3&gt;MPEG Audio Layer-3
-        ///*.m4a&gt;MPEG-4 Audio
+        ///*.flac&gt;&gt;Free Lossless Audio Codec
+        ///*.ape&gt;&gt;Monkey&apos;s Audio
+        ///*.mp3&gt;&gt;MPEG Audio Layer-3
+        ///*.m4a&gt;&gt;MPEG-4 Audio
         ///*.mid|*.midi|*.rmi&gt;Musical Instrument Digital Interface
-        ///*.ogg&gt;Ogg Vorbis
+        ///*.ogg&gt;&gt;Ogg Vorbis
         ///*.ra&gt;Real Audio
         ///*.au|*.snd&gt;Sun Microsystems &amp; NeXT
-        ///*.wav&gt;Waveform Audio
+        ///*.wav&gt;&gt;Waveform Audio
         ///*.aac|*.adt|*.adts&gt;Windows audio file
-        ///*.wma&gt;Windows Media Audio
+        ///*.wma&gt;&gt;Windows Media Audio
         ///&gt;Video Files
         ///*.avchd&gt;Advanced Video Coding
-        ///*.avi&gt;Audio Video Interleave
-        ///*.fl [rest of string was truncated]&quot;;.
+        ///*.avi&gt;&gt;Audio Video Interlea [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string DefaultSchema {
             get {
