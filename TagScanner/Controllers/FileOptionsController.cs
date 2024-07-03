@@ -34,12 +34,6 @@
 
         public bool Execute(ref FileOptions options)
         {
-            /*
-            var foo = options.Schema.Filter;
-            var dialog = new OpenFileDialog();
-            dialog.Filter = foo;
-            dialog.ShowDialog();
-            */
             if (View == null)
                 CreateView();
             Process(options, loading: true);
@@ -47,8 +41,9 @@
             var ok = View.ShowDialog(Owner) == DialogResult.OK;
             if (ok)
             {
-                options = Process(new FileOptions(), loading: false);
-                AppController.WriteSchema(Schema);
+                var newOptions = new FileOptions();
+                options = Process(newOptions, loading: false);
+                //AppController.WriteSchema(Schema);
             }
             return ok;
         }
@@ -263,7 +258,7 @@
 
             void AddNode(TreeNode node)
             {
-                Schema.AddLine(NodeToLine(node));
+                schema.AddLine(NodeToLine(node));
                 AddNodes(node.Nodes);
             }
 

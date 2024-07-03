@@ -60,7 +60,7 @@
 
         public void AddLine(SchemaLine line) => _lines.Add(line);
 
-        private List<SchemaLine> _lines { get; } = new List<SchemaLine>();
+        private List<SchemaLine> _lines = new List<SchemaLine>();
 
         private IEnumerable<string> GetCategories() => GetLinesAtLevel(1).Select(p => p.Description);
 
