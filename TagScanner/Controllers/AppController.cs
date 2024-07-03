@@ -39,7 +39,7 @@
 
         #region Public Properties
 
-        public static string Schema
+        public static Schema Schema
         {
             get => ReadSchema();
             set => WriteSchema(value);
@@ -190,16 +190,7 @@
             }
         }
 
-        public static string ReadSchema()
-        {
-            var schema = MruSchemaController.ReadSchema();
-            if (string.IsNullOrWhiteSpace(schema))
-            {
-                schema = Resources.DefaultSchema;
-                WriteSchema(schema);
-            }
-            return schema;
-        }
+        public static Schema ReadSchema() => MruSchemaController.ReadSchema();
 
         public static void UpdateUI(MainFormController mainFormController)
         {
@@ -207,7 +198,7 @@
             mainFormController.CommandProcessor.UpdateLocalUI();
         }
 
-        public static void WriteSchema(string schema) => MruSchemaController.WriteSchema(schema);
+        public static void WriteSchema(Schema schema) => MruSchemaController.WriteSchema(Schema);
 
         #endregion
     }

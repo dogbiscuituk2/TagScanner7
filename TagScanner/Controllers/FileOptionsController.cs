@@ -6,7 +6,6 @@
     using System.Windows.Forms;
     using Forms;
     using Models;
-    using Utils;
 
     public class FileOptionsController : Controller, IGetErrors
     {
@@ -23,7 +22,7 @@
 
         public ErrorProvider ErrorProvider => View.ErrorProvider;
 
-        public string Schema
+        public Schema Schema
         {
             get => GetSchema();
             set => SetSchema(value);
@@ -250,15 +249,15 @@
 
         private static TreeNodeState GetNodeState(TreeNode node) => (TreeNodeState)node.StateImageIndex;
 
-        private string GetSchema()
+        private Schema GetSchema()
         {
-            var schema = new StringBuilder();
+            var schema = new Schema();
             AddNodes(Nodes);
-            return schema.ToString();
+            return schema;
 
             void AddNode(TreeNode node)
             {
-                schema.AppendLine(NodeString(node));
+                Schema.AddLine(NodeToLine(node));
                 AddNodes(node.Nodes);
             }
 
@@ -268,20 +267,13 @@
                     AddNode(node);
             }
 
-            string NodeString(TreeNode node)
+            SchemaLine NodeToLine(TreeNode node)
             {
                 var text = node.Text;
-                switch (node.Level)
-                {
-                    case 0:
-                        return text;
-                    case 1:
-                        return $">{text}";
-                    default:
-                        var filespecs = node.Tag.ToString();
-                        var separator = GetNodeState(node) == TreeNodeState.Checked ? ">>" : ">";
-                        return $"{filespecs}{separator}{text.Substring(0, text.Length - filespecs.Length - 3)}";
-                }
+                var filespecs = node.Tag.ToString();
+                var description = text.Substring(0, text.Length - filespecs.Length - 3);
+                var check = GetNodeState(node) == TreeNodeState.Checked;
+                return new SchemaLine(node.Level, description, filespecs, check);
             }
         }
 
@@ -417,24 +409,15 @@
 
         private void SetNodeState(TreeNode node, TreeNodeState state) => TriStateTreeController.SetNodeState(node, state);
 
-        private void SetSchema(string schema)
+        private void SetSchema(Schema schema)
         {
             Nodes.Clear();
-            foreach (var item in schema.TextToStrings().Where(p => !string.IsNullOrWhiteSpace(p)))
+            foreach (var line in schema.Lines)
             {
-                int
-                    count = item.Length,
-                    index = item.IndexOf('>');
-                string
-                    description = item.Substring(index + 1, count - index - 1),
-                    filespecs = index > 0 ? item.Substring(0, index) : string.Empty;
-                var check = description.StartsWith(">");
-                if (check)
-                    description = description.Remove(0, 1);
                 var nodes = Nodes;
-                for (var level = Math.Sign(index); level > -1; level--)
+                for (var level = line.Level; level > 0; level--)
                     nodes = nodes.OfType<TreeNode>().Last().Nodes;
-                AddNode(nodes, description, filespecs, check);
+                AddNode(nodes, line.Description, line.Filespecs, line.Check);
             }
         }
 

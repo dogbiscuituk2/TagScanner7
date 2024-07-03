@@ -202,6 +202,8 @@
     <Compile Include="Models\FileFlags.cs" />
     <Compile Include="Models\FindReplaceResult.cs" />
     <Compile Include="Models\Query.cs" />
+    <Compile Include="Models\Schema.cs" />
+    <Compile Include="Models\SchemaLine.cs" />
     <Compile Include="Models\SelectionEventArgs.cs" />
     <Compile Include="Models\SelectionEditEventArgs.cs" />
     <Compile Include="Properties\Resources.Designer.cs">

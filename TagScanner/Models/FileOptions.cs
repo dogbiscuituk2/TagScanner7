@@ -5,7 +5,7 @@
     [Serializable]
     public class FileOptions
     {
-        public string Schema { get; set; }
+        public Schema Schema { get; set; }
 
         public FileOptions()
         {
