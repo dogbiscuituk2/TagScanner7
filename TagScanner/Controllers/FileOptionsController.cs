@@ -34,6 +34,12 @@
 
         public bool Execute(ref FileOptions options)
         {
+
+            var foo = options.Schema.Filter;
+            var dialog = new OpenFileDialog();
+            dialog.Filter = foo;
+            dialog.ShowDialog();
+
             if (View == null)
                 CreateView();
             Process(options, loading: true);
