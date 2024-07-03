@@ -15,8 +15,7 @@
         public MruMediaController(Controller parent, ContextMenuStrip parentMenu) :
             base(parent, "MediaMRU", parentMenu?.Items)
         {
-            var filter = Settings.Default.MediaFilter;
-            _openFileDialog = new OpenFileDialog { Filter = filter, Multiselect = true, Title = Resources.Select_the_media_file_s__to_add };
+            _openFileDialog = new OpenFileDialog { Filter = AppController.Schema.Filter, Multiselect = true, Title = Resources.Select_the_media_file_s__to_add };
             _folderBrowserDialog = new FolderBrowserDialog { Description = Resources.Select_the_media_folder_to_add };
         }
 
