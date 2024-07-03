@@ -1,18 +1,20 @@
 ﻿namespace TagScanner.Models
 {
     using System;
+    using TagScanner.Controllers;
 
     [Serializable]
     public class FileOptions
     {
-        public Schema Schema { get; set; }
-
         public FileOptions()
         {
+            Schema = AppController.Schema;
             DateCreatedMin = DateModifiedMin = DateAccessedMin =
                 DateCreatedMax = DateModifiedMax = DateAccessedMax =
                 DateTime.Now;
         }
+
+        public Schema Schema { get; set; }
 
         public FileFlags Flags { get; set; }
 

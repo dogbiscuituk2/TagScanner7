@@ -16,16 +16,13 @@
 
         public SchemaLine(string value)
         {
-            int
-                count = value.Length,
-                index = value.IndexOf('>'),
-                level = Math.Sign(index) + 1;
-            string
-                description = value.Substring(index + 1, count - index - 1),
-                filespecs = index > 0 ? value.Substring(0, index) : string.Empty;
-            bool
-                check = description.StartsWith(">");
-                description = description.Remove(0, 1);
+            var p = value.IndexOf('>');
+            Level = Math.Sign(p) + 1;
+            Description = value.Remove(0, p + 1);
+            Filespecs = p > 0 ? value.Substring(0, p) : string.Empty;
+            Check = Description.StartsWith(">");
+            if (Check)
+                Description = Description.Remove(0, 1);
         }
 
         #endregion
