@@ -214,7 +214,7 @@
                     return false;
             if (!Merging)
                 FilePath = filePath;
-            AddItem(filePath);
+            SetValue(filePath);
             return true;
         }
 
@@ -227,7 +227,7 @@
                 {
                     stream.Flush();
                     FilePath = filePath;
-                    AddItem(filePath);
+                    SetValue(filePath);
                     return true;
                 }
             }

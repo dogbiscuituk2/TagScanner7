@@ -58,7 +58,7 @@
             if (_folderBrowserDialog.ShowDialog(Owner) != DialogResult.OK) return;
             var folderPath = _folderBrowserDialog.SelectedPath;
             var filter = GetFilter();
-            AddItem(MakeItem(folderPath, filter));
+            SetValue(MakeItem(folderPath, filter));
             AddFolder(folderPath, filter);
         }
 

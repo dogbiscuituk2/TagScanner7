@@ -43,7 +43,7 @@
             {
                 var newOptions = new FileOptions();
                 options = Process(newOptions, loading: false);
-                //AppController.WriteSchema(Schema);
+                AppController.Schema = Schema;
             }
             return ok;
         }

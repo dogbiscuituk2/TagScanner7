@@ -1,5 +1,6 @@
 ﻿namespace TagScanner.Models
 {
+    using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Text;
@@ -17,6 +18,8 @@
             .Select(p => new SchemaLine(p)));
 
         #endregion
+
+        #region Public Properties
 
         public string Filter
         {
@@ -58,9 +61,26 @@
 
         public SchemaLine[] Lines => _lines.ToArray();
 
+        #endregion
+
+        #region Public Methods
+
         public void AddLine(SchemaLine line) => _lines.Add(line);
 
+        public override string ToString() =>
+            _lines.Any()
+            ? _lines.Select(p => p.ToString()).Aggregate((p, q) => $"{p}{Environment.NewLine}{q}")
+            : string.Empty;
+
+        #endregion
+
+        #region Private Fields
+
         private List<SchemaLine> _lines = new List<SchemaLine>();
+
+        #endregion
+
+        #region Private Methods
 
         private IEnumerable<string> GetCategories() => GetLinesAtLevel(1).Select(p => p.Description);
 
@@ -96,5 +116,7 @@
         private IEnumerable<SchemaLine> GetLinesAtLevel(int level) => _lines.Where(p => p.Level == level);
 
         private IEnumerable<SchemaLine> GetSelectedLeaves(string category) => GetLeaves(category).Where(p => p.Check);
+
+        #endregion
     }
 }

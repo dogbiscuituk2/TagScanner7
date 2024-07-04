@@ -124,6 +124,12 @@
         public static void UpdateFindItems(ComboBox.ObjectCollection items, string item) => MruFindController.UpdateItems(items, item);
         public static void UpdateReplaceItems(ComboBox.ObjectCollection items, string item) => MruReplaceController.UpdateItems(items, item);
 
+        public static void UpdateUI(MainFormController mainFormController)
+        {
+            mainFormController.UpdateLocalUI();
+            mainFormController.CommandProcessor.UpdateLocalUI();
+        }
+
         #endregion
 
         #region Private Fields
@@ -190,15 +196,9 @@
             }
         }
 
-        public static Schema ReadSchema() => MruSchemaController.ReadSchema();
+        private static Schema ReadSchema() => MruSchemaController.ReadSchema();
 
-        public static void UpdateUI(MainFormController mainFormController)
-        {
-            mainFormController.UpdateLocalUI();
-            mainFormController.CommandProcessor.UpdateLocalUI();
-        }
-
-        public static void WriteSchema(Schema schema) => MruSchemaController.WriteSchema(Schema);
+        private static void WriteSchema(Schema schema) => MruSchemaController.WriteSchema(Schema);
 
         #endregion
     }

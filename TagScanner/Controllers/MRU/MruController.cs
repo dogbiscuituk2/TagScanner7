@@ -29,25 +29,6 @@
 
         #region Methods
 
-        protected virtual void AddItem(string value) => AddItem($"{DateTime.Now:yyyyMMddHHmmssFF}", value);
-
-        protected virtual void AddItem(string name, string value)
-        {
-            try
-            {
-                var key = CreateSubKey();
-                if (key == null)
-                    return;
-                try
-                {
-                    DeleteItem(key, value);
-                    key.SetValue(name, value);
-                }
-                finally { key.Close(); }
-            }
-            catch (Exception exception) { LogException(exception); }
-        }
-
         protected void ClearItems()
         {
             try
@@ -72,6 +53,17 @@
                 key.DeleteValue(name);
         }
 
+        protected virtual object GetValue(string name)
+        {
+            object value = null;
+            if (TryReadKey(out Win32.RegistryKey key))
+            {
+                value = key.GetValue(name);
+                key.Close();
+            }
+            return value;
+        }
+
         protected void LogException(Exception exception) => Console.WriteLine(exception.GetAllInformation());
 
         protected Win32.RegistryKey OpenSubKey(bool writable) => User.OpenSubKey(_subKeyName, writable);
@@ -84,6 +76,25 @@
                 if (key == null)
                     return;
                 try { DeleteItem(key, item); }
+                finally { key.Close(); }
+            }
+            catch (Exception exception) { LogException(exception); }
+        }
+
+        protected virtual void SetValue(string value) => SetValue($"{DateTime.Now:yyyyMMddHHmmssFF}", value);
+
+        protected virtual void SetValue(string name, string value)
+        {
+            try
+            {
+                var key = CreateSubKey();
+                if (key == null)
+                    return;
+                try
+                {
+                    DeleteItem(key, value);
+                    key.SetValue(name, value);
+                }
                 finally { key.Close(); }
             }
             catch (Exception exception) { LogException(exception); }

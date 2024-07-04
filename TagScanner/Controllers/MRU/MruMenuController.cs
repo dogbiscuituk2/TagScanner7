@@ -50,9 +50,9 @@
 
         #region Protected Methods
 
-        protected override void AddItem(string item)
+        protected override void SetValue(string item)
         {
-            base.AddItem(item);
+            base.SetValue(item);
             RefreshRecentMenu();
         }
 

@@ -1,9 +1,7 @@
 ﻿namespace TagScanner.Controllers.Mru
 {
     using Models;
-    using System.ComponentModel;
-    using TagScanner.Properties;
-    using Win32 = Microsoft.Win32;
+    using Properties;
 
     public class MruSchemaController : MruController
     {
@@ -11,23 +9,18 @@
 
         public Schema ReadSchema()
         {
-            string text = null;
-            var ok = TryReadKey(out Win32.RegistryKey key);
-            if (ok)
-            {
-                text = key.GetValue(SchemaName)?.ToString();
-                ok = !string.IsNullOrWhiteSpace(text);
-            }
-            key?.Close();
+            Schema schema;
+            var text = GetValue(SchemaName)?.ToString();
+            var ok = text != null;
             if (!ok)
                 text = Resources.DefaultSchema;
-            var schema = new Schema(text);
+            schema = new Schema(text);
             if (!ok)
                 WriteSchema(schema);
             return schema;
         }
 
-        public void WriteSchema(Schema schema) => AddItem(SchemaName, schema.ToString());
+        public void WriteSchema(Schema schema) => SetValue(SchemaName, schema.ToString());
 
         private const string SchemaName = "Schema";
     }

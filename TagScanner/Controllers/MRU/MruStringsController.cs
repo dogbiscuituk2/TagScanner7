@@ -56,7 +56,7 @@
             return values;
         }
 
-        private void WriteValues(IEnumerable<string> values) => AddItem("Filter", values.StringsToText());
+        private void WriteValues(IEnumerable<string> values) => SetValue("Filter", values.StringsToText());
 
         #endregion
     }

@@ -12,7 +12,7 @@ namespace TagScanner.Properties {
     
     
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "17.9.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "17.10.0.0")]
     internal sealed partial class Settings : global::System.Configuration.ApplicationSettingsBase {
         
         private static Settings defaultInstance = ((Settings)(global::System.Configuration.ApplicationSettingsBase.Synchronized(new Settings())));
@@ -47,15 +47,6 @@ namespace TagScanner.Properties {
         public string LibraryFilter {
             get {
                 return ((string)(this["LibraryFilter"]));
-            }
-        }
-        
-        [global::System.Configuration.ApplicationScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute(@"Audio Files (*.m4a;*.mp3;*.wma)|*.m4a;*.mp3;*.wma|Video Files (*.avi;*.mp4;*.wmv)|*.avi;*.mp4;*.wmv|Image Files (*.bmp;*.gif;*.jpeg;*.jpg;*.png)|*.bmp;*.gif;*.jpeg;*.jpg;*.png|AV Files (*.avi;*.mp4;*.wmv;*.m4a;*.mp3;*.wma)|*.avi;*.mp4;*.wmv;*.m4a;*.mp3;*.wma|Media Files (*.avi;*.mp4;*.wmv;*.m4a;*.mp3;*.wma;*.bmp;*.gif;*.jpeg;*.jpg;*.png)|*.avi;*.mp4;*.wmv;*.m4a;*.mp3;*.wma;*.bmp;*.gif;*.jpeg;*.jpg;*.png|All Files (*.*)|*.*")]
-        public string MediaFilter {
-            get {
-                return ((string)(this["MediaFilter"]));
             }
         }
         
