@@ -1,7 +1,7 @@
 ﻿namespace TagScanner.Models
 {
     using System;
-    using TagScanner.Controllers;
+    using Controllers;
 
     [Serializable]
     public class FileOptions

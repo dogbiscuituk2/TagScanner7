@@ -10,7 +10,6 @@
     using Models;
     using Mru;
     using Utils;
-    using TagScanner.Properties;
 
     public static class AppController
     {
@@ -135,6 +134,7 @@
         #region Private Fields
 
         private const string LibraryNameFormat = "<untitled #{0}>";
+        private static Schema _schema;
 
         #endregion
 
@@ -196,9 +196,9 @@
             }
         }
 
-        private static Schema ReadSchema() => MruSchemaController.ReadSchema();
+        private static Schema ReadSchema() => _schema ?? (_schema = MruSchemaController.ReadSchema());
 
-        private static void WriteSchema(Schema schema) => MruSchemaController.WriteSchema(Schema);
+        private static void WriteSchema(Schema schema) => MruSchemaController.WriteSchema(_schema = schema);
 
         #endregion
     }

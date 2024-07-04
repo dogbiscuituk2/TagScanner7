@@ -48,7 +48,7 @@
                 }
                 if (rootBuilder.Length > 0)
                 {
-                    var allspecs = rootBuilder.ToString();
+                    var allspecs = rootBuilder.ToString().TrimEnd(';');
                     rootBuilder.Clear();
                     rootBuilder.Append($"All Media ({allspecs})|{allspecs}|");
                     rootBuilder.Append(categoryBuilder);

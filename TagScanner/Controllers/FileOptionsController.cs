@@ -270,11 +270,13 @@
 
             SchemaLine NodeToLine(TreeNode node)
             {
-                var text = node.Text;
+                var level = node.Level;
                 var filespecs = node.Tag.ToString();
-                var description = text.Substring(0, text.Length - filespecs.Length - 3);
+                var description = node.Text;
+                if (level == 2)
+                    description = description.Remove(description.Length - filespecs.Length - 3);
                 var check = GetNodeState(node) == TreeNodeState.Checked;
-                return new SchemaLine(node.Level, description, filespecs, check);
+                return new SchemaLine(level, description, filespecs, check);
             }
         }
 
