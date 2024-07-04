@@ -22,28 +22,28 @@
 
         public ErrorProvider ErrorProvider => View.ErrorProvider;
 
-        public Schema Schema
-        {
-            get => GetSchema();
-            set => SetSchema(value);
-        }
-
         #endregion
 
         #region Public Methods
 
-        public bool Execute(ref FileOptions options)
+        public bool Execute()
         {
             if (View == null)
                 CreateView();
-            Process(options, loading: true);
+
+            SetSchema(AppController.Schema);
+            var root = RootNode;
+            if (root != null)
+                foreach (TreeNode node in RootNode.Nodes)
+                    node.Collapse();
+
+            Process(loading: true);
             UpdateUI();
             var ok = View.ShowDialog(Owner) == DialogResult.OK;
             if (ok)
             {
-                var newOptions = new FileOptions();
-                options = Process(newOptions, loading: false);
-                AppController.Schema = Schema;
+                Process(loading: false);
+                AppController.Schema = GetSchema();
             }
             return ok;
         }
@@ -103,6 +103,7 @@
 
         #region Private Properties
 
+        private FileOptions FileOptions = new FileOptions();
         private TreeNodeCollection Nodes => TreeView.Nodes;
         private TreeNode OtherFormats => RootNode.Nodes[3];
         private TreeNode RootNode => Nodes.Count > 0 ? Nodes[0] : null;
@@ -118,7 +119,7 @@
 
         #region Event Handlers
 
-        private void AddOptions_Click(object sender, EventArgs e) => AddOptions();
+        private void AddOptions_Click(object sender, EventArgs e) => Execute();
         private void CheckBox_CheckedChanged(object sender, EventArgs e) => UpdateUI();
         private void TreeView_AfterSelect(object sender, TreeViewEventArgs e) => UpdateUI();
 
@@ -139,12 +140,6 @@
         {
             var node = nodes.Add(description);
             InitNode(node, description, filespecs, check ? TreeNodeState.Checked : TreeNodeState.Unchecked);
-        }
-
-        private void AddOptions()
-        {
-            var options = new FileOptions();
-            Execute(ref options);
         }
 
         private void AdjustIncrement(NumericUpDown control) =>
@@ -201,11 +196,6 @@
             PopupDelete.Click += (sender, e) => Remove();
 
             TriStateTreeController = new TriStateTreeController(TreeView);
-            Schema = AppController.Schema;
-            var root = RootNode;
-            if (root != null)
-                foreach (TreeNode node in RootNode.Nodes)
-                    node.Collapse();
 
             ErrorController = new ErrorController(this,
                 DtpCreatedMin, DtpCreatedMax,
@@ -295,13 +285,8 @@
             SetNodeState(node, state);
         }
 
-        private FileOptions Process(FileOptions options, bool loading)
+        private void Process(bool loading)
         {
-            if (loading)
-                SetSchema(options.Schema);
-            else
-                options.Schema = GetSchema();
-
             ProcessDtpCheckBox(DtpCreatedMin, FileFlags.DateCreatedMin);
             ProcessDtpCheckBox(DtpCreatedMax, FileFlags.DateCreatedMax);
             ProcessCheckBox(CbCreatedUtc, FileFlags.DateCreatedUtc);
@@ -316,33 +301,31 @@
 
             if (loading)
             {
-                DtpCreatedMin.Value = options.DateCreatedMin;
-                DtpCreatedMax.Value = options.DateCreatedMax;
-                DtpModifiedMin.Value = options.DateModifiedMin;
-                DtpModifiedMax.Value = options.DateModifiedMax;
-                DtpAccessedMin.Value = options.DateAccessedMin;
-                DtpAccessedMax.Value = options.DateAccessedMax;
-                SeFileSizeMin.Value = options.FileSizeMin;
-                SeFileSizeMax.Value = options.FileSizeMax;
+                DtpCreatedMin.Value = FileOptions.DateCreatedMin;
+                DtpCreatedMax.Value = FileOptions.DateCreatedMax;
+                DtpModifiedMin.Value = FileOptions.DateModifiedMin;
+                DtpModifiedMax.Value = FileOptions.DateModifiedMax;
+                DtpAccessedMin.Value = FileOptions.DateAccessedMin;
+                DtpAccessedMax.Value = FileOptions.DateAccessedMax;
+                SeFileSizeMin.Value = FileOptions.FileSizeMin;
+                SeFileSizeMax.Value = FileOptions.FileSizeMax;
             }
             else
             {
-                options.DateCreatedMin = DtpCreatedMin.Value;
-                options.DateCreatedMax = DtpCreatedMax.Value;
-                options.DateModifiedMin = DtpModifiedMin.Value;
-                options.DateModifiedMax = DtpModifiedMax.Value;
-                options.DateAccessedMin = DtpAccessedMin.Value;
-                options.DateAccessedMax = DtpAccessedMax.Value;
-                options.FileSizeMin = (ulong)SeFileSizeMin.Value;
-                options.FileSizeMax = (ulong)SeFileSizeMax.Value;
+                FileOptions.DateCreatedMin = DtpCreatedMin.Value;
+                FileOptions.DateCreatedMax = DtpCreatedMax.Value;
+                FileOptions.DateModifiedMin = DtpModifiedMin.Value;
+                FileOptions.DateModifiedMax = DtpModifiedMax.Value;
+                FileOptions.DateAccessedMin = DtpAccessedMin.Value;
+                FileOptions.DateAccessedMax = DtpAccessedMax.Value;
+                FileOptions.FileSizeMin = (ulong)SeFileSizeMin.Value;
+                FileOptions.FileSizeMax = (ulong)SeFileSizeMax.Value;
             }
 
             ProcessComboBox(CbReadOnly, FileFlags.ReadOnlyTrue, FileFlags.ReadOnlyFalse);
             ProcessComboBox(CbHidden, FileFlags.HiddenTrue, FileFlags.HiddenFalse);
             ProcessComboBox(CbSystem, FileFlags.SystemTrue, FileFlags.SystemFalse);
             ProcessComboBox(CbArchive, FileFlags.ArchiveTrue, FileFlags.ArchiveFalse);
-
-            return options;
 
             void ProcessCheckBox(CheckBox control, FileFlags flag)
             {
@@ -372,8 +355,8 @@
                     }
             }
 
-            bool GetFlag(FileFlags flag) => (options.Flags & flag) != 0;
-            void SetFlag(FileFlags flag) => options.Flags |= flag;
+            bool GetFlag(FileFlags flag) => (FileOptions.Flags & flag) != 0;
+            void SetFlag(FileFlags flag) => FileOptions.Flags |= flag;
         }
 
         private void Remove()
