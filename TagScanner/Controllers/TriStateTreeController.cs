@@ -12,7 +12,7 @@
         {
             TreeView = treeView;
             TreeView.KeyPress += TreeView_KeyPress;
-            TreeView.MouseClick += TreeView_MouseClick;
+            TreeView.NodeMouseClick += TreeView_NodeMouseClick;
         }
 
         #endregion
@@ -52,7 +52,7 @@
 
         private void TreeView_KeyPress(object sender, KeyPressEventArgs e) => ToggleState(TreeView.SelectedNode);
 
-        private void TreeView_MouseClick(object sender, MouseEventArgs e)
+        private void TreeView_NodeMouseClick(object sender, TreeNodeMouseClickEventArgs e)
         {
             var p = e.Location;
             if (TreeView.HitTest(p).Location == TreeViewHitTestLocations.StateImage)
