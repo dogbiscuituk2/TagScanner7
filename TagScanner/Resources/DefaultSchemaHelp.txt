@@ -1,0 +1,10 @@
+﻿< SCHEMA FILE SYNTAX
+<
+< A Schema File contains active lines of four distinct types:
+< (1) Any line starting with a '<' symbol, like this one, is a comment. Otherwise...
+< (2) A line that doesn't contain a '>' symbol anywhere is a "Root", and there can be at most one Root.
+< (3) Lines starting with a '>' symbol represent Media Categories.
+< (4) Lines containing a '>' symbol in any other position are "Filespec" lines.
+< All Filespec lines immediately following any Media Category line are regarded as its children.
+< Similarly, all Media Category lines are in turn regarded as children of the Root (if present).
+< Doubled-up '>>' symbols indicate Filespecs that are active, i.e., selected in the application.

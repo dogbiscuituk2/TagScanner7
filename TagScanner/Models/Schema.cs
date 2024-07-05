@@ -4,6 +4,7 @@
     using System.Collections.Generic;
     using System.Linq;
     using System.Text;
+    using TagScanner.Properties;
     using Utils;
 
     public class Schema
@@ -14,7 +15,8 @@
 
         public Schema(string lines) : this() => _lines.AddRange(lines
             .TextToStrings()
-            .Where(p => !string.IsNullOrWhiteSpace(p))
+            .Select(p => p.Trim())
+            .Where(p => !string.IsNullOrWhiteSpace(p) && !p.StartsWith("<"))
             .Select(p => new SchemaLine(p)));
 
         #endregion
@@ -30,6 +32,7 @@
                     categoryBuilder = new StringBuilder(),
                     leafBuilder = new StringBuilder();
 
+                var root = GetRoots().FirstOrDefault() ?? "All Media";
                 var categories = GetCategories();
                 if (categories.Any())
                 {
@@ -50,7 +53,7 @@
                 {
                     var allspecs = rootBuilder.ToString().TrimEnd(';');
                     rootBuilder.Clear();
-                    rootBuilder.Append($"All Media ({allspecs})|{allspecs}|");
+                    rootBuilder.Append($"{root} ({allspecs})|{allspecs}|");
                     rootBuilder.Append(categoryBuilder);
                     rootBuilder.Append(leafBuilder);
                 }
@@ -67,10 +70,13 @@
 
         public void AddLine(SchemaLine line) => _lines.Add(line);
 
-        public override string ToString() =>
-            _lines.Any()
-            ? _lines.Select(p => p.ToString()).Aggregate((p, q) => $"{p}{Environment.NewLine}{q}")
-            : string.Empty;
+        public override string ToString()
+        {
+            var body = _lines.Any()
+                ? _lines.Select(p => p.ToString()).Aggregate((p, q) => $"{p}{Environment.NewLine}{q}")
+                : string.Empty;
+            return $"{Resources.DefaultSchemaHelp}{Environment.NewLine}{body}";
+        }
 
         #endregion
 
@@ -82,8 +88,8 @@
 
         #region Private Methods
 
-        private IEnumerable<string> GetCategories() => GetLinesAtLevel(1).Select(p => p.Description);
-
+        private IEnumerable<string> GetCategories() => GetDescriptionsAtLevel(1);
+        private IEnumerable<string> GetDescriptionsAtLevel(int level) => GetLinesAtLevel(level).Select(p => p.Description);
         private string GetFilterspecs(IEnumerable<SchemaLine> lines)
         {
             if (!lines.Any())
@@ -95,6 +101,8 @@
                 .OrderBy(p => p)
                 .Aggregate((p, q) => $"{p};{q}");
         }
+        private IEnumerable<SchemaLine> GetLinesAtLevel(int level) => _lines.Where(p => p.Level == level);
+        private IEnumerable<string> GetRoots() => GetDescriptionsAtLevel(0);
 
         private IEnumerable<SchemaLine> GetLeaves(string category)
         {
@@ -112,10 +120,6 @@
                 }
             yield break;
         }
-
-        private IEnumerable<SchemaLine> GetLinesAtLevel(int level) => _lines.Where(p => p.Level == level);
-
-        private IEnumerable<SchemaLine> GetSelectedLeaves(string category) => GetLeaves(category).Where(p => p.Check);
 
         #endregion
     }

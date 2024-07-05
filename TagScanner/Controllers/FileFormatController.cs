@@ -34,7 +34,7 @@
 
         #region Public Methods
 
-        public bool Execute(string prompt, ref string description, ref string filespecs)
+        public bool Execute(string prompt, int level, ref string description, ref string filespecs)
         {
             if (Dialog == null)
             {
@@ -44,6 +44,7 @@
             Dialog.Text = prompt;
             Description = description;
             Filespecs = filespecs;
+            CbFilespecs.Enabled = level == 2;
             var ok = Dialog.ShowDialog(Owner) == DialogResult.OK;
             if (ok)
             {
@@ -61,7 +62,7 @@
                 if (string.IsNullOrWhiteSpace(CbDescription.Text))
                     errors.AppendLine("Description cannot be blank.");
             }
-            if (control == CbFilespecs)
+            if (control == CbFilespecs && control.Enabled)
             {
                 var text = CbFilespecs.Text;
                 if (string.IsNullOrWhiteSpace(text))

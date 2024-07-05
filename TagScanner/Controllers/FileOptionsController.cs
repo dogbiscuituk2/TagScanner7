@@ -11,10 +11,8 @@
     {
         #region Constructor
 
-        public FileOptionsController(Controller parent) : base(parent)
-        {
+        public FileOptionsController(Controller parent) : base(parent) =>
             MainForm.AddOptions.Click += AddOptions_Click;
-        }
 
         #endregion
 
@@ -73,10 +71,11 @@
 
         #region Private Fields
 
+        private static readonly string[] LineTypes = new[] { "Root", "Media Category", "File Format" };
+        private readonly FileOptions FileOptions = new FileOptions();
+
         private FileOptionsDialog View;
         private TriStateTreeController TriStateTreeController;
-        private ErrorController ErrorController;
-        private bool Updating;
 
         private Button
             BtnAdd, BtnEdit, BtnDelete;
@@ -103,9 +102,7 @@
 
         #region Private Properties
 
-        private FileOptions FileOptions = new FileOptions();
         private TreeNodeCollection Nodes => TreeView.Nodes;
-        private TreeNode OtherFormats => RootNode.Nodes[3];
         private TreeNode RootNode => Nodes.Count > 0 ? Nodes[0] : null;
         private TreeView TreeView => View.TreeView;
 
@@ -129,11 +126,14 @@
 
         private void Add()
         {
+            var parent = SelectedNode;
+            parent = parent.Level < 2 ? parent : parent.Parent;
+            var level = parent.Level + 1;
             string
                 description = string.Empty,
                 filespecs = string.Empty;
-            if (EditValue("Add a new File Format", ref description, ref filespecs))
-                AddNode(OtherFormats.Nodes, description, filespecs, check: true);
+            if (EditValue($"Add a new {LineTypes[level]}", level, ref description, ref filespecs))
+                AddNode(parent.Nodes, description, filespecs, check: level == 2);
         }
 
         private void AddNode(TreeNodeCollection nodes, string description, string filespecs, bool check)
@@ -197,7 +197,7 @@
 
             TriStateTreeController = new TriStateTreeController(TreeView);
 
-            ErrorController = new ErrorController(this,
+            new ErrorController(this,
                 DtpCreatedMin, DtpCreatedMax,
                 DtpModifiedMin, DtpModifiedMax,
                 DtpAccessedMin, DtpAccessedMax,
@@ -207,36 +207,17 @@
         private void Edit()
         {
             var node = SelectedNode;
+            var level = node.Level;
             var description = node.Text;
-            var filespecs = node.Tag.ToString();
-            description = description.Substring(0, description.Length - filespecs.Length - 3);
-            if (EditValue("Edit this File Format", ref description, ref filespecs))
+            var filespecs = node.Tag?.ToString() ?? string.Empty;
+            if (level == 2)
+                description = description.Substring(0, description.Length - filespecs.Length - 3);
+            if (EditValue($"Edit the selected {LineTypes[level]}", level, ref description, ref filespecs))
                 InitNode(node, description, filespecs);
         }
 
-        private bool EditValue(string prompt, ref string description, ref string filespecs) =>
-            new FileFormatController(this).Execute(prompt, ref description, ref filespecs);
-
-        private string GetFileFormats()
-        {
-            var formats = new StringBuilder();
-            Traverse(Nodes);
-            return formats.ToString();
-
-            void Traverse(TreeNodeCollection nodes)
-            {
-                foreach (TreeNode node in nodes)
-                {
-                    if (node.Tag != null && node.StateImageIndex == 1)
-                    {
-                        if (formats.Length > 0)
-                            formats.Append('|');
-                        formats.Append(node.Tag);
-                    }
-                    Traverse(node.Nodes);
-                }
-            }
-        }
+        private bool EditValue(string prompt, int level, ref string description, ref string filespecs) =>
+            new FileFormatController(this).Execute(prompt, level, ref description, ref filespecs);
 
         private static TreeNodeState GetNodeState(TreeNode node) => (TreeNodeState)node.StateImageIndex;
 
@@ -362,34 +343,16 @@
         private void Remove()
         {
             var node = SelectedNode;
+            var level = node.Level;
+            var lineType = LineTypes[level];
             if (MessageBox.Show(
-                $"Remove '{node.Text}' from the list of available file formats?",
-                "Remove File Format",
+                $"Remove '{node.Text}' from the available {lineType} list?",
+                $"Delete the selected {lineType}",
                 MessageBoxButtons.YesNo,
                 MessageBoxIcon.Question
                 ) == DialogResult.Yes)
             {
                 Nodes.Remove(node);
-                SelectedNode = OtherFormats;
-            }
-        }
-
-        private void SetFileFormats(string formats)
-        {
-            formats = $"|{formats}|";
-            Traverse(Nodes);
-
-            void Traverse(TreeNodeCollection nodes)
-            {
-                foreach (TreeNode node in nodes)
-                {
-                    if (node.Tag != null)
-                    {
-                        var check = formats.Contains($"|{node.Tag}|");
-                        SetNodeState(node, check ? TreeNodeState.Checked : TreeNodeState.Unchecked);
-                    }
-                    Traverse(node.Nodes);
-                }
             }
         }
 
@@ -409,8 +372,7 @@
 
         private void UpdateUI()
         {
-            BtnEdit.Enabled = PopupEdit.Enabled = BtnDelete.Enabled = PopupDelete.Enabled =
-                SelectedNode?.Level == 2;
+            BtnDelete.Enabled = PopupDelete.Enabled = SelectedNode?.Level > 0;
             SeFileSizeMin.Enabled = CbFileSizeMin.Checked;
             SeFileSizeMax.Enabled = CbFileSizeMax.Checked;
         }
