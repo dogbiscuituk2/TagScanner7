@@ -51,7 +51,7 @@
             {
                 if ((Flags & (ifTrue | ifFalse)) != 0)
                 {
-                    Term function = new Function(Tag.FileAttributes, Fn.Contains, $"{attribute}");
+                    Term function = new Function(Tag.FileAttributes, Fn.Contains, $"{attribute}", false);
                     AddTerm((Flags & ifTrue) != 0 ? function : !function);
                 }
             }

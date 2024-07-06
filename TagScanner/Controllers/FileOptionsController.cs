@@ -42,7 +42,8 @@
             {
                 Process(loading: false);
                 AppController.Schema = GetSchema();
-                MainModel.FileOptionsFilter = FileOptions.GetFilter().Filter;
+                var filterTerm = FileOptions.GetFilter();
+                MainModel.FileOptionsFilter = filterTerm.Filter;
             }
             return ok;
         }

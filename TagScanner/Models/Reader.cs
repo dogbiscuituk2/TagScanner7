@@ -66,6 +66,8 @@
                         Tracks.Add(track);
                         ExistingFilePaths.Add(filePath);
                     }
+                    else
+                        _trackCount--;
                 }
                 _trackIndex++;
             }
