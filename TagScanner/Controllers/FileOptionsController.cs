@@ -268,15 +268,15 @@
 
         private void Process(bool loading)
         {
-            ProcessDtpCheckBox(DtpCreatedMin, FileFlags.DateCreatedMin);
-            ProcessDtpCheckBox(DtpCreatedMax, FileFlags.DateCreatedMax);
-            ProcessCheckBox(CbCreatedUtc, FileFlags.DateCreatedUtc);
-            ProcessDtpCheckBox(DtpModifiedMin, FileFlags.DateModifiedMin);
-            ProcessDtpCheckBox(DtpModifiedMax, FileFlags.DateModifiedMax);
-            ProcessCheckBox(CbModifiedUtc, FileFlags.DateModifiedUtc);
-            ProcessDtpCheckBox(DtpAccessedMin, FileFlags.DateAccessedMin);
-            ProcessDtpCheckBox(DtpAccessedMax, FileFlags.DateAccessedMax);
-            ProcessCheckBox(CbAccessedUtc, FileFlags.DateAccessedUtc);
+            ProcessDtpCheckBox(DtpCreatedMin, FileFlags.CreatedMin);
+            ProcessDtpCheckBox(DtpCreatedMax, FileFlags.CreatedMax);
+            ProcessCheckBox(CbCreatedUtc, FileFlags.CreatedUtc);
+            ProcessDtpCheckBox(DtpModifiedMin, FileFlags.ModifiedMin);
+            ProcessDtpCheckBox(DtpModifiedMax, FileFlags.ModifiedMax);
+            ProcessCheckBox(CbModifiedUtc, FileFlags.ModifiedUtc);
+            ProcessDtpCheckBox(DtpAccessedMin, FileFlags.AccessedMin);
+            ProcessDtpCheckBox(DtpAccessedMax, FileFlags.AccessedMax);
+            ProcessCheckBox(CbAccessedUtc, FileFlags.AccessedUtc);
             ProcessCheckBox(CbFileSizeMin, FileFlags.FileSizeMin);
             ProcessCheckBox(CbFileSizeMax, FileFlags.FileSizeMax);
 

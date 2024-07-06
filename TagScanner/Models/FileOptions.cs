@@ -1,6 +1,7 @@
 ﻿namespace TagScanner.Models
 {
     using System;
+    using TagScanner.Terms;
 
     [Serializable]
     public class FileOptions
@@ -29,5 +30,18 @@
         public bool HasAttributeFilter => (Flags & FileFlags.Attributes) != 0;
         public bool HasDateFilter => (Flags & FileFlags.Date) != 0;
         public bool HasFileSizeFilter => (Flags & FileFlags.FileSize) != 0;
+
+        public Conjunction GetPredicate()
+        {
+            var filter = new Conjunction();
+            AddDateFilter(FileFlags.CreatedMin, FileFlags.CreatedUtc, Tag.FileCreationTimeUtc, Tag.FileCreationTime, Op.NotLessThan, DateCreatedMin);
+            return filter;
+
+            void AddDateFilter(FileFlags flag, FileFlags utc, Tag tagUtc, Tag tag, Op op, DateTime value)
+            {
+                if ((Flags & flag) != 0)
+                    filter.Operands.Add(new Operation((Flags & utc) != 0 ? tagUtc : tag, op, value));
+            }
+        }
     }
 }

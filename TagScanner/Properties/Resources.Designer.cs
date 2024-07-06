@@ -276,14 +276,14 @@ namespace TagScanner.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to &lt; SCHEMA FILE SYNTAX
+        ///   Looks up a localized string similar to &lt; SCHEMA FILE STRUCTURE
         ///&lt;
-        ///&lt; A Schema File contains active lines of four distinct types:
-        ///&lt; (1) Any line starting with a &apos;&lt;&apos; symbol, like this one, is a comment. Otherwise...
-        ///&lt; (2) A line that doesn&apos;t contain a &apos;&gt;&apos; symbol anywhere is a &quot;Root&quot;, and there can be at most one Root.
-        ///&lt; (3) Lines starting with a &apos;&gt;&apos; symbol represent Media Categories.
-        ///&lt; (4) Lines containing a &apos;&gt;&apos; symbol in any other position are &quot;Filespec&quot; lines.
-        ///&lt; All Filespec lines immediately following any Media Category line are regarded as i [rest of string was truncated]&quot;;.
+        ///&lt; This is an example of a Schema file, a type of text file, structured as follows.
+        ///&lt; All whitespace between lines, and at the start and end of a line, is ignored.
+        ///&lt; Every line of a Schema file like this has one of these four types:
+        ///&lt; 1. A line starting with the &apos;&lt;&apos; symbol, like this one, is a comment. Otherwise...
+        ///&lt; 2. A line that doesn&apos;t contain a &apos;&gt;&apos; symbol anywhere is the &quot;Root&quot; (there can be at most one Root).
+        ///&lt; 3. Lines starting with a &apos;&gt;&apos; symbol represent Media Categor [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string DefaultSchemaHelp {
             get {

@@ -5,15 +5,15 @@
     [Flags]
     public enum FileFlags
     {
-        DateCreatedMin = 1 << 0,
-        DateCreatedMax = 1 << 1,
-        DateCreatedUtc = 1 << 2,
-        DateModifiedMin = 1 << 3,
-        DateModifiedMax = 1 << 4,
-        DateModifiedUtc = 1 << 5,
-        DateAccessedMin = 1 << 6,
-        DateAccessedMax = 1 << 7,
-        DateAccessedUtc = 1 << 8,
+        CreatedMin = 1 << 0,
+        CreatedMax = 1 << 1,
+        CreatedUtc = 1 << 2,
+        ModifiedMin = 1 << 3,
+        ModifiedMax = 1 << 4,
+        ModifiedUtc = 1 << 5,
+        AccessedMin = 1 << 6,
+        AccessedMax = 1 << 7,
+        AccessedUtc = 1 << 8,
 
         FileSizeMin = 1 << 9,
         FileSizeMax = 1 << 10,
@@ -27,9 +27,9 @@
         ArchiveTrue = 1 << 17,
         ArchiveFalse = 1 << 18,
 
-        DateCreated = DateCreatedMin | DateCreatedMax,
-        DateModified = DateModifiedMin | DateModifiedMax,
-        DateAccessed = DateAccessedMin | DateAccessedMax,
+        DateCreated = CreatedMin | CreatedMax,
+        DateModified = ModifiedMin | ModifiedMax,
+        DateAccessed = AccessedMin | AccessedMax,
         Date = DateCreated | DateModified | DateAccessed,
 
         FileSize = FileSizeMax | FileSizeMin,

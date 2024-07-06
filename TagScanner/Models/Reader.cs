@@ -58,9 +58,9 @@
             {
                 if (!ExistingFilePaths.Contains(filePath))
                 {
-                    ExistingFilePaths.Add(filePath);
                     track = new Track(filePath);
                     Tracks.Add(track);
+                    ExistingFilePaths.Add(filePath);
                 }
                 _trackIndex++;
             }

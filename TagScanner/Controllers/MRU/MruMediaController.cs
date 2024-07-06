@@ -32,7 +32,7 @@
 
         public void AddFiles()
         {
-            _openFileDialog.Filter = AppController.Schema.Filter;
+            InitFilter();
             if (_openFileDialog.ShowDialog(Owner) == DialogResult.OK)
                 AddFiles(_openFileDialog.FileNames);
         }
@@ -93,7 +93,15 @@
         }
 
         private IProgress<ProgressEventArgs> CreateNewProgress() => MainFormController.StatusController.CreateNewProgress();
-        private string GetFilter() => _openFileDialog.Filter.Split('|')[2 * _openFileDialog.FilterIndex - 1];
+
+        private string GetFilter()
+        {
+            InitFilter();
+            return _openFileDialog.Filter.Split('|')[2 * _openFileDialog.FilterIndex - 1];
+        }
+
+        private void InitFilter() => _openFileDialog.Filter = AppController.Schema.Filter;
+
         private static string MakeItem(string folderPath, string filter) => string.Concat(folderPath, '|', filter);
 
         #endregion
