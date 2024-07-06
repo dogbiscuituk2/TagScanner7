@@ -544,6 +544,30 @@
         public TimeSpan Duration => GetTimeSpan(p => p.Duration, ref _duration);
 
         #endregion
+        #region FileAccessed
+
+        private DateTime _fileAccessed = DateTime.MaxValue;
+        [Browsable(false)]
+        [Category(File)]
+        [Column(125)]
+        [Description("A DateTime value representing the date and time of last access of the file containing the selected media.")]
+        [DisplayName("File Accessed")]
+        [ReadOnly(true)]
+        public DateTime FileAccessed => GetDateTime(p => p.FileAccessed, ref _fileAccessed);
+
+        #endregion
+        #region FileAccessedUtc
+
+        private DateTime _fileAccessedUtc = DateTime.MaxValue;
+        [Browsable(false)]
+        [Category(File)]
+        [Column(125)]
+        [Description("A DateTime value representing the date and time of last access of the file containing the selected media, expressed in Coordinated Universal Time (UTC).")]
+        [DisplayName("File Accessed (UTC)")]
+        [ReadOnly(true)]
+        public DateTime FileAccessedUtc => GetDateTime(p => p.FileAccessedUtc, ref _fileAccessedUtc);
+
+        #endregion
         #region FileAttributes
 
         private string _fileAttributes;
@@ -555,28 +579,28 @@
         public string FileAttributes => GetString(p => p.FileAttributes, ref _fileAttributes);
 
         #endregion
-        #region FileCreationTime
+        #region FileCreated
 
-        private DateTime _fileCreationTime = DateTime.MaxValue;
+        private DateTime _fileCreated = DateTime.MaxValue;
         [Browsable(false)]
         [Category(File)]
         [Column(125)]
         [Description("A DateTime value representing the date and time of creation of the file containing the selected media.")]
         [DisplayName("File Created")]
         [ReadOnly(true)]
-        public DateTime FileCreationTime => GetDateTime(p => p.FileCreationTime, ref _fileCreationTime);
+        public DateTime FileCreated => GetDateTime(p => p.FileCreated, ref _fileCreated);
 
         #endregion
-        #region FileCreationTimeUtc
+        #region FileCreatedUtc
 
-        private DateTime _fileCreationTimeUtc = DateTime.MaxValue;
+        private DateTime _fileCreatedUtc = DateTime.MaxValue;
         [Browsable(false)]
         [Category(File)]
         [Column(125)]
         [Description("A DateTime value representing the date and time of creation of the file containing the selected media, expressed in Coordinated Universal Time (UTC).")]
         [DisplayName("File Created (UTC)")]
         [ReadOnly(true)]
-        public DateTime FileCreationTimeUtc => GetDateTime(p => p.FileCreationTimeUtc, ref _fileCreationTimeUtc);
+        public DateTime FileCreatedUtc => GetDateTime(p => p.FileCreatedUtc, ref _fileCreatedUtc);
 
         #endregion
         #region FileExtension
@@ -591,52 +615,28 @@
         public string FileExtension => GetString(p => p.FileExtension, ref _fileExtension);
 
         #endregion
-        #region FileLastAccessTime
+        #region FileModified
 
-        private DateTime _fileLastAccessTime = DateTime.MaxValue;
-        [Browsable(false)]
-        [Category(File)]
-        [Column(125)]
-        [Description("A DateTime value representing the date and time of last access of the file containing the selected media.")]
-        [DisplayName("File Accessed")]
-        [ReadOnly(true)]
-        public DateTime FileLastAccessTime => GetDateTime(p => p.FileLastAccessTime, ref _fileLastAccessTime);
-
-        #endregion
-        #region FileLastAccessTimeUtc
-
-        private DateTime _fileLastAccessTimeUtc = DateTime.MaxValue;
-        [Browsable(false)]
-        [Category(File)]
-        [Column(125)]
-        [Description("A DateTime value representing the date and time of last access of the file containing the selected media, expressed in Coordinated Universal Time (UTC).")]
-        [DisplayName("File Accessed (UTC)")]
-        [ReadOnly(true)]
-        public DateTime FileLastAccessTimeUtc => GetDateTime(p => p.FileLastAccessTimeUtc, ref _fileLastAccessTimeUtc);
-
-        #endregion
-        #region FileLastWriteTime
-
-        private DateTime _fileLastWriteTime = DateTime.MaxValue;
+        private DateTime _fileModified = DateTime.MaxValue;
         [Browsable(false)]
         [Category(File)]
         [Column(125)]
         [Description("A DateTime value representing the date and time of last writing of the file containing the selected media.")]
         [DisplayName("File Modified")]
         [ReadOnly(true)]
-        public DateTime FileLastWriteTime => GetDateTime(p => p.FileLastWriteTime, ref _fileLastWriteTime);
+        public DateTime FileModified => GetDateTime(p => p.FileModified, ref _fileModified);
 
         #endregion
-        #region FileLastWriteTimeUtc
+        #region FileModifiedUtc
 
-        private DateTime _fileLastWriteTimeUtc = DateTime.MaxValue;
+        private DateTime _fileModifiedUtc = DateTime.MaxValue;
         [Browsable(false)]
         [Category(File)]
         [Column(125)]
         [Description("A DateTime value representing the date and time of last writing of the file containing the selected media, expressed in Coordinated Universal Time (UTC).")]
         [DisplayName("File Modified (UTC)")]
         [ReadOnly(true)]
-        public DateTime FileLastWriteTimeUtc => GetDateTime(p => p.FileLastWriteTimeUtc, ref _fileLastWriteTimeUtc);
+        public DateTime FileModifiedUtc => GetDateTime(p => p.FileModifiedUtc, ref _fileModifiedUtc);
 
         #endregion
         #region FileName
@@ -2223,12 +2223,12 @@
 
         private void InvalidateDateTimeFields() // 7 fields
         {
-            _fileCreationTime =
-                _fileCreationTimeUtc =
-                _fileLastAccessTime =
-                _fileLastAccessTimeUtc =
-                _fileLastWriteTime =
-                _fileLastWriteTimeUtc =
+            _fileCreated =
+                _fileCreatedUtc =
+                _fileAccessed =
+                _fileAccessedUtc =
+                _fileModified =
+                _fileModifiedUtc =
                 _imageDateTime =
                 DateTime.MaxValue;
         }

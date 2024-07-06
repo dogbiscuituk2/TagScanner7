@@ -42,6 +42,7 @@
             {
                 Process(loading: false);
                 AppController.Schema = GetSchema();
+                MainModel.FileOptionsFilter = FileOptions.GetFilter().Filter;
             }
             return ok;
         }
@@ -85,7 +86,7 @@
             CbFileSizeMin, CbFileSizeMax;
 
         private ComboBox
-            CbReadOnly, CbHidden, CbSystem, CbArchive;
+            CbReadOnly, CbHidden, CbSystem, CbArchive, CbCompressed, CbEncrypted;
 
         private DateTimePicker
             DtpCreatedMin, DtpCreatedMax,
@@ -163,6 +164,8 @@
             CbHidden = View.cbAttrHidden;
             CbSystem = View.cbAttrSystem;
             CbArchive = View.cbAttrArchive;
+            CbCompressed = View.cbAttrCompressed;
+            CbEncrypted = View.cbAttrEncrypted;
 
             DtpCreatedMin = View.dtpCreatedMin;
             DtpCreatedMax = View.dtpCreatedMax;
@@ -282,23 +285,23 @@
 
             if (loading)
             {
-                DtpCreatedMin.Value = FileOptions.DateCreatedMin;
-                DtpCreatedMax.Value = FileOptions.DateCreatedMax;
-                DtpModifiedMin.Value = FileOptions.DateModifiedMin;
-                DtpModifiedMax.Value = FileOptions.DateModifiedMax;
-                DtpAccessedMin.Value = FileOptions.DateAccessedMin;
-                DtpAccessedMax.Value = FileOptions.DateAccessedMax;
+                DtpCreatedMin.Value = FileOptions.CreatedMin;
+                DtpCreatedMax.Value = FileOptions.CreatedMax;
+                DtpModifiedMin.Value = FileOptions.ModifiedMin;
+                DtpModifiedMax.Value = FileOptions.ModifiedMax;
+                DtpAccessedMin.Value = FileOptions.AccessedMin;
+                DtpAccessedMax.Value = FileOptions.AccessedMax;
                 SeFileSizeMin.Value = FileOptions.FileSizeMin;
                 SeFileSizeMax.Value = FileOptions.FileSizeMax;
             }
             else
             {
-                FileOptions.DateCreatedMin = DtpCreatedMin.Value;
-                FileOptions.DateCreatedMax = DtpCreatedMax.Value;
-                FileOptions.DateModifiedMin = DtpModifiedMin.Value;
-                FileOptions.DateModifiedMax = DtpModifiedMax.Value;
-                FileOptions.DateAccessedMin = DtpAccessedMin.Value;
-                FileOptions.DateAccessedMax = DtpAccessedMax.Value;
+                FileOptions.CreatedMin = DtpCreatedMin.Value;
+                FileOptions.CreatedMax = DtpCreatedMax.Value;
+                FileOptions.ModifiedMin = DtpModifiedMin.Value;
+                FileOptions.ModifiedMax = DtpModifiedMax.Value;
+                FileOptions.AccessedMin = DtpAccessedMin.Value;
+                FileOptions.AccessedMax = DtpAccessedMax.Value;
                 FileOptions.FileSizeMin = (ulong)SeFileSizeMin.Value;
                 FileOptions.FileSizeMax = (ulong)SeFileSizeMax.Value;
             }
@@ -307,6 +310,8 @@
             ProcessComboBox(CbHidden, FileFlags.HiddenTrue, FileFlags.HiddenFalse);
             ProcessComboBox(CbSystem, FileFlags.SystemTrue, FileFlags.SystemFalse);
             ProcessComboBox(CbArchive, FileFlags.ArchiveTrue, FileFlags.ArchiveFalse);
+            ProcessComboBox(CbCompressed, FileFlags.CompressedTrue, FileFlags.CompressedFalse);
+            ProcessComboBox(CbEncrypted, FileFlags.EncryptedTrue, FileFlags.EncryptedFalse);
 
             void ProcessCheckBox(CheckBox control, FileFlags flag)
             {

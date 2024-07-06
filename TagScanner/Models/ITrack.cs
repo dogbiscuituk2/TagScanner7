@@ -36,18 +36,18 @@
         string DiscOf { get; }
         string DiscTrack { get; }
         TimeSpan Duration { get; }
+        DateTime FileAccessed { get; }
+        DateTime FileAccessedUtc { get; }
         string FileAttributes { get; }
-        DateTime FileCreationTime { get; }
-        DateTime FileCreationTimeUtc { get; }
+        DateTime FileCreated { get; }
+        DateTime FileCreatedUtc { get; }
         string FileExtension { get; }
-        DateTime FileLastAccessTime { get; }
-        DateTime FileLastAccessTimeUtc { get; }
-        DateTime FileLastWriteTime { get; }
-        DateTime FileLastWriteTimeUtc { get; }
         string FileName { get; }
         string FileNameWithoutExtension { get; }
         string FilePath { get; }
         long FileSize { get; }
+        DateTime FileModified { get; }
+        DateTime FileModifiedUtc { get; }
         Status Status { get; }
         string FirstAlbumArtist { get; }
         string FirstAlbumArtistSort { get; }

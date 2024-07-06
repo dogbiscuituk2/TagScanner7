@@ -17,11 +17,23 @@
 
         public Track() { }
 
-        public Track(string filePath) : this()
+        //public Track(string filePath) : this()
+        //{
+        //    _filePath = filePath;
+        //    Load();
+        //    IsNew = true;
+        //}
+
+        public static Track FromPath(string filePath, Func<Track, bool> filter = null)
         {
-            _filePath = filePath;
-            Load();
-            IsNew = true;
+            var track = new Track();
+            track._filePath = filePath;
+            if (track.Load(filter))
+            {
+                track.IsNew = true;
+                return track;
+            }
+            return null;
         }
 
         #endregion
@@ -243,6 +255,20 @@
             set => Duration = string.IsNullOrWhiteSpace(value) ? TimeSpan.Zero : XmlConvert.ToTimeSpan(value);
         }
 
+        private DateTime _fileAccessed;
+        public DateTime FileAccessed
+        {
+            get => _fileAccessed;
+            set => Set(ref _fileAccessed, value);
+        }
+
+        private DateTime _fileAccessedUtc;
+        public DateTime FileAccessedUtc
+        {
+            get => _fileAccessedUtc;
+            set => Set(ref _fileAccessedUtc, value);
+        }
+
         private string _fileAttributes = string.Empty;
         [DefaultValue("")]
         public string FileAttributes
@@ -251,49 +277,35 @@
             set => Set(ref _fileAttributes, value);
         }
 
-        private DateTime _fileCreationTime;
-        public DateTime FileCreationTime
+        private DateTime _fileCreated;
+        public DateTime FileCreated
         {
-            get => _fileCreationTime;
-            set => Set(ref _fileCreationTime, value);
+            get => _fileCreated;
+            set => Set(ref _fileCreated, value);
         }
 
-        private DateTime _fileCreationTimeUtc;
-        public DateTime FileCreationTimeUtc
+        private DateTime _fileCreatedUtc;
+        public DateTime FileCreatedUtc
         {
-            get => _fileCreationTimeUtc;
-            set => Set(ref _fileCreationTimeUtc, value);
+            get => _fileCreatedUtc;
+            set => Set(ref _fileCreatedUtc, value);
         }
 
         [JsonIgnore, XmlIgnore]
         public string FileExtension => Path.GetExtension(FilePath);
 
-        private DateTime _fileLastAccessTime;
-        public DateTime FileLastAccessTime
+        private DateTime _fileModified;
+        public DateTime FileModified
         {
-            get => _fileLastAccessTime;
-            set => Set(ref _fileLastAccessTime, value);
+            get => _fileModified;
+            set => Set(ref _fileModified, value);
         }
 
-        private DateTime _fileLastAccessTimeUtc;
-        public DateTime FileLastAccessTimeUtc
+        private DateTime _fileModifiedUtc;
+        public DateTime FileModifiedUtc
         {
-            get => _fileLastAccessTimeUtc;
-            set => Set(ref _fileLastAccessTimeUtc, value);
-        }
-
-        private DateTime _fileLastWriteTime;
-        public DateTime FileLastWriteTime
-        {
-            get => _fileLastWriteTime;
-            set => Set(ref _fileLastWriteTime, value);
-        }
-
-        private DateTime _fileLastWriteTimeUtc;
-        public DateTime FileLastWriteTimeUtc
-        {
-            get => _fileLastWriteTimeUtc;
-            set => Set(ref _fileLastWriteTimeUtc, value);
+            get => _fileModifiedUtc;
+            set => Set(ref _fileModifiedUtc, value);
         }
 
         [JsonIgnore, XmlIgnore]
@@ -328,7 +340,7 @@
                 if (IsModified)
                     return Status.Pending;
                 // TODO: check for resolution inaccuracies & daylight saving time transitions.
-                var elapsedTime = FileLastWriteTimeUtc - File.GetLastWriteTimeUtc(FilePath);
+                var elapsedTime = FileModifiedUtc - File.GetLastWriteTimeUtc(FilePath);
                 switch (Math.Sign(elapsedTime.Ticks))
                 {
                     case +1:
@@ -930,13 +942,13 @@
                 case Tag.DiscTrack: return DiscTrack;
                 case Tag.Duration: return Duration;
                 case Tag.FileAttributes: return FileAttributes;
-                case Tag.FileCreationTime: return FileCreationTime;
-                case Tag.FileCreationTimeUtc: return FileCreationTimeUtc;
+                case Tag.FileCreated: return FileCreated;
+                case Tag.FileCreatedUtc: return FileCreatedUtc;
                 case Tag.FileExtension: return FileExtension;
-                case Tag.FileLastAccessTime: return FileLastAccessTime;
-                case Tag.FileLastAccessTimeUtc: return FileLastAccessTimeUtc;
-                case Tag.FileLastWriteTime: return FileLastWriteTime;
-                case Tag.FileLastWriteTimeUtc: return FileLastWriteTimeUtc;
+                case Tag.FileAccessed: return FileAccessed;
+                case Tag.FileAccessedUtc: return FileAccessedUtc;
+                case Tag.FileModified: return FileModified;
+                case Tag.FileModifiedUtc: return FileModifiedUtc;
                 case Tag.FileName: return FileName;
                 case Tag.FileNameWithoutExtension: return FileNameWithoutExtension;
                 case Tag.FilePath: return FilePath;
@@ -1046,12 +1058,12 @@
                 case Tag.DiscNumber: return DiscNumber = (int)value;
                 case Tag.Duration: return Duration = (TimeSpan)value;
                 case Tag.FileAttributes: return FileAttributes = (string)value;
-                case Tag.FileCreationTime: return FileCreationTime = (DateTime)value;
-                case Tag.FileCreationTimeUtc: return FileCreationTimeUtc = (DateTime)value;
-                case Tag.FileLastAccessTime: return FileLastAccessTime = (DateTime)value;
-                case Tag.FileLastAccessTimeUtc: return FileLastAccessTimeUtc = (DateTime)value;
-                case Tag.FileLastWriteTime: return FileLastWriteTime = (DateTime)value;
-                case Tag.FileLastWriteTimeUtc: return FileLastWriteTimeUtc = (DateTime)value;
+                case Tag.FileCreated: return FileCreated = (DateTime)value;
+                case Tag.FileCreatedUtc: return FileCreatedUtc = (DateTime)value;
+                case Tag.FileAccessed: return FileAccessed = (DateTime)value;
+                case Tag.FileAccessedUtc: return FileAccessedUtc = (DateTime)value;
+                case Tag.FileModified: return FileModified = (DateTime)value;
+                case Tag.FileModifiedUtc: return FileModifiedUtc = (DateTime)value;
                 case Tag.FilePath: return FilePath = (string)value;
                 case Tag.FileSize: return FileSize = (long)value;
                 case Tag.FirstAlbumArtist: return FirstAlbumArtist = (string)value;
@@ -1123,12 +1135,12 @@
             }
         }
 
-        public void Load() => Load(p => true);
+        public bool Load() => Load(p => true);
 
-        public bool Load(Func<Track, bool> fileFilter)
+        public bool Load(Func<Track, bool> fileOptionsFilter)
         {
             ReadFileMetadata();
-            var result = fileFilter(this);
+            var result = fileOptionsFilter == null || fileOptionsFilter(this);
             if (result)
             {
                 using (var file = GetTagLibFile())
@@ -1160,12 +1172,12 @@
         {
             _fileSize = new FileInfo(FilePath).Length;
             _fileAttributes = File.GetAttributes(FilePath).ToString();
-            _fileCreationTime = File.GetCreationTimeUtc(FilePath);
-            _fileLastWriteTime = File.GetLastWriteTimeUtc(FilePath);
-            _fileLastAccessTime = File.GetLastAccessTimeUtc(FilePath);
-            _fileCreationTimeUtc = File.GetCreationTimeUtc(FilePath);
-            _fileLastWriteTimeUtc = File.GetLastWriteTimeUtc(FilePath);
-            _fileLastAccessTimeUtc = File.GetLastAccessTimeUtc(FilePath);
+            _fileCreated = File.GetCreationTimeUtc(FilePath);
+            _fileModified = File.GetLastWriteTimeUtc(FilePath);
+            _fileAccessed = File.GetLastAccessTimeUtc(FilePath);
+            _fileCreatedUtc = File.GetCreationTimeUtc(FilePath);
+            _fileModifiedUtc = File.GetLastWriteTimeUtc(FilePath);
+            _fileAccessedUtc = File.GetLastAccessTimeUtc(FilePath);
         }
 
         private void ReadTag(TagLib.Tag tag)

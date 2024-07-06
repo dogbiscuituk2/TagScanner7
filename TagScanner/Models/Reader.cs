@@ -8,8 +8,9 @@
 
     public class Reader
     {
-        public Reader(List<string> existingFilePaths, IProgress<ProgressEventArgs> progress)
+        public Reader(Model model, List<string> existingFilePaths, IProgress<ProgressEventArgs> progress)
         {
+            _model = model;
             ExistingFilePaths = existingFilePaths;
             _progress = progress;
         }
@@ -46,6 +47,7 @@
 
         public readonly List<string> ExistingFilePaths;
         public readonly List<Track> Tracks = new List<Track>();
+        private Model _model;
         private int _trackIndex, _trackCount;
         private readonly IProgress<ProgressEventArgs> _progress;
 
@@ -58,9 +60,12 @@
             {
                 if (!ExistingFilePaths.Contains(filePath))
                 {
-                    track = new Track(filePath);
-                    Tracks.Add(track);
-                    ExistingFilePaths.Add(filePath);
+                    track = Track.FromPath(filePath, _model.FileOptionsFilter);
+                    if (track != null)
+                    {
+                        Tracks.Add(track);
+                        ExistingFilePaths.Add(filePath);
+                    }
                 }
                 _trackIndex++;
             }

@@ -3,6 +3,7 @@
     using System;
     using System.Collections.Generic;
     using System.Linq;
+    using Terms;
     using Utils;
 
     public class Model
@@ -11,6 +12,8 @@
 
         private string _commonPath;
         public string CommonPath => _commonPath ?? (_commonPath = Utility.GetCommonPath(Tracks?.Select(p => p.FilePath)));
+
+        public Func<Track, bool> FileOptionsFilter { get; set; }
 
         private Selection _library = new Selection(new List<Track>());
         public Selection Library
@@ -29,7 +32,8 @@
 
         #region Public Methods
 
-        public int AddFiles(string[] filePaths, IProgress<ProgressEventArgs> progress) => ReadTracks(p => p.AddTracks(filePaths), progress);
+        public int AddFiles(string[] filePaths, IProgress<ProgressEventArgs> progress) =>
+            ReadTracks(p => p.AddTracks(filePaths), progress);
 
         public int AddFolder(string folderPath, string fileFilter, IProgress<ProgressEventArgs> progress)
         {
@@ -109,7 +113,7 @@
         private int ReadTracks(Action<Reader> action, IProgress<ProgressEventArgs> progress)
         {
             var existingFilePaths = Tracks.Select(t => t.FilePath).ToList();
-            var reader = new Reader(existingFilePaths, progress);
+            var reader = new Reader(this, existingFilePaths, progress);
             action(reader);
             var tracks = reader.Tracks;
             var count = tracks.Count;

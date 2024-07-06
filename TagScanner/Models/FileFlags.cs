@@ -26,6 +26,10 @@
         SystemFalse = 1 << 16,
         ArchiveTrue = 1 << 17,
         ArchiveFalse = 1 << 18,
+        CompressedTrue = 1 << 19,
+        CompressedFalse = 1 << 20,
+        EncryptedTrue = 1 << 21,
+        EncryptedFalse = 1 << 22,
 
         DateCreated = CreatedMin | CreatedMax,
         DateModified = ModifiedMin | ModifiedMax,
