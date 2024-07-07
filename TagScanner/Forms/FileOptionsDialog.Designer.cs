@@ -36,14 +36,11 @@
             this.PopupEdit = new System.Windows.Forms.ToolStripMenuItem();
             this.PopupDelete = new System.Windows.Forms.ToolStripMenuItem();
             this.TreeViewStateImageList = new System.Windows.Forms.ImageList(this.components);
-            this.ToolTip = new System.Windows.Forms.ToolTip(this.components);
-            this.ErrorProvider = new System.Windows.Forms.ErrorProvider(this.components);
             this.panel1 = new System.Windows.Forms.Panel();
             this.btnCancel = new System.Windows.Forms.Button();
             this.btnOK = new System.Windows.Forms.Button();
             this.FileFilterControl = new TagScanner.Controls.FileFilterControl();
             this.PopupMenu.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.ErrorProvider)).BeginInit();
             this.panel1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -99,10 +96,6 @@
             this.TreeViewStateImageList.Images.SetKeyName(0, "frClear.png");
             this.TreeViewStateImageList.Images.SetKeyName(1, "frApply.png");
             this.TreeViewStateImageList.Images.SetKeyName(2, "frPartial.png");
-            // 
-            // ErrorProvider
-            // 
-            this.ErrorProvider.ContainerControl = this;
             // 
             // panel1
             // 
@@ -166,7 +159,6 @@
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "File Options";
             this.PopupMenu.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.ErrorProvider)).EndInit();
             this.panel1.ResumeLayout(false);
             this.ResumeLayout(false);
 
@@ -175,12 +167,10 @@
         #endregion
         public System.Windows.Forms.TreeView TreeView;
         public System.Windows.Forms.ImageList TreeViewStateImageList;
-        private System.Windows.Forms.ToolTip ToolTip;
         public System.Windows.Forms.ContextMenuStrip PopupMenu;
         public System.Windows.Forms.ToolStripMenuItem PopupAdd;
         public System.Windows.Forms.ToolStripMenuItem PopupEdit;
         public System.Windows.Forms.ToolStripMenuItem PopupDelete;
-        public System.Windows.Forms.ErrorProvider ErrorProvider;
         private System.Windows.Forms.Panel panel1;
         public System.Windows.Forms.Button btnCancel;
         public System.Windows.Forms.Button btnOK;

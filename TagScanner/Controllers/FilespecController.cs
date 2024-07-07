@@ -38,7 +38,7 @@
         {
             if (Dialog == null)
             {
-                Dialog = new FileFormatDialog();
+                Dialog = new FilespecDialog();
                 ErrorController = new ErrorController(this, CbDescription, CbFilespec);
             }
             Dialog.Text = prompt;
@@ -77,7 +77,7 @@
 
         #region Private Fields
 
-        private FileFormatDialog Dialog;
+        private FilespecDialog Dialog;
         private ErrorController ErrorController;
 
         #endregion

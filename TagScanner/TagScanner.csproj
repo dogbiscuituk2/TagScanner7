@@ -199,11 +199,11 @@
     <Compile Include="Forms\FileOptionsDialog.Designer.cs">
       <DependentUpon>FileOptionsDialog.cs</DependentUpon>
     </Compile>
-    <Compile Include="Forms\FileFormatDialog.cs">
+    <Compile Include="Forms\FilespecDialog.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Forms\FileFormatDialog.Designer.cs">
-      <DependentUpon>FileFormatDialog.cs</DependentUpon>
+    <Compile Include="Forms\FilespecDialog.Designer.cs">
+      <DependentUpon>FilespecDialog.cs</DependentUpon>
     </Compile>
     <Compile Include="Menus\ShellContextMenu.cs" />
     <Compile Include="Models\FileOptions.cs" />
@@ -384,8 +384,8 @@
     <EmbeddedResource Include="Forms\FileOptionsDialog.resx">
       <DependentUpon>FileOptionsDialog.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Forms\FileFormatDialog.resx">
-      <DependentUpon>FileFormatDialog.cs</DependentUpon>
+    <EmbeddedResource Include="Forms\FilespecDialog.resx">
+      <DependentUpon>FilespecDialog.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\InputDialog.resx">
       <DependentUpon>InputDialog.cs</DependentUpon>

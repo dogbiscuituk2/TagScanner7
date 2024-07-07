@@ -52,8 +52,8 @@
 
         private void AfterExecute()
         {
-            FileFilterController.Process(loading: false);
-            AppController.Schema = FileSchemaController.GetSchema();
+            FileFilterController.AfterExecute();
+            FileSchemaController.AfterExecute();
         }
 
         private void BeforeExecute()
@@ -61,7 +61,7 @@
             if (View == null)
                 CreateView();
             FileSchemaController.BeforeExecute();
-            FileFilterController.Process(loading: true);
+            FileFilterController.BeforeExecute();
             UpdateUI();
         }
 

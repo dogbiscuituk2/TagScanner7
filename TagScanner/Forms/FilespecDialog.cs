@@ -2,9 +2,9 @@
 {
     using System.Windows.Forms;
 
-    public partial class FileFormatDialog : Form
+    public partial class FilespecDialog : Form
     {
-        public FileFormatDialog()
+        public FilespecDialog()
         {
             InitializeComponent();
         }

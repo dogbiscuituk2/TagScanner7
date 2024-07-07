@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.panel2 = new System.Windows.Forms.Panel();
             this.cbAttrEncrypted = new System.Windows.Forms.ComboBox();
             this.label14 = new System.Windows.Forms.Label();
@@ -62,6 +63,7 @@
             this.dtpCreatedMax = new System.Windows.Forms.DateTimePicker();
             this.dtpCreatedMin = new System.Windows.Forms.DateTimePicker();
             this.label1 = new System.Windows.Forms.Label();
+            this.ToolTip = new System.Windows.Forms.ToolTip(this.components);
             this.panel2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.seFileSizeMax)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.seFileSizeMin)).BeginInit();
@@ -121,6 +123,7 @@
             this.cbAttrEncrypted.Name = "cbAttrEncrypted";
             this.cbAttrEncrypted.Size = new System.Drawing.Size(75, 25);
             this.cbAttrEncrypted.TabIndex = 32;
+            this.ToolTip.SetToolTip(this.cbAttrEncrypted, "Check \'Encrypted\' attribute");
             // 
             // label14
             // 
@@ -146,6 +149,7 @@
             this.cbAttrCompressed.Name = "cbAttrCompressed";
             this.cbAttrCompressed.Size = new System.Drawing.Size(75, 25);
             this.cbAttrCompressed.TabIndex = 28;
+            this.ToolTip.SetToolTip(this.cbAttrCompressed, "Check \'Compressed\' attribute");
             // 
             // label13
             // 
@@ -172,6 +176,7 @@
             this.seFileSizeMax.Size = new System.Drawing.Size(104, 25);
             this.seFileSizeMax.TabIndex = 20;
             this.seFileSizeMax.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.ToolTip.SetToolTip(this.seFileSizeMax, "Maximum File Size");
             // 
             // seFileSizeMin
             // 
@@ -187,6 +192,7 @@
             this.seFileSizeMin.Size = new System.Drawing.Size(102, 25);
             this.seFileSizeMin.TabIndex = 18;
             this.seFileSizeMin.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.ToolTip.SetToolTip(this.seFileSizeMin, "Minimum File Size");
             // 
             // label12
             // 
@@ -207,6 +213,7 @@
             this.cbAccessedUtc.Name = "cbAccessedUtc";
             this.cbAccessedUtc.Size = new System.Drawing.Size(15, 14);
             this.cbAccessedUtc.TabIndex = 15;
+            this.ToolTip.SetToolTip(this.cbAccessedUtc, "Use UTC Accessed Date");
             this.cbAccessedUtc.UseVisualStyleBackColor = true;
             // 
             // cbModifiedUtc
@@ -217,6 +224,7 @@
             this.cbModifiedUtc.Name = "cbModifiedUtc";
             this.cbModifiedUtc.Size = new System.Drawing.Size(15, 14);
             this.cbModifiedUtc.TabIndex = 11;
+            this.ToolTip.SetToolTip(this.cbModifiedUtc, "Use UTC Modified Date");
             this.cbModifiedUtc.UseVisualStyleBackColor = true;
             // 
             // cbCreatedUtc
@@ -227,6 +235,7 @@
             this.cbCreatedUtc.Name = "cbCreatedUtc";
             this.cbCreatedUtc.Size = new System.Drawing.Size(15, 14);
             this.cbCreatedUtc.TabIndex = 7;
+            this.ToolTip.SetToolTip(this.cbCreatedUtc, "Use UTC Created Date");
             this.cbCreatedUtc.UseVisualStyleBackColor = true;
             // 
             // label11
@@ -254,6 +263,7 @@
             this.cbAttrArchive.Name = "cbAttrArchive";
             this.cbAttrArchive.Size = new System.Drawing.Size(75, 25);
             this.cbAttrArchive.TabIndex = 24;
+            this.ToolTip.SetToolTip(this.cbAttrArchive, "Check \'Archive\' attribute");
             // 
             // cbAttrSystem
             // 
@@ -268,6 +278,7 @@
             this.cbAttrSystem.Name = "cbAttrSystem";
             this.cbAttrSystem.Size = new System.Drawing.Size(75, 25);
             this.cbAttrSystem.TabIndex = 30;
+            this.ToolTip.SetToolTip(this.cbAttrSystem, "Check \'System\' attribute");
             // 
             // cbAttrHidden
             // 
@@ -282,6 +293,7 @@
             this.cbAttrHidden.Name = "cbAttrHidden";
             this.cbAttrHidden.Size = new System.Drawing.Size(75, 25);
             this.cbAttrHidden.TabIndex = 26;
+            this.ToolTip.SetToolTip(this.cbAttrHidden, "Check \'Hidden\' attribute");
             // 
             // cbAttrReadOnly
             // 
@@ -296,6 +308,7 @@
             this.cbAttrReadOnly.Name = "cbAttrReadOnly";
             this.cbAttrReadOnly.Size = new System.Drawing.Size(75, 25);
             this.cbAttrReadOnly.TabIndex = 22;
+            this.ToolTip.SetToolTip(this.cbAttrReadOnly, "Check \'Read-only\' attribute");
             // 
             // label10
             // 
@@ -349,6 +362,7 @@
             this.cbFileSizeMax.Name = "cbFileSizeMax";
             this.cbFileSizeMax.Size = new System.Drawing.Size(15, 14);
             this.cbFileSizeMax.TabIndex = 19;
+            this.ToolTip.SetToolTip(this.cbFileSizeMax, "Use Maximum File Size");
             this.cbFileSizeMax.UseVisualStyleBackColor = true;
             // 
             // label6
@@ -370,6 +384,7 @@
             this.cbFileSizeMin.Name = "cbFileSizeMin";
             this.cbFileSizeMin.Size = new System.Drawing.Size(15, 14);
             this.cbFileSizeMin.TabIndex = 17;
+            this.ToolTip.SetToolTip(this.cbFileSizeMin, "Use Minimum File Size");
             this.cbFileSizeMin.UseVisualStyleBackColor = true;
             // 
             // label5
@@ -403,6 +418,7 @@
             this.dtpAccessedMax.ShowCheckBox = true;
             this.dtpAccessedMax.Size = new System.Drawing.Size(128, 25);
             this.dtpAccessedMax.TabIndex = 14;
+            this.ToolTip.SetToolTip(this.dtpAccessedMax, "Latest Accessed Date");
             // 
             // dtpAccessedMin
             // 
@@ -413,6 +429,7 @@
             this.dtpAccessedMin.ShowCheckBox = true;
             this.dtpAccessedMin.Size = new System.Drawing.Size(128, 25);
             this.dtpAccessedMin.TabIndex = 13;
+            this.ToolTip.SetToolTip(this.dtpAccessedMin, "Earliest Accessed Date");
             // 
             // label3
             // 
@@ -434,6 +451,7 @@
             this.dtpModifiedMax.ShowCheckBox = true;
             this.dtpModifiedMax.Size = new System.Drawing.Size(128, 25);
             this.dtpModifiedMax.TabIndex = 10;
+            this.ToolTip.SetToolTip(this.dtpModifiedMax, "Latest Modified Date");
             // 
             // dtpModifiedMin
             // 
@@ -444,6 +462,7 @@
             this.dtpModifiedMin.ShowCheckBox = true;
             this.dtpModifiedMin.Size = new System.Drawing.Size(128, 25);
             this.dtpModifiedMin.TabIndex = 9;
+            this.ToolTip.SetToolTip(this.dtpModifiedMin, "Earliest Modified Date");
             // 
             // label2
             // 
@@ -465,6 +484,7 @@
             this.dtpCreatedMax.ShowCheckBox = true;
             this.dtpCreatedMax.Size = new System.Drawing.Size(128, 25);
             this.dtpCreatedMax.TabIndex = 6;
+            this.ToolTip.SetToolTip(this.dtpCreatedMax, "Latest Created Date");
             // 
             // dtpCreatedMin
             // 
@@ -475,6 +495,7 @@
             this.dtpCreatedMin.ShowCheckBox = true;
             this.dtpCreatedMin.Size = new System.Drawing.Size(128, 25);
             this.dtpCreatedMin.TabIndex = 5;
+            this.ToolTip.SetToolTip(this.dtpCreatedMin, "Earliest Created Date");
             this.dtpCreatedMin.Value = new System.DateTime(2024, 9, 27, 21, 20, 0, 0);
             // 
             // label1
@@ -541,5 +562,6 @@
         public System.Windows.Forms.DateTimePicker dtpCreatedMax;
         public System.Windows.Forms.DateTimePicker dtpCreatedMin;
         public System.Windows.Forms.Label label1;
+        private System.Windows.Forms.ToolTip ToolTip;
     }
 }

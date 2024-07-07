@@ -36,6 +36,8 @@
                 AddNode(parent.Nodes, description, filespec, check: level == 2);
         }
 
+        public void AfterExecute() => AppController.Schema = GetSchema();
+
         public void BeforeExecute()
         {
             SetSchema(AppController.Schema);

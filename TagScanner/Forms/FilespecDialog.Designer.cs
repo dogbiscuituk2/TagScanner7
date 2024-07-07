@@ -1,6 +1,6 @@
 ﻿namespace TagScanner.Forms
 {
-    partial class FileFormatDialog
+    partial class FilespecDialog
     {
         /// <summary>
         /// Required designer variable.
