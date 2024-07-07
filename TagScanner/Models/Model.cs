@@ -35,10 +35,10 @@
         public int AddFiles(string[] filePaths, IProgress<ProgressEventArgs> progress) =>
             ReadTracks(p => p.AddTracks(filePaths), progress);
 
-        public int AddFolder(string folderPath, string fileFilter, IProgress<ProgressEventArgs> progress)
+        public int AddFolder(string folderPath, string filespec, IProgress<ProgressEventArgs> progress)
         {
-            var folder = string.Concat(folderPath, '|', fileFilter);
-            return ReadTracks(p => p.AddFolder(folderPath, fileFilter.Split(';')), progress);
+            var folder = string.Concat(folderPath, '|', filespec);
+            return ReadTracks(p => p.AddFolder(folderPath, filespec.Split(';')), progress);
         }
 
         public int AddRemoveTracks(List<Track> tracks, bool add)

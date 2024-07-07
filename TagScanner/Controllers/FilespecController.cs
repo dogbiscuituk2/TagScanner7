@@ -6,11 +6,11 @@
     using Forms;
     using Utils;
 
-    public class FileFormatController : Controller, IGetErrors
+    public class FilespecController : Controller, IGetErrors
     {
         #region Constructor
 
-        public FileFormatController(Controller parent) : base(parent) { }
+        public FilespecController(Controller parent) : base(parent) { }
 
         #endregion
 
@@ -24,32 +24,32 @@
 
         public ErrorProvider ErrorProvider => Dialog.ErrorProvider;
 
-        public string Filespecs
+        public string Filespec
         {
-            get => CbFilespecs.Text;
-            set => CbFilespecs.Text = value;
+            get => CbFilespec.Text;
+            set => CbFilespec.Text = value;
         }
 
         #endregion
 
         #region Public Methods
 
-        public bool Execute(string prompt, int level, ref string description, ref string filespecs)
+        public bool Execute(string prompt, int level, ref string description, ref string filespec)
         {
             if (Dialog == null)
             {
                 Dialog = new FileFormatDialog();
-                ErrorController = new ErrorController(this, CbDescription, CbFilespecs);
+                ErrorController = new ErrorController(this, CbDescription, CbFilespec);
             }
             Dialog.Text = prompt;
             Description = description;
-            Filespecs = filespecs;
-            CbFilespecs.Enabled = level == 2;
+            Filespec = filespec;
+            CbFilespec.Enabled = level == 2;
             var ok = Dialog.ShowDialog(Owner) == DialogResult.OK;
             if (ok)
             {
                 description = Description;
-                filespecs = Filespecs;
+                filespec = Filespec;
             }
             return ok;
         }
@@ -62,9 +62,9 @@
                 if (string.IsNullOrWhiteSpace(CbDescription.Text))
                     errors.AppendLine("Description cannot be blank.");
             }
-            if (control == CbFilespecs && control.Enabled)
+            if (control == CbFilespec && control.Enabled)
             {
-                var text = CbFilespecs.Text;
+                var text = CbFilespec.Text;
                 if (string.IsNullOrWhiteSpace(text))
                     errors.AppendLine("Filespec(s) cannot be blank.");
                 if (text.Split('|').Any(p => !p.IsValidFilePath()))
@@ -85,7 +85,7 @@
         #region Private Properties
 
         private Control CbDescription => Dialog.cbDescription;
-        private Control CbFilespecs => Dialog.cbFilespecs;
+        private Control CbFilespec => Dialog.cbFilespec;
 
         #endregion
     }

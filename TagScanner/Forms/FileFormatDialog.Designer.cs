@@ -33,7 +33,7 @@
             this.btnOK = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
-            this.cbFilespecs = new System.Windows.Forms.ComboBox();
+            this.cbFilespec = new System.Windows.Forms.ComboBox();
             this.btnCancel = new System.Windows.Forms.Button();
             this.ErrorProvider = new System.Windows.Forms.ErrorProvider(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.ErrorProvider)).BeginInit();
@@ -77,13 +77,13 @@
             this.label2.TabIndex = 4;
             this.label2.Text = "&Filespec(s)";
             // 
-            // cbFilespecs
+            // cbFilespec
             // 
-            this.cbFilespecs.FormattingEnabled = true;
-            this.cbFilespecs.Location = new System.Drawing.Point(78, 39);
-            this.cbFilespecs.Name = "cbFilespecs";
-            this.cbFilespecs.Size = new System.Drawing.Size(280, 21);
-            this.cbFilespecs.TabIndex = 3;
+            this.cbFilespec.FormattingEnabled = true;
+            this.cbFilespec.Location = new System.Drawing.Point(78, 39);
+            this.cbFilespec.Name = "cbFilespec";
+            this.cbFilespec.Size = new System.Drawing.Size(280, 21);
+            this.cbFilespec.TabIndex = 3;
             // 
             // btnCancel
             // 
@@ -110,7 +110,7 @@
             this.ClientSize = new System.Drawing.Size(384, 118);
             this.Controls.Add(this.btnCancel);
             this.Controls.Add(this.label2);
-            this.Controls.Add(this.cbFilespecs);
+            this.Controls.Add(this.cbFilespec);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.btnOK);
             this.Controls.Add(this.cbDescription);
@@ -133,7 +133,7 @@
         public System.Windows.Forms.Button btnOK;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
-        public System.Windows.Forms.ComboBox cbFilespecs;
+        public System.Windows.Forms.ComboBox cbFilespec;
         public System.Windows.Forms.Button btnCancel;
         public System.Windows.Forms.ErrorProvider ErrorProvider;
     }

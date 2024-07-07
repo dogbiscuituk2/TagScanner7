@@ -155,11 +155,13 @@
     <Compile Include="Controllers\AutoCompleter.cs" />
     <Compile Include="Controllers\DragDropController.cs" />
     <Compile Include="Controllers\ErrorController.cs" />
+    <Compile Include="Controllers\FileFilterController.cs" />
     <Compile Include="Controllers\FileOptionsController.cs" />
+    <Compile Include="Controllers\FileSchemaController.cs" />
     <Compile Include="Controllers\FilterController.cs" />
     <Compile Include="Controllers\AppController.cs" />
     <Compile Include="Controllers\FindReplaceController.cs" />
-    <Compile Include="Controllers\FileFormatController.cs" />
+    <Compile Include="Controllers\FilespecController.cs" />
     <Compile Include="Controllers\IGetErrors.cs" />
     <Compile Include="Controllers\InputDialogController.cs" />
     <Compile Include="Controllers\Mru\MruController.cs" />
@@ -172,6 +174,12 @@
     <Compile Include="Controllers\SplashController.cs" />
     <Compile Include="Controllers\TreeNodeState.cs" />
     <Compile Include="Controllers\TriStateTreeController.cs" />
+    <Compile Include="Controls\FileFilterControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\FileFilterControl.Designer.cs">
+      <DependentUpon>FileFilterControl.cs</DependentUpon>
+    </Compile>
     <Compile Include="Controls\FilterControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -364,6 +372,9 @@
     <Compile Include="Forms\TagSelectorDialog.Designer.cs">
       <DependentUpon>TagSelectorDialog.cs</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="Controls\FileFilterControl.resx">
+      <DependentUpon>FileFilterControl.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Controls\FilterControl.resx">
       <DependentUpon>FilterControl.cs</DependentUpon>
     </EmbeddedResource>

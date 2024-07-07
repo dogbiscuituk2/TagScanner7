@@ -6,11 +6,11 @@
     {
         #region Constructors
 
-        public SchemaLine(int level, string description, string filespecs, bool check)
+        public SchemaLine(int level, string description, string filespec, bool check)
         {
             Level = level;
             Description = description;
-            Filespecs = filespecs;
+            Filespec = filespec;
             Check = check;
         }
 
@@ -19,7 +19,7 @@
             var p = value.IndexOf('>');
             Level = Math.Sign(p) + 1;
             Description = value.Remove(0, p + 1);
-            Filespecs = p > 0 ? value.Substring(0, p) : string.Empty;
+            Filespec = p > 0 ? value.Substring(0, p) : string.Empty;
             Check = Description.StartsWith(">");
             if (Check)
                 Description = Description.Remove(0, 1);
@@ -30,7 +30,7 @@
         #region Public Fields
 
         public readonly int Level;
-        public readonly string Description, Filespecs;
+        public readonly string Description, Filespec;
         public readonly bool Check;
 
         #endregion
@@ -46,7 +46,7 @@
             }
         }
 
-        public string Filterspecs => Filespecs.Replace('|', ';');
+        public string Filterspecs => Filespec.Replace('|', ';');
 
         #endregion
 
@@ -62,7 +62,7 @@
                     return $">{Description}";
                 default:
                     var separator = Check ? ">>" : ">";
-                    return $"{Filespecs}{separator}{Description}";
+                    return $"{Filespec}{separator}{Description}";
             }
         }
 

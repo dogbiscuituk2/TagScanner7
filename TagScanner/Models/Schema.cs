@@ -95,7 +95,7 @@
             if (!lines.Any())
                 return string.Empty;
             return lines
-                .Select(p => p.Filespecs)
+                .Select(p => p.Filespec)
                 .Aggregate((p, q) => $"{p}|{q}")
                 .Split('|')
                 .OrderBy(p => p)
