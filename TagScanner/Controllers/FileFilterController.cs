@@ -56,6 +56,13 @@
 
             SeFileSizeMin.Maximum = SeFileSizeMax.Maximum = ulong.MaxValue;
 
+            DtpCreatedMin.ValueChanged += (sender, e) => AdjustCreatedDates(lower: true);
+            DtpCreatedMax.ValueChanged += (sender, e) => AdjustCreatedDates(lower: false);
+            DtpModifiedMin.ValueChanged += (sender, e) => AdjustModifiedDates(lower: true);
+            DtpModifiedMax.ValueChanged += (sender, e) => AdjustModifiedDates(lower: false);
+            DtpAccessedMin.ValueChanged += (sender, e) => AdjustAccessedDates(lower: true);
+            DtpAccessedMax.ValueChanged += (sender, e) => AdjustAccessedDates(lower: false);
+
             CbFileSizeMin.CheckedChanged += CheckBox_CheckedChanged;
             CbFileSizeMax.CheckedChanged += CheckBox_CheckedChanged;
 
@@ -73,20 +80,20 @@
         {
             var errors = new StringBuilder();
             if (control == DtpCreatedMin || control == DtpCreatedMax)
-                CheckDates(DtpCreatedMin, DtpCreatedMax, "Created Date");
+                CheckDates(DtpCreatedMin, DtpCreatedMax, "Created");
             if (control == DtpModifiedMin || control == DtpModifiedMax)
-                CheckDates(DtpModifiedMin, DtpModifiedMax, "Modified Date");
+                CheckDates(DtpModifiedMin, DtpModifiedMax, "Modified");
             if (control == DtpAccessedMin || control == DtpAccessedMax)
-                CheckDates(DtpAccessedMin, DtpAccessedMax, "Accessed Date");
+                CheckDates(DtpAccessedMin, DtpAccessedMax, "Accessed");
             if (control == SeFileSizeMin || control == SeFileSizeMax)
                 if (CbFileSizeMin.Checked && CbFileSizeMax.Checked && SeFileSizeMin.Value > SeFileSizeMax.Value)
                     errors.AppendLine("The minimum File Size cannot be greater than the maximum.");
             return errors.ToString().Trim();
 
-            void CheckDates(DateTimePicker min, DateTimePicker max, string date)
+            void CheckDates(DateTimePicker min, DateTimePicker max, string which)
             {
                 if (min.Checked && max.Checked && min.Value > max.Value)
-                    errors.AppendLine($"The first {date} cannot be later than the last.");
+                    errors.AppendLine($"The first {which} Date cannot be later than the last.");
             }
         }
 
@@ -100,6 +107,7 @@
         #region Private Fields
 
         private readonly FileOptions FileOptions = new FileOptions();
+        private bool _updating;
         private FileFilterControl View;
 
         private CheckBox
@@ -117,6 +125,25 @@
         private NumericUpDown
             SeFileSizeMin, SeFileSizeMax;
 
+        private bool _useAutoValidate;
+
+        #endregion
+
+        #region Private Properties
+
+        private bool UseAutoValidate
+        {
+            get => _useAutoValidate;
+            set
+            {
+                if (UseAutoValidate != value)
+                {
+                    _useAutoValidate = value;
+                    ApplyAutoValidate();
+                }
+            }
+        }
+
         #endregion
 
         #region Event Handlers
@@ -129,6 +156,32 @@
 
         private void AdjustIncrement(NumericUpDown control) =>
             control.Increment = Math.Max(1, Math.Truncate(control.Value / 100));
+
+        private void ApplyAutoValidate()
+        {
+
+        }
+
+        private void AdjustCreatedDates(bool lower) => AdjustDate(DtpCreatedMin, DtpCreatedMax, lower);
+        private void AdjustModifiedDates(bool lower) => AdjustDate(DtpModifiedMin, DtpModifiedMax, lower);
+        private void AdjustAccessedDates(bool lower) => AdjustDate(DtpAccessedMin, DtpAccessedMax, lower);
+
+        private void AdjustDate(DateTimePicker min, DateTimePicker max, bool lower)
+        {
+            if (!UseAutoValidate || !min.Checked || !max.Checked || min.Value <= max.Value)
+                return;
+            _updating = true;
+            if (lower)
+                min.Value = max.Value;
+            else
+                max.Value = min.Value;
+            _updating = false;
+        }
+
+        private void AdjustFileSize()
+        {
+
+        }
 
         private void Process(bool loading)
         {
