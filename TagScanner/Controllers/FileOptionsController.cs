@@ -34,11 +34,13 @@
 
         private FileFilterController FileFilterController;
         private FileSchemaController FileSchemaController;
-
         private FileOptionsDialog View;
 
         private ToolStripMenuItem
-            PopupAdd, PopupEdit, PopupDelete;
+            SchemaPopupAdd,
+            SchemaPopupEdit,
+            SchemaPopupDelete,
+            SchemaPopupShowFileFilter;
 
         #endregion
 
@@ -71,16 +73,18 @@
             FileSchemaController.SetView(View.TreeView);
             FileFilterController.SetView(View.FileFilterControl);
 
-            PopupAdd = View.PopupAdd;
-            PopupEdit = View.PopupEdit;
-            PopupDelete = View.PopupDelete;
+            SchemaPopupAdd = View.SchemaPopupAdd;
+            SchemaPopupEdit = View.SchemaPopupEdit;
+            SchemaPopupDelete = View.SchemaPopupDelete;
+            SchemaPopupShowFileFilter = View.SchemaPopupShowFileFilter;
 
-            PopupAdd.Click += (sender, e) => FileSchemaController.Add();
-            PopupEdit.Click += (sender, e) => FileSchemaController.Edit();
-            PopupDelete.Click += (sender, e) => FileSchemaController.Remove();
+            SchemaPopupAdd.Click += (sender, e) => FileSchemaController.Add();
+            SchemaPopupEdit.Click += (sender, e) => FileSchemaController.Edit();
+            SchemaPopupDelete.Click += (sender, e) => FileSchemaController.Remove();
+            SchemaPopupShowFileFilter.Click += (sender, e) => FileSchemaController.ShowFileFilter();
         }
 
-        private void UpdateUI() => PopupDelete.Enabled = FileSchemaController.SelectedNode?.Level > 0;
+        private void UpdateUI() => SchemaPopupDelete.Enabled = FileSchemaController.SelectedNode?.Level > 0;
 
         #endregion
     }

@@ -1,5 +1,6 @@
 ﻿namespace TagScanner.Controllers
 {
+    using System;
     using System.Linq;
     using System.Windows.Forms;
     using Models;
@@ -122,6 +123,13 @@
             TreeView = treeView;
             TriStateTreeController = new TriStateTreeController(TreeView);
         }
+
+        public void ShowFileFilter() => MessageBox.Show(
+            Owner,
+            GetSchema().FilterDescriptions,
+            "Selected File Formats",
+            MessageBoxButtons.OK,
+            MessageBoxIcon.Information);
 
         #endregion
 

@@ -37,15 +37,6 @@
 
         #region Public Properties
 
-        public string Filter
-        {
-            get
-            {
-                var filterspecs = Filterspecs;
-                return $"{Description} ({filterspecs})|{filterspecs}|";
-            }
-        }
-
         public string Filterspecs => Filespec.Replace('|', ';');
 
         #endregion

@@ -2,6 +2,7 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.ComponentModel;
     using System.Linq;
     using System.Text;
     using TagScanner.Properties;
@@ -23,42 +24,50 @@
 
         #region Public Properties
 
-        public string Filter
-        {
-            get
-            {
-                StringBuilder
-                    rootBuilder = new StringBuilder(),
-                    categoryBuilder = new StringBuilder(),
-                    leafBuilder = new StringBuilder();
+        public string Filter => GetFilterText(multiline: false);
+        public string FilterDescriptions => GetFilterText(multiline: true);
 
-                var root = GetRoots().FirstOrDefault() ?? "All Media";
-                var categories = GetCategories();
-                if (categories.Any())
+        private string GetFilterText(bool multiline)
+        {
+            StringBuilder
+                rootBuilder = new StringBuilder(),
+                categoryBuilder = new StringBuilder(),
+                leafBuilder = new StringBuilder();
+
+            var root = GetRoots().FirstOrDefault() ?? "All Media";
+            var categories = GetCategories();
+            if (categories.Any())
+            {
+                foreach (var category in categories)
                 {
-                    foreach (var category in categories)
+                    var leaves = GetLeaves(category).Where(p => p.Check);
+                    if (leaves.Any())
                     {
-                        var leaves = GetLeaves(category).Where(p => p.Check);
-                        if (leaves.Any())
-                        {
-                            foreach (var leaf in leaves)
-                                leafBuilder.Append(leaf.Filter);
-                            var filterspecs = GetFilterspecs(leaves);
-                            rootBuilder.Append($"{filterspecs};");
-                            categoryBuilder.Append($"{category} ({filterspecs})|{filterspecs}|");
-                        }
+                        foreach (var leaf in leaves)
+                            AddLine(leafBuilder, leaf.Description, leaf.Filterspecs);
+                        var filterspecs = GetFilterspecs(leaves);
+                        rootBuilder.Append($"{filterspecs};");
+                        AddLine(categoryBuilder, category, filterspecs);
                     }
                 }
-                if (rootBuilder.Length > 0)
-                {
-                    var allspecs = rootBuilder.ToString().TrimEnd(';');
-                    rootBuilder.Clear();
-                    rootBuilder.Append($"{root} ({allspecs})|{allspecs}|");
-                    rootBuilder.Append(categoryBuilder);
-                    rootBuilder.Append(leafBuilder);
-                }
-                rootBuilder.Append("All Files (*.*)|*.*");
-                return rootBuilder.ToString();
+            }
+            if (rootBuilder.Length > 0)
+            {
+                var allspecs = rootBuilder.ToString().TrimEnd(';');
+                rootBuilder.Clear();
+                AddLine(rootBuilder, root, allspecs);
+                rootBuilder.Append(categoryBuilder).Append(leafBuilder);
+            }
+            AddLine(rootBuilder, "All Files", "*.*");
+            return rootBuilder.ToString().TrimEnd('|');
+
+            void AddLine(StringBuilder builder, string description, string filespec)
+            {
+                builder.Append($"{description} ({filespec})");
+                if (multiline)
+                    builder.AppendLine();
+                else
+                    builder.Append($"|{filespec}|");
             }
         }
 
