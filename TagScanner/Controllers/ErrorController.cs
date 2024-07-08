@@ -1,6 +1,7 @@
 ﻿namespace TagScanner.Controllers
 {
     using System;
+    using System.Collections.Generic;
     using System.Linq;
     using System.Windows.Forms;
 
@@ -26,7 +27,8 @@
 
         #region Private Properties
 
-        private ErrorProvider ErrorProvider => Getter.ErrorProvider;
+        private IAutocorrect Autocorrector => Parent as IAutocorrect;
+        private ErrorProvider ErrorProvider => Getter?.ErrorProvider;
         private IGetErrors Getter => Parent as IGetErrors;
 
         #endregion
@@ -54,20 +56,39 @@
             _form.FormClosing += Form_FormClosing;
         }
 
-        private string GetErrors(Control control) => Getter.GetErrors(control);
-        private void SetError(Control control, string value) => ErrorProvider.SetError(control, value);
-        private void SetIconAlignment(Control control, ErrorIconAlignment alignment) => ErrorProvider.SetIconAlignment(control, alignment);
-        private void SetIconPadding(Control control, int padding) => ErrorProvider.SetIconPadding(control, padding);
+        private string GetErrors(Control control) => Getter?.GetErrors(control);
+        private void SetError(Control control, string value) => ErrorProvider?.SetError(control, value);
+        private void SetIconAlignment(Control control, ErrorIconAlignment alignment) => ErrorProvider?.SetIconAlignment(control, alignment);
+        private void SetIconPadding(Control control, int padding) => ErrorProvider?.SetIconPadding(control, padding);
 
         private bool Validate()
         {
-            var errors = _controls.Select(p => GetErrors(p)).Where(q => !string.IsNullOrEmpty(q)).Distinct();
-            if (!errors.Any())
+            var errorList = GetErrorList();
+            if (string.IsNullOrEmpty(errorList))
                 return true;
-            var message = errors.Aggregate((p, q) => $"{p}{Environment.NewLine}{q}");
-            return MessageBox.Show(_form,
-                $"{message}{Environment.NewLine}{Environment.NewLine}Would you like to use Auto Validation?",
-                "Data Validation", MessageBoxButtons.YesNo, MessageBoxIcon.Error) == DialogResult.Yes;
+            var canAutocorrect = Autocorrector != null;
+            if (!canAutocorrect)
+            {
+                ShowMessage(string.Empty, MessageBoxButtons.OK);
+                return false;
+            }
+            if (ShowMessage($"\n\nWould you like Autocorrect to make the necessary corrections?", MessageBoxButtons.YesNo) == DialogResult.No)
+                return false;
+            Autocorrector.DoAutocorrect();
+            errorList = GetErrorList();
+            if (string.IsNullOrEmpty(errorList))
+                return true;
+            ShowMessage($"\n\nAutocorrect failed. Please make the necessary corrections manually.", MessageBoxButtons.OK);
+            return false;
+
+            string GetErrorList()
+            {
+                var errors = _controls.Select(p => GetErrors(p)).Where(q => !string.IsNullOrEmpty(q)).Distinct();
+                return errors.Any() ? errors.Aggregate((p, q) => $"{p}{Environment.NewLine}{q}") : string.Empty;
+            }
+
+            DialogResult ShowMessage(string question, MessageBoxButtons buttons) =>
+                MessageBox.Show(_form, $"{errorList}{question}", "Data Validation", buttons, MessageBoxIcon.Error);
         }
 
         #endregion

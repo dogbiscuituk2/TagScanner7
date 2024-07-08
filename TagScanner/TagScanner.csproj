@@ -162,6 +162,7 @@
     <Compile Include="Controllers\AppController.cs" />
     <Compile Include="Controllers\FindReplaceController.cs" />
     <Compile Include="Controllers\FilespecController.cs" />
+    <Compile Include="Controllers\IAutocorrect.cs" />
     <Compile Include="Controllers\IGetErrors.cs" />
     <Compile Include="Controllers\InputDialogController.cs" />
     <Compile Include="Controllers\Mru\MruController.cs" />
