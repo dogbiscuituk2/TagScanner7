@@ -2,17 +2,16 @@
 {
     using System;
     using System.Text;
+    using System.Web.Configuration;
     using System.Windows.Forms;
+    using Controls;
     using Models;
-    using TagScanner.Controls;
 
     public class FileFilterController : Controller, IGetErrors
     {
         #region Constructor
 
-        public FileFilterController(Controller parent) : base(parent)
-        {
-        }
+        public FileFilterController(Controller parent) : base(parent) { }
 
         #endregion
 
@@ -56,12 +55,12 @@
 
             SeFileSizeMin.Maximum = SeFileSizeMax.Maximum = ulong.MaxValue;
 
-            DtpCreatedMin.ValueChanged += (sender, e) => AdjustCreatedDates(lower: true);
-            DtpCreatedMax.ValueChanged += (sender, e) => AdjustCreatedDates(lower: false);
-            DtpModifiedMin.ValueChanged += (sender, e) => AdjustModifiedDates(lower: true);
-            DtpModifiedMax.ValueChanged += (sender, e) => AdjustModifiedDates(lower: false);
-            DtpAccessedMin.ValueChanged += (sender, e) => AdjustAccessedDates(lower: true);
-            DtpAccessedMax.ValueChanged += (sender, e) => AdjustAccessedDates(lower: false);
+            DtpCreatedMin.ValueChanged += (sender, e) => AdjustCreatedDate(lower: true);
+            DtpCreatedMax.ValueChanged += (sender, e) => AdjustCreatedDate(lower: false);
+            DtpModifiedMin.ValueChanged += (sender, e) => AdjustModifiedDate(lower: true);
+            DtpModifiedMax.ValueChanged += (sender, e) => AdjustModifiedDate(lower: false);
+            DtpAccessedMin.ValueChanged += (sender, e) => AdjustAccessedDate(lower: true);
+            DtpAccessedMax.ValueChanged += (sender, e) => AdjustAccessedDate(lower: false);
 
             CbFileSizeMin.CheckedChanged += CheckBox_CheckedChanged;
             CbFileSizeMax.CheckedChanged += CheckBox_CheckedChanged;
@@ -92,14 +91,8 @@
 
             void CheckDates(DateTimePicker min, DateTimePicker max, string which)
             {
-                if (min.Checked && max.Checked && min.Value > max.Value)
-                    errors.AppendLine($"The first {which} Date cannot be later than the last.");
+                if (!DatesOK(min, max)) errors.AppendLine($"The first {which} Date cannot be later than the last.");
             }
-        }
-
-        public void SetView()
-        {
-
         }
 
         #endregion
@@ -159,16 +152,19 @@
 
         private void ApplyAutoValidate()
         {
-
+            AdjustCreatedDate(lower: true);
+            AdjustModifiedDate(lower: true);
+            AdjustAccessedDate(lower: true);
+            AdjustFileSize(lower: true);
         }
 
-        private void AdjustCreatedDates(bool lower) => AdjustDate(DtpCreatedMin, DtpCreatedMax, lower);
-        private void AdjustModifiedDates(bool lower) => AdjustDate(DtpModifiedMin, DtpModifiedMax, lower);
-        private void AdjustAccessedDates(bool lower) => AdjustDate(DtpAccessedMin, DtpAccessedMax, lower);
+        private void AdjustCreatedDate(bool lower) => AdjustDate(DtpCreatedMin, DtpCreatedMax, lower);
+        private void AdjustModifiedDate(bool lower) => AdjustDate(DtpModifiedMin, DtpModifiedMax, lower);
+        private void AdjustAccessedDate(bool lower) => AdjustDate(DtpAccessedMin, DtpAccessedMax, lower);
 
         private void AdjustDate(DateTimePicker min, DateTimePicker max, bool lower)
         {
-            if (!UseAutoValidate || !min.Checked || !max.Checked || min.Value <= max.Value)
+            if (!UseAutoValidate || DatesOK(min, max))
                 return;
             _updating = true;
             if (lower)
@@ -178,10 +174,20 @@
             _updating = false;
         }
 
-        private void AdjustFileSize()
+        private void AdjustFileSize(bool lower)
         {
-
+            if (!UseAutoValidate || FileSizesOK())
+                return;
+            _updating = true;
+            if (lower)
+                SeFileSizeMin.Value = SeFileSizeMax.Value;
+            else
+                SeFileSizeMax.Value = SeFileSizeMin.Value;
+            _updating = false;
         }
+
+        private bool DatesOK(DateTimePicker min, DateTimePicker max) => !min.Checked || !max.Checked || min.Value <= max.Value;
+        private bool FileSizesOK() => !CbFileSizeMin.Checked || !CbFileSizeMax.Checked || SeFileSizeMin.Value <= SeFileSizeMax.Value;
 
         private void Process(bool loading)
         {
