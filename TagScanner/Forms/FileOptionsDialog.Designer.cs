@@ -40,7 +40,6 @@
             this.btnCancel = new System.Windows.Forms.Button();
             this.btnOK = new System.Windows.Forms.Button();
             this.FileFilterControl = new TagScanner.Controls.FileFilterControl();
-            this.StatusBar = new System.Windows.Forms.StatusStrip();
             this.PopupMenu.SuspendLayout();
             this.panel1.SuspendLayout();
             this.SuspendLayout();
@@ -53,7 +52,7 @@
             this.TreeView.Location = new System.Drawing.Point(0, 0);
             this.TreeView.Margin = new System.Windows.Forms.Padding(4);
             this.TreeView.Name = "TreeView";
-            this.TreeView.Size = new System.Drawing.Size(292, 319);
+            this.TreeView.Size = new System.Drawing.Size(292, 341);
             this.TreeView.StateImageList = this.TreeViewStateImageList;
             this.TreeView.TabIndex = 0;
             // 
@@ -106,14 +105,14 @@
             this.panel1.Dock = System.Windows.Forms.DockStyle.Right;
             this.panel1.Location = new System.Drawing.Point(292, 0);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(412, 319);
+            this.panel1.Size = new System.Drawing.Size(412, 341);
             this.panel1.TabIndex = 2;
             // 
             // btnCancel
             // 
             this.btnCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.btnCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.btnCancel.Location = new System.Drawing.Point(324, 288);
+            this.btnCancel.Location = new System.Drawing.Point(324, 310);
             this.btnCancel.Margin = new System.Windows.Forms.Padding(4);
             this.btnCancel.Name = "btnCancel";
             this.btnCancel.Size = new System.Drawing.Size(84, 27);
@@ -125,7 +124,7 @@
             // 
             this.btnOK.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.btnOK.DialogResult = System.Windows.Forms.DialogResult.OK;
-            this.btnOK.Location = new System.Drawing.Point(232, 288);
+            this.btnOK.Location = new System.Drawing.Point(232, 310);
             this.btnOK.Margin = new System.Windows.Forms.Padding(4);
             this.btnOK.Name = "btnOK";
             this.btnOK.Size = new System.Drawing.Size(84, 27);
@@ -143,14 +142,6 @@
             this.FileFilterControl.Size = new System.Drawing.Size(412, 285);
             this.FileFilterControl.TabIndex = 3;
             // 
-            // StatusBar
-            // 
-            this.StatusBar.Location = new System.Drawing.Point(0, 319);
-            this.StatusBar.Name = "StatusBar";
-            this.StatusBar.Size = new System.Drawing.Size(704, 22);
-            this.StatusBar.TabIndex = 3;
-            this.StatusBar.Text = "statusStrip1";
-            // 
             // FileOptionsDialog
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 17F);
@@ -158,7 +149,6 @@
             this.ClientSize = new System.Drawing.Size(704, 341);
             this.Controls.Add(this.TreeView);
             this.Controls.Add(this.panel1);
-            this.Controls.Add(this.StatusBar);
             this.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Margin = new System.Windows.Forms.Padding(4);
@@ -166,12 +156,13 @@
             this.MinimizeBox = false;
             this.MinimumSize = new System.Drawing.Size(720, 380);
             this.Name = "FileOptionsDialog";
+            this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Show;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "File Options";
             this.PopupMenu.ResumeLayout(false);
             this.panel1.ResumeLayout(false);
             this.ResumeLayout(false);
-            this.PerformLayout();
+
         }
 
         #endregion
@@ -185,6 +176,5 @@
         public System.Windows.Forms.Button btnCancel;
         public System.Windows.Forms.Button btnOK;
         public Controls.FileFilterControl FileFilterControl;
-        private System.Windows.Forms.StatusStrip StatusBar;
     }
 }

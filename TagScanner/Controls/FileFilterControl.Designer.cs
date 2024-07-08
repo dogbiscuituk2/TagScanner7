@@ -197,12 +197,12 @@
             // label12
             // 
             this.label12.AutoSize = true;
-            this.label12.Location = new System.Drawing.Point(368, 10);
+            this.label12.Location = new System.Drawing.Point(382, 10);
             this.label12.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
             this.label12.Name = "label12";
-            this.label12.Size = new System.Drawing.Size(37, 17);
+            this.label12.Size = new System.Drawing.Size(31, 17);
             this.label12.TabIndex = 3;
-            this.label12.Text = "UTC?";
+            this.label12.Text = "UTC";
             this.label12.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // cbAccessedUtc
