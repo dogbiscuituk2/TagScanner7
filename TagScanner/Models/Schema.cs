@@ -2,10 +2,9 @@
 {
     using System;
     using System.Collections.Generic;
-    using System.ComponentModel;
     using System.Linq;
     using System.Text;
-    using TagScanner.Properties;
+    using Properties;
     using Utils;
 
     public class Schema

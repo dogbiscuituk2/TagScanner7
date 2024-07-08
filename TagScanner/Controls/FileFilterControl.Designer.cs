@@ -107,7 +107,7 @@
             this.panel2.Location = new System.Drawing.Point(0, 0);
             this.panel2.Margin = new System.Windows.Forms.Padding(4);
             this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(416, 282);
+            this.panel2.Size = new System.Drawing.Size(400, 280);
             this.panel2.TabIndex = 2;
             // 
             // cbAttrEncrypted
@@ -118,7 +118,7 @@
             "",
             "Set",
             "Clear"});
-            this.cbAttrEncrypted.Location = new System.Drawing.Point(284, 245);
+            this.cbAttrEncrypted.Location = new System.Drawing.Point(274, 237);
             this.cbAttrEncrypted.Margin = new System.Windows.Forms.Padding(5);
             this.cbAttrEncrypted.Name = "cbAttrEncrypted";
             this.cbAttrEncrypted.Size = new System.Drawing.Size(75, 25);
@@ -128,7 +128,7 @@
             // label14
             // 
             this.label14.AutoSize = true;
-            this.label14.Location = new System.Drawing.Point(197, 249);
+            this.label14.Location = new System.Drawing.Point(187, 241);
             this.label14.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
             this.label14.Name = "label14";
             this.label14.Size = new System.Drawing.Size(66, 17);
@@ -144,7 +144,7 @@
             "",
             "Set",
             "Clear"});
-            this.cbAttrCompressed.Location = new System.Drawing.Point(284, 210);
+            this.cbAttrCompressed.Location = new System.Drawing.Point(274, 202);
             this.cbAttrCompressed.Margin = new System.Windows.Forms.Padding(5);
             this.cbAttrCompressed.Name = "cbAttrCompressed";
             this.cbAttrCompressed.Size = new System.Drawing.Size(75, 25);
@@ -154,7 +154,7 @@
             // label13
             // 
             this.label13.AutoSize = true;
-            this.label13.Location = new System.Drawing.Point(197, 214);
+            this.label13.Location = new System.Drawing.Point(187, 206);
             this.label13.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
             this.label13.Name = "label13";
             this.label13.Size = new System.Drawing.Size(82, 17);
@@ -165,7 +165,7 @@
             // seFileSizeMax
             // 
             this.seFileSizeMax.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.seFileSizeMax.Location = new System.Drawing.Point(255, 141);
+            this.seFileSizeMax.Location = new System.Drawing.Point(245, 133);
             this.seFileSizeMax.Margin = new System.Windows.Forms.Padding(4);
             this.seFileSizeMax.Maximum = new decimal(new int[] {
             0,
@@ -181,7 +181,7 @@
             // seFileSizeMin
             // 
             this.seFileSizeMin.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.seFileSizeMin.Location = new System.Drawing.Point(97, 141);
+            this.seFileSizeMin.Location = new System.Drawing.Point(95, 133);
             this.seFileSizeMin.Margin = new System.Windows.Forms.Padding(4);
             this.seFileSizeMin.Maximum = new decimal(new int[] {
             0,
@@ -197,7 +197,7 @@
             // label12
             // 
             this.label12.AutoSize = true;
-            this.label12.Location = new System.Drawing.Point(382, 10);
+            this.label12.Location = new System.Drawing.Point(365, 2);
             this.label12.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
             this.label12.Name = "label12";
             this.label12.Size = new System.Drawing.Size(31, 17);
@@ -208,7 +208,7 @@
             // cbAccessedUtc
             // 
             this.cbAccessedUtc.AutoSize = true;
-            this.cbAccessedUtc.Location = new System.Drawing.Point(390, 108);
+            this.cbAccessedUtc.Location = new System.Drawing.Point(373, 100);
             this.cbAccessedUtc.Margin = new System.Windows.Forms.Padding(5);
             this.cbAccessedUtc.Name = "cbAccessedUtc";
             this.cbAccessedUtc.Size = new System.Drawing.Size(15, 14);
@@ -219,7 +219,7 @@
             // cbModifiedUtc
             // 
             this.cbModifiedUtc.AutoSize = true;
-            this.cbModifiedUtc.Location = new System.Drawing.Point(390, 73);
+            this.cbModifiedUtc.Location = new System.Drawing.Point(373, 65);
             this.cbModifiedUtc.Margin = new System.Windows.Forms.Padding(5);
             this.cbModifiedUtc.Name = "cbModifiedUtc";
             this.cbModifiedUtc.Size = new System.Drawing.Size(15, 14);
@@ -230,7 +230,7 @@
             // cbCreatedUtc
             // 
             this.cbCreatedUtc.AutoSize = true;
-            this.cbCreatedUtc.Location = new System.Drawing.Point(390, 38);
+            this.cbCreatedUtc.Location = new System.Drawing.Point(373, 30);
             this.cbCreatedUtc.Margin = new System.Windows.Forms.Padding(5);
             this.cbCreatedUtc.Name = "cbCreatedUtc";
             this.cbCreatedUtc.Size = new System.Drawing.Size(15, 14);
@@ -241,14 +241,13 @@
             // label11
             // 
             this.label11.AutoSize = true;
-            this.label11.Location = new System.Drawing.Point(8, 10);
+            this.label11.Location = new System.Drawing.Point(7, 2);
             this.label11.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
             this.label11.Name = "label11";
             this.label11.Size = new System.Drawing.Size(35, 17);
             this.label11.TabIndex = 0;
             this.label11.Text = "Date";
             this.label11.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.label11.Visible = false;
             // 
             // cbAttrArchive
             // 
@@ -258,7 +257,7 @@
             "",
             "Set",
             "Clear"});
-            this.cbAttrArchive.Location = new System.Drawing.Point(284, 175);
+            this.cbAttrArchive.Location = new System.Drawing.Point(274, 167);
             this.cbAttrArchive.Margin = new System.Windows.Forms.Padding(5);
             this.cbAttrArchive.Name = "cbAttrArchive";
             this.cbAttrArchive.Size = new System.Drawing.Size(75, 25);
@@ -273,7 +272,7 @@
             "",
             "Set",
             "Clear"});
-            this.cbAttrSystem.Location = new System.Drawing.Point(97, 245);
+            this.cbAttrSystem.Location = new System.Drawing.Point(95, 237);
             this.cbAttrSystem.Margin = new System.Windows.Forms.Padding(5);
             this.cbAttrSystem.Name = "cbAttrSystem";
             this.cbAttrSystem.Size = new System.Drawing.Size(75, 25);
@@ -288,7 +287,7 @@
             "",
             "Set",
             "Clear"});
-            this.cbAttrHidden.Location = new System.Drawing.Point(97, 210);
+            this.cbAttrHidden.Location = new System.Drawing.Point(95, 202);
             this.cbAttrHidden.Margin = new System.Windows.Forms.Padding(5);
             this.cbAttrHidden.Name = "cbAttrHidden";
             this.cbAttrHidden.Size = new System.Drawing.Size(75, 25);
@@ -303,7 +302,7 @@
             "",
             "Set",
             "Clear"});
-            this.cbAttrReadOnly.Location = new System.Drawing.Point(97, 175);
+            this.cbAttrReadOnly.Location = new System.Drawing.Point(95, 167);
             this.cbAttrReadOnly.Margin = new System.Windows.Forms.Padding(5);
             this.cbAttrReadOnly.Name = "cbAttrReadOnly";
             this.cbAttrReadOnly.Size = new System.Drawing.Size(75, 25);
@@ -313,7 +312,7 @@
             // label10
             // 
             this.label10.AutoSize = true;
-            this.label10.Location = new System.Drawing.Point(197, 179);
+            this.label10.Location = new System.Drawing.Point(187, 171);
             this.label10.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
             this.label10.Name = "label10";
             this.label10.Size = new System.Drawing.Size(50, 17);
@@ -324,7 +323,7 @@
             // label9
             // 
             this.label9.AutoSize = true;
-            this.label9.Location = new System.Drawing.Point(9, 249);
+            this.label9.Location = new System.Drawing.Point(7, 241);
             this.label9.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
             this.label9.Name = "label9";
             this.label9.Size = new System.Drawing.Size(49, 17);
@@ -335,7 +334,7 @@
             // label8
             // 
             this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(9, 214);
+            this.label8.Location = new System.Drawing.Point(7, 206);
             this.label8.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(50, 17);
@@ -346,7 +345,7 @@
             // label7
             // 
             this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(8, 179);
+            this.label7.Location = new System.Drawing.Point(6, 171);
             this.label7.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(67, 17);
@@ -357,7 +356,7 @@
             // cbFileSizeMax
             // 
             this.cbFileSizeMax.AutoSize = true;
-            this.cbFileSizeMax.Location = new System.Drawing.Point(234, 145);
+            this.cbFileSizeMax.Location = new System.Drawing.Point(224, 137);
             this.cbFileSizeMax.Margin = new System.Windows.Forms.Padding(5);
             this.cbFileSizeMax.Name = "cbFileSizeMax";
             this.cbFileSizeMax.Size = new System.Drawing.Size(15, 14);
@@ -368,7 +367,7 @@
             // label6
             // 
             this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(9, 143);
+            this.label6.Location = new System.Drawing.Point(7, 135);
             this.label6.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(54, 17);
@@ -379,7 +378,7 @@
             // cbFileSizeMin
             // 
             this.cbFileSizeMin.AutoSize = true;
-            this.cbFileSizeMin.Location = new System.Drawing.Point(74, 145);
+            this.cbFileSizeMin.Location = new System.Drawing.Point(72, 137);
             this.cbFileSizeMin.Margin = new System.Windows.Forms.Padding(5);
             this.cbFileSizeMin.Name = "cbFileSizeMin";
             this.cbFileSizeMin.Size = new System.Drawing.Size(15, 14);
@@ -390,7 +389,7 @@
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(231, 10);
+            this.label5.Location = new System.Drawing.Point(221, 2);
             this.label5.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(41, 17);
@@ -401,7 +400,7 @@
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(71, 10);
+            this.label4.Location = new System.Drawing.Point(69, 2);
             this.label4.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(38, 17);
@@ -412,7 +411,7 @@
             // dtpAccessedMax
             // 
             this.dtpAccessedMax.Format = System.Windows.Forms.DateTimePickerFormat.Short;
-            this.dtpAccessedMax.Location = new System.Drawing.Point(231, 102);
+            this.dtpAccessedMax.Location = new System.Drawing.Point(221, 94);
             this.dtpAccessedMax.Margin = new System.Windows.Forms.Padding(5);
             this.dtpAccessedMax.Name = "dtpAccessedMax";
             this.dtpAccessedMax.ShowCheckBox = true;
@@ -423,7 +422,7 @@
             // dtpAccessedMin
             // 
             this.dtpAccessedMin.Format = System.Windows.Forms.DateTimePickerFormat.Short;
-            this.dtpAccessedMin.Location = new System.Drawing.Point(71, 102);
+            this.dtpAccessedMin.Location = new System.Drawing.Point(69, 94);
             this.dtpAccessedMin.Margin = new System.Windows.Forms.Padding(5);
             this.dtpAccessedMin.Name = "dtpAccessedMin";
             this.dtpAccessedMin.ShowCheckBox = true;
@@ -434,7 +433,7 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(8, 106);
+            this.label3.Location = new System.Drawing.Point(6, 98);
             this.label3.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(62, 17);
@@ -445,7 +444,7 @@
             // dtpModifiedMax
             // 
             this.dtpModifiedMax.Format = System.Windows.Forms.DateTimePickerFormat.Short;
-            this.dtpModifiedMax.Location = new System.Drawing.Point(231, 67);
+            this.dtpModifiedMax.Location = new System.Drawing.Point(221, 59);
             this.dtpModifiedMax.Margin = new System.Windows.Forms.Padding(5);
             this.dtpModifiedMax.Name = "dtpModifiedMax";
             this.dtpModifiedMax.ShowCheckBox = true;
@@ -456,7 +455,7 @@
             // dtpModifiedMin
             // 
             this.dtpModifiedMin.Format = System.Windows.Forms.DateTimePickerFormat.Short;
-            this.dtpModifiedMin.Location = new System.Drawing.Point(71, 67);
+            this.dtpModifiedMin.Location = new System.Drawing.Point(69, 59);
             this.dtpModifiedMin.Margin = new System.Windows.Forms.Padding(5);
             this.dtpModifiedMin.Name = "dtpModifiedMin";
             this.dtpModifiedMin.ShowCheckBox = true;
@@ -467,7 +466,7 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(9, 71);
+            this.label2.Location = new System.Drawing.Point(7, 63);
             this.label2.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(61, 17);
@@ -478,7 +477,7 @@
             // dtpCreatedMax
             // 
             this.dtpCreatedMax.Format = System.Windows.Forms.DateTimePickerFormat.Short;
-            this.dtpCreatedMax.Location = new System.Drawing.Point(231, 32);
+            this.dtpCreatedMax.Location = new System.Drawing.Point(221, 24);
             this.dtpCreatedMax.Margin = new System.Windows.Forms.Padding(5);
             this.dtpCreatedMax.Name = "dtpCreatedMax";
             this.dtpCreatedMax.ShowCheckBox = true;
@@ -489,7 +488,7 @@
             // dtpCreatedMin
             // 
             this.dtpCreatedMin.Format = System.Windows.Forms.DateTimePickerFormat.Short;
-            this.dtpCreatedMin.Location = new System.Drawing.Point(71, 32);
+            this.dtpCreatedMin.Location = new System.Drawing.Point(69, 24);
             this.dtpCreatedMin.Margin = new System.Windows.Forms.Padding(5);
             this.dtpCreatedMin.Name = "dtpCreatedMin";
             this.dtpCreatedMin.ShowCheckBox = true;
@@ -501,7 +500,7 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(9, 36);
+            this.label1.Location = new System.Drawing.Point(7, 28);
             this.label1.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(54, 17);
@@ -517,7 +516,7 @@
             this.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "FileFilterControl";
-            this.Size = new System.Drawing.Size(416, 282);
+            this.Size = new System.Drawing.Size(400, 280);
             this.panel2.ResumeLayout(false);
             this.panel2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.seFileSizeMax)).EndInit();
