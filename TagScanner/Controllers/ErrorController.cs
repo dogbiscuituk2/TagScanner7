@@ -1,7 +1,5 @@
 ﻿namespace TagScanner.Controllers
 {
-    using System;
-    using System.Collections.Generic;
     using System.Linq;
     using System.Windows.Forms;
 
@@ -37,6 +35,8 @@
 
         private void Form_FormClosing(object sender, FormClosingEventArgs e)
         {
+            // Notice that closing is cancelled even when autocorrect succeeds.
+            // This lets the user inspect the results of the autocorrect operation.
             if (_form.DialogResult == DialogResult.OK)
                 e.Cancel = !Validate();
         }
@@ -61,34 +61,37 @@
         private void SetIconAlignment(Control control, ErrorIconAlignment alignment) => ErrorProvider?.SetIconAlignment(control, alignment);
         private void SetIconPadding(Control control, int padding) => ErrorProvider?.SetIconPadding(control, padding);
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns>True if all data values pass validation. 
+        /// False if any value fails, or if autocorrect was invoked (even when successful - 
+        /// this lets the user inspect the results of the autocorrect operation).</returns>
         private bool Validate()
         {
-            var errorList = GetErrorList();
-            if (string.IsNullOrEmpty(errorList))
+            var errors = string.Empty;
+            if (!Errors())
                 return true;
-            var canAutocorrect = Autocorrector != null;
-            if (!canAutocorrect)
+            if (Autocorrector == null)
+                return Ask(string.Empty, MessageBoxButtons.OK);
+            if (Ask($"\n\nWould you like to use Autocorrect?", MessageBoxButtons.YesNo))
             {
-                ShowMessage(string.Empty, MessageBoxButtons.OK);
-                return false;
+                Autocorrector.DoAutocorrect();
+                if (Errors())
+                    Ask($"\n\nAutocorrect failed. Please correct manually.", MessageBoxButtons.OK);
             }
-            if (ShowMessage($"\n\nWould you like Autocorrect to make the necessary corrections?", MessageBoxButtons.YesNo) == DialogResult.No)
-                return false;
-            Autocorrector.DoAutocorrect();
-            errorList = GetErrorList();
-            if (string.IsNullOrEmpty(errorList))
-                return true;
-            ShowMessage($"\n\nAutocorrect failed. Please make the necessary corrections manually.", MessageBoxButtons.OK);
             return false;
 
-            string GetErrorList()
-            {
-                var errors = _controls.Select(p => GetErrors(p)).Where(q => !string.IsNullOrEmpty(q)).Distinct();
-                return errors.Any() ? errors.Aggregate((p, q) => $"{p}{Environment.NewLine}{q}") : string.Empty;
-            }
+            bool Ask(string message, MessageBoxButtons buttons) =>
+                MessageBox.Show(_form, $"{errors}{message}", "Data Validation", buttons, MessageBoxIcon.Error) == DialogResult.Yes;
 
-            DialogResult ShowMessage(string question, MessageBoxButtons buttons) =>
-                MessageBox.Show(_form, $"{errorList}{question}", "Data Validation", buttons, MessageBoxIcon.Error);
+            bool Errors()
+            {
+                var list = _controls.Select(p => GetErrors(p)).Where(q => !string.IsNullOrEmpty(q)).Distinct();
+                var result = list.Any();
+                if (result) errors = list.Aggregate((p, q) => $"{p}\n{q}");
+                return result;
+            }
         }
 
         #endregion

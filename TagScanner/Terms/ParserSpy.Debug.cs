@@ -34,7 +34,7 @@
         private const string _format = "{0,19}{1,6}  {2,12}  {3}";
         private bool _headerShown;
 
-        private static void DrawLine() => Debug.WriteLine(new string('_', 132) + Environment.NewLine);
+        private static void DrawLine() => Debug.WriteLine($"{new string('_', 132)}\n");
 
         private static string ObjectToString(object o) =>
             o is Token token ? token.Value :

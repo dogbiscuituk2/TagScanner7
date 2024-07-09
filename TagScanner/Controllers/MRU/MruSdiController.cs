@@ -110,7 +110,7 @@
                 return true;
             switch (MessageBox.Show(
                 Owner,
-                $"The contents of this file have changed.{Environment.NewLine}Do you want to save the changes?",
+                $"The contents of this file have changed.\nDo you want to save the changes?",
                 "File modified",
                 MessageBoxButtons.YesNoCancel,
                 MessageBoxIcon.Warning))

@@ -343,7 +343,7 @@
                 if (!SearchValid)
                     MessageBox.Show(
                         MainForm,
-                        $"The following specified text was not found:{Environment.NewLine}{CbFind.Text}",
+                        $"The following specified text was not found:\n{CbFind.Text}",
                         "Find and Replace",
                         MessageBoxButtons.OK,
                         MessageBoxIcon.Information);

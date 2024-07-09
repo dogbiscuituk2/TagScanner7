@@ -273,7 +273,7 @@
         private void HelpAbout_Click(object sender, EventArgs e)
         {
             MessageBox.Show(View,
-                $"{Application.CompanyName}{Environment.NewLine}{Application.ProductName}{Environment.NewLine}Version {Application.ProductVersion}",
+                $"{Application.CompanyName}\n{Application.ProductName}\nVersion {Application.ProductVersion}",
                 string.Concat("About ", Application.ProductName));
         }
 
