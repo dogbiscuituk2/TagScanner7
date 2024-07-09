@@ -61,12 +61,8 @@
             SeFileSizeMin = View.seFileSizeMin;
             SeFileSizeMax = View.seFileSizeMax;
 
-            DateTime
-                minDateTime = DateTime.Today,
-                maxDateTime = DateTime.Today;
-
-            DtpCreatedMin.Value = DtpModifiedMin.Value = DtpAccessedMin.Value = minDateTime;
-            DtpCreatedMax.Value = DtpModifiedMax.Value = DtpAccessedMax.Value = minDateTime;
+            DtpCreatedMin.Value = DtpModifiedMin.Value = DtpAccessedMin.Value =
+                DtpCreatedMax.Value = DtpModifiedMax.Value = DtpAccessedMax.Value = DateTime.Today;
 
             SeFileSizeMin.Maximum = SeFileSizeMax.Maximum = ulong.MaxValue;
 
