@@ -81,9 +81,9 @@
         public override string ToString()
         {
             var body = _lines.Any()
-                ? _lines.Select(p => p.ToString()).Aggregate((p, q) => $"{p}\n{q}")
+                ? _lines.Select(p => p.ToString()).Aggregate((p, q) => $"{p}{Environment.NewLine}{q}")
                 : string.Empty;
-            return $"{Resources.DefaultSchemaHelp}\n{body}";
+            return $"{Resources.DefaultSchemaHelp}{Environment.NewLine}{body}";
         }
 
         #endregion

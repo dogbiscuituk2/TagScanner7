@@ -11,7 +11,7 @@
         {
             CreatedMin = ModifiedMin = AccessedMin =
                 CreatedMax = ModifiedMax = AccessedMax =
-                DateTime.Now;
+                DateTime.Today;
         }
 
         public FileFlags Flags { get; set; }
