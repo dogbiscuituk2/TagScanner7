@@ -40,7 +40,7 @@
             this.TreeViewStateImageList = new System.Windows.Forms.ImageList(this.components);
             this.panel1 = new System.Windows.Forms.Panel();
             this.FilterPopupMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.FilterPopupAutoValidate = new System.Windows.Forms.ToolStripMenuItem();
+            this.FilterPopupUseAutocorrect = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.FilterPopupShowFilter = new System.Windows.Forms.ToolStripMenuItem();
             this.btnCancel = new System.Windows.Forms.Button();
@@ -72,7 +72,7 @@
             this.toolStripMenuItem1,
             this.SchemaPopupShowFileFilter});
             this.SchemaPopupMenu.Name = "PopupMenu";
-            this.SchemaPopupMenu.Size = new System.Drawing.Size(217, 98);
+            this.SchemaPopupMenu.Size = new System.Drawing.Size(217, 120);
             // 
             // SchemaPopupAdd
             // 
@@ -132,17 +132,18 @@
             // FilterPopupMenu
             // 
             this.FilterPopupMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.FilterPopupAutoValidate,
+            this.FilterPopupUseAutocorrect,
             this.toolStripSeparator1,
             this.FilterPopupShowFilter});
             this.FilterPopupMenu.Name = "PopupMenu";
             this.FilterPopupMenu.Size = new System.Drawing.Size(194, 54);
             // 
-            // FilterPopupAutoValidate
+            // FilterPopupUseAutocorrect
             // 
-            this.FilterPopupAutoValidate.Name = "FilterPopupAutoValidate";
-            this.FilterPopupAutoValidate.Size = new System.Drawing.Size(193, 22);
-            this.FilterPopupAutoValidate.Text = "&Auto Validate";
+            this.FilterPopupUseAutocorrect.Name = "FilterPopupUseAutocorrect";
+            this.FilterPopupUseAutocorrect.Size = new System.Drawing.Size(193, 22);
+            this.FilterPopupUseAutocorrect.Text = "&Use Autocorrect";
+            this.FilterPopupUseAutocorrect.ToolTipText = "Use Autocorrect to fix data validation errors";
             // 
             // toolStripSeparator1
             // 
@@ -226,9 +227,9 @@
         public Controls.FileFilterControl FileFilterControl;
         public System.Windows.Forms.ToolStripSeparator toolStripMenuItem1;
         public System.Windows.Forms.ToolStripMenuItem SchemaPopupShowFileFilter;
-        private System.Windows.Forms.ContextMenuStrip FilterPopupMenu;
+        public System.Windows.Forms.ContextMenuStrip FilterPopupMenu;
         public System.Windows.Forms.ToolStripMenuItem FilterPopupShowFilter;
-        private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
-        public System.Windows.Forms.ToolStripMenuItem FilterPopupAutoValidate;
+        public System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
+        public System.Windows.Forms.ToolStripMenuItem FilterPopupUseAutocorrect;
     }
 }

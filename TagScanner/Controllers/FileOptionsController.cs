@@ -17,6 +17,16 @@
 
         #endregion
 
+        #region Public Properties
+
+        public bool UseAutocorrect
+        {
+            get => FileFilterController.UseAutocorrect;
+            set => FileFilterController.UseAutocorrect = value;
+        }
+
+        #endregion
+
         #region Public Methods
 
         public bool Execute()
@@ -36,11 +46,15 @@
         private FileSchemaController FileSchemaController;
         private FileOptionsDialog View;
 
+        private ContextMenuStrip FilterPopupMenu;
+
         private ToolStripMenuItem
             SchemaPopupAdd,
             SchemaPopupEdit,
             SchemaPopupDelete,
-            SchemaPopupShowFileFilter;
+            SchemaPopupShowFileFilter,
+            FilterPopupUseAutocorrect,
+            FilterPopupShowFilter;
 
         #endregion
 
@@ -77,11 +91,17 @@
             SchemaPopupEdit = View.SchemaPopupEdit;
             SchemaPopupDelete = View.SchemaPopupDelete;
             SchemaPopupShowFileFilter = View.SchemaPopupShowFileFilter;
+            FilterPopupMenu = View.FilterPopupMenu;
+            FilterPopupUseAutocorrect = View.FilterPopupUseAutocorrect;
+            FilterPopupShowFilter = View.FilterPopupShowFilter;
 
             SchemaPopupAdd.Click += (sender, e) => FileSchemaController.Add();
             SchemaPopupEdit.Click += (sender, e) => FileSchemaController.Edit();
             SchemaPopupDelete.Click += (sender, e) => FileSchemaController.Remove();
             SchemaPopupShowFileFilter.Click += (sender, e) => FileSchemaController.ShowFileFilter();
+            FilterPopupMenu.Opening += (sender, e) => FilterPopupUseAutocorrect.Checked = UseAutocorrect;
+            FilterPopupUseAutocorrect.Click += (sender, e) => UseAutocorrect ^= true;
+            FilterPopupShowFilter.Click += (sender, e) => FileFilterController.ShowFilter();
         }
 
         private void UpdateUI() => SchemaPopupDelete.Enabled = FileSchemaController.SelectedNode?.Level > 0;

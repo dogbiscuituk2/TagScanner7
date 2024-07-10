@@ -18,6 +18,12 @@
 
         public ErrorProvider ErrorProvider { get; private set; } = new ErrorProvider();
 
+        public bool UseAutocorrect
+        {
+            get => CbUseAutocorrect.Checked;
+            set => CbUseAutocorrect.Checked = value;
+        }
+
         #endregion
 
         #region Public Methods
@@ -30,6 +36,27 @@
             UseAutocorrect = true;
             AutocorrectDates();
             AutocorrectFileSize();
+        }
+
+        public string GetErrors(Control control)
+        {
+            var errors = new StringBuilder();
+            if (control == DtpCreatedMin || control == DtpCreatedMax)
+                CheckDates(DtpCreatedMin, DtpCreatedMax, "Created");
+            if (control == DtpModifiedMin || control == DtpModifiedMax)
+                CheckDates(DtpModifiedMin, DtpModifiedMax, "Modified");
+            if (control == DtpAccessedMin || control == DtpAccessedMax)
+                CheckDates(DtpAccessedMin, DtpAccessedMax, "Accessed");
+            if (control == SeFileSizeMin || control == SeFileSizeMax)
+                if (CbFileSizeMin.Checked && CbFileSizeMax.Checked && SeFileSizeMin.Value > SeFileSizeMax.Value)
+                    errors.AppendLine("The minimum File Size cannot be greater than the maximum.");
+            return errors.ToString().Trim();
+
+            void CheckDates(DateTimePicker min, DateTimePicker max, string which)
+            {
+                if (!DatesOK(min, max))
+                    errors.AppendLine($"The first {which} Date cannot be later than the last.");
+            }
         }
 
         public void SetView(FileFilterControl view)
@@ -83,26 +110,12 @@
                 SeFileSizeMin, SeFileSizeMax);
         }
 
-        public string GetErrors(Control control)
-        {
-            var errors = new StringBuilder();
-            if (control == DtpCreatedMin || control == DtpCreatedMax)
-                CheckDates(DtpCreatedMin, DtpCreatedMax, "Created");
-            if (control == DtpModifiedMin || control == DtpModifiedMax)
-                CheckDates(DtpModifiedMin, DtpModifiedMax, "Modified");
-            if (control == DtpAccessedMin || control == DtpAccessedMax)
-                CheckDates(DtpAccessedMin, DtpAccessedMax, "Accessed");
-            if (control == SeFileSizeMin || control == SeFileSizeMax)
-                if (CbFileSizeMin.Checked && CbFileSizeMax.Checked && SeFileSizeMin.Value > SeFileSizeMax.Value)
-                    errors.AppendLine("The minimum File Size cannot be greater than the maximum.");
-            return errors.ToString().Trim();
-
-            void CheckDates(DateTimePicker min, DateTimePicker max, string which)
-            {
-                if (!DatesOK(min, max))
-                    errors.AppendLine($"The first {which} Date cannot be later than the last.");
-            }
-        }
+        public void ShowFilter() => MessageBox.Show(
+            Owner,
+            "",
+            "Filter Conditions",
+            MessageBoxButtons.OK,
+            MessageBoxIcon.Information);
 
         #endregion
 
@@ -127,16 +140,6 @@
 
         private NumericUpDown
             SeFileSizeMin, SeFileSizeMax;
-
-        #endregion
-
-        #region Private Properties
-
-        private bool UseAutocorrect
-        {
-            get => CbUseAutocorrect.Checked;
-            set => CbUseAutocorrect.Checked = value;
-        }
 
         #endregion
 
