@@ -30,6 +30,7 @@
         {
             this.components = new System.ComponentModel.Container();
             this.panel2 = new System.Windows.Forms.Panel();
+            this.cbUseAutocorrect = new System.Windows.Forms.CheckBox();
             this.cbAttrEncrypted = new System.Windows.Forms.ComboBox();
             this.label14 = new System.Windows.Forms.Label();
             this.cbAttrCompressed = new System.Windows.Forms.ComboBox();
@@ -64,8 +65,6 @@
             this.dtpCreatedMin = new System.Windows.Forms.DateTimePicker();
             this.label1 = new System.Windows.Forms.Label();
             this.ToolTip = new System.Windows.Forms.ToolTip(this.components);
-            this.label15 = new System.Windows.Forms.Label();
-            this.label16 = new System.Windows.Forms.Label();
             this.panel2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.seFileSizeMax)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.seFileSizeMin)).BeginInit();
@@ -73,8 +72,7 @@
             // 
             // panel2
             // 
-            this.panel2.Controls.Add(this.label16);
-            this.panel2.Controls.Add(this.label15);
+            this.panel2.Controls.Add(this.cbUseAutocorrect);
             this.panel2.Controls.Add(this.cbAttrEncrypted);
             this.panel2.Controls.Add(this.label14);
             this.panel2.Controls.Add(this.cbAttrCompressed);
@@ -111,8 +109,19 @@
             this.panel2.Location = new System.Drawing.Point(0, 0);
             this.panel2.Margin = new System.Windows.Forms.Padding(4);
             this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(500, 240);
-            this.panel2.TabIndex = 2;
+            this.panel2.Size = new System.Drawing.Size(500, 260);
+            this.panel2.TabIndex = 0;
+            // 
+            // cbUseAutocorrect
+            // 
+            this.cbUseAutocorrect.AutoSize = true;
+            this.cbUseAutocorrect.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.cbUseAutocorrect.Location = new System.Drawing.Point(202, 236);
+            this.cbUseAutocorrect.Name = "cbUseAutocorrect";
+            this.cbUseAutocorrect.Size = new System.Drawing.Size(290, 21);
+            this.cbUseAutocorrect.TabIndex = 33;
+            this.cbUseAutocorrect.Text = "&Use Autocorrect to fix data validation errors?";
+            this.cbUseAutocorrect.UseVisualStyleBackColor = true;
             // 
             // cbAttrEncrypted
             // 
@@ -122,7 +131,7 @@
             "",
             "Set",
             "Clear"});
-            this.cbAttrEncrypted.Location = new System.Drawing.Point(393, 203);
+            this.cbAttrEncrypted.Location = new System.Drawing.Point(393, 200);
             this.cbAttrEncrypted.Margin = new System.Windows.Forms.Padding(5);
             this.cbAttrEncrypted.Name = "cbAttrEncrypted";
             this.cbAttrEncrypted.Size = new System.Drawing.Size(60, 25);
@@ -132,7 +141,7 @@
             // label14
             // 
             this.label14.AutoSize = true;
-            this.label14.Location = new System.Drawing.Point(301, 206);
+            this.label14.Location = new System.Drawing.Point(301, 203);
             this.label14.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
             this.label14.Name = "label14";
             this.label14.Size = new System.Drawing.Size(66, 17);
@@ -148,28 +157,29 @@
             "",
             "Set",
             "Clear"});
-            this.cbAttrCompressed.Location = new System.Drawing.Point(393, 167);
+            this.cbAttrCompressed.Location = new System.Drawing.Point(393, 164);
             this.cbAttrCompressed.Margin = new System.Windows.Forms.Padding(5);
             this.cbAttrCompressed.Name = "cbAttrCompressed";
             this.cbAttrCompressed.Size = new System.Drawing.Size(60, 25);
-            this.cbAttrCompressed.TabIndex = 28;
+            this.cbAttrCompressed.TabIndex = 30;
             this.ToolTip.SetToolTip(this.cbAttrCompressed, "Check \'Compressed\' attribute");
             // 
             // label13
             // 
             this.label13.AutoSize = true;
-            this.label13.Location = new System.Drawing.Point(301, 171);
+            this.label13.Location = new System.Drawing.Point(301, 168);
             this.label13.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
             this.label13.Name = "label13";
             this.label13.Size = new System.Drawing.Size(82, 17);
-            this.label13.TabIndex = 27;
+            this.label13.TabIndex = 29;
             this.label13.Text = "C&ompressed";
             this.label13.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // seFileSizeMax
             // 
             this.seFileSizeMax.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.seFileSizeMax.Location = new System.Drawing.Point(349, 133);
+            this.seFileSizeMax.Enabled = false;
+            this.seFileSizeMax.Location = new System.Drawing.Point(293, 129);
             this.seFileSizeMax.Margin = new System.Windows.Forms.Padding(4);
             this.seFileSizeMax.Maximum = new decimal(new int[] {
             0,
@@ -177,7 +187,7 @@
             0,
             0});
             this.seFileSizeMax.Name = "seFileSizeMax";
-            this.seFileSizeMax.Size = new System.Drawing.Size(104, 25);
+            this.seFileSizeMax.Size = new System.Drawing.Size(160, 25);
             this.seFileSizeMax.TabIndex = 20;
             this.seFileSizeMax.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             this.ToolTip.SetToolTip(this.seFileSizeMax, "Maximum File Size");
@@ -185,7 +195,8 @@
             // seFileSizeMin
             // 
             this.seFileSizeMin.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.seFileSizeMin.Location = new System.Drawing.Point(147, 133);
+            this.seFileSizeMin.Enabled = false;
+            this.seFileSizeMin.Location = new System.Drawing.Point(89, 129);
             this.seFileSizeMin.Margin = new System.Windows.Forms.Padding(4);
             this.seFileSizeMin.Maximum = new decimal(new int[] {
             0,
@@ -193,7 +204,7 @@
             0,
             0});
             this.seFileSizeMin.Name = "seFileSizeMin";
-            this.seFileSizeMin.Size = new System.Drawing.Size(102, 25);
+            this.seFileSizeMin.Size = new System.Drawing.Size(160, 25);
             this.seFileSizeMin.TabIndex = 18;
             this.seFileSizeMin.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             this.ToolTip.SetToolTip(this.seFileSizeMin, "Minimum File Size");
@@ -261,11 +272,11 @@
             "",
             "Set",
             "Clear"});
-            this.cbAttrArchive.Location = new System.Drawing.Point(216, 202);
+            this.cbAttrArchive.Location = new System.Drawing.Point(216, 199);
             this.cbAttrArchive.Margin = new System.Windows.Forms.Padding(5);
             this.cbAttrArchive.Name = "cbAttrArchive";
             this.cbAttrArchive.Size = new System.Drawing.Size(60, 25);
-            this.cbAttrArchive.TabIndex = 24;
+            this.cbAttrArchive.TabIndex = 28;
             this.ToolTip.SetToolTip(this.cbAttrArchive, "Check \'Archive\' attribute");
             // 
             // cbAttrSystem
@@ -276,11 +287,11 @@
             "",
             "Set",
             "Clear"});
-            this.cbAttrSystem.Location = new System.Drawing.Point(216, 168);
+            this.cbAttrSystem.Location = new System.Drawing.Point(216, 165);
             this.cbAttrSystem.Margin = new System.Windows.Forms.Padding(5);
             this.cbAttrSystem.Name = "cbAttrSystem";
             this.cbAttrSystem.Size = new System.Drawing.Size(60, 25);
-            this.cbAttrSystem.TabIndex = 30;
+            this.cbAttrSystem.TabIndex = 26;
             this.ToolTip.SetToolTip(this.cbAttrSystem, "Check \'System\' attribute");
             // 
             // cbAttrHidden
@@ -291,11 +302,11 @@
             "",
             "Set",
             "Clear"});
-            this.cbAttrHidden.Location = new System.Drawing.Point(69, 202);
+            this.cbAttrHidden.Location = new System.Drawing.Point(69, 199);
             this.cbAttrHidden.Margin = new System.Windows.Forms.Padding(5);
             this.cbAttrHidden.Name = "cbAttrHidden";
             this.cbAttrHidden.Size = new System.Drawing.Size(60, 25);
-            this.cbAttrHidden.TabIndex = 26;
+            this.cbAttrHidden.TabIndex = 24;
             this.ToolTip.SetToolTip(this.cbAttrHidden, "Check \'Hidden\' attribute");
             // 
             // cbAttrReadOnly
@@ -306,7 +317,7 @@
             "",
             "Set",
             "Clear"});
-            this.cbAttrReadOnly.Location = new System.Drawing.Point(69, 167);
+            this.cbAttrReadOnly.Location = new System.Drawing.Point(69, 164);
             this.cbAttrReadOnly.Margin = new System.Windows.Forms.Padding(5);
             this.cbAttrReadOnly.Name = "cbAttrReadOnly";
             this.cbAttrReadOnly.Size = new System.Drawing.Size(60, 25);
@@ -316,40 +327,40 @@
             // label10
             // 
             this.label10.AutoSize = true;
-            this.label10.Location = new System.Drawing.Point(157, 206);
+            this.label10.Location = new System.Drawing.Point(157, 203);
             this.label10.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
             this.label10.Name = "label10";
             this.label10.Size = new System.Drawing.Size(50, 17);
-            this.label10.TabIndex = 23;
+            this.label10.TabIndex = 27;
             this.label10.Text = "Archi&ve";
             this.label10.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // label9
             // 
             this.label9.AutoSize = true;
-            this.label9.Location = new System.Drawing.Point(157, 171);
+            this.label9.Location = new System.Drawing.Point(157, 168);
             this.label9.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
             this.label9.Name = "label9";
             this.label9.Size = new System.Drawing.Size(49, 17);
-            this.label9.TabIndex = 29;
+            this.label9.TabIndex = 25;
             this.label9.Text = "&System";
             this.label9.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // label8
             // 
             this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(7, 206);
+            this.label8.Location = new System.Drawing.Point(7, 203);
             this.label8.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(50, 17);
-            this.label8.TabIndex = 25;
+            this.label8.TabIndex = 23;
             this.label8.Text = "&Hidden";
             this.label8.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // label7
             // 
             this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(6, 171);
+            this.label7.Location = new System.Drawing.Point(6, 168);
             this.label7.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(62, 17);
@@ -360,7 +371,7 @@
             // cbFileSizeMax
             // 
             this.cbFileSizeMax.AutoSize = true;
-            this.cbFileSizeMax.Location = new System.Drawing.Point(325, 137);
+            this.cbFileSizeMax.Location = new System.Drawing.Point(273, 135);
             this.cbFileSizeMax.Margin = new System.Windows.Forms.Padding(5);
             this.cbFileSizeMax.Name = "cbFileSizeMax";
             this.cbFileSizeMax.Size = new System.Drawing.Size(15, 14);
@@ -371,7 +382,7 @@
             // label6
             // 
             this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(7, 135);
+            this.label6.Location = new System.Drawing.Point(7, 133);
             this.label6.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(54, 17);
@@ -382,7 +393,7 @@
             // cbFileSizeMin
             // 
             this.cbFileSizeMin.AutoSize = true;
-            this.cbFileSizeMin.Location = new System.Drawing.Point(123, 137);
+            this.cbFileSizeMin.Location = new System.Drawing.Point(69, 136);
             this.cbFileSizeMin.Margin = new System.Windows.Forms.Padding(5);
             this.cbFileSizeMin.Name = "cbFileSizeMin";
             this.cbFileSizeMin.Size = new System.Drawing.Size(15, 14);
@@ -518,28 +529,6 @@
             this.label1.Text = "&Created";
             this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
-            // label15
-            // 
-            this.label15.AutoSize = true;
-            this.label15.Location = new System.Drawing.Point(84, 135);
-            this.label15.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
-            this.label15.Name = "label15";
-            this.label15.Size = new System.Drawing.Size(29, 17);
-            this.label15.TabIndex = 33;
-            this.label15.Text = "min";
-            this.label15.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // label16
-            // 
-            this.label16.AutoSize = true;
-            this.label16.Location = new System.Drawing.Point(283, 135);
-            this.label16.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
-            this.label16.Name = "label16";
-            this.label16.Size = new System.Drawing.Size(32, 17);
-            this.label16.TabIndex = 34;
-            this.label16.Text = "max";
-            this.label16.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
             // FileFilterControl
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 17F);
@@ -548,7 +537,7 @@
             this.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "FileFilterControl";
-            this.Size = new System.Drawing.Size(500, 240);
+            this.Size = new System.Drawing.Size(500, 260);
             this.panel2.ResumeLayout(false);
             this.panel2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.seFileSizeMax)).EndInit();
@@ -594,7 +583,6 @@
         public System.Windows.Forms.DateTimePicker dtpCreatedMin;
         public System.Windows.Forms.Label label1;
         private System.Windows.Forms.ToolTip ToolTip;
-        public System.Windows.Forms.Label label16;
-        public System.Windows.Forms.Label label15;
+        public System.Windows.Forms.CheckBox cbUseAutocorrect;
     }
 }

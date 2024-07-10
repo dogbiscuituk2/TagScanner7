@@ -59,9 +59,9 @@
             this.TreeView.Location = new System.Drawing.Point(0, 0);
             this.TreeView.Margin = new System.Windows.Forms.Padding(4);
             this.TreeView.Name = "TreeView";
-            this.TreeView.Size = new System.Drawing.Size(284, 311);
+            this.TreeView.Size = new System.Drawing.Size(284, 297);
             this.TreeView.StateImageList = this.TreeViewStateImageList;
-            this.TreeView.TabIndex = 0;
+            this.TreeView.TabIndex = 1;
             // 
             // SchemaPopupMenu
             // 
@@ -126,7 +126,7 @@
             this.panel1.Dock = System.Windows.Forms.DockStyle.Right;
             this.panel1.Location = new System.Drawing.Point(284, 0);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(500, 311);
+            this.panel1.Size = new System.Drawing.Size(500, 297);
             this.panel1.TabIndex = 2;
             // 
             // FilterPopupMenu
@@ -159,11 +159,11 @@
             // 
             this.btnCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.btnCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.btnCancel.Location = new System.Drawing.Point(408, 276);
+            this.btnCancel.Location = new System.Drawing.Point(408, 262);
             this.btnCancel.Margin = new System.Windows.Forms.Padding(4);
             this.btnCancel.Name = "btnCancel";
             this.btnCancel.Size = new System.Drawing.Size(84, 27);
-            this.btnCancel.TabIndex = 4;
+            this.btnCancel.TabIndex = 2;
             this.btnCancel.Text = "Cancel";
             this.btnCancel.UseVisualStyleBackColor = true;
             // 
@@ -171,11 +171,11 @@
             // 
             this.btnOK.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.btnOK.DialogResult = System.Windows.Forms.DialogResult.OK;
-            this.btnOK.Location = new System.Drawing.Point(316, 276);
+            this.btnOK.Location = new System.Drawing.Point(316, 262);
             this.btnOK.Margin = new System.Windows.Forms.Padding(4);
             this.btnOK.Name = "btnOK";
             this.btnOK.Size = new System.Drawing.Size(84, 27);
-            this.btnOK.TabIndex = 3;
+            this.btnOK.TabIndex = 1;
             this.btnOK.Text = "OK";
             this.btnOK.UseVisualStyleBackColor = true;
             // 
@@ -186,14 +186,14 @@
             this.FileFilterControl.Location = new System.Drawing.Point(0, 0);
             this.FileFilterControl.Margin = new System.Windows.Forms.Padding(4);
             this.FileFilterControl.Name = "FileFilterControl";
-            this.FileFilterControl.Size = new System.Drawing.Size(500, 268);
-            this.FileFilterControl.TabIndex = 3;
+            this.FileFilterControl.Size = new System.Drawing.Size(500, 260);
+            this.FileFilterControl.TabIndex = 0;
             // 
             // FileOptionsDialog
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 17F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(784, 311);
+            this.ClientSize = new System.Drawing.Size(784, 297);
             this.Controls.Add(this.TreeView);
             this.Controls.Add(this.panel1);
             this.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -201,7 +201,7 @@
             this.Margin = new System.Windows.Forms.Padding(4);
             this.MaximizeBox = false;
             this.MinimizeBox = false;
-            this.MinimumSize = new System.Drawing.Size(720, 350);
+            this.MinimumSize = new System.Drawing.Size(800, 336);
             this.Name = "FileOptionsDialog";
             this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Show;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;

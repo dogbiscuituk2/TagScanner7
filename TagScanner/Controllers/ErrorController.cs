@@ -89,7 +89,10 @@
             {
                 var list = _controls.Select(p => GetErrors(p)).Where(q => !string.IsNullOrEmpty(q)).Distinct();
                 var result = list.Any();
-                if (result) errors = list.Aggregate((p, q) => $"{p}\n{q}");
+                if (result)
+                    errors = list.Aggregate((p, q) => $"{p}\n{q}");
+                else
+                    ErrorProvider.Clear();
                 return result;
             }
         }
