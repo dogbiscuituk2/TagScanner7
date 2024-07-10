@@ -123,7 +123,7 @@
         {
             var filter = FilterTerm.ToString().Replace(" && ", "\n");
             if (string.IsNullOrWhiteSpace(filter))
-                filter = "There are no filter comnditions selected.";
+                filter = "There are no filter conditions selected.";
             MessageBox.Show(
             Owner,
             filter,

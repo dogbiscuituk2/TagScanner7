@@ -49,12 +49,12 @@
         private ContextMenuStrip FilterPopupMenu;
 
         private ToolStripMenuItem
+            SchemaPopupShowFormats,
             SchemaPopupAdd,
             SchemaPopupEdit,
             SchemaPopupDelete,
-            SchemaPopupShowFileFilter,
-            FilterPopupUseAutocorrect,
-            FilterPopupShowFilter;
+            FilterPopupShowFilter,
+            FilterPopupUseAutocorrect;
 
         #endregion
 
@@ -87,18 +87,18 @@
             FileSchemaController.SetView(View.TreeView);
             FileFilterController.SetView(View.FileFilterControl);
 
+            SchemaPopupShowFormats = View.SchemaPopupShowFormats;
             SchemaPopupAdd = View.SchemaPopupAdd;
             SchemaPopupEdit = View.SchemaPopupEdit;
             SchemaPopupDelete = View.SchemaPopupDelete;
-            SchemaPopupShowFileFilter = View.SchemaPopupShowFileFilter;
             FilterPopupMenu = View.FilterPopupMenu;
-            FilterPopupUseAutocorrect = View.FilterPopupUseAutocorrect;
             FilterPopupShowFilter = View.FilterPopupShowFilter;
+            FilterPopupUseAutocorrect = View.FilterPopupUseAutocorrect;
 
             SchemaPopupAdd.Click += (sender, e) => FileSchemaController.Add();
             SchemaPopupEdit.Click += (sender, e) => FileSchemaController.Edit();
             SchemaPopupDelete.Click += (sender, e) => FileSchemaController.Remove();
-            SchemaPopupShowFileFilter.Click += (sender, e) => FileSchemaController.ShowFileFilter();
+            SchemaPopupShowFormats.Click += (sender, e) => FileSchemaController.ShowFileFilter();
             FilterPopupMenu.Opening += (sender, e) => FilterPopupUseAutocorrect.Checked = UseAutocorrect;
             FilterPopupUseAutocorrect.Click += (sender, e) => UseAutocorrect ^= true;
             FilterPopupShowFilter.Click += (sender, e) => FileFilterController.ShowFilter();
