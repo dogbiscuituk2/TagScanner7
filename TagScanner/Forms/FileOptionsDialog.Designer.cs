@@ -45,18 +45,31 @@
             this.FilterPopupShowFilter = new System.Windows.Forms.ToolStripMenuItem();
             this.btnCancel = new System.Windows.Forms.Button();
             this.btnOK = new System.Windows.Forms.Button();
+            this.menuStrip1 = new System.Windows.Forms.MenuStrip();
+            this.schemaToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.viewToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.filterConditionsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.addToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.editToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.deleteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItem2 = new System.Windows.Forms.ToolStripSeparator();
+            this.showFormatsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItem3 = new System.Windows.Forms.ToolStripSeparator();
+            this.showConditionsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.FileFilterControl = new TagScanner.Controls.FileFilterControl();
             this.SchemaPopupMenu.SuspendLayout();
             this.panel1.SuspendLayout();
             this.FilterPopupMenu.SuspendLayout();
+            this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
             // TreeView
             // 
+            this.TreeView.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.TreeView.ContextMenuStrip = this.SchemaPopupMenu;
             this.TreeView.Dock = System.Windows.Forms.DockStyle.Fill;
             this.TreeView.HideSelection = false;
-            this.TreeView.Location = new System.Drawing.Point(0, 0);
+            this.TreeView.Location = new System.Drawing.Point(0, 24);
             this.TreeView.Margin = new System.Windows.Forms.Padding(4);
             this.TreeView.Name = "TreeView";
             this.TreeView.Size = new System.Drawing.Size(284, 297);
@@ -72,7 +85,7 @@
             this.toolStripMenuItem1,
             this.SchemaPopupShowFileFilter});
             this.SchemaPopupMenu.Name = "PopupMenu";
-            this.SchemaPopupMenu.Size = new System.Drawing.Size(217, 120);
+            this.SchemaPopupMenu.Size = new System.Drawing.Size(217, 98);
             // 
             // SchemaPopupAdd
             // 
@@ -124,10 +137,11 @@
             this.panel1.Controls.Add(this.btnOK);
             this.panel1.Controls.Add(this.FileFilterControl);
             this.panel1.Dock = System.Windows.Forms.DockStyle.Right;
-            this.panel1.Location = new System.Drawing.Point(284, 0);
+            this.panel1.Location = new System.Drawing.Point(284, 24);
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(500, 297);
             this.panel1.TabIndex = 2;
+            this.panel1.Paint += new System.Windows.Forms.PaintEventHandler(this.panel1_Paint);
             // 
             // FilterPopupMenu
             // 
@@ -180,6 +194,85 @@
             this.btnOK.Text = "OK";
             this.btnOK.UseVisualStyleBackColor = true;
             // 
+            // menuStrip1
+            // 
+            this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.schemaToolStripMenuItem,
+            this.viewToolStripMenuItem});
+            this.menuStrip1.Location = new System.Drawing.Point(0, 0);
+            this.menuStrip1.Name = "menuStrip1";
+            this.menuStrip1.Size = new System.Drawing.Size(784, 24);
+            this.menuStrip1.TabIndex = 3;
+            this.menuStrip1.Text = "menuStrip1";
+            // 
+            // schemaToolStripMenuItem
+            // 
+            this.schemaToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.showFormatsToolStripMenuItem,
+            this.toolStripMenuItem2,
+            this.addToolStripMenuItem,
+            this.editToolStripMenuItem,
+            this.deleteToolStripMenuItem});
+            this.schemaToolStripMenuItem.Name = "schemaToolStripMenuItem";
+            this.schemaToolStripMenuItem.Size = new System.Drawing.Size(61, 20);
+            this.schemaToolStripMenuItem.Text = "&Schema";
+            // 
+            // viewToolStripMenuItem
+            // 
+            this.viewToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.showConditionsToolStripMenuItem,
+            this.toolStripMenuItem3,
+            this.filterConditionsToolStripMenuItem});
+            this.viewToolStripMenuItem.Name = "viewToolStripMenuItem";
+            this.viewToolStripMenuItem.Size = new System.Drawing.Size(45, 20);
+            this.viewToolStripMenuItem.Text = "&Filter";
+            // 
+            // filterConditionsToolStripMenuItem
+            // 
+            this.filterConditionsToolStripMenuItem.Name = "filterConditionsToolStripMenuItem";
+            this.filterConditionsToolStripMenuItem.Size = new System.Drawing.Size(164, 22);
+            this.filterConditionsToolStripMenuItem.Text = "Use Autocorrect";
+            // 
+            // addToolStripMenuItem
+            // 
+            this.addToolStripMenuItem.Name = "addToolStripMenuItem";
+            this.addToolStripMenuItem.Size = new System.Drawing.Size(149, 22);
+            this.addToolStripMenuItem.Text = "&Add";
+            // 
+            // editToolStripMenuItem
+            // 
+            this.editToolStripMenuItem.Name = "editToolStripMenuItem";
+            this.editToolStripMenuItem.Size = new System.Drawing.Size(149, 22);
+            this.editToolStripMenuItem.Text = "&Edit";
+            // 
+            // deleteToolStripMenuItem
+            // 
+            this.deleteToolStripMenuItem.Name = "deleteToolStripMenuItem";
+            this.deleteToolStripMenuItem.Size = new System.Drawing.Size(149, 22);
+            this.deleteToolStripMenuItem.Text = "&Delete";
+            // 
+            // toolStripMenuItem2
+            // 
+            this.toolStripMenuItem2.Name = "toolStripMenuItem2";
+            this.toolStripMenuItem2.Size = new System.Drawing.Size(146, 6);
+            // 
+            // showFormatsToolStripMenuItem
+            // 
+            this.showFormatsToolStripMenuItem.Name = "showFormatsToolStripMenuItem";
+            this.showFormatsToolStripMenuItem.Size = new System.Drawing.Size(149, 22);
+            this.showFormatsToolStripMenuItem.Text = "&Show Formats";
+            // 
+            // toolStripMenuItem3
+            // 
+            this.toolStripMenuItem3.Name = "toolStripMenuItem3";
+            this.toolStripMenuItem3.Size = new System.Drawing.Size(161, 6);
+            // 
+            // showConditionsToolStripMenuItem
+            // 
+            this.showConditionsToolStripMenuItem.Name = "showConditionsToolStripMenuItem";
+            this.showConditionsToolStripMenuItem.Size = new System.Drawing.Size(164, 22);
+            this.showConditionsToolStripMenuItem.Text = "Show Conditions";
+            // 
             // FileFilterControl
             // 
             this.FileFilterControl.Dock = System.Windows.Forms.DockStyle.Top;
@@ -194,23 +287,29 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 17F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(784, 297);
+            this.ClientSize = new System.Drawing.Size(784, 321);
             this.Controls.Add(this.TreeView);
             this.Controls.Add(this.panel1);
+            this.Controls.Add(this.menuStrip1);
             this.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.MainMenuStrip = this.menuStrip1;
             this.Margin = new System.Windows.Forms.Padding(4);
             this.MaximizeBox = false;
             this.MinimizeBox = false;
-            this.MinimumSize = new System.Drawing.Size(800, 336);
+            this.MinimumSize = new System.Drawing.Size(800, 360);
             this.Name = "FileOptionsDialog";
             this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Show;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "File Options";
+            this.Load += new System.EventHandler(this.FileOptionsDialog_Load);
             this.SchemaPopupMenu.ResumeLayout(false);
             this.panel1.ResumeLayout(false);
             this.FilterPopupMenu.ResumeLayout(false);
+            this.menuStrip1.ResumeLayout(false);
+            this.menuStrip1.PerformLayout();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -231,5 +330,16 @@
         public System.Windows.Forms.ToolStripMenuItem FilterPopupShowFilter;
         public System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
         public System.Windows.Forms.ToolStripMenuItem FilterPopupUseAutocorrect;
+        private System.Windows.Forms.MenuStrip menuStrip1;
+        private System.Windows.Forms.ToolStripMenuItem schemaToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem addToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem editToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem deleteToolStripMenuItem;
+        private System.Windows.Forms.ToolStripSeparator toolStripMenuItem2;
+        private System.Windows.Forms.ToolStripMenuItem showFormatsToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem viewToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem filterConditionsToolStripMenuItem;
+        private System.Windows.Forms.ToolStripSeparator toolStripMenuItem3;
+        private System.Windows.Forms.ToolStripMenuItem showConditionsToolStripMenuItem;
     }
 }

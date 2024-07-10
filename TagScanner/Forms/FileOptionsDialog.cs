@@ -8,5 +8,15 @@
         {
             InitializeComponent();
         }
+
+        private void FileOptionsDialog_Load(object sender, System.EventArgs e)
+        {
+
+        }
+
+        private void panel1_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
     }
 }
