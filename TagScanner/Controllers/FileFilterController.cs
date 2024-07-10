@@ -21,8 +21,8 @@
 
         public FileOptions FileOptions
         {
-            get => Process();
-            private set => Process(value);
+            get => GetFileOptions();
+            private set => SetFileOptions(value);
         }
 
         public Term FilterTerm => FileOptions.GetFilter();
@@ -37,8 +37,12 @@
 
         #region Public Methods
 
-        public void AfterExecute() => MainModel.FileOptionsFilter = FilterTerm.Filter;
-        public void BeforeExecute() => FileOptions = new FileOptions();
+        public void AfterExecute()
+        {
+            MainModel.FileOptionsFilter = FilterTerm.Filter;
+        }
+
+        public void BeforeExecute() { }
 
         public void DoAutocorrect()
         {
@@ -99,6 +103,8 @@
             DtpCreatedMin.Value = DtpModifiedMin.Value = DtpAccessedMin.Value =
                 DtpCreatedMax.Value = DtpModifiedMax.Value = DtpAccessedMax.Value = DateTime.Today;
 
+            System.Diagnostics.Debug.WriteLine(DtpCreatedMin.Value);
+
             SeFileSizeMin.Maximum = SeFileSizeMax.Maximum = ulong.MaxValue;
 
             DtpCreatedMin.ValueChanged += (sender, e) => AdjustCreatedDate(lower: false);
@@ -136,7 +142,7 @@
 
         #region Private Fields
 
-        //private readonly FileOptions _fileOptions = new FileOptions();
+        private FileOptions _fileOptions = new FileOptions();
         private bool _updating;
         private FileFilterControl _view;
 
@@ -224,12 +230,14 @@
         private bool DatesOK(DateTimePicker min, DateTimePicker max) => !min.Checked || !max.Checked || min.Value <= max.Value;
         private bool FileSizesOK() => !CbFileSizeMin.Checked || !CbFileSizeMax.Checked || SeFileSizeMin.Value <= SeFileSizeMax.Value;
 
-        private FileOptions Process(FileOptions fileOptions = null)
+        private FileOptions GetFileOptions()
         {
-            var saving = fileOptions == null;
-            if (saving)
-                fileOptions = new FileOptions();
+            Process(read: true);
+            return _fileOptions;
+        }
 
+        private void Process(bool read)
+        {
             ProcessDtpCheckBox(DtpCreatedMin, FileFlags.CreatedMin);
             ProcessDtpCheckBox(DtpCreatedMax, FileFlags.CreatedMax);
             ProcessCheckBox(CbCreatedUtc, FileFlags.CreatedUtc);
@@ -242,27 +250,27 @@
             ProcessCheckBox(CbFileSizeMin, FileFlags.FileSizeMin);
             ProcessCheckBox(CbFileSizeMax, FileFlags.FileSizeMax);
 
-            if (saving)
+            if (read)
             {
-                fileOptions.CreatedMin = DtpCreatedMin.Value;
-                fileOptions.CreatedMax = DtpCreatedMax.Value;
-                fileOptions.ModifiedMin = DtpModifiedMin.Value;
-                fileOptions.ModifiedMax = DtpModifiedMax.Value;
-                fileOptions.AccessedMin = DtpAccessedMin.Value;
-                fileOptions.AccessedMax = DtpAccessedMax.Value;
-                fileOptions.FileSizeMin = (ulong)SeFileSizeMin.Value;
-                fileOptions.FileSizeMax = (ulong)SeFileSizeMax.Value;
+                _fileOptions.CreatedMin = DtpCreatedMin.Value;
+                _fileOptions.CreatedMax = DtpCreatedMax.Value;
+                _fileOptions.ModifiedMin = DtpModifiedMin.Value;
+                _fileOptions.ModifiedMax = DtpModifiedMax.Value;
+                _fileOptions.AccessedMin = DtpAccessedMin.Value;
+                _fileOptions.AccessedMax = DtpAccessedMax.Value;
+                _fileOptions.FileSizeMin = (ulong)SeFileSizeMin.Value;
+                _fileOptions.FileSizeMax = (ulong)SeFileSizeMax.Value;
             }
             else
             {
-                DtpCreatedMin.Value = fileOptions.CreatedMin;
-                DtpCreatedMax.Value = fileOptions.CreatedMax;
-                DtpModifiedMin.Value = fileOptions.ModifiedMin;
-                DtpModifiedMax.Value = fileOptions.ModifiedMax;
-                DtpAccessedMin.Value = fileOptions.AccessedMin;
-                DtpAccessedMax.Value = fileOptions.AccessedMax;
-                SeFileSizeMin.Value = fileOptions.FileSizeMin;
-                SeFileSizeMax.Value = fileOptions.FileSizeMax;
+                DtpCreatedMin.Value = _fileOptions.CreatedMin;
+                DtpCreatedMax.Value = _fileOptions.CreatedMax;
+                DtpModifiedMin.Value = _fileOptions.ModifiedMin;
+                DtpModifiedMax.Value = _fileOptions.ModifiedMax;
+                DtpAccessedMin.Value = _fileOptions.AccessedMin;
+                DtpAccessedMax.Value = _fileOptions.AccessedMax;
+                SeFileSizeMin.Value = _fileOptions.FileSizeMin;
+                SeFileSizeMax.Value = _fileOptions.FileSizeMax;
             }
 
             ProcessComboBox(CbReadOnly, FileFlags.ReadOnlyTrue, FileFlags.ReadOnlyFalse);
@@ -272,11 +280,9 @@
             ProcessComboBox(CbCompressed, FileFlags.CompressedTrue, FileFlags.CompressedFalse);
             ProcessComboBox(CbEncrypted, FileFlags.EncryptedTrue, FileFlags.EncryptedFalse);
 
-            return fileOptions;
-
             void ProcessCheckBox(CheckBox control, FileFlags flag)
             {
-                if (saving)
+                if (read)
                     SetFlag(control.Checked ? flag : 0);
                 else
                     control.Checked = GetFlag(flag);
@@ -284,7 +290,7 @@
 
             void ProcessDtpCheckBox(DateTimePicker control, FileFlags flag)
             {
-                if (saving)
+                if (read)
                     SetFlag(control.Checked ? flag : 0);
                 else
                     control.Checked = GetFlag(flag);
@@ -292,7 +298,7 @@
 
             void ProcessComboBox(ComboBox control, FileFlags yes, FileFlags no)
             {
-                if (saving)
+                if (read)
                     switch (control.SelectedIndex)
                     {
                         case 1: SetFlag(yes); break;
@@ -302,8 +308,14 @@
                     control.SelectedIndex = GetFlag(yes) ? 1 : GetFlag(no) ? 2 : 0;
             }
 
-            bool GetFlag(FileFlags flag) => (fileOptions.Flags & flag) != 0;
-            void SetFlag(FileFlags flag) => fileOptions.Flags |= flag;
+            bool GetFlag(FileFlags flag) => (_fileOptions.Flags & flag) != 0;
+            void SetFlag(FileFlags flag) => _fileOptions.Flags |= flag;
+        }
+
+        private void SetFileOptions(FileOptions fileOptions)
+        {
+            _fileOptions = fileOptions ?? new FileOptions();
+            Process(read: false);
         }
 
         #endregion

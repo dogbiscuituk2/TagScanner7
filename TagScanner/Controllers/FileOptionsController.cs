@@ -68,8 +68,8 @@
 
         private void AfterExecute()
         {
-            FileFilterController.AfterExecute();
             FileSchemaController.AfterExecute();
+            FileFilterController.AfterExecute();
         }
 
         private void BeforeExecute()

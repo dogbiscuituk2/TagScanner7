@@ -126,7 +126,7 @@
         public void ShowFileFilter() => MessageBox.Show(
             Owner,
             GetSchema().FilterDescriptions,
-            "Selected File Formats",
+            "Schema Formats",
             MessageBoxButtons.OK,
             MessageBoxIcon.Information);
 
