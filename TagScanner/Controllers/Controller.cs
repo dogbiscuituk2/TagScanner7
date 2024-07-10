@@ -14,6 +14,12 @@
 
         #endregion
 
+        #region Public Methods
+
+        public virtual int Run(Command command, bool spoof = false) => MainCommandProcessor.Run(command, spoof);
+
+        #endregion
+
         #region Protected Properties
 
         protected AutoCompleter MainAutoCompleter => MainFormController.AutoCompleter;
@@ -25,12 +31,6 @@
         protected virtual IWin32Window Owner => Parent?.Owner;
         protected Controller Parent { get; }
         protected Controller Root => Parent == null ? this : Parent.Root;
-
-        #endregion
-
-        #region Protected Methods
-
-        protected void Run(Command command, bool spoof = false) => MainCommandProcessor.Run(command, spoof);
 
         #endregion
     }
