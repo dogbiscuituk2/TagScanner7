@@ -32,29 +32,29 @@
             this.panel2 = new System.Windows.Forms.Panel();
             this.cbUseAutocorrect = new System.Windows.Forms.CheckBox();
             this.cbAttrEncrypted = new System.Windows.Forms.ComboBox();
-            this.label14 = new System.Windows.Forms.Label();
+            this.lblEncrypted = new System.Windows.Forms.Label();
             this.cbAttrCompressed = new System.Windows.Forms.ComboBox();
-            this.label13 = new System.Windows.Forms.Label();
+            this.lblCompressed = new System.Windows.Forms.Label();
             this.seFileSizeMax = new System.Windows.Forms.NumericUpDown();
             this.seFileSizeMin = new System.Windows.Forms.NumericUpDown();
-            this.label12 = new System.Windows.Forms.Label();
+            this.lblUtc = new System.Windows.Forms.Label();
             this.cbAccessedUtc = new System.Windows.Forms.CheckBox();
             this.cbModifiedUtc = new System.Windows.Forms.CheckBox();
             this.cbCreatedUtc = new System.Windows.Forms.CheckBox();
-            this.label11 = new System.Windows.Forms.Label();
+            this.lblDate = new System.Windows.Forms.Label();
             this.cbAttrArchive = new System.Windows.Forms.ComboBox();
             this.cbAttrSystem = new System.Windows.Forms.ComboBox();
             this.cbAttrHidden = new System.Windows.Forms.ComboBox();
             this.cbAttrReadOnly = new System.Windows.Forms.ComboBox();
-            this.label10 = new System.Windows.Forms.Label();
-            this.label9 = new System.Windows.Forms.Label();
-            this.label8 = new System.Windows.Forms.Label();
-            this.label7 = new System.Windows.Forms.Label();
+            this.lblArchive = new System.Windows.Forms.Label();
+            this.lblSystem = new System.Windows.Forms.Label();
+            this.lblHidden = new System.Windows.Forms.Label();
+            this.lblReadOnly = new System.Windows.Forms.Label();
             this.cbFileSizeMax = new System.Windows.Forms.CheckBox();
             this.label6 = new System.Windows.Forms.Label();
             this.cbFileSizeMin = new System.Windows.Forms.CheckBox();
-            this.label5 = new System.Windows.Forms.Label();
-            this.label4 = new System.Windows.Forms.Label();
+            this.lblUpTo = new System.Windows.Forms.Label();
+            this.lblFrom = new System.Windows.Forms.Label();
             this.dtpAccessedMax = new System.Windows.Forms.DateTimePicker();
             this.dtpAccessedMin = new System.Windows.Forms.DateTimePicker();
             this.label3 = new System.Windows.Forms.Label();
@@ -74,29 +74,29 @@
             // 
             this.panel2.Controls.Add(this.cbUseAutocorrect);
             this.panel2.Controls.Add(this.cbAttrEncrypted);
-            this.panel2.Controls.Add(this.label14);
+            this.panel2.Controls.Add(this.lblEncrypted);
             this.panel2.Controls.Add(this.cbAttrCompressed);
-            this.panel2.Controls.Add(this.label13);
+            this.panel2.Controls.Add(this.lblCompressed);
             this.panel2.Controls.Add(this.seFileSizeMax);
             this.panel2.Controls.Add(this.seFileSizeMin);
-            this.panel2.Controls.Add(this.label12);
+            this.panel2.Controls.Add(this.lblUtc);
             this.panel2.Controls.Add(this.cbAccessedUtc);
             this.panel2.Controls.Add(this.cbModifiedUtc);
             this.panel2.Controls.Add(this.cbCreatedUtc);
-            this.panel2.Controls.Add(this.label11);
+            this.panel2.Controls.Add(this.lblDate);
             this.panel2.Controls.Add(this.cbAttrArchive);
             this.panel2.Controls.Add(this.cbAttrSystem);
             this.panel2.Controls.Add(this.cbAttrHidden);
             this.panel2.Controls.Add(this.cbAttrReadOnly);
-            this.panel2.Controls.Add(this.label10);
-            this.panel2.Controls.Add(this.label9);
-            this.panel2.Controls.Add(this.label8);
-            this.panel2.Controls.Add(this.label7);
+            this.panel2.Controls.Add(this.lblArchive);
+            this.panel2.Controls.Add(this.lblSystem);
+            this.panel2.Controls.Add(this.lblHidden);
+            this.panel2.Controls.Add(this.lblReadOnly);
             this.panel2.Controls.Add(this.cbFileSizeMax);
             this.panel2.Controls.Add(this.label6);
             this.panel2.Controls.Add(this.cbFileSizeMin);
-            this.panel2.Controls.Add(this.label5);
-            this.panel2.Controls.Add(this.label4);
+            this.panel2.Controls.Add(this.lblUpTo);
+            this.panel2.Controls.Add(this.lblFrom);
             this.panel2.Controls.Add(this.dtpAccessedMax);
             this.panel2.Controls.Add(this.dtpAccessedMin);
             this.panel2.Controls.Add(this.label3);
@@ -131,23 +131,23 @@
             "",
             "Set",
             "Clear"});
-            this.cbAttrEncrypted.Location = new System.Drawing.Point(393, 200);
+            this.cbAttrEncrypted.Location = new System.Drawing.Point(432, 199);
             this.cbAttrEncrypted.Margin = new System.Windows.Forms.Padding(5);
             this.cbAttrEncrypted.Name = "cbAttrEncrypted";
             this.cbAttrEncrypted.Size = new System.Drawing.Size(60, 25);
             this.cbAttrEncrypted.TabIndex = 32;
             this.ToolTip.SetToolTip(this.cbAttrEncrypted, "Check \'Encrypted\' attribute");
             // 
-            // label14
+            // lblEncrypted
             // 
-            this.label14.AutoSize = true;
-            this.label14.Location = new System.Drawing.Point(301, 203);
-            this.label14.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
-            this.label14.Name = "label14";
-            this.label14.Size = new System.Drawing.Size(66, 17);
-            this.label14.TabIndex = 31;
-            this.label14.Text = "&Encrypted";
-            this.label14.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.lblEncrypted.AutoSize = true;
+            this.lblEncrypted.Location = new System.Drawing.Point(366, 203);
+            this.lblEncrypted.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
+            this.lblEncrypted.Name = "lblEncrypted";
+            this.lblEncrypted.Size = new System.Drawing.Size(66, 17);
+            this.lblEncrypted.TabIndex = 31;
+            this.lblEncrypted.Text = "&Encrypted";
+            this.lblEncrypted.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // cbAttrCompressed
             // 
@@ -157,23 +157,23 @@
             "",
             "Set",
             "Clear"});
-            this.cbAttrCompressed.Location = new System.Drawing.Point(393, 164);
+            this.cbAttrCompressed.Location = new System.Drawing.Point(432, 165);
             this.cbAttrCompressed.Margin = new System.Windows.Forms.Padding(5);
             this.cbAttrCompressed.Name = "cbAttrCompressed";
             this.cbAttrCompressed.Size = new System.Drawing.Size(60, 25);
             this.cbAttrCompressed.TabIndex = 30;
             this.ToolTip.SetToolTip(this.cbAttrCompressed, "Check \'Compressed\' attribute");
             // 
-            // label13
+            // lblCompressed
             // 
-            this.label13.AutoSize = true;
-            this.label13.Location = new System.Drawing.Point(301, 168);
-            this.label13.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
-            this.label13.Name = "label13";
-            this.label13.Size = new System.Drawing.Size(82, 17);
-            this.label13.TabIndex = 29;
-            this.label13.Text = "C&ompressed";
-            this.label13.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.lblCompressed.AutoSize = true;
+            this.lblCompressed.Location = new System.Drawing.Point(350, 168);
+            this.lblCompressed.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
+            this.lblCompressed.Name = "lblCompressed";
+            this.lblCompressed.Size = new System.Drawing.Size(82, 17);
+            this.lblCompressed.TabIndex = 29;
+            this.lblCompressed.Text = "C&ompressed";
+            this.lblCompressed.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // seFileSizeMax
             // 
@@ -209,16 +209,16 @@
             this.seFileSizeMin.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             this.ToolTip.SetToolTip(this.seFileSizeMin, "Minimum File Size");
             // 
-            // label12
+            // lblUtc
             // 
-            this.label12.AutoSize = true;
-            this.label12.Location = new System.Drawing.Point(469, 2);
-            this.label12.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
-            this.label12.Name = "label12";
-            this.label12.Size = new System.Drawing.Size(31, 17);
-            this.label12.TabIndex = 3;
-            this.label12.Text = "UTC";
-            this.label12.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.lblUtc.AutoSize = true;
+            this.lblUtc.Location = new System.Drawing.Point(469, 2);
+            this.lblUtc.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
+            this.lblUtc.Name = "lblUtc";
+            this.lblUtc.Size = new System.Drawing.Size(31, 17);
+            this.lblUtc.TabIndex = 3;
+            this.lblUtc.Text = "UTC";
+            this.lblUtc.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // cbAccessedUtc
             // 
@@ -253,16 +253,16 @@
             this.ToolTip.SetToolTip(this.cbCreatedUtc, "Use UTC Created Date");
             this.cbCreatedUtc.UseVisualStyleBackColor = true;
             // 
-            // label11
+            // lblDate
             // 
-            this.label11.AutoSize = true;
-            this.label11.Location = new System.Drawing.Point(7, 2);
-            this.label11.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
-            this.label11.Name = "label11";
-            this.label11.Size = new System.Drawing.Size(35, 17);
-            this.label11.TabIndex = 0;
-            this.label11.Text = "Date";
-            this.label11.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.lblDate.AutoSize = true;
+            this.lblDate.Location = new System.Drawing.Point(7, 2);
+            this.lblDate.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
+            this.lblDate.Name = "lblDate";
+            this.lblDate.Size = new System.Drawing.Size(35, 17);
+            this.lblDate.TabIndex = 0;
+            this.lblDate.Text = "Date";
+            this.lblDate.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // cbAttrArchive
             // 
@@ -272,7 +272,7 @@
             "",
             "Set",
             "Clear"});
-            this.cbAttrArchive.Location = new System.Drawing.Point(216, 199);
+            this.cbAttrArchive.Location = new System.Drawing.Point(234, 199);
             this.cbAttrArchive.Margin = new System.Windows.Forms.Padding(5);
             this.cbAttrArchive.Name = "cbAttrArchive";
             this.cbAttrArchive.Size = new System.Drawing.Size(60, 25);
@@ -287,7 +287,7 @@
             "",
             "Set",
             "Clear"});
-            this.cbAttrSystem.Location = new System.Drawing.Point(216, 165);
+            this.cbAttrSystem.Location = new System.Drawing.Point(234, 165);
             this.cbAttrSystem.Margin = new System.Windows.Forms.Padding(5);
             this.cbAttrSystem.Name = "cbAttrSystem";
             this.cbAttrSystem.Size = new System.Drawing.Size(60, 25);
@@ -324,49 +324,49 @@
             this.cbAttrReadOnly.TabIndex = 22;
             this.ToolTip.SetToolTip(this.cbAttrReadOnly, "Check \'Read-only\' attribute");
             // 
-            // label10
+            // lblArchive
             // 
-            this.label10.AutoSize = true;
-            this.label10.Location = new System.Drawing.Point(157, 203);
-            this.label10.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
-            this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(50, 17);
-            this.label10.TabIndex = 27;
-            this.label10.Text = "Archi&ve";
-            this.label10.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.lblArchive.AutoSize = true;
+            this.lblArchive.Location = new System.Drawing.Point(185, 203);
+            this.lblArchive.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
+            this.lblArchive.Name = "lblArchive";
+            this.lblArchive.Size = new System.Drawing.Size(50, 17);
+            this.lblArchive.TabIndex = 27;
+            this.lblArchive.Text = "Archi&ve";
+            this.lblArchive.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
-            // label9
+            // lblSystem
             // 
-            this.label9.AutoSize = true;
-            this.label9.Location = new System.Drawing.Point(157, 168);
-            this.label9.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
-            this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(49, 17);
-            this.label9.TabIndex = 25;
-            this.label9.Text = "&System";
-            this.label9.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.lblSystem.AutoSize = true;
+            this.lblSystem.Location = new System.Drawing.Point(185, 168);
+            this.lblSystem.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
+            this.lblSystem.Name = "lblSystem";
+            this.lblSystem.Size = new System.Drawing.Size(49, 17);
+            this.lblSystem.TabIndex = 25;
+            this.lblSystem.Text = "&System";
+            this.lblSystem.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
-            // label8
+            // lblHidden
             // 
-            this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(7, 203);
-            this.label8.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
-            this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(50, 17);
-            this.label8.TabIndex = 23;
-            this.label8.Text = "&Hidden";
-            this.label8.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.lblHidden.AutoSize = true;
+            this.lblHidden.Location = new System.Drawing.Point(7, 203);
+            this.lblHidden.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
+            this.lblHidden.Name = "lblHidden";
+            this.lblHidden.Size = new System.Drawing.Size(50, 17);
+            this.lblHidden.TabIndex = 23;
+            this.lblHidden.Text = "&Hidden";
+            this.lblHidden.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
-            // label7
+            // lblReadOnly
             // 
-            this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(6, 168);
-            this.label7.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
-            this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(62, 17);
-            this.label7.TabIndex = 21;
-            this.label7.Text = "&Readonly";
-            this.label7.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.lblReadOnly.AutoSize = true;
+            this.lblReadOnly.Location = new System.Drawing.Point(6, 168);
+            this.lblReadOnly.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
+            this.lblReadOnly.Name = "lblReadOnly";
+            this.lblReadOnly.Size = new System.Drawing.Size(62, 17);
+            this.lblReadOnly.TabIndex = 21;
+            this.lblReadOnly.Text = "&Readonly";
+            this.lblReadOnly.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // cbFileSizeMax
             // 
@@ -401,27 +401,27 @@
             this.ToolTip.SetToolTip(this.cbFileSizeMin, "Use Minimum File Size");
             this.cbFileSizeMin.UseVisualStyleBackColor = true;
             // 
-            // label5
+            // lblUpTo
             // 
-            this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(273, 2);
-            this.label5.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(41, 17);
-            this.label5.TabIndex = 2;
-            this.label5.Text = "Up to";
-            this.label5.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.lblUpTo.AutoSize = true;
+            this.lblUpTo.Location = new System.Drawing.Point(273, 2);
+            this.lblUpTo.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
+            this.lblUpTo.Name = "lblUpTo";
+            this.lblUpTo.Size = new System.Drawing.Size(41, 17);
+            this.lblUpTo.TabIndex = 2;
+            this.lblUpTo.Text = "Up to";
+            this.lblUpTo.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // label4
+            // lblFrom
             // 
-            this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(69, 2);
-            this.label4.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(38, 17);
-            this.label4.TabIndex = 1;
-            this.label4.Text = "From";
-            this.label4.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.lblFrom.AutoSize = true;
+            this.lblFrom.Location = new System.Drawing.Point(69, 2);
+            this.lblFrom.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
+            this.lblFrom.Name = "lblFrom";
+            this.lblFrom.Size = new System.Drawing.Size(38, 17);
+            this.lblFrom.TabIndex = 1;
+            this.lblFrom.Text = "From";
+            this.lblFrom.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // dtpAccessedMax
             // 
@@ -550,29 +550,29 @@
 
         private System.Windows.Forms.Panel panel2;
         public System.Windows.Forms.ComboBox cbAttrEncrypted;
-        public System.Windows.Forms.Label label14;
+        public System.Windows.Forms.Label lblEncrypted;
         public System.Windows.Forms.ComboBox cbAttrCompressed;
-        public System.Windows.Forms.Label label13;
+        public System.Windows.Forms.Label lblCompressed;
         public System.Windows.Forms.NumericUpDown seFileSizeMax;
         public System.Windows.Forms.NumericUpDown seFileSizeMin;
-        public System.Windows.Forms.Label label12;
+        public System.Windows.Forms.Label lblUtc;
         public System.Windows.Forms.CheckBox cbAccessedUtc;
         public System.Windows.Forms.CheckBox cbModifiedUtc;
         public System.Windows.Forms.CheckBox cbCreatedUtc;
-        public System.Windows.Forms.Label label11;
+        public System.Windows.Forms.Label lblDate;
         public System.Windows.Forms.ComboBox cbAttrArchive;
         public System.Windows.Forms.ComboBox cbAttrSystem;
         public System.Windows.Forms.ComboBox cbAttrHidden;
         public System.Windows.Forms.ComboBox cbAttrReadOnly;
-        public System.Windows.Forms.Label label10;
-        public System.Windows.Forms.Label label9;
-        public System.Windows.Forms.Label label8;
-        public System.Windows.Forms.Label label7;
+        public System.Windows.Forms.Label lblArchive;
+        public System.Windows.Forms.Label lblSystem;
+        public System.Windows.Forms.Label lblHidden;
+        public System.Windows.Forms.Label lblReadOnly;
         public System.Windows.Forms.CheckBox cbFileSizeMax;
         public System.Windows.Forms.Label label6;
         public System.Windows.Forms.CheckBox cbFileSizeMin;
-        public System.Windows.Forms.Label label5;
-        public System.Windows.Forms.Label label4;
+        public System.Windows.Forms.Label lblUpTo;
+        public System.Windows.Forms.Label lblFrom;
         public System.Windows.Forms.DateTimePicker dtpAccessedMax;
         public System.Windows.Forms.DateTimePicker dtpAccessedMin;
         public System.Windows.Forms.Label label3;

@@ -14,20 +14,8 @@
         AccessedMin = 1 << 6,
         AccessedMax = 1 << 7,
         AccessedUtc = 1 << 8,
-
-        Created = CreatedMin | CreatedMax | CreatedUtc,
-        Modified = ModifiedMin | ModifiedMax | ModifiedUtc,
-        Accessed = AccessedMin | AccessedMax | AccessedUtc,
-
-        Min = CreatedMin | ModifiedMin | AccessedMin,
-        Max = CreatedMax | ModifiedMax | AccessedMax,
-        Utc = CreatedUtc | ModifiedUtc | AccessedUtc,
-
         FileSizeMin = 1 << 9,
         FileSizeMax = 1 << 10,
-
-        FileSize = FileSizeMin | FileSizeMax,
-
         ReadOnlyTrue = 1 << 11,
         ReadOnlyFalse = 1 << 12,
         HiddenTrue = 1 << 13,
@@ -40,6 +28,15 @@
         CompressedFalse = 1 << 20,
         EncryptedTrue = 1 << 21,
         EncryptedFalse = 1 << 22,
+
+        Created = CreatedMin | CreatedMax,
+        Modified = ModifiedMin | ModifiedMax,
+        Accessed = AccessedMin | AccessedMax,
+        FileSize = FileSizeMin | FileSizeMax,
+
+        Min = CreatedMin | ModifiedMin | AccessedMin | FileSizeMin,
+        Max = CreatedMax | ModifiedMax | AccessedMax | FileSizeMax,
+        Utc = CreatedUtc | ModifiedUtc | AccessedUtc,
 
         ReadOnly = ReadOnlyTrue | ReadOnlyFalse,
         Hidden = HiddenTrue | HiddenFalse,

@@ -27,10 +27,62 @@
 
         public Term FilterTerm => FileOptions.GetFilter();
 
+        private bool _showTimes = true;
+
+        private const string
+            _dateFormat = "yyyy-MM-dd",
+            _timeFormat = "HH:mm:ss",
+            _dateTimeFormat = _dateFormat + " " + _timeFormat;
+
+        public bool ShowTimes
+        {
+            get => _showTimes;
+            set
+            {
+                var dateTimePickers = new[] { DtpCreatedMin, DtpCreatedMax, DtpModifiedMin, DtpModifiedMax, DtpAccessedMin, DtpAccessedMax, };
+                var spinEdits = new[] { SeFileSizeMin, SeFileSizeMax, };
+
+                var middleColumn = new Control[]
+                {
+                    DtpCreatedMax, DtpModifiedMax, DtpAccessedMax, CbFileSizeMax, SeFileSizeMax,
+                    _view.lblUpTo, _view.lblSystem, CbSystem, _view.lblArchive, CbArchive
+                };
+
+                var rightColumn = new Control[]
+                {
+                    _view.lblUtc, CbCreatedUtc, CbModifiedUtc, CbAccessedUtc, CbUseAutocorrect,
+                    _view.lblCompressed, CbCompressed, _view.lblEncrypted, CbEncrypted
+                };
+
+                if (_showTimes != value)
+                {
+                    _showTimes = value;
+                    var delta = ShowTimes ? 52 : -52;
+                    var customFormat = ShowTimes ? _dateTimeFormat : _dateFormat;
+                    AdjustControls(dateTimePickers, p => { ((DateTimePicker)p).CustomFormat = customFormat; p.Width += delta; });
+                    AdjustControls(spinEdits, p => { p.Width += delta; });
+                    AdjustControls(middleColumn, p => { p.Left += delta; });
+                    AdjustControls(rightColumn, p => { p.Left += 2 * delta; });
+                }
+            }
+        }
+
+        private void AdjustControls(Control[] controls, Action<Control> action)
+        {
+            foreach (var control in controls)
+                action(control);
+        }
+
         public bool UseAutocorrect
         {
             get => CbUseAutocorrect.Checked;
-            set => CbUseAutocorrect.Checked = value;
+            set
+            {
+                CbUseAutocorrect.Checked = value;
+
+                ShowTimes ^= true;
+
+            }
         }
 
         #endregion
@@ -100,8 +152,8 @@
             SeFileSizeMin = _view.seFileSizeMin;
             SeFileSizeMax = _view.seFileSizeMax;
 
-            DtpCreatedMin.Value = DtpModifiedMin.Value = DtpAccessedMin.Value =
-                DtpCreatedMax.Value = DtpModifiedMax.Value = DtpAccessedMax.Value = DateTime.Today;
+            DtpCreatedMin.Value = DtpModifiedMin.Value = DtpAccessedMin.Value = DateTime.Today;
+            DtpCreatedMax.Value = DtpModifiedMax.Value = DtpAccessedMax.Value = DateTime.Today.AddDays(1).AddTicks(-1);
 
             System.Diagnostics.Debug.WriteLine(DtpCreatedMin.Value);
 

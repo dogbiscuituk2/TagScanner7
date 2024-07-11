@@ -45,10 +45,11 @@
             this.FilterPopupUseAutocorrect = new System.Windows.Forms.ToolStripMenuItem();
             this.btnCancel = new System.Windows.Forms.Button();
             this.btnOK = new System.Windows.Forms.Button();
+            this.FileFilterControl = new TagScanner.Controls.FileFilterControl();
             this.MainMenu = new System.Windows.Forms.MenuStrip();
             this.SchemaMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.FilterMenu = new System.Windows.Forms.ToolStripMenuItem();
-            this.FileFilterControl = new TagScanner.Controls.FileFilterControl();
+            this.FilterPopupShowTimes = new System.Windows.Forms.ToolStripMenuItem();
             this.SchemaPopupMenu.SuspendLayout();
             this.panel1.SuspendLayout();
             this.FilterPopupMenu.SuspendLayout();
@@ -82,19 +83,19 @@
             // SchemaPopupShowFormats
             // 
             this.SchemaPopupShowFormats.Name = "SchemaPopupShowFormats";
-            this.SchemaPopupShowFormats.Size = new System.Drawing.Size(180, 22);
-            this.SchemaPopupShowFormats.Text = "&Show Formats";
+            this.SchemaPopupShowFormats.Size = new System.Drawing.Size(149, 22);
+            this.SchemaPopupShowFormats.Text = "Show &Formats";
             // 
             // toolStripMenuItem1
             // 
             this.toolStripMenuItem1.Name = "toolStripMenuItem1";
-            this.toolStripMenuItem1.Size = new System.Drawing.Size(177, 6);
+            this.toolStripMenuItem1.Size = new System.Drawing.Size(146, 6);
             // 
             // SchemaPopupAdd
             // 
             this.SchemaPopupAdd.Name = "SchemaPopupAdd";
             this.SchemaPopupAdd.ShortcutKeys = System.Windows.Forms.Keys.Insert;
-            this.SchemaPopupAdd.Size = new System.Drawing.Size(180, 22);
+            this.SchemaPopupAdd.Size = new System.Drawing.Size(149, 22);
             this.SchemaPopupAdd.Text = "&Add...";
             this.SchemaPopupAdd.ToolTipText = "Add a new File Format";
             // 
@@ -102,7 +103,7 @@
             // 
             this.SchemaPopupEdit.Name = "SchemaPopupEdit";
             this.SchemaPopupEdit.ShortcutKeys = System.Windows.Forms.Keys.F2;
-            this.SchemaPopupEdit.Size = new System.Drawing.Size(180, 22);
+            this.SchemaPopupEdit.Size = new System.Drawing.Size(149, 22);
             this.SchemaPopupEdit.Text = "&Edit...";
             this.SchemaPopupEdit.ToolTipText = "Edit this File Format";
             // 
@@ -110,7 +111,7 @@
             // 
             this.SchemaPopupDelete.Name = "SchemaPopupDelete";
             this.SchemaPopupDelete.ShortcutKeys = System.Windows.Forms.Keys.Delete;
-            this.SchemaPopupDelete.Size = new System.Drawing.Size(180, 22);
+            this.SchemaPopupDelete.Size = new System.Drawing.Size(149, 22);
             this.SchemaPopupDelete.Text = "&Delete";
             this.SchemaPopupDelete.ToolTipText = "Remove this File Format";
             // 
@@ -138,26 +139,27 @@
             // 
             this.FilterPopupMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.FilterPopupShowFilter,
+            this.FilterPopupShowTimes,
             this.toolStripSeparator1,
             this.FilterPopupUseAutocorrect});
             this.FilterPopupMenu.Name = "PopupMenu";
-            this.FilterPopupMenu.Size = new System.Drawing.Size(165, 54);
+            this.FilterPopupMenu.Size = new System.Drawing.Size(165, 76);
             // 
             // FilterPopupShowFilter
             // 
             this.FilterPopupShowFilter.Name = "FilterPopupShowFilter";
-            this.FilterPopupShowFilter.Size = new System.Drawing.Size(164, 22);
-            this.FilterPopupShowFilter.Text = "&Show Conditions";
+            this.FilterPopupShowFilter.Size = new System.Drawing.Size(180, 22);
+            this.FilterPopupShowFilter.Text = "Show &Conditions";
             // 
             // toolStripSeparator1
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(161, 6);
+            this.toolStripSeparator1.Size = new System.Drawing.Size(177, 6);
             // 
             // FilterPopupUseAutocorrect
             // 
             this.FilterPopupUseAutocorrect.Name = "FilterPopupUseAutocorrect";
-            this.FilterPopupUseAutocorrect.Size = new System.Drawing.Size(164, 22);
+            this.FilterPopupUseAutocorrect.Size = new System.Drawing.Size(180, 22);
             this.FilterPopupUseAutocorrect.Text = "&Use Autocorrect";
             this.FilterPopupUseAutocorrect.ToolTipText = "Use Autocorrect to fix data validation errors";
             // 
@@ -185,6 +187,16 @@
             this.btnOK.Text = "OK";
             this.btnOK.UseVisualStyleBackColor = true;
             // 
+            // FileFilterControl
+            // 
+            this.FileFilterControl.Dock = System.Windows.Forms.DockStyle.Top;
+            this.FileFilterControl.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.FileFilterControl.Location = new System.Drawing.Point(0, 0);
+            this.FileFilterControl.Margin = new System.Windows.Forms.Padding(4);
+            this.FileFilterControl.Name = "FileFilterControl";
+            this.FileFilterControl.Size = new System.Drawing.Size(500, 260);
+            this.FileFilterControl.TabIndex = 0;
+            // 
             // MainMenu
             // 
             this.MainMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -210,15 +222,11 @@
             this.FilterMenu.Size = new System.Drawing.Size(45, 20);
             this.FilterMenu.Text = "&Filter";
             // 
-            // FileFilterControl
+            // FilterPopupShowTimes
             // 
-            this.FileFilterControl.Dock = System.Windows.Forms.DockStyle.Top;
-            this.FileFilterControl.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.FileFilterControl.Location = new System.Drawing.Point(0, 0);
-            this.FileFilterControl.Margin = new System.Windows.Forms.Padding(4);
-            this.FileFilterControl.Name = "FileFilterControl";
-            this.FileFilterControl.Size = new System.Drawing.Size(500, 260);
-            this.FileFilterControl.TabIndex = 0;
+            this.FilterPopupShowTimes.Name = "FilterPopupShowTimes";
+            this.FilterPopupShowTimes.Size = new System.Drawing.Size(180, 22);
+            this.FilterPopupShowTimes.Text = "Show &Times";
             // 
             // FileOptionsDialog
             // 
@@ -269,5 +277,6 @@
         public System.Windows.Forms.MenuStrip MainMenu;
         public System.Windows.Forms.ToolStripMenuItem SchemaMenu;
         public System.Windows.Forms.ToolStripMenuItem FilterMenu;
+        public System.Windows.Forms.ToolStripMenuItem FilterPopupShowTimes;
     }
 }

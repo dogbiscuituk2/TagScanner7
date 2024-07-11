@@ -74,5 +74,7 @@
         }
 
         #endregion
+
+        public static implicit operator Constant<T>(T value) => new Constant<T>(value);
     }
 }

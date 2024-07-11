@@ -1,6 +1,8 @@
 ﻿namespace TagScanner.Models
 {
+    using Microsoft.CodeAnalysis.Operations;
     using System;
+    using System.Collections.Generic;
     using System.IO;
     using Terms;
 
@@ -46,46 +48,33 @@
             void AddAttribute(FileFlags flags, FileAttributes attribute)
             {
                 flags &= Flags;
-                if (flags == 0)
-                    return;
-                Term function = new Function(Tag.FileAttributes, Fn.Contains, $"{attribute}", false);
-                if ((flags & FileFlags.False) != 0)
-                    function = !function;
-                AddTerm(function);
+                if (flags != 0)
+                {
+                    Term function = new Function(Tag.FileAttributes, Fn.Contains, $"{attribute}", false);
+                    filter.Operands.Add((flags & FileFlags.False) != 0 ? function : !function);
+                }
             }
 
-            void AddDates(FileFlags flags, Tag tag, Tag tagUtc, DateTime min, DateTime max)
+            void AddDates(FileFlags flags, Tag tag, Tag tagUtc, DateTime min, DateTime max) =>
+                AddRelation(flags, (flags & FileFlags.Utc) == 0 ? tag : tagUtc, min, max);
+
+            void AddFileSize() => AddRelation(FileFlags.FileSize, Tag.FileSize, FileSizeMin, FileSizeMax);
+
+            void AddRelation(FileFlags flags, Tag tag, Term min, Term max)
             {
                 flags &= Flags;
                 bool
                     useMin = (flags & FileFlags.Min) != 0,
                     useMax = (flags & FileFlags.Max) != 0;
-                tag = (flags & FileFlags.Utc) == 0 ? tag : tagUtc;
-                if (useMin)
-                    if (useMax)
-                        AddTerm(new Operation(Op.NotGreaterThan, min, tag, max));
-                    else
-                        AddTerm(new Operation(Op.NotGreaterThan, min, tag));
-                else if (useMax)
-                    AddTerm(new Operation(Op.NotGreaterThan, tag, max));
+                if (useMin || useMax)
+                {
+                    var operands = new List<Term>();
+                    if (useMin) operands.Add(min);
+                    operands.Add(tag);
+                    if (useMax) operands.Add(max);
+                    filter.Operands.Add(new Operation(Op.NotGreaterThan, operands.ToArray()));
+                }
             }
-
-            void AddFileSize()
-            {
-                var flags = Flags & FileFlags.FileSize;
-                bool
-                    useMin = (flags & FileFlags.FileSizeMin) != 0,
-                    useMax = (flags & FileFlags.FileSizeMax) != 0;
-                if (useMin)
-                    if (useMax)
-                        AddTerm(new Operation(Op.NotGreaterThan, FileSizeMin, Tag.FileSize, FileSizeMax));
-                    else
-                        AddTerm(new Operation(Op.NotGreaterThan, FileSizeMin, Tag.FileSize));
-                else if (useMax)
-                    AddTerm(new Operation(Op.NotGreaterThan, Tag.FileSize, FileSizeMax));
-            }
-
-            void AddTerm(Term term) => filter.Operands.Add(term);
         }
     }
 }
