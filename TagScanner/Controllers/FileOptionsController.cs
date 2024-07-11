@@ -113,7 +113,13 @@
             SchemaPopupDelete.Click += (sender, e) => FileSchemaController.Remove();
             SchemaPopupShowFormats.Click += (sender, e) => FileSchemaController.ShowFileFilter();
             FilterPopupUseTimes.Click += (sender, e) => UseTimes ^= true;
-            FilterPopupMenu.Opening += (sender, e) => FilterPopupUseAutocorrect.Checked = UseAutocorrect;
+
+            FilterPopupMenu.Opening += (sender, e) =>
+            {
+                FilterPopupUseTimes.Checked = UseTimes;
+                FilterPopupUseAutocorrect.Checked = UseAutocorrect;
+            };
+
             FilterPopupUseAutocorrect.Click += (sender, e) => UseAutocorrect ^= true;
             FilterPopupShowFilter.Click += (sender, e) => FileFilterController.ShowFilter();
 

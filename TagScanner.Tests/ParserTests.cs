@@ -54,5 +54,12 @@
                 Assert.AreEqual(expected: tag.DisplayName(), actual: field.ToString());
             }
         }
+
+        [TestMethod]
+        public void ScratchTest()
+        {
+            var foo = Parser.Parse("1 < 2 <= 3", caseSensitive: false);
+            return;
+        }
     }
 }

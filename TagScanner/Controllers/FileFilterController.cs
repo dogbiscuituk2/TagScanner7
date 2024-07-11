@@ -25,14 +25,16 @@
             private set => SetFileOptions(value);
         }
 
-        public Term FilterTerm => FileOptions.GetFilter();
+        public string FilterString
+        {
+            get
+            {
+                FileOptions.GetFilter(UseTimes, out string filterString);
+                return filterString;
+            }
+        }
 
-        private bool _useTimes = true;
-
-        private const string
-            _dateFormat = "yyyy-MM-dd",
-            _timeFormat = "HH:mm:ss",
-            _dateTimeFormat = _dateFormat + " " + _timeFormat;
+        public Term FilterTerm => FileOptions.GetFilter(UseTimes, out _);
 
         public bool UseTimes
         {
@@ -40,19 +42,9 @@
             set
             {
                 var dateTimePickers = new[] { DtpCreatedMin, DtpCreatedMax, DtpModifiedMin, DtpModifiedMax, DtpAccessedMin, DtpAccessedMax };
+                var middleColumn = new Control[] { _view.lblUpTo, DtpCreatedMax, DtpModifiedMax, DtpAccessedMax, CbFileSizeMax, SeFileSizeMax };
+                var rightColumn = new Control[] { _view.lblUtc, CbCreatedUtc, CbModifiedUtc, CbAccessedUtc, CbUseAutocorrect };
                 var spinEdits = new[] { SeFileSizeMin, SeFileSizeMax };
-
-                var middleColumn = new Control[]
-                {
-                    DtpCreatedMax, DtpModifiedMax, DtpAccessedMax, CbFileSizeMax, SeFileSizeMax,
-                    _view.lblUpTo, //_view.lblSystem, CbSystem, _view.lblArchive, CbArchive
-                };
-
-                var rightColumn = new Control[]
-                {
-                    _view.lblUtc, CbCreatedUtc, CbModifiedUtc, CbAccessedUtc, CbUseAutocorrect,
-                    //_view.lblCompressed, CbCompressed, _view.lblEncrypted, CbEncrypted
-                };
 
                 if (_useTimes != value)
                 {
@@ -176,7 +168,7 @@
 
         public void ShowFilter()
         {
-            var filter = FilterTerm.ToString().Replace(" && ", "\n");
+            var filter = FilterString;
             if (string.IsNullOrWhiteSpace(filter))
                 filter = "There are no filter conditions selected.";
             MessageBox.Show(
@@ -191,8 +183,14 @@
 
         #region Private Fields
 
+        private const string
+            _dateFormat = "yyyy-MM-dd",
+            _timeFormat = "HH:mm:ss",
+            _dateTimeFormat = _dateFormat + " " + _timeFormat;
+
         private FileOptions _fileOptions = new FileOptions();
         private bool _updating;
+        private bool _useTimes = true;
         private FileFilterControl _view;
 
         private CheckBox
