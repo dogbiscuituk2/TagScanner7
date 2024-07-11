@@ -19,6 +19,12 @@
 
         #region Public Properties
 
+        public bool ShowTimes
+        {
+            get => FileFilterController.ShowTimes;
+            set => FileFilterController.ShowTimes = value;
+        }
+
         public bool UseAutocorrect
         {
             get => FileFilterController.UseAutocorrect;
@@ -54,6 +60,7 @@
             SchemaPopupEdit,
             SchemaPopupDelete,
             FilterPopupShowFilter,
+            FilterPopupShowTimes,
             FilterPopupUseAutocorrect;
 
         #endregion
@@ -93,12 +100,14 @@
             SchemaPopupDelete = View.SchemaPopupDelete;
             FilterPopupMenu = View.FilterPopupMenu;
             FilterPopupShowFilter = View.FilterPopupShowFilter;
+            FilterPopupShowTimes = View.FilterPopupShowTimes;
             FilterPopupUseAutocorrect = View.FilterPopupUseAutocorrect;
 
             SchemaPopupAdd.Click += (sender, e) => FileSchemaController.Add();
             SchemaPopupEdit.Click += (sender, e) => FileSchemaController.Edit();
             SchemaPopupDelete.Click += (sender, e) => FileSchemaController.Remove();
             SchemaPopupShowFormats.Click += (sender, e) => FileSchemaController.ShowFileFilter();
+            FilterPopupShowTimes.Click += (sender, e) => ShowTimes ^= true;
             FilterPopupMenu.Opening += (sender, e) => FilterPopupUseAutocorrect.Checked = UseAutocorrect;
             FilterPopupUseAutocorrect.Click += (sender, e) => UseAutocorrect ^= true;
             FilterPopupShowFilter.Click += (sender, e) => FileFilterController.ShowFilter();
