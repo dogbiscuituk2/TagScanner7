@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            this.panel2 = new System.Windows.Forms.Panel();
+            this.MainPanel = new System.Windows.Forms.Panel();
             this.cbUseAutocorrect = new System.Windows.Forms.CheckBox();
             this.cbAttrEncrypted = new System.Windows.Forms.ComboBox();
             this.lblEncrypted = new System.Windows.Forms.Label();
@@ -65,52 +65,52 @@
             this.dtpCreatedMin = new System.Windows.Forms.DateTimePicker();
             this.label1 = new System.Windows.Forms.Label();
             this.ToolTip = new System.Windows.Forms.ToolTip(this.components);
-            this.panel2.SuspendLayout();
+            this.MainPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.seFileSizeMax)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.seFileSizeMin)).BeginInit();
             this.SuspendLayout();
             // 
-            // panel2
+            // MainPanel
             // 
-            this.panel2.Controls.Add(this.cbUseAutocorrect);
-            this.panel2.Controls.Add(this.cbAttrEncrypted);
-            this.panel2.Controls.Add(this.lblEncrypted);
-            this.panel2.Controls.Add(this.cbAttrCompressed);
-            this.panel2.Controls.Add(this.lblCompressed);
-            this.panel2.Controls.Add(this.seFileSizeMax);
-            this.panel2.Controls.Add(this.seFileSizeMin);
-            this.panel2.Controls.Add(this.lblUtc);
-            this.panel2.Controls.Add(this.cbAccessedUtc);
-            this.panel2.Controls.Add(this.cbModifiedUtc);
-            this.panel2.Controls.Add(this.cbCreatedUtc);
-            this.panel2.Controls.Add(this.lblDate);
-            this.panel2.Controls.Add(this.cbAttrArchive);
-            this.panel2.Controls.Add(this.cbAttrSystem);
-            this.panel2.Controls.Add(this.cbAttrHidden);
-            this.panel2.Controls.Add(this.cbAttrReadOnly);
-            this.panel2.Controls.Add(this.lblArchive);
-            this.panel2.Controls.Add(this.lblSystem);
-            this.panel2.Controls.Add(this.lblHidden);
-            this.panel2.Controls.Add(this.lblReadOnly);
-            this.panel2.Controls.Add(this.cbFileSizeMax);
-            this.panel2.Controls.Add(this.label6);
-            this.panel2.Controls.Add(this.cbFileSizeMin);
-            this.panel2.Controls.Add(this.lblUpTo);
-            this.panel2.Controls.Add(this.lblFrom);
-            this.panel2.Controls.Add(this.dtpAccessedMax);
-            this.panel2.Controls.Add(this.dtpAccessedMin);
-            this.panel2.Controls.Add(this.label3);
-            this.panel2.Controls.Add(this.dtpModifiedMax);
-            this.panel2.Controls.Add(this.dtpModifiedMin);
-            this.panel2.Controls.Add(this.label2);
-            this.panel2.Controls.Add(this.dtpCreatedMax);
-            this.panel2.Controls.Add(this.dtpCreatedMin);
-            this.panel2.Controls.Add(this.label1);
-            this.panel2.Location = new System.Drawing.Point(0, 0);
-            this.panel2.Margin = new System.Windows.Forms.Padding(4);
-            this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(500, 260);
-            this.panel2.TabIndex = 0;
+            this.MainPanel.Controls.Add(this.cbUseAutocorrect);
+            this.MainPanel.Controls.Add(this.cbAttrEncrypted);
+            this.MainPanel.Controls.Add(this.lblEncrypted);
+            this.MainPanel.Controls.Add(this.cbAttrCompressed);
+            this.MainPanel.Controls.Add(this.lblCompressed);
+            this.MainPanel.Controls.Add(this.seFileSizeMax);
+            this.MainPanel.Controls.Add(this.seFileSizeMin);
+            this.MainPanel.Controls.Add(this.lblUtc);
+            this.MainPanel.Controls.Add(this.cbAccessedUtc);
+            this.MainPanel.Controls.Add(this.cbModifiedUtc);
+            this.MainPanel.Controls.Add(this.cbCreatedUtc);
+            this.MainPanel.Controls.Add(this.lblDate);
+            this.MainPanel.Controls.Add(this.cbAttrArchive);
+            this.MainPanel.Controls.Add(this.cbAttrSystem);
+            this.MainPanel.Controls.Add(this.cbAttrHidden);
+            this.MainPanel.Controls.Add(this.cbAttrReadOnly);
+            this.MainPanel.Controls.Add(this.lblArchive);
+            this.MainPanel.Controls.Add(this.lblSystem);
+            this.MainPanel.Controls.Add(this.lblHidden);
+            this.MainPanel.Controls.Add(this.lblReadOnly);
+            this.MainPanel.Controls.Add(this.cbFileSizeMax);
+            this.MainPanel.Controls.Add(this.label6);
+            this.MainPanel.Controls.Add(this.cbFileSizeMin);
+            this.MainPanel.Controls.Add(this.lblUpTo);
+            this.MainPanel.Controls.Add(this.lblFrom);
+            this.MainPanel.Controls.Add(this.dtpAccessedMax);
+            this.MainPanel.Controls.Add(this.dtpAccessedMin);
+            this.MainPanel.Controls.Add(this.label3);
+            this.MainPanel.Controls.Add(this.dtpModifiedMax);
+            this.MainPanel.Controls.Add(this.dtpModifiedMin);
+            this.MainPanel.Controls.Add(this.label2);
+            this.MainPanel.Controls.Add(this.dtpCreatedMax);
+            this.MainPanel.Controls.Add(this.dtpCreatedMin);
+            this.MainPanel.Controls.Add(this.label1);
+            this.MainPanel.Location = new System.Drawing.Point(0, 0);
+            this.MainPanel.Margin = new System.Windows.Forms.Padding(4);
+            this.MainPanel.Name = "MainPanel";
+            this.MainPanel.Size = new System.Drawing.Size(500, 260);
+            this.MainPanel.TabIndex = 0;
             // 
             // cbUseAutocorrect
             // 
@@ -533,13 +533,13 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 17F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.Controls.Add(this.panel2);
+            this.Controls.Add(this.MainPanel);
             this.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "FileFilterControl";
             this.Size = new System.Drawing.Size(500, 260);
-            this.panel2.ResumeLayout(false);
-            this.panel2.PerformLayout();
+            this.MainPanel.ResumeLayout(false);
+            this.MainPanel.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.seFileSizeMax)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.seFileSizeMin)).EndInit();
             this.ResumeLayout(false);
@@ -547,8 +547,6 @@
         }
 
         #endregion
-
-        private System.Windows.Forms.Panel panel2;
         public System.Windows.Forms.ComboBox cbAttrEncrypted;
         public System.Windows.Forms.Label lblEncrypted;
         public System.Windows.Forms.ComboBox cbAttrCompressed;
@@ -584,5 +582,6 @@
         public System.Windows.Forms.Label label1;
         private System.Windows.Forms.ToolTip ToolTip;
         public System.Windows.Forms.CheckBox cbUseAutocorrect;
+        public System.Windows.Forms.Panel MainPanel;
     }
 }

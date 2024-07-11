@@ -39,8 +39,8 @@
             get => _showTimes;
             set
             {
-                var dateTimePickers = new[] { DtpCreatedMin, DtpCreatedMax, DtpModifiedMin, DtpModifiedMax, DtpAccessedMin, DtpAccessedMax, };
-                var spinEdits = new[] { SeFileSizeMin, SeFileSizeMax, };
+                var dateTimePickers = new[] { DtpCreatedMin, DtpCreatedMax, DtpModifiedMin, DtpModifiedMax, DtpAccessedMin, DtpAccessedMax };
+                var spinEdits = new[] { SeFileSizeMin, SeFileSizeMax };
 
                 var middleColumn = new Control[]
                 {
@@ -63,27 +63,24 @@
                     AdjustControls(spinEdits, p => { p.Width += delta; });
                     AdjustControls(middleColumn, p => { p.Left += delta; });
                     AdjustControls(rightColumn, p => { p.Left += 2 * delta; });
+                    _view.MainPanel.Width += 2 * delta;
+                }
+
+                void AdjustControls(Control[] controls, Action<Control> action)
+                {
+                    foreach (var control in controls)
+                        action(control);
                 }
             }
-        }
-
-        private void AdjustControls(Control[] controls, Action<Control> action)
-        {
-            foreach (var control in controls)
-                action(control);
         }
 
         public bool UseAutocorrect
         {
             get => CbUseAutocorrect.Checked;
-            set
-            {
-                CbUseAutocorrect.Checked = value;
-
-                ShowTimes ^= true;
-
-            }
+            set => CbUseAutocorrect.Checked = value;
         }
+
+        public int ViewWidth => _view.MainPanel.Width;
 
         #endregion
 

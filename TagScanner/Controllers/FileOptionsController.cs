@@ -22,7 +22,11 @@
         public bool ShowTimes
         {
             get => FileFilterController.ShowTimes;
-            set => FileFilterController.ShowTimes = value;
+            set
+            {
+                FileFilterController.ShowTimes = value;
+                View.RightPanel.Width = FileFilterController.ViewWidth;
+            }
         }
 
         public bool UseAutocorrect
@@ -48,8 +52,9 @@
 
         #region Private Fields
 
-        private FileFilterController FileFilterController;
-        private FileSchemaController FileSchemaController;
+        private readonly FileFilterController FileFilterController;
+        private readonly FileSchemaController FileSchemaController;
+
         private FileOptionsDialog View;
 
         private ContextMenuStrip FilterPopupMenu;
