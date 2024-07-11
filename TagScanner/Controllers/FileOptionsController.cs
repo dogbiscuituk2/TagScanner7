@@ -19,12 +19,12 @@
 
         #region Public Properties
 
-        public bool ShowTimes
+        public bool UseTimes
         {
-            get => FileFilterController.ShowTimes;
+            get => FileFilterController.UseTimes;
             set
             {
-                FileFilterController.ShowTimes = value;
+                FileFilterController.UseTimes = value;
                 View.RightPanel.Width = FileFilterController.ViewWidth;
             }
         }
@@ -65,7 +65,7 @@
             SchemaPopupEdit,
             SchemaPopupDelete,
             FilterPopupShowFilter,
-            FilterPopupShowTimes,
+            FilterPopupUseTimes,
             FilterPopupUseAutocorrect;
 
         #endregion
@@ -105,17 +105,19 @@
             SchemaPopupDelete = View.SchemaPopupDelete;
             FilterPopupMenu = View.FilterPopupMenu;
             FilterPopupShowFilter = View.FilterPopupShowFilter;
-            FilterPopupShowTimes = View.FilterPopupShowTimes;
+            FilterPopupUseTimes = View.FilterPopupUseTimes;
             FilterPopupUseAutocorrect = View.FilterPopupUseAutocorrect;
 
             SchemaPopupAdd.Click += (sender, e) => FileSchemaController.Add();
             SchemaPopupEdit.Click += (sender, e) => FileSchemaController.Edit();
             SchemaPopupDelete.Click += (sender, e) => FileSchemaController.Remove();
             SchemaPopupShowFormats.Click += (sender, e) => FileSchemaController.ShowFileFilter();
-            FilterPopupShowTimes.Click += (sender, e) => ShowTimes ^= true;
+            FilterPopupUseTimes.Click += (sender, e) => UseTimes ^= true;
             FilterPopupMenu.Opening += (sender, e) => FilterPopupUseAutocorrect.Checked = UseAutocorrect;
             FilterPopupUseAutocorrect.Click += (sender, e) => UseAutocorrect ^= true;
             FilterPopupShowFilter.Click += (sender, e) => FileFilterController.ShowFilter();
+
+            UseTimes = false;
         }
 
         private void UpdateUI() => SchemaPopupDelete.Enabled = FileSchemaController.SelectedNode?.Level > 0;

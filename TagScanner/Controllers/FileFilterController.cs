@@ -27,16 +27,16 @@
 
         public Term FilterTerm => FileOptions.GetFilter();
 
-        private bool _showTimes = true;
+        private bool _useTimes = true;
 
         private const string
             _dateFormat = "yyyy-MM-dd",
             _timeFormat = "HH:mm:ss",
             _dateTimeFormat = _dateFormat + " " + _timeFormat;
 
-        public bool ShowTimes
+        public bool UseTimes
         {
-            get => _showTimes;
+            get => _useTimes;
             set
             {
                 var dateTimePickers = new[] { DtpCreatedMin, DtpCreatedMax, DtpModifiedMin, DtpModifiedMax, DtpAccessedMin, DtpAccessedMax };
@@ -45,20 +45,20 @@
                 var middleColumn = new Control[]
                 {
                     DtpCreatedMax, DtpModifiedMax, DtpAccessedMax, CbFileSizeMax, SeFileSizeMax,
-                    _view.lblUpTo, _view.lblSystem, CbSystem, _view.lblArchive, CbArchive
+                    _view.lblUpTo, //_view.lblSystem, CbSystem, _view.lblArchive, CbArchive
                 };
 
                 var rightColumn = new Control[]
                 {
                     _view.lblUtc, CbCreatedUtc, CbModifiedUtc, CbAccessedUtc, CbUseAutocorrect,
-                    _view.lblCompressed, CbCompressed, _view.lblEncrypted, CbEncrypted
+                    //_view.lblCompressed, CbCompressed, _view.lblEncrypted, CbEncrypted
                 };
 
-                if (_showTimes != value)
+                if (_useTimes != value)
                 {
-                    _showTimes = value;
-                    var delta = ShowTimes ? 52 : -52;
-                    var customFormat = ShowTimes ? _dateTimeFormat : _dateFormat;
+                    _useTimes = value;
+                    var delta = UseTimes ? 52 : -52;
+                    var customFormat = UseTimes ? _dateTimeFormat : _dateFormat;
                     AdjustControls(dateTimePickers, p => { ((DateTimePicker)p).CustomFormat = customFormat; p.Width += delta; });
                     AdjustControls(spinEdits, p => { p.Width += delta; });
                     AdjustControls(middleColumn, p => { p.Left += delta; });

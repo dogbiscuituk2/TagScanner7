@@ -131,7 +131,7 @@
             "",
             "Set",
             "Clear"});
-            this.cbAttrEncrypted.Location = new System.Drawing.Point(432, 199);
+            this.cbAttrEncrypted.Location = new System.Drawing.Point(327, 199);
             this.cbAttrEncrypted.Margin = new System.Windows.Forms.Padding(5);
             this.cbAttrEncrypted.Name = "cbAttrEncrypted";
             this.cbAttrEncrypted.Size = new System.Drawing.Size(60, 25);
@@ -141,7 +141,7 @@
             // lblEncrypted
             // 
             this.lblEncrypted.AutoSize = true;
-            this.lblEncrypted.Location = new System.Drawing.Point(366, 203);
+            this.lblEncrypted.Location = new System.Drawing.Point(261, 203);
             this.lblEncrypted.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
             this.lblEncrypted.Name = "lblEncrypted";
             this.lblEncrypted.Size = new System.Drawing.Size(66, 17);
@@ -157,7 +157,7 @@
             "",
             "Set",
             "Clear"});
-            this.cbAttrCompressed.Location = new System.Drawing.Point(432, 165);
+            this.cbAttrCompressed.Location = new System.Drawing.Point(327, 165);
             this.cbAttrCompressed.Margin = new System.Windows.Forms.Padding(5);
             this.cbAttrCompressed.Name = "cbAttrCompressed";
             this.cbAttrCompressed.Size = new System.Drawing.Size(60, 25);
@@ -167,7 +167,7 @@
             // lblCompressed
             // 
             this.lblCompressed.AutoSize = true;
-            this.lblCompressed.Location = new System.Drawing.Point(350, 168);
+            this.lblCompressed.Location = new System.Drawing.Point(245, 168);
             this.lblCompressed.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
             this.lblCompressed.Name = "lblCompressed";
             this.lblCompressed.Size = new System.Drawing.Size(82, 17);
@@ -272,7 +272,7 @@
             "",
             "Set",
             "Clear"});
-            this.cbAttrArchive.Location = new System.Drawing.Point(234, 199);
+            this.cbAttrArchive.Location = new System.Drawing.Point(181, 199);
             this.cbAttrArchive.Margin = new System.Windows.Forms.Padding(5);
             this.cbAttrArchive.Name = "cbAttrArchive";
             this.cbAttrArchive.Size = new System.Drawing.Size(60, 25);
@@ -287,7 +287,7 @@
             "",
             "Set",
             "Clear"});
-            this.cbAttrSystem.Location = new System.Drawing.Point(234, 165);
+            this.cbAttrSystem.Location = new System.Drawing.Point(181, 165);
             this.cbAttrSystem.Margin = new System.Windows.Forms.Padding(5);
             this.cbAttrSystem.Name = "cbAttrSystem";
             this.cbAttrSystem.Size = new System.Drawing.Size(60, 25);
@@ -327,7 +327,7 @@
             // lblArchive
             // 
             this.lblArchive.AutoSize = true;
-            this.lblArchive.Location = new System.Drawing.Point(185, 203);
+            this.lblArchive.Location = new System.Drawing.Point(132, 203);
             this.lblArchive.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
             this.lblArchive.Name = "lblArchive";
             this.lblArchive.Size = new System.Drawing.Size(50, 17);
@@ -338,7 +338,7 @@
             // lblSystem
             // 
             this.lblSystem.AutoSize = true;
-            this.lblSystem.Location = new System.Drawing.Point(185, 168);
+            this.lblSystem.Location = new System.Drawing.Point(132, 168);
             this.lblSystem.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
             this.lblSystem.Name = "lblSystem";
             this.lblSystem.Size = new System.Drawing.Size(49, 17);
