@@ -42,9 +42,8 @@
             set
             {
                 var dateTimePickers = new[] { DtpCreatedMin, DtpCreatedMax, DtpModifiedMin, DtpModifiedMax, DtpAccessedMin, DtpAccessedMax };
-                var middleColumn = new Control[] { _view.lblUpTo, DtpCreatedMax, DtpModifiedMax, DtpAccessedMax, CbFileSizeMax, SeFileSizeMax };
+                var middleColumn = new Control[] { _view.lblUpTo, DtpCreatedMax, DtpModifiedMax, DtpAccessedMax };
                 var rightColumn = new Control[] { _view.lblUtc, CbCreatedUtc, CbModifiedUtc, CbAccessedUtc, CbUseAutocorrect };
-                var spinEdits = new[] { SeFileSizeMin, SeFileSizeMax };
 
                 if (_useTimes != value)
                 {
@@ -52,10 +51,10 @@
                     var delta = UseTimes ? 52 : -52;
                     var customFormat = UseTimes ? _dateTimeFormat : _dateFormat;
                     AdjustControls(dateTimePickers, p => { ((DateTimePicker)p).CustomFormat = customFormat; p.Width += delta; });
-                    AdjustControls(spinEdits, p => { p.Width += delta; });
                     AdjustControls(middleColumn, p => { p.Left += delta; });
-                    AdjustControls(rightColumn, p => { p.Left += 2 * delta; });
-                    _view.MainPanel.Width += 2 * delta;
+                    delta *= 2;
+                    AdjustControls(rightColumn, p => { p.Left += delta; });
+                    _view.MainPanel.Width += delta;
                 }
 
                 void AdjustControls(Control[] controls, Action<Control> action)
@@ -124,6 +123,7 @@
             CbFileSizeMax = _view.cbFileSizeMax;
             CbUseAutocorrect = _view.cbUseAutocorrect;
 
+            CbUnit = _view.cbUnit;
             CbReadOnly = _view.cbAttrReadOnly;
             CbHidden = _view.cbAttrHidden;
             CbSystem = _view.cbAttrSystem;
@@ -147,6 +147,7 @@
             System.Diagnostics.Debug.WriteLine(DtpCreatedMin.Value);
 
             SeFileSizeMin.Maximum = SeFileSizeMax.Maximum = ulong.MaxValue;
+            CbUnit.SelectedIndex = 0;
 
             DtpCreatedMin.ValueChanged += (sender, e) => DateChanged(FileFlags.CreatedMin);
             DtpCreatedMax.ValueChanged += (sender, e) => DateChanged(FileFlags.CreatedMax);
@@ -202,7 +203,7 @@
 
         private FileOptions _fileOptions = new FileOptions();
         private bool _updating;
-        private bool _useTimes = true;
+        private bool _useTimes = false;
         private FileFilterControl _view;
 
         private CheckBox
@@ -211,7 +212,7 @@
             CbUseAutocorrect;
 
         private ComboBox
-            CbReadOnly, CbHidden, CbSystem, CbArchive, CbCompressed, CbEncrypted;
+            CbUnit, CbReadOnly, CbHidden, CbSystem, CbArchive, CbCompressed, CbEncrypted;
 
         private DateTimePicker
             DtpCreatedMin, DtpCreatedMax,
