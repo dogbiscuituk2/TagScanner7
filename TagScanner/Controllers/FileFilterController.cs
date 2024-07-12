@@ -141,8 +141,8 @@
             SeFileSizeMin = _view.seFileSizeMin;
             SeFileSizeMax = _view.seFileSizeMax;
 
-            DtpCreatedMin.Value = DtpModifiedMin.Value = DtpAccessedMin.Value = DateTime.Today;
-            DtpCreatedMax.Value = DtpModifiedMax.Value = DtpAccessedMax.Value = DateTime.Today.AddDays(1).AddTicks(-1);
+            InitDates(DateTime.Today, DtpCreatedMin, DtpModifiedMin, DtpAccessedMin);
+            InitDates(DateTime.Today.AddDays(1).AddTicks(-1), DtpCreatedMax, DtpModifiedMax, DtpAccessedMax);
 
             System.Diagnostics.Debug.WriteLine(DtpCreatedMin.Value);
 
@@ -167,6 +167,15 @@
                 DtpModifiedMin, DtpModifiedMax,
                 DtpAccessedMin, DtpAccessedMax,
                 SeFileSizeMin, SeFileSizeMax);
+
+            void InitDates(DateTime dateTime, params DateTimePicker[] controls)
+            {
+                foreach (var control in controls)
+                {
+                    control.Value = dateTime;
+                    control.Checked = false;
+                }
+            }
         }
 
         public void ShowFilter()
@@ -179,7 +188,7 @@
             filter,
             "Filter Conditions",
             MessageBoxButtons.OK,
-            MessageBoxIcon.Information);
+            MessageBoxIcon.None);
         }
 
         #endregion

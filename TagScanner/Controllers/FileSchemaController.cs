@@ -128,7 +128,7 @@
             GetSchema().FilterDescriptions,
             "Schema Formats",
             MessageBoxButtons.OK,
-            MessageBoxIcon.Information);
+            MessageBoxIcon.None);
 
         #endregion
 
