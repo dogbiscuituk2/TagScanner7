@@ -72,7 +72,7 @@
             }
 
             void AddDates(FileFlags flags, Tag tag, Tag tagUtc, DateTime min, DateTime max) =>
-                AddRelation(flags, (flags & FileFlags.Utc) == 0 ? tag : tagUtc, min, max);
+                AddRelation(flags, (flags & Flags & FileFlags.Utc) == 0 ? tag : tagUtc, min, max);
 
             void AddFileSize() => AddRelation(FileFlags.FileSize, Tag.FileSize, FileSizeMin, FileSizeMax);
 

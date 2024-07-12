@@ -29,9 +29,9 @@
         EncryptedTrue = 1 << 21,
         EncryptedFalse = 1 << 22,
 
-        Created = CreatedMin | CreatedMax,
-        Modified = ModifiedMin | ModifiedMax,
-        Accessed = AccessedMin | AccessedMax,
+        Created = CreatedMin | CreatedMax | CreatedUtc,
+        Modified = ModifiedMin | ModifiedMax | ModifiedUtc,
+        Accessed = AccessedMin | AccessedMax | AccessedUtc,
         FileSize = FileSizeMin | FileSizeMax,
 
         Min = CreatedMin | ModifiedMin | AccessedMin | FileSizeMin,

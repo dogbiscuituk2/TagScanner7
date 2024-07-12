@@ -148,12 +148,15 @@
 
             SeFileSizeMin.Maximum = SeFileSizeMax.Maximum = ulong.MaxValue;
 
-            DtpCreatedMin.ValueChanged += (sender, e) => AdjustCreatedDate(lower: false);
-            DtpCreatedMax.ValueChanged += (sender, e) => AdjustCreatedDate(lower: true);
-            DtpModifiedMin.ValueChanged += (sender, e) => AdjustModifiedDate(lower: false);
-            DtpModifiedMax.ValueChanged += (sender, e) => AdjustModifiedDate(lower: true);
-            DtpAccessedMin.ValueChanged += (sender, e) => AdjustAccessedDate(lower: false);
-            DtpAccessedMax.ValueChanged += (sender, e) => AdjustAccessedDate(lower: true);
+            DtpCreatedMin.ValueChanged += (sender, e) => DateChanged(FileFlags.CreatedMin);
+            DtpCreatedMax.ValueChanged += (sender, e) => DateChanged(FileFlags.CreatedMax);
+            CbCreatedUtc.CheckedChanged += (sender, e) => SetFlag(FileFlags.CreatedUtc, CbCreatedUtc.Checked);
+            DtpModifiedMin.ValueChanged += (sender, e) => DateChanged(FileFlags.ModifiedMin);
+            DtpModifiedMax.ValueChanged += (sender, e) => DateChanged(FileFlags.ModifiedMax);
+            CbModifiedUtc.CheckedChanged += (sender, e) => SetFlag(FileFlags.ModifiedUtc, CbModifiedUtc.Checked);
+            DtpAccessedMin.ValueChanged += (sender, e) => DateChanged(FileFlags.AccessedMin);
+            DtpAccessedMax.ValueChanged += (sender, e) => DateChanged(FileFlags.AccessedMax);
+            CbAccessedUtc.CheckedChanged += (sender, e) => SetFlag(FileFlags.AccessedUtc, CbAccessedUtc.Checked);
             CbFileSizeMin.CheckedChanged += (sender, e) => AdjustFileSize(lower: false);
             CbFileSizeMax.CheckedChanged += (sender, e) => AdjustFileSize(lower: true);
             SeFileSizeMin.ValueChanged += (sender, e) => AdjustFileSize(lower: false);
@@ -213,19 +216,27 @@
 
         #region Private Methods
 
-        private void AdjustCreatedDate(bool lower) => AdjustDate(DtpCreatedMin, DtpCreatedMax, lower);
-        private void AdjustModifiedDate(bool lower) => AdjustDate(DtpModifiedMin, DtpModifiedMax, lower);
-        private void AdjustAccessedDate(bool lower) => AdjustDate(DtpAccessedMin, DtpAccessedMax, lower);
-
-        private void AdjustDate(DateTimePicker min, DateTimePicker max, bool lower)
+        private void DateChanged(FileFlags flag)
         {
-            if (!UseAutocorrect || DatesOK(min, max))
+            DateTimePicker min, max;
+            if ((flag & FileFlags.Created) != 0)
+                (min, max) = (DtpCreatedMin, DtpCreatedMax);
+            else if ((flag & FileFlags.Modified) != 0)
+                (min, max) = (DtpModifiedMin, DtpModifiedMax);
+            else if ((flag & FileFlags.Accessed) != 0)
+                (min, max) = (DtpAccessedMin, DtpAccessedMax);
+            else
+                return;
+            var lower = (flag & FileFlags.Min) != 0;
+            var control = lower ? min : max;
+            SetFlag(flag, control.Checked);
+            if (!UseAutocorrect || DatesOK(min, max) || _updating)
                 return;
             _updating = true;
             if (lower)
-                min.Value = max.Value;
-            else
                 max.Value = min.Value;
+            else
+                min.Value = max.Value;
             _updating = false;
         }
 
@@ -233,7 +244,7 @@
         {
             Update(CbFileSizeMin, SeFileSizeMin);
             Update(CbFileSizeMax, SeFileSizeMax);
-            if (!UseAutocorrect || FileSizesOK())
+            if (!UseAutocorrect || FileSizesOK() || _updating)
                 return;
             _updating = true;
             if (lower)
@@ -354,15 +365,28 @@
                 else
                     control.SelectedIndex = GetFlag(yes) ? 1 : GetFlag(no) ? 2 : 0;
             }
+        }
 
-            bool GetFlag(FileFlags flag) => (_fileOptions.Flags & flag) != 0;
-            void SetFlag(FileFlags flag) => _fileOptions.Flags |= flag;
+        private bool GetFlag(FileFlags flag) => (Flags & flag) != 0;
+
+        private FileFlags Flags
+        {
+            get => _fileOptions.Flags;
+            set => _fileOptions.Flags = value;
         }
 
         private void SetFileOptions(FileOptions fileOptions)
         {
             _fileOptions = fileOptions ?? new FileOptions();
             Process(read: false);
+        }
+
+        private void SetFlag(FileFlags flag, bool state = true)
+        {
+            if (state)
+                Flags |= flag;
+            else
+                Flags &= ~flag;
         }
 
         #endregion
