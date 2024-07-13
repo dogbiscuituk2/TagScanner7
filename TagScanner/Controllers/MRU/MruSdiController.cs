@@ -153,11 +153,7 @@
             return !e.Cancel;
         }
 
-        protected virtual void OnFilePathChanged()
-        {
-            var filePathChanged = FilePathChanged;
-            filePathChanged?.Invoke(this, EventArgs.Empty);
-        }
+        protected virtual void OnFilePathChanged() => FilePathChanged?.Invoke(this, EventArgs.Empty);
 
         protected virtual bool OnFileSaving()
         {

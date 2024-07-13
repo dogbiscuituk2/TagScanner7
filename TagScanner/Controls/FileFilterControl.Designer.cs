@@ -29,10 +29,8 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FileFilterControl));
             this.MainPanel = new System.Windows.Forms.Panel();
-            this.checkBox1 = new System.Windows.Forms.CheckBox();
-            this.edFilter = new System.Windows.Forms.TextBox();
+            this.cbUseTimes = new System.Windows.Forms.CheckBox();
             this.cbUnit = new System.Windows.Forms.ComboBox();
             this.cbUseAutocorrect = new System.Windows.Forms.CheckBox();
             this.cbAttrEncrypted = new System.Windows.Forms.ComboBox();
@@ -67,15 +65,18 @@
             this.dtpCreatedMin = new System.Windows.Forms.DateTimePicker();
             this.label1 = new System.Windows.Forms.Label();
             this.ToolTip = new System.Windows.Forms.ToolTip(this.components);
+            this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.edConditions = new System.Windows.Forms.TextBox();
             this.MainPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.seFileSizeMax)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.seFileSizeMin)).BeginInit();
+            this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
             // MainPanel
             // 
-            this.MainPanel.Controls.Add(this.checkBox1);
-            this.MainPanel.Controls.Add(this.edFilter);
+            this.MainPanel.Controls.Add(this.groupBox1);
+            this.MainPanel.Controls.Add(this.cbUseTimes);
             this.MainPanel.Controls.Add(this.cbUnit);
             this.MainPanel.Controls.Add(this.cbUseAutocorrect);
             this.MainPanel.Controls.Add(this.cbAttrEncrypted);
@@ -112,31 +113,19 @@
             this.MainPanel.Location = new System.Drawing.Point(0, 0);
             this.MainPanel.Margin = new System.Windows.Forms.Padding(4);
             this.MainPanel.Name = "MainPanel";
-            this.MainPanel.Size = new System.Drawing.Size(396, 439);
+            this.MainPanel.Size = new System.Drawing.Size(396, 603);
             this.MainPanel.TabIndex = 0;
             // 
             // checkBox1
             // 
-            this.checkBox1.AutoSize = true;
-            this.checkBox1.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.checkBox1.Location = new System.Drawing.Point(128, 232);
-            this.checkBox1.Name = "checkBox1";
-            this.checkBox1.Size = new System.Drawing.Size(110, 21);
-            this.checkBox1.TabIndex = 36;
-            this.checkBox1.Text = "Use File Times";
-            this.checkBox1.UseVisualStyleBackColor = true;
-            // 
-            // edFilter
-            // 
-            this.edFilter.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.edFilter.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.edFilter.Location = new System.Drawing.Point(0, 261);
-            this.edFilter.Multiline = true;
-            this.edFilter.Name = "edFilter";
-            this.edFilter.ReadOnly = true;
-            this.edFilter.Size = new System.Drawing.Size(396, 178);
-            this.edFilter.TabIndex = 35;
-            this.edFilter.Text = resources.GetString("edFilter.Text");
+            this.cbUseTimes.AutoSize = true;
+            this.cbUseTimes.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.cbUseTimes.Location = new System.Drawing.Point(128, 232);
+            this.cbUseTimes.Name = "checkBox1";
+            this.cbUseTimes.Size = new System.Drawing.Size(110, 21);
+            this.cbUseTimes.TabIndex = 36;
+            this.cbUseTimes.Text = "Use File Times";
+            this.cbUseTimes.UseVisualStyleBackColor = true;
             // 
             // cbUnit
             // 
@@ -546,6 +535,28 @@
             this.label1.Text = "&Created";
             this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
+            // groupBox1
+            // 
+            this.groupBox1.Controls.Add(this.edConditions);
+            this.groupBox1.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.groupBox1.Location = new System.Drawing.Point(0, 259);
+            this.groupBox1.Name = "groupBox1";
+            this.groupBox1.Size = new System.Drawing.Size(396, 344);
+            this.groupBox1.TabIndex = 37;
+            this.groupBox1.TabStop = false;
+            this.groupBox1.Text = "Conditions";
+            // 
+            // edConditions
+            // 
+            this.edConditions.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.edConditions.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.edConditions.Location = new System.Drawing.Point(3, 21);
+            this.edConditions.Multiline = true;
+            this.edConditions.Name = "edConditions";
+            this.edConditions.ReadOnly = true;
+            this.edConditions.Size = new System.Drawing.Size(390, 320);
+            this.edConditions.TabIndex = 0;
+            // 
             // FileFilterControl
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 17F);
@@ -554,11 +565,13 @@
             this.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "FileFilterControl";
-            this.Size = new System.Drawing.Size(396, 440);
+            this.Size = new System.Drawing.Size(396, 607);
             this.MainPanel.ResumeLayout(false);
             this.MainPanel.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.seFileSizeMax)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.seFileSizeMin)).EndInit();
+            this.groupBox1.ResumeLayout(false);
+            this.groupBox1.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -595,11 +608,12 @@
         public System.Windows.Forms.DateTimePicker dtpCreatedMax;
         public System.Windows.Forms.DateTimePicker dtpCreatedMin;
         public System.Windows.Forms.Label label1;
-        private System.Windows.Forms.ToolTip ToolTip;
+        public System.Windows.Forms.ToolTip ToolTip;
         public System.Windows.Forms.CheckBox cbUseAutocorrect;
         public System.Windows.Forms.Panel MainPanel;
         public System.Windows.Forms.ComboBox cbUnit;
-        public System.Windows.Forms.CheckBox checkBox1;
-        public System.Windows.Forms.TextBox edFilter;
+        public System.Windows.Forms.CheckBox cbUseTimes;
+        public System.Windows.Forms.GroupBox groupBox1;
+        public System.Windows.Forms.TextBox edConditions;
     }
 }

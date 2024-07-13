@@ -19,22 +19,13 @@
 
         public ErrorProvider ErrorProvider { get; private set; } = new ErrorProvider();
 
-        public FileOptions FileOptions
+        public string GetFilterString()
         {
-            get => GetFileOptions();
-            private set => SetFileOptions(value);
+            ReadFileOptionsFromControls().GetFilter(UseTimes, out string filterString);
+            return filterString;
         }
 
-        public string FilterString
-        {
-            get
-            {
-                FileOptions.GetFilter(UseTimes, out string filterString);
-                return filterString;
-            }
-        }
-
-        public Term FilterTerm => FileOptions.GetFilter(UseTimes, out _);
+        public Term GetFilterTerm() => ReadFileOptionsFromControls().GetFilter(UseTimes, out _);
 
         public bool UseTimes
         {
@@ -79,7 +70,7 @@
 
         public void AfterExecute()
         {
-            MainModel.FileOptionsFilter = FilterTerm.Filter;
+            MainModel.FileOptionsFilter = GetFilterTerm().Filter;
         }
 
         public void BeforeExecute() { }
@@ -116,6 +107,7 @@
         {
             _view = view;
 
+            CbUseTimes = _view.cbUseTimes;
             CbCreatedUtc = _view.cbCreatedUtc;
             CbModifiedUtc = _view.cbModifiedUtc;
             CbAccessedUtc = _view.cbAccessedUtc;
@@ -150,18 +142,18 @@
 
             DtpCreatedMin.ValueChanged += (sender, e) => DateChanged(FileFlags.CreatedMin);
             DtpCreatedMax.ValueChanged += (sender, e) => DateChanged(FileFlags.CreatedMax);
-            CbCreatedUtc.CheckedChanged += (sender, e) => SetFlag(FileFlags.CreatedUtc, CbCreatedUtc.Checked);
+            CbCreatedUtc.CheckedChanged += (sender, e) => UpdateUI(); // SetFlag(FileFlags.CreatedUtc, CbCreatedUtc.Checked);
 
             DtpModifiedMin.ValueChanged += (sender, e) => DateChanged(FileFlags.ModifiedMin);
             DtpModifiedMax.ValueChanged += (sender, e) => DateChanged(FileFlags.ModifiedMax);
-            CbModifiedUtc.CheckedChanged += (sender, e) => SetFlag(FileFlags.ModifiedUtc, CbModifiedUtc.Checked);
+            CbModifiedUtc.CheckedChanged += (sender, e) => UpdateUI(); // SetFlag(FileFlags.ModifiedUtc, CbModifiedUtc.Checked);
 
             DtpAccessedMin.ValueChanged += (sender, e) => DateChanged(FileFlags.AccessedMin);
             DtpAccessedMax.ValueChanged += (sender, e) => DateChanged(FileFlags.AccessedMax);
-            CbAccessedUtc.CheckedChanged += (sender, e) => SetFlag(FileFlags.AccessedUtc, CbAccessedUtc.Checked);
+            CbAccessedUtc.CheckedChanged += (sender, e) => UpdateUI(); // SetFlag(FileFlags.AccessedUtc, CbAccessedUtc.Checked);
 
-            SeFileSizeMin.ValueChanged += (sender, e) => AdjustFileSize(FileFlags.FileSizeMin);
-            SeFileSizeMax.ValueChanged += (sender, e) => AdjustFileSize(FileFlags.FileSizeMax);
+            SeFileSizeMin.ValueChanged += (sender, e) => FileSizeChanged(FileFlags.FileSizeMin);
+            SeFileSizeMax.ValueChanged += (sender, e) => FileSizeChanged(FileFlags.FileSizeMax);
             CbFileSizeUnit.SelectedValueChanged += (sender, e) => AdjustFileSizeUnit();
 
             new ErrorController(this,
@@ -180,19 +172,6 @@
             }
         }
 
-        public void ShowFilter()
-        {
-            var filter = FilterString;
-            if (string.IsNullOrWhiteSpace(filter))
-                filter = "There are no filter conditions selected.";
-            MessageBox.Show(
-            Owner,
-            filter,
-            "Filter Conditions",
-            MessageBoxButtons.OK,
-            MessageBoxIcon.None);
-        }
-
         #endregion
 
         #region Private Fields
@@ -208,6 +187,7 @@
         private FileFilterControl _view;
 
         private CheckBox
+            CbUseTimes,
             CbCreatedUtc, CbModifiedUtc, CbAccessedUtc,
             CbUseAutocorrect;
 
@@ -235,7 +215,13 @@
         private FileFlags Flags
         {
             get => _fileOptions.Flags;
-            set => _fileOptions.Flags = value;
+            set
+            {
+                if (Flags == value)
+                    return;
+                _fileOptions.Flags = value;
+                UpdateUI();
+            }
         }
 
         #endregion
@@ -260,7 +246,6 @@
                     return;
                 var minChanged = (flag & FileFlags.Min) != 0;
                 var control = minChanged ? min : max;
-                SetFlag(flag, control.Checked);
                 if (!UseAutocorrect || DatesOK(min, max) || _updating)
                     return;
                 _updating = true;
@@ -272,20 +257,24 @@
             }
         }
 
-        private void AdjustFileSize(FileFlags flag)
+        private void FileSizeChanged(FileFlags flag)
         {
-            AdjustFileSize();
+            FileSizeChanged();
             UpdateUI();
 
-            void AdjustFileSize()
+            void FileSizeChanged()
             {
+                NumericUpDown min, max;
+                (min, max) = (SeFileSizeMin, SeFileSizeMax);
+                var minChanged = (flag & FileFlags.Min) != 0;
+                var control = minChanged ? min : max;
                 if (!UseAutocorrect || FileSizesOK() || _updating)
                     return;
                 _updating = true;
-                if ((flag & FileFlags.Min) != 0)
-                    SeFileSizeMin.Value = SeFileSizeMax.Value;
+                if (minChanged)
+                    max.Value = min.Value;
                 else
-                    SeFileSizeMax.Value = SeFileSizeMin.Value;
+                    min.Value = max.Value;
                 _updating = false;
             }
         }
@@ -316,119 +305,125 @@
         private void AutocorrectFileSize()
         {
             if (FileSizesOK())
-                return;
-            _updating = true;
-            (SeFileSizeMin.Value, SeFileSizeMax.Value) = (SeFileSizeMax.Value, SeFileSizeMin.Value);
-            _updating = false;
+            {
+                _updating = true;
+                (SeFileSizeMin.Value, SeFileSizeMax.Value) = (SeFileSizeMax.Value, SeFileSizeMin.Value);
+                _updating = false;
+            }
             UpdateUI();
         }
 
         private bool DatesOK(DateTimePicker min, DateTimePicker max) => !min.Checked || !max.Checked || min.Value <= max.Value;
         private bool FileSizesOK() => SeFileSizeMin.Value == 0 || SeFileSizeMax.Value == 0 || SeFileSizeMin.Value <= SeFileSizeMax.Value;
 
-        private FileOptions GetFileOptions()
+        private FileOptions ReadFileOptionsFromControls()
         {
-            Process(read: true);
-            return _fileOptions;
-        }
+            var fileOptions = new FileOptions();
+            FileFlags flags = 0;
 
-        private void Process(bool read)
-        {
-            ProcessDtpCheckBox(DtpCreatedMin, FileFlags.CreatedMin);
-            ProcessDtpCheckBox(DtpCreatedMax, FileFlags.CreatedMax);
-            ProcessCheckBox(CbCreatedUtc, FileFlags.CreatedUtc);
-            ProcessDtpCheckBox(DtpModifiedMin, FileFlags.ModifiedMin);
-            ProcessDtpCheckBox(DtpModifiedMax, FileFlags.ModifiedMax);
-            ProcessCheckBox(CbModifiedUtc, FileFlags.ModifiedUtc);
-            ProcessDtpCheckBox(DtpAccessedMin, FileFlags.AccessedMin);
-            ProcessDtpCheckBox(DtpAccessedMax, FileFlags.AccessedMax);
-            ProcessCheckBox(CbAccessedUtc, FileFlags.AccessedUtc);
+            ReadCheckBox(CbUseTimes, FileFlags.UseTimes);
+            ReadCheckBoxDtp(DtpCreatedMin, FileFlags.CreatedMin);
+            ReadCheckBoxDtp(DtpCreatedMax, FileFlags.CreatedMax);
+            ReadCheckBox(CbCreatedUtc, FileFlags.CreatedUtc);
+            ReadCheckBoxDtp(DtpModifiedMin, FileFlags.ModifiedMin);
+            ReadCheckBoxDtp(DtpModifiedMax, FileFlags.ModifiedMax);
+            ReadCheckBox(CbModifiedUtc, FileFlags.ModifiedUtc);
+            ReadCheckBoxDtp(DtpAccessedMin, FileFlags.AccessedMin);
+            ReadCheckBoxDtp(DtpAccessedMax, FileFlags.AccessedMax);
+            ReadCheckBox(CbAccessedUtc, FileFlags.AccessedUtc);
 
-            if (read)
+            fileOptions.CreatedMin = DtpCreatedMin.Value;
+            fileOptions.CreatedMax = DtpCreatedMax.Value;
+            fileOptions.ModifiedMin = DtpModifiedMin.Value;
+            fileOptions.ModifiedMax = DtpModifiedMax.Value;
+            fileOptions.AccessedMin = DtpAccessedMin.Value;
+            fileOptions.AccessedMax = DtpAccessedMax.Value;
+
+            fileOptions.FileSizeMin = ReadSpinEdit(SeFileSizeMin, FileFlags.FileSizeMin);
+            fileOptions.FileSizeMax = ReadSpinEdit(SeFileSizeMax, FileFlags.FileSizeMax);
+            fileOptions.FileSizeUnit = FileSizeUnit;
+
+            ReadComboBox(CbReadOnly, FileFlags.ReadOnlyTrue, FileFlags.ReadOnlyFalse);
+            ReadComboBox(CbHidden, FileFlags.HiddenTrue, FileFlags.HiddenFalse);
+            ReadComboBox(CbSystem, FileFlags.SystemTrue, FileFlags.SystemFalse);
+            ReadComboBox(CbArchive, FileFlags.ArchiveTrue, FileFlags.ArchiveFalse);
+            ReadComboBox(CbCompressed, FileFlags.CompressedTrue, FileFlags.CompressedFalse);
+            ReadComboBox(CbEncrypted, FileFlags.EncryptedTrue, FileFlags.EncryptedFalse);
+
+            fileOptions.Flags = flags;
+            return fileOptions;
+
+            void ReadCheckBox(CheckBox control, FileFlags flag) => SetFlag(control.Checked ? flag : 0);
+            void ReadCheckBoxDtp(DateTimePicker control, FileFlags flag) => SetFlag(control.Checked ? flag : 0);
+
+            void ReadComboBox(ComboBox control, FileFlags yes, FileFlags no)
             {
-                _fileOptions.CreatedMin = DtpCreatedMin.Value;
-                _fileOptions.CreatedMax = DtpCreatedMax.Value;
-                _fileOptions.ModifiedMin = DtpModifiedMin.Value;
-                _fileOptions.ModifiedMax = DtpModifiedMax.Value;
-                _fileOptions.AccessedMin = DtpAccessedMin.Value;
-                _fileOptions.AccessedMax = DtpAccessedMax.Value;
-                _fileOptions.FileSizeMin = (int)SeFileSizeMin.Value;
-                _fileOptions.FileSizeMax = (int)SeFileSizeMax.Value;
-                _fileOptions.FileSizeUnit = FileSizeUnit;
-            }
-            else
-            {
-                DtpCreatedMin.Value = _fileOptions.CreatedMin;
-                DtpCreatedMax.Value = _fileOptions.CreatedMax;
-                DtpModifiedMin.Value = _fileOptions.ModifiedMin;
-                DtpModifiedMax.Value = _fileOptions.ModifiedMax;
-                DtpAccessedMin.Value = _fileOptions.AccessedMin;
-                DtpAccessedMax.Value = _fileOptions.AccessedMax;
-                SeFileSizeMin.Value = _fileOptions.FileSizeMin;
-                SeFileSizeMax.Value = _fileOptions.FileSizeMax;
-                FileSizeUnit = _fileOptions.FileSizeUnit;
-            }
-
-            ProcessComboBox(CbReadOnly, FileFlags.ReadOnlyTrue, FileFlags.ReadOnlyFalse);
-            ProcessComboBox(CbHidden, FileFlags.HiddenTrue, FileFlags.HiddenFalse);
-            ProcessComboBox(CbSystem, FileFlags.SystemTrue, FileFlags.SystemFalse);
-            ProcessComboBox(CbArchive, FileFlags.ArchiveTrue, FileFlags.ArchiveFalse);
-            ProcessComboBox(CbCompressed, FileFlags.CompressedTrue, FileFlags.CompressedFalse);
-            ProcessComboBox(CbEncrypted, FileFlags.EncryptedTrue, FileFlags.EncryptedFalse);
-
-            if (!read)
-                UpdateUI();
-
-            void ProcessCheckBox(CheckBox control, FileFlags flag)
-            {
-                if (read)
-                    SetFlag(control.Checked ? flag : 0);
-                else
-                    control.Checked = GetFlag(flag);
+                switch (control.SelectedIndex)
+                {
+                    case 1: SetFlags(yes | no, yes); break;
+                    case 2: SetFlags(yes | no, no); break;
+                }
             }
 
-            void ProcessDtpCheckBox(DateTimePicker control, FileFlags flag)
+            decimal ReadSpinEdit(NumericUpDown control, FileFlags flag)
             {
-                if (read)
-                    SetFlag(control.Checked ? flag : 0);
-                else
-                    control.Checked = GetFlag(flag);
+                var value = control.Value;
+                SetFlag(flag, value != 0);
+                return value;
             }
 
-            void ProcessComboBox(ComboBox control, FileFlags yes, FileFlags no)
+            void SetFlag(FileFlags mask, bool state = true) => flags = state ? flags | mask : flags & ~mask;
+            void SetFlags(FileFlags mask, FileFlags state) => flags = flags & ~mask | state;
+        }
+
+        private void WriteFileOptionsToControls()
+        {
+            WriteCheckBox(CbUseTimes, FileFlags.UseTimes);
+            WriteCheckBoxDtp(DtpCreatedMin, FileFlags.CreatedMin);
+            WriteCheckBoxDtp(DtpCreatedMax, FileFlags.CreatedMax);
+            WriteCheckBox(CbCreatedUtc, FileFlags.CreatedUtc);
+            WriteCheckBoxDtp(DtpModifiedMin, FileFlags.ModifiedMin);
+            WriteCheckBoxDtp(DtpModifiedMax, FileFlags.ModifiedMax);
+            WriteCheckBox(CbModifiedUtc, FileFlags.ModifiedUtc);
+            WriteCheckBoxDtp(DtpAccessedMin, FileFlags.AccessedMin);
+            WriteCheckBoxDtp(DtpAccessedMax, FileFlags.AccessedMax);
+            WriteCheckBox(CbAccessedUtc, FileFlags.AccessedUtc);
+
+            DtpCreatedMin.Value = _fileOptions.CreatedMin;
+            DtpCreatedMax.Value = _fileOptions.CreatedMax;
+            DtpModifiedMin.Value = _fileOptions.ModifiedMin;
+            DtpModifiedMax.Value = _fileOptions.ModifiedMax;
+            DtpAccessedMin.Value = _fileOptions.AccessedMin;
+            DtpAccessedMax.Value = _fileOptions.AccessedMax;
+            SeFileSizeMin.Value = _fileOptions.FileSizeMin;
+            SeFileSizeMax.Value = _fileOptions.FileSizeMax;
+            FileSizeUnit = _fileOptions.FileSizeUnit;
+
+            SeFileSizeMin.Value = _fileOptions.FileSizeMin;
+            SeFileSizeMax.Value = _fileOptions.FileSizeMax;
+
+            WriteComboBox(CbReadOnly, FileFlags.ReadOnlyTrue, FileFlags.ReadOnlyFalse);
+            WriteComboBox(CbHidden, FileFlags.HiddenTrue, FileFlags.HiddenFalse);
+            WriteComboBox(CbSystem, FileFlags.SystemTrue, FileFlags.SystemFalse);
+            WriteComboBox(CbArchive, FileFlags.ArchiveTrue, FileFlags.ArchiveFalse);
+            WriteComboBox(CbCompressed, FileFlags.CompressedTrue, FileFlags.CompressedFalse);
+            WriteComboBox(CbEncrypted, FileFlags.EncryptedTrue, FileFlags.EncryptedFalse);
+
+            UpdateUI();
+
+            bool GetFlag(FileFlags flag) => (Flags & flag) != 0;
+
+            void WriteCheckBox(CheckBox control, FileFlags flag) => control.Checked = GetFlag(flag);
+            void WriteCheckBoxDtp(DateTimePicker control, FileFlags flag) => control.Checked = GetFlag(flag);
+            void WriteComboBox(ComboBox control, FileFlags yes, FileFlags no) => control.SelectedIndex = GetFlag(yes) ? 1 : GetFlag(no) ? 2 : 0;
+
+            void WriteSpinEdit(NumericUpDown control, FileFlags flag, decimal value)
             {
-                if (read)
-                    switch (control.SelectedIndex)
-                    {
-                        case 1: SetFlag(yes); break;
-                        case 2: SetFlag(no); break;
-                    }
-                else
-                    control.SelectedIndex = GetFlag(yes) ? 1 : GetFlag(no) ? 2 : 0;
+                control.Value = value;
             }
         }
 
-        private bool GetFlag(FileFlags flag) => (Flags & flag) != 0;
-
-        private void SetFileOptions(FileOptions fileOptions)
-        {
-            _fileOptions = fileOptions ?? new FileOptions();
-            Process(read: false);
-        }
-
-        private void SetFlag(FileFlags flag, bool state = true)
-        {
-            if (state)
-                Flags |= flag;
-            else
-                Flags &= ~flag;
-            //UpdateUI();
-        }
-
-        private void UpdateUI()
-        {
-            _view.edFilter.Text = FilterString;
-        }
+        private void UpdateUI() => _view.edConditions.Text = GetFilterString();
 
         #endregion
     }

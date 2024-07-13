@@ -19,22 +19,19 @@
 
         #endregion
 
-        #region Public Properties
+        #region Public Fields
 
-        public FileFlags Flags { get; set; }
+        public FileFlags Flags;
 
-        public DateTime CreatedMax { get; set; }
-        public DateTime CreatedMin { get; set; }
+        public DateTime
+            CreatedMin, CreatedMax,
+            ModifiedMin, ModifiedMax,
+            AccessedMin, AccessedMax;
 
-        public DateTime ModifiedMax { get; set; }
-        public DateTime ModifiedMin { get; set; }
+        public decimal
+            FileSizeMin, FileSizeMax;
 
-        public DateTime AccessedMax { get; set; }
-        public DateTime AccessedMin { get; set; }
-
-        public decimal FileSizeMax { get; set; }
-        public decimal FileSizeMin { get; set; }
-        public int FileSizeUnit { get; set; }
+        public int FileSizeUnit;
 
         #endregion
 

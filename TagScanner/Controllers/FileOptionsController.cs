@@ -57,16 +57,10 @@
 
         private FileOptionsDialog View;
 
-        private ContextMenuStrip FilterPopupMenu;
-
         private ToolStripMenuItem
-            SchemaPopupShowFormats,
             SchemaPopupAdd,
             SchemaPopupEdit,
-            SchemaPopupDelete,
-            FilterPopupShowFilter,
-            FilterPopupUseTimes,
-            FilterPopupUseAutocorrect;
+            SchemaPopupDelete;
 
         #endregion
 
@@ -99,29 +93,13 @@
             FileSchemaController.SetView(View.TreeView);
             FileFilterController.SetView(View.FileFilterControl);
 
-            SchemaPopupShowFormats = View.SchemaPopupShowFormats;
             SchemaPopupAdd = View.SchemaPopupAdd;
             SchemaPopupEdit = View.SchemaPopupEdit;
             SchemaPopupDelete = View.SchemaPopupDelete;
-            FilterPopupMenu = View.FilterPopupMenu;
-            FilterPopupShowFilter = View.FilterPopupShowFilter;
-            FilterPopupUseTimes = View.FilterPopupUseTimes;
-            FilterPopupUseAutocorrect = View.FilterPopupUseAutocorrect;
 
             SchemaPopupAdd.Click += (sender, e) => FileSchemaController.Add();
             SchemaPopupEdit.Click += (sender, e) => FileSchemaController.Edit();
             SchemaPopupDelete.Click += (sender, e) => FileSchemaController.Remove();
-            SchemaPopupShowFormats.Click += (sender, e) => FileSchemaController.ShowFileFilter();
-            FilterPopupUseTimes.Click += (sender, e) => UseTimes ^= true;
-
-            FilterPopupMenu.Opening += (sender, e) =>
-            {
-                FilterPopupUseTimes.Checked = UseTimes;
-                FilterPopupUseAutocorrect.Checked = UseAutocorrect;
-            };
-
-            FilterPopupUseAutocorrect.Click += (sender, e) => UseAutocorrect ^= true;
-            FilterPopupShowFilter.Click += (sender, e) => FileFilterController.ShowFilter();
 
             UseTimes = false;
         }
