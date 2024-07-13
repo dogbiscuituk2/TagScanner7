@@ -31,6 +31,8 @@
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FileFilterControl));
             this.MainPanel = new System.Windows.Forms.Panel();
+            this.checkBox1 = new System.Windows.Forms.CheckBox();
+            this.edFilter = new System.Windows.Forms.TextBox();
             this.cbUnit = new System.Windows.Forms.ComboBox();
             this.cbUseAutocorrect = new System.Windows.Forms.CheckBox();
             this.cbAttrEncrypted = new System.Windows.Forms.ComboBox();
@@ -65,8 +67,6 @@
             this.dtpCreatedMin = new System.Windows.Forms.DateTimePicker();
             this.label1 = new System.Windows.Forms.Label();
             this.ToolTip = new System.Windows.Forms.ToolTip(this.components);
-            this.edFilter = new System.Windows.Forms.TextBox();
-            this.checkBox1 = new System.Windows.Forms.CheckBox();
             this.MainPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.seFileSizeMax)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.seFileSizeMin)).BeginInit();
@@ -114,6 +114,29 @@
             this.MainPanel.Name = "MainPanel";
             this.MainPanel.Size = new System.Drawing.Size(396, 439);
             this.MainPanel.TabIndex = 0;
+            // 
+            // checkBox1
+            // 
+            this.checkBox1.AutoSize = true;
+            this.checkBox1.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.checkBox1.Location = new System.Drawing.Point(128, 232);
+            this.checkBox1.Name = "checkBox1";
+            this.checkBox1.Size = new System.Drawing.Size(110, 21);
+            this.checkBox1.TabIndex = 36;
+            this.checkBox1.Text = "Use File Times";
+            this.checkBox1.UseVisualStyleBackColor = true;
+            // 
+            // edFilter
+            // 
+            this.edFilter.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.edFilter.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.edFilter.Location = new System.Drawing.Point(0, 261);
+            this.edFilter.Multiline = true;
+            this.edFilter.Name = "edFilter";
+            this.edFilter.ReadOnly = true;
+            this.edFilter.Size = new System.Drawing.Size(396, 178);
+            this.edFilter.TabIndex = 35;
+            this.edFilter.Text = resources.GetString("edFilter.Text");
             // 
             // cbUnit
             // 
@@ -522,29 +545,6 @@
             this.label1.TabIndex = 4;
             this.label1.Text = "&Created";
             this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
-            // edFilter
-            // 
-            this.edFilter.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.edFilter.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.edFilter.Location = new System.Drawing.Point(0, 261);
-            this.edFilter.Multiline = true;
-            this.edFilter.Name = "edFilter";
-            this.edFilter.ReadOnly = true;
-            this.edFilter.Size = new System.Drawing.Size(396, 178);
-            this.edFilter.TabIndex = 35;
-            this.edFilter.Text = resources.GetString("edFilter.Text");
-            // 
-            // checkBox1
-            // 
-            this.checkBox1.AutoSize = true;
-            this.checkBox1.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.checkBox1.Location = new System.Drawing.Point(128, 232);
-            this.checkBox1.Name = "checkBox1";
-            this.checkBox1.Size = new System.Drawing.Size(110, 21);
-            this.checkBox1.TabIndex = 36;
-            this.checkBox1.Text = "Use File Times";
-            this.checkBox1.UseVisualStyleBackColor = true;
             // 
             // FileFilterControl
             // 
