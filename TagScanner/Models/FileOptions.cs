@@ -6,15 +6,20 @@
     using System.Text;
     using Terms;
 
-    [Serializable]
     public class FileOptions
     {
+        #region Constructor
+
         public FileOptions()
         {
             CreatedMin = ModifiedMin = AccessedMin =
                 CreatedMax = ModifiedMax = AccessedMax =
                 DateTime.Today;
         }
+
+        #endregion
+
+        #region Public Properties
 
         public FileFlags Flags { get; set; }
 
@@ -27,8 +32,13 @@
         public DateTime AccessedMax { get; set; }
         public DateTime AccessedMin { get; set; }
 
-        public ulong FileSizeMax { get; set; }
-        public ulong FileSizeMin { get; set; }
+        public decimal FileSizeMax { get; set; }
+        public decimal FileSizeMin { get; set; }
+        public int FileSizeUnit { get; set; }
+
+        #endregion
+
+        #region Public Methods
 
         public Conjunction GetFilter(bool useTimes, out string filterString)
         {
@@ -74,7 +84,7 @@
             void AddDates(FileFlags flags, Tag tag, Tag tagUtc, DateTime min, DateTime max) =>
                 AddRelation(flags, (flags & Flags & FileFlags.Utc) == 0 ? tag : tagUtc, min, max);
 
-            void AddFileSize() => AddRelation(FileFlags.FileSize, Tag.FileSize, FileSizeMin, FileSizeMax);
+            void AddFileSize() => AddRelation(FileFlags.FileSize, Tag.FileSize, FileSizeMin * FileSizeMultiplier, FileSizeMax * FileSizeMultiplier);
 
             void AddOperation(Op op, params Term[] args) => AddCondition(new Operation(op, args));
 
@@ -113,5 +123,13 @@
                 Term StripTime(Term term, int bump) => ((Constant<DateTime>)term).Value.Date.AddDays(bump);
             }
         }
+
+        #endregion
+
+        #region Private Properties
+
+        private ulong FileSizeMultiplier => 1UL << (10 * FileSizeUnit);
+
+        #endregion
     }
 }

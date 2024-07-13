@@ -101,7 +101,7 @@
             if (control == DtpAccessedMin || control == DtpAccessedMax)
                 CheckDates(DtpAccessedMin, DtpAccessedMax, "Accessed");
             if (control == SeFileSizeMin || control == SeFileSizeMax)
-                if (CbFileSizeMin.Checked && CbFileSizeMax.Checked && SeFileSizeMin.Value > SeFileSizeMax.Value)
+                if (SeFileSizeMin.Value > SeFileSizeMax.Value && SeFileSizeMax.Value > 0)
                     errors.AppendLine("The minimum File Size cannot be greater than the maximum.");
             return errors.ToString().Trim();
 
@@ -119,11 +119,10 @@
             CbCreatedUtc = _view.cbCreatedUtc;
             CbModifiedUtc = _view.cbModifiedUtc;
             CbAccessedUtc = _view.cbAccessedUtc;
-            CbFileSizeMin = _view.cbFileSizeMin;
-            CbFileSizeMax = _view.cbFileSizeMax;
             CbUseAutocorrect = _view.cbUseAutocorrect;
 
-            CbUnit = _view.cbUnit;
+            CbFileSizeUnit = _view.cbUnit;
+
             CbReadOnly = _view.cbAttrReadOnly;
             CbHidden = _view.cbAttrHidden;
             CbSystem = _view.cbAttrSystem;
@@ -146,22 +145,24 @@
 
             System.Diagnostics.Debug.WriteLine(DtpCreatedMin.Value);
 
-            SeFileSizeMin.Maximum = SeFileSizeMax.Maximum = ulong.MaxValue;
-            CbUnit.SelectedIndex = 0;
+            SeFileSizeMin.Maximum = SeFileSizeMax.Maximum = uint.MaxValue;
+            FileSizeUnit = 0;
 
             DtpCreatedMin.ValueChanged += (sender, e) => DateChanged(FileFlags.CreatedMin);
             DtpCreatedMax.ValueChanged += (sender, e) => DateChanged(FileFlags.CreatedMax);
             CbCreatedUtc.CheckedChanged += (sender, e) => SetFlag(FileFlags.CreatedUtc, CbCreatedUtc.Checked);
+
             DtpModifiedMin.ValueChanged += (sender, e) => DateChanged(FileFlags.ModifiedMin);
             DtpModifiedMax.ValueChanged += (sender, e) => DateChanged(FileFlags.ModifiedMax);
             CbModifiedUtc.CheckedChanged += (sender, e) => SetFlag(FileFlags.ModifiedUtc, CbModifiedUtc.Checked);
+
             DtpAccessedMin.ValueChanged += (sender, e) => DateChanged(FileFlags.AccessedMin);
             DtpAccessedMax.ValueChanged += (sender, e) => DateChanged(FileFlags.AccessedMax);
             CbAccessedUtc.CheckedChanged += (sender, e) => SetFlag(FileFlags.AccessedUtc, CbAccessedUtc.Checked);
-            CbFileSizeMin.CheckedChanged += (sender, e) => AdjustFileSize(lower: false);
-            CbFileSizeMax.CheckedChanged += (sender, e) => AdjustFileSize(lower: true);
-            SeFileSizeMin.ValueChanged += (sender, e) => AdjustFileSize(lower: false);
-            SeFileSizeMax.ValueChanged += (sender, e) => AdjustFileSize(lower: true);
+
+            SeFileSizeMin.ValueChanged += (sender, e) => AdjustFileSize(FileFlags.FileSizeMin);
+            SeFileSizeMax.ValueChanged += (sender, e) => AdjustFileSize(FileFlags.FileSizeMax);
+            CbFileSizeUnit.SelectedValueChanged += (sender, e) => AdjustFileSizeUnit();
 
             new ErrorController(this,
                 DtpCreatedMin, DtpCreatedMax,
@@ -208,11 +209,10 @@
 
         private CheckBox
             CbCreatedUtc, CbModifiedUtc, CbAccessedUtc,
-            CbFileSizeMin, CbFileSizeMax,
             CbUseAutocorrect;
 
         private ComboBox
-            CbUnit, CbReadOnly, CbHidden, CbSystem, CbArchive, CbCompressed, CbEncrypted;
+            CbFileSizeUnit, CbReadOnly, CbHidden, CbSystem, CbArchive, CbCompressed, CbEncrypted;
 
         private DateTimePicker
             DtpCreatedMin, DtpCreatedMax,
@@ -224,50 +224,76 @@
 
         #endregion
 
+        #region Private Properties
+
+        private int FileSizeUnit
+        {
+            get => CbFileSizeUnit.SelectedIndex;
+            set => CbFileSizeUnit.SelectedIndex = value;
+        }
+
+        private FileFlags Flags
+        {
+            get => _fileOptions.Flags;
+            set => _fileOptions.Flags = value;
+        }
+
+        #endregion
+
         #region Private Methods
 
         private void DateChanged(FileFlags flag)
         {
-            DateTimePicker min, max;
-            if ((flag & FileFlags.Created) != 0)
-                (min, max) = (DtpCreatedMin, DtpCreatedMax);
-            else if ((flag & FileFlags.Modified) != 0)
-                (min, max) = (DtpModifiedMin, DtpModifiedMax);
-            else if ((flag & FileFlags.Accessed) != 0)
-                (min, max) = (DtpAccessedMin, DtpAccessedMax);
-            else
-                return;
-            var lower = (flag & FileFlags.Min) != 0;
-            var control = lower ? min : max;
-            SetFlag(flag, control.Checked);
-            if (!UseAutocorrect || DatesOK(min, max) || _updating)
-                return;
-            _updating = true;
-            if (lower)
-                max.Value = min.Value;
-            else
-                min.Value = max.Value;
-            _updating = false;
+            DateChanged();
+            UpdateUI();
+
+            void DateChanged()
+            {
+                DateTimePicker min, max;
+                if ((flag & FileFlags.Created) != 0)
+                    (min, max) = (DtpCreatedMin, DtpCreatedMax);
+                else if ((flag & FileFlags.Modified) != 0)
+                    (min, max) = (DtpModifiedMin, DtpModifiedMax);
+                else if ((flag & FileFlags.Accessed) != 0)
+                    (min, max) = (DtpAccessedMin, DtpAccessedMax);
+                else
+                    return;
+                var minChanged = (flag & FileFlags.Min) != 0;
+                var control = minChanged ? min : max;
+                SetFlag(flag, control.Checked);
+                if (!UseAutocorrect || DatesOK(min, max) || _updating)
+                    return;
+                _updating = true;
+                if (minChanged)
+                    max.Value = min.Value;
+                else
+                    min.Value = max.Value;
+                _updating = false;
+            }
         }
 
-        private void AdjustFileSize(bool lower)
+        private void AdjustFileSize(FileFlags flag)
         {
-            Update(CbFileSizeMin, SeFileSizeMin);
-            Update(CbFileSizeMax, SeFileSizeMax);
-            if (!UseAutocorrect || FileSizesOK() || _updating)
-                return;
-            _updating = true;
-            if (lower)
-                SeFileSizeMin.Value = SeFileSizeMax.Value;
-            else
-                SeFileSizeMax.Value = SeFileSizeMin.Value;
-            _updating = false;
+            AdjustFileSize();
+            UpdateUI();
 
-            void Update(CheckBox checkBox, NumericUpDown spinEdit)
+            void AdjustFileSize()
             {
-                spinEdit.Enabled = checkBox.Checked;
-                spinEdit.Increment = Math.Max(1, Math.Truncate(spinEdit.Value / 100));
+                if (!UseAutocorrect || FileSizesOK() || _updating)
+                    return;
+                _updating = true;
+                if ((flag & FileFlags.Min) != 0)
+                    SeFileSizeMin.Value = SeFileSizeMax.Value;
+                else
+                    SeFileSizeMax.Value = SeFileSizeMin.Value;
+                _updating = false;
             }
+        }
+
+        private void AdjustFileSizeUnit()
+        {
+            SeFileSizeMin.DecimalPlaces = SeFileSizeMax.DecimalPlaces = FileSizeUnit > 0 ? 2 : 0;
+            UpdateUI();
         }
 
         private void AutocorrectDates()
@@ -275,15 +301,16 @@
             AutocorrectDate(DtpCreatedMin, DtpCreatedMax);
             AutocorrectDate(DtpModifiedMin, DtpModifiedMax);
             AutocorrectDate(DtpAccessedMin, DtpAccessedMax);
-        }
+            UpdateUI();
 
-        private void AutocorrectDate(DateTimePicker min, DateTimePicker max)
-        {
-            if (DatesOK(min, max))
-                return;
-            _updating = true;
-            (max.Value, min.Value) = (min.Value, max.Value);
-            _updating = false;
+            void AutocorrectDate(DateTimePicker min, DateTimePicker max)
+            {
+                if (DatesOK(min, max))
+                    return;
+                _updating = true;
+                (max.Value, min.Value) = (min.Value, max.Value);
+                _updating = false;
+            }
         }
 
         private void AutocorrectFileSize()
@@ -293,10 +320,11 @@
             _updating = true;
             (SeFileSizeMin.Value, SeFileSizeMax.Value) = (SeFileSizeMax.Value, SeFileSizeMin.Value);
             _updating = false;
+            UpdateUI();
         }
 
         private bool DatesOK(DateTimePicker min, DateTimePicker max) => !min.Checked || !max.Checked || min.Value <= max.Value;
-        private bool FileSizesOK() => !CbFileSizeMin.Checked || !CbFileSizeMax.Checked || SeFileSizeMin.Value <= SeFileSizeMax.Value;
+        private bool FileSizesOK() => SeFileSizeMin.Value == 0 || SeFileSizeMax.Value == 0 || SeFileSizeMin.Value <= SeFileSizeMax.Value;
 
         private FileOptions GetFileOptions()
         {
@@ -315,8 +343,6 @@
             ProcessDtpCheckBox(DtpAccessedMin, FileFlags.AccessedMin);
             ProcessDtpCheckBox(DtpAccessedMax, FileFlags.AccessedMax);
             ProcessCheckBox(CbAccessedUtc, FileFlags.AccessedUtc);
-            ProcessCheckBox(CbFileSizeMin, FileFlags.FileSizeMin);
-            ProcessCheckBox(CbFileSizeMax, FileFlags.FileSizeMax);
 
             if (read)
             {
@@ -326,8 +352,9 @@
                 _fileOptions.ModifiedMax = DtpModifiedMax.Value;
                 _fileOptions.AccessedMin = DtpAccessedMin.Value;
                 _fileOptions.AccessedMax = DtpAccessedMax.Value;
-                _fileOptions.FileSizeMin = (ulong)SeFileSizeMin.Value;
-                _fileOptions.FileSizeMax = (ulong)SeFileSizeMax.Value;
+                _fileOptions.FileSizeMin = (int)SeFileSizeMin.Value;
+                _fileOptions.FileSizeMax = (int)SeFileSizeMax.Value;
+                _fileOptions.FileSizeUnit = FileSizeUnit;
             }
             else
             {
@@ -339,6 +366,7 @@
                 DtpAccessedMax.Value = _fileOptions.AccessedMax;
                 SeFileSizeMin.Value = _fileOptions.FileSizeMin;
                 SeFileSizeMax.Value = _fileOptions.FileSizeMax;
+                FileSizeUnit = _fileOptions.FileSizeUnit;
             }
 
             ProcessComboBox(CbReadOnly, FileFlags.ReadOnlyTrue, FileFlags.ReadOnlyFalse);
@@ -347,6 +375,9 @@
             ProcessComboBox(CbArchive, FileFlags.ArchiveTrue, FileFlags.ArchiveFalse);
             ProcessComboBox(CbCompressed, FileFlags.CompressedTrue, FileFlags.CompressedFalse);
             ProcessComboBox(CbEncrypted, FileFlags.EncryptedTrue, FileFlags.EncryptedFalse);
+
+            if (!read)
+                UpdateUI();
 
             void ProcessCheckBox(CheckBox control, FileFlags flag)
             {
@@ -379,12 +410,6 @@
 
         private bool GetFlag(FileFlags flag) => (Flags & flag) != 0;
 
-        private FileFlags Flags
-        {
-            get => _fileOptions.Flags;
-            set => _fileOptions.Flags = value;
-        }
-
         private void SetFileOptions(FileOptions fileOptions)
         {
             _fileOptions = fileOptions ?? new FileOptions();
@@ -397,6 +422,12 @@
                 Flags |= flag;
             else
                 Flags &= ~flag;
+            //UpdateUI();
+        }
+
+        private void UpdateUI()
+        {
+            _view.edFilter.Text = FilterString;
         }
 
         #endregion

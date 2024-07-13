@@ -29,7 +29,9 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FileFilterControl));
             this.MainPanel = new System.Windows.Forms.Panel();
+            this.cbUnit = new System.Windows.Forms.ComboBox();
             this.cbUseAutocorrect = new System.Windows.Forms.CheckBox();
             this.cbAttrEncrypted = new System.Windows.Forms.ComboBox();
             this.lblEncrypted = new System.Windows.Forms.Label();
@@ -50,9 +52,7 @@
             this.lblSystem = new System.Windows.Forms.Label();
             this.lblHidden = new System.Windows.Forms.Label();
             this.lblReadOnly = new System.Windows.Forms.Label();
-            this.cbFileSizeMax = new System.Windows.Forms.CheckBox();
             this.label6 = new System.Windows.Forms.Label();
-            this.cbFileSizeMin = new System.Windows.Forms.CheckBox();
             this.lblUpTo = new System.Windows.Forms.Label();
             this.lblFrom = new System.Windows.Forms.Label();
             this.dtpAccessedMax = new System.Windows.Forms.DateTimePicker();
@@ -65,7 +65,8 @@
             this.dtpCreatedMin = new System.Windows.Forms.DateTimePicker();
             this.label1 = new System.Windows.Forms.Label();
             this.ToolTip = new System.Windows.Forms.ToolTip(this.components);
-            this.cbUnit = new System.Windows.Forms.ComboBox();
+            this.edFilter = new System.Windows.Forms.TextBox();
+            this.checkBox1 = new System.Windows.Forms.CheckBox();
             this.MainPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.seFileSizeMax)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.seFileSizeMin)).BeginInit();
@@ -73,6 +74,8 @@
             // 
             // MainPanel
             // 
+            this.MainPanel.Controls.Add(this.checkBox1);
+            this.MainPanel.Controls.Add(this.edFilter);
             this.MainPanel.Controls.Add(this.cbUnit);
             this.MainPanel.Controls.Add(this.cbUseAutocorrect);
             this.MainPanel.Controls.Add(this.cbAttrEncrypted);
@@ -94,9 +97,7 @@
             this.MainPanel.Controls.Add(this.lblSystem);
             this.MainPanel.Controls.Add(this.lblHidden);
             this.MainPanel.Controls.Add(this.lblReadOnly);
-            this.MainPanel.Controls.Add(this.cbFileSizeMax);
             this.MainPanel.Controls.Add(this.label6);
-            this.MainPanel.Controls.Add(this.cbFileSizeMin);
             this.MainPanel.Controls.Add(this.lblUpTo);
             this.MainPanel.Controls.Add(this.lblFrom);
             this.MainPanel.Controls.Add(this.dtpAccessedMax);
@@ -111,18 +112,33 @@
             this.MainPanel.Location = new System.Drawing.Point(0, 0);
             this.MainPanel.Margin = new System.Windows.Forms.Padding(4);
             this.MainPanel.Name = "MainPanel";
-            this.MainPanel.Size = new System.Drawing.Size(396, 260);
+            this.MainPanel.Size = new System.Drawing.Size(396, 439);
             this.MainPanel.TabIndex = 0;
+            // 
+            // cbUnit
+            // 
+            this.cbUnit.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cbUnit.FormattingEnabled = true;
+            this.cbUnit.Items.AddRange(new object[] {
+            "Bytes",
+            "KiB",
+            "MiB",
+            "GiB",
+            "TiB"});
+            this.cbUnit.Location = new System.Drawing.Point(333, 129);
+            this.cbUnit.Name = "cbUnit";
+            this.cbUnit.Size = new System.Drawing.Size(54, 25);
+            this.cbUnit.TabIndex = 34;
             // 
             // cbUseAutocorrect
             // 
             this.cbUseAutocorrect.AutoSize = true;
             this.cbUseAutocorrect.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.cbUseAutocorrect.Location = new System.Drawing.Point(98, 236);
+            this.cbUseAutocorrect.Location = new System.Drawing.Point(266, 232);
             this.cbUseAutocorrect.Name = "cbUseAutocorrect";
-            this.cbUseAutocorrect.Size = new System.Drawing.Size(290, 21);
+            this.cbUseAutocorrect.Size = new System.Drawing.Size(121, 21);
             this.cbUseAutocorrect.TabIndex = 33;
-            this.cbUseAutocorrect.Text = "&Use Autocorrect to fix data validation errors?";
+            this.cbUseAutocorrect.Text = "&Use Autocorrect";
             this.cbUseAutocorrect.UseVisualStyleBackColor = true;
             // 
             // cbAttrEncrypted
@@ -180,8 +196,7 @@
             // seFileSizeMax
             // 
             this.seFileSizeMax.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.seFileSizeMax.Enabled = false;
-            this.seFileSizeMax.Location = new System.Drawing.Point(221, 129);
+            this.seFileSizeMax.Location = new System.Drawing.Point(201, 129);
             this.seFileSizeMax.Margin = new System.Windows.Forms.Padding(4);
             this.seFileSizeMax.Maximum = new decimal(new int[] {
             0,
@@ -189,7 +204,7 @@
             0,
             0});
             this.seFileSizeMax.Name = "seFileSizeMax";
-            this.seFileSizeMax.Size = new System.Drawing.Size(88, 25);
+            this.seFileSizeMax.Size = new System.Drawing.Size(108, 25);
             this.seFileSizeMax.TabIndex = 20;
             this.seFileSizeMax.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             this.ToolTip.SetToolTip(this.seFileSizeMax, "Maximum File Size");
@@ -197,8 +212,7 @@
             // seFileSizeMin
             // 
             this.seFileSizeMin.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.seFileSizeMin.Enabled = false;
-            this.seFileSizeMin.Location = new System.Drawing.Point(89, 129);
+            this.seFileSizeMin.Location = new System.Drawing.Point(69, 129);
             this.seFileSizeMin.Margin = new System.Windows.Forms.Padding(4);
             this.seFileSizeMin.Maximum = new decimal(new int[] {
             0,
@@ -206,7 +220,7 @@
             0,
             0});
             this.seFileSizeMin.Name = "seFileSizeMin";
-            this.seFileSizeMin.Size = new System.Drawing.Size(88, 25);
+            this.seFileSizeMin.Size = new System.Drawing.Size(108, 25);
             this.seFileSizeMin.TabIndex = 18;
             this.seFileSizeMin.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             this.ToolTip.SetToolTip(this.seFileSizeMin, "Minimum File Size");
@@ -370,17 +384,6 @@
             this.lblReadOnly.Text = "&Readonly";
             this.lblReadOnly.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
-            // cbFileSizeMax
-            // 
-            this.cbFileSizeMax.AutoSize = true;
-            this.cbFileSizeMax.Location = new System.Drawing.Point(201, 135);
-            this.cbFileSizeMax.Margin = new System.Windows.Forms.Padding(5);
-            this.cbFileSizeMax.Name = "cbFileSizeMax";
-            this.cbFileSizeMax.Size = new System.Drawing.Size(15, 14);
-            this.cbFileSizeMax.TabIndex = 19;
-            this.ToolTip.SetToolTip(this.cbFileSizeMax, "Use Maximum File Size");
-            this.cbFileSizeMax.UseVisualStyleBackColor = true;
-            // 
             // label6
             // 
             this.label6.AutoSize = true;
@@ -391,17 +394,6 @@
             this.label6.TabIndex = 16;
             this.label6.Text = "&File Size";
             this.label6.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
-            // cbFileSizeMin
-            // 
-            this.cbFileSizeMin.AutoSize = true;
-            this.cbFileSizeMin.Location = new System.Drawing.Point(69, 136);
-            this.cbFileSizeMin.Margin = new System.Windows.Forms.Padding(5);
-            this.cbFileSizeMin.Name = "cbFileSizeMin";
-            this.cbFileSizeMin.Size = new System.Drawing.Size(15, 14);
-            this.cbFileSizeMin.TabIndex = 17;
-            this.ToolTip.SetToolTip(this.cbFileSizeMin, "Use Minimum File Size");
-            this.cbFileSizeMin.UseVisualStyleBackColor = true;
             // 
             // lblUpTo
             // 
@@ -531,20 +523,28 @@
             this.label1.Text = "&Created";
             this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
-            // cbUnit
+            // edFilter
             // 
-            this.cbUnit.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cbUnit.FormattingEnabled = true;
-            this.cbUnit.Items.AddRange(new object[] {
-            "Bytes",
-            "KiB",
-            "MiB",
-            "GiB",
-            "TiB"});
-            this.cbUnit.Location = new System.Drawing.Point(333, 129);
-            this.cbUnit.Name = "cbUnit";
-            this.cbUnit.Size = new System.Drawing.Size(54, 25);
-            this.cbUnit.TabIndex = 34;
+            this.edFilter.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.edFilter.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.edFilter.Location = new System.Drawing.Point(0, 261);
+            this.edFilter.Multiline = true;
+            this.edFilter.Name = "edFilter";
+            this.edFilter.ReadOnly = true;
+            this.edFilter.Size = new System.Drawing.Size(396, 178);
+            this.edFilter.TabIndex = 35;
+            this.edFilter.Text = resources.GetString("edFilter.Text");
+            // 
+            // checkBox1
+            // 
+            this.checkBox1.AutoSize = true;
+            this.checkBox1.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.checkBox1.Location = new System.Drawing.Point(128, 232);
+            this.checkBox1.Name = "checkBox1";
+            this.checkBox1.Size = new System.Drawing.Size(110, 21);
+            this.checkBox1.TabIndex = 36;
+            this.checkBox1.Text = "Use File Times";
+            this.checkBox1.UseVisualStyleBackColor = true;
             // 
             // FileFilterControl
             // 
@@ -554,7 +554,7 @@
             this.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "FileFilterControl";
-            this.Size = new System.Drawing.Size(396, 260);
+            this.Size = new System.Drawing.Size(396, 440);
             this.MainPanel.ResumeLayout(false);
             this.MainPanel.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.seFileSizeMax)).EndInit();
@@ -583,9 +583,7 @@
         public System.Windows.Forms.Label lblSystem;
         public System.Windows.Forms.Label lblHidden;
         public System.Windows.Forms.Label lblReadOnly;
-        public System.Windows.Forms.CheckBox cbFileSizeMax;
         public System.Windows.Forms.Label label6;
-        public System.Windows.Forms.CheckBox cbFileSizeMin;
         public System.Windows.Forms.Label lblUpTo;
         public System.Windows.Forms.Label lblFrom;
         public System.Windows.Forms.DateTimePicker dtpAccessedMax;
@@ -601,5 +599,7 @@
         public System.Windows.Forms.CheckBox cbUseAutocorrect;
         public System.Windows.Forms.Panel MainPanel;
         public System.Windows.Forms.ComboBox cbUnit;
+        public System.Windows.Forms.CheckBox checkBox1;
+        public System.Windows.Forms.TextBox edFilter;
     }
 }
