@@ -17,13 +17,6 @@
 
         public Track() { }
 
-        //public Track(string filePath) : this()
-        //{
-        //    _filePath = filePath;
-        //    Load();
-        //    IsNew = true;
-        //}
-
         public static Track FromPath(string filePath, Func<Track, bool> filter = null)
         {
             var track = new Track();
@@ -269,13 +262,20 @@
             set => Set(ref _fileAccessedUtc, value);
         }
 
-        private string _fileAttributes = string.Empty;
+        private string _fileAttrs = string.Empty;
         [DefaultValue("")]
-        public string FileAttributes
+        public string FileAttrs
         {
-            get => Get(_fileAttributes);
-            set => Set(ref _fileAttributes, value);
+            get => Get(_fileAttrs);
+            set => Set(ref _fileAttrs, value);
         }
+
+        [JsonIgnore, XmlIgnore] public Logical FileAttrArchive => HasAttr(FileAttributes.Archive);
+        [JsonIgnore, XmlIgnore] public Logical FileAttrCompressed => HasAttr(FileAttributes.Compressed);
+        [JsonIgnore, XmlIgnore] public Logical FileAttrEncrypted => HasAttr(FileAttributes.Encrypted);
+        [JsonIgnore, XmlIgnore] public Logical FileAttrHidden => HasAttr(FileAttributes.Hidden);
+        [JsonIgnore, XmlIgnore] public Logical FileAttrReadOnly => HasAttr(FileAttributes.ReadOnly);
+        [JsonIgnore, XmlIgnore] public Logical FileAttrSystem => HasAttr(FileAttributes.System);
 
         private DateTime _fileCreated;
         public DateTime FileCreated
@@ -941,7 +941,7 @@
                 case Tag.DiscOf: return DiscOf;
                 case Tag.DiscTrack: return DiscTrack;
                 case Tag.Duration: return Duration;
-                case Tag.FileAttributes: return FileAttributes;
+                case Tag.FileAttrs: return FileAttrs;
                 case Tag.FileCreated: return FileCreated;
                 case Tag.FileCreatedUtc: return FileCreatedUtc;
                 case Tag.FileExtension: return FileExtension;
@@ -1057,7 +1057,7 @@
                 case Tag.DiscCount: return DiscCount = (int)value;
                 case Tag.DiscNumber: return DiscNumber = (int)value;
                 case Tag.Duration: return Duration = (TimeSpan)value;
-                case Tag.FileAttributes: return FileAttributes = (string)value;
+                case Tag.FileAttrs: return FileAttrs = (string)value;
                 case Tag.FileCreated: return FileCreated = (DateTime)value;
                 case Tag.FileCreatedUtc: return FileCreatedUtc = (DateTime)value;
                 case Tag.FileAccessed: return FileAccessed = (DateTime)value;
@@ -1171,7 +1171,7 @@
         private void ReadFileMetadata()
         {
             _fileSize = new FileInfo(FilePath).Length;
-            _fileAttributes = File.GetAttributes(FilePath).ToString();
+            _fileAttrs = File.GetAttributes(FilePath).ToString();
             _fileCreated = File.GetCreationTimeUtc(FilePath);
             _fileModified = File.GetLastWriteTimeUtc(FilePath);
             _fileAccessed = File.GetLastAccessTimeUtc(FilePath);
@@ -1448,8 +1448,8 @@
             return string.Format($"{{0:D{digits}}}/{{1:D{digits}}}", number, total);
         }
 
+        private Logical HasAttr(FileAttributes attribute) => FileAttrs.Contains($"{attribute}").AsLogical();
         private static bool SequenceEqual<T>(IEnumerable<T> x, IEnumerable<T> y) => x != null ? y != null && x.SequenceEqual(y) : y == null;
-
         private void Set<T>(ref T field, T value) => Set(ref field, value, !Equals(field, value));
         private void Set<T>(ref T[] field, T[] value) => Set(ref field, value, !SequenceEqual(field, value));
 

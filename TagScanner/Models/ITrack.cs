@@ -1,4 +1,6 @@
-﻿namespace TagScanner.Models
+﻿using TagScanner.Models;
+
+namespace TagScanner.Models
 {
     using System;
     using TagLib;
@@ -38,7 +40,13 @@
         TimeSpan Duration { get; }
         DateTime FileAccessed { get; }
         DateTime FileAccessedUtc { get; }
-        string FileAttributes { get; }
+        string FileAttrs { get; }
+        Logical FileAttrArchive { get; }
+        Logical FileAttrCompressed { get; }
+        Logical FileAttrEncrypted { get; }
+        Logical FileAttrHidden { get; }
+        Logical FileAttrReadOnly { get; }
+        Logical FileAttrSystem { get; }
         DateTime FileCreated { get; }
         DateTime FileCreatedUtc { get; }
         string FileExtension { get; }

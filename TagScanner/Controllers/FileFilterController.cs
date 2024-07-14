@@ -19,26 +19,17 @@
 
         public ErrorProvider ErrorProvider { get; private set; } = new ErrorProvider();
 
-        public string GetFilterString()
-        {
-            ReadFileOptionsFromControls().GetFilter(UseTimes, out string filterString);
-            return filterString;
-        }
-
-        public Term GetFilterTerm() => ReadFileOptionsFromControls().GetFilter(UseTimes, out _);
-
         public bool UseTimes
         {
             get => _useTimes;
             set
             {
-                var dateTimePickers = new[] { DtpCreatedMin, DtpCreatedMax, DtpModifiedMin, DtpModifiedMax, DtpAccessedMin, DtpAccessedMax };
-                var middleColumn = new Control[] { _view.lblUpTo, DtpCreatedMax, DtpModifiedMax, DtpAccessedMax };
-                var rightColumn = new Control[] { _view.lblUtc, CbCreatedUtc, CbModifiedUtc, CbAccessedUtc, CbUseAutocorrect };
-
                 if (_useTimes != value)
                 {
                     _useTimes = value;
+                    var dateTimePickers = new[] { DtpCreatedMin, DtpCreatedMax, DtpModifiedMin, DtpModifiedMax, DtpAccessedMin, DtpAccessedMax };
+                    var middleColumn = new Control[] { _view.lblFrom, DtpCreatedMax, DtpModifiedMax, DtpAccessedMax };
+                    var rightColumn = new Control[] { _view.lblUpTo, _view.lblUtc, CbCreatedUtc, CbModifiedUtc, CbAccessedUtc };
                     var delta = UseTimes ? 52 : -52;
                     var customFormat = UseTimes ? _dateTimeFormat : _dateFormat;
                     AdjustControls(dateTimePickers, p => { ((DateTimePicker)p).CustomFormat = customFormat; p.Width += delta; });
@@ -46,6 +37,8 @@
                     delta *= 2;
                     AdjustControls(rightColumn, p => { p.Left += delta; });
                     _view.MainPanel.Width += delta;
+                    OnUseTimesChanged();
+                    UpdateUI();
                 }
 
                 void AdjustControls(Control[] controls, Action<Control> action)
@@ -66,12 +59,15 @@
 
         #endregion
 
+        #region Public Events
+
+        public event EventHandler UseTimesChanged;
+
+        #endregion
+
         #region Public Methods
 
-        public void AfterExecute()
-        {
-            MainModel.FileOptionsFilter = GetFilterTerm().Filter;
-        }
+        public void AfterExecute() => MainModel.FileOptionsFilter = GetFilterTerm().Filter;
 
         public void BeforeExecute() { }
 
@@ -102,6 +98,14 @@
                     errors.AppendLine($"The first {which} Date cannot be later than the last.");
             }
         }
+
+        public string GetFilterString()
+        {
+            ReadFileOptionsFromControls().GetFilter(UseTimes, out string filterString);
+            return filterString;
+        }
+
+        public Term GetFilterTerm() => ReadFileOptionsFromControls().GetFilter(UseTimes, out _);
 
         public void SetView(FileFilterControl view)
         {
@@ -140,6 +144,8 @@
             SeFileSizeMin.Maximum = SeFileSizeMax.Maximum = uint.MaxValue;
             FileSizeUnit = 0;
 
+            CbUseTimes.CheckedChanged += (sender, e) => UseTimes ^= true;
+
             DtpCreatedMin.ValueChanged += (sender, e) => DateChanged(FileFlags.CreatedMin);
             DtpCreatedMax.ValueChanged += (sender, e) => DateChanged(FileFlags.CreatedMax);
             CbCreatedUtc.CheckedChanged += (sender, e) => UpdateUI(); // SetFlag(FileFlags.CreatedUtc, CbCreatedUtc.Checked);
@@ -156,6 +162,13 @@
             SeFileSizeMax.ValueChanged += (sender, e) => FileSizeChanged(FileFlags.FileSizeMax);
             CbFileSizeUnit.SelectedValueChanged += (sender, e) => AdjustFileSizeUnit();
 
+            CbReadOnly.SelectedIndexChanged += (sender, e) => UpdateUI();
+            CbHidden.SelectedIndexChanged += (sender, e) => UpdateUI();
+            CbSystem.SelectedIndexChanged += (sender, e) => UpdateUI();
+            CbArchive.SelectedIndexChanged += (sender, e) => UpdateUI();
+            CbCompressed.SelectedIndexChanged += (sender, e) => UpdateUI();
+            CbEncrypted.SelectedIndexChanged += (sender, e) => UpdateUI();
+
             new ErrorController(this,
                 DtpCreatedMin, DtpCreatedMax,
                 DtpModifiedMin, DtpModifiedMax,
@@ -171,6 +184,12 @@
                 }
             }
         }
+
+        #endregion
+
+        #region Protected Methods
+
+        protected virtual void OnUseTimesChanged() => UseTimesChanged?.Invoke(this, EventArgs.Empty);
 
         #endregion
 
@@ -416,11 +435,6 @@
             void WriteCheckBox(CheckBox control, FileFlags flag) => control.Checked = GetFlag(flag);
             void WriteCheckBoxDtp(DateTimePicker control, FileFlags flag) => control.Checked = GetFlag(flag);
             void WriteComboBox(ComboBox control, FileFlags yes, FileFlags no) => control.SelectedIndex = GetFlag(yes) ? 1 : GetFlag(no) ? 2 : 0;
-
-            void WriteSpinEdit(NumericUpDown control, FileFlags flag, decimal value)
-            {
-                control.Value = value;
-            }
         }
 
         private void UpdateUI() => _view.edConditions.Text = GetFilterString();

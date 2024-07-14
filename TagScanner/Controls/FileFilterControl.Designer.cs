@@ -43,7 +43,6 @@
             this.cbAccessedUtc = new System.Windows.Forms.CheckBox();
             this.cbModifiedUtc = new System.Windows.Forms.CheckBox();
             this.cbCreatedUtc = new System.Windows.Forms.CheckBox();
-            this.lblDate = new System.Windows.Forms.Label();
             this.cbAttrArchive = new System.Windows.Forms.ComboBox();
             this.cbAttrSystem = new System.Windows.Forms.ComboBox();
             this.cbAttrHidden = new System.Windows.Forms.ComboBox();
@@ -65,8 +64,8 @@
             this.dtpCreatedMin = new System.Windows.Forms.DateTimePicker();
             this.label1 = new System.Windows.Forms.Label();
             this.ToolTip = new System.Windows.Forms.ToolTip(this.components);
-            this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.edConditions = new System.Windows.Forms.TextBox();
+            this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.MainPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.seFileSizeMax)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.seFileSizeMin)).BeginInit();
@@ -89,7 +88,6 @@
             this.MainPanel.Controls.Add(this.cbAccessedUtc);
             this.MainPanel.Controls.Add(this.cbModifiedUtc);
             this.MainPanel.Controls.Add(this.cbCreatedUtc);
-            this.MainPanel.Controls.Add(this.lblDate);
             this.MainPanel.Controls.Add(this.cbAttrArchive);
             this.MainPanel.Controls.Add(this.cbAttrSystem);
             this.MainPanel.Controls.Add(this.cbAttrHidden);
@@ -113,18 +111,18 @@
             this.MainPanel.Location = new System.Drawing.Point(0, 0);
             this.MainPanel.Margin = new System.Windows.Forms.Padding(4);
             this.MainPanel.Name = "MainPanel";
-            this.MainPanel.Size = new System.Drawing.Size(396, 603);
+            this.MainPanel.Size = new System.Drawing.Size(396, 422);
             this.MainPanel.TabIndex = 0;
             // 
-            // checkBox1
+            // cbUseTimes
             // 
             this.cbUseTimes.AutoSize = true;
-            this.cbUseTimes.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.cbUseTimes.Location = new System.Drawing.Point(128, 232);
-            this.cbUseTimes.Name = "checkBox1";
-            this.cbUseTimes.Size = new System.Drawing.Size(110, 21);
+            this.cbUseTimes.Location = new System.Drawing.Point(9, 5);
+            this.cbUseTimes.Name = "cbUseTimes";
+            this.cbUseTimes.Size = new System.Drawing.Size(87, 21);
             this.cbUseTimes.TabIndex = 36;
-            this.cbUseTimes.Text = "Use File Times";
+            this.cbUseTimes.Text = "Use &Times";
+            this.ToolTip.SetToolTip(this.cbUseTimes, "Use both Dates and Times?\r\n(deselect to use Dates only)");
             this.cbUseTimes.UseVisualStyleBackColor = true;
             // 
             // cbUnit
@@ -137,20 +135,21 @@
             "MiB",
             "GiB",
             "TiB"});
-            this.cbUnit.Location = new System.Drawing.Point(333, 129);
+            this.cbUnit.Location = new System.Drawing.Point(333, 133);
             this.cbUnit.Name = "cbUnit";
             this.cbUnit.Size = new System.Drawing.Size(54, 25);
             this.cbUnit.TabIndex = 34;
+            this.ToolTip.SetToolTip(this.cbUnit, "File Size units of measurement");
             // 
             // cbUseAutocorrect
             // 
             this.cbUseAutocorrect.AutoSize = true;
-            this.cbUseAutocorrect.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.cbUseAutocorrect.Location = new System.Drawing.Point(266, 232);
+            this.cbUseAutocorrect.Location = new System.Drawing.Point(9, 236);
             this.cbUseAutocorrect.Name = "cbUseAutocorrect";
             this.cbUseAutocorrect.Size = new System.Drawing.Size(121, 21);
             this.cbUseAutocorrect.TabIndex = 33;
-            this.cbUseAutocorrect.Text = "&Use Autocorrect";
+            this.cbUseAutocorrect.Text = "Use A&utocorrect";
+            this.ToolTip.SetToolTip(this.cbUseAutocorrect, "Automatic adjustment for data validation errors");
             this.cbUseAutocorrect.UseVisualStyleBackColor = true;
             // 
             // cbAttrEncrypted
@@ -161,7 +160,7 @@
             "",
             "Set",
             "Clear"});
-            this.cbAttrEncrypted.Location = new System.Drawing.Point(333, 199);
+            this.cbAttrEncrypted.Location = new System.Drawing.Point(333, 203);
             this.cbAttrEncrypted.Margin = new System.Windows.Forms.Padding(5);
             this.cbAttrEncrypted.Name = "cbAttrEncrypted";
             this.cbAttrEncrypted.Size = new System.Drawing.Size(54, 25);
@@ -171,7 +170,7 @@
             // lblEncrypted
             // 
             this.lblEncrypted.AutoSize = true;
-            this.lblEncrypted.Location = new System.Drawing.Point(267, 203);
+            this.lblEncrypted.Location = new System.Drawing.Point(267, 207);
             this.lblEncrypted.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
             this.lblEncrypted.Name = "lblEncrypted";
             this.lblEncrypted.Size = new System.Drawing.Size(66, 17);
@@ -187,7 +186,7 @@
             "",
             "Set",
             "Clear"});
-            this.cbAttrCompressed.Location = new System.Drawing.Point(333, 165);
+            this.cbAttrCompressed.Location = new System.Drawing.Point(333, 169);
             this.cbAttrCompressed.Margin = new System.Windows.Forms.Padding(5);
             this.cbAttrCompressed.Name = "cbAttrCompressed";
             this.cbAttrCompressed.Size = new System.Drawing.Size(54, 25);
@@ -197,7 +196,7 @@
             // lblCompressed
             // 
             this.lblCompressed.AutoSize = true;
-            this.lblCompressed.Location = new System.Drawing.Point(251, 168);
+            this.lblCompressed.Location = new System.Drawing.Point(251, 172);
             this.lblCompressed.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
             this.lblCompressed.Name = "lblCompressed";
             this.lblCompressed.Size = new System.Drawing.Size(82, 17);
@@ -208,7 +207,7 @@
             // seFileSizeMax
             // 
             this.seFileSizeMax.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.seFileSizeMax.Location = new System.Drawing.Point(201, 129);
+            this.seFileSizeMax.Location = new System.Drawing.Point(201, 133);
             this.seFileSizeMax.Margin = new System.Windows.Forms.Padding(4);
             this.seFileSizeMax.Maximum = new decimal(new int[] {
             0,
@@ -224,7 +223,7 @@
             // seFileSizeMin
             // 
             this.seFileSizeMin.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.seFileSizeMin.Location = new System.Drawing.Point(69, 129);
+            this.seFileSizeMin.Location = new System.Drawing.Point(69, 133);
             this.seFileSizeMin.Margin = new System.Windows.Forms.Padding(4);
             this.seFileSizeMin.Maximum = new decimal(new int[] {
             0,
@@ -240,57 +239,47 @@
             // lblUtc
             // 
             this.lblUtc.AutoSize = true;
-            this.lblUtc.Location = new System.Drawing.Point(365, 2);
+            this.lblUtc.Location = new System.Drawing.Point(365, 6);
             this.lblUtc.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
             this.lblUtc.Name = "lblUtc";
             this.lblUtc.Size = new System.Drawing.Size(31, 17);
             this.lblUtc.TabIndex = 3;
             this.lblUtc.Text = "UTC";
             this.lblUtc.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.ToolTip.SetToolTip(this.lblUtc, "Use UTC Dates/Times");
             // 
             // cbAccessedUtc
             // 
             this.cbAccessedUtc.AutoSize = true;
-            this.cbAccessedUtc.Location = new System.Drawing.Point(373, 100);
+            this.cbAccessedUtc.Location = new System.Drawing.Point(373, 104);
             this.cbAccessedUtc.Margin = new System.Windows.Forms.Padding(5);
             this.cbAccessedUtc.Name = "cbAccessedUtc";
             this.cbAccessedUtc.Size = new System.Drawing.Size(15, 14);
             this.cbAccessedUtc.TabIndex = 15;
-            this.ToolTip.SetToolTip(this.cbAccessedUtc, "Use UTC Accessed Date");
+            this.ToolTip.SetToolTip(this.cbAccessedUtc, "Use UTC Accessed Date/Time");
             this.cbAccessedUtc.UseVisualStyleBackColor = true;
             // 
             // cbModifiedUtc
             // 
             this.cbModifiedUtc.AutoSize = true;
-            this.cbModifiedUtc.Location = new System.Drawing.Point(373, 65);
+            this.cbModifiedUtc.Location = new System.Drawing.Point(373, 69);
             this.cbModifiedUtc.Margin = new System.Windows.Forms.Padding(5);
             this.cbModifiedUtc.Name = "cbModifiedUtc";
             this.cbModifiedUtc.Size = new System.Drawing.Size(15, 14);
             this.cbModifiedUtc.TabIndex = 11;
-            this.ToolTip.SetToolTip(this.cbModifiedUtc, "Use UTC Modified Date");
+            this.ToolTip.SetToolTip(this.cbModifiedUtc, "Use UTC Modified Date/Time");
             this.cbModifiedUtc.UseVisualStyleBackColor = true;
             // 
             // cbCreatedUtc
             // 
             this.cbCreatedUtc.AutoSize = true;
-            this.cbCreatedUtc.Location = new System.Drawing.Point(373, 30);
+            this.cbCreatedUtc.Location = new System.Drawing.Point(373, 34);
             this.cbCreatedUtc.Margin = new System.Windows.Forms.Padding(5);
             this.cbCreatedUtc.Name = "cbCreatedUtc";
             this.cbCreatedUtc.Size = new System.Drawing.Size(15, 14);
             this.cbCreatedUtc.TabIndex = 7;
-            this.ToolTip.SetToolTip(this.cbCreatedUtc, "Use UTC Created Date");
+            this.ToolTip.SetToolTip(this.cbCreatedUtc, "Use UTC Created Date/Time");
             this.cbCreatedUtc.UseVisualStyleBackColor = true;
-            // 
-            // lblDate
-            // 
-            this.lblDate.AutoSize = true;
-            this.lblDate.Location = new System.Drawing.Point(7, 2);
-            this.lblDate.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
-            this.lblDate.Name = "lblDate";
-            this.lblDate.Size = new System.Drawing.Size(35, 17);
-            this.lblDate.TabIndex = 0;
-            this.lblDate.Text = "Date";
-            this.lblDate.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // cbAttrArchive
             // 
@@ -300,7 +289,7 @@
             "",
             "Set",
             "Clear"});
-            this.cbAttrArchive.Location = new System.Drawing.Point(184, 199);
+            this.cbAttrArchive.Location = new System.Drawing.Point(184, 203);
             this.cbAttrArchive.Margin = new System.Windows.Forms.Padding(5);
             this.cbAttrArchive.Name = "cbAttrArchive";
             this.cbAttrArchive.Size = new System.Drawing.Size(54, 25);
@@ -315,7 +304,7 @@
             "",
             "Set",
             "Clear"});
-            this.cbAttrSystem.Location = new System.Drawing.Point(184, 165);
+            this.cbAttrSystem.Location = new System.Drawing.Point(184, 169);
             this.cbAttrSystem.Margin = new System.Windows.Forms.Padding(5);
             this.cbAttrSystem.Name = "cbAttrSystem";
             this.cbAttrSystem.Size = new System.Drawing.Size(54, 25);
@@ -330,7 +319,7 @@
             "",
             "Set",
             "Clear"});
-            this.cbAttrHidden.Location = new System.Drawing.Point(69, 199);
+            this.cbAttrHidden.Location = new System.Drawing.Point(69, 203);
             this.cbAttrHidden.Margin = new System.Windows.Forms.Padding(5);
             this.cbAttrHidden.Name = "cbAttrHidden";
             this.cbAttrHidden.Size = new System.Drawing.Size(54, 25);
@@ -345,7 +334,7 @@
             "",
             "Set",
             "Clear"});
-            this.cbAttrReadOnly.Location = new System.Drawing.Point(69, 164);
+            this.cbAttrReadOnly.Location = new System.Drawing.Point(69, 168);
             this.cbAttrReadOnly.Margin = new System.Windows.Forms.Padding(5);
             this.cbAttrReadOnly.Name = "cbAttrReadOnly";
             this.cbAttrReadOnly.Size = new System.Drawing.Size(54, 25);
@@ -355,7 +344,7 @@
             // lblArchive
             // 
             this.lblArchive.AutoSize = true;
-            this.lblArchive.Location = new System.Drawing.Point(135, 203);
+            this.lblArchive.Location = new System.Drawing.Point(135, 207);
             this.lblArchive.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
             this.lblArchive.Name = "lblArchive";
             this.lblArchive.Size = new System.Drawing.Size(50, 17);
@@ -366,7 +355,7 @@
             // lblSystem
             // 
             this.lblSystem.AutoSize = true;
-            this.lblSystem.Location = new System.Drawing.Point(135, 168);
+            this.lblSystem.Location = new System.Drawing.Point(135, 172);
             this.lblSystem.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
             this.lblSystem.Name = "lblSystem";
             this.lblSystem.Size = new System.Drawing.Size(49, 17);
@@ -377,7 +366,7 @@
             // lblHidden
             // 
             this.lblHidden.AutoSize = true;
-            this.lblHidden.Location = new System.Drawing.Point(7, 203);
+            this.lblHidden.Location = new System.Drawing.Point(7, 207);
             this.lblHidden.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
             this.lblHidden.Name = "lblHidden";
             this.lblHidden.Size = new System.Drawing.Size(50, 17);
@@ -388,18 +377,18 @@
             // lblReadOnly
             // 
             this.lblReadOnly.AutoSize = true;
-            this.lblReadOnly.Location = new System.Drawing.Point(6, 168);
+            this.lblReadOnly.Location = new System.Drawing.Point(6, 172);
             this.lblReadOnly.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
             this.lblReadOnly.Name = "lblReadOnly";
-            this.lblReadOnly.Size = new System.Drawing.Size(62, 17);
+            this.lblReadOnly.Size = new System.Drawing.Size(64, 17);
             this.lblReadOnly.TabIndex = 21;
-            this.lblReadOnly.Text = "&Readonly";
+            this.lblReadOnly.Text = "&ReadOnly";
             this.lblReadOnly.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // label6
             // 
             this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(7, 133);
+            this.label6.Location = new System.Drawing.Point(7, 137);
             this.label6.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(54, 17);
@@ -410,141 +399,135 @@
             // lblUpTo
             // 
             this.lblUpTo.AutoSize = true;
-            this.lblUpTo.Location = new System.Drawing.Point(221, 2);
+            this.lblUpTo.Location = new System.Drawing.Point(308, 6);
             this.lblUpTo.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
             this.lblUpTo.Name = "lblUpTo";
             this.lblUpTo.Size = new System.Drawing.Size(41, 17);
             this.lblUpTo.TabIndex = 2;
             this.lblUpTo.Text = "Up to";
             this.lblUpTo.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.ToolTip.SetToolTip(this.lblUpTo, "Latest Date/Time");
             // 
             // lblFrom
             // 
             this.lblFrom.AutoSize = true;
-            this.lblFrom.Location = new System.Drawing.Point(69, 2);
+            this.lblFrom.Location = new System.Drawing.Point(159, 6);
             this.lblFrom.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
             this.lblFrom.Name = "lblFrom";
             this.lblFrom.Size = new System.Drawing.Size(38, 17);
             this.lblFrom.TabIndex = 1;
             this.lblFrom.Text = "From";
             this.lblFrom.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.ToolTip.SetToolTip(this.lblFrom, "Earliest Date/Time");
             // 
             // dtpAccessedMax
             // 
             this.dtpAccessedMax.CustomFormat = "yyyy-MM-dd HH:mm:ss";
             this.dtpAccessedMax.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
-            this.dtpAccessedMax.Location = new System.Drawing.Point(221, 94);
+            this.dtpAccessedMax.Location = new System.Drawing.Point(221, 98);
             this.dtpAccessedMax.Margin = new System.Windows.Forms.Padding(5);
             this.dtpAccessedMax.Name = "dtpAccessedMax";
             this.dtpAccessedMax.ShowCheckBox = true;
             this.dtpAccessedMax.Size = new System.Drawing.Size(128, 25);
             this.dtpAccessedMax.TabIndex = 14;
-            this.ToolTip.SetToolTip(this.dtpAccessedMax, "Latest Accessed Date");
+            this.ToolTip.SetToolTip(this.dtpAccessedMax, "Latest Accessed Date/Time");
             // 
             // dtpAccessedMin
             // 
             this.dtpAccessedMin.CustomFormat = "yyyy-MM-dd";
             this.dtpAccessedMin.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
-            this.dtpAccessedMin.Location = new System.Drawing.Point(69, 94);
+            this.dtpAccessedMin.Location = new System.Drawing.Point(69, 98);
             this.dtpAccessedMin.Margin = new System.Windows.Forms.Padding(5);
             this.dtpAccessedMin.Name = "dtpAccessedMin";
             this.dtpAccessedMin.ShowCheckBox = true;
             this.dtpAccessedMin.Size = new System.Drawing.Size(128, 25);
             this.dtpAccessedMin.TabIndex = 13;
-            this.ToolTip.SetToolTip(this.dtpAccessedMin, "Earliest Accessed Date");
+            this.ToolTip.SetToolTip(this.dtpAccessedMin, "Earliest Accessed Date/Time");
             // 
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(6, 98);
+            this.label3.Location = new System.Drawing.Point(6, 102);
             this.label3.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(62, 17);
             this.label3.TabIndex = 12;
             this.label3.Text = "&Accessed";
             this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.ToolTip.SetToolTip(this.label3, "Accessed Date/Time");
             // 
             // dtpModifiedMax
             // 
             this.dtpModifiedMax.CustomFormat = "yyyy-MM-dd HH:mm:ss";
             this.dtpModifiedMax.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
-            this.dtpModifiedMax.Location = new System.Drawing.Point(221, 59);
+            this.dtpModifiedMax.Location = new System.Drawing.Point(221, 63);
             this.dtpModifiedMax.Margin = new System.Windows.Forms.Padding(5);
             this.dtpModifiedMax.Name = "dtpModifiedMax";
             this.dtpModifiedMax.ShowCheckBox = true;
             this.dtpModifiedMax.Size = new System.Drawing.Size(128, 25);
             this.dtpModifiedMax.TabIndex = 10;
-            this.ToolTip.SetToolTip(this.dtpModifiedMax, "Latest Modified Date");
+            this.ToolTip.SetToolTip(this.dtpModifiedMax, "Latest Modified Date/Time");
             // 
             // dtpModifiedMin
             // 
             this.dtpModifiedMin.CustomFormat = "yyyy-MM-dd";
             this.dtpModifiedMin.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
-            this.dtpModifiedMin.Location = new System.Drawing.Point(69, 59);
+            this.dtpModifiedMin.Location = new System.Drawing.Point(69, 63);
             this.dtpModifiedMin.Margin = new System.Windows.Forms.Padding(5);
             this.dtpModifiedMin.Name = "dtpModifiedMin";
             this.dtpModifiedMin.ShowCheckBox = true;
             this.dtpModifiedMin.Size = new System.Drawing.Size(128, 25);
             this.dtpModifiedMin.TabIndex = 9;
-            this.ToolTip.SetToolTip(this.dtpModifiedMin, "Earliest Modified Date");
+            this.ToolTip.SetToolTip(this.dtpModifiedMin, "Earliest Modified Date/Time");
             // 
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(7, 63);
+            this.label2.Location = new System.Drawing.Point(7, 67);
             this.label2.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(61, 17);
             this.label2.TabIndex = 8;
             this.label2.Text = "&Modified";
             this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.ToolTip.SetToolTip(this.label2, "Modified Date/Time");
             // 
             // dtpCreatedMax
             // 
             this.dtpCreatedMax.CustomFormat = "yyyy-MM-dd HH:mm:ss";
             this.dtpCreatedMax.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
-            this.dtpCreatedMax.Location = new System.Drawing.Point(221, 24);
+            this.dtpCreatedMax.Location = new System.Drawing.Point(221, 28);
             this.dtpCreatedMax.Margin = new System.Windows.Forms.Padding(5);
             this.dtpCreatedMax.Name = "dtpCreatedMax";
             this.dtpCreatedMax.ShowCheckBox = true;
             this.dtpCreatedMax.Size = new System.Drawing.Size(128, 25);
             this.dtpCreatedMax.TabIndex = 6;
-            this.ToolTip.SetToolTip(this.dtpCreatedMax, "Latest Created Date");
+            this.ToolTip.SetToolTip(this.dtpCreatedMax, "Latest Created Date/Time");
             // 
             // dtpCreatedMin
             // 
             this.dtpCreatedMin.CustomFormat = "yyyy-MM-dd";
             this.dtpCreatedMin.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
-            this.dtpCreatedMin.Location = new System.Drawing.Point(69, 24);
+            this.dtpCreatedMin.Location = new System.Drawing.Point(69, 28);
             this.dtpCreatedMin.Margin = new System.Windows.Forms.Padding(5);
             this.dtpCreatedMin.Name = "dtpCreatedMin";
             this.dtpCreatedMin.ShowCheckBox = true;
             this.dtpCreatedMin.Size = new System.Drawing.Size(128, 25);
             this.dtpCreatedMin.TabIndex = 5;
-            this.ToolTip.SetToolTip(this.dtpCreatedMin, "Earliest Created Date");
+            this.ToolTip.SetToolTip(this.dtpCreatedMin, "Earliest Created Date/Time");
             this.dtpCreatedMin.Value = new System.DateTime(2024, 9, 27, 21, 20, 0, 0);
             // 
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(7, 28);
+            this.label1.Location = new System.Drawing.Point(7, 32);
             this.label1.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(54, 17);
             this.label1.TabIndex = 4;
             this.label1.Text = "&Created";
             this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
-            // groupBox1
-            // 
-            this.groupBox1.Controls.Add(this.edConditions);
-            this.groupBox1.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.groupBox1.Location = new System.Drawing.Point(0, 259);
-            this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(396, 344);
-            this.groupBox1.TabIndex = 37;
-            this.groupBox1.TabStop = false;
-            this.groupBox1.Text = "Conditions";
+            this.ToolTip.SetToolTip(this.label1, "Created Date/Time");
             // 
             // edConditions
             // 
@@ -554,8 +537,20 @@
             this.edConditions.Multiline = true;
             this.edConditions.Name = "edConditions";
             this.edConditions.ReadOnly = true;
-            this.edConditions.Size = new System.Drawing.Size(390, 320);
+            this.edConditions.Size = new System.Drawing.Size(390, 136);
             this.edConditions.TabIndex = 0;
+            this.edConditions.Text = "!ReadOnly, !Hidden, !System, !Archive, !Compressed, !Encrypted";
+            // 
+            // groupBox1
+            // 
+            this.groupBox1.Controls.Add(this.edConditions);
+            this.groupBox1.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.groupBox1.Location = new System.Drawing.Point(0, 262);
+            this.groupBox1.Name = "groupBox1";
+            this.groupBox1.Size = new System.Drawing.Size(396, 160);
+            this.groupBox1.TabIndex = 37;
+            this.groupBox1.TabStop = false;
+            this.groupBox1.Text = "Conditions";
             // 
             // FileFilterControl
             // 
@@ -565,7 +560,7 @@
             this.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "FileFilterControl";
-            this.Size = new System.Drawing.Size(396, 607);
+            this.Size = new System.Drawing.Size(396, 423);
             this.MainPanel.ResumeLayout(false);
             this.MainPanel.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.seFileSizeMax)).EndInit();
@@ -587,7 +582,6 @@
         public System.Windows.Forms.CheckBox cbAccessedUtc;
         public System.Windows.Forms.CheckBox cbModifiedUtc;
         public System.Windows.Forms.CheckBox cbCreatedUtc;
-        public System.Windows.Forms.Label lblDate;
         public System.Windows.Forms.ComboBox cbAttrArchive;
         public System.Windows.Forms.ComboBox cbAttrSystem;
         public System.Windows.Forms.ComboBox cbAttrHidden;

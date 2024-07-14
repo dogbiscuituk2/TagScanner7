@@ -47,28 +47,24 @@
             AddDates(FileFlags.Accessed, Tag.FileAccessed, Tag.FileAccessedUtc, AccessedMin, AccessedMax);
             useTimes = true;
             AddFileSize();
-            AddAttribute(FileFlags.ReadOnly, FileAttributes.ReadOnly);
-            AddAttribute(FileFlags.Hidden, FileAttributes.Hidden);
-            AddAttribute(FileFlags.System, FileAttributes.System);
-            AddAttribute(FileFlags.Archive, FileAttributes.Archive);
-            AddAttribute(FileFlags.Compressed, FileAttributes.Compressed);
-            AddAttribute(FileFlags.Encrypted, FileAttributes.Encrypted);
+            AddAttribute(FileFlags.ReadOnly, Tag.FileAttrReadOnly);
+            AddAttribute(FileFlags.Hidden, Tag.FileAttrHidden);
+            AddAttribute(FileFlags.System, Tag.FileAttrSystem);
+            AddAttribute(FileFlags.Archive, Tag.FileAttrArchive);
+            AddAttribute(FileFlags.Compressed, Tag.FileAttrCompressed);
+            AddAttribute(FileFlags.Encrypted, Tag.FileAttrEncrypted);
             filterString = filterText.ToString();
             return conjunction;
 
-            void AddAttribute(FileFlags flags, FileAttributes attribute)
+            void AddAttribute(FileFlags flags, Tag tag)
             {
                 flags &= Flags;
                 if (flags != 0)
                 {
-                    Term function = new Function(Tag.FileAttributes, Fn.Contains, $"{attribute}", false);
-                    var text = $"{Tag.FileAttributes.DisplayName()} contains \"{attribute}\"";
+                    Term term = tag;
                     if ((flags & FileFlags.False) != 0)
-                    {
-                        function = !function;
-                        text = $"!({text})";
-                    }
-                    AddCondition(function, text);
+                        term = !term;
+                    AddCondition(term);
                 }
             }
 

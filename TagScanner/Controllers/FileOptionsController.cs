@@ -11,6 +11,7 @@
         public FileOptionsController(Controller parent) : base(parent)
         {
             FileFilterController = new FileFilterController(this);
+            FileFilterController.UseTimesChanged += (sender, e) => View.RightPanel.Width = FileFilterController.ViewWidth;
             FileSchemaController = new FileSchemaController(this);
             MainForm.AddOptions.Click += AddOptions_Click;
         }
@@ -18,16 +19,6 @@
         #endregion
 
         #region Public Properties
-
-        public bool UseTimes
-        {
-            get => FileFilterController.UseTimes;
-            set
-            {
-                FileFilterController.UseTimes = value;
-                View.RightPanel.Width = FileFilterController.ViewWidth;
-            }
-        }
 
         public bool UseAutocorrect
         {
@@ -100,8 +91,6 @@
             SchemaPopupAdd.Click += (sender, e) => FileSchemaController.Add();
             SchemaPopupEdit.Click += (sender, e) => FileSchemaController.Edit();
             SchemaPopupDelete.Click += (sender, e) => FileSchemaController.Remove();
-
-            UseTimes = false;
         }
 
         private void UpdateUI() => SchemaPopupDelete.Enabled = FileSchemaController.SelectedNode?.Level > 0;

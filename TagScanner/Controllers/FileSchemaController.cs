@@ -134,7 +134,7 @@
 
         #region Private Fields
 
-        private static readonly string[] LineTypes = new[] { "Root", "Media Category", "File Format" };
+        private static readonly string[] LineTypes = new[] { "Root", "Media Category", "Filespec" };
         private TreeView TreeView;
         private TriStateTreeController TriStateTreeController;
 

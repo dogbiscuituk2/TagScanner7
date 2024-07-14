@@ -39,10 +39,10 @@
             this.RightPanel = new System.Windows.Forms.Panel();
             this.btnCancel = new System.Windows.Forms.Button();
             this.btnOK = new System.Windows.Forms.Button();
-            this.FileFilterControl = new TagScanner.Controls.FileFilterControl();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.textBox1 = new System.Windows.Forms.TextBox();
+            this.FileFilterControl = new TagScanner.Controls.FileFilterControl();
             this.SchemaPopupMenu.SuspendLayout();
             this.RightPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
@@ -77,21 +77,21 @@
             // SchemaPopupAdd
             // 
             this.SchemaPopupAdd.Name = "SchemaPopupAdd";
-            this.SchemaPopupAdd.Size = new System.Drawing.Size(149, 22);
+            this.SchemaPopupAdd.Size = new System.Drawing.Size(107, 22);
             this.SchemaPopupAdd.Text = "&Add...";
             this.SchemaPopupAdd.ToolTipText = "Add a new File Format";
             // 
             // SchemaPopupEdit
             // 
             this.SchemaPopupEdit.Name = "SchemaPopupEdit";
-            this.SchemaPopupEdit.Size = new System.Drawing.Size(149, 22);
+            this.SchemaPopupEdit.Size = new System.Drawing.Size(107, 22);
             this.SchemaPopupEdit.Text = "&Edit...";
             this.SchemaPopupEdit.ToolTipText = "Edit this File Format";
             // 
             // SchemaPopupDelete
             // 
             this.SchemaPopupDelete.Name = "SchemaPopupDelete";
-            this.SchemaPopupDelete.Size = new System.Drawing.Size(149, 22);
+            this.SchemaPopupDelete.Size = new System.Drawing.Size(107, 22);
             this.SchemaPopupDelete.Text = "&Delete";
             this.SchemaPopupDelete.ToolTipText = "Remove this File Format";
             // 
@@ -108,8 +108,8 @@
             this.RightPanel.Controls.Add(this.btnCancel);
             this.RightPanel.Controls.Add(this.btnOK);
             this.RightPanel.Controls.Add(this.FileFilterControl);
-            this.RightPanel.Dock = System.Windows.Forms.DockStyle.Right;
-            this.RightPanel.Location = new System.Drawing.Point(388, 0);
+            this.RightPanel.Dock = System.Windows.Forms.DockStyle.Left;
+            this.RightPanel.Location = new System.Drawing.Point(0, 0);
             this.RightPanel.Name = "RightPanel";
             this.RightPanel.Size = new System.Drawing.Size(396, 511);
             this.RightPanel.TabIndex = 2;
@@ -138,20 +138,10 @@
             this.btnOK.Text = "OK";
             this.btnOK.UseVisualStyleBackColor = true;
             // 
-            // FileFilterControl
-            // 
-            this.FileFilterControl.Dock = System.Windows.Forms.DockStyle.Top;
-            this.FileFilterControl.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.FileFilterControl.Location = new System.Drawing.Point(0, 0);
-            this.FileFilterControl.Margin = new System.Windows.Forms.Padding(4);
-            this.FileFilterControl.Name = "FileFilterControl";
-            this.FileFilterControl.Size = new System.Drawing.Size(396, 468);
-            this.FileFilterControl.TabIndex = 0;
-            // 
             // splitContainer1
             // 
             this.splitContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.splitContainer1.Location = new System.Drawing.Point(0, 0);
+            this.splitContainer1.Location = new System.Drawing.Point(396, 0);
             this.splitContainer1.Name = "splitContainer1";
             this.splitContainer1.Orientation = System.Windows.Forms.Orientation.Horizontal;
             // 
@@ -175,7 +165,7 @@
             this.groupBox1.Size = new System.Drawing.Size(388, 259);
             this.groupBox1.TabIndex = 1;
             this.groupBox1.TabStop = false;
-            this.groupBox1.Text = "Format Filespecs";
+            this.groupBox1.Text = "Filespecs";
             // 
             // textBox1
             // 
@@ -187,6 +177,16 @@
             this.textBox1.ReadOnly = true;
             this.textBox1.Size = new System.Drawing.Size(382, 235);
             this.textBox1.TabIndex = 0;
+            // 
+            // FileFilterControl
+            // 
+            this.FileFilterControl.Dock = System.Windows.Forms.DockStyle.Top;
+            this.FileFilterControl.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.FileFilterControl.Location = new System.Drawing.Point(0, 0);
+            this.FileFilterControl.Margin = new System.Windows.Forms.Padding(4);
+            this.FileFilterControl.Name = "FileFilterControl";
+            this.FileFilterControl.Size = new System.Drawing.Size(396, 468);
+            this.FileFilterControl.TabIndex = 0;
             // 
             // FileOptionsDialog
             // 

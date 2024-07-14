@@ -568,15 +568,93 @@
         public DateTime FileAccessedUtc => GetDateTime(p => p.FileAccessedUtc, ref _fileAccessedUtc);
 
         #endregion
-        #region FileAttributes
+        #region FileAttrs
 
-        private string _fileAttributes;
+        private string _fileAttrs;
         [Browsable(false)]
         [Category(File)]
         [Description("A string representing the filesystem attributes of the file containing the selected media.")]
         [DisplayName("File Attributes")]
         [ReadOnly(true)]
-        public string FileAttributes => GetString(p => p.FileAttributes, ref _fileAttributes);
+        public string FileAttrs => GetString(p => p.FileAttrs, ref _fileAttrs);
+
+        #endregion
+        #region FileAttrArchive
+
+        private Logical _fileAttrArchive = Logical.Unknown;
+        [Browsable(false)]
+        [Category(File)]
+        [Column(80)]
+        [Description("A bool indicating whether or not the file has the 'Archive' attribute.")]
+        [DisplayName("Archive")]
+        [ReadOnly(true)]
+        [Uses(Tag.FileAttrs)]
+        public Logical FileAttrArchive => GetLogical(p => p.FileAttrArchive, ref _fileAttrArchive);
+
+        #endregion
+        #region FileAttrCompressed
+
+        private Logical _fileAttrCompressed = Logical.Unknown;
+        [Browsable(false)]
+        [Category(File)]
+        [Column(80)]
+        [Description("A bool indicating whether or not the file has the 'Compressed' attribute.")]
+        [DisplayName("Compressed")]
+        [ReadOnly(true)]
+        [Uses(Tag.FileAttrs)]
+        public Logical FileAttrCompressed => GetLogical(p => p.FileAttrCompressed, ref _fileAttrCompressed);
+
+        #endregion
+        #region FileAttrEncrypted
+
+        private Logical _fileAttrEncrypted = Logical.Unknown;
+        [Browsable(false)]
+        [Category(File)]
+        [Column(80)]
+        [Description("A bool indicating whether or not the file has the 'Encrypted' attribute.")]
+        [DisplayName("Encrypted")]
+        [ReadOnly(true)]
+        [Uses(Tag.FileAttrs)]
+        public Logical FileAttrEncrypted => GetLogical(p => p.FileAttrEncrypted, ref _fileAttrEncrypted);
+
+        #endregion
+        #region FileAttrHidden
+
+        private Logical _fileAttrHidden = Logical.Unknown;
+        [Browsable(false)]
+        [Category(File)]
+        [Column(80)]
+        [Description("A bool indicating whether or not the file has the 'Hidden' attribute.")]
+        [DisplayName("Hidden")]
+        [ReadOnly(true)]
+        [Uses(Tag.FileAttrs)]
+        public Logical FileAttrHidden => GetLogical(p => p.FileAttrHidden, ref _fileAttrHidden);
+
+        #endregion
+        #region FileAttrReadOnly
+
+        private Logical _fileAttrReadOnly = Logical.Unknown;
+        [Browsable(false)]
+        [Category(File)]
+        [Column(80)]
+        [Description("A bool indicating whether or not the file has the 'ReadOnly' attribute.")]
+        [DisplayName("ReadOnly")]
+        [ReadOnly(true)]
+        [Uses(Tag.FileAttrs)]
+        public Logical FileAttrReadOnly => GetLogical(p => p.FileAttrReadOnly, ref _fileAttrReadOnly);
+
+        #endregion
+        #region FileAttrSystem
+
+        private Logical _fileAttrSystem = Logical.Unknown;
+        [Browsable(false)]
+        [Category(File)]
+        [Column(80)]
+        [Description("A bool indicating whether or not the file has the 'System' attribute.")]
+        [DisplayName("System")]
+        [ReadOnly(true)]
+        [Uses(Tag.FileAttrs)]
+        public Logical FileAttrSystem => GetLogical(p => p.FileAttrSystem, ref _fileAttrSystem);
 
         #endregion
         #region FileCreated
@@ -2308,7 +2386,7 @@
                 _description =
                 _discOf =
                 _discTrack =
-                _fileAttributes =
+                _fileAttrs =
                 _fileExtension =
                 _fileName =
                 _fileNameWithoutExtension =
