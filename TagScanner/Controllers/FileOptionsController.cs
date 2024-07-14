@@ -81,7 +81,7 @@
         private void CreateView()
         {
             View = new FileOptionsDialog();
-            FileSchemaController.SetView(View.TreeView);
+            FileSchemaController.SetView(View.TreeView, View.edFilespecs);
             FileFilterController.SetView(View.FileFilterControl);
 
             SchemaPopupAdd = View.SchemaPopupAdd;

@@ -100,13 +100,12 @@
                 MessageBoxButtons.YesNo,
                 MessageBoxIcon.Question
                 ) == DialogResult.Yes)
-            {
                 Nodes.Remove(node);
-            }
         }
 
         public void SetSchema(Schema schema)
         {
+            BeginUpdate();
             Nodes.Clear();
             foreach (var line in schema.Lines)
             {
@@ -115,12 +114,14 @@
                     nodes = nodes.OfType<TreeNode>().Last().Nodes;
                 AddNode(nodes, line.Description, line.Filespec, line.Check);
             }
+            EndUpdate();
         }
 
-        public void SetView(TreeView treeView)
+        public void SetView(TreeView treeView, TextBox edFilespecs)
         {
             TreeView = treeView;
             TriStateTreeController = new TriStateTreeController(TreeView);
+            EdFilespecs = edFilespecs;
         }
 
         public void ShowFileFilter() => MessageBox.Show(
@@ -134,9 +135,11 @@
 
         #region Private Fields
 
+        private TextBox EdFilespecs;
         private static readonly string[] LineTypes = new[] { "Root", "Media Category", "Filespec" };
         private TreeView TreeView;
         private TriStateTreeController TriStateTreeController;
+        private int _updateCount;
 
         #endregion
 
@@ -155,8 +158,16 @@
             InitNode(node, description, filespec, check ? TreeNodeState.Checked : TreeNodeState.Unchecked);
         }
 
+        private void BeginUpdate() => _updateCount++;
+
         private bool EditValue(string prompt, int level, ref string description, ref string filespec) =>
             new FilespecController(this).Execute(prompt, level, ref description, ref filespec);
+
+        private void EndUpdate()
+        {
+            if (--_updateCount == 0)
+                UpdateUI();
+        }
 
         private static TreeNodeState GetNodeState(TreeNode node) => (TreeNodeState)node.StateImageIndex;
 
@@ -175,7 +186,18 @@
             SetNodeState(node, state);
         }
 
-        private void SetNodeState(TreeNode node, TreeNodeState state) => TriStateTreeController.SetNodeState(node, state);
+        private void SetNodeState(TreeNode node, TreeNodeState state)
+        {
+            BeginUpdate();
+            TriStateTreeController.SetNodeState(node, state);
+            EndUpdate();
+        }
+
+        private void UpdateUI()
+        {
+            if (_updateCount == 0)
+                EdFilespecs.Text = GetSchema().ToString();
+        }
 
         #endregion
     }

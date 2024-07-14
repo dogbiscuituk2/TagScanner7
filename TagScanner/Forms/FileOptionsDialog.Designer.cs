@@ -39,10 +39,10 @@
             this.RightPanel = new System.Windows.Forms.Panel();
             this.btnCancel = new System.Windows.Forms.Button();
             this.btnOK = new System.Windows.Forms.Button();
+            this.FileFilterControl = new TagScanner.Controls.FileFilterControl();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.textBox1 = new System.Windows.Forms.TextBox();
-            this.FileFilterControl = new TagScanner.Controls.FileFilterControl();
+            this.edFilespecs = new System.Windows.Forms.TextBox();
             this.SchemaPopupMenu.SuspendLayout();
             this.RightPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
@@ -138,6 +138,16 @@
             this.btnOK.Text = "OK";
             this.btnOK.UseVisualStyleBackColor = true;
             // 
+            // FileFilterControl
+            // 
+            this.FileFilterControl.Dock = System.Windows.Forms.DockStyle.Top;
+            this.FileFilterControl.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.FileFilterControl.Location = new System.Drawing.Point(0, 0);
+            this.FileFilterControl.Margin = new System.Windows.Forms.Padding(4);
+            this.FileFilterControl.Name = "FileFilterControl";
+            this.FileFilterControl.Size = new System.Drawing.Size(396, 468);
+            this.FileFilterControl.TabIndex = 0;
+            // 
             // splitContainer1
             // 
             this.splitContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -158,7 +168,7 @@
             // 
             // groupBox1
             // 
-            this.groupBox1.Controls.Add(this.textBox1);
+            this.groupBox1.Controls.Add(this.edFilespecs);
             this.groupBox1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.groupBox1.Location = new System.Drawing.Point(0, 0);
             this.groupBox1.Name = "groupBox1";
@@ -167,26 +177,16 @@
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Filespecs";
             // 
-            // textBox1
+            // edFilespecs
             // 
-            this.textBox1.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.textBox1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.textBox1.Location = new System.Drawing.Point(3, 21);
-            this.textBox1.Multiline = true;
-            this.textBox1.Name = "textBox1";
-            this.textBox1.ReadOnly = true;
-            this.textBox1.Size = new System.Drawing.Size(382, 235);
-            this.textBox1.TabIndex = 0;
-            // 
-            // FileFilterControl
-            // 
-            this.FileFilterControl.Dock = System.Windows.Forms.DockStyle.Top;
-            this.FileFilterControl.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.FileFilterControl.Location = new System.Drawing.Point(0, 0);
-            this.FileFilterControl.Margin = new System.Windows.Forms.Padding(4);
-            this.FileFilterControl.Name = "FileFilterControl";
-            this.FileFilterControl.Size = new System.Drawing.Size(396, 468);
-            this.FileFilterControl.TabIndex = 0;
+            this.edFilespecs.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.edFilespecs.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.edFilespecs.Location = new System.Drawing.Point(3, 21);
+            this.edFilespecs.Multiline = true;
+            this.edFilespecs.Name = "edFilespecs";
+            this.edFilespecs.ReadOnly = true;
+            this.edFilespecs.Size = new System.Drawing.Size(382, 235);
+            this.edFilespecs.TabIndex = 0;
             // 
             // FileOptionsDialog
             // 
@@ -229,7 +229,7 @@
         public System.Windows.Forms.Button btnOK;
         public Controls.FileFilterControl FileFilterControl;
         private System.Windows.Forms.SplitContainer splitContainer1;
-        private System.Windows.Forms.TextBox textBox1;
         private System.Windows.Forms.GroupBox groupBox1;
+        public System.Windows.Forms.TextBox edFilespecs;
     }
 }
