@@ -2,7 +2,6 @@
 {
     using System;
     using System.Collections.Generic;
-    using System.IO;
     using System.Linq;
     using System.Text;
     using Terms;
@@ -51,20 +50,8 @@
             var attrs = AddAttributes().Where(p => p != null);
             if (attrs.Any())
                 filterText.AppendLine(attrs.Aggregate((p, q) => $"{p}, {q}"));
-
             filterString = filterText.ToString();
             return conjunction;
-
-            string AddAttribute(FileFlags flags, Tag tag)
-            {
-                flags &= Flags;
-                if (flags == 0)
-                    return null;
-                Term term = tag;
-                if ((flags & FileFlags.False) != 0)
-                    term = !term;
-                return AddCondition(term);
-            }
 
             IEnumerable<string> AddAttributes()
             {
@@ -75,6 +62,17 @@
                 yield return AddAttribute(FileFlags.Compressed, Tag.FileAttrCompressed);
                 yield return AddAttribute(FileFlags.Encrypted, Tag.FileAttrEncrypted);
                 yield break;
+
+                string AddAttribute(FileFlags flags, Tag tag)
+                {
+                    flags &= Flags;
+                    if (flags == 0)
+                        return null;
+                    Term term = tag;
+                    if ((flags & FileFlags.False) != 0)
+                        term = !term;
+                    return AddCondition(term);
+                }
             }
 
             string AddCondition(Term term)
