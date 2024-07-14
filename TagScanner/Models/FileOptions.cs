@@ -3,6 +3,7 @@
     using System;
     using System.Collections.Generic;
     using System.IO;
+    using System.Linq;
     using System.Text;
     using Terms;
 
@@ -47,39 +48,47 @@
             AddDates(FileFlags.Accessed, Tag.FileAccessed, Tag.FileAccessedUtc, AccessedMin, AccessedMax);
             useTimes = true;
             AddFileSize();
-            AddAttribute(FileFlags.ReadOnly, Tag.FileAttrReadOnly);
-            AddAttribute(FileFlags.Hidden, Tag.FileAttrHidden);
-            AddAttribute(FileFlags.System, Tag.FileAttrSystem);
-            AddAttribute(FileFlags.Archive, Tag.FileAttrArchive);
-            AddAttribute(FileFlags.Compressed, Tag.FileAttrCompressed);
-            AddAttribute(FileFlags.Encrypted, Tag.FileAttrEncrypted);
+            var attrs = AddAttributes().Where(p => p != null);
+            if (attrs.Any())
+                filterText.AppendLine(attrs.Aggregate((p, q) => $"{p}, {q}"));
+
             filterString = filterText.ToString();
             return conjunction;
 
-            void AddAttribute(FileFlags flags, Tag tag)
+            string AddAttribute(FileFlags flags, Tag tag)
             {
                 flags &= Flags;
-                if (flags != 0)
-                {
-                    Term term = tag;
-                    if ((flags & FileFlags.False) != 0)
-                        term = !term;
-                    AddCondition(term);
-                }
+                if (flags == 0)
+                    return null;
+                Term term = tag;
+                if ((flags & FileFlags.False) != 0)
+                    term = !term;
+                return AddCondition(term);
             }
 
-            void AddCondition(Term term, string text = null)
+            IEnumerable<string> AddAttributes()
+            {
+                yield return AddAttribute(FileFlags.ReadOnly, Tag.FileAttrReadOnly);
+                yield return AddAttribute(FileFlags.Hidden, Tag.FileAttrHidden);
+                yield return AddAttribute(FileFlags.System, Tag.FileAttrSystem);
+                yield return AddAttribute(FileFlags.Archive, Tag.FileAttrArchive);
+                yield return AddAttribute(FileFlags.Compressed, Tag.FileAttrCompressed);
+                yield return AddAttribute(FileFlags.Encrypted, Tag.FileAttrEncrypted);
+                yield break;
+            }
+
+            string AddCondition(Term term)
             {
                 conditions.Add(term);
-                filterText.AppendLine(text ?? term.ToString());
+                return term.ToString();
             }
 
             void AddDates(FileFlags flags, Tag tag, Tag tagUtc, DateTime min, DateTime max) =>
                 AddRelation(flags, (flags & Flags & FileFlags.Utc) == 0 ? tag : tagUtc, min, max);
 
-            void AddFileSize() => AddRelation(FileFlags.FileSize, Tag.FileSize, FileSizeMin * FileSizeMultiplier, FileSizeMax * FileSizeMultiplier);
+            void AddFileSize() => AddRelation(FileFlags.FileSize, Tag.FileSize, GetFileSize(FileSizeMin), GetFileSize(FileSizeMax));
 
-            void AddOperation(Op op, params Term[] args) => AddCondition(new Operation(op, args));
+            string AddOperation(Op op, params Term[] args) => AddCondition(new Operation(op, args));
 
             void AddRelation(FileFlags flags, Tag tag, Term min, Term max)
             {
@@ -89,13 +98,14 @@
                     useMax = (flags & FileFlags.Max) != 0;
                 if (!useMin && !useMax)
                     return;
+                var text = string.Empty;
                 if (useTimes)
                 {
                     var operands = new List<Term>();
                     if (useMin) operands.Add(min);
                     operands.Add(tag);
                     if (useMax) operands.Add(max);
-                    AddOperation(Op.NotGreaterThan, operands.ToArray());
+                    text = AddOperation(Op.NotGreaterThan, operands.ToArray());
                 }
                 else
                 {
@@ -103,17 +113,27 @@
                     max = StripTime(max, 1);
                     var length = filterText.Length;
                     if (useMin)
-                        AddOperation(Op.NotGreaterThan, min, tag);
+                        text = AddOperation(Op.NotGreaterThan, min, tag);
                     if (useMax)
-                        AddOperation(Op.LessThan, tag, max);
-                    if (useMin && useMax)
                     {
-                        filterText.Remove(length, filterText.Length - length);
-                        filterText.AppendLine($"{min} ≤ {tag.DisplayName()} < {max}");
+                        text = AddOperation(Op.LessThan, tag, max);
+                        if (useMin)
+                            text = $"{min} ≤ {tag.DisplayName()} < {max}";
                     }
                 }
+                filterText.AppendLine(text);
 
                 Term StripTime(Term term, int bump) => ((Constant<DateTime>)term).Value.Date.AddDays(bump);
+            }
+
+            Term GetFileSize(decimal fileSize)
+            {
+                fileSize = Math.Round(fileSize * FileSizeMultiplier);
+                return
+                    fileSize <= int.MaxValue ? (int)fileSize :
+                    fileSize <= long.MaxValue ? (long)fileSize :
+                    fileSize <= ulong.MaxValue ? (ulong)fileSize :
+                    (Term)ulong.MaxValue;
             }
         }
 
