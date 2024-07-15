@@ -1,6 +1,6 @@
 ﻿namespace TagScanner.Forms
 {
-    partial class FileOptionsDialog
+    partial class FileChecksDialog
     {
         /// <summary>
         /// Required designer variable.
@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FileOptionsDialog));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FileChecksDialog));
             this.TreeView = new System.Windows.Forms.TreeView();
             this.SchemaPopupMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.SchemaPopupAdd = new System.Windows.Forms.ToolStripMenuItem();
@@ -201,7 +201,7 @@
             this.FileFilterControl.Size = new System.Drawing.Size(396, 345);
             this.FileFilterControl.TabIndex = 0;
             // 
-            // FileOptionsDialog
+            // FileChecksDialog
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 17F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -215,7 +215,7 @@
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.MinimumSize = new System.Drawing.Size(800, 420);
-            this.Name = "FileOptionsDialog";
+            this.Name = "FileChecksDialog";
             this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Show;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "File Options";

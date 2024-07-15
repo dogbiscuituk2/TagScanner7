@@ -60,7 +60,7 @@
             {
                 if (!ExistingFilePaths.Contains(filePath))
                 {
-                    track = Track.FromPath(filePath, _model.FileOptionsFilter);
+                    track = Track.FromPath(filePath, _model.FileChecksFilter);
                     if (track != null)
                     {
                         Tracks.Add(track);

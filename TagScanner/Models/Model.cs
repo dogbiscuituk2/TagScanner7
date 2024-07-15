@@ -13,7 +13,7 @@
         private string _commonPath;
         public string CommonPath => _commonPath ?? (_commonPath = Utility.GetCommonPath(Tracks?.Select(p => p.FilePath)));
 
-        public Func<Track, bool> FileOptionsFilter { get; set; }
+        public Func<Track, bool> FileChecksFilter { get; set; }
 
         private Selection _library = new Selection(new List<Track>());
         public Selection Library

@@ -2,9 +2,9 @@
 {
     using System.Windows.Forms;
 
-    public partial class FileOptionsDialog : Form
+    public partial class FileChecksDialog : Form
     {
-        public FileOptionsDialog()
+        public FileChecksDialog()
         {
             InitializeComponent();
         }

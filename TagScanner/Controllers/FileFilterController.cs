@@ -1,6 +1,7 @@
 ﻿namespace TagScanner.Controllers
 {
     using System;
+    using System.IO;
     using System.Text;
     using System.Windows.Forms;
     using Controls;
@@ -67,7 +68,7 @@
 
         #region Public Methods
 
-        public void AfterExecute() => MainModel.FileOptionsFilter = GetFilterTerm().Filter;
+        public void AfterExecute() => MainModel.FileChecksFilter = GetFilterTerm().Filter;
 
         public void BeforeExecute() { }
 
@@ -101,11 +102,11 @@
 
         public string GetFilterString()
         {
-            ReadFileOptionsFromControls().GetFilter(UseTimes, out string filterString);
+            ReadFileChecksFromControls().GetFilter(UseTimes, out string filterString);
             return filterString;
         }
 
-        public Term GetFilterTerm() => ReadFileOptionsFromControls().GetFilter(UseTimes, out _);
+        public Term GetFilterTerm() => ReadFileChecksFromControls().GetFilter(UseTimes, out _);
 
         public void SetView(FileFilterControl view)
         {
@@ -113,6 +114,7 @@
 
             TriStateCheckedListController = new TriStateCheckedListController(this, _view.clbAttributes);
             TriStateCheckedListController.SetAllStates(CheckState.Indeterminate);
+            TriStateCheckedListController.ItemCheck += TriStateCheckedListController_ItemCheck;
 
             CbUseTimes = _view.cbUseTimes;
             CbCreatedUtc = _view.cbCreatedUtc;
@@ -174,6 +176,11 @@
             }
         }
 
+        private void TriStateCheckedListController_ItemCheck(object sender, ItemCheckEventArgs e)
+        {
+            UpdateUI();
+        }
+
         #endregion
 
         #region Protected Methods
@@ -191,7 +198,7 @@
             _timeFormat = "HH:mm:ss",
             _dateTimeFormat = _dateFormat + " " + _timeFormat;
 
-        private FileOptions _fileOptions = new FileOptions();
+        private FileChecks _fileChecks = new FileChecks();
         private bool _updating;
         private bool _useTimes = false;
         private FileFilterControl _view;
@@ -224,12 +231,12 @@
 
         private FileFlags Flags
         {
-            get => _fileOptions.Flags;
+            get => _fileChecks.Flags;
             set
             {
                 if (Flags == value)
                     return;
-                _fileOptions.Flags = value;
+                _fileChecks.Flags = value;
                 UpdateUI();
             }
         }
@@ -326,9 +333,9 @@
         private bool DatesOK(DateTimePicker min, DateTimePicker max) => !min.Checked || !max.Checked || min.Value <= max.Value;
         private bool FileSizesOK() => SeFileSizeMin.Value == 0 || SeFileSizeMax.Value == 0 || SeFileSizeMin.Value <= SeFileSizeMax.Value;
 
-        private FileOptions ReadFileOptionsFromControls()
+        private FileChecks ReadFileChecksFromControls()
         {
-            var fileOptions = new FileOptions();
+            var fileChecks = new FileChecks();
             FileFlags flags = 0;
 
             ReadCheckBox(CbUseTimes, FileFlags.UseTimes);
@@ -342,19 +349,41 @@
             ReadCheckBoxDtp(DtpAccessedMax, FileFlags.AccessedMax);
             ReadCheckBox(CbAccessedUtc, FileFlags.AccessedUtc);
 
-            fileOptions.CreatedMin = DtpCreatedMin.Value;
-            fileOptions.CreatedMax = DtpCreatedMax.Value;
-            fileOptions.ModifiedMin = DtpModifiedMin.Value;
-            fileOptions.ModifiedMax = DtpModifiedMax.Value;
-            fileOptions.AccessedMin = DtpAccessedMin.Value;
-            fileOptions.AccessedMax = DtpAccessedMax.Value;
+            fileChecks.CreatedMin = DtpCreatedMin.Value;
+            fileChecks.CreatedMax = DtpCreatedMax.Value;
+            fileChecks.ModifiedMin = DtpModifiedMin.Value;
+            fileChecks.ModifiedMax = DtpModifiedMax.Value;
+            fileChecks.AccessedMin = DtpAccessedMin.Value;
+            fileChecks.AccessedMax = DtpAccessedMax.Value;
 
-            fileOptions.FileSizeMin = ReadSpinEdit(SeFileSizeMin, FileFlags.FileSizeMin);
-            fileOptions.FileSizeMax = ReadSpinEdit(SeFileSizeMax, FileFlags.FileSizeMax);
-            fileOptions.FileSizeUnit = FileSizeUnit;
+            fileChecks.FileSizeMin = ReadSpinEdit(SeFileSizeMin, FileFlags.FileSizeMin);
+            fileChecks.FileSizeMax = ReadSpinEdit(SeFileSizeMax, FileFlags.FileSizeMax);
+            fileChecks.FileSizeUnit = FileSizeUnit;
 
-            fileOptions.Flags = flags;
-            return fileOptions;
+            ReadAttribute(FileAttributes.ReadOnly, FileFlags.ReadOnly);
+            ReadAttribute(FileAttributes.Hidden, FileFlags.Hidden);
+            ReadAttribute(FileAttributes.System, FileFlags.System);
+            ReadAttribute(FileAttributes.Archive, FileFlags.Archive);
+            ReadAttribute(FileAttributes.Compressed, FileFlags.Compressed);
+            ReadAttribute(FileAttributes.Encrypted, FileFlags.Encrypted);
+
+            fileChecks.Flags = flags;
+            return fileChecks;
+
+            void ReadAttribute(FileAttributes attr, FileFlags mask)
+            {
+                SetFlags(mask, StateToFlags());
+
+                FileFlags StateToFlags()
+                {
+                    switch (TriStateCheckedListController.GetState($"{attr}"))
+                    {
+                        case CheckState.Checked: return mask & FileFlags.True;
+                        case CheckState.Unchecked: return mask & FileFlags.True;
+                        default: return 0;
+                    }
+                }
+            }
 
             void ReadCheckBox(CheckBox control, FileFlags flag) => SetFlag(control.Checked ? flag : 0);
             void ReadCheckBoxDtp(DateTimePicker control, FileFlags flag) => SetFlag(control.Checked ? flag : 0);
@@ -367,10 +396,10 @@
             }
 
             void SetFlag(FileFlags mask, bool state = true) => flags = state ? flags | mask : flags & ~mask;
-            void SetFlags(FileFlags mask, FileFlags state) => flags = flags & ~mask | state;
+            void SetFlags(FileFlags mask, FileFlags state) => flags = flags & ~mask | state & mask;
         }
 
-        private void WriteFileOptionsToControls()
+        private void WriteFileChecksToControls()
         {
             WriteCheckBox(CbUseTimes, FileFlags.UseTimes);
             WriteCheckBoxDtp(DtpCreatedMin, FileFlags.CreatedMin);
@@ -383,26 +412,46 @@
             WriteCheckBoxDtp(DtpAccessedMax, FileFlags.AccessedMax);
             WriteCheckBox(CbAccessedUtc, FileFlags.AccessedUtc);
 
-            DtpCreatedMin.Value = _fileOptions.CreatedMin;
-            DtpCreatedMax.Value = _fileOptions.CreatedMax;
-            DtpModifiedMin.Value = _fileOptions.ModifiedMin;
-            DtpModifiedMax.Value = _fileOptions.ModifiedMax;
-            DtpAccessedMin.Value = _fileOptions.AccessedMin;
-            DtpAccessedMax.Value = _fileOptions.AccessedMax;
-            SeFileSizeMin.Value = _fileOptions.FileSizeMin;
-            SeFileSizeMax.Value = _fileOptions.FileSizeMax;
-            FileSizeUnit = _fileOptions.FileSizeUnit;
+            DtpCreatedMin.Value = _fileChecks.CreatedMin;
+            DtpCreatedMax.Value = _fileChecks.CreatedMax;
+            DtpModifiedMin.Value = _fileChecks.ModifiedMin;
+            DtpModifiedMax.Value = _fileChecks.ModifiedMax;
+            DtpAccessedMin.Value = _fileChecks.AccessedMin;
+            DtpAccessedMax.Value = _fileChecks.AccessedMax;
+            SeFileSizeMin.Value = _fileChecks.FileSizeMin;
+            SeFileSizeMax.Value = _fileChecks.FileSizeMax;
+            FileSizeUnit = _fileChecks.FileSizeUnit;
 
-            SeFileSizeMin.Value = _fileOptions.FileSizeMin;
-            SeFileSizeMax.Value = _fileOptions.FileSizeMax;
+            SeFileSizeMin.Value = _fileChecks.FileSizeMin;
+            SeFileSizeMax.Value = _fileChecks.FileSizeMax;
+
+            WriteAttribute(FileAttributes.ReadOnly, FileFlags.ReadOnly);
+            WriteAttribute(FileAttributes.Hidden, FileFlags.Hidden);
+            WriteAttribute(FileAttributes.System, FileFlags.System);
+            WriteAttribute(FileAttributes.Archive, FileFlags.Archive);
+            WriteAttribute(FileAttributes.Compressed, FileFlags.Compressed);
+            WriteAttribute(FileAttributes.Encrypted, FileFlags.Encrypted);
 
             UpdateUI();
 
             bool GetFlag(FileFlags flag) => (Flags & flag) != 0;
 
+            void WriteAttribute(FileAttributes attr, FileFlags flags)
+            {
+                TriStateCheckedListController.SetState($"{attr}", FlagsToState());
+
+                CheckState FlagsToState()
+                {
+                    flags &= Flags;
+                    return
+                        (flags & FileFlags.True) != 0 ? CheckState.Checked :
+                        (flags & FileFlags.False) != 0 ? CheckState.Unchecked :
+                        CheckState.Indeterminate;
+                }
+            }
+
             void WriteCheckBox(CheckBox control, FileFlags flag) => control.Checked = GetFlag(flag);
             void WriteCheckBoxDtp(DateTimePicker control, FileFlags flag) => control.Checked = GetFlag(flag);
-            void WriteComboBox(ComboBox control, FileFlags yes, FileFlags no) => control.SelectedIndex = GetFlag(yes) ? 1 : GetFlag(no) ? 2 : 0;
         }
 
         private void UpdateUI() => _view.edConditions.Text = GetFilterString();

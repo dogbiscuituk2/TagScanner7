@@ -42,7 +42,7 @@
             PictureController = new PictureController(View.PictureBox, View.PropertyGrid, PlayerController.PlaylistGrid);
             PropertyGridController = new PropertyGridController(this);
             StatusController = new StatusController(this);
-            FileOptionsController = new FileOptionsController(this);
+            FileChecksController = new FileChecksController(this);
             FindReplaceController = new FindReplaceController(this);
             AutoCompleter = new AutoCompleter(this, View.FindReplaceControl.cbFind, View.FindReplaceControl.cbReplace, View.FilterControl.cbFilter);
             FilterController.UpdateAutoComplete();
@@ -57,7 +57,7 @@
         public readonly AutoCompleter AutoCompleter;
         public readonly CommandProcessor CommandProcessor;
         public readonly DragDropController DragDropController;
-        public readonly FileOptionsController FileOptionsController;
+        public readonly FileChecksController FileChecksController;
         public readonly FilterController FilterController;
         public readonly FindReplaceController FindReplaceController;
         public readonly MruLibraryController LibraryController;

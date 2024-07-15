@@ -156,7 +156,7 @@
     <Compile Include="Controllers\DragDropController.cs" />
     <Compile Include="Controllers\ErrorController.cs" />
     <Compile Include="Controllers\FileFilterController.cs" />
-    <Compile Include="Controllers\FileOptionsController.cs" />
+    <Compile Include="Controllers\FileChecksController.cs" />
     <Compile Include="Controllers\FileSchemaController.cs" />
     <Compile Include="Controllers\FilterController.cs" />
     <Compile Include="Controllers\AppController.cs" />
@@ -196,11 +196,11 @@
     <Compile Include="Controls\FirstClickToolStrip.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="Forms\FileOptionsDialog.cs">
+    <Compile Include="Forms\FileChecksDialog.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Forms\FileOptionsDialog.Designer.cs">
-      <DependentUpon>FileOptionsDialog.cs</DependentUpon>
+    <Compile Include="Forms\FileChecksDialog.Designer.cs">
+      <DependentUpon>FileChecksDialog.cs</DependentUpon>
     </Compile>
     <Compile Include="Forms\FilespecDialog.cs">
       <SubType>Form</SubType>
@@ -209,7 +209,7 @@
       <DependentUpon>FilespecDialog.cs</DependentUpon>
     </Compile>
     <Compile Include="Menus\ShellContextMenu.cs" />
-    <Compile Include="Models\FileOptions.cs" />
+    <Compile Include="Models\FileChecks.cs" />
     <Compile Include="Models\FileFlags.cs" />
     <Compile Include="Models\FindReplaceResult.cs" />
     <Compile Include="Models\Query.cs" />
@@ -385,8 +385,8 @@
     <EmbeddedResource Include="Controls\FindReplaceControl.resx">
       <DependentUpon>FindReplaceControl.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Forms\FileOptionsDialog.resx">
-      <DependentUpon>FileOptionsDialog.cs</DependentUpon>
+    <EmbeddedResource Include="Forms\FileChecksDialog.resx">
+      <DependentUpon>FileChecksDialog.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\FilespecDialog.resx">
       <DependentUpon>FilespecDialog.cs</DependentUpon>

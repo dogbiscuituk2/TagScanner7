@@ -6,11 +6,11 @@
     using System.Text;
     using Terms;
 
-    public class FileOptions
+    public class FileChecks
     {
         #region Constructor
 
-        public FileOptions()
+        public FileChecks()
         {
             CreatedMin = ModifiedMin = AccessedMin =
                 CreatedMax = ModifiedMax = AccessedMax =

@@ -1137,10 +1137,10 @@
 
         public bool Load() => Load(p => true);
 
-        public bool Load(Func<Track, bool> fileOptionsFilter)
+        public bool Load(Func<Track, bool> fileChecksFilter)
         {
             ReadFileMetadata();
-            var result = fileOptionsFilter == null || fileOptionsFilter(this);
+            var result = fileChecksFilter == null || fileChecksFilter(this);
             if (result)
             {
                 using (var file = GetTagLibFile())

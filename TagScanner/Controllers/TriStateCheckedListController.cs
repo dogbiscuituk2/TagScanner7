@@ -1,5 +1,6 @@
 ﻿namespace TagScanner.Controllers
 {
+    using System.Collections.Generic;
     using System.Windows.Forms;
 
     public class TriStateCheckedListController : Controller
@@ -14,17 +15,38 @@
 
         #endregion
 
+        #region Public Events
+
+        public event ItemCheckEventHandler ItemCheck;
+
+        #endregion
+
         #region Public Methods
 
-        public CheckState GetState(int index) => _control.GetItemCheckState(index);
+        public CheckState GetState(int index)
+        {
+            if (!_actualStates.TryGetValue(index, out CheckState state))
+                state = _control.GetItemCheckState(index);
+            return state;
+        }
+
+        public CheckState GetState(object item) => GetState(_control.Items.IndexOf(item));
         public void SetAllStates(CheckState value) { for (var index = 0; index < _control.Items.Count; index++) SetState(index, value); }
         public void SetState(int index, CheckState value) => _control.SetItemCheckState(index, value);
+        public void SetState(object item, CheckState value) => SetState(_control.Items.IndexOf(item), value);
+
+        #endregion
+
+        #region Protected Methods
+
+        protected virtual void OnItemCheck(ItemCheckEventArgs e) => ItemCheck?.Invoke(this, e);
 
         #endregion
 
         #region Private Fields
 
         private CheckedListBox _control;
+        private Dictionary<int, CheckState> _actualStates = new Dictionary<int, CheckState>();
 
         #endregion
 
@@ -32,7 +54,13 @@
 
         private void Control_ItemCheck(object sender, ItemCheckEventArgs e)
         {
-            e.NewValue = NextState();
+            var newValue = NextState();
+            e.NewValue = newValue;
+            if (_actualStates.ContainsKey(e.Index))
+                _actualStates[e.Index] = newValue;
+            else
+                _actualStates.Add(e.Index, newValue);
+            OnItemCheck(e);
 
             CheckState NextState()
             {

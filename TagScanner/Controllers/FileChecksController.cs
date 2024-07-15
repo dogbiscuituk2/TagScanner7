@@ -4,11 +4,11 @@
     using System.Windows.Forms;
     using Forms;
 
-    public class FileOptionsController : Controller
+    public class FileChecksController : Controller
     {
         #region Constructor
 
-        public FileOptionsController(Controller parent) : base(parent)
+        public FileChecksController(Controller parent) : base(parent)
         {
             FileFilterController = new FileFilterController(this);
             FileFilterController.UseTimesChanged += (sender, e) => View.FileFilterPanel.Width = FileFilterController.ViewWidth;
@@ -46,7 +46,7 @@
         private readonly FileFilterController FileFilterController;
         private readonly FileSchemaController FileSchemaController;
 
-        private FileOptionsDialog View;
+        private FileChecksDialog View;
 
         private ToolStripMenuItem
             SchemaPopupAdd,
@@ -80,7 +80,7 @@
 
         private void CreateView()
         {
-            View = new FileOptionsDialog();
+            View = new FileChecksDialog();
             FileSchemaController.SetView(View.TreeView, View.edFilespecs);
             FileFilterController.SetView(View.FileFilterControl);
 
