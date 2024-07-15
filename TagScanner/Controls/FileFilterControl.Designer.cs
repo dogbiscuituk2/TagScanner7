@@ -30,29 +30,18 @@
         {
             this.components = new System.ComponentModel.Container();
             this.MainPanel = new System.Windows.Forms.Panel();
+            this.clbAttributes = new System.Windows.Forms.CheckedListBox();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.edConditions = new System.Windows.Forms.TextBox();
             this.cbUseTimes = new System.Windows.Forms.CheckBox();
             this.cbUnit = new System.Windows.Forms.ComboBox();
             this.cbUseAutocorrect = new System.Windows.Forms.CheckBox();
-            this.cbAttrEncrypted = new System.Windows.Forms.ComboBox();
-            this.lblEncrypted = new System.Windows.Forms.Label();
-            this.cbAttrCompressed = new System.Windows.Forms.ComboBox();
-            this.lblCompressed = new System.Windows.Forms.Label();
             this.seFileSizeMax = new System.Windows.Forms.NumericUpDown();
             this.seFileSizeMin = new System.Windows.Forms.NumericUpDown();
             this.lblUtc = new System.Windows.Forms.Label();
             this.cbAccessedUtc = new System.Windows.Forms.CheckBox();
             this.cbModifiedUtc = new System.Windows.Forms.CheckBox();
             this.cbCreatedUtc = new System.Windows.Forms.CheckBox();
-            this.cbAttrArchive = new System.Windows.Forms.ComboBox();
-            this.cbAttrSystem = new System.Windows.Forms.ComboBox();
-            this.cbAttrHidden = new System.Windows.Forms.ComboBox();
-            this.cbAttrReadOnly = new System.Windows.Forms.ComboBox();
-            this.lblArchive = new System.Windows.Forms.Label();
-            this.lblSystem = new System.Windows.Forms.Label();
-            this.lblHidden = new System.Windows.Forms.Label();
-            this.lblReadOnly = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
             this.lblUpTo = new System.Windows.Forms.Label();
             this.lblFrom = new System.Windows.Forms.Label();
@@ -66,7 +55,6 @@
             this.dtpCreatedMin = new System.Windows.Forms.DateTimePicker();
             this.label1 = new System.Windows.Forms.Label();
             this.ToolTip = new System.Windows.Forms.ToolTip(this.components);
-            this.clbAttributes = new System.Windows.Forms.CheckedListBox();
             this.MainPanel.SuspendLayout();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.seFileSizeMax)).BeginInit();
@@ -80,24 +68,12 @@
             this.MainPanel.Controls.Add(this.cbUseTimes);
             this.MainPanel.Controls.Add(this.cbUnit);
             this.MainPanel.Controls.Add(this.cbUseAutocorrect);
-            this.MainPanel.Controls.Add(this.cbAttrEncrypted);
-            this.MainPanel.Controls.Add(this.lblEncrypted);
-            this.MainPanel.Controls.Add(this.cbAttrCompressed);
-            this.MainPanel.Controls.Add(this.lblCompressed);
             this.MainPanel.Controls.Add(this.seFileSizeMax);
             this.MainPanel.Controls.Add(this.seFileSizeMin);
             this.MainPanel.Controls.Add(this.lblUtc);
             this.MainPanel.Controls.Add(this.cbAccessedUtc);
             this.MainPanel.Controls.Add(this.cbModifiedUtc);
             this.MainPanel.Controls.Add(this.cbCreatedUtc);
-            this.MainPanel.Controls.Add(this.cbAttrArchive);
-            this.MainPanel.Controls.Add(this.cbAttrSystem);
-            this.MainPanel.Controls.Add(this.cbAttrHidden);
-            this.MainPanel.Controls.Add(this.cbAttrReadOnly);
-            this.MainPanel.Controls.Add(this.lblArchive);
-            this.MainPanel.Controls.Add(this.lblSystem);
-            this.MainPanel.Controls.Add(this.lblHidden);
-            this.MainPanel.Controls.Add(this.lblReadOnly);
             this.MainPanel.Controls.Add(this.label6);
             this.MainPanel.Controls.Add(this.lblUpTo);
             this.MainPanel.Controls.Add(this.lblFrom);
@@ -115,6 +91,25 @@
             this.MainPanel.Name = "MainPanel";
             this.MainPanel.Size = new System.Drawing.Size(396, 632);
             this.MainPanel.TabIndex = 0;
+            // 
+            // clbAttributes
+            // 
+            this.clbAttributes.BackColor = System.Drawing.SystemColors.Control;
+            this.clbAttributes.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.clbAttributes.FormattingEnabled = true;
+            this.clbAttributes.Items.AddRange(new object[] {
+            "ReadOnly",
+            "Hidden",
+            "System",
+            "Archive",
+            "Compressed",
+            "Encrypted"});
+            this.clbAttributes.Location = new System.Drawing.Point(10, 165);
+            this.clbAttributes.MultiColumn = true;
+            this.clbAttributes.Name = "clbAttributes";
+            this.clbAttributes.Size = new System.Drawing.Size(377, 40);
+            this.clbAttributes.TabIndex = 38;
+            this.clbAttributes.ThreeDCheckBoxes = true;
             // 
             // groupBox1
             // 
@@ -176,58 +171,6 @@
             this.cbUseAutocorrect.Text = "Use A&utocorrect";
             this.ToolTip.SetToolTip(this.cbUseAutocorrect, "Automatic adjustment for data validation errors");
             this.cbUseAutocorrect.UseVisualStyleBackColor = true;
-            // 
-            // cbAttrEncrypted
-            // 
-            this.cbAttrEncrypted.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cbAttrEncrypted.FormattingEnabled = true;
-            this.cbAttrEncrypted.Items.AddRange(new object[] {
-            "",
-            "Set",
-            "Clear"});
-            this.cbAttrEncrypted.Location = new System.Drawing.Point(333, 203);
-            this.cbAttrEncrypted.Margin = new System.Windows.Forms.Padding(5);
-            this.cbAttrEncrypted.Name = "cbAttrEncrypted";
-            this.cbAttrEncrypted.Size = new System.Drawing.Size(54, 25);
-            this.cbAttrEncrypted.TabIndex = 32;
-            this.ToolTip.SetToolTip(this.cbAttrEncrypted, "Check \'Encrypted\' attribute");
-            // 
-            // lblEncrypted
-            // 
-            this.lblEncrypted.AutoSize = true;
-            this.lblEncrypted.Location = new System.Drawing.Point(267, 207);
-            this.lblEncrypted.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
-            this.lblEncrypted.Name = "lblEncrypted";
-            this.lblEncrypted.Size = new System.Drawing.Size(66, 17);
-            this.lblEncrypted.TabIndex = 31;
-            this.lblEncrypted.Text = "&Encrypted";
-            this.lblEncrypted.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
-            // cbAttrCompressed
-            // 
-            this.cbAttrCompressed.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cbAttrCompressed.FormattingEnabled = true;
-            this.cbAttrCompressed.Items.AddRange(new object[] {
-            "",
-            "Set",
-            "Clear"});
-            this.cbAttrCompressed.Location = new System.Drawing.Point(333, 169);
-            this.cbAttrCompressed.Margin = new System.Windows.Forms.Padding(5);
-            this.cbAttrCompressed.Name = "cbAttrCompressed";
-            this.cbAttrCompressed.Size = new System.Drawing.Size(54, 25);
-            this.cbAttrCompressed.TabIndex = 30;
-            this.ToolTip.SetToolTip(this.cbAttrCompressed, "Check \'Compressed\' attribute");
-            // 
-            // lblCompressed
-            // 
-            this.lblCompressed.AutoSize = true;
-            this.lblCompressed.Location = new System.Drawing.Point(251, 172);
-            this.lblCompressed.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
-            this.lblCompressed.Name = "lblCompressed";
-            this.lblCompressed.Size = new System.Drawing.Size(82, 17);
-            this.lblCompressed.TabIndex = 29;
-            this.lblCompressed.Text = "C&ompressed";
-            this.lblCompressed.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // seFileSizeMax
             // 
@@ -305,110 +248,6 @@
             this.cbCreatedUtc.TabIndex = 7;
             this.ToolTip.SetToolTip(this.cbCreatedUtc, "Use UTC Created Date/Time");
             this.cbCreatedUtc.UseVisualStyleBackColor = true;
-            // 
-            // cbAttrArchive
-            // 
-            this.cbAttrArchive.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cbAttrArchive.FormattingEnabled = true;
-            this.cbAttrArchive.Items.AddRange(new object[] {
-            "",
-            "Set",
-            "Clear"});
-            this.cbAttrArchive.Location = new System.Drawing.Point(184, 203);
-            this.cbAttrArchive.Margin = new System.Windows.Forms.Padding(5);
-            this.cbAttrArchive.Name = "cbAttrArchive";
-            this.cbAttrArchive.Size = new System.Drawing.Size(54, 25);
-            this.cbAttrArchive.TabIndex = 28;
-            this.ToolTip.SetToolTip(this.cbAttrArchive, "Check \'Archive\' attribute");
-            // 
-            // cbAttrSystem
-            // 
-            this.cbAttrSystem.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cbAttrSystem.FormattingEnabled = true;
-            this.cbAttrSystem.Items.AddRange(new object[] {
-            "",
-            "Set",
-            "Clear"});
-            this.cbAttrSystem.Location = new System.Drawing.Point(184, 169);
-            this.cbAttrSystem.Margin = new System.Windows.Forms.Padding(5);
-            this.cbAttrSystem.Name = "cbAttrSystem";
-            this.cbAttrSystem.Size = new System.Drawing.Size(54, 25);
-            this.cbAttrSystem.TabIndex = 26;
-            this.ToolTip.SetToolTip(this.cbAttrSystem, "Check \'System\' attribute");
-            // 
-            // cbAttrHidden
-            // 
-            this.cbAttrHidden.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cbAttrHidden.FormattingEnabled = true;
-            this.cbAttrHidden.Items.AddRange(new object[] {
-            "",
-            "Set",
-            "Clear"});
-            this.cbAttrHidden.Location = new System.Drawing.Point(69, 203);
-            this.cbAttrHidden.Margin = new System.Windows.Forms.Padding(5);
-            this.cbAttrHidden.Name = "cbAttrHidden";
-            this.cbAttrHidden.Size = new System.Drawing.Size(54, 25);
-            this.cbAttrHidden.TabIndex = 24;
-            this.ToolTip.SetToolTip(this.cbAttrHidden, "Check \'Hidden\' attribute");
-            // 
-            // cbAttrReadOnly
-            // 
-            this.cbAttrReadOnly.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cbAttrReadOnly.FormattingEnabled = true;
-            this.cbAttrReadOnly.Items.AddRange(new object[] {
-            "",
-            "Set",
-            "Clear"});
-            this.cbAttrReadOnly.Location = new System.Drawing.Point(69, 168);
-            this.cbAttrReadOnly.Margin = new System.Windows.Forms.Padding(5);
-            this.cbAttrReadOnly.Name = "cbAttrReadOnly";
-            this.cbAttrReadOnly.Size = new System.Drawing.Size(54, 25);
-            this.cbAttrReadOnly.TabIndex = 22;
-            this.ToolTip.SetToolTip(this.cbAttrReadOnly, "Check \'Read-only\' attribute");
-            // 
-            // lblArchive
-            // 
-            this.lblArchive.AutoSize = true;
-            this.lblArchive.Location = new System.Drawing.Point(135, 207);
-            this.lblArchive.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
-            this.lblArchive.Name = "lblArchive";
-            this.lblArchive.Size = new System.Drawing.Size(50, 17);
-            this.lblArchive.TabIndex = 27;
-            this.lblArchive.Text = "Archi&ve";
-            this.lblArchive.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
-            // lblSystem
-            // 
-            this.lblSystem.AutoSize = true;
-            this.lblSystem.Location = new System.Drawing.Point(135, 172);
-            this.lblSystem.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
-            this.lblSystem.Name = "lblSystem";
-            this.lblSystem.Size = new System.Drawing.Size(49, 17);
-            this.lblSystem.TabIndex = 25;
-            this.lblSystem.Text = "&System";
-            this.lblSystem.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
-            // lblHidden
-            // 
-            this.lblHidden.AutoSize = true;
-            this.lblHidden.Location = new System.Drawing.Point(7, 207);
-            this.lblHidden.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
-            this.lblHidden.Name = "lblHidden";
-            this.lblHidden.Size = new System.Drawing.Size(50, 17);
-            this.lblHidden.TabIndex = 23;
-            this.lblHidden.Text = "&Hidden";
-            this.lblHidden.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
-            // lblReadOnly
-            // 
-            this.lblReadOnly.AutoSize = true;
-            this.lblReadOnly.Location = new System.Drawing.Point(6, 172);
-            this.lblReadOnly.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
-            this.lblReadOnly.Name = "lblReadOnly";
-            this.lblReadOnly.Size = new System.Drawing.Size(64, 17);
-            this.lblReadOnly.TabIndex = 21;
-            this.lblReadOnly.Text = "&ReadOnly";
-            this.lblReadOnly.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // label6
             // 
@@ -554,22 +393,6 @@
             this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.ToolTip.SetToolTip(this.label1, "Created Date/Time");
             // 
-            // clbAttributes
-            // 
-            this.clbAttributes.FormattingEnabled = true;
-            this.clbAttributes.Items.AddRange(new object[] {
-            "ReadOnly",
-            "Hidden",
-            "System",
-            "Archive",
-            "Compressed",
-            "Encrypted"});
-            this.clbAttributes.Location = new System.Drawing.Point(10, 236);
-            this.clbAttributes.MultiColumn = true;
-            this.clbAttributes.Name = "clbAttributes";
-            this.clbAttributes.Size = new System.Drawing.Size(377, 44);
-            this.clbAttributes.TabIndex = 38;
-            // 
             // FileFilterControl
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 17F);
@@ -590,24 +413,12 @@
         }
 
         #endregion
-        public System.Windows.Forms.ComboBox cbAttrEncrypted;
-        public System.Windows.Forms.Label lblEncrypted;
-        public System.Windows.Forms.ComboBox cbAttrCompressed;
-        public System.Windows.Forms.Label lblCompressed;
         public System.Windows.Forms.NumericUpDown seFileSizeMax;
         public System.Windows.Forms.NumericUpDown seFileSizeMin;
         public System.Windows.Forms.Label lblUtc;
         public System.Windows.Forms.CheckBox cbAccessedUtc;
         public System.Windows.Forms.CheckBox cbModifiedUtc;
         public System.Windows.Forms.CheckBox cbCreatedUtc;
-        public System.Windows.Forms.ComboBox cbAttrArchive;
-        public System.Windows.Forms.ComboBox cbAttrSystem;
-        public System.Windows.Forms.ComboBox cbAttrHidden;
-        public System.Windows.Forms.ComboBox cbAttrReadOnly;
-        public System.Windows.Forms.Label lblArchive;
-        public System.Windows.Forms.Label lblSystem;
-        public System.Windows.Forms.Label lblHidden;
-        public System.Windows.Forms.Label lblReadOnly;
         public System.Windows.Forms.Label label6;
         public System.Windows.Forms.Label lblUpTo;
         public System.Windows.Forms.Label lblFrom;

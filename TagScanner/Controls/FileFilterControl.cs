@@ -8,5 +8,10 @@
         {
             InitializeComponent();
         }
+
+        private void lblCompressed_Click(object sender, System.EventArgs e)
+        {
+
+        }
     }
 }

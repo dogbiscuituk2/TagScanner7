@@ -1,6 +1,5 @@
 ﻿namespace TagScanner.Controllers
 {
-    using System.Diagnostics;
     using System.Windows.Forms;
 
     public class TriStateCheckedListController : Controller
@@ -15,6 +14,14 @@
 
         #endregion
 
+        #region Public Methods
+
+        public CheckState GetState(int index) => _control.GetItemCheckState(index);
+        public void SetAllStates(CheckState value) { for (var index = 0; index < _control.Items.Count; index++) SetState(index, value); }
+        public void SetState(int index, CheckState value) => _control.SetItemCheckState(index, value);
+
+        #endregion
+
         #region Private Fields
 
         private CheckedListBox _control;
@@ -25,9 +32,7 @@
 
         private void Control_ItemCheck(object sender, ItemCheckEventArgs e)
         {
-            var newValue = NextState();
-            Debug.WriteLine(newValue);
-            e.NewValue = newValue;
+            e.NewValue = NextState();
 
             CheckState NextState()
             {

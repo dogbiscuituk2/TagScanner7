@@ -112,6 +112,7 @@
             _view = view;
 
             TriStateCheckedListController = new TriStateCheckedListController(this, _view.clbAttributes);
+            TriStateCheckedListController.SetAllStates(CheckState.Indeterminate);
 
             CbUseTimes = _view.cbUseTimes;
             CbCreatedUtc = _view.cbCreatedUtc;
@@ -120,13 +121,6 @@
             CbUseAutocorrect = _view.cbUseAutocorrect;
 
             CbFileSizeUnit = _view.cbUnit;
-
-            CbReadOnly = _view.cbAttrReadOnly;
-            CbHidden = _view.cbAttrHidden;
-            CbSystem = _view.cbAttrSystem;
-            CbArchive = _view.cbAttrArchive;
-            CbCompressed = _view.cbAttrCompressed;
-            CbEncrypted = _view.cbAttrEncrypted;
 
             DtpCreatedMin = _view.dtpCreatedMin;
             DtpCreatedMax = _view.dtpCreatedMax;
@@ -163,13 +157,6 @@
             SeFileSizeMin.ValueChanged += (sender, e) => FileSizeChanged(FileFlags.FileSizeMin);
             SeFileSizeMax.ValueChanged += (sender, e) => FileSizeChanged(FileFlags.FileSizeMax);
             CbFileSizeUnit.SelectedValueChanged += (sender, e) => AdjustFileSizeUnit();
-
-            CbReadOnly.SelectedIndexChanged += (sender, e) => UpdateUI();
-            CbHidden.SelectedIndexChanged += (sender, e) => UpdateUI();
-            CbSystem.SelectedIndexChanged += (sender, e) => UpdateUI();
-            CbArchive.SelectedIndexChanged += (sender, e) => UpdateUI();
-            CbCompressed.SelectedIndexChanged += (sender, e) => UpdateUI();
-            CbEncrypted.SelectedIndexChanged += (sender, e) => UpdateUI();
 
             new ErrorController(this,
                 DtpCreatedMin, DtpCreatedMax,
@@ -215,7 +202,7 @@
             CbUseAutocorrect;
 
         private ComboBox
-            CbFileSizeUnit, CbReadOnly, CbHidden, CbSystem, CbArchive, CbCompressed, CbEncrypted;
+            CbFileSizeUnit;
 
         private DateTimePicker
             DtpCreatedMin, DtpCreatedMax,
@@ -366,27 +353,11 @@
             fileOptions.FileSizeMax = ReadSpinEdit(SeFileSizeMax, FileFlags.FileSizeMax);
             fileOptions.FileSizeUnit = FileSizeUnit;
 
-            ReadComboBox(CbReadOnly, FileFlags.ReadOnlyTrue, FileFlags.ReadOnlyFalse);
-            ReadComboBox(CbHidden, FileFlags.HiddenTrue, FileFlags.HiddenFalse);
-            ReadComboBox(CbSystem, FileFlags.SystemTrue, FileFlags.SystemFalse);
-            ReadComboBox(CbArchive, FileFlags.ArchiveTrue, FileFlags.ArchiveFalse);
-            ReadComboBox(CbCompressed, FileFlags.CompressedTrue, FileFlags.CompressedFalse);
-            ReadComboBox(CbEncrypted, FileFlags.EncryptedTrue, FileFlags.EncryptedFalse);
-
             fileOptions.Flags = flags;
             return fileOptions;
 
             void ReadCheckBox(CheckBox control, FileFlags flag) => SetFlag(control.Checked ? flag : 0);
             void ReadCheckBoxDtp(DateTimePicker control, FileFlags flag) => SetFlag(control.Checked ? flag : 0);
-
-            void ReadComboBox(ComboBox control, FileFlags yes, FileFlags no)
-            {
-                switch (control.SelectedIndex)
-                {
-                    case 1: SetFlags(yes | no, yes); break;
-                    case 2: SetFlags(yes | no, no); break;
-                }
-            }
 
             decimal ReadSpinEdit(NumericUpDown control, FileFlags flag)
             {
@@ -424,13 +395,6 @@
 
             SeFileSizeMin.Value = _fileOptions.FileSizeMin;
             SeFileSizeMax.Value = _fileOptions.FileSizeMax;
-
-            WriteComboBox(CbReadOnly, FileFlags.ReadOnlyTrue, FileFlags.ReadOnlyFalse);
-            WriteComboBox(CbHidden, FileFlags.HiddenTrue, FileFlags.HiddenFalse);
-            WriteComboBox(CbSystem, FileFlags.SystemTrue, FileFlags.SystemFalse);
-            WriteComboBox(CbArchive, FileFlags.ArchiveTrue, FileFlags.ArchiveFalse);
-            WriteComboBox(CbCompressed, FileFlags.CompressedTrue, FileFlags.CompressedFalse);
-            WriteComboBox(CbEncrypted, FileFlags.EncryptedTrue, FileFlags.EncryptedFalse);
 
             UpdateUI();
 
