@@ -20,6 +20,7 @@
 
         public WpfTableController(Controller parent, ElementHost view) : base(parent)
         {
+            _updater = new UpdateController(OnSelectionChanged);
             MainModel.TracksChanged += Model_TracksChanged;
             View = view;
         }
@@ -52,11 +53,11 @@
             get => _selection ?? (_selection = GetSelection());
             set
             {
-                BeginUpdateSelection();
+                _updater.Pause();
                 DataGrid.SelectedItems.Clear();
                 foreach (var track in value.Tracks)
                     DataGrid.SelectedItems.Add(track);
-                EndUpdateSelection();
+                _updater.Resume();
             }
         }
 
@@ -95,7 +96,7 @@
             var selection = selectedItems.Cast<object>().ToList();
             var oldCount = selection.Count;
             var newCount = total - oldCount;
-            BeginUpdateSelection();
+            _updater.Pause();
             if (newCount < oldCount)
             {
                 selection = allItems.Cast<object>().Except(selection).ToList();
@@ -109,7 +110,7 @@
                 foreach (var item in selection)
                     selectedItems.Remove(item);
             }
-            EndUpdateSelection();
+            _updater.Resume();
         }
 
         public void PopupShellContextMenu()
@@ -120,9 +121,9 @@
 
         public void SelectAll()
         {
-            BeginUpdateSelection();
+            _updater.Pause();
             DataGrid.SelectAll();
-            EndUpdateSelection();
+            _updater.Resume();
         }
 
         #endregion
@@ -143,6 +144,7 @@
         private IEnumerable<Tag> _groups = new List<Tag>();
         private Selection _selection;
         private IEnumerable<SortDescription> _sorts = new List<SortDescription>();
+        private UpdateController _updater;
         private ElementHost _view;
 
         #endregion
@@ -215,8 +217,6 @@
 
         #region Private Methods
 
-        private void BeginUpdateSelection() => UpdatingSelectionCount++;
-
         private void CellEdit(DataGridCellEditEndingEventArgs e)
         {
             if (e.EditAction == DataGridEditAction.Cancel)
@@ -229,11 +229,6 @@
             Run(new EditCommand(track, tag, new List<object> { text }));
         }
 
-        private void EndUpdateSelection()
-        {
-            UpdatingSelectionCount--;
-            OnSelectionChanged();
-        }
 
         private FileInfo[] GetSelectedFileInfos() => Selection.Tracks.Select(p => new FileInfo(p.FilePath)).ToArray();
 

@@ -8,7 +8,10 @@
     {
         #region Constructor
 
-        public FileSchemaController(Controller parent) : base(parent) { }
+        public FileSchemaController(Controller parent) : base(parent)
+        {
+            Updater = new UpdateController(UpdateUI);
+        }
 
         #endregion
 
@@ -105,7 +108,7 @@
 
         public void SetSchema(Schema schema)
         {
-            BeginUpdate();
+            Updater.Pause();
             Nodes.Clear();
             foreach (var line in schema.Lines)
             {
@@ -114,7 +117,7 @@
                     nodes = nodes.OfType<TreeNode>().Last().Nodes;
                 AddNode(nodes, line.Description, line.Filespec, line.Check);
             }
-            EndUpdate();
+            Updater.Resume();
         }
 
         public void SetView(TreeView treeView, TextBox edFilespecs)
@@ -139,7 +142,7 @@
         private static readonly string[] LineTypes = new[] { "Root", "Media Category", "Filespec" };
         private TreeView TreeView;
         private TriStateTreeController TriStateTreeController;
-        private int _updateCount;
+        private UpdateController Updater;
 
         #endregion
 
@@ -158,16 +161,8 @@
             InitNode(node, description, filespec, check ? TreeNodeState.Checked : TreeNodeState.Unchecked);
         }
 
-        private void BeginUpdate() => _updateCount++;
-
         private bool EditValue(string prompt, int level, ref string description, ref string filespec) =>
             new FilespecController(this).Execute(prompt, level, ref description, ref filespec);
-
-        private void EndUpdate()
-        {
-            if (--_updateCount == 0)
-                UpdateUI();
-        }
 
         private static TreeNodeState GetNodeState(TreeNode node) => (TreeNodeState)node.StateImageIndex;
 
@@ -188,16 +183,12 @@
 
         private void SetNodeState(TreeNode node, TreeNodeState state)
         {
-            BeginUpdate();
+            Updater.Pause();
             TriStateTreeController.SetNodeState(node, state);
-            EndUpdate();
+            Updater.Resume();
         }
 
-        private void UpdateUI()
-        {
-            if (_updateCount == 0)
-                EdFilespecs.Text = GetSchema().ToString();
-        }
+        private void UpdateUI() => EdFilespecs.Text = GetSchema().ToString();
 
         #endregion
     }

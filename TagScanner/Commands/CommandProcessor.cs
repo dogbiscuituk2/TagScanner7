@@ -14,6 +14,7 @@
 
         public CommandProcessor(Controller parent) : base(parent)
         {
+            Updater = new UpdateController(UpdateUI);
             UndoStack = new Stack<Command>();
             RedoStack = new Stack<Command>();
             AddHandlers(MainForm.EditUndo, MainForm.tbUndo, EditUndo_Click, EditUndo_DropDownOpening);
@@ -67,7 +68,7 @@
 
         public void UpdateLocalUI()
         {
-            if (UpdateCount > 0)
+            if (Updater.Paused)
                 return;
             MainForm.EditUndo.Enabled = MainForm.tbUndo.Enabled = CanUndo;
             MainForm.EditRedo.Enabled = MainForm.tbRedo.Enabled = CanRedo;
@@ -100,8 +101,9 @@
 
         #region Private Fields
 
+        private readonly UpdateController Updater;
         private readonly Stack<Command> UndoStack, RedoStack;
-        private int LastSave, UpdateCount;
+        private int LastSave;
         private bool Busy;
 
         #endregion
@@ -144,21 +146,13 @@
 
         private void DoMultiple(object item, bool undo)
         {
-            BeginUpdate();
+            Updater.Pause();
             var peek = ((ToolStripItem)item).Tag;
             if (undo)
                 do Undo(); while (RedoStack.Peek() != peek);
             else
                 do Redo(); while (UndoStack.Peek() != peek);
-            EndUpdate();
-        }
-
-        private void BeginUpdate() => ++UpdateCount;
-
-        private void EndUpdate()
-        {
-            if (--UpdateCount == 0)
-                UpdateUI();
+            Updater.Resume();
         }
 
         private static void HighlightMenu(ToolStripItem activeItem)
