@@ -89,7 +89,7 @@
             this.MainPanel.Location = new System.Drawing.Point(0, 0);
             this.MainPanel.Margin = new System.Windows.Forms.Padding(4);
             this.MainPanel.Name = "MainPanel";
-            this.MainPanel.Size = new System.Drawing.Size(396, 632);
+            this.MainPanel.Size = new System.Drawing.Size(400, 350);
             this.MainPanel.TabIndex = 0;
             // 
             // clbAttributes
@@ -115,24 +115,26 @@
             // 
             this.groupBox1.Controls.Add(this.edConditions);
             this.groupBox1.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.groupBox1.Location = new System.Drawing.Point(0, 472);
+            this.groupBox1.Location = new System.Drawing.Point(0, 240);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(396, 160);
+            this.groupBox1.Padding = new System.Windows.Forms.Padding(2);
+            this.groupBox1.Size = new System.Drawing.Size(400, 110);
             this.groupBox1.TabIndex = 37;
             this.groupBox1.TabStop = false;
-            this.groupBox1.Text = "Selected Conditions";
+            this.groupBox1.Text = "Selected File Property Conditions";
             // 
             // edConditions
             // 
             this.edConditions.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.edConditions.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.edConditions.Location = new System.Drawing.Point(3, 21);
+            this.edConditions.Location = new System.Drawing.Point(2, 20);
             this.edConditions.Multiline = true;
             this.edConditions.Name = "edConditions";
             this.edConditions.ReadOnly = true;
-            this.edConditions.Size = new System.Drawing.Size(390, 136);
+            this.edConditions.Size = new System.Drawing.Size(396, 88);
             this.edConditions.TabIndex = 0;
-            this.edConditions.Text = "!ReadOnly, !Hidden, !System, !Archive, !Compressed, !Encrypted";
+            this.edConditions.Text = "Created\r\nModified\r\nAccesses\r\n18446744073709551615UL ≤ File Size ≤ 184467440737095" +
+    "51615UL\r\n!ReadOnly, !Hidden, !System, !Archive, !Compressed, !Encrypted";
             // 
             // cbUseTimes
             // 
@@ -164,7 +166,7 @@
             // cbUseAutocorrect
             // 
             this.cbUseAutocorrect.AutoSize = true;
-            this.cbUseAutocorrect.Location = new System.Drawing.Point(9, 445);
+            this.cbUseAutocorrect.Location = new System.Drawing.Point(9, 211);
             this.cbUseAutocorrect.Name = "cbUseAutocorrect";
             this.cbUseAutocorrect.Size = new System.Drawing.Size(121, 21);
             this.cbUseAutocorrect.TabIndex = 33;
@@ -401,7 +403,7 @@
             this.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "FileFilterControl";
-            this.Size = new System.Drawing.Size(396, 694);
+            this.Size = new System.Drawing.Size(400, 350);
             this.MainPanel.ResumeLayout(false);
             this.MainPanel.PerformLayout();
             this.groupBox1.ResumeLayout(false);

@@ -11,7 +11,7 @@
         public FileOptionsController(Controller parent) : base(parent)
         {
             FileFilterController = new FileFilterController(this);
-            FileFilterController.UseTimesChanged += (sender, e) => View.RightPanel.Width = FileFilterController.ViewWidth;
+            FileFilterController.UseTimesChanged += (sender, e) => View.FileFilterPanel.Width = FileFilterController.ViewWidth;
             FileSchemaController = new FileSchemaController(this);
             MainForm.AddOptions.Click += AddOptions_Click;
         }
