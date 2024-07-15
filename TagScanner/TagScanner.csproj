@@ -174,6 +174,7 @@
     <Compile Include="Controllers\ScriptFormController.cs" />
     <Compile Include="Controllers\SplashController.cs" />
     <Compile Include="Controllers\TreeNodeState.cs" />
+    <Compile Include="Controllers\TriStateCheckedListController.cs" />
     <Compile Include="Controllers\TriStateTreeController.cs" />
     <Compile Include="Controllers\UpdateController.cs" />
     <Compile Include="Controls\FileFilterControl.cs">

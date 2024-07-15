@@ -175,7 +175,7 @@
             this.groupBox1.Size = new System.Drawing.Size(388, 259);
             this.groupBox1.TabIndex = 1;
             this.groupBox1.TabStop = false;
-            this.groupBox1.Text = "Filespecs";
+            this.groupBox1.Text = "Selected Filespecs";
             // 
             // edFilespecs
             // 
@@ -185,8 +185,10 @@
             this.edFilespecs.Multiline = true;
             this.edFilespecs.Name = "edFilespecs";
             this.edFilespecs.ReadOnly = true;
+            this.edFilespecs.ScrollBars = System.Windows.Forms.ScrollBars.Both;
             this.edFilespecs.Size = new System.Drawing.Size(382, 235);
             this.edFilespecs.TabIndex = 0;
+            this.edFilespecs.WordWrap = false;
             // 
             // FileOptionsDialog
             // 

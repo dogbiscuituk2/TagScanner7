@@ -111,6 +111,8 @@
         {
             _view = view;
 
+            TriStateCheckedListController = new TriStateCheckedListController(this, _view.clbAttributes);
+
             CbUseTimes = _view.cbUseTimes;
             CbCreatedUtc = _view.cbCreatedUtc;
             CbModifiedUtc = _view.cbModifiedUtc;
@@ -194,6 +196,8 @@
         #endregion
 
         #region Private Fields
+
+        private TriStateCheckedListController TriStateCheckedListController;
 
         private const string
             _dateFormat = "yyyy-MM-dd",

@@ -124,6 +124,7 @@
         {
             TreeView = treeView;
             TriStateTreeController = new TriStateTreeController(TreeView);
+            TriStateTreeController.NodeStateChanged += (sender, e) => UpdateUI();
             EdFilespecs = edFilespecs;
         }
 
@@ -188,7 +189,7 @@
             Updater.Resume();
         }
 
-        private void UpdateUI() => EdFilespecs.Text = GetSchema().ToString();
+        private void UpdateUI() => EdFilespecs.Text = GetSchema().FilterDescriptions;
 
         #endregion
     }
