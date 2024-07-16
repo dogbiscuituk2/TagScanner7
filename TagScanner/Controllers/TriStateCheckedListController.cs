@@ -31,9 +31,19 @@
         }
 
         public CheckState GetState(object item) => GetState(_control.Items.IndexOf(item));
-        public void SetAllStates(CheckState value) { for (var index = 0; index < _control.Items.Count; index++) SetState(index, value); }
-        public void SetState(int index, CheckState value) => _control.SetItemCheckState(index, value);
-        public void SetState(object item, CheckState value) => SetState(_control.Items.IndexOf(item), value);
+        public void SetAllStates(CheckState newValue) { for (var index = 0; index < _control.Items.Count; index++) SetState(index, newValue); }
+        public void SetState(object item, CheckState newValue) => SetState(_control.Items.IndexOf(item), newValue);
+
+        public void SetState(int index, CheckState newValue)
+        {
+            var oldValue = GetState(index);
+            _control.SetItemCheckState(index, newValue);
+            if (_actualStates.ContainsKey(index))
+                _actualStates[index] = newValue;
+            else
+                _actualStates.Add(index, newValue);
+            OnItemCheck(new ItemCheckEventArgs(index, newValue, oldValue));
+        }
 
         #endregion
 
@@ -45,8 +55,9 @@
 
         #region Private Fields
 
-        private CheckedListBox _control;
         private Dictionary<int, CheckState> _actualStates = new Dictionary<int, CheckState>();
+        private CheckedListBox _control;
+        private bool _updating;
 
         #endregion
 
@@ -54,13 +65,11 @@
 
         private void Control_ItemCheck(object sender, ItemCheckEventArgs e)
         {
-            var newValue = NextState();
-            e.NewValue = newValue;
-            if (_actualStates.ContainsKey(e.Index))
-                _actualStates[e.Index] = newValue;
-            else
-                _actualStates.Add(e.Index, newValue);
-            OnItemCheck(e);
+            if (_updating)
+                return;
+            _updating = true;
+            SetState(e.Index, NextState());
+            _updating = false;
 
             CheckState NextState()
             {

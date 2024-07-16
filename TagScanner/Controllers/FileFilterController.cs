@@ -137,8 +137,6 @@
             InitDates(DateTime.Today, DtpCreatedMin, DtpModifiedMin, DtpAccessedMin);
             InitDates(DateTime.Today.AddDays(1).AddTicks(-1), DtpCreatedMax, DtpModifiedMax, DtpAccessedMax);
 
-            System.Diagnostics.Debug.WriteLine(DtpCreatedMin.Value);
-
             SeFileSizeMin.Maximum = SeFileSizeMax.Maximum = uint.MaxValue;
             FileSizeUnit = 0;
 
