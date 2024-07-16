@@ -133,8 +133,6 @@
             this.edConditions.ReadOnly = true;
             this.edConditions.Size = new System.Drawing.Size(396, 88);
             this.edConditions.TabIndex = 0;
-            this.edConditions.Text = "Created\r\nModified\r\nAccesses\r\n18446744073709551615UL ≤ File Size ≤ 184467440737095" +
-    "51615UL\r\n!ReadOnly, !Hidden, !System, !Archive, !Compressed, !Encrypted";
             // 
             // cbUseTimes
             // 

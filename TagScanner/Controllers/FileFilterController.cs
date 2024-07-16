@@ -377,7 +377,7 @@
                     switch (TriStateCheckedListController.GetState($"{attr}"))
                     {
                         case CheckState.Checked: return mask & FileFlags.True;
-                        case CheckState.Unchecked: return mask & FileFlags.True;
+                        case CheckState.Unchecked: return mask & FileFlags.False;
                         default: return 0;
                     }
                 }

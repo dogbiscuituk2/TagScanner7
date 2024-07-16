@@ -68,7 +68,8 @@
             if (_updating)
                 return;
             _updating = true;
-            SetState(e.Index, NextState());
+            e.NewValue = NextState();
+            SetState(e.Index, e.NewValue);
             _updating = false;
 
             CheckState NextState()
