@@ -3,7 +3,6 @@
     using System;
     using System.Collections.Generic;
     using System.Linq;
-    using Terms;
     using Utils;
 
     public class Model
@@ -115,7 +114,7 @@
             var existingFilePaths = Tracks.Select(t => t.FilePath).ToList();
             var reader = new Reader(this, existingFilePaths, progress);
             action(reader);
-            var tracks = reader.Tracks;
+            var tracks = reader._tracks;
             var count = tracks.Count;
             if (count > 0)
                 OnTracksAdd(new Selection(tracks));

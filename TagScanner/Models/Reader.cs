@@ -11,7 +11,7 @@
         public Reader(Model model, List<string> existingFilePaths, IProgress<ProgressEventArgs> progress)
         {
             _model = model;
-            ExistingFilePaths = existingFilePaths;
+            _existingFilePaths = existingFilePaths;
             _progress = progress;
         }
 
@@ -45,8 +45,8 @@
 
         #region State
 
-        public readonly List<string> ExistingFilePaths;
-        public readonly List<Track> Tracks = new List<Track>();
+        public readonly List<string> _existingFilePaths;
+        public readonly List<Track> _tracks = new List<Track>();
         private Model _model;
         private int _trackIndex, _trackCount;
         private readonly IProgress<ProgressEventArgs> _progress;
@@ -58,13 +58,13 @@
             Track track = null;
             try
             {
-                if (!ExistingFilePaths.Contains(filePath))
+                if (!_existingFilePaths.Contains(filePath))
                 {
                     track = Track.FromPath(filePath, _model.FileChecksFilter);
                     if (track != null)
                     {
-                        Tracks.Add(track);
-                        ExistingFilePaths.Add(filePath);
+                        _tracks.Add(track);
+                        _existingFilePaths.Add(filePath);
                     }
                     else
                         _trackCount--;
