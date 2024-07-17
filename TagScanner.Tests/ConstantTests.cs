@@ -3,6 +3,7 @@
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using System;
     using Terms;
+    using Terms.Parsing;
 
     [TestClass]
     public class ConstantTests : BaseTests

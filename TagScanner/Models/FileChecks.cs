@@ -5,6 +5,7 @@
     using System.Linq;
     using System.Text;
     using Terms;
+    using Terms.Parsing;
 
     public class FileChecks
     {
@@ -37,7 +38,7 @@
 
         #region Public Methods
 
-        public Conjunction GetFilter(bool useTimes, out string filterString)
+        public Term GetFilter(bool useTimes, out string filterString)
         {
             var conjunction = new Conjunction();
             var conditions = conjunction.Operands;
@@ -51,7 +52,7 @@
             if (attrs.Any())
                 filterText.AppendLine(attrs.Aggregate((p, q) => $"{p}, {q}"));
             filterString = filterText.ToString();
-            return conjunction;
+            return conjunction.Fix();
 
             IEnumerable<string> AddAttributes()
             {

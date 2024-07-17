@@ -1,4 +1,4 @@
-﻿namespace TagScanner.Terms
+﻿namespace TagScanner.Terms.Parsing
 {
     using System.Collections.Generic;
     using System.Drawing;

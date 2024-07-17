@@ -5,6 +5,7 @@
     using System.Linq;
     using System.Text.RegularExpressions;
     using Terms;
+    using Terms.Parsing;
 
     public class BaseTests
     {

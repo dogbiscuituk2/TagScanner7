@@ -236,7 +236,7 @@
     <Compile Include="Terms\Associativity.cs" />
     <Compile Include="Terms\Break.cs" />
     <Compile Include="Terms\Catch.cs" />
-    <Compile Include="Terms\ParserSpy.Debug.cs">
+    <Compile Include="Terms\Parsing\ParserSpy.Debug.cs">
       <DependentUpon>ParserSpy.cs</DependentUpon>
     </Compile>
     <Compile Include="Terms\Compound.cs" />
@@ -257,17 +257,18 @@
     <Compile Include="Terms\Goto.cs" />
     <Compile Include="Terms\IfBlock.cs" />
     <Compile Include="Terms\LabelBase.cs" />
-    <Compile Include="Terms\Parser.cs" />
-    <Compile Include="Terms\ParserException.cs" />
-    <Compile Include="Terms\ParserSpy.cs" />
+    <Compile Include="Terms\Parsing\Parser.cs" />
+    <Compile Include="Terms\Parsing\ParserException.cs" />
+    <Compile Include="Terms\Parsing\ParserSpy.cs" />
     <Compile Include="Terms\Program.cs" />
     <Compile Include="Terms\Scope.cs" />
     <Compile Include="Terms\StopException.cs" />
     <Compile Include="Terms\Stop.cs" />
     <Compile Include="Terms\Switch.cs" />
     <Compile Include="Terms\Case.cs" />
+    <Compile Include="Terms\Parsing\Fixer.cs" />
     <Compile Include="Terms\Token.cs" />
-    <Compile Include="Terms\Lexer.cs" />
+    <Compile Include="Terms\Parsing\Lexer.cs" />
     <Compile Include="Terms\TokenKind.cs" />
     <Compile Include="Terms\TryBlock.cs" />
     <Compile Include="Terms\Types.cs" />

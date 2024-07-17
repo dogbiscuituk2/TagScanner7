@@ -5,7 +5,7 @@
     using System.Windows.Forms;
     using Controls;
     using Forms;
-    using Terms;
+    using Terms.Parsing;
     using Utils;
 
     public class FilterController : Controller
