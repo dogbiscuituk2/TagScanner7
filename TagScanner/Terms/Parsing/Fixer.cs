@@ -2,6 +2,7 @@
 {
     using System;
     using System.Linq;
+    using TagScanner.Models;
     using Utils;
 
     public static class Fixer
@@ -15,12 +16,12 @@
             foreach (var operand in operands.OfType<Compound>())
                 Fix(operand, caseSensitive);
             if (compound is Function function)
-                PrepareFunction(function);
+                FixFunction(function);
             else if (compound is Operation operation)
-                PrepareOperation(operation);
+                FixOperation(operation);
             return compound;
 
-            void PrepareFunction(Function f)
+            void FixFunction(Function f)
             {
                 var fn = f.Fn;
                 var operandTypes = fn.OperandTypes();
@@ -70,7 +71,7 @@
                 }
             }
 
-            void PrepareOperation(Operation operation)
+            void FixOperation(Operation operation)
             {
                 var op = operation.Op;
                 if (op.IsAssignment())
@@ -88,6 +89,8 @@
                 }
                 var first = op == Op.Else ? 1 : 0;
                 var commonType = Utility.GetCompatibleType(operands.Skip(first).Select(p => p.ResultType).ToArray());
+                if (commonType == typeof(Logical))
+                    commonType = typeof(bool);
                 var adjustCase = !caseSensitive && op.CanChain();
                 for (var index = first; index < count; index++)
                 {
