@@ -68,7 +68,7 @@
             switch (tagInfo.TypeName)
             {
                 case TagType.DateTime: return new DateTimeConverter();
-                case TagType.Logical: return new LogicalConverter();
+                //case TagType.Logical: return new LogicalConverter();
                 case TagType.Strings: return new StringsConverter();
                 case TagType.TimeSpan: return new TimeSpanConverter();
             }

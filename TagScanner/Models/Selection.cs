@@ -2156,12 +2156,13 @@
         private Logical GetLogical(Func<Track, Logical> getLogical, ref Logical result)
         {
             if (result == Logical.Unknown && Tracks != null)
-                foreach (var value in Tracks.Select(getLogical))
-                {
-                    result |= value;
-                    if (result == (Logical.Yes | Logical.No))
-                        break;
-                }
+            {
+                var values = Tracks.Select(getLogical);
+                var first = values.First();
+                result = first;
+                if (values.Any(p => p != first))
+                    result = Logical.Unknown;
+            }
             return result;
         }
 

@@ -9,7 +9,7 @@
     [TestClass]
     public class TagTests : BaseTests
     {
-        private static readonly Type[] SortableTypes = { typeof(DateTime), typeof(double), typeof(int), typeof(long), typeof(string), typeof(TimeSpan) };
+        private static readonly Type[] SortableTypes = { typeof(DateTime), typeof(double), typeof(int), typeof(Logical), typeof(long), typeof(string), typeof(TimeSpan) };
 
         [TestMethod]
         public void TestTags()
@@ -18,12 +18,13 @@
             {
                 var property = typeof(ITrack).GetProperty(tag.Name());
                 Assert.IsNotNull(property);
+                var type = tag.Type();
                 bool
-                    canSort = tag.Type().BaseType == typeof(Enum) || SortableTypes.Contains(tag.Type()),
+                    canSort = type.BaseType == typeof(Enum) || SortableTypes.Contains(type),
                     canWrite = property.SetMethod != null;
                 var column = tag.Column();
                 Assert.IsNotNull(column);
-                var columnType = tag.Type() == typeof(bool) ? ColumnType.CheckBox : ColumnType.Text;
+                var columnType = type == typeof(bool) ? ColumnType.CheckBox : ColumnType.Text;
                 Assert.AreEqual(expected: true, actual: tag.CanRead());
                 Assert.AreEqual(expected: canSort, actual: tag.CanSort());
                 Assert.AreEqual(expected: canWrite, actual: tag.CanWrite());
@@ -33,7 +34,7 @@
                 Assert.IsFalse(string.IsNullOrWhiteSpace(tag.Details()));
                 Assert.IsFalse(string.IsNullOrWhiteSpace(tag.DisplayName()));
                 Assert.AreNotEqual(notExpected: canWrite, actual: tag.ReadOnly());
-                Assert.AreEqual(expected: property.PropertyType, actual: tag.Type());
+                Assert.AreEqual(expected: property.PropertyType, actual: type);
             }
         }
     }
