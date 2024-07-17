@@ -80,7 +80,7 @@
 
         private void AddFolder_Click(object sender, EventArgs e) => AddFolder();
         private void AddMedia_Click(object sender, EventArgs e) => AddFiles();
-        private void AddOptions_Click(object sender, EventArgs e) => AddOptions();
+        private void AddOptions_Click(object sender, EventArgs e) => AddOptions(force: true);
 
         #endregion
 
@@ -112,7 +112,7 @@
             Task.Run(() => MainModel.AddFolder(folderPath, filter, progress));
         }
 
-        private bool AddOptions() => _fileChecksController.Execute(force: true);
+        private bool AddOptions(bool force = false) => _fileChecksController.Execute(force);
 
         private IProgress<ProgressEventArgs> CreateNewProgress() => MainFormController.StatusController.CreateNewProgress();
 

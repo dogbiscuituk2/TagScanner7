@@ -30,14 +30,16 @@
 
         public bool Execute(bool force)
         {
-            if (force)
-            {
-                var control = View.cbDontShowThisAgain;
-                control.Checked = false; ;
-                control.Visible = false;
-            }
+            if (!force && _dontShowThisAgain)
+                return true;
+            if (View == null)
+                CreateView();
+            var control = View.cbDontShowThisAgain;
+            control.Checked = _dontShowThisAgain;
+            control.Visible = !force;
             BeforeExecute();
             var ok = View.ShowDialog(Owner) == DialogResult.OK;
+            _dontShowThisAgain = force ? false : View.cbDontShowThisAgain.Checked;
             if (ok)
                 AfterExecute();
             return ok;
@@ -47,6 +49,7 @@
 
         #region Private Fields
 
+        private bool _dontShowThisAgain;
         private readonly FileFilterController FileFilterController;
         private readonly FileSchemaController FileSchemaController;
 
@@ -69,8 +72,6 @@
 
         private void BeforeExecute()
         {
-            if (View == null)
-                CreateView();
             FileSchemaController.BeforeExecute();
             FileFilterController.BeforeExecute();
             UpdateUI();
