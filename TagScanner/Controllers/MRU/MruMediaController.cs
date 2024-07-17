@@ -88,6 +88,8 @@
 
         private void AddFiles()
         {
+            if (!AddOptions())
+                return;
             InitFilter();
             if (_openFileDialog.ShowDialog(Owner) == DialogResult.OK)
                 AddFiles(_openFileDialog.FileNames);
@@ -95,6 +97,8 @@
 
         private void AddFolder()
         {
+            if (!AddOptions())
+                return;
             if (_folderBrowserDialog.ShowDialog(Owner) != DialogResult.OK) return;
             var folderPath = _folderBrowserDialog.SelectedPath;
             var filter = GetFilter();
