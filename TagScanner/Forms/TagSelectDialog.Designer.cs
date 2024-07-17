@@ -35,6 +35,14 @@
             this.chCategory = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.chDataType = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.chWritable = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.PopupTagMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.PopupTagSelect = new System.Windows.Forms.ToolStripMenuItem();
+            this.PopupTagSort = new System.Windows.Forms.ToolStripMenuItem();
+            this.PopupTagSortAscending = new System.Windows.Forms.ToolStripMenuItem();
+            this.PopupTagSortDescending = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripSeparator();
+            this.PopupTagSortNone = new System.Windows.Forms.ToolStripMenuItem();
+            this.PopupTagGroupBy = new System.Windows.Forms.ToolStripMenuItem();
             this.tbSearchFields = new System.Windows.Forms.TextBox();
             this.PopupSelectionMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.PopupSelectionRemove = new System.Windows.Forms.ToolStripMenuItem();
@@ -46,13 +54,6 @@
             this.panel2 = new System.Windows.Forms.Panel();
             this.btnCancel = new System.Windows.Forms.Button();
             this.btnOK = new System.Windows.Forms.Button();
-            this.PopupTagMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.PopupTagGroupBy = new System.Windows.Forms.ToolStripMenuItem();
-            this.PopupTagSortOrder = new System.Windows.Forms.ToolStripMenuItem();
-            this.PopupTagSortAscending = new System.Windows.Forms.ToolStripMenuItem();
-            this.PopupTagSortDescending = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripSeparator();
-            this.PopupTagSortNone = new System.Windows.Forms.ToolStripMenuItem();
             this.Toolbar = new TagScanner.Controls.FirstClickToolStrip();
             this.tbTreeAlpha = new System.Windows.Forms.ToolStripButton();
             this.tbTreeCat = new System.Windows.Forms.ToolStripButton();
@@ -74,7 +75,7 @@
             this.ListByDataType = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem2 = new System.Windows.Forms.ToolStripSeparator();
             this.ListNamesOnly = new System.Windows.Forms.ToolStripMenuItem();
-            this.selectToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.PopupTagMenu.SuspendLayout();
             this.PopupSelectionMenu.SuspendLayout();
             this.toolStripContainer1.ContentPanel.SuspendLayout();
             this.toolStripContainer1.LeftToolStripPanel.SuspendLayout();
@@ -86,7 +87,6 @@
             this.splitContainer1.SuspendLayout();
             this.gbSelectedTags.SuspendLayout();
             this.panel2.SuspendLayout();
-            this.PopupTagMenu.SuspendLayout();
             this.Toolbar.SuspendLayout();
             this.MainMenu.SuspendLayout();
             this.SuspendLayout();
@@ -132,6 +132,62 @@
             // 
             this.chWritable.Text = "Writable?";
             this.chWritable.Width = 80;
+            // 
+            // PopupTagMenu
+            // 
+            this.PopupTagMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.PopupTagSelect,
+            this.PopupTagSort,
+            this.PopupTagGroupBy});
+            this.PopupTagMenu.Name = "PopupTagMenu";
+            this.PopupTagMenu.Size = new System.Drawing.Size(181, 92);
+            // 
+            // PopupTagSelect
+            // 
+            this.PopupTagSelect.Name = "PopupTagSelect";
+            this.PopupTagSelect.Size = new System.Drawing.Size(180, 22);
+            this.PopupTagSelect.Text = "&Select";
+            // 
+            // PopupTagSort
+            // 
+            this.PopupTagSort.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.PopupTagSortAscending,
+            this.PopupTagSortDescending,
+            this.toolStripMenuItem1,
+            this.PopupTagSortNone});
+            this.PopupTagSort.Name = "PopupTagSort";
+            this.PopupTagSort.Size = new System.Drawing.Size(180, 22);
+            this.PopupTagSort.Text = "S&ort";
+            // 
+            // PopupTagSortAscending
+            // 
+            this.PopupTagSortAscending.Name = "PopupTagSortAscending";
+            this.PopupTagSortAscending.Size = new System.Drawing.Size(136, 22);
+            this.PopupTagSortAscending.Text = "&Ascending";
+            // 
+            // PopupTagSortDescending
+            // 
+            this.PopupTagSortDescending.Name = "PopupTagSortDescending";
+            this.PopupTagSortDescending.Size = new System.Drawing.Size(136, 22);
+            this.PopupTagSortDescending.Text = "&Descending";
+            // 
+            // toolStripMenuItem1
+            // 
+            this.toolStripMenuItem1.Name = "toolStripMenuItem1";
+            this.toolStripMenuItem1.Size = new System.Drawing.Size(133, 6);
+            // 
+            // PopupTagSortNone
+            // 
+            this.PopupTagSortNone.Name = "PopupTagSortNone";
+            this.PopupTagSortNone.Size = new System.Drawing.Size(136, 22);
+            this.PopupTagSortNone.Text = "&None";
+            // 
+            // PopupTagGroupBy
+            // 
+            this.PopupTagGroupBy.Name = "PopupTagGroupBy";
+            this.PopupTagGroupBy.Size = new System.Drawing.Size(180, 22);
+            this.PopupTagGroupBy.Text = "&Group";
+            this.PopupTagGroupBy.ToolTipText = "Include this Tag in the Custom Group?";
             // 
             // tbSearchFields
             // 
@@ -264,56 +320,6 @@
             this.btnOK.TabIndex = 19;
             this.btnOK.Text = "OK";
             this.btnOK.UseVisualStyleBackColor = true;
-            // 
-            // PopupTagMenu
-            // 
-            this.PopupTagMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.selectToolStripMenuItem,
-            this.PopupTagSortOrder,
-            this.PopupTagGroupBy});
-            this.PopupTagMenu.Name = "PopupTagMenu";
-            this.PopupTagMenu.Size = new System.Drawing.Size(181, 92);
-            // 
-            // PopupTagGroupBy
-            // 
-            this.PopupTagGroupBy.Name = "PopupTagGroupBy";
-            this.PopupTagGroupBy.Size = new System.Drawing.Size(180, 22);
-            this.PopupTagGroupBy.Text = "&Group By";
-            this.PopupTagGroupBy.ToolTipText = "Include this Tag in the Custom Group?";
-            // 
-            // PopupTagSortOrder
-            // 
-            this.PopupTagSortOrder.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.PopupTagSortAscending,
-            this.PopupTagSortDescending,
-            this.toolStripMenuItem1,
-            this.PopupTagSortNone});
-            this.PopupTagSortOrder.Name = "PopupTagSortOrder";
-            this.PopupTagSortOrder.Size = new System.Drawing.Size(180, 22);
-            this.PopupTagSortOrder.Text = "&Order By";
-            // 
-            // PopupTagSortAscending
-            // 
-            this.PopupTagSortAscending.Name = "PopupTagSortAscending";
-            this.PopupTagSortAscending.Size = new System.Drawing.Size(180, 22);
-            this.PopupTagSortAscending.Text = "&Ascending";
-            // 
-            // PopupTagSortDescending
-            // 
-            this.PopupTagSortDescending.Name = "PopupTagSortDescending";
-            this.PopupTagSortDescending.Size = new System.Drawing.Size(180, 22);
-            this.PopupTagSortDescending.Text = "&Descending";
-            // 
-            // toolStripMenuItem1
-            // 
-            this.toolStripMenuItem1.Name = "toolStripMenuItem1";
-            this.toolStripMenuItem1.Size = new System.Drawing.Size(177, 6);
-            // 
-            // PopupTagSortNone
-            // 
-            this.PopupTagSortNone.Name = "PopupTagSortNone";
-            this.PopupTagSortNone.Size = new System.Drawing.Size(180, 22);
-            this.PopupTagSortNone.Text = "&None";
             // 
             // Toolbar
             // 
@@ -510,13 +516,7 @@
             this.ListNamesOnly.Size = new System.Drawing.Size(149, 22);
             this.ListNamesOnly.Text = "&Names only";
             // 
-            // selectToolStripMenuItem
-            // 
-            this.selectToolStripMenuItem.Name = "selectToolStripMenuItem";
-            this.selectToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.selectToolStripMenuItem.Text = "&Select";
-            // 
-            // TagSelectorDialog
+            // TagSelectDialog
             // 
             this.AcceptButton = this.btnOK;
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 17F);
@@ -530,9 +530,10 @@
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.MinimumSize = new System.Drawing.Size(640, 480);
-            this.Name = "TagSelectorDialog";
+            this.Name = "TagSelectDialog";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Visible Tags";
+            this.PopupTagMenu.ResumeLayout(false);
             this.PopupSelectionMenu.ResumeLayout(false);
             this.toolStripContainer1.ContentPanel.ResumeLayout(false);
             this.toolStripContainer1.LeftToolStripPanel.ResumeLayout(false);
@@ -548,7 +549,6 @@
             this.gbSelectedTags.ResumeLayout(false);
             this.gbSelectedTags.PerformLayout();
             this.panel2.ResumeLayout(false);
-            this.PopupTagMenu.ResumeLayout(false);
             this.Toolbar.ResumeLayout(false);
             this.Toolbar.PerformLayout();
             this.MainMenu.ResumeLayout(false);
@@ -597,12 +597,12 @@
         public System.Windows.Forms.ToolStripMenuItem PopupSelectionRemove;
         public System.Windows.Forms.GroupBox gbSelectedTags;
         public System.Windows.Forms.ContextMenuStrip PopupTagMenu;
-        public System.Windows.Forms.ToolStripMenuItem PopupTagSortOrder;
+        public System.Windows.Forms.ToolStripMenuItem PopupTagSort;
         public System.Windows.Forms.ToolStripMenuItem PopupTagSortAscending;
         public System.Windows.Forms.ToolStripMenuItem PopupTagSortDescending;
         public System.Windows.Forms.ToolStripSeparator toolStripMenuItem1;
         public System.Windows.Forms.ToolStripMenuItem PopupTagSortNone;
         public System.Windows.Forms.ToolStripMenuItem PopupTagGroupBy;
-        private System.Windows.Forms.ToolStripMenuItem selectToolStripMenuItem;
+        public System.Windows.Forms.ToolStripMenuItem PopupTagSelect;
     }
 }

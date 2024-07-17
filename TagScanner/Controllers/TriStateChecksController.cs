@@ -3,11 +3,11 @@
     using System.Collections.Generic;
     using System.Windows.Forms;
 
-    public class TriStateCheckedListController : Controller
+    public class TriStateChecksController : Controller
     {
         #region Constructor
 
-        public TriStateCheckedListController(Controller parent, CheckedListBox control) : base(parent)
+        public TriStateChecksController(Controller parent, CheckedListBox control) : base(parent)
         {
             _control = control;
             _control.ItemCheck += Control_ItemCheck;

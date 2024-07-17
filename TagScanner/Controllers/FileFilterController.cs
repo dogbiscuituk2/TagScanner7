@@ -112,9 +112,9 @@
         {
             _view = view;
 
-            TriStateCheckedListController = new TriStateCheckedListController(this, _view.clbAttributes);
-            TriStateCheckedListController.SetAllStates(CheckState.Indeterminate);
-            TriStateCheckedListController.ItemCheck += TriStateCheckedListController_ItemCheck;
+            TriStateChecksController = new TriStateChecksController(this, _view.clbAttributes);
+            TriStateChecksController.SetAllStates(CheckState.Indeterminate);
+            TriStateChecksController.ItemCheck += TriStateCheckedListController_ItemCheck;
 
             CbUseTimes = _view.cbUseTimes;
             CbCreatedUtc = _view.cbCreatedUtc;
@@ -189,7 +189,7 @@
 
         #region Private Fields
 
-        private TriStateCheckedListController TriStateCheckedListController;
+        private TriStateChecksController TriStateChecksController;
 
         private const string
             _dateFormat = "yyyy-MM-dd",
@@ -374,7 +374,7 @@
 
                 FileFlags StateToFlags()
                 {
-                    switch (TriStateCheckedListController.GetState($"{attr}"))
+                    switch (TriStateChecksController.GetState($"{attr}"))
                     {
                         case CheckState.Checked: return mask & FileFlags.True;
                         case CheckState.Unchecked: return mask & FileFlags.False;
@@ -436,7 +436,7 @@
 
             void WriteAttribute(FileAttributes attr, FileFlags flags)
             {
-                TriStateCheckedListController.SetState($"{attr}", FlagsToState());
+                TriStateChecksController.SetState($"{attr}", FlagsToState());
 
                 CheckState FlagsToState()
                 {

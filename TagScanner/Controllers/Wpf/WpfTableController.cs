@@ -202,12 +202,13 @@
 
         private void GroupByMenu_DropDownOpening(object sender, EventArgs e)
         {
-            MainForm.GroupByArtistAlbum.Checked = QueryMatches(Query.ByArtistAlbum);
-            MainForm.GroupByArtist.Checked = QueryMatches(Query.ByArtist);
-            MainForm.GroupByAlbum.Checked = QueryMatches(Query.ByAlbum);
-            MainForm.GroupByYear.Checked = QueryMatches(Query.ByYear);
-            MainForm.GroupByGenre.Checked = QueryMatches(Query.ByGenre);
-            MainForm.GroupByTitle.Checked = QueryMatches(Query.ByTitle);
+            MainForm.GroupByCustom.Checked = !(
+                (MainForm.GroupByArtistAlbum.Checked = QueryMatches(Query.ByArtistAlbum)) |
+                (MainForm.GroupByArtist.Checked = QueryMatches(Query.ByArtist)) |
+                (MainForm.GroupByAlbum.Checked = QueryMatches(Query.ByAlbum)) |
+                (MainForm.GroupByYear.Checked = QueryMatches(Query.ByYear)) |
+                (MainForm.GroupByGenre.Checked = QueryMatches(Query.ByGenre)) |
+                (MainForm.GroupByTitle.Checked = QueryMatches(Query.ByTitle)));
         }
 
         private void Selection_TracksEdit(object sender, SelectionEditEventArgs e) =>
