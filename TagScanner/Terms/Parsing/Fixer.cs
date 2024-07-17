@@ -2,7 +2,7 @@
 {
     using System;
     using System.Linq;
-    using TagScanner.Models;
+    using Models;
     using Utils;
 
     public static class Fixer

@@ -29,6 +29,9 @@
         public static bool operator ==(Logical left, Logical right) => left._value == right._value;
         public static bool operator !=(Logical left, Logical right) => !(left == right);
 
+        public static implicit operator bool(Logical logical) => logical._value == true;
+        public static implicit operator Logical(bool boolean) => boolean ? Yes : No;
+
         #endregion
 
         #region Public Methods
