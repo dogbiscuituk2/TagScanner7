@@ -1,14 +1,12 @@
-﻿namespace TagScanner.Terms.Parsing
+﻿namespace TagScanner.Parsing
 {
     using System;
     using System.Collections.Generic;
-    using System.Data;
-    using System.Linq;
     using System.Linq.Expressions;
     using System.Runtime.CompilerServices;
     using System.Text.RegularExpressions;
     using Models;
-    using Utils;
+    using Terms;
 
     /// <summary>
     /// Syntactic analyzer.

@@ -5,7 +5,7 @@
     using System.Linq;
     using System.Text;
     using Terms;
-    using Terms.Parsing;
+    using Parsing;
 
     public class FileChecks
     {

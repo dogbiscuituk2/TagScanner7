@@ -5,7 +5,7 @@
     using System.Linq;
     using Models;
     using Terms;
-    using Terms.Parsing;
+    using Parsing;
 
     [TestClass]
     public class TokenizerTests

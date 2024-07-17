@@ -1,8 +1,9 @@
-﻿namespace TagScanner.Terms.Parsing
+﻿namespace TagScanner.Parsing
 {
     using System;
     using System.Linq;
     using Models;
+    using Terms;
     using Utils;
 
     public static class Fixer

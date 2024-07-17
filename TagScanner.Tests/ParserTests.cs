@@ -4,7 +4,7 @@
     using System;
     using Models;
     using Terms;
-    using Terms.Parsing;
+    using Parsing;
 
     [TestClass]
     public class ParserTests : BaseTests

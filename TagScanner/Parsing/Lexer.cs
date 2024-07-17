@@ -1,4 +1,4 @@
-﻿namespace TagScanner.Terms.Parsing
+﻿namespace TagScanner.Parsing
 {
     using System.Collections.Generic;
     using System.Drawing;
@@ -6,6 +6,7 @@
     using System.Text.RegularExpressions;
     using FastColoredTextBoxNS;
     using Models;
+    using Terms;
 
     /// <summary>
     /// Lexical analyzer.

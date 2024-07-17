@@ -8,7 +8,7 @@
     using Forms;
     using Mru;
     using Terms;
-    using Terms.Parsing;
+    using Parsing;
 
     public class ScriptFormController : Controller
     {

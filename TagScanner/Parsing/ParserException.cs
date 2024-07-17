@@ -1,6 +1,7 @@
-﻿namespace TagScanner.Terms.Parsing
+﻿namespace TagScanner.Parsing
 {
     using System;
+    using Terms;
 
     public class ParserException : Exception
     {

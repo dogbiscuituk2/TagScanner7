@@ -1,10 +1,10 @@
-﻿namespace TagScanner.Terms.Parsing
+﻿namespace TagScanner.Parsing
 {
-    using System;
     using System.Collections.Generic;
     using System.Diagnostics;
     using System.Linq;
     using System.Runtime.CompilerServices;
+    using Terms;
 
     partial class ParserSpy
     {

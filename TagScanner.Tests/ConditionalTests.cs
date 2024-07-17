@@ -1,7 +1,7 @@
 ﻿namespace TagScanner.Tests
 {
     using Microsoft.VisualStudio.TestTools.UnitTesting;
-    using Terms.Parsing;
+    using Parsing;
 
     [TestClass]
     public class ConditionalTests : BaseTests
