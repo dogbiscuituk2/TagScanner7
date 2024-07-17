@@ -42,7 +42,6 @@
             PictureController = new PictureController(View.PictureBox, View.PropertyGrid, PlayerController.PlaylistGrid);
             PropertyGridController = new PropertyGridController(this);
             StatusController = new StatusController(this);
-            FileChecksController = new FileChecksController(this);
             FindReplaceController = new FindReplaceController(this);
             AutoCompleter = new AutoCompleter(this, View.FindReplaceControl.cbFind, View.FindReplaceControl.cbReplace, View.FilterControl.cbFilter);
             FilterController.UpdateAutoComplete();
@@ -57,7 +56,6 @@
         public readonly AutoCompleter AutoCompleter;
         public readonly CommandProcessor CommandProcessor;
         public readonly DragDropController DragDropController;
-        public readonly FileChecksController FileChecksController;
         public readonly FilterController FilterController;
         public readonly FindReplaceController FindReplaceController;
         public readonly MruLibraryController LibraryController;
@@ -134,13 +132,8 @@
 
                 View.WindowMenu.DropDownOpening += ViewWindow_DropDownOpening;
 
-                View.AddMedia.Click += AddMedia_Click;
-                View.tbAddMedia.Click += AddMedia_Click;
-                View.AddFolder.Click += AddFolder_Click;
-                View.tbAddFolder.Click += AddFolder_Click;
                 View.AddLibrary.Click += AddLibrary_Click;
                 View.tbAddLibrary.Click += AddLibrary_Click;
-                View.tbAdd.ButtonClick += AddFolder_Click;
                 View.tbAdd.DropDownOpening += TbAdd_DropDownOpening;
                 View.tbAddRecentFolder.DropDown = View.AddRecentFolder.DropDown;
 
@@ -264,8 +257,6 @@
 
         private void ViewWindow_DropDownOpening(object sender, EventArgs e) => AppController.PopulateWindowMenu(View.WindowMenu);
 
-        private void AddMedia_Click(object sender, EventArgs e) => MediaController.AddFiles();
-        private void AddFolder_Click(object sender, EventArgs e) => MediaController.AddFolder();
         private void AddLibrary_Click(object sender, EventArgs e) => LibraryController.AddLibrary();
         private void AddRecentLibrary_DropDownOpening(object sender, EventArgs e) => LibraryController.Merging = true;
         private void TbAdd_DropDownOpening(object sender, EventArgs e) => View.tbAddRecentFolder.Enabled = View.AddRecentFolder.Enabled;

@@ -15,27 +15,28 @@
         public MruMediaController(Controller parent, ContextMenuStrip parentMenu) :
             base(parent, "MediaMRU", parentMenu?.Items)
         {
+            _fileChecksController = new FileChecksController(this);
             _openFileDialog = new OpenFileDialog { Multiselect = true, Title = Resources.Select_the_media_file_s__to_add };
             _folderBrowserDialog = new FolderBrowserDialog { Description = Resources.Select_the_media_folder_to_add };
+            MainForm.AddMedia.Click += AddMedia_Click;
+            MainForm.tbAddMedia.Click += AddMedia_Click;
+            MainForm.AddFolder.Click += AddFolder_Click;
+            MainForm.tbAddFolder.Click += AddFolder_Click;
+            MainForm.tbAdd.ButtonClick += AddFolder_Click;
+            MainForm.AddOptions.Click += AddOptions_Click;
         }
 
         #endregion
 
         #region Private Fields
 
+        private readonly FileChecksController _fileChecksController;
         private readonly FolderBrowserDialog _folderBrowserDialog;
         private readonly OpenFileDialog _openFileDialog;
 
         #endregion
 
         #region Public Methods
-
-        public void AddFiles()
-        {
-            InitFilter();
-            if (_openFileDialog.ShowDialog(Owner) == DialogResult.OK)
-                AddFiles(_openFileDialog.FileNames);
-        }
 
         public void AddFiles(string[] paths)
         {
@@ -52,15 +53,6 @@
                 foreach (var folder in folders)
                     AddFolder(folder, filter);
             }
-        }
-
-        public void AddFolder()
-        {
-            if (_folderBrowserDialog.ShowDialog(Owner) != DialogResult.OK) return;
-            var folderPath = _folderBrowserDialog.SelectedPath;
-            var filter = GetFilter();
-            SetValue(MakeItem(folderPath, filter));
-            AddFolder(folderPath, filter);
         }
 
         #endregion
@@ -84,13 +76,39 @@
 
         #endregion
 
+        #region Event Handlers
+
+        private void AddFolder_Click(object sender, EventArgs e) => AddFolder();
+        private void AddMedia_Click(object sender, EventArgs e) => AddFiles();
+        private void AddOptions_Click(object sender, EventArgs e) => AddOptions();
+
+        #endregion
+
         #region Private Methods
+
+        private void AddFiles()
+        {
+            InitFilter();
+            if (_openFileDialog.ShowDialog(Owner) == DialogResult.OK)
+                AddFiles(_openFileDialog.FileNames);
+        }
+
+        private void AddFolder()
+        {
+            if (_folderBrowserDialog.ShowDialog(Owner) != DialogResult.OK) return;
+            var folderPath = _folderBrowserDialog.SelectedPath;
+            var filter = GetFilter();
+            SetValue(MakeItem(folderPath, filter));
+            AddFolder(folderPath, filter);
+        }
 
         private void AddFolder(string folderPath, string filter)
         {
             var progress = CreateNewProgress();
             Task.Run(() => MainModel.AddFolder(folderPath, filter, progress));
         }
+
+        private bool AddOptions() => _fileChecksController.Execute();
 
         private IProgress<ProgressEventArgs> CreateNewProgress() => MainFormController.StatusController.CreateNewProgress();
 

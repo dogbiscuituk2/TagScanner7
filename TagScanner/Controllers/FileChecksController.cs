@@ -13,7 +13,6 @@
             FileFilterController = new FileFilterController(this);
             FileFilterController.UseTimesChanged += (sender, e) => View.FileFilterPanel.Width = FileFilterController.ViewWidth;
             FileSchemaController = new FileSchemaController(this);
-            MainForm.AddOptions.Click += AddOptions_Click;
         }
 
         #endregion
@@ -52,12 +51,6 @@
             SchemaPopupAdd,
             SchemaPopupEdit,
             SchemaPopupDelete;
-
-        #endregion
-
-        #region Event Handlers
-
-        private void AddOptions_Click(object sender, EventArgs e) => Execute();
 
         #endregion
 
