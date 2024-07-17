@@ -9,11 +9,11 @@
     using Models;
     using Terms;
 
-    public class TagsListController : TagsViewController, IComparer
+    public class TagListController : TagViewController, IComparer
     {
         #region Constructor
 
-        public TagsListController(TagsSelectorController parent, ListView listView) : base(parent, listView)
+        public TagListController(TagSelectController parent, ListView listView) : base(parent, listView)
         {
             listView.ItemChecked += (sender, e) => parent.UpdateSelection();
         }

@@ -8,18 +8,18 @@
     using Forms;
     using Models;
 
-    public class TagsSelectorController : Controller
+    public class TagSelectController : Controller
     {
         #region Constructors
 
-        public TagsSelectorController(Controller parent) : this(parent, p => true) { }
+        public TagSelectController(Controller parent) : this(parent, p => true) { }
 
-        public TagsSelectorController(Controller parent, Func<Tag, bool> tagFilter) : base(parent)
+        public TagSelectController(Controller parent, Func<Tag, bool> tagFilter) : base(parent)
         {
             AvailableTags = Tags.Keys.Where(tagFilter);
 
-            _tagsListController = new TagsListController(this, Dialog.ListView);
-            _tagsTreeController = new TagsTreeController(this, Dialog.TreeView);
+            _tagListController = new TagListController(this, Dialog.ListView);
+            _tagTreeController = new TagTreeController(this, Dialog.TreeView);
 
             TreeAlphabetically = Dialog.TreeAlphabetically;
             TreeByCategory = Dialog.TreeByCategory;
@@ -41,10 +41,10 @@
 
             TbSearchFields = Dialog.tbSearchFields;
             GbSelectedTags = Dialog.gbSelectedTags;
-            PopupRemove = Dialog.PopupRemove;
-            PopupMenu = Dialog.PopupMenu;
+            PopupRemove = Dialog.PopupSelectionRemove;
+            PopupMenu = Dialog.PopupSelectionMenu;
 
-            _tagsTreeController.InitView();
+            _tagTreeController.InitView();
             TreeAlphabetically.Click += TreeAlphabetically_Click;
             TreeByCategory.Click += TreeByCategory_Click;
             TreeByDataType.Click += TreeByDataType_Click;
@@ -52,7 +52,7 @@
             tbTreeCat.Click += TreeByCategory_Click;
             tbTreeType.Click += TreeByDataType_Click;
 
-            _tagsListController.InitView();
+            _tagListController.InitView();
             ListAlphabetically.Click += ListAlphabetically_Click;
             ListByCategory.Click += ListByCategory_Click;
             ListByDataType.Click += ListByDataType_Click;
@@ -133,16 +133,16 @@
         private readonly TextBox TbSearchFields;
         private readonly GroupBox GbSelectedTags;
 
-        private TagSelectorDialog _dialog;
-        private readonly TagsListController _tagsListController;
-        private readonly TagsTreeController _tagsTreeController;
+        private TagSelectDialog _dialog;
+        private readonly TagListController _tagListController;
+        private readonly TagTreeController _tagTreeController;
 
         #endregion
 
         #region Private Properties
 
-        private TagsViewController ActiveController => _tagsListController.Active ? _tagsListController : (TagsViewController)_tagsTreeController;
-        private TagSelectorDialog Dialog => _dialog ?? CreateDialog();
+        private TagViewController ActiveController => _tagListController.Active ? _tagListController : (TagViewController)_tagTreeController;
+        private TagSelectDialog Dialog => _dialog ?? CreateDialog();
 
         #endregion
 
@@ -163,9 +163,9 @@
 
         #region Private Methods
 
-        private TagSelectorDialog CreateDialog()
+        private TagSelectDialog CreateDialog()
         {
-            _dialog = new TagSelectorDialog();
+            _dialog = new TagSelectDialog();
 
             return Dialog;
         }
@@ -201,7 +201,7 @@
 
         private void UpdateUI()
         {
-            bool tree = _tagsTreeController.Active;
+            bool tree = _tagTreeController.Active;
             TreeAlphabetically.Checked = tbTreeAlpha.Checked = tree && GroupTagsBy == GroupTagsBy.None; ;
             TreeByCategory.Checked = tbTreeCat.Checked = tree && GroupTagsBy == GroupTagsBy.Category;
             TreeByDataType.Checked = tbTreeType.Checked = tree && GroupTagsBy == GroupTagsBy.DataType;
@@ -219,9 +219,9 @@
             var selectedTags = GetSelectedTags();
             GroupTagsBy = groupTagsBy;
             MultiColumn = multiColumn;
-            _tagsListController.ViewMode = multiColumn ? View.List : View.Details;
-            _tagsListController.Active = !tree;
-            _tagsTreeController.Active = tree;
+            _tagListController.ViewMode = multiColumn ? View.List : View.Details;
+            _tagListController.Active = !tree;
+            _tagTreeController.Active = tree;
             SetSelectedTags(selectedTags);
             UpdateUI();
         }

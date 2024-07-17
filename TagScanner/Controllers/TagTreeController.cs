@@ -7,11 +7,11 @@
     using Models;
     using Terms;
 
-    public class TagsTreeController : TagsViewController
+    public class TagTreeController : TagViewController
     {
         #region Constructor
 
-        public TagsTreeController(TagsSelectorController parent, TreeView treeView) : base(parent, treeView) { }
+        public TagTreeController(TagSelectController parent, TreeView treeView) : base(parent, treeView) { }
 
         #endregion
 
@@ -72,7 +72,7 @@
 
         #region Event Handlers
 
-        private void TriStateTreeController_NodeStateChanged(object sender, EventArgs e) => ((TagsSelectorController)Parent).UpdateSelection();
+        private void TriStateTreeController_NodeStateChanged(object sender, EventArgs e) => ((TagSelectController)Parent).UpdateSelection();
 
         #endregion
 

@@ -40,7 +40,7 @@
         protected void EditTagVisibility(string detail)
         {
             var visibleTags = VisibleTags.ToList();
-            var ok = new TagsSelectorController(this).Execute($"Select the Columns to display in the {detail} Table", visibleTags);
+            var ok = new TagSelectController(this).Execute($"Select the Columns to display in the {detail} Table", visibleTags);
             if (ok)
                 VisibleTags = VisibleTags.Intersect(visibleTags).Union(visibleTags).ToList();
         }
