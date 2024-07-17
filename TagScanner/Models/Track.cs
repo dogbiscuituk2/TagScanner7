@@ -19,8 +19,7 @@
 
         public static Track FromPath(string filePath, Func<Track, bool> filter = null)
         {
-            var track = new Track();
-            track._filePath = filePath;
+            var track = new Track { _filePath = filePath };
             if (track.Load(filter))
             {
                 track.IsNew = true;
