@@ -37,13 +37,14 @@
             this.SchemaPopupDelete = new System.Windows.Forms.ToolStripMenuItem();
             this.TreeViewStateImageList = new System.Windows.Forms.ImageList(this.components);
             this.FileFilterPanel = new System.Windows.Forms.Panel();
+            this.FileFilterControl = new TagScanner.Controls.FileFilterControl();
             this.btnCancel = new System.Windows.Forms.Button();
             this.btnOK = new System.Windows.Forms.Button();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.edFilespecs = new System.Windows.Forms.TextBox();
             this.panel1 = new System.Windows.Forms.Panel();
-            this.FileFilterControl = new TagScanner.Controls.FileFilterControl();
+            this.cbDontShowThisAgain = new System.Windows.Forms.CheckBox();
             this.SchemaPopupMenu.SuspendLayout();
             this.FileFilterPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
@@ -114,6 +115,16 @@
             this.FileFilterPanel.Size = new System.Drawing.Size(396, 345);
             this.FileFilterPanel.TabIndex = 2;
             // 
+            // FileFilterControl
+            // 
+            this.FileFilterControl.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.FileFilterControl.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.FileFilterControl.Location = new System.Drawing.Point(0, 0);
+            this.FileFilterControl.Margin = new System.Windows.Forms.Padding(4);
+            this.FileFilterControl.Name = "FileFilterControl";
+            this.FileFilterControl.Size = new System.Drawing.Size(396, 345);
+            this.FileFilterControl.TabIndex = 0;
+            // 
             // btnCancel
             // 
             this.btnCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
@@ -183,6 +194,7 @@
             // 
             // panel1
             // 
+            this.panel1.Controls.Add(this.cbDontShowThisAgain);
             this.panel1.Controls.Add(this.btnOK);
             this.panel1.Controls.Add(this.btnCancel);
             this.panel1.Dock = System.Windows.Forms.DockStyle.Bottom;
@@ -191,15 +203,15 @@
             this.panel1.Size = new System.Drawing.Size(784, 36);
             this.panel1.TabIndex = 5;
             // 
-            // FileFilterControl
+            // cbDontShowThisAgain
             // 
-            this.FileFilterControl.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.FileFilterControl.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.FileFilterControl.Location = new System.Drawing.Point(0, 0);
-            this.FileFilterControl.Margin = new System.Windows.Forms.Padding(4);
-            this.FileFilterControl.Name = "FileFilterControl";
-            this.FileFilterControl.Size = new System.Drawing.Size(396, 345);
-            this.FileFilterControl.TabIndex = 0;
+            this.cbDontShowThisAgain.AutoSize = true;
+            this.cbDontShowThisAgain.Location = new System.Drawing.Point(12, 7);
+            this.cbDontShowThisAgain.Name = "cbDontShowThisAgain";
+            this.cbDontShowThisAgain.Size = new System.Drawing.Size(152, 21);
+            this.cbDontShowThisAgain.TabIndex = 3;
+            this.cbDontShowThisAgain.Text = "Don\'t show this again";
+            this.cbDontShowThisAgain.UseVisualStyleBackColor = true;
             // 
             // FileChecksDialog
             // 
@@ -228,6 +240,7 @@
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             this.panel1.ResumeLayout(false);
+            this.panel1.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -247,5 +260,6 @@
         private System.Windows.Forms.GroupBox groupBox1;
         public System.Windows.Forms.TextBox edFilespecs;
         private System.Windows.Forms.Panel panel1;
+        public System.Windows.Forms.CheckBox cbDontShowThisAgain;
     }
 }

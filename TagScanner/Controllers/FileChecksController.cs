@@ -1,6 +1,5 @@
 ﻿namespace TagScanner.Controllers
 {
-    using System;
     using System.Windows.Forms;
     using Forms;
 
@@ -29,8 +28,14 @@
 
         #region Public Methods
 
-        public bool Execute()
+        public bool Execute(bool force)
         {
+            if (force)
+            {
+                var control = View.cbDontShowThisAgain;
+                control.Checked = false; ;
+                control.Visible = false;
+            }
             BeforeExecute();
             var ok = View.ShowDialog(Owner) == DialogResult.OK;
             if (ok)

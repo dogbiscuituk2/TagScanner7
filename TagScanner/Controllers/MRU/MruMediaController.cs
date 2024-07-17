@@ -112,7 +112,7 @@
             Task.Run(() => MainModel.AddFolder(folderPath, filter, progress));
         }
 
-        private bool AddOptions() => _fileChecksController.Execute();
+        private bool AddOptions() => _fileChecksController.Execute(force: true);
 
         private IProgress<ProgressEventArgs> CreateNewProgress() => MainFormController.StatusController.CreateNewProgress();
 
