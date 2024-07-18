@@ -20,7 +20,6 @@
 
         private void TestForm_Load(object sender, EventArgs e)
         {
-            toolStrip1.Items.Add(new ToolStripCheckBox());
         }
     }
 }

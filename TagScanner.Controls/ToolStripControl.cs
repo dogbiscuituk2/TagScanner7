@@ -2,7 +2,7 @@
 {
     using System.Windows.Forms;
 
-    public class ToolStripControl<T> : ToolStripControlHost where T : Control, new()
+    public class ToolStripControl<T> : ToolStripHost where T : Control, new()
     {
         #region Constructor
 

@@ -195,29 +195,10 @@
     <Compile Include="Controls\FindReplaceControl.Designer.cs">
       <DependentUpon>FindReplaceControl.cs</DependentUpon>
     </Compile>
-    <Compile Include="Controls\FirstClickHelper.cs" />
-    <Compile Include="Controls\FirstClickMenuStrip.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="Controls\FirstClickToolStrip.cs">
-      <SubType>Component</SubType>
-    </Compile>
     <Compile Include="Controls\TermTree.cs">
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Controls\TermTreeNode.cs" />
-    <Compile Include="Controls\ToolStripCheckBox.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="Controls\ToolStripControl.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="Controls\ToolStripDateTimePicker.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="Controls\ToolStripSpinEdit.cs">
-      <SubType>Component</SubType>
-    </Compile>
     <Compile Include="Forms\FileChecksDialog.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -687,7 +668,12 @@
     <Analyzer Include="..\packages\Microsoft.CodeAnalysis.Analyzers.3.3.4\analyzers\dotnet\cs\Microsoft.CodeAnalysis.Analyzers.dll" />
     <Analyzer Include="..\packages\Microsoft.CodeAnalysis.Analyzers.3.3.4\analyzers\dotnet\cs\Microsoft.CodeAnalysis.CSharp.Analyzers.dll" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\TagScanner.Controls\TagScanner.Controls.csproj">
+      <Project>{4b4e455b-f41c-4303-88c5-4474337942d4}</Project>
+      <Name>TagScanner.Controls</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

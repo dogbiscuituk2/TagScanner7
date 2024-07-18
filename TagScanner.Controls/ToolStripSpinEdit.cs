@@ -64,7 +64,5 @@
         private void OnValueChanged(object sender, EventArgs e) => ValueChanged?.Invoke(this, EventArgs.Empty);
 
         #endregion
-
-
     }
 }
