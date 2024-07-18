@@ -267,6 +267,8 @@
             MessageBox.Show(View,
                 $"{Application.CompanyName}\n{Application.ProductName}\nVersion {Application.ProductVersion}",
                 string.Concat("About ", Application.ProductName));
+
+            new TestForm().Show();
         }
 
         private void LibraryGridController_SelectionChanged(object sender, EventArgs e) => UpdateUI();

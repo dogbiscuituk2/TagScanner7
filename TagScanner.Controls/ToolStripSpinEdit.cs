@@ -12,7 +12,7 @@
     {
         #region Constructor
 
-        public ToolStripSpinEdit() : base() { }
+        public ToolStripSpinEdit() : base() { AutoSize = false; }
 
         #endregion
 

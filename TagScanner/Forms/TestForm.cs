@@ -20,6 +20,7 @@
 
         private void TestForm_Load(object sender, EventArgs e)
         {
+            firstClickToolStrip1.Items.Add(new ToolStripDateTimePicker());
         }
     }
 }
