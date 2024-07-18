@@ -2,7 +2,12 @@
 {
     using System;
     using System.Windows.Forms;
+    using System.Windows.Forms.Design;
 
+    [ToolStripItemDesignerAvailability(
+        ToolStripItemDesignerAvailability.ToolStrip |
+        ToolStripItemDesignerAvailability.MenuStrip |
+        ToolStripItemDesignerAvailability.ContextMenuStrip)]
     public class ToolStripDateTimePicker : ToolStripControl<DateTimePicker>
     {
         #region Constructor
@@ -41,6 +46,12 @@
         {
             get => Guest.ShowUpDown;
             set => Guest.ShowUpDown = value;
+        }
+
+        public DateTime Value
+        {
+            get => Guest.Value;
+            set => Guest.Value = value;
         }
 
         #endregion

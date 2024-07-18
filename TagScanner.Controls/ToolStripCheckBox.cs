@@ -2,7 +2,12 @@
 {
     using System;
     using System.Windows.Forms;
+    using System.Windows.Forms.Design;
 
+    [ToolStripItemDesignerAvailability(
+        ToolStripItemDesignerAvailability.ToolStrip |
+        ToolStripItemDesignerAvailability.MenuStrip |
+        ToolStripItemDesignerAvailability.ContextMenuStrip)]
     public class ToolStripCheckBox : ToolStripControl<CheckBox>
     {
         #region Constructor
