@@ -206,16 +206,16 @@
             CbCreatedUtc, CbModifiedUtc, CbAccessedUtc,
             CbUseAutocorrect;
 
-        private ComboBox
-            CbFileSizeUnit;
+        private ComboBox CbFileSizeUnit;
 
         private DateTimePicker
             DtpCreatedMin, DtpCreatedMax,
             DtpModifiedMin, DtpModifiedMax,
             DtpAccessedMin, DtpAccessedMax;
 
-        private NumericUpDown
-            SeFileSizeMin, SeFileSizeMax;
+        private NumericUpDown SeFileSizeMin, SeFileSizeMax;
+
+        private int _prevFileSizeUnit;
 
         #endregion
 
@@ -296,7 +296,19 @@
 
         private void AdjustFileSizeUnit()
         {
-            SeFileSizeMin.DecimalPlaces = SeFileSizeMax.DecimalPlaces = FileSizeUnit > 0 ? 2 : 0;
+            var shift = CbFileSizeUnit.SelectedIndex - _prevFileSizeUnit;
+            decimal
+                min = SeFileSizeMin.Value,
+                max = SeFileSizeMax.Value,
+                factor = 1L << Math.Abs(shift * 10);
+            if (shift > 0)
+                factor = 1 / factor;
+            _updating = true;
+            SeFileSizeMin.DecimalPlaces = SeFileSizeMax.DecimalPlaces = new[] { 0, 3, 5, 5, 5, 8, 11 }[FileSizeUnit];
+            SeFileSizeMin.Maximum = SeFileSizeMax.Maximum = long.MaxValue / (decimal)(1L << FileSizeUnit * 10);
+            SeFileSizeMin.Value = min * factor;
+            SeFileSizeMax.Value = max * factor;
+            _updating = false;
             UpdateUI();
         }
 
@@ -452,7 +464,11 @@
             void WriteCheckBoxDtp(DateTimePicker control, FileFlags flag) => control.Checked = GetFlag(flag);
         }
 
-        private void UpdateUI() => _view.edConditions.Text = GetFilterString();
+        private void UpdateUI()
+        {
+            _prevFileSizeUnit = CbFileSizeUnit.SelectedIndex;
+            _view.edConditions.Text = GetFilterString();
+        }
 
         #endregion
     }

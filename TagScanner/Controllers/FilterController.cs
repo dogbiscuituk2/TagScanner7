@@ -56,7 +56,10 @@
             if (Parser.TryParse(filter, out var term, out var exception, CaseSensitive))
             {
                 MainTableController.SetFilter(term);
-                UpdateFilterStatus($"{MainTableController.TracksCountVisible} of {MainTableController.TracksCountAll} Tracks shown.");
+                int
+                    all = MainTableController.TracksCountAll,
+                    visible = MainTableController.TracksCountVisible;
+                UpdateFilterStatus(all > 0 ? $"on. {visible} of {all} Track(s) shown." : "no tracks present.");
                 AppController.UpdateFilterItems(CbFilter.Items, CbFilter.Text);
             }
             else
@@ -117,7 +120,7 @@
         {
             CbFilter.Text = string.Empty;
             MainTableController.ClearFilter();
-            UpdateFilterStatus($"{MainTableController.TracksCountAll} Tracks shown.");
+            UpdateFilterStatus($"off. {MainTableController.TracksCountAll} Tracks shown.");
         }
 
         private void Show(bool visible = true)

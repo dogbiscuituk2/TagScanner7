@@ -109,6 +109,12 @@
             TracksChanged?.Invoke(this, EventArgs.Empty);
         }
 
+        protected virtual void OnTracksEdit(Selection selection, Tag tag, List<object> values)
+        {
+            TracksEdit?.Invoke(this, new SelectionEditEventArgs(selection, tag, values));
+            OnTracksChanged();
+        }
+
         private int ReadTracks(Action<Reader> action, IProgress<ProgressEventArgs> progress)
         {
             var existingFilePaths = Tracks.Select(t => t.FilePath).ToList();

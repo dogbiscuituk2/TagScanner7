@@ -168,6 +168,7 @@
                 AutoCompleter.InvalidateFieldLists();
                 FilterController.UpdateAutoComplete();
                 FindReplaceController.UpdateAutoComplete();
+                MainForm.StatusLabel.Text = $"{Model.Tracks.Count} Track(s)";
             }
         }
 

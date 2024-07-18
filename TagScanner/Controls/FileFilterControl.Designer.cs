@@ -154,7 +154,9 @@
             "KiB",
             "MiB",
             "GiB",
-            "TiB"});
+            "TiB",
+            "PiB",
+            "EiB"});
             this.cbUnit.Location = new System.Drawing.Point(333, 133);
             this.cbUnit.Name = "cbUnit";
             this.cbUnit.Size = new System.Drawing.Size(54, 25);

@@ -85,7 +85,20 @@
             void AddDates(FileFlags flags, Tag tag, Tag tagUtc, DateTime min, DateTime max) =>
                 AddRelation(flags, (flags & Flags & FileFlags.Utc) == 0 ? tag : tagUtc, min, max);
 
-            void AddFileSize() => AddRelation(FileFlags.FileSize, Tag.FileSize, GetFileSize(FileSizeMin), GetFileSize(FileSizeMax));
+            void AddFileSize()
+            {
+                AddRelation(FileFlags.FileSize, Tag.FileSize, GetFileSize(FileSizeMin), GetFileSize(FileSizeMax));
+
+                Term GetFileSize(decimal fileSize)
+                {
+                    fileSize = Math.Round(fileSize * FileSizeMultiplier);
+                    return
+                        fileSize <= int.MaxValue ? (int)fileSize :
+                        fileSize <= long.MaxValue ? (long)fileSize :
+                        fileSize <= ulong.MaxValue ? (ulong)fileSize :
+                        (Term)ulong.MaxValue;
+                }
+            }
 
             string AddOperation(Op op, params Term[] args) => AddCondition(new Operation(op, args));
 
@@ -123,16 +136,6 @@
                 filterText.AppendLine(text);
 
                 Term StripTime(Term term, int bump) => ((Constant<DateTime>)term).Value.Date.AddDays(bump);
-            }
-
-            Term GetFileSize(decimal fileSize)
-            {
-                fileSize = Math.Round(fileSize * FileSizeMultiplier);
-                return
-                    fileSize <= int.MaxValue ? (int)fileSize :
-                    fileSize <= long.MaxValue ? (long)fileSize :
-                    fileSize <= ulong.MaxValue ? (ulong)fileSize :
-                    (Term)ulong.MaxValue;
             }
         }
 
