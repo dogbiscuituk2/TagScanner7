@@ -156,7 +156,7 @@
 
             SeFileSizeMin.ValueChanged += (sender, e) => FileSizeChanged(FileFlags.FileSizeMin);
             SeFileSizeMax.ValueChanged += (sender, e) => FileSizeChanged(FileFlags.FileSizeMax);
-            CbFileSizeUnit.SelectedValueChanged += (sender, e) => AdjustFileSizeUnit();
+            CbFileSizeUnit.SelectedIndexChanged += (sender, e) => AdjustFileSizeUnit();
 
             new ErrorController(this,
                 DtpCreatedMin, DtpCreatedMax,

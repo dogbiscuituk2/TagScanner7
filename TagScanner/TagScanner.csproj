@@ -189,6 +189,12 @@
     <Compile Include="Controls\FilterControl.Designer.cs">
       <DependentUpon>FilterControl.cs</DependentUpon>
     </Compile>
+    <Compile Include="Controls\FindReplaceControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\FindReplaceControl.Designer.cs">
+      <DependentUpon>FindReplaceControl.cs</DependentUpon>
+    </Compile>
     <Compile Include="Controls\FirstClickHelper.cs" />
     <Compile Include="Controls\FirstClickMenuStrip.cs">
       <SubType>Component</SubType>
@@ -196,10 +202,20 @@
     <Compile Include="Controls\FirstClickToolStrip.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="Controls\TermTree.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Controls\TermTreeNode.cs" />
     <Compile Include="Controls\ToolStripCheckBox.cs">
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Controls\ToolStripControl.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Controls\ToolStripDateTimePicker.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Controls\ToolStripSpinEdit.cs">
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Forms\FileChecksDialog.cs">
@@ -240,10 +256,6 @@
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
     <Compile Include="Streaming\StreamFormat.cs" />
-    <Compile Include="Controls\TermTreeNode.cs" />
-    <Compile Include="Controls\TermTree.cs">
-      <SubType>Component</SubType>
-    </Compile>
     <Compile Include="Menus\CastEventArgs.cs" />
     <Compile Include="Terms\Associativity.cs" />
     <Compile Include="Terms\Break.cs" />
@@ -339,12 +351,6 @@
     <Compile Include="Models\Logical.cs" />
     <Compile Include="Models\Reader.cs" />
     <Compile Include="Models\ITrack.cs" />
-    <Compile Include="Controls\FindReplaceControl.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Controls\FindReplaceControl.Designer.cs">
-      <DependentUpon>FindReplaceControl.cs</DependentUpon>
-    </Compile>
     <Compile Include="Forms\InputDialog.cs">
       <SubType>Form</SubType>
     </Compile>
