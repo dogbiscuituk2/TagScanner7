@@ -15,26 +15,26 @@
 
         public int DecimalPlaces
         {
-            get => Control.DecimalPlaces;
-            set => Control.DecimalPlaces = value;
+            get => Guest.DecimalPlaces;
+            set => Guest.DecimalPlaces = value;
         }
 
         public decimal Maximim
         {
-            get => Control.Maximum;
-            set => Control.Maximum = value;
+            get => Guest.Maximum;
+            set => Guest.Maximum = value;
         }
 
         public decimal Minimum
         {
-            get => Control.Minimum;
-            set => Control.Minimum = value;
+            get => Guest.Minimum;
+            set => Guest.Minimum = value;
         }
 
         public decimal Value
         {
-            get => Control.Value;
-            set => Control.Value = value;
+            get => Guest.Value;
+            set => Guest.Value = value;
         }
 
         #endregion

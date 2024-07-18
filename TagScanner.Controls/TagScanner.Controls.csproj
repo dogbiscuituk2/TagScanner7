@@ -163,9 +163,6 @@
     <Compile Include="ToolStripDateTimePicker.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="ToolStripHost.cs">
-      <SubType>Component</SubType>
-    </Compile>
     <Compile Include="ToolStripSpinEdit.cs">
       <SubType>Component</SubType>
     </Compile>

@@ -15,32 +15,32 @@
 
         public bool Checked
         {
-            get => Control.Checked;
-            set => Control.Checked = value;
+            get => Guest.Checked;
+            set => Guest.Checked = value;
         }
 
         public string CustomFormat
         {
-            get => Control.CustomFormat;
-            set => Control.CustomFormat = value;
+            get => Guest.CustomFormat;
+            set => Guest.CustomFormat = value;
         }
 
         public DateTimePickerFormat Format
         {
-            get => Control.Format;
-            set => Control.Format = value;
+            get => Guest.Format;
+            set => Guest.Format = value;
         }
 
         public bool ShowCheckBox
         {
-            get => Control.ShowCheckBox;
-            set => Control.ShowCheckBox = value;
+            get => Guest.ShowCheckBox;
+            set => Guest.ShowCheckBox = value;
         }
 
         public bool ShowUpDown
         {
-            get => Control.ShowUpDown;
-            set => Control.ShowUpDown = value;
+            get => Guest.ShowUpDown;
+            set => Guest.ShowUpDown = value;
         }
 
         #endregion

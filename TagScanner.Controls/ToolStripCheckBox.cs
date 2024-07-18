@@ -15,14 +15,14 @@
 
         public bool Checked
         {
-            get => Control.Checked;
-            set => Control.Checked = value;
+            get => Guest.Checked;
+            set => Guest.Checked = value;
         }
 
         public CheckState CheckState
         {
-            get => Control.CheckState;
-            set => Control.CheckState = value;
+            get => Guest.CheckState;
+            set => Guest.CheckState = value;
         }
 
         #endregion
