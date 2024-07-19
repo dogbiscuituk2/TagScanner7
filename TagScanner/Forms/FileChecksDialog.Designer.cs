@@ -37,6 +37,7 @@
             this.SchemaPopupDelete = new System.Windows.Forms.ToolStripMenuItem();
             this.TreeViewStateImageList = new System.Windows.Forms.ImageList(this.components);
             this.FileFilterPanel = new System.Windows.Forms.Panel();
+            this.FileFilterControl = new TagScanner.Controls.FileFilterControl();
             this.btnCancel = new System.Windows.Forms.Button();
             this.btnOK = new System.Windows.Forms.Button();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
@@ -44,7 +45,6 @@
             this.edFilespecs = new System.Windows.Forms.TextBox();
             this.panel1 = new System.Windows.Forms.Panel();
             this.cbDontShowThisAgain = new System.Windows.Forms.CheckBox();
-            this.FileFilterControl = new TagScanner.Controls.FileFilterControl();
             this.SchemaPopupMenu.SuspendLayout();
             this.FileFilterPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
@@ -64,7 +64,7 @@
             this.TreeView.Location = new System.Drawing.Point(0, 0);
             this.TreeView.Margin = new System.Windows.Forms.Padding(4);
             this.TreeView.Name = "TreeView";
-            this.TreeView.Size = new System.Drawing.Size(388, 235);
+            this.TreeView.Size = new System.Drawing.Size(388, 206);
             this.TreeView.StateImageList = this.TreeViewStateImageList;
             this.TreeView.TabIndex = 0;
             // 
@@ -112,8 +112,18 @@
             this.FileFilterPanel.Dock = System.Windows.Forms.DockStyle.Left;
             this.FileFilterPanel.Location = new System.Drawing.Point(0, 0);
             this.FileFilterPanel.Name = "FileFilterPanel";
-            this.FileFilterPanel.Size = new System.Drawing.Size(396, 345);
+            this.FileFilterPanel.Size = new System.Drawing.Size(396, 315);
             this.FileFilterPanel.TabIndex = 2;
+            // 
+            // FileFilterControl
+            // 
+            this.FileFilterControl.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.FileFilterControl.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.FileFilterControl.Location = new System.Drawing.Point(0, 0);
+            this.FileFilterControl.Margin = new System.Windows.Forms.Padding(4);
+            this.FileFilterControl.Name = "FileFilterControl";
+            this.FileFilterControl.Size = new System.Drawing.Size(396, 315);
+            this.FileFilterControl.TabIndex = 0;
             // 
             // btnCancel
             // 
@@ -153,8 +163,8 @@
             // splitContainer1.Panel2
             // 
             this.splitContainer1.Panel2.Controls.Add(this.groupBox1);
-            this.splitContainer1.Size = new System.Drawing.Size(388, 345);
-            this.splitContainer1.SplitterDistance = 235;
+            this.splitContainer1.Size = new System.Drawing.Size(388, 315);
+            this.splitContainer1.SplitterDistance = 206;
             this.splitContainer1.TabIndex = 4;
             // 
             // groupBox1
@@ -164,10 +174,10 @@
             this.groupBox1.Location = new System.Drawing.Point(0, 0);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Padding = new System.Windows.Forms.Padding(2);
-            this.groupBox1.Size = new System.Drawing.Size(388, 106);
+            this.groupBox1.Size = new System.Drawing.Size(388, 105);
             this.groupBox1.TabIndex = 0;
             this.groupBox1.TabStop = false;
-            this.groupBox1.Text = "`";
+            this.groupBox1.Text = "Selected Schema Filespecs";
             // 
             // edFilespecs
             // 
@@ -178,7 +188,7 @@
             this.edFilespecs.Name = "edFilespecs";
             this.edFilespecs.ReadOnly = true;
             this.edFilespecs.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-            this.edFilespecs.Size = new System.Drawing.Size(384, 84);
+            this.edFilespecs.Size = new System.Drawing.Size(384, 83);
             this.edFilespecs.TabIndex = 0;
             this.edFilespecs.WordWrap = false;
             // 
@@ -188,7 +198,7 @@
             this.panel1.Controls.Add(this.btnOK);
             this.panel1.Controls.Add(this.btnCancel);
             this.panel1.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.panel1.Location = new System.Drawing.Point(0, 345);
+            this.panel1.Location = new System.Drawing.Point(0, 315);
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(784, 36);
             this.panel1.TabIndex = 0;
@@ -203,23 +213,13 @@
             this.cbDontShowThisAgain.Text = "Don\'t show this again";
             this.cbDontShowThisAgain.UseVisualStyleBackColor = true;
             // 
-            // FileFilterControl
-            // 
-            this.FileFilterControl.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.FileFilterControl.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.FileFilterControl.Location = new System.Drawing.Point(0, 0);
-            this.FileFilterControl.Margin = new System.Windows.Forms.Padding(4);
-            this.FileFilterControl.Name = "FileFilterControl";
-            this.FileFilterControl.Size = new System.Drawing.Size(396, 345);
-            this.FileFilterControl.TabIndex = 0;
-            // 
             // FileChecksDialog
             // 
             this.AcceptButton = this.btnOK;
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 17F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.btnCancel;
-            this.ClientSize = new System.Drawing.Size(784, 381);
+            this.ClientSize = new System.Drawing.Size(784, 351);
             this.Controls.Add(this.splitContainer1);
             this.Controls.Add(this.FileFilterPanel);
             this.Controls.Add(this.panel1);
@@ -228,7 +228,7 @@
             this.Margin = new System.Windows.Forms.Padding(4);
             this.MaximizeBox = false;
             this.MinimizeBox = false;
-            this.MinimumSize = new System.Drawing.Size(800, 420);
+            this.MinimumSize = new System.Drawing.Size(800, 390);
             this.Name = "FileChecksDialog";
             this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Show;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;

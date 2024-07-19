@@ -112,10 +112,6 @@
         {
             _view = view;
 
-            TriStateChecksController = new TriStateChecksController(this, _view.clbAttributes);
-            TriStateChecksController.SetAllStates(CheckState.Indeterminate);
-            TriStateChecksController.ItemCheck += TriStateCheckedListController_ItemCheck;
-
             CbUseTimes = _view.cbUseTimes;
             CbCreatedUtc = _view.cbCreatedUtc;
             CbModifiedUtc = _view.cbModifiedUtc;
@@ -133,6 +129,13 @@
 
             SeFileSizeMin = _view.seFileSizeMin;
             SeFileSizeMax = _view.seFileSizeMax;
+
+            CbReadOnly = _view.cbReadOnly;
+            CbHidden = _view.cbHidden;
+            CbSystem = _view.cbSystem;
+            CbArchive = _view.cbArchive;
+            CbCompressed = _view.cbCompressed;
+            CbEncrypted = _view.cbEncrypted;
 
             InitDates(DateTime.Today, DtpCreatedMin, DtpModifiedMin, DtpAccessedMin);
             InitDates(DateTime.Today.AddDays(1).AddTicks(-1), DtpCreatedMax, DtpModifiedMax, DtpAccessedMax);
@@ -174,11 +177,6 @@
             }
         }
 
-        private void TriStateCheckedListController_ItemCheck(object sender, ItemCheckEventArgs e)
-        {
-            UpdateUI();
-        }
-
         #endregion
 
         #region Protected Methods
@@ -188,8 +186,6 @@
         #endregion
 
         #region Private Fields
-
-        private TriStateChecksController TriStateChecksController;
 
         private const string
             _dateFormat = "yyyy-MM-dd",
@@ -202,9 +198,9 @@
         private FileFilterControl _view;
 
         private CheckBox
-            CbUseTimes,
             CbCreatedUtc, CbModifiedUtc, CbAccessedUtc,
-            CbUseAutocorrect;
+            CbReadOnly, CbHidden, CbSystem, CbArchive, CbCompressed, CbEncrypted,
+            CbUseTimes, CbUseAutocorrect;
 
         private ComboBox CbFileSizeUnit;
 
@@ -386,7 +382,7 @@
 
                 FileFlags StateToFlags()
                 {
-                    switch (TriStateChecksController.GetState($"{attr}"))
+                    switch (GetCheckBox(attr).CheckState)
                     {
                         case CheckState.Checked: return mask & FileFlags.True;
                         case CheckState.Unchecked: return mask & FileFlags.False;
@@ -407,6 +403,21 @@
 
             void SetFlag(FileFlags mask, bool state = true) => flags = state ? flags | mask : flags & ~mask;
             void SetFlags(FileFlags mask, FileFlags state) => flags = flags & ~mask | state & mask;
+        }
+
+
+        private CheckBox GetCheckBox(FileAttributes attr)
+        {
+            switch (attr)
+            {
+                case FileAttributes.ReadOnly: return CbReadOnly;
+                case FileAttributes.Hidden: return CbHidden;
+                case FileAttributes.System: return CbSystem;
+                case FileAttributes.Archive: return CbArchive;
+                case FileAttributes.Compressed: return CbCompressed;
+                case FileAttributes.Encrypted: return CbEncrypted;
+                default: return null;
+            }
         }
 
         private void WriteFileChecksToControls()
@@ -448,7 +459,7 @@
 
             void WriteAttribute(FileAttributes attr, FileFlags flags)
             {
-                TriStateChecksController.SetState($"{attr}", FlagsToState());
+                GetCheckBox(attr).CheckState = FlagsToState();
 
                 CheckState FlagsToState()
                 {
