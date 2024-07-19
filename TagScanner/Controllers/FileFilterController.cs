@@ -29,8 +29,8 @@
                 {
                     _useTimes = value;
                     var dateTimePickers = new[] { DtpCreatedMin, DtpCreatedMax, DtpModifiedMin, DtpModifiedMax, DtpAccessedMin, DtpAccessedMax };
-                    var middleColumn = new Control[] { _view.lblFrom, DtpCreatedMax, DtpModifiedMax, DtpAccessedMax };
-                    var rightColumn = new Control[] { _view.lblUpTo, _view.lblUtc, CbCreatedUtc, CbModifiedUtc, CbAccessedUtc };
+                    var middleColumn = new Control[] { _view.lblUpTo, DtpCreatedMax, DtpModifiedMax, DtpAccessedMax };
+                    var rightColumn = new Control[] { _view.lblUtc, CbCreatedUtc, CbModifiedUtc, CbAccessedUtc };
                     var delta = UseTimes ? 52 : -52;
                     var customFormat = UseTimes ? _dateTimeFormat : _dateFormat;
                     AdjustControls(dateTimePickers, p => { ((DateTimePicker)p).CustomFormat = customFormat; p.Width += delta; });
@@ -143,8 +143,6 @@
             SeFileSizeMin.Maximum = SeFileSizeMax.Maximum = uint.MaxValue;
             FileSizeUnit = 0;
 
-            CbUseTimes.CheckedChanged += (sender, e) => UseTimes ^= true;
-
             DtpCreatedMin.ValueChanged += (sender, e) => DateChanged(FileFlags.CreatedMin);
             DtpCreatedMax.ValueChanged += (sender, e) => DateChanged(FileFlags.CreatedMax);
             CbCreatedUtc.CheckedChanged += (sender, e) => UpdateUI(); // SetFlag(FileFlags.CreatedUtc, CbCreatedUtc.Checked);
@@ -160,6 +158,15 @@
             SeFileSizeMin.ValueChanged += (sender, e) => FileSizeChanged(FileFlags.FileSizeMin);
             SeFileSizeMax.ValueChanged += (sender, e) => FileSizeChanged(FileFlags.FileSizeMax);
             CbFileSizeUnit.SelectedIndexChanged += (sender, e) => AdjustFileSizeUnit();
+
+            CbReadOnly.CheckStateChanged += (sender, e) => UpdateUI();
+            CbHidden.CheckStateChanged += (sender, e) => UpdateUI();
+            CbSystem.CheckStateChanged += (sender, e) => UpdateUI();
+            CbArchive.CheckStateChanged += (sender, e) => UpdateUI();
+            CbCompressed.CheckStateChanged += (sender, e) => UpdateUI();
+            CbEncrypted.CheckStateChanged += (sender, e) => UpdateUI();
+
+            CbUseTimes.CheckedChanged += (sender, e) => UseTimes ^= true;
 
             new ErrorController(this,
                 DtpCreatedMin, DtpCreatedMax,
