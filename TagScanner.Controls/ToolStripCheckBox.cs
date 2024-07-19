@@ -30,6 +30,12 @@
             set => Guest.CheckState = value;
         }
 
+        public bool ThreeState
+        {
+            get => Guest.ThreeState;
+            set => Guest.ThreeState = value;
+        }
+
         #endregion
 
         #region Public Events
