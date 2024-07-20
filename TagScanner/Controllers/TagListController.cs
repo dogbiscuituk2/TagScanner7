@@ -71,7 +71,7 @@
 
         protected override void InitGroups()
         {
-            ListView.ShowGroups = GroupTagsBy == GroupTagsBy.Category || GroupTagsBy == GroupTagsBy.DataType;
+            ListView.ShowGroups = ListTagsBy == ListTagsBy.Category || ListTagsBy == ListTagsBy.DataType;
             Groups.Clear();
             foreach (var header in GetGroupHeaders())
                 Groups.Add(NewGroup(header));

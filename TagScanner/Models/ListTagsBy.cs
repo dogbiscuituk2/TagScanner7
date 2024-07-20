@@ -1,6 +1,6 @@
 ﻿namespace TagScanner.Models
 {
-    public enum GroupTagsBy
+    public enum ListTagsBy
     {
         None,
         Category,

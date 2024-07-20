@@ -2,7 +2,6 @@
 {
     using System;
     using System.Collections.Generic;
-    using System.ComponentModel;
     using System.Linq;
     using System.Windows.Forms;
     using Forms;
@@ -39,10 +38,12 @@
             tbListType = Dialog.tbListType;
             tbListNames = Dialog.tbListNames;
 
-            TbSearchFields = Dialog.tbSearchFields;
-            GbSelectedTags = Dialog.gbSelectedTags;
-            PopupRemove = Dialog.PopupSelectionRemove;
-            PopupMenu = Dialog.PopupSelectionMenu;
+            TpSelected = Dialog.tpSelected;
+            LvSelected = Dialog.lvSelected;
+            TpOrderBy = Dialog.tpOrderBy;
+            LvOrderBy = Dialog.lvOrderBy;
+            TpOrderBy = Dialog.tpOrderBy;
+            LvOrderBy = Dialog.lvOrderBy;
 
             _tagTreeController.InitView();
             TreeAlphabetically.Click += TreeAlphabetically_Click;
@@ -62,10 +63,7 @@
             tbListType.Click += ListByDataType_Click;
             tbListNames.Click += ListNamesOnly_Click;
 
-            PopupMenu.Opening += PopupMenu_Opening;
-            PopupRemove.Click += PopupRemove_Click;
-
-            UseTreeView(GroupTagsBy.Category);
+            UseTreeView(ListTagsBy.Category);
         }
 
         #endregion
@@ -78,11 +76,27 @@
 
         #region Public Fields
 
-        public GroupTagsBy GroupTagsBy;
+        public ListTagsBy ListTagsBy;
 
         #endregion
 
         #region Public Methods
+
+        public bool Execute(string caption, Query query)
+        {
+            Dialog.Text = caption;
+            SetSelectedTags(query.Tags);
+            SetOrderByTags(query.Sorts);
+            SetGroupByTags(query.Groups);
+            var ok = Dialog.ShowDialog(Owner) == DialogResult.OK;
+            if (ok)
+            {
+                query.Tags = ActiveController.GetSelectedTags().ToArray();
+                query.Sorts = GetOrderByTags().ToArray();
+                query.Groups = GetGroupByTags().ToArray();
+            }
+            return ok;
+        }
 
         public bool Execute(string caption, List<Tag> selectedTags)
         {
@@ -99,9 +113,17 @@
 
         public void UpdateSelection()
         {
-            var tags = GetSelectedTags();
-            TbSearchFields.Text = tags.Say();
-            GbSelectedTags.Enabled = PopupRemove.Enabled = tags.Any();
+            Update(LvSelected, GetSelectedTags());
+            Update(LvOrderBy, GetOrderByTags());
+            Update(LvGroupBy, GetGroupByTags());
+
+            void Update(ListView view, IEnumerable<Tag> tags)
+            {
+                if (view == null)
+                    return;
+                view.Clear();
+                view.Items.AddRange(tags.Select(p => new ListViewItem($"{p}")).ToArray());
+            }
         }
 
         #endregion
@@ -128,10 +150,8 @@
             tbTreeCat,
             tbTreeType;
 
-        private readonly ContextMenuStrip PopupMenu;
-        private readonly ToolStripMenuItem PopupRemove;
-        private readonly TextBox TbSearchFields;
-        private readonly GroupBox GbSelectedTags;
+        private readonly TabPage TpSelected, TpOrderBy, TpGroupBy;
+        private readonly ListView LvSelected, LvOrderBy, LvGroupBy;
 
         private TagSelectDialog _dialog;
         private readonly TagListController _tagListController;
@@ -148,15 +168,13 @@
 
         #region Event Handlers
 
-        private void ListAlphabetically_Click(object sender, EventArgs e) => UseListView(GroupTagsBy.None);
-        private void ListByCategory_Click(object sender, EventArgs e) => UseListView(GroupTagsBy.Category);
-        private void ListByDataType_Click(object sender, EventArgs e) => UseListView(GroupTagsBy.DataType);
-        private void ListNamesOnly_Click(object sender, EventArgs e) => UseListView(GroupTagsBy.None, true);
-        private void PopupMenu_Opening(object sender, CancelEventArgs e) => UpdatePopupMenu();
-        private void PopupRemove_Click(object sender, EventArgs e) => DeselectTags();
-        private void TreeAlphabetically_Click(object sender, EventArgs e) => UseTreeView(GroupTagsBy.None);
-        private void TreeByCategory_Click(object sender, EventArgs e) => UseTreeView(GroupTagsBy.Category);
-        private void TreeByDataType_Click(object sender, EventArgs e) => UseTreeView(GroupTagsBy.DataType);
+        private void ListAlphabetically_Click(object sender, EventArgs e) => UseListView(ListTagsBy.None);
+        private void ListByCategory_Click(object sender, EventArgs e) => UseListView(ListTagsBy.Category);
+        private void ListByDataType_Click(object sender, EventArgs e) => UseListView(ListTagsBy.DataType);
+        private void ListNamesOnly_Click(object sender, EventArgs e) => UseListView(ListTagsBy.None, true);
+        private void TreeAlphabetically_Click(object sender, EventArgs e) => UseTreeView(ListTagsBy.None);
+        private void TreeByCategory_Click(object sender, EventArgs e) => UseTreeView(ListTagsBy.Category);
+        private void TreeByDataType_Click(object sender, EventArgs e) => UseTreeView(ListTagsBy.DataType);
 
 
         #endregion
@@ -170,54 +188,33 @@
             return Dialog;
         }
 
-        private void DeselectTags()
-        {
-            var text = TbSearchFields.Text;
-            int
-                start = TbSearchFields.SelectionStart,
-                end = start + TbSearchFields.SelectionLength,
-                first = 0,
-                count = 0;
-            for (int index = 0, p = 0, q; p < end; index++, p = q + 2)
-            {
-                q = text.IndexOf(',', p);
-                if (q < 0)
-                    q = text.Length;
-                if (start <= q && end >= p && count++ == 0)
-                    first = index;
-            }
-            if (count > 0)
-            {
-                var tags = GetSelectedTags();
-                var drop = tags.Skip(first).Take(count);
-                SetSelectedTags(tags.Except(drop));
-            }
-        }
-
+        private IEnumerable<Tag> GetGroupByTags() => new List<Tag>();
+        private IEnumerable<Tag> GetOrderByTags() => new List<Tag>();
         private IEnumerable<Tag> GetSelectedTags() => ActiveController.GetSelectedTags();
-        private void SetSelectedTags(IEnumerable<Tag> selectedTags) => ActiveController.SetSelectedTags(selectedTags);
 
-        private void UpdatePopupMenu() => PopupRemove.Enabled = TbSearchFields.SelectionLength > 0;
+        private void SetGroupByTags(IEnumerable<Tag> selectedTags) { }
+        private void SetOrderByTags(IEnumerable<Tag> selectedTags) { }
+        private void SetSelectedTags(IEnumerable<Tag> selectedTags) => ActiveController.SetSelectedTags(selectedTags);
 
         private void UpdateUI()
         {
             bool tree = _tagTreeController.Active;
-            TreeAlphabetically.Checked = tbTreeAlpha.Checked = tree && GroupTagsBy == GroupTagsBy.None; ;
-            TreeByCategory.Checked = tbTreeCat.Checked = tree && GroupTagsBy == GroupTagsBy.Category;
-            TreeByDataType.Checked = tbTreeType.Checked = tree && GroupTagsBy == GroupTagsBy.DataType;
-            ListAlphabetically.Checked = tbListAlpha.Checked = !tree && GroupTagsBy == GroupTagsBy.None && !MultiColumn;
-            ListByCategory.Checked = tbListCat.Checked = !tree && GroupTagsBy == GroupTagsBy.Category;
-            ListByDataType.Checked = tbListType.Checked = !tree && GroupTagsBy == GroupTagsBy.DataType;
-            ListNamesOnly.Checked = tbListNames.Checked = !tree && GroupTagsBy == GroupTagsBy.None && MultiColumn;
+            TreeAlphabetically.Checked = tbTreeAlpha.Checked = tree && ListTagsBy == ListTagsBy.None; ;
+            TreeByCategory.Checked = tbTreeCat.Checked = tree && ListTagsBy == ListTagsBy.Category;
+            TreeByDataType.Checked = tbTreeType.Checked = tree && ListTagsBy == ListTagsBy.DataType;
+            ListAlphabetically.Checked = tbListAlpha.Checked = !tree && ListTagsBy == ListTagsBy.None && !MultiColumn;
+            ListByCategory.Checked = tbListCat.Checked = !tree && ListTagsBy == ListTagsBy.Category;
+            ListByDataType.Checked = tbListType.Checked = !tree && ListTagsBy == ListTagsBy.DataType;
+            ListNamesOnly.Checked = tbListNames.Checked = !tree && ListTagsBy == ListTagsBy.None && MultiColumn;
             UpdateSelection();
         }
 
-        private void UseListView(GroupTagsBy groupTagsBy, bool multiColumn = false) => UseTreeView(groupTagsBy, tree: false, multiColumn);
+        private void UseListView(ListTagsBy listTagsBy, bool multiColumn = false) => UseTreeView(listTagsBy, tree: false, multiColumn);
 
-        private void UseTreeView(GroupTagsBy groupTagsBy, bool tree = true, bool multiColumn = false)
+        private void UseTreeView(ListTagsBy listTagsBy, bool tree = true, bool multiColumn = false)
         {
             var selectedTags = GetSelectedTags();
-            GroupTagsBy = groupTagsBy;
+            ListTagsBy = listTagsBy;
             MultiColumn = multiColumn;
             _tagListController.ViewMode = multiColumn ? View.List : View.Details;
             _tagListController.Active = !tree;

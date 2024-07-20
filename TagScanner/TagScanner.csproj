@@ -291,7 +291,7 @@
     <Compile Include="Menus\MenuMaker.cs" />
     <Compile Include="Menus\MenuRouter.cs" />
     <Compile Include="Menus\OperationEventArgs.cs" />
-    <Compile Include="Models\GroupTagsBy.cs" />
+    <Compile Include="Models\ListTagsBy.cs" />
     <Compile Include="Controllers\Wpf\WpfGridController.cs" />
     <Compile Include="Controllers\MainFormController.cs" />
     <Compile Include="Controllers\Wpf\WpfPlayerController.cs" />

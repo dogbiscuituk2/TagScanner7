@@ -97,11 +97,11 @@
 
         private TreeNode FindParent(TagInfo tag)
         {
-            switch (GroupTagsBy)
+            switch (ListTagsBy)
             {
-                case GroupTagsBy.Category:
+                case ListTagsBy.Category:
                     return FindNode(tag.Category);
-                case GroupTagsBy.DataType:
+                case ListTagsBy.DataType:
                     return FindNode(tag.TypeName);
                 default:
                     return RootNode;
@@ -110,11 +110,11 @@
 
         private IEnumerable<string> GetParentNames()
         {
-            switch (GroupTagsBy)
+            switch (ListTagsBy)
             {
-                case GroupTagsBy.Category:
+                case ListTagsBy.Category:
                     return AvailableTags.Select(p => p.Category());
-                case GroupTagsBy.DataType:
+                case ListTagsBy.DataType:
                     return AvailableTags.Select(p => p.Type().Name);
                 default:
                     return Array.Empty<string>();
