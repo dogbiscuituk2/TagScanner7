@@ -1,6 +1,5 @@
 ﻿namespace TagScanner.Controllers
 {
-    using System;
     using System.Windows.Forms;
 
     public class TagDragDropController : Controller

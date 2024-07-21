@@ -164,7 +164,7 @@
                 MainForm.TablePopupSelectColumns.Click += PopupSelectColumns_Click;
                 MainForm.TablePopupMoreActions.Click += GridPopupMoreOptions_Click;
 
-                MainForm.GroupByMenu.DropDownOpening += GroupByMenu_DropDownOpening;
+                MainForm.ViewMenu.DropDownOpening += GroupByMenu_DropDownOpening;
                 MainForm.GroupByArtistAlbum.Click += GroupByArtistAlbum_Click;
                 MainForm.GroupByArtist.Click += GroupByArtist_Click;
                 MainForm.GroupByAlbum.Click += GroupByAlbum_Click;

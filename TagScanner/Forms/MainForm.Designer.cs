@@ -84,25 +84,26 @@
             this.PlayerPopupSelectColumns = new System.Windows.Forms.ToolStripMenuItem();
             this.MediaPlayer = new AxWMPLib.AxWindowsMediaPlayer();
             this.RecentLibraryPopupMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.tbReopen = new System.Windows.Forms.ToolStripMenuItem();
             this.tbAddRecentLibrary = new System.Windows.Forms.ToolStripMenuItem();
             this.FileReopen = new System.Windows.Forms.ToolStripMenuItem();
             this.AddRecentLibrary = new System.Windows.Forms.ToolStripMenuItem();
             this.RecentFolderPopupMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.AddRecentFolder = new System.Windows.Forms.ToolStripMenuItem();
             this.tbAddRecentFolder = new System.Windows.Forms.ToolStripMenuItem();
+            this.AddRecentFolder = new System.Windows.Forms.ToolStripMenuItem();
             this.UndoPopupMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.tbUndo = new System.Windows.Forms.ToolStripSplitButton();
             this.RedoPopupMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.tbRedo = new System.Windows.Forms.ToolStripSplitButton();
             this.ToolStripContainer = new System.Windows.Forms.ToolStripContainer();
             this.StatusBar = new System.Windows.Forms.StatusStrip();
+            this.StatusLabel = new System.Windows.Forms.ToolStripStatusLabel();
             this.ToolStrip = new TagScanner.Controls.FirstClickToolStrip();
             this.tbNew = new System.Windows.Forms.ToolStripSplitButton();
             this.tbNewLibrary = new System.Windows.Forms.ToolStripMenuItem();
             this.tbNewWindow = new System.Windows.Forms.ToolStripMenuItem();
             this.tbOpen = new System.Windows.Forms.ToolStripSplitButton();
             this.tbOpenLibrary = new System.Windows.Forms.ToolStripMenuItem();
-            this.tbReopen = new System.Windows.Forms.ToolStripMenuItem();
             this.tbSave = new System.Windows.Forms.ToolStripSplitButton();
             this.tbSaveLibrary = new System.Windows.Forms.ToolStripMenuItem();
             this.tbSaveAs = new System.Windows.Forms.ToolStripMenuItem();
@@ -161,7 +162,7 @@
             this.toolStripMenuItem3 = new System.Windows.Forms.ToolStripSeparator();
             this.toolStripMenuItem9 = new System.Windows.Forms.ToolStripSeparator();
             this.AddOptions = new System.Windows.Forms.ToolStripMenuItem();
-            this.GroupByMenu = new System.Windows.Forms.ToolStripMenuItem();
+            this.ViewMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.GroupByArtistAlbum = new System.Windows.Forms.ToolStripMenuItem();
             this.GroupByArtist = new System.Windows.Forms.ToolStripMenuItem();
             this.GroupByAlbum = new System.Windows.Forms.ToolStripMenuItem();
@@ -176,7 +177,6 @@
             this.toolStripMenuItem8 = new System.Windows.Forms.ToolStripSeparator();
             this.HelpMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.HelpAbout = new System.Windows.Forms.ToolStripMenuItem();
-            this.StatusLabel = new System.Windows.Forms.ToolStripStatusLabel();
             ((System.ComponentModel.ISupportInitialize)(this.SplitContainerMain)).BeginInit();
             this.SplitContainerMain.Panel1.SuspendLayout();
             this.SplitContainerMain.Panel2.SuspendLayout();
@@ -771,8 +771,15 @@
             // RecentLibraryPopupMenu
             // 
             this.RecentLibraryPopupMenu.Name = "RecentLibraryPopupMenu";
-            this.RecentLibraryPopupMenu.OwnerItem = this.tbReopen;
+            this.RecentLibraryPopupMenu.OwnerItem = this.AddRecentLibrary;
             this.RecentLibraryPopupMenu.Size = new System.Drawing.Size(61, 4);
+            // 
+            // tbReopen
+            // 
+            this.tbReopen.DropDown = this.RecentLibraryPopupMenu;
+            this.tbReopen.Name = "tbReopen";
+            this.tbReopen.Size = new System.Drawing.Size(136, 22);
+            this.tbReopen.Text = "&Reopen";
             // 
             // tbAddRecentLibrary
             // 
@@ -798,15 +805,8 @@
             // RecentFolderPopupMenu
             // 
             this.RecentFolderPopupMenu.Name = "RecentFolderPopupMenu";
-            this.RecentFolderPopupMenu.OwnerItem = this.tbAddRecentFolder;
+            this.RecentFolderPopupMenu.OwnerItem = this.AddRecentFolder;
             this.RecentFolderPopupMenu.Size = new System.Drawing.Size(61, 4);
-            // 
-            // AddRecentFolder
-            // 
-            this.AddRecentFolder.DropDown = this.RecentFolderPopupMenu;
-            this.AddRecentFolder.Name = "AddRecentFolder";
-            this.AddRecentFolder.Size = new System.Drawing.Size(149, 22);
-            this.AddRecentFolder.Text = "&Recent Folder";
             // 
             // tbAddRecentFolder
             // 
@@ -814,6 +814,13 @@
             this.tbAddRecentFolder.Name = "tbAddRecentFolder";
             this.tbAddRecentFolder.Size = new System.Drawing.Size(149, 22);
             this.tbAddRecentFolder.Text = "&Recent Folder";
+            // 
+            // AddRecentFolder
+            // 
+            this.AddRecentFolder.DropDown = this.RecentFolderPopupMenu;
+            this.AddRecentFolder.Name = "AddRecentFolder";
+            this.AddRecentFolder.Size = new System.Drawing.Size(149, 22);
+            this.AddRecentFolder.Text = "&Recent Folder";
             // 
             // UndoPopupMenu
             // 
@@ -886,6 +893,11 @@
             this.StatusBar.Size = new System.Drawing.Size(784, 22);
             this.StatusBar.TabIndex = 10;
             this.StatusBar.Text = "Status";
+            // 
+            // StatusLabel
+            // 
+            this.StatusLabel.Name = "StatusLabel";
+            this.StatusLabel.Size = new System.Drawing.Size(0, 17);
             // 
             // ToolStrip
             // 
@@ -967,13 +979,6 @@
             this.tbOpenLibrary.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.O)));
             this.tbOpenLibrary.Size = new System.Drawing.Size(136, 22);
             this.tbOpenLibrary.Text = "&Open...";
-            // 
-            // tbReopen
-            // 
-            this.tbReopen.DropDown = this.RecentLibraryPopupMenu;
-            this.tbReopen.Name = "tbReopen";
-            this.tbReopen.Size = new System.Drawing.Size(136, 22);
-            this.tbReopen.Text = "&Reopen";
             // 
             // tbSave
             // 
@@ -1190,8 +1195,8 @@
             this.MainMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.FileMenu,
             this.EditMenu,
+            this.ViewMenu,
             this.AddMenu,
-            this.GroupByMenu,
             this.WindowMenu,
             this.HelpMenu});
             this.MainMenu.Location = new System.Drawing.Point(0, 0);
@@ -1466,9 +1471,9 @@
             this.AddOptions.Size = new System.Drawing.Size(149, 22);
             this.AddOptions.Text = "File &Options...";
             // 
-            // GroupByMenu
+            // ViewMenu
             // 
-            this.GroupByMenu.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.ViewMenu.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.GroupByArtistAlbum,
             this.GroupByArtist,
             this.GroupByAlbum,
@@ -1478,60 +1483,60 @@
             this.toolStripMenuItem7,
             this.GroupByTitle,
             this.GroupByCustom});
-            this.GroupByMenu.Name = "GroupByMenu";
-            this.GroupByMenu.Size = new System.Drawing.Size(68, 19);
-            this.GroupByMenu.Text = "&Group By";
+            this.ViewMenu.Name = "ViewMenu";
+            this.ViewMenu.Size = new System.Drawing.Size(44, 19);
+            this.ViewMenu.Text = "&View";
             // 
             // GroupByArtistAlbum
             // 
             this.GroupByArtistAlbum.Name = "GroupByArtistAlbum";
-            this.GroupByArtistAlbum.Size = new System.Drawing.Size(143, 22);
+            this.GroupByArtistAlbum.Size = new System.Drawing.Size(180, 22);
             this.GroupByArtistAlbum.Text = "&Artist/Album";
             // 
             // GroupByArtist
             // 
             this.GroupByArtist.Name = "GroupByArtist";
-            this.GroupByArtist.Size = new System.Drawing.Size(143, 22);
+            this.GroupByArtist.Size = new System.Drawing.Size(180, 22);
             this.GroupByArtist.Text = "A&rtist";
             // 
             // GroupByAlbum
             // 
             this.GroupByAlbum.Name = "GroupByAlbum";
-            this.GroupByAlbum.Size = new System.Drawing.Size(143, 22);
+            this.GroupByAlbum.Size = new System.Drawing.Size(180, 22);
             this.GroupByAlbum.Text = "A&lbum";
             // 
             // toolStripMenuItem4
             // 
             this.toolStripMenuItem4.Name = "toolStripMenuItem4";
-            this.toolStripMenuItem4.Size = new System.Drawing.Size(140, 6);
+            this.toolStripMenuItem4.Size = new System.Drawing.Size(177, 6);
             // 
             // GroupByYear
             // 
             this.GroupByYear.Name = "GroupByYear";
-            this.GroupByYear.Size = new System.Drawing.Size(143, 22);
+            this.GroupByYear.Size = new System.Drawing.Size(180, 22);
             this.GroupByYear.Text = "&Year";
             // 
             // GroupByGenre
             // 
             this.GroupByGenre.Name = "GroupByGenre";
-            this.GroupByGenre.Size = new System.Drawing.Size(143, 22);
+            this.GroupByGenre.Size = new System.Drawing.Size(180, 22);
             this.GroupByGenre.Text = "&Genre";
             // 
             // toolStripMenuItem7
             // 
             this.toolStripMenuItem7.Name = "toolStripMenuItem7";
-            this.toolStripMenuItem7.Size = new System.Drawing.Size(140, 6);
+            this.toolStripMenuItem7.Size = new System.Drawing.Size(177, 6);
             // 
             // GroupByTitle
             // 
             this.GroupByTitle.Name = "GroupByTitle";
-            this.GroupByTitle.Size = new System.Drawing.Size(143, 22);
+            this.GroupByTitle.Size = new System.Drawing.Size(180, 22);
             this.GroupByTitle.Text = "&Title";
             // 
             // GroupByCustom
             // 
             this.GroupByCustom.Name = "GroupByCustom";
-            this.GroupByCustom.Size = new System.Drawing.Size(143, 22);
+            this.GroupByCustom.Size = new System.Drawing.Size(180, 22);
             this.GroupByCustom.Text = "&Custom...";
             // 
             // WindowMenu
@@ -1572,11 +1577,6 @@
             this.HelpAbout.ShortcutKeys = System.Windows.Forms.Keys.F1;
             this.HelpAbout.Size = new System.Drawing.Size(126, 22);
             this.HelpAbout.Text = "&About";
-            // 
-            // StatusLabel
-            // 
-            this.StatusLabel.Name = "StatusLabel";
-            this.StatusLabel.Size = new System.Drawing.Size(0, 17);
             // 
             // MainForm
             // 
@@ -1729,7 +1729,7 @@
         public System.Windows.Forms.ToolStripSeparator toolStripMenuItem3;
         public System.Windows.Forms.ToolStripMenuItem AddRecentFolder;
         public System.Windows.Forms.ToolStripMenuItem AddRecentLibrary;
-        public System.Windows.Forms.ToolStripMenuItem GroupByMenu;
+        public System.Windows.Forms.ToolStripMenuItem ViewMenu;
         public System.Windows.Forms.ToolStripMenuItem WindowMenu;
         public System.Windows.Forms.ToolStripMenuItem WindowNew;
         public System.Windows.Forms.ToolStripSeparator toolStripMenuItem8;
