@@ -130,6 +130,15 @@
 
         #region Protected Methods
 
+        protected override void EditTagVisibility(string detail)
+        {
+            var visibleTags = VisibleTags.ToList();
+            var ok = new QueryController(this).Execute($"Select the Columns to display in the {detail} Table", visibleTags);
+            if (ok)
+                VisibleTags = VisibleTags.Intersect(visibleTags).Union(visibleTags).ToList();
+
+        }
+
         protected virtual void OnSelectionChanged()
         {
             if (UpdatingSelectionCount != 0) return;
@@ -277,6 +286,11 @@
                 ListCollectionView = new ListCollectionView(MainModel.Tracks);
                 InitSortsAndGroups();
             }
+        }
+
+        private Query GetQuery()
+        {
+            return new Query(null, Sorts, Groups.ToArray());
         }
 
         private void SetQuery(Query query)

@@ -37,7 +37,7 @@
 
         #region Protected Methods
 
-        protected void EditTagVisibility(string detail)
+        protected virtual void EditTagVisibility(string detail)
         {
             var visibleTags = VisibleTags.ToList();
             var ok = new QueryController(this).Execute($"Select the Columns to display in the {detail} Table", visibleTags);

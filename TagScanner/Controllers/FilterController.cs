@@ -59,7 +59,7 @@
                 int
                     all = MainTableController.TracksCountAll,
                     visible = MainTableController.TracksCountVisible;
-                UpdateFilterStatus(all > 0 ? $"on. {visible} of {all} Track(s) shown." : "no tracks present.");
+                UpdateFilterStatus(all > 0 ? $"on. {visible} of {all} items(s) shown." : "no items present.");
                 AppController.UpdateFilterItems(CbFilter.Items, CbFilter.Text);
             }
             else

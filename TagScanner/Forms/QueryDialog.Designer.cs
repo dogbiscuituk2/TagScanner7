@@ -96,7 +96,6 @@
             // ListView
             // 
             this.ListView.AllowColumnReorder = true;
-            this.ListView.AllowDrop = true;
             this.ListView.CheckBoxes = true;
             this.ListView.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.chTagName,
@@ -277,33 +276,42 @@
             // 
             // lvSelected
             // 
+            this.lvSelected.AllowDrop = true;
+            this.lvSelected.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.lvSelected.Dock = System.Windows.Forms.DockStyle.Fill;
             this.lvSelected.HideSelection = false;
-            this.lvSelected.Location = new System.Drawing.Point(3, 23);
+            this.lvSelected.Location = new System.Drawing.Point(0, 20);
+            this.lvSelected.Margin = new System.Windows.Forms.Padding(0);
             this.lvSelected.Name = "lvSelected";
-            this.lvSelected.Size = new System.Drawing.Size(224, 207);
+            this.lvSelected.Size = new System.Drawing.Size(230, 213);
             this.lvSelected.TabIndex = 1;
             this.lvSelected.UseCompatibleStateImageBehavior = false;
             this.lvSelected.View = System.Windows.Forms.View.List;
             // 
             // lvOrderBy
             // 
+            this.lvOrderBy.AllowDrop = true;
+            this.lvOrderBy.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.lvOrderBy.Dock = System.Windows.Forms.DockStyle.Fill;
             this.lvOrderBy.HideSelection = false;
-            this.lvOrderBy.Location = new System.Drawing.Point(233, 23);
+            this.lvOrderBy.Location = new System.Drawing.Point(230, 20);
+            this.lvOrderBy.Margin = new System.Windows.Forms.Padding(0);
             this.lvOrderBy.Name = "lvOrderBy";
-            this.lvOrderBy.Size = new System.Drawing.Size(224, 207);
+            this.lvOrderBy.Size = new System.Drawing.Size(230, 213);
             this.lvOrderBy.TabIndex = 25;
             this.lvOrderBy.UseCompatibleStateImageBehavior = false;
             this.lvOrderBy.View = System.Windows.Forms.View.List;
             // 
             // lvGroupBy
             // 
+            this.lvGroupBy.AllowDrop = true;
+            this.lvGroupBy.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.lvGroupBy.Dock = System.Windows.Forms.DockStyle.Fill;
             this.lvGroupBy.HideSelection = false;
-            this.lvGroupBy.Location = new System.Drawing.Point(463, 23);
+            this.lvGroupBy.Location = new System.Drawing.Point(460, 20);
+            this.lvGroupBy.Margin = new System.Windows.Forms.Padding(0);
             this.lvGroupBy.Name = "lvGroupBy";
-            this.lvGroupBy.Size = new System.Drawing.Size(224, 207);
+            this.lvGroupBy.Size = new System.Drawing.Size(230, 213);
             this.lvGroupBy.TabIndex = 26;
             this.lvGroupBy.UseCompatibleStateImageBehavior = false;
             this.lvGroupBy.View = System.Windows.Forms.View.List;

@@ -1,31 +1,34 @@
 ﻿namespace TagScanner.Models
 {
     using System;
+    using System.ComponentModel;
     using System.Linq;
 
     public class Query
     {
-        public Query(Tag[] tags, Tag[] groups, Tag[] sorts)
+        public Query(Tag[] tags, SortDescription[] sorts, Tag[] groups)
         {
             Tags = tags;
-            Groups = groups;
             Sorts = sorts;
+            Groups = groups;
         }
 
-        public Tag[]
-            Tags,
-            Groups,
-            Sorts;
+        public Query(Tag[] tags, Tag[] sorts, Tag[] groups) : this(tags,
+            sorts.Select(p => new SortDescription(p.DisplayName(), ListSortDirection.Ascending)).ToArray(),
+            groups) { }
+
+        public Tag[] Tags, Groups;
+        public SortDescription[] Sorts;
 
         public override bool Equals(object obj) => obj is Query query &&
             Tags.SequenceEqual(query.Tags) &&
-            Groups.SequenceEqual(query.Groups) &&
-            Sorts.SequenceEqual(query.Sorts);
+            Sorts.SequenceEqual(query.Sorts) &&
+            Groups.SequenceEqual(query.Groups);
 
         public override int GetHashCode() =>
             Tags.GetHashCode() ^
-            Groups.GetHashCode() ^
-            Sorts.GetHashCode();
+            Sorts.GetHashCode() ^
+            Groups.GetHashCode();
 
         public static bool operator ==(Query x, Query y) => x == null ? y == null :  x.Equals(y);
         public static bool operator !=(Query x, Query y) => !(x == y);
@@ -64,12 +67,12 @@
         #region Public Fields (depending on previously defined Private Fields)
 
         public static readonly Query
-            ByArtistAlbum = new Query(Data1, GroupByArtistAlbum, SortByNumber),
-            ByArtist = new Query(Data3, GroupByArtist, SortByAlbum),
-            ByAlbum = new Query(Data1, GroupByAlbum, SortByNumber),
-            ByYear = new Query(Data2, GroupByYear, SortByNumber),
-            ByGenre = new Query(Data1, GroupByGenre, SortByNumber),
-            ByTitle = new Query(Data4, GroupByTitle, SortByTitle);
+            ByArtistAlbum = new Query(Data1, SortByNumber, GroupByArtistAlbum),
+            ByArtist = new Query(Data3, SortByAlbum, GroupByArtist),
+            ByAlbum = new Query(Data1, SortByNumber, GroupByAlbum),
+            ByYear = new Query(Data2, SortByNumber, GroupByYear),
+            ByGenre = new Query(Data1, SortByNumber, GroupByGenre),
+            ByTitle = new Query(Data4, SortByTitle, GroupByTitle);
 
         #endregion
     }

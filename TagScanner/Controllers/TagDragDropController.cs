@@ -1,32 +1,21 @@
 ﻿namespace TagScanner.Controllers
 {
+    using System;
+    using System.Collections.Generic;
     using System.Windows.Forms;
 
     public class TagDragDropController : Controller
     {
         #region Constructor
 
-        public TagDragDropController(Controller parent, params Control[] controls) : base(parent)
-        {
-            foreach (var control in controls)
-                Add(control);
-        }
+        public TagDragDropController(Controller parent, params Control[] controls) : base(parent) => Add(controls);
 
         #endregion
 
         #region Public Methods
 
-        public void Add(params Control[] controls)
-        {
-            foreach (var control in controls)
-                ProcessControl(control, add: true);
-        }
-
-        public void Remove(params Control[] controls)
-        {
-            foreach (var control in controls)
-                ProcessControl(control, add: false);
-        }
+        public void Add(params Control[] controls) => Process(controls, add: true);
+        public void Remove(params Control[] controls) => Process(controls, add: false);
 
         #endregion
 
@@ -54,14 +43,13 @@
         private void DragOver(ListView listView, DragEventArgs e)
         {
             e.Effect = DragDropEffects.Copy;
+            var foo = listView.InsertionMark;
         }
 
         private void ItemDrag(Control control, ItemDragEventArgs e)
         {
             if (control is ListView listView && listView.SelectedItems.Count > 1)
-            {
                 listView.DoDragDrop(listView.SelectedItems, DragDropEffects.All);
-            }
             else
                 control.DoDragDrop(e.Item, DragDropEffects.All);
         }
@@ -70,36 +58,44 @@
         {
         }
 
-        private void ProcessControl(Control control, bool add)
+        private void Process(IEnumerable<Control> controls, bool add)
         {
-            if (control is ListView listView)
-                ProcessListView(listView, add);
-            else if (control is TreeView treeView)
-                ProcessTreeView(treeView, add);
+            foreach (var control in controls)
+                if (control is ListView listView)
+                    Process(listView, add);
+                else if (control is TreeView treeView)
+                    Process(treeView, add);
+                else
+                    throw new NotImplementedException();
         }
 
-        private void ProcessListView(ListView listView, bool add)
+        private void Process(ListView listView, bool add)
         {
             if (add)
             {
-                listView.AllowDrop = true;
-                listView.DragDrop += View_DragDrop;
-                listView.DragOver += View_DragOver;
-                listView.ItemDrag += View_ItemDrag;
                 listView.MouseDown += View_MouseDown;
+                listView.ItemDrag += View_ItemDrag;
                 listView.QueryContinueDrag += View_QueryContinueDrag;
+                if (listView.AllowDrop)
+                {
+                    listView.DragDrop += View_DragDrop;
+                    listView.DragOver += View_DragOver;
+                }
             }
             else
             {
-                listView.DragDrop -= View_DragDrop;
-                listView.DragOver -= View_DragOver;
-                listView.ItemDrag -= View_ItemDrag;
                 listView.MouseDown -= View_MouseDown;
+                listView.ItemDrag -= View_ItemDrag;
                 listView.QueryContinueDrag -= View_QueryContinueDrag;
+                if (listView.AllowDrop)
+                {
+                    listView.DragDrop -= View_DragDrop;
+                    listView.DragOver -= View_DragOver;
+                }
             }
         }
 
-        private void ProcessTreeView(TreeView treeView, bool add)
+        private void Process(TreeView treeView, bool add)
         {
             if (add)
                 treeView.ItemDrag += View_ItemDrag;

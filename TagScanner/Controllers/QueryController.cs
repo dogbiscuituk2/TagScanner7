@@ -2,6 +2,7 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.ComponentModel;
     using System.Linq;
     using System.Windows.Forms;
     using Forms;
@@ -82,15 +83,15 @@
         public bool Execute(string caption, Query query)
         {
             Dialog.Text = caption;
-            SetSelectedTags(query.Tags);
-            SetOrderByTags(query.Sorts);
-            SetGroupByTags(query.Groups);
+            SetTags(query.Tags);
+            SetSorts(query.Sorts);
+            SetGroups(query.Groups);
             var ok = Dialog.ShowDialog(Owner) == DialogResult.OK;
             if (ok)
             {
-                query.Tags = ActiveController.GetSelectedTags().ToArray();
-                query.Sorts = GetOrderByTags().ToArray();
-                query.Groups = GetGroupByTags().ToArray();
+                //query.Tags = ActiveController.GetSelectedTags().ToArray();
+                //query.Sorts = GetOrderByTags().ToArray();
+                //query.Groups = GetGroupByTags().ToArray();
             }
             return ok;
         }
@@ -98,7 +99,7 @@
         public bool Execute(string caption, List<Tag> selectedTags)
         {
             Dialog.Text = caption;
-            SetSelectedTags(selectedTags);
+            SetTags(selectedTags);
             var ok = Dialog.ShowDialog(Owner) == DialogResult.OK;
             if (ok)
             {
@@ -110,9 +111,9 @@
 
         public void UpdateSelection()
         {
-            Update(LvSelected, GetSelectedTags());
-            Update(LvOrderBy, GetOrderByTags());
-            Update(LvGroupBy, GetGroupByTags());
+            Update(LvSelected, GetTags());
+            Update(LvOrderBy, GetSorts());
+            Update(LvGroupBy, GetGroups());
 
             void Update(ListView view, IEnumerable<Tag> tags)
             {
@@ -184,17 +185,38 @@
         private QueryDialog CreateDialog()
         {
             _dialog = new QueryDialog();
-            MainTagDragDropController.Add(_dialog.ListView, _dialog.TreeView, _dialog.lvSelected, _dialog.lvOrderBy, _dialog.lvGroupBy);
+            MainTagDragDropController.Add
+                (
+                _dialog.ListView,
+                _dialog.TreeView,
+                _dialog.lvSelected,
+                _dialog.lvOrderBy,
+                _dialog.lvGroupBy
+                );
             return Dialog;
         }
 
-        private IEnumerable<Tag> GetGroupByTags() => new List<Tag>();
-        private IEnumerable<Tag> GetOrderByTags() => new List<Tag>();
-        private IEnumerable<Tag> GetSelectedTags() => ActiveController.GetSelectedTags();
+        private IEnumerable<Tag> GetGroups() => new List<Tag>();
 
-        private void SetGroupByTags(IEnumerable<Tag> selectedTags) { }
-        private void SetOrderByTags(IEnumerable<Tag> selectedTags) { }
-        private void SetSelectedTags(IEnumerable<Tag> selectedTags) => ActiveController.SetSelectedTags(selectedTags);
+        private IEnumerable<SortDescription> GetSorts() =>
+            LvOrderBy.Items.Cast<ListViewItem>().Select(p => new SortDescription(p.Name, p.StateImageIndex));
+
+        private IEnumerable<Tag> GetTags() => ActiveController.GetSelectedTags();
+
+        private void SetGroups(IEnumerable<Tag> tags)
+        {
+            LvGroupBy.Items.AddRange(tags.Select(p => new ListViewItem($"{p}")).ToArray());
+        }
+
+        private void SetSorts(IEnumerable<Tag> tags)
+        {
+            LvOrderBy.Items.AddRange(tags.Select(p => new ListViewItem($"{p}")).ToArray());
+        }
+
+        private void SetTags(IEnumerable<Tag> selectedTags)
+        {
+            ActiveController.SetSelectedTags(selectedTags);
+        }
 
         private void UpdateUI()
         {
@@ -213,13 +235,13 @@
 
         private void UseTreeView(ListTagsBy listTagsBy, bool tree = true, bool multiColumn = false)
         {
-            var selectedTags = GetSelectedTags();
+            var selectedTags = GetTags();
             ListTagsBy = listTagsBy;
             MultiColumn = multiColumn;
             _queryListViewController.ViewMode = multiColumn ? View.List : View.Details;
             _queryListViewController.Active = !tree;
             _queryTreeViewController.Active = tree;
-            SetSelectedTags(selectedTags);
+            SetTags(selectedTags);
             UpdateUI();
         }
 

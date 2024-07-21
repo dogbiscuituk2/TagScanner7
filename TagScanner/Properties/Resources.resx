@@ -356,7 +356,7 @@
     <value>..\Resources\FlipHorizontalHS.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="TracksAdded" xml:space="preserve">
-    <value>-- {0:n0} new track(s) will be added to the library file.
+    <value>-- {0:n0} new item(s) will be added to the library file.
 </value>
   </data>
   <data name="FFwdHS" type="System.Resources.ResXFileRef, System.Windows.Forms">
@@ -419,7 +419,7 @@
     <value>..\Resources\FontDialogHS.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="TracksPending" xml:space="preserve">
-    <value>-- The embedded ID3 tag data of {0:n0} track(s) will be overwritten to match the current contents of the library file.
+    <value>-- The embedded ID3 tag data of {0:n0} item(s) will be overwritten to match the current contents of the library file.
 </value>
   </data>
   <data name="Color_fontHS" type="System.Resources.ResXFileRef, System.Windows.Forms">
@@ -495,7 +495,7 @@
     <value>..\Resources\fff-app-tree-C2.16.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="TracksUpdated" xml:space="preserve">
-    <value>-- The contents of the library file will be updated to match the currently embedded ID3 tag data of {0:n0} track(s).
+    <value>-- The contents of the library file will be updated to match the currently embedded ID3 tag data of {0:n0} item(s).
 </value>
   </data>
   <data name="Op_Subtract" type="System.Resources.ResXFileRef, System.Windows.Forms">
@@ -631,7 +631,7 @@
     <value>..\Resources\Op2_Xor.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="TracksDeleted" xml:space="preserve">
-    <value>-- The previously loaded ID3 tag data of {0:n0} missing track(s) will be removed from the library file.
+    <value>-- The previously loaded ID3 tag data of {0:n0} missing item(s) will be removed from the library file.
 </value>
   </data>
   <data name="FindNextHS" type="System.Resources.ResXFileRef, System.Windows.Forms">
