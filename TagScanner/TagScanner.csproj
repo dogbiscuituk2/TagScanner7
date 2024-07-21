@@ -173,6 +173,7 @@
     <Compile Include="Controllers\PropertyGridController.cs" />
     <Compile Include="Controllers\ScriptFormController.cs" />
     <Compile Include="Controllers\SplashController.cs" />
+    <Compile Include="Controllers\TagDragDropController.cs" />
     <Compile Include="Controllers\TreeNodeState.cs" />
     <Compile Include="Controllers\TriStateChecksController.cs" />
     <Compile Include="Controllers\TriStateTreeController.cs" />
@@ -282,9 +283,9 @@
     <Compile Include="Utils\Ink.cs" />
     <Compile Include="Utils\Inks.cs" />
     <Compile Include="Controllers\Controller.cs" />
-    <Compile Include="Controllers\TagListController.cs" />
-    <Compile Include="Controllers\TagTreeController.cs" />
-    <Compile Include="Controllers\TagViewController.cs" />
+    <Compile Include="Controllers\QueryListViewController.cs" />
+    <Compile Include="Controllers\QueryTreeViewController.cs" />
+    <Compile Include="Controllers\QueryViewController.cs" />
     <Compile Include="Menus\ConstantEventArgs.cs" />
     <Compile Include="Menus\FieldEventArgs.cs" />
     <Compile Include="Menus\FunctionEventArgs.cs" />
@@ -296,7 +297,7 @@
     <Compile Include="Controllers\MainFormController.cs" />
     <Compile Include="Controllers\Wpf\WpfPlayerController.cs" />
     <Compile Include="Controllers\Mru\MruSdiController.cs" />
-    <Compile Include="Controllers\TagSelectController.cs" />
+    <Compile Include="Controllers\QueryController.cs" />
     <Compile Include="Models\Tag.cs" />
     <Compile Include="Terms\Constant.cs" />
     <Compile Include="Terms\Functors.cs" />
@@ -369,11 +370,11 @@
     <Compile Include="Utils\Utility.cs" />
     <Compile Include="Models\Model.cs" />
     <Compile Include="Models\Selection.cs" />
-    <Compile Include="Forms\TagSelectDialog.cs">
+    <Compile Include="Forms\QueryDialog.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Forms\TagSelectDialog.Designer.cs">
-      <DependentUpon>TagSelectDialog.cs</DependentUpon>
+    <Compile Include="Forms\QueryDialog.Designer.cs">
+      <DependentUpon>QueryDialog.cs</DependentUpon>
     </Compile>
     <EmbeddedResource Include="Controls\FileFilterControl.resx">
       <DependentUpon>FileFilterControl.cs</DependentUpon>
@@ -412,8 +413,8 @@
     <EmbeddedResource Include="Forms\SplashForm.resx">
       <DependentUpon>SplashForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Forms\TagSelectDialog.resx">
-      <DependentUpon>TagSelectDialog.cs</DependentUpon>
+    <EmbeddedResource Include="Forms\QueryDialog.resx">
+      <DependentUpon>QueryDialog.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="packages.config" />
     <None Include="Properties\DataSources\TagScanner.Models.Library.datasource" />

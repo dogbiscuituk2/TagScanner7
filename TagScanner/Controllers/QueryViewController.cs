@@ -5,11 +5,11 @@
     using System.Windows.Forms;
     using Models;
 
-    public abstract class TagViewController : Controller
+    public abstract class QueryViewController : Controller
     {
         #region Constructor
 
-        public TagViewController(Controller parent, Control control) : base(parent) { Control = control; }
+        public QueryViewController(Controller parent, Control control) : base(parent) { Control = control; }
 
         #endregion
 
@@ -42,9 +42,9 @@
 
         #region Protected Properties
 
-        protected IEnumerable<Tag> AvailableTags => TagSelectController.AvailableTags;
+        protected IEnumerable<Tag> AvailableTags => QueryController.AvailableTags;
         protected Control Control { get; private set; }
-        protected ListTagsBy ListTagsBy => TagSelectController.ListTagsBy;
+        protected ListTagsBy ListTagsBy => QueryController.ListTagsBy;
 
         #endregion
 
@@ -83,7 +83,7 @@
 
         #region Private Properties
 
-        private TagSelectController TagSelectController => Parent as TagSelectController;
+        private QueryController QueryController => Parent as QueryController;
 
         #endregion
     }

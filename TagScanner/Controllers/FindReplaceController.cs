@@ -320,7 +320,7 @@
         private void ChooseSearchFields()
         {
             var tags = SearchTags.ToList();
-            var ok = new TagSelectController(this, p => p.CanWrite() && (p.Type() == typeof(string) || p.Type() == typeof(string[])))
+            var ok = new QueryController(this, p => p.CanWrite() && (p.Type() == typeof(string) || p.Type() == typeof(string[])))
                 .Execute("Select the Fields to be included in this Search or Replace operation", tags);
             if (ok)
                 SearchTags = tags;

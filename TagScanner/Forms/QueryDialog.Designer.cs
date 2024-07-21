@@ -1,6 +1,6 @@
 ﻿namespace TagScanner.Forms
 {
-	partial class TagSelectDialog
+	partial class QueryDialog
 	{
 		/// <summary>
 		/// Required designer variable.
@@ -29,7 +29,7 @@
 		private void InitializeComponent()
 		{
             this.components = new System.ComponentModel.Container();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(TagSelectDialog));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(QueryDialog));
             this.ListView = new System.Windows.Forms.ListView();
             this.chTagName = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.chCategory = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
@@ -47,13 +47,13 @@
             this.TreeViewStateImageList = new System.Windows.Forms.ImageList(this.components);
             this.toolStripContainer1 = new System.Windows.Forms.ToolStripContainer();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
-            this.tabControl1 = new System.Windows.Forms.TabControl();
-            this.tpSelected = new System.Windows.Forms.TabPage();
+            this.TableLayoutPanel = new System.Windows.Forms.TableLayoutPanel();
             this.lvSelected = new System.Windows.Forms.ListView();
-            this.tpOrderBy = new System.Windows.Forms.TabPage();
             this.lvOrderBy = new System.Windows.Forms.ListView();
-            this.tpGroupBy = new System.Windows.Forms.TabPage();
             this.lvGroupBy = new System.Windows.Forms.ListView();
+            this.lblSelect = new System.Windows.Forms.Label();
+            this.lblOrderBy = new System.Windows.Forms.Label();
+            this.lblGroupBy = new System.Windows.Forms.Label();
             this.panel2 = new System.Windows.Forms.Panel();
             this.btnCancel = new System.Windows.Forms.Button();
             this.btnOK = new System.Windows.Forms.Button();
@@ -87,10 +87,7 @@
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
             this.splitContainer1.SuspendLayout();
-            this.tabControl1.SuspendLayout();
-            this.tpSelected.SuspendLayout();
-            this.tpOrderBy.SuspendLayout();
-            this.tpGroupBy.SuspendLayout();
+            this.TableLayoutPanel.SuspendLayout();
             this.panel2.SuspendLayout();
             this.Toolbar.SuspendLayout();
             this.MainMenu.SuspendLayout();
@@ -197,6 +194,7 @@
             // TreeView
             // 
             this.TreeView.ContextMenuStrip = this.PopupTagMenu;
+            this.TreeView.HideSelection = false;
             this.TreeView.Location = new System.Drawing.Point(163, 4);
             this.TreeView.Name = "TreeView";
             this.TreeView.ShowNodeToolTips = true;
@@ -218,7 +216,7 @@
             // toolStripContainer1.ContentPanel
             // 
             this.toolStripContainer1.ContentPanel.Controls.Add(this.splitContainer1);
-            this.toolStripContainer1.ContentPanel.Size = new System.Drawing.Size(600, 417);
+            this.toolStripContainer1.ContentPanel.Size = new System.Drawing.Size(760, 537);
             this.toolStripContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
             // 
             // toolStripContainer1.LeftToolStripPanel
@@ -226,7 +224,7 @@
             this.toolStripContainer1.LeftToolStripPanel.Controls.Add(this.Toolbar);
             this.toolStripContainer1.Location = new System.Drawing.Point(0, 0);
             this.toolStripContainer1.Name = "toolStripContainer1";
-            this.toolStripContainer1.Size = new System.Drawing.Size(624, 441);
+            this.toolStripContainer1.Size = new System.Drawing.Size(784, 561);
             this.toolStripContainer1.TabIndex = 6;
             this.toolStripContainer1.Text = "toolStripContainer1";
             // 
@@ -245,109 +243,116 @@
             // 
             this.splitContainer1.Panel1.Controls.Add(this.ListView);
             this.splitContainer1.Panel1.Controls.Add(this.TreeView);
+            this.splitContainer1.Panel1MinSize = 100;
             // 
             // splitContainer1.Panel2
             // 
-            this.splitContainer1.Panel2.Controls.Add(this.tabControl1);
+            this.splitContainer1.Panel2.Controls.Add(this.TableLayoutPanel);
             this.splitContainer1.Panel2.Controls.Add(this.panel2);
-            this.splitContainer1.Panel2MinSize = 78;
-            this.splitContainer1.Size = new System.Drawing.Size(600, 417);
-            this.splitContainer1.SplitterDistance = 299;
+            this.splitContainer1.Panel2MinSize = 100;
+            this.splitContainer1.Size = new System.Drawing.Size(760, 537);
+            this.splitContainer1.SplitterDistance = 300;
             this.splitContainer1.TabIndex = 6;
             // 
-            // tabControl1
+            // TableLayoutPanel
             // 
-            this.tabControl1.Controls.Add(this.tpSelected);
-            this.tabControl1.Controls.Add(this.tpOrderBy);
-            this.tabControl1.Controls.Add(this.tpGroupBy);
-            this.tabControl1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tabControl1.Location = new System.Drawing.Point(0, 0);
-            this.tabControl1.Name = "tabControl1";
-            this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(530, 114);
-            this.tabControl1.TabIndex = 24;
-            // 
-            // tpSelected
-            // 
-            this.tpSelected.Controls.Add(this.lvSelected);
-            this.tpSelected.Location = new System.Drawing.Point(4, 26);
-            this.tpSelected.Name = "tpSelected";
-            this.tpSelected.Padding = new System.Windows.Forms.Padding(3);
-            this.tpSelected.Size = new System.Drawing.Size(522, 84);
-            this.tpSelected.TabIndex = 0;
-            this.tpSelected.Text = "Selected";
-            this.tpSelected.UseVisualStyleBackColor = true;
+            this.TableLayoutPanel.ColumnCount = 3;
+            this.TableLayoutPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 33.33333F));
+            this.TableLayoutPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 33.33333F));
+            this.TableLayoutPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 33.33333F));
+            this.TableLayoutPanel.Controls.Add(this.lvSelected, 0, 1);
+            this.TableLayoutPanel.Controls.Add(this.lvOrderBy, 1, 1);
+            this.TableLayoutPanel.Controls.Add(this.lvGroupBy, 2, 1);
+            this.TableLayoutPanel.Controls.Add(this.lblSelect, 0, 0);
+            this.TableLayoutPanel.Controls.Add(this.lblOrderBy, 1, 0);
+            this.TableLayoutPanel.Controls.Add(this.lblGroupBy, 2, 0);
+            this.TableLayoutPanel.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.TableLayoutPanel.Location = new System.Drawing.Point(0, 0);
+            this.TableLayoutPanel.Name = "TableLayoutPanel";
+            this.TableLayoutPanel.RowCount = 2;
+            this.TableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+            this.TableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.TableLayoutPanel.Size = new System.Drawing.Size(690, 233);
+            this.TableLayoutPanel.TabIndex = 25;
             // 
             // lvSelected
             // 
             this.lvSelected.Dock = System.Windows.Forms.DockStyle.Fill;
             this.lvSelected.HideSelection = false;
-            this.lvSelected.Location = new System.Drawing.Point(3, 3);
+            this.lvSelected.Location = new System.Drawing.Point(3, 23);
             this.lvSelected.Name = "lvSelected";
-            this.lvSelected.Size = new System.Drawing.Size(516, 78);
-            this.lvSelected.TabIndex = 0;
+            this.lvSelected.Size = new System.Drawing.Size(224, 207);
+            this.lvSelected.TabIndex = 1;
             this.lvSelected.UseCompatibleStateImageBehavior = false;
             this.lvSelected.View = System.Windows.Forms.View.List;
-            // 
-            // tpOrderBy
-            // 
-            this.tpOrderBy.Controls.Add(this.lvOrderBy);
-            this.tpOrderBy.Location = new System.Drawing.Point(4, 26);
-            this.tpOrderBy.Name = "tpOrderBy";
-            this.tpOrderBy.Padding = new System.Windows.Forms.Padding(3);
-            this.tpOrderBy.Size = new System.Drawing.Size(522, 84);
-            this.tpOrderBy.TabIndex = 1;
-            this.tpOrderBy.Text = "Order By";
-            this.tpOrderBy.UseVisualStyleBackColor = true;
             // 
             // lvOrderBy
             // 
             this.lvOrderBy.Dock = System.Windows.Forms.DockStyle.Fill;
             this.lvOrderBy.HideSelection = false;
-            this.lvOrderBy.Location = new System.Drawing.Point(3, 3);
+            this.lvOrderBy.Location = new System.Drawing.Point(233, 23);
             this.lvOrderBy.Name = "lvOrderBy";
-            this.lvOrderBy.Size = new System.Drawing.Size(516, 78);
-            this.lvOrderBy.TabIndex = 24;
+            this.lvOrderBy.Size = new System.Drawing.Size(224, 207);
+            this.lvOrderBy.TabIndex = 25;
             this.lvOrderBy.UseCompatibleStateImageBehavior = false;
             this.lvOrderBy.View = System.Windows.Forms.View.List;
-            // 
-            // tpGroupBy
-            // 
-            this.tpGroupBy.Controls.Add(this.lvGroupBy);
-            this.tpGroupBy.Location = new System.Drawing.Point(4, 26);
-            this.tpGroupBy.Name = "tpGroupBy";
-            this.tpGroupBy.Padding = new System.Windows.Forms.Padding(3);
-            this.tpGroupBy.Size = new System.Drawing.Size(522, 84);
-            this.tpGroupBy.TabIndex = 2;
-            this.tpGroupBy.Text = "Group By";
-            this.tpGroupBy.UseVisualStyleBackColor = true;
             // 
             // lvGroupBy
             // 
             this.lvGroupBy.Dock = System.Windows.Forms.DockStyle.Fill;
             this.lvGroupBy.HideSelection = false;
-            this.lvGroupBy.Location = new System.Drawing.Point(3, 3);
+            this.lvGroupBy.Location = new System.Drawing.Point(463, 23);
             this.lvGroupBy.Name = "lvGroupBy";
-            this.lvGroupBy.Size = new System.Drawing.Size(516, 78);
-            this.lvGroupBy.TabIndex = 24;
+            this.lvGroupBy.Size = new System.Drawing.Size(224, 207);
+            this.lvGroupBy.TabIndex = 26;
             this.lvGroupBy.UseCompatibleStateImageBehavior = false;
             this.lvGroupBy.View = System.Windows.Forms.View.List;
+            // 
+            // lblSelect
+            // 
+            this.lblSelect.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.lblSelect.Location = new System.Drawing.Point(3, 0);
+            this.lblSelect.Name = "lblSelect";
+            this.lblSelect.Size = new System.Drawing.Size(224, 20);
+            this.lblSelect.TabIndex = 27;
+            this.lblSelect.Text = "Select";
+            this.lblSelect.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+            // 
+            // lblOrderBy
+            // 
+            this.lblOrderBy.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.lblOrderBy.Location = new System.Drawing.Point(233, 0);
+            this.lblOrderBy.Name = "lblOrderBy";
+            this.lblOrderBy.Size = new System.Drawing.Size(224, 20);
+            this.lblOrderBy.TabIndex = 28;
+            this.lblOrderBy.Text = "Order By";
+            this.lblOrderBy.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+            // 
+            // lblGroupBy
+            // 
+            this.lblGroupBy.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.lblGroupBy.Location = new System.Drawing.Point(463, 0);
+            this.lblGroupBy.Name = "lblGroupBy";
+            this.lblGroupBy.Size = new System.Drawing.Size(224, 20);
+            this.lblGroupBy.TabIndex = 29;
+            this.lblGroupBy.Text = "Group By";
+            this.lblGroupBy.TextAlign = System.Drawing.ContentAlignment.TopCenter;
             // 
             // panel2
             // 
             this.panel2.Controls.Add(this.btnCancel);
             this.panel2.Controls.Add(this.btnOK);
             this.panel2.Dock = System.Windows.Forms.DockStyle.Right;
-            this.panel2.Location = new System.Drawing.Point(530, 0);
+            this.panel2.Location = new System.Drawing.Point(690, 0);
             this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(70, 114);
+            this.panel2.Size = new System.Drawing.Size(70, 233);
             this.panel2.TabIndex = 23;
             // 
             // btnCancel
             // 
             this.btnCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.btnCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.btnCancel.Location = new System.Drawing.Point(10, 83);
+            this.btnCancel.Location = new System.Drawing.Point(10, 202);
             this.btnCancel.Margin = new System.Windows.Forms.Padding(4);
             this.btnCancel.Name = "btnCancel";
             this.btnCancel.Size = new System.Drawing.Size(56, 27);
@@ -359,7 +364,7 @@
             // 
             this.btnOK.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.btnOK.DialogResult = System.Windows.Forms.DialogResult.OK;
-            this.btnOK.Location = new System.Drawing.Point(10, 48);
+            this.btnOK.Location = new System.Drawing.Point(10, 167);
             this.btnOK.Margin = new System.Windows.Forms.Padding(4);
             this.btnOK.Name = "btnOK";
             this.btnOK.Size = new System.Drawing.Size(56, 27);
@@ -475,7 +480,7 @@
             this.ListMenu});
             this.MainMenu.Location = new System.Drawing.Point(0, 0);
             this.MainMenu.Name = "MainMenu";
-            this.MainMenu.Size = new System.Drawing.Size(624, 24);
+            this.MainMenu.Size = new System.Drawing.Size(784, 24);
             this.MainMenu.TabIndex = 7;
             this.MainMenu.Text = "menuStrip1";
             // 
@@ -562,21 +567,21 @@
             this.ListNamesOnly.Size = new System.Drawing.Size(149, 22);
             this.ListNamesOnly.Text = "&Names only";
             // 
-            // TagSelectDialog
+            // QueryDialog
             // 
             this.AcceptButton = this.btnOK;
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 17F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.btnCancel;
-            this.ClientSize = new System.Drawing.Size(624, 441);
+            this.ClientSize = new System.Drawing.Size(784, 561);
             this.Controls.Add(this.toolStripContainer1);
             this.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Margin = new System.Windows.Forms.Padding(4);
             this.MaximizeBox = false;
             this.MinimizeBox = false;
-            this.MinimumSize = new System.Drawing.Size(640, 480);
-            this.Name = "TagSelectDialog";
+            this.MinimumSize = new System.Drawing.Size(800, 600);
+            this.Name = "QueryDialog";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Visible Tags";
             this.PopupTagMenu.ResumeLayout(false);
@@ -591,10 +596,7 @@
             this.splitContainer1.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
             this.splitContainer1.ResumeLayout(false);
-            this.tabControl1.ResumeLayout(false);
-            this.tpSelected.ResumeLayout(false);
-            this.tpOrderBy.ResumeLayout(false);
-            this.tpGroupBy.ResumeLayout(false);
+            this.TableLayoutPanel.ResumeLayout(false);
             this.panel2.ResumeLayout(false);
             this.Toolbar.ResumeLayout(false);
             this.Toolbar.PerformLayout();
@@ -647,12 +649,12 @@
         public System.Windows.Forms.ToolStripMenuItem PopupTagSortNone;
         public System.Windows.Forms.ToolStripMenuItem PopupTagGroupBy;
         public System.Windows.Forms.ToolStripMenuItem PopupTagSelect;
-        public System.Windows.Forms.TabControl tabControl1;
-        public System.Windows.Forms.TabPage tpSelected;
-        public System.Windows.Forms.TabPage tpOrderBy;
-        public System.Windows.Forms.TabPage tpGroupBy;
-        public System.Windows.Forms.ListView lvSelected;
-        public System.Windows.Forms.ListView lvOrderBy;
+        public System.Windows.Forms.TableLayoutPanel TableLayoutPanel;
         public System.Windows.Forms.ListView lvGroupBy;
+        public System.Windows.Forms.ListView lvOrderBy;
+        public System.Windows.Forms.ListView lvSelected;
+        public System.Windows.Forms.Label lblSelect;
+        public System.Windows.Forms.Label lblOrderBy;
+        public System.Windows.Forms.Label lblGroupBy;
     }
 }

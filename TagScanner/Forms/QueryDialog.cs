@@ -2,9 +2,9 @@
 {
     using System.Windows.Forms;
 
-    public partial class TagSelectDialog : Form
+    public partial class QueryDialog : Form
     {
-        public TagSelectDialog()
+        public QueryDialog()
         {
             InitializeComponent();
         }

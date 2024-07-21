@@ -7,18 +7,18 @@
     using Forms;
     using Models;
 
-    public class TagSelectController : Controller
+    public class QueryController : Controller
     {
         #region Constructors
 
-        public TagSelectController(Controller parent) : this(parent, p => true) { }
+        public QueryController(Controller parent) : this(parent, p => true) { }
 
-        public TagSelectController(Controller parent, Func<Tag, bool> tagFilter) : base(parent)
+        public QueryController(Controller parent, Func<Tag, bool> tagFilter) : base(parent)
         {
             AvailableTags = Tags.Keys.Where(tagFilter);
 
-            _tagListController = new TagListController(this, Dialog.ListView);
-            _tagTreeController = new TagTreeController(this, Dialog.TreeView);
+            _queryListViewController = new QueryListViewController(this, Dialog.ListView);
+            _queryTreeViewController = new QueryTreeViewController(this, Dialog.TreeView);
 
             TreeAlphabetically = Dialog.TreeAlphabetically;
             TreeByCategory = Dialog.TreeByCategory;
@@ -38,14 +38,11 @@
             tbListType = Dialog.tbListType;
             tbListNames = Dialog.tbListNames;
 
-            TpSelected = Dialog.tpSelected;
             LvSelected = Dialog.lvSelected;
-            TpOrderBy = Dialog.tpOrderBy;
             LvOrderBy = Dialog.lvOrderBy;
-            TpOrderBy = Dialog.tpOrderBy;
             LvOrderBy = Dialog.lvOrderBy;
 
-            _tagTreeController.InitView();
+            _queryTreeViewController.InitView();
             TreeAlphabetically.Click += TreeAlphabetically_Click;
             TreeByCategory.Click += TreeByCategory_Click;
             TreeByDataType.Click += TreeByDataType_Click;
@@ -53,7 +50,7 @@
             tbTreeCat.Click += TreeByCategory_Click;
             tbTreeType.Click += TreeByDataType_Click;
 
-            _tagListController.InitView();
+            _queryListViewController.InitView();
             ListAlphabetically.Click += ListAlphabetically_Click;
             ListByCategory.Click += ListByCategory_Click;
             ListByDataType.Click += ListByDataType_Click;
@@ -150,19 +147,22 @@
             tbTreeCat,
             tbTreeType;
 
-        private readonly TabPage TpSelected, TpOrderBy, TpGroupBy;
         private readonly ListView LvSelected, LvOrderBy, LvGroupBy;
 
-        private TagSelectDialog _dialog;
-        private readonly TagListController _tagListController;
-        private readonly TagTreeController _tagTreeController;
+        private static QueryDialog _dialog;
+        private readonly QueryListViewController _queryListViewController;
+        private readonly QueryTreeViewController _queryTreeViewController;
 
         #endregion
 
         #region Private Properties
 
-        private TagViewController ActiveController => _tagListController.Active ? _tagListController : (TagViewController)_tagTreeController;
-        private TagSelectDialog Dialog => _dialog ?? CreateDialog();
+        private QueryViewController ActiveController =>
+            _queryListViewController.Active
+            ? _queryListViewController
+            : (QueryViewController)_queryTreeViewController;
+
+        private QueryDialog Dialog => _dialog ?? CreateDialog();
 
         #endregion
 
@@ -181,10 +181,10 @@
 
         #region Private Methods
 
-        private TagSelectDialog CreateDialog()
+        private QueryDialog CreateDialog()
         {
-            _dialog = new TagSelectDialog();
-
+            _dialog = new QueryDialog();
+            MainTagDragDropController.Add(_dialog.ListView, _dialog.TreeView, _dialog.lvSelected, _dialog.lvOrderBy, _dialog.lvGroupBy);
             return Dialog;
         }
 
@@ -198,7 +198,7 @@
 
         private void UpdateUI()
         {
-            bool tree = _tagTreeController.Active;
+            bool tree = _queryTreeViewController.Active;
             TreeAlphabetically.Checked = tbTreeAlpha.Checked = tree && ListTagsBy == ListTagsBy.None; ;
             TreeByCategory.Checked = tbTreeCat.Checked = tree && ListTagsBy == ListTagsBy.Category;
             TreeByDataType.Checked = tbTreeType.Checked = tree && ListTagsBy == ListTagsBy.DataType;
@@ -216,9 +216,9 @@
             var selectedTags = GetSelectedTags();
             ListTagsBy = listTagsBy;
             MultiColumn = multiColumn;
-            _tagListController.ViewMode = multiColumn ? View.List : View.Details;
-            _tagListController.Active = !tree;
-            _tagTreeController.Active = tree;
+            _queryListViewController.ViewMode = multiColumn ? View.List : View.Details;
+            _queryListViewController.Active = !tree;
+            _queryTreeViewController.Active = tree;
             SetSelectedTags(selectedTags);
             UpdateUI();
         }
