@@ -199,7 +199,7 @@
         private IEnumerable<Tag> GetGroups() => new List<Tag>();
 
         private IEnumerable<SortDescription> GetSorts() =>
-            LvOrderBy.Items.Cast<ListViewItem>().Select(p => new SortDescription(p.Name, p.StateImageIndex));
+            LvOrderBy.Items.Cast<TagListItem>().Select(p => new SortDescription(p.Name, p.SortDirection));
 
         private IEnumerable<Tag> GetTags() => ActiveController.GetSelectedTags();
 

@@ -2,11 +2,11 @@
 {
     using System.Windows.Forms;
 
-    public class TagNode : TreeNode
+    public class TagTreeNode : TreeNode
     {
         #region Constructor
 
-        public TagNode(Tag tag) : base(tag.DisplayName()) { Tag = tag.TagToTagInfo(); }
+        public TagTreeNode(Tag tag) : base(tag.DisplayName()) { Tag = tag.TagToTagInfo(); }
 
         #endregion
 

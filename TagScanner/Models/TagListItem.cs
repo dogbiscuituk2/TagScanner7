@@ -3,16 +3,18 @@
     using System.ComponentModel;
     using System.Windows.Forms;
 
-    public class TagItem : ListViewItem
+    public class TagListItem : ListViewItem
     {
         #region Constructors
 
-        public TagItem(Tag tag) : base(tag.DisplayName())
+        public TagListItem(Tag tag) : base()
         {
+            SortDirection = ListSortDirection.Ascending;
             Tag = tag.TagToTagInfo();
+            Text = tag.DisplayName();
         }
 
-        public TagItem(SortDescription sort) : this(sort.PropertyName.DisplayNameToTag())
+        public TagListItem(SortDescription sort) : this(sort.PropertyName.DisplayNameToTag())
         {
             SortDirection = sort.Direction;
         }
@@ -20,6 +22,17 @@
         #endregion
 
         #region Public Properties
+
+        public SortDescription SortDescription
+        {
+            get => new SortDescription(Text, SortDirection);
+            set
+            {
+                Text = value.PropertyName;
+                SortDirection = value.Direction;
+                Tag = Tags.TagNameToTag(Text);
+            }
+        }
 
         public ListSortDirection SortDirection
         {

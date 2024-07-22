@@ -227,8 +227,8 @@
     <Compile Include="Models\SchemaLine.cs" />
     <Compile Include="Models\SelectionEventArgs.cs" />
     <Compile Include="Models\SelectionEditEventArgs.cs" />
-    <Compile Include="Models\TagItem.cs" />
-    <Compile Include="Models\TagNode.cs" />
+    <Compile Include="Models\TagListItem.cs" />
+    <Compile Include="Models\TagTreeNode.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
