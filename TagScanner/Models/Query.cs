@@ -1,24 +1,26 @@
 ﻿namespace TagScanner.Models
 {
     using System;
+    using System.Collections.Generic;
     using System.ComponentModel;
     using System.Linq;
 
     public class Query
     {
-        public Query(Tag[] tags, SortDescription[] sorts, Tag[] groups)
+        public Query(IEnumerable<Tag> tags, IEnumerable<SortDescription> sorts, IEnumerable<Tag> groups)
         {
-            Tags = tags;
-            Sorts = sorts;
-            Groups = groups;
+            Tags = tags.ToList();
+            Sorts = sorts.ToList();
+            Groups = groups.ToList();
         }
 
         public Query(Tag[] tags, Tag[] sorts, Tag[] groups) : this(tags,
             sorts.Select(p => new SortDescription(p.DisplayName(), ListSortDirection.Ascending)).ToArray(),
             groups) { }
 
-        public Tag[] Tags, Groups;
-        public SortDescription[] Sorts;
+        public List<Tag> Tags = new List<Tag>();
+        public List<Tag> Groups = new List<Tag>();
+        public List<SortDescription> Sorts = new List<SortDescription>();
 
         public override bool Equals(object obj) => obj is Query query &&
             Tags.SequenceEqual(query.Tags) &&

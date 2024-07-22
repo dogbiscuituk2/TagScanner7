@@ -2,6 +2,7 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.ComponentModel;
     using System.Diagnostics;
     using System.Drawing;
     using System.IO;
@@ -198,6 +199,27 @@
         #region Graphics
 
         public static RectangleF Expand(this RectangleF r) => r.IsEmpty ? r : new RectangleF(r.X, r.Y, r.Width + 99, r.Height);
+
+        #endregion
+        #region Queries
+
+        public static ListViewItem ToItem(this Tag tag) =>
+            new ListViewItem(tag.DisplayName()) { Tag = tag.TagToTagInfo() };
+
+        public static ListViewItem ToItem(SortDescription sort) =>
+            new ListViewItem(sort.PropertyName)
+            {
+                Tag = sort.PropertyName.TagNameToTagInfo()
+            };
+
+        public static TreeNode ToNode(this Tag tag) =>
+            new TreeNode(tag.DisplayName())
+            {
+                Tag = tag.TagToTagInfo()
+            };
+
+        public static TagInfo ToTagInfo(ListViewItem item) => (TagInfo)item.Tag;
+        public static TagInfo ToTagInfo(TreeNode node) => (TagInfo)node.Tag;
 
         #endregion
         #region Strings

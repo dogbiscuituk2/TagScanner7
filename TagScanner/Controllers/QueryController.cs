@@ -208,9 +208,13 @@
             LvGroupBy.Items.AddRange(tags.Select(p => new ListViewItem($"{p}")).ToArray());
         }
 
-        private void SetSorts(IEnumerable<Tag> tags)
+        private void SetSorts(IEnumerable<SortDescription> sorts)
         {
-            LvOrderBy.Items.AddRange(tags.Select(p => new ListViewItem($"{p}")).ToArray());
+            LvOrderBy.Items.AddRange(sorts.Select(p => new ListViewItem($"{p}")
+            {
+                StateImageIndex = p.Direction == ListSortDirection.Ascending ? 0 : 1
+            }
+            ).ToArray());
         }
 
         private void SetTags(IEnumerable<Tag> selectedTags)
