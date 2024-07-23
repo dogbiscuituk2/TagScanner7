@@ -208,7 +208,7 @@
         private void ListByCategory_Click(object sender, EventArgs e) => UseListView(ListTagsBy.Category);
         private void ListByDataType_Click(object sender, EventArgs e) => UseListView(ListTagsBy.DataType);
         private void ListNamesOnly_Click(object sender, EventArgs e) => UseListView(ListTagsBy.None, true);
-        private void ListView_GotFocus(object sender, EventArgs e) { ActiveTarget = sender as ListView; System.Diagnostics.Debug.WriteLine((sender as Control).Name); }
+        private void ListView_GotFocus(object sender, EventArgs e) => ActiveTarget = sender as ListView;
         private void PopupTargetMenu_Opening(object sender, CancelEventArgs e) => PopupOpening();
         private void TreeAlphabetically_Click(object sender, EventArgs e) => UseTreeView(ListTagsBy.None);
         private void TreeByCategory_Click(object sender, EventArgs e) => UseTreeView(ListTagsBy.Category);
