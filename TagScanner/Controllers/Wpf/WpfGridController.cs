@@ -68,11 +68,9 @@
 
         protected virtual void EditTagVisibility(string detail)
         {
-            var ok = new QueryController(this).Execute($"Select the Columns to display in the {detail} Table", GetQuery());
+            var ok = new QueryController(this).Execute($"Select the Columns to display in the {detail} Table", ReadQueryFromGrid());
             if (ok)
-            {
-                //SetQuery();
-            }
+                WriteQueryToGrid(new Query(VisibleTags, Sorts, Groups));
         }
 
         protected virtual DataGridBoundColumn GetColumn(TagInfo tagInfo)
@@ -110,8 +108,6 @@
             return null;
         }
 
-        protected virtual Query GetQuery() => new Query(VisibleTags, Sorts, Groups);
-
         protected virtual void InitColumns()
         {
             DataGrid.Columns.Clear();
@@ -128,7 +124,12 @@
             InitGroups();
         }
 
-        protected virtual void SetQuery(Query query)
+        protected virtual Query ReadQueryFromGrid()
+        {
+            //new Query(VisibleTags, Sorts, Groups);
+        }
+
+        protected virtual void WriteQueryToGrid(Query query)
         {
             VisibleTags = query.Tags.Union(VisibleTags).ToList();
             _groups = query.Groups;
