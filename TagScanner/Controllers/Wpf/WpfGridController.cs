@@ -1,6 +1,7 @@
 ﻿namespace TagScanner.Controllers.Wpf
 {
     using System.Collections.Generic;
+    using System.ComponentModel;
     using System.Linq;
     using System.Windows;
     using System.Windows.Controls;
@@ -21,6 +22,34 @@
 
         public abstract DataGrid DataGrid { get; }
 
+        public IEnumerable<Tag> Groups
+        {
+            get => _groups;
+            set
+            {
+                if (Groups.SequenceEqual(value)) return;
+                _groups = value;
+                InitSortsAndGroups();
+            }
+        }
+
+        public ListCollectionView ListCollectionView
+        {
+            get => (ListCollectionView)DataGrid.ItemsSource;
+            set => DataGrid.ItemsSource = value;
+        }
+
+        public IEnumerable<SortDescription> Sorts
+        {
+            get => _sorts;
+            set
+            {
+                if (Sorts.SequenceEqual(value)) return;
+                _sorts = value;
+                InitSortsAndGroups();
+            }
+        }
+
         public List<Tag> VisibleTags
         {
             get => _visibleTags;
@@ -39,10 +68,11 @@
 
         protected virtual void EditTagVisibility(string detail)
         {
-            var visibleTags = VisibleTags.ToList();
-            var ok = new QueryController(this).Execute($"Select the Columns to display in the {detail} Table", visibleTags);
+            var ok = new QueryController(this).Execute($"Select the Columns to display in the {detail} Table", GetQuery());
             if (ok)
-                VisibleTags = VisibleTags.Intersect(visibleTags).Union(visibleTags).ToList();
+            {
+                //SetQuery();
+            }
         }
 
         protected virtual DataGridBoundColumn GetColumn(TagInfo tagInfo)
@@ -67,10 +97,10 @@
         {
             switch (tagInfo.TypeName)
             {
-                case TagType.DateTime: return new DateTimeConverter();
+                case TagType.DateTime: return new DateConverter();
                 //case TagType.Logical: return new LogicalConverter();
                 case TagType.Strings: return new StringsConverter();
-                case TagType.TimeSpan: return new TimeSpanConverter();
+                case TagType.TimeSpan: return new TimeConverter();
             }
             switch (tagInfo.Tag)
             {
@@ -80,7 +110,9 @@
             return null;
         }
 
-        protected void InitColumns()
+        protected virtual Query GetQuery() => new Query(VisibleTags, Sorts, Groups);
+
+        protected virtual void InitColumns()
         {
             DataGrid.Columns.Clear();
             var columns = Tags.Values.Select(GetColumn)?.Where(c => c != null);
@@ -90,9 +122,26 @@
             DataGrid.GridLinesVisibility = DataGridGridLinesVisibility.Vertical;
         }
 
+        protected virtual void InitSortsAndGroups()
+        {
+            InitSorts();
+            InitGroups();
+        }
+
+        protected virtual void SetQuery(Query query)
+        {
+            VisibleTags = query.Tags.Union(VisibleTags).ToList();
+            _groups = query.Groups;
+            _sorts = query.Sorts.Union(_groups.Select(p => new SortDescription($"{p}", ListSortDirection.Ascending)));
+            InitSortsAndGroups();
+        }
+
         #endregion
 
         #region Private Fields
+
+        private IEnumerable<Tag> _groups = new List<Tag>();
+        private IEnumerable<SortDescription> _sorts = new List<SortDescription>();
 
         private static Style _rightAlignStyle;
         private List<Tag> _visibleTags = new List<Tag>();
@@ -110,6 +159,24 @@
                 Value = HorizontalAlignment.Right
             });
             return _rightAlignStyle;
+        }
+
+        private void InitGroups()
+        {
+            var groups = ListCollectionView.GroupDescriptions;
+            if (groups == null) return;
+            groups.Clear();
+            foreach (var group in Groups)
+                groups.Add(new PropertyGroupDescription($"{group}"));
+        }
+
+        private void InitSorts()
+        {
+            var sorts = ListCollectionView.SortDescriptions;
+            if (sorts == null) return;
+            sorts.Clear();
+            foreach (var sort in Sorts)
+                sorts.Add(sort);
         }
 
         private void InitVisibleTags()

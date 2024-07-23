@@ -31,17 +31,6 @@
 
         public override DataGrid DataGrid => ((GridElement)View.Child).DataGrid;
 
-        public IEnumerable<Tag> Groups
-        {
-            get => _groups;
-            set
-            {
-                if (Groups.SequenceEqual(value)) return;
-                _groups = value;
-                InitSortsAndGroups();
-            }
-        }
-
         public ListCollectionView ListCollectionView
         {
             get => (ListCollectionView)DataGrid.ItemsSource;
@@ -58,17 +47,6 @@
                 foreach (var track in value.Tracks)
                     DataGrid.SelectedItems.Add(track);
                 _updater.Resume();
-            }
-        }
-
-        public IEnumerable<SortDescription> Sorts
-        {
-            get => _sorts;
-            set
-            {
-                if (Sorts.SequenceEqual(value)) return;
-                _sorts = value;
-                InitSortsAndGroups();
             }
         }
 
@@ -130,15 +108,6 @@
 
         #region Protected Methods
 
-        protected override void EditTagVisibility(string detail)
-        {
-            var visibleTags = VisibleTags.ToList();
-            var ok = new QueryController(this).Execute($"Select the Columns to display in the {detail} Table", visibleTags);
-            if (ok)
-                VisibleTags = VisibleTags.Intersect(visibleTags).Union(visibleTags).ToList();
-
-        }
-
         protected virtual void OnSelectionChanged()
         {
             if (UpdatingSelectionCount != 0) return;
@@ -150,9 +119,7 @@
 
         #region Private Fields
 
-        private IEnumerable<Tag> _groups = new List<Tag>();
         private Selection _selection;
-        private IEnumerable<SortDescription> _sorts = new List<SortDescription>();
         private UpdateController _updater;
         private ElementHost _view;
 
@@ -249,30 +216,6 @@
             return selection;
         }
 
-        private void InitGroups()
-        {
-            var groups = ListCollectionView.GroupDescriptions;
-            if (groups == null) return;
-            groups.Clear();
-            foreach (var group in Groups)
-                groups.Add(new PropertyGroupDescription($"{group}"));
-        }
-
-        private void InitSorts()
-        {
-            var sorts = ListCollectionView.SortDescriptions;
-            if (sorts == null) return;
-            sorts.Clear();
-            foreach (var sort in Sorts)
-                sorts.Add(sort);
-        }
-
-        private void InitSortsAndGroups()
-        {
-            InitSorts();
-            InitGroups();
-        }
-
         private void InvalidateSelection() => _selection = null;
 
         private bool QueryMatches(Query query) => Groups.SequenceEqual(query.Groups);
@@ -286,19 +229,6 @@
                 ListCollectionView = new ListCollectionView(MainModel.Tracks);
                 InitSortsAndGroups();
             }
-        }
-
-        private Query GetQuery()
-        {
-            return new Query(null, Sorts, Groups.ToArray());
-        }
-
-        private void SetQuery(Query query)
-        {
-            VisibleTags = query.Tags.Union(VisibleTags).ToList();
-            _groups = query.Groups;
-            _sorts = query.Sorts.Union(_groups.Select(p => new SortDescription($"{p}", ListSortDirection.Ascending)));
-            InitSortsAndGroups();
         }
 
         #endregion

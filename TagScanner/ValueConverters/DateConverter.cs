@@ -3,12 +3,11 @@
     using System;
     using System.Globalization;
     using System.Windows.Data;
-    using Utils;
 
-    public class TimeSpanConverter : IValueConverter
+    public class DateConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture) =>
-            value is TimeSpan span ? span.AsString(false) : value;
+            value is DateTime dateTime ? dateTime.ToString("g") : value;
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture) => value;
     }
