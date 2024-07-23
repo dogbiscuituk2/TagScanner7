@@ -39,11 +39,20 @@
             tbListType = Dialog.tbListType;
             tbListNames = Dialog.tbListNames;
 
+            PopupTargetMenu = Dialog.PopupTargetMenu;
+            PopupTargetCut = Dialog.PopupTargetCut;
+            PopupTargetCopy = Dialog.PopupTargetCopy;
+            PopupTargetPaste = Dialog.PopupTargetPaste;
+            PopupTargetDelete = Dialog.PopupTargetDelete;
+            PopupTargetMoveUp = Dialog.PopupTargetMoveUp;
+            PopupTargetMoveDown = Dialog.PopupTargetMoveDown;
+
             LvSelected = Dialog.lvSelected;
             LvOrderBy = Dialog.lvOrderBy;
-            LvOrderBy = Dialog.lvOrderBy;
+            LvGroupBy = Dialog.lvGroupBy;
 
             _queryTreeViewController.InitView();
+
             TreeAlphabetically.Click += TreeAlphabetically_Click;
             TreeByCategory.Click += TreeByCategory_Click;
             TreeByDataType.Click += TreeByDataType_Click;
@@ -52,6 +61,7 @@
             tbTreeType.Click += TreeByDataType_Click;
 
             _queryListViewController.InitView();
+
             ListAlphabetically.Click += ListAlphabetically_Click;
             ListByCategory.Click += ListByCategory_Click;
             ListByDataType.Click += ListByDataType_Click;
@@ -60,6 +70,12 @@
             tbListCat.Click += ListByCategory_Click;
             tbListType.Click += ListByDataType_Click;
             tbListNames.Click += ListNamesOnly_Click;
+
+            LvSelected.GotFocus += ListView_GotFocus;
+            LvOrderBy.GotFocus += ListView_GotFocus;
+            LvGroupBy.GotFocus += ListView_GotFocus;
+
+            PopupTargetMenu.Opening += PopupTargetMenu_Opening;
 
             UseTreeView(ListTagsBy.Category);
         }
@@ -111,16 +127,26 @@
 
         public void UpdateSelection()
         {
-            Update(LvSelected, GetTags());
-            Update(LvOrderBy, GetSorts());
-            Update(LvGroupBy, GetGroups());
+            UpdateTags(LvSelected, GetTags());
+            UpdateSorts(LvOrderBy, GetSorts());
+            UpdateTags(LvGroupBy, GetGroups());
 
-            void Update(ListView view, IEnumerable<Tag> tags)
+            // TODO: polymorphise!
+
+            void UpdateSorts(ListView view, IEnumerable<SortDescription> sorts)
             {
                 if (view == null)
                     return;
                 view.Clear();
-                view.Items.AddRange(tags.Select(p => new ListViewItem($"{p}")).ToArray());
+                view.Items.AddRange(sorts.Select(p => new TagListItem(p)).ToArray());
+            }
+
+            void UpdateTags(ListView view, IEnumerable<Tag> tags)
+            {
+                if (view == null)
+                    return;
+                view.Clear();
+                view.Items.AddRange(tags.Select(p => new TagListItem(p)).ToArray());
             }
         }
 
@@ -128,7 +154,10 @@
 
         #region Private Fields
 
+        private ListView ActiveTarget;
         private bool MultiColumn;
+
+        private readonly ContextMenuStrip PopupTargetMenu;
 
         private readonly ToolStripMenuItem
             ListAlphabetically,
@@ -137,7 +166,13 @@
             ListNamesOnly,
             TreeAlphabetically,
             TreeByCategory,
-            TreeByDataType;
+            TreeByDataType,
+            PopupTargetCut,
+            PopupTargetCopy,
+            PopupTargetPaste,
+            PopupTargetDelete,
+            PopupTargetMoveUp,
+            PopupTargetMoveDown;
 
         private readonly ToolStripButton
             tbListAlpha,
@@ -173,10 +208,11 @@
         private void ListByCategory_Click(object sender, EventArgs e) => UseListView(ListTagsBy.Category);
         private void ListByDataType_Click(object sender, EventArgs e) => UseListView(ListTagsBy.DataType);
         private void ListNamesOnly_Click(object sender, EventArgs e) => UseListView(ListTagsBy.None, true);
+        private void ListView_GotFocus(object sender, EventArgs e) { ActiveTarget = sender as ListView; System.Diagnostics.Debug.WriteLine((sender as Control).Name); }
+        private void PopupTargetMenu_Opening(object sender, CancelEventArgs e) => PopupOpening();
         private void TreeAlphabetically_Click(object sender, EventArgs e) => UseTreeView(ListTagsBy.None);
         private void TreeByCategory_Click(object sender, EventArgs e) => UseTreeView(ListTagsBy.Category);
         private void TreeByDataType_Click(object sender, EventArgs e) => UseTreeView(ListTagsBy.DataType);
-
 
         #endregion
 
@@ -202,6 +238,18 @@
             LvOrderBy.Items.Cast<TagListItem>().Select(p => new SortDescription(p.Name, p.SortDirection));
 
         private IEnumerable<Tag> GetTags() => ActiveController.GetSelectedTags();
+
+        private void PopupOpening()
+        {
+            if (ActiveTarget == null) return;
+            var total = ActiveTarget.Items.Count;
+            var indices = ActiveTarget.SelectedIndices.Cast<int>();
+            var count = indices.Count();
+            bool hasSelection = indices.Any();
+            PopupTargetCut.Enabled = PopupTargetCopy.Enabled = PopupTargetDelete.Enabled = hasSelection;
+            PopupTargetMoveUp.Enabled = hasSelection && indices.Max() >= count;
+            PopupTargetMoveDown.Enabled = hasSelection && indices.Min() < total - count;
+        }
 
         private void SetGroups(IEnumerable<Tag> tags)
         {

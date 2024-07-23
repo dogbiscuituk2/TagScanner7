@@ -10,7 +10,6 @@
         public TagListItem(Tag tag) : base()
         {
             SortDirection = ListSortDirection.Ascending;
-            Tag = tag.TagToTagInfo();
             Text = tag.DisplayName();
         }
 

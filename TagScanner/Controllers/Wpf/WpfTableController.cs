@@ -297,7 +297,7 @@
         {
             VisibleTags = query.Tags.Union(VisibleTags).ToList();
             _groups = query.Groups;
-            _sorts = _groups.Union(query.Sorts).Select(p => new SortDescription($"{p}", ListSortDirection.Ascending));
+            _sorts = query.Sorts.Union(_groups.Select(p => new SortDescription($"{p}", ListSortDirection.Ascending)));
             InitSortsAndGroups();
         }
 
