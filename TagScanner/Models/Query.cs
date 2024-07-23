@@ -15,7 +15,7 @@
         }
 
         public Query(Tag[] tags, Tag[] sorts, Tag[] groups) : this(tags,
-            sorts.Select(p => new SortDescription(p.DisplayName(), ListSortDirection.Ascending)).ToArray(),
+            sorts.Select(p => new SortDescription(p.DisplayName(), ListSortDirection.Ascending)),
             groups) { }
 
         public List<Tag> Tags = new List<Tag>();

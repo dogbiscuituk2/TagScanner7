@@ -72,7 +72,10 @@
 
         #region Event Handlers
 
-        private void TriStateTreeController_NodeStateChanged(object sender, EventArgs e) => ((QueryController)Parent).UpdateSelection();
+        private void TriStateTreeController_NodeStateChanged(object sender, EventArgs e)
+        {
+            ((QueryController)Parent).UpdateSelection();
+        }
 
         #endregion
 

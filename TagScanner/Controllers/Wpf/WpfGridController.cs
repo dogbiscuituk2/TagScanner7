@@ -55,8 +55,6 @@
             get => _visibleTags;
             set
             {
-                if (VisibleTags.SequenceEqual(value))
-                    return;
                 _visibleTags = value;
                 InitVisibleTags();
             }
@@ -124,14 +122,11 @@
             InitGroups();
         }
 
-        protected virtual Query ReadQueryFromGrid()
-        {
-            //new Query(VisibleTags, Sorts, Groups);
-        }
+        protected virtual Query ReadQueryFromGrid() => new Query(_visibleTags, _sorts, _groups);
 
         protected virtual void WriteQueryToGrid(Query query)
         {
-            VisibleTags = query.Tags.Union(VisibleTags).ToList();
+            VisibleTags = query.Tags; // .Union(VisibleTags).ToList();
             _groups = query.Groups;
             _sorts = query.Sorts.Union(_groups.Select(p => new SortDescription($"{p}", ListSortDirection.Ascending)));
             InitSortsAndGroups();
@@ -183,11 +178,14 @@
         private void InitVisibleTags()
         {
             foreach (var column in DataGrid.Columns)
+            {
+                column.DisplayIndex = 0;
                 column.Visibility = Visibility.Collapsed;
+            }
             var displayIndex = 0;
             foreach (var tag in VisibleTags)
             {
-                var column = DataGrid.Columns.Single(c => ((TagInfo)c.Header).Name == tag.ToString());
+                var column = DataGrid.Columns.Single(p => ((TagInfo)p.Header).Name == tag.ToString());
                 column.DisplayIndex = displayIndex++;
                 column.Visibility = Visibility.Visible;
             }
