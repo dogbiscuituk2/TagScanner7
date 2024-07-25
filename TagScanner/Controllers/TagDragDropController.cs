@@ -37,35 +37,6 @@
 
         private ListSortDirection GetDirection(ListViewItem item) => item.StateImageIndex == 1 ? ListSortDirection.Descending : ListSortDirection.Ascending;
 
-        private static IEnumerable<TagSort> GetData(TreeNode node)
-        {
-            var data = new List<TagSort>();
-            Visit(node);
-            return data;
-
-            void Visit(TreeNode parent)
-            {
-                if (parent.Tag is Tag tag)
-                    data.Add(new TagSort(tag));
-                else
-                {
-                    var nodes = parent.Nodes;
-                    if (nodes.Count > 0)
-                        foreach (TreeNode child in nodes)
-                            Visit(child);
-                }
-            }
-        }
-
-        private static IEnumerable<TagSort> GetData(IDataObject data) =>
-            data.GetData(typeof(TreeNode)) is TreeNode node
-            ? GetData(node)
-            : data.GetData(typeof(ListViewItem)) is ListViewItem item
-            ? new[] { new TagSort(item.Tag, item.StateImageIndex) }
-            : data.GetData(typeof(ListView.ListViewItemCollection)) is ListView.ListViewItemCollection items
-            ? items.Cast<ListViewItem>().Select(p => new TagSort(p.Tag, p.StateImageIndex))
-            : Array.Empty<TagSort>();
-
         private void DragDrop(ListView listView, DragEventArgs e) => DoDragDrop(listView, e, drop: true);
         private void DragOver(ListView listView, DragEventArgs e) => DoDragDrop(listView, e, drop: false);
 
@@ -86,7 +57,7 @@
             if (!drop)
                 return;
 
-            var data = GetData(e.Data);
+            var data = e.Data.GetData();
 
             listView.Items.AddRange(data.Select(p => new ListViewItem()
             {

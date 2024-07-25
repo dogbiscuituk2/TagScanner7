@@ -2,6 +2,11 @@
 {
     using System.ComponentModel;
 
+    /// <summary>
+    /// Structure holding a Tag value, and optionally a ListSortDirection, which may be supplied to
+    /// either the GroupDescriptions or the SortDescriptions property of a ListCollectionView, or
+    /// otherwise used as a Column visibility control in a suitable Table or View.
+    /// </summary>
     public struct TagSort
     {
         #region Constructors
@@ -15,8 +20,8 @@
 
         #region Public Properties
 
-        public Tag Tag { get; set; }
         public bool Descending { get; set; }
+        public Tag Tag { get; set; }
 
         #endregion
     }

@@ -227,6 +227,7 @@
     <Compile Include="Models\SchemaLine.cs" />
     <Compile Include="Models\SelectionEventArgs.cs" />
     <Compile Include="Models\SelectionEditEventArgs.cs" />
+    <Compile Include="Models\TagSortData.cs" />
     <Compile Include="Models\TagListItem.cs" />
     <Compile Include="Models\TagSort.cs" />
     <Compile Include="Models\TagTreeNode.cs" />
