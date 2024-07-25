@@ -1,7 +1,6 @@
 ﻿namespace TagScanner.Models
 {
     using System.ComponentModel;
-    using System.Windows.Forms;
 
     public struct TagSort
     {

@@ -62,14 +62,14 @@
 
         protected abstract void InitGroups();
 
-        protected IEnumerable<TagInfo> SortTags()
+        protected IEnumerable<Tag> SortTags()
         {
-            IEnumerable<TagInfo> tagInfo = AvailableTags.Select(p => p.TagToTagInfo());
+            IEnumerable<Tag> tags = AvailableTags;
             switch (TagGrouping)
             {
-                case TagGrouping.Category: return tagInfo.OrderBy(t => t.Category).ThenBy(t => t.DisplayName);
-                case TagGrouping.DataType: return tagInfo.OrderBy(t => t.TypeName).ThenBy(t => t.DisplayName);
-                default: return tagInfo.OrderBy(t => t.DisplayName);
+                case TagGrouping.Category: return tags.OrderBy(t => t.Category()).ThenBy(t => t.DisplayName());
+                case TagGrouping.DataType: return tags.OrderBy(t => t.TypeName()).ThenBy(t => t.DisplayName());
+                default: return tags.OrderBy(t => t.DisplayName());
             }
         }
 

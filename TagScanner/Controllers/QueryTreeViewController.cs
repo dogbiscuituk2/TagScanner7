@@ -22,8 +22,8 @@
             var result = new List<Tag>();
             Visit(p =>
             {
-                if (p.Tag is TagInfo tagInfo && p.StateImageIndex == (int)TreeNodeState.Checked)
-                    result.Add(tagInfo.Tag);
+                if (p.Tag is Tag tag && p.StateImageIndex == (int)TreeNodeState.Checked)
+                    result.Add(tag);
             });
             return result;
         }
@@ -38,9 +38,9 @@
 
         public override void SetSelectedTags(IEnumerable<Tag> visibleTags) => Visit(p =>
         {
-            if (p.Tag is TagInfo tagInfo)
+            if (p.Tag is Tag tag)
                 TriStateTreeController.SetNodeState(p, 
-                    visibleTags.Contains(tagInfo.Tag)
+                    visibleTags.Contains(tag)
                     ? TreeNodeState.Checked
                     : TreeNodeState.Unchecked);
         });
@@ -81,11 +81,11 @@
 
         #region Private Methods
 
-        private TreeNode AddNode(TreeNodeCollection nodes, TagInfo tag)
+        private TreeNode AddNode(TreeNodeCollection nodes, Tag tag)
         {
-            var node = AddNode(nodes, tag.Name, tag.DisplayName);
+            var node = AddNode(nodes, tag.Name(), tag.DisplayName());
             node.Tag = tag;
-            node.ToolTipText = tag.Details;
+            node.ToolTipText = tag.Details();
             return node;
         }
 
@@ -98,14 +98,14 @@
 
         private TreeNode FindNode(string text) => Nodes.Cast<TreeNode>().FirstOrDefault(p => p.Text == text) ?? Nodes.Add(text);
 
-        private TreeNode FindParent(TagInfo tag)
+        private TreeNode FindParent(Tag tag)
         {
             switch (TagGrouping)
             {
                 case TagGrouping.Category:
-                    return FindNode(tag.Category);
+                    return FindNode(tag.Category());
                 case TagGrouping.DataType:
-                    return FindNode(tag.TypeName);
+                    return FindNode(tag.TypeName());
                 default:
                     return RootNode;
             }

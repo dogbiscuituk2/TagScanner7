@@ -37,9 +37,29 @@
 
         private ListSortDirection GetDirection(ListViewItem item) => item.StateImageIndex == 1 ? ListSortDirection.Descending : ListSortDirection.Ascending;
 
+        private static IEnumerable<TagSort> GetData(TreeNode node)
+        {
+            var data = new List<TagSort>();
+            Visit(node);
+            return data;
+
+            void Visit(TreeNode parent)
+            {
+                if (parent.Tag is Tag tag)
+                    data.Add(new TagSort(tag));
+                else
+                {
+                    var nodes = parent.Nodes;
+                    if (nodes.Count > 0)
+                        foreach (TreeNode child in nodes)
+                            Visit(child);
+                }
+            }
+        }
+
         private static IEnumerable<TagSort> GetData(IDataObject data) =>
             data.GetData(typeof(TreeNode)) is TreeNode node
-            ? new[] { new TagSort(node.Tag) }
+            ? GetData(node)
             : data.GetData(typeof(ListViewItem)) is ListViewItem item
             ? new[] { new TagSort(item.Tag, item.StateImageIndex) }
             : data.GetData(typeof(ListView.ListViewItemCollection)) is ListView.ListViewItemCollection items
@@ -52,8 +72,8 @@
         private void DoDragDrop(ListView listView, DragEventArgs e, bool drop)
         {
             listView.Focus();
-            var p = listView.PointToClient(new Point(e.X, e.Y));
-            var target = listView.GetItemAt(p.X, p.Y);
+            var point = listView.PointToClient(new Point(e.X, e.Y));
+            var target = listView.GetItemAt(point.X, point.Y);
             var index = target?.Index ?? listView.Items.Count;
             var selection = listView.SelectedIndices;
             if (!selection.Cast<int>().SequenceEqual(new[] { index }))
@@ -67,6 +87,13 @@
                 return;
 
             var data = GetData(e.Data);
+
+            listView.Items.AddRange(data.Select(p => new ListViewItem()
+            {
+                StateImageIndex = p.Descending ? 1 : 0,
+                Tag = p.Tag,
+                Text = p.Tag.DisplayName()
+            }).ToArray());
 
         }
 
