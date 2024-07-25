@@ -7,42 +7,31 @@
     {
         #region Constructors
 
-        public TagListItem(Tag tag) : base()
-        {
-            SortDirection = ListSortDirection.Ascending;
-            Text = tag.DisplayName();
-        }
+        public TagListItem(Tag tag) : base() => Init(tag);
 
-        public TagListItem(SortDescription sort) : this(sort.PropertyName.DisplayNameToTag())
-        {
-            SortDirection = sort.Direction;
-        }
+        public TagListItem(SortDescription sort) : base() =>
+            Init(Tags.TagNameToTag(sort.PropertyName), sort.Direction);
 
         #endregion
 
         #region Public Properties
 
-        public SortDescription SortDescription
-        {
-            get => new SortDescription(Text, SortDirection);
-            set
-            {
-                Text = value.PropertyName;
-                SortDirection = value.Direction;
-                Tag = Tags.TagNameToTag(Text);
-            }
-        }
-
-        public ListSortDirection SortDirection
+        public ListSortDirection Direction
         {
             get => (ListSortDirection)StateImageIndex;
             set => StateImageIndex = (int)value;
         }
 
-        public TagInfo TagInfo
+        #endregion
+
+        #region Private Methods
+
+        private void Init(Tag tag, ListSortDirection direction = ListSortDirection.Ascending)
         {
-            get => (TagInfo)Tag;
-            set => Tag = value;
+            Direction = direction;
+            Name = $"{tag}";
+            Tag = tag;
+            Text = tag.DisplayName();
         }
 
         #endregion

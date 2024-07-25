@@ -44,7 +44,7 @@
 
         protected IEnumerable<Tag> AvailableTags => QueryController.AvailableTags;
         protected Control Control { get; private set; }
-        protected ListTagsBy ListTagsBy => QueryController.ListTagsBy;
+        protected TagGrouping TagGrouping => QueryController.TagGrouping;
 
         #endregion
 
@@ -52,10 +52,10 @@
 
         protected string GetGroupHeader(Tag tag)
         {
-            switch (ListTagsBy)
+            switch (TagGrouping)
             {
-                case ListTagsBy.Category: return tag.Category();
-                case ListTagsBy.DataType: return tag.TypeName();
+                case TagGrouping.Category: return tag.Category();
+                case TagGrouping.DataType: return tag.TypeName();
                 default: return string.Empty;
             }
         }
@@ -65,10 +65,10 @@
         protected IEnumerable<TagInfo> SortTags()
         {
             IEnumerable<TagInfo> tagInfo = AvailableTags.Select(p => p.TagToTagInfo());
-            switch (ListTagsBy)
+            switch (TagGrouping)
             {
-                case ListTagsBy.Category: return tagInfo.OrderBy(t => t.Category).ThenBy(t => t.DisplayName);
-                case ListTagsBy.DataType: return tagInfo.OrderBy(t => t.TypeName).ThenBy(t => t.DisplayName);
+                case TagGrouping.Category: return tagInfo.OrderBy(t => t.Category).ThenBy(t => t.DisplayName);
+                case TagGrouping.DataType: return tagInfo.OrderBy(t => t.TypeName).ThenBy(t => t.DisplayName);
                 default: return tagInfo.OrderBy(t => t.DisplayName);
             }
         }

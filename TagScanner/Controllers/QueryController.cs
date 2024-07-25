@@ -77,7 +77,7 @@
 
             PopupTargetMenu.Opening += PopupTargetMenu_Opening;
 
-            UseTreeView(ListTagsBy.Category);
+            UseTreeView(TagGrouping.Category);
         }
 
         #endregion
@@ -90,7 +90,7 @@
 
         #region Public Fields
 
-        public ListTagsBy ListTagsBy;
+        public TagGrouping TagGrouping;
 
         #endregion
 
@@ -104,11 +104,7 @@
             SetGroups(query.Groups);
             var ok = Dialog.ShowDialog(Owner) == DialogResult.OK;
             if (ok)
-            {
-                //query.Tags = ActiveController.GetSelectedTags().ToArray();
-                //query.Sorts = GetOrderByTags().ToArray();
-                //query.Groups = GetGroupByTags().ToArray();
-            }
+                query.Init(ActiveController.GetSelectedTags(), GetSorts(), GetGroups());
             return ok;
         }
 
@@ -130,8 +126,6 @@
             UpdateTags(LvSelected, GetTags());
             UpdateSorts(LvOrderBy, GetSorts());
             UpdateTags(LvGroupBy, GetGroups());
-
-            // TODO: polymorphise!
 
             void UpdateSorts(ListView view, IEnumerable<SortDescription> sorts)
             {
@@ -204,15 +198,15 @@
 
         #region Event Handlers
 
-        private void ListAlphabetically_Click(object sender, EventArgs e) => UseListView(ListTagsBy.None);
-        private void ListByCategory_Click(object sender, EventArgs e) => UseListView(ListTagsBy.Category);
-        private void ListByDataType_Click(object sender, EventArgs e) => UseListView(ListTagsBy.DataType);
-        private void ListNamesOnly_Click(object sender, EventArgs e) => UseListView(ListTagsBy.None, true);
+        private void ListAlphabetically_Click(object sender, EventArgs e) => UseListView(TagGrouping.None);
+        private void ListByCategory_Click(object sender, EventArgs e) => UseListView(TagGrouping.Category);
+        private void ListByDataType_Click(object sender, EventArgs e) => UseListView(TagGrouping.DataType);
+        private void ListNamesOnly_Click(object sender, EventArgs e) => UseListView(TagGrouping.None, true);
         private void ListView_GotFocus(object sender, EventArgs e) => ActiveTarget = sender as ListView;
         private void PopupTargetMenu_Opening(object sender, CancelEventArgs e) => PopupOpening();
-        private void TreeAlphabetically_Click(object sender, EventArgs e) => UseTreeView(ListTagsBy.None);
-        private void TreeByCategory_Click(object sender, EventArgs e) => UseTreeView(ListTagsBy.Category);
-        private void TreeByDataType_Click(object sender, EventArgs e) => UseTreeView(ListTagsBy.DataType);
+        private void TreeAlphabetically_Click(object sender, EventArgs e) => UseTreeView(TagGrouping.None);
+        private void TreeByCategory_Click(object sender, EventArgs e) => UseTreeView(TagGrouping.Category);
+        private void TreeByDataType_Click(object sender, EventArgs e) => UseTreeView(TagGrouping.DataType);
 
         #endregion
 
@@ -235,7 +229,7 @@
         private IEnumerable<Tag> GetGroups() => new List<Tag>();
 
         private IEnumerable<SortDescription> GetSorts() =>
-            LvOrderBy.Items.Cast<TagListItem>().Select(p => new SortDescription(p.Name, p.SortDirection));
+            LvOrderBy.Items.Cast<TagListItem>().Select(p => new SortDescription(p.Name, p.Direction));
 
         private IEnumerable<Tag> GetTags() => ActiveController.GetSelectedTags();
 
@@ -251,48 +245,33 @@
             PopupTargetMoveDown.Enabled = hasSelection && indices.Min() < total - count;
         }
 
-        private void SetGroups(IEnumerable<Tag> tags)
-        {
-            LvGroupBy.Items.AddRange(tags.Select(p => new ListViewItem($"{p}")).ToArray());
-        }
-
-        private void SetSorts(IEnumerable<SortDescription> sorts)
-        {
-            LvOrderBy.Items.AddRange(sorts.Select(p => new ListViewItem($"{p}")
-            {
-                StateImageIndex = p.Direction == ListSortDirection.Ascending ? 0 : 1
-            }
-            ).ToArray());
-        }
-
-        private void SetTags(IEnumerable<Tag> selectedTags)
-        {
-            ActiveController.SetSelectedTags(selectedTags);
-        }
+        private void SetGroups(IEnumerable<Tag> tags) => LvGroupBy.Items.AddRange(tags.Select(p => new TagListItem(p)).ToArray());
+        private void SetSorts(IEnumerable<SortDescription> sorts) => LvOrderBy.Items.AddRange(sorts.Select(p => new TagListItem(p)).ToArray());
+        private void SetTags(IEnumerable<Tag> selectedTags) => ActiveController.SetSelectedTags(selectedTags);
 
         private void UpdateUI()
         {
             bool tree = _queryTreeViewController.Active;
-            TreeAlphabetically.Checked = tbTreeAlpha.Checked = tree && ListTagsBy == ListTagsBy.None; ;
-            TreeByCategory.Checked = tbTreeCat.Checked = tree && ListTagsBy == ListTagsBy.Category;
-            TreeByDataType.Checked = tbTreeType.Checked = tree && ListTagsBy == ListTagsBy.DataType;
-            ListAlphabetically.Checked = tbListAlpha.Checked = !tree && ListTagsBy == ListTagsBy.None && !MultiColumn;
-            ListByCategory.Checked = tbListCat.Checked = !tree && ListTagsBy == ListTagsBy.Category;
-            ListByDataType.Checked = tbListType.Checked = !tree && ListTagsBy == ListTagsBy.DataType;
-            ListNamesOnly.Checked = tbListNames.Checked = !tree && ListTagsBy == ListTagsBy.None && MultiColumn;
-            UpdateSelection();
+            TreeAlphabetically.Checked = tbTreeAlpha.Checked = tree && TagGrouping == TagGrouping.None; ;
+            TreeByCategory.Checked = tbTreeCat.Checked = tree && TagGrouping == TagGrouping.Category;
+            TreeByDataType.Checked = tbTreeType.Checked = tree && TagGrouping == TagGrouping.DataType;
+            ListAlphabetically.Checked = tbListAlpha.Checked = !tree && TagGrouping == TagGrouping.None && !MultiColumn;
+            ListByCategory.Checked = tbListCat.Checked = !tree && TagGrouping == TagGrouping.Category;
+            ListByDataType.Checked = tbListType.Checked = !tree && TagGrouping == TagGrouping.DataType;
+            ListNamesOnly.Checked = tbListNames.Checked = !tree && TagGrouping == TagGrouping.None && MultiColumn;
         }
 
-        private void UseListView(ListTagsBy listTagsBy, bool multiColumn = false) => UseTreeView(listTagsBy, tree: false, multiColumn);
+        private void UseListView(TagGrouping tagGrouping, bool multiColumn = false) => UseView(useTree: false, tagGrouping, multiColumn);
+        private void UseTreeView(TagGrouping tagGrouping) => UseView(useTree: true, tagGrouping);
 
-        private void UseTreeView(ListTagsBy listTagsBy, bool tree = true, bool multiColumn = false)
+        private void UseView(bool useTree, TagGrouping tagGrouping, bool multiColumn = false)
         {
             var selectedTags = GetTags();
-            ListTagsBy = listTagsBy;
+            TagGrouping = tagGrouping;
             MultiColumn = multiColumn;
             _queryListViewController.ViewMode = multiColumn ? View.List : View.Details;
-            _queryListViewController.Active = !tree;
-            _queryTreeViewController.Active = tree;
+            _queryListViewController.Active = !useTree;
+            _queryTreeViewController.Active = useTree;
             SetTags(selectedTags);
             UpdateUI();
         }

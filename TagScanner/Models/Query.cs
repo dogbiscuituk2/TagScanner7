@@ -7,20 +7,33 @@
 
     public class Query
     {
-        public Query(IEnumerable<Tag> tags, IEnumerable<SortDescription> sorts, IEnumerable<Tag> groups)
-        {
-            Tags = tags.ToList();
-            Sorts = sorts.ToList();
-            Groups = groups.ToList();
-        }
+        #region Constructors
+
+        public Query(IEnumerable<Tag> tags, IEnumerable<SortDescription> sorts, IEnumerable<Tag> groups) =>
+            Init(tags, sorts, groups);
 
         public Query(Tag[] tags, Tag[] sorts, Tag[] groups) : this(tags,
-            sorts.Select(p => new SortDescription(p.DisplayName(), ListSortDirection.Ascending)),
+            sorts.Select(p => new SortDescription($"{p}", ListSortDirection.Ascending)),
             groups) { }
+
+        #endregion
+
+        #region Public Properties
 
         public List<Tag> Tags = new List<Tag>();
         public List<Tag> Groups = new List<Tag>();
         public List<SortDescription> Sorts = new List<SortDescription>();
+
+        #endregion
+
+        #region Operators
+
+        public static bool operator ==(Query x, Query y) => x == null ? y == null : x.Equals(y);
+        public static bool operator !=(Query x, Query y) => !(x == y);
+
+        #endregion
+
+        #region Public Methods
 
         public override bool Equals(object obj) => obj is Query query &&
             Tags.SequenceEqual(query.Tags) &&
@@ -32,8 +45,14 @@
             Sorts.GetHashCode() ^
             Groups.GetHashCode();
 
-        public static bool operator ==(Query x, Query y) => x == null ? y == null :  x.Equals(y);
-        public static bool operator !=(Query x, Query y) => !(x == y);
+        public void Init(IEnumerable<Tag> tags, IEnumerable<SortDescription> sorts, IEnumerable<Tag> groups)
+        {
+            Tags = tags.ToList();
+            Sorts = sorts.ToList();
+            Groups = groups.ToList();
+        }
+
+        #endregion
 
         #region Private Fields
 

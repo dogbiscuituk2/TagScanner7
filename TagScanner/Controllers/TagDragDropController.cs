@@ -2,7 +2,11 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.ComponentModel;
+    using System.Drawing;
+    using System.Linq;
     using System.Windows.Forms;
+    using Models;
 
     public class TagDragDropController : Controller
     {
@@ -31,23 +35,46 @@
 
         #region Private Methods
 
-        private void DragDrop(ListView listView, DragEventArgs e)
+        private ListSortDirection GetDirection(ListViewItem item) => item.StateImageIndex == 1 ? ListSortDirection.Descending : ListSortDirection.Ascending;
+
+        private static IEnumerable<TagSort> GetData(IDataObject data) =>
+            data.GetData(typeof(TreeNode)) is TreeNode node
+            ? new[] { new TagSort(node.Tag) }
+            : data.GetData(typeof(ListViewItem)) is ListViewItem item
+            ? new[] { new TagSort(item.Tag, item.StateImageIndex) }
+            : data.GetData(typeof(ListView.ListViewItemCollection)) is ListView.ListViewItemCollection items
+            ? items.Cast<ListViewItem>().Select(p => new TagSort(p.Tag, p.StateImageIndex))
+            : Array.Empty<TagSort>();
+
+        private void DragDrop(ListView listView, DragEventArgs e) => DoDragDrop(listView, e, drop: true);
+        private void DragOver(ListView listView, DragEventArgs e) => DoDragDrop(listView, e, drop: false);
+
+        private void DoDragDrop(ListView listView, DragEventArgs e, bool drop)
         {
-            var data = e.Data;
-            var formats = data.GetFormats();
-            object foo;
-            foreach (var format in formats)
-                foo = data.GetData(format);
+            listView.Focus();
+            var p = listView.PointToClient(new Point(e.X, e.Y));
+            var target = listView.GetItemAt(p.X, p.Y);
+            var index = target?.Index ?? listView.Items.Count;
+            var selection = listView.SelectedIndices;
+            if (!selection.Cast<int>().SequenceEqual(new[] { index }))
+            {
+                selection.Clear();
+                if (target != null)
+                    selection.Add(index);
+            }
+            e.Effect = listView == _source ? DragDropEffects.Move : DragDropEffects.Copy;
+            if (!drop)
+                return;
+
+            var data = GetData(e.Data);
+
         }
 
-        private void DragOver(ListView listView, DragEventArgs e)
-        {
-            e.Effect = DragDropEffects.Copy;
-            var foo = listView.InsertionMark;
-        }
+        private Control _source;
 
         private void ItemDrag(Control control, ItemDragEventArgs e)
         {
+            _source = control;
             if (control is ListView listView && listView.SelectedItems.Count > 1)
                 listView.DoDragDrop(listView.SelectedItems, DragDropEffects.All);
             else

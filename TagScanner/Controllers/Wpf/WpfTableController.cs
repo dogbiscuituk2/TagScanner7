@@ -149,11 +149,11 @@
                 MainForm.GroupByTitle.Click += GroupByTitle_Click;
 
                 View.Child = new GridElement();
-                InitColumns();
+                CreateColumns();
                 DataGrid.CellEditEnding += Grid_CellEditEnding;
                 DataGrid.SelectionChanged += Grid_SelectionChanged;
                 RefreshDataSource();
-                WriteQueryToGrid(Query.ByTitle);
+                Query = Query.ByTitle;
             }
         }
 
@@ -164,12 +164,12 @@
         private void GridPopupMoreOptions_Click(object sender, EventArgs e) => PopupShellContextMenu();
         private void Grid_CellEditEnding(object sender, DataGridCellEditEndingEventArgs e) => CellEdit(e);
         private void Grid_SelectionChanged(object sender, SelectionChangedEventArgs e) => OnSelectionChanged();
-        private void GroupByArtistAlbum_Click(object sender, EventArgs e) => WriteQueryToGrid(Query.ByArtistAlbum);
-        private void GroupByArtist_Click(object sender, EventArgs e) => WriteQueryToGrid(Query.ByArtist);
-        private void GroupByAlbum_Click(object sender, EventArgs e) => WriteQueryToGrid(Query.ByAlbum);
-        private void GroupByYear_Click(object sender, EventArgs e) => WriteQueryToGrid(Query.ByYear);
-        private void GroupByGenre_Click(object sender, EventArgs e) => WriteQueryToGrid(Query.ByGenre);
-        private void GroupByTitle_Click(object sender, EventArgs e) => WriteQueryToGrid(Query.ByTitle);
+        private void GroupByArtistAlbum_Click(object sender, EventArgs e) => Query = Query.ByArtistAlbum;
+        private void GroupByArtist_Click(object sender, EventArgs e) => Query = Query.ByArtist;
+        private void GroupByAlbum_Click(object sender, EventArgs e) => Query = Query.ByAlbum;
+        private void GroupByYear_Click(object sender, EventArgs e) => Query = Query.ByYear;
+        private void GroupByGenre_Click(object sender, EventArgs e) => Query = Query.ByGenre;
+        private void GroupByTitle_Click(object sender, EventArgs e) => Query = Query.ByTitle;
         private void Model_TracksChanged(object sender, EventArgs e) => RefreshDataSource();
         private void PopupSelectColumns_Click(object sender, EventArgs e) => EditTagVisibility("Media");
 

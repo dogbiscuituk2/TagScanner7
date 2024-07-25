@@ -228,6 +228,7 @@
     <Compile Include="Models\SelectionEventArgs.cs" />
     <Compile Include="Models\SelectionEditEventArgs.cs" />
     <Compile Include="Models\TagListItem.cs" />
+    <Compile Include="Models\TagSort.cs" />
     <Compile Include="Models\TagTreeNode.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -294,7 +295,7 @@
     <Compile Include="Menus\MenuMaker.cs" />
     <Compile Include="Menus\MenuRouter.cs" />
     <Compile Include="Menus\OperationEventArgs.cs" />
-    <Compile Include="Models\ListTagsBy.cs" />
+    <Compile Include="Models\TagGrouping.cs" />
     <Compile Include="Controllers\Wpf\WpfGridController.cs" />
     <Compile Include="Controllers\MainFormController.cs" />
     <Compile Include="Controllers\Wpf\WpfPlayerController.cs" />

@@ -25,10 +25,10 @@
             MainForm.PlayerPopupSelectColumns.Click += PlayerPopupSelectColumns_Click;
             MainForm.PlaylistElementHost.Child = new GridElement();
             DataGrid.AutoGenerateColumns = false;
-            InitColumns();
+            CreateColumns();
             DataGrid.ItemsSource = new ListCollectionView(_currentPlaylist);
             Player.CurrentItemChange += Player_CurrentItemChange;
-            VisibleTags = new List<Tag> { Tag.Title, Tag.JoinedPerformers, Tag.YearAlbum, Tag.Duration, Tag.FileSize };
+            Columns = new List<Tag> { Tag.Title, Tag.JoinedPerformers, Tag.YearAlbum, Tag.Duration, Tag.FileSize };
         }
 
         #endregion
