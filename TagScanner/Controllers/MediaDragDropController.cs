@@ -5,11 +5,11 @@
     using Forms;
     using Mru;
 
-    public class DragDropController : Controller
+    public class MediaDragDropController : Controller
     {
         #region Constructor
 
-        public DragDropController(Controller parent) : base(parent)
+        public MediaDragDropController(Controller parent) : base(parent)
         {
             PrepareMainForm();
             PrepareTable();

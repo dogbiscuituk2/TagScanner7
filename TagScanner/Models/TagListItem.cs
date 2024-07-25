@@ -32,6 +32,7 @@
             Name = $"{tag}";
             Tag = tag;
             Text = tag.DisplayName();
+            ToolTipText = tag.Details();
         }
 
         #endregion

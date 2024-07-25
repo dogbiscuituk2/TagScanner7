@@ -63,7 +63,8 @@
             {
                 StateImageIndex = p.Descending ? 1 : 0,
                 Tag = p.Tag,
-                Text = p.Tag.DisplayName()
+                Text = p.Tag.DisplayName(),
+                ToolTipText = p.Tag.Details()
             }).ToArray());
 
         }

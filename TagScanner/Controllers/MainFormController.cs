@@ -33,8 +33,8 @@
             FilterController = new FilterController(this);
             TableController = new WpfTableController(this, View.GridElementHost);
             TableController.SelectionChanged += LibraryGridController_SelectionChanged;
-            DragDropController = new DragDropController(this);
             MediaController = new MruMediaController(this, View.RecentFolderPopupMenu);
+            MediaDragDropController = new MediaDragDropController(this);
             LibraryController = new MruLibraryController(this, View.RecentLibraryPopupMenu);
             LibraryController.FilePathChanged += PersistenceController_FilePathChanged;
             LibraryController.FileSaving += PersistenceController_FileSaving;
@@ -56,11 +56,11 @@
 
         public readonly AutoCompleter AutoCompleter;
         public readonly CommandProcessor CommandProcessor;
-        public readonly DragDropController DragDropController;
         public readonly FilterController FilterController;
         public readonly FindReplaceController FindReplaceController;
         public readonly MruLibraryController LibraryController;
         public readonly MruMediaController MediaController;
+        public readonly MediaDragDropController MediaDragDropController;
         public readonly Model Model;
         public readonly PictureController PictureController;
         public readonly WpfPlayerController PlayerController;
