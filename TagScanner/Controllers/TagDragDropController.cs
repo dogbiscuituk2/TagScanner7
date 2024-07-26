@@ -59,13 +59,7 @@
 
             var data = e.Data.GetData();
 
-            listView.Items.AddRange(data.Select(p => new ListViewItem()
-            {
-                StateImageIndex = p.Descending ? 1 : 0,
-                Tag = p.Tag,
-                Text = p.Tag.DisplayName(),
-                ToolTipText = p.Tag.Details()
-            }).ToArray());
+            listView.Items.AddRange(data.Select(p => new TagListItem(p.Tag, p.Descending)).ToArray());
 
         }
 

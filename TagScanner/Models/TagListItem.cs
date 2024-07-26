@@ -7,10 +7,17 @@
     {
         #region Constructors
 
-        public TagListItem(Tag tag) : base() => Init(tag);
+        public TagListItem(Tag tag)
+            : this(tag, descending: false) { }
 
-        public TagListItem(SortDescription sort) : base() =>
-            Init(Tags.TagNameToTag(sort.PropertyName), sort.Direction);
+        public TagListItem(Tag tag, bool descending)
+            : this(tag, descending ? ListSortDirection.Descending : ListSortDirection.Ascending) { }
+
+        public TagListItem(Tag tag, ListSortDirection direction)
+            : base() => Init(tag, direction);
+
+        public TagListItem(SortDescription sort)
+            : base() => Init(Tags.TagNameToTag(sort.PropertyName), sort.Direction);
 
         #endregion
 
