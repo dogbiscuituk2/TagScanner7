@@ -4,7 +4,6 @@
     using System.Collections.Generic;
     using System.ComponentModel;
     using System.Linq;
-    using System.Threading;
     using System.Windows.Forms;
     using Forms;
     using Models;
@@ -55,7 +54,7 @@
 
             TreeView = Dialog.TreeView;
             ListView = Dialog.ListView;
-            LvSelected = Dialog.lvSelected;
+            LvSelect = Dialog.lvSelect;
             LvOrderBy = Dialog.lvOrderBy;
             LvGroupBy = Dialog.lvGroupBy;
 
@@ -81,7 +80,7 @@
 
             TreeView.GotFocus += Control_GotFocus;
             ListView.GotFocus += Control_GotFocus;
-            LvSelected.GotFocus += Control_GotFocus;
+            LvSelect.GotFocus += Control_GotFocus;
             LvOrderBy.GotFocus += Control_GotFocus;
             LvGroupBy.GotFocus += Control_GotFocus;
 
@@ -143,7 +142,7 @@
 
         public void UpdateSelection()
         {
-            UpdateTags(LvSelected, GetTags());
+            UpdateTags(LvSelect, GetTags());
             UpdateSorts(LvOrderBy, GetSorts());
             UpdateTags(LvGroupBy, GetGroups());
 
@@ -168,11 +167,14 @@
 
         #region Private Fields
 
-        private Control FocusedControl;
-
+        private Control Focus;
         private bool MultiColumn;
-
         private readonly ContextMenuStrip PopupMenu;
+        private readonly TreeView TreeView;
+        private readonly ListView ListView, LvSelect, LvOrderBy, LvGroupBy;
+        private static QueryDialog _dialog;
+        private readonly QueryListViewController _queryListViewController;
+        private readonly QueryTreeViewController _queryTreeViewController;
 
         private readonly ToolStripMenuItem
             ListAlphabetically,
@@ -203,13 +205,6 @@
             tbTreeCat,
             tbTreeType;
 
-        private readonly TreeView TreeView;
-        private readonly ListView ListView, LvSelected, LvOrderBy, LvGroupBy;
-
-        private static QueryDialog _dialog;
-        private readonly QueryListViewController _queryListViewController;
-        private readonly QueryTreeViewController _queryTreeViewController;
-
         #endregion
 
         #region Private Properties
@@ -221,49 +216,36 @@
 
         private QueryDialog Dialog => _dialog ?? CreateDialog();
 
-        private ListView FocusedListView => FocusedControl as ListView;
+        private ListView FocusedListView => Focus as ListView;
 
         #endregion
 
         #region Event Handlers
 
-        private void Control_GotFocus(object sender, EventArgs e) => FocusedControl = sender as Control;
+        private void Control_GotFocus(object sender, EventArgs e) => Focus = sender as Control;
         private void ListAlphabetically_Click(object sender, EventArgs e) => UseListView(TagGrouping.None);
         private void ListByCategory_Click(object sender, EventArgs e) => UseListView(TagGrouping.Category);
         private void ListByDataType_Click(object sender, EventArgs e) => UseListView(TagGrouping.DataType);
         private void ListNamesOnly_Click(object sender, EventArgs e) => UseListView(TagGrouping.None, true);
-        private void PopupTargetMenu_Opening(object sender, CancelEventArgs e) => UpdateMenu();
-        private void PopupCopy_Click(object sender, EventArgs e) => ActiveTargetExecute(Act.Copy);
-        private void PopupCut_Click(object sender, EventArgs e) => ActiveTargetExecute(Act.Cut);
-        private void PopupDelete_Click(object sender, EventArgs e) => ActiveTargetExecute(Act.Delete);
-        private void PopupGroup_Click(object sender, EventArgs e) { }
-        private void PopupMoveDown_Click(object sender, EventArgs e) => ActiveTargetExecute(Act.MoveDown);
-        private void PopupMoveUp_Click(object sender, EventArgs e) => ActiveTargetExecute(Act.MoveUp);
-        private void PopupPaste_Click(object sender, EventArgs e) => ActiveTargetExecute(Act.Paste);
-        private void PopupSelect_Click(object sender, EventArgs e) { }
-        private void PopupSortAscending_Click(object sender, EventArgs e) { }
-        private void PopupSortDescending_Click(object sender, EventArgs e) { }
         private void TreeAlphabetically_Click(object sender, EventArgs e) => UseTreeView(TagGrouping.None);
         private void TreeByCategory_Click(object sender, EventArgs e) => UseTreeView(TagGrouping.Category);
         private void TreeByDataType_Click(object sender, EventArgs e) => UseTreeView(TagGrouping.DataType);
 
+        private void PopupCopy_Click(object sender, EventArgs e) => ActiveTargetExecute(Act.Copy);
+        private void PopupCut_Click(object sender, EventArgs e) => ActiveTargetExecute(Act.Cut);
+        private void PopupDelete_Click(object sender, EventArgs e) => ActiveTargetExecute(Act.Delete);
+        private void PopupGroup_Click(object sender, EventArgs e) => ActiveTargetExecute(Act.Group);
+        private void PopupMoveDown_Click(object sender, EventArgs e) => ActiveTargetExecute(Act.MoveDown);
+        private void PopupMoveUp_Click(object sender, EventArgs e) => ActiveTargetExecute(Act.MoveUp);
+        private void PopupPaste_Click(object sender, EventArgs e) => ActiveTargetExecute(Act.Paste);
+        private void PopupSelect_Click(object sender, EventArgs e) => ActiveTargetExecute(Act.Select);
+        private void PopupSortAscending_Click(object sender, EventArgs e) => ActiveTargetExecute(Act.SortAscending);
+        private void PopupSortDescending_Click(object sender, EventArgs e) => ActiveTargetExecute(Act.SortDescending);
+        private void PopupTargetMenu_Opening(object sender, CancelEventArgs e) => UpdateMenu();
+
         #endregion
 
         #region Private Methods
-
-        private QueryDialog CreateDialog()
-        {
-            _dialog = new QueryDialog();
-            MainTagDragDropController.Add
-                (
-                _dialog.ListView,
-                _dialog.TreeView,
-                _dialog.lvSelected,
-                _dialog.lvOrderBy,
-                _dialog.lvGroupBy
-                );
-            return Dialog;
-        }
 
         private void ActiveTargetExecute(Act act)
         {
@@ -279,25 +261,12 @@
             {
                 switch (act)
                 {
-                    case Act.Cut:
-                        DoCopy();
-                        DoDelete();
-                        return;
-                    case Act.Copy:
-                        DoCopy();
-                        return;
-                    case Act.Paste:
-                        DoPaste();
-                        return;
-                    case Act.Delete:
-                        DoDelete();
-                        return;
-                    case Act.MoveUp:
-                        DoMove(down: false);
-                        return;
-                    case Act.MoveDown:
-                        DoMove(down: true);
-                        return;
+                    case Act.MoveUp: DoMove(down: false); return;
+                    case Act.MoveDown: DoMove(down: true); return;
+                    case Act.Cut: DoCopy(); DoDelete(); return;
+                    case Act.Copy: DoCopy(); return;
+                    case Act.Paste: DoPaste(); return;
+                    case Act.Delete: DoDelete(); return;
                 }
             }
 
@@ -326,18 +295,67 @@
 
             void DoPaste()
             {
-                var data = Clipboard.GetDataObject()?.GetItems();
+                var data = Clipboard.GetDataObject()?.GetTagSortItems();
                 if (data != null)
                     items.AddRange(data.ToArray());
             }
         }
 
-        private IEnumerable<Tag> GetGroups() => new List<Tag>();
+        private QueryDialog CreateDialog()
+        {
+            _dialog = new QueryDialog();
+            MainTagDragDropController.Add
+                (
+                _dialog.ListView,
+                _dialog.TreeView,
+                _dialog.lvSelect,
+                _dialog.lvOrderBy,
+                _dialog.lvGroupBy
+                );
+            return Dialog;
+        }
 
-        private IEnumerable<SortDescription> GetSorts() =>
-            LvOrderBy.Items.Cast<TagListItem>().Select(p => new SortDescription(p.Name, p.Direction));
-
+        private IEnumerable<Tag> GetGroups() => LvGroupBy.Items.Cast<ListViewItem>().Select(p => (Tag)p.Tag);
+        private IEnumerable<SortDescription> GetSorts() => LvOrderBy.Items.Cast<TagListItem>().Select(p => new SortDescription(p.Name, p.Direction));
         private IEnumerable<Tag> GetTags() => ActiveController.GetSelectedTags();
+
+        private IEnumerable<TagSort> GetTagSortData() => FocusedListView != null
+            ? FocusedListView.SelectedItems.GetTagSortData()
+            : TreeView?.SelectedNode?.GetTagSortData()
+            ?? Array.Empty<TagSort>();
+
+        private void PassiveTargetExecute(Act act)
+        {
+            DoAct();
+            UpdateMenu();
+
+            void DoAct()
+            {
+                switch (act)
+                {
+                    case Act.Select: DoSelect(); return;
+                    case Act.SortAscending: DoSortAscending(); return;
+                    case Act.SortDescending: DoSortDescending(); return;
+                    case Act.Group: DoGroup(); return;
+                }
+            }
+
+            void DoSelect()
+            {
+            }
+
+            void DoSortAscending()
+            {
+            }
+
+            void DoSortDescending()
+            {
+            }
+
+            void DoGroup()
+            {
+            }
+        }
 
         private void SetGroups(IEnumerable<Tag> tags) => LvGroupBy.Items.AddRange(tags.Select(p => new TagListItem(p)).ToArray());
         private void SetSorts(IEnumerable<SortDescription> sorts) => LvOrderBy.Items.AddRange(sorts.Select(p => new TagListItem(p)).ToArray());
@@ -346,57 +364,50 @@
         private void UpdateMenu()
         {
             bool
-                hasFocusedControl = FocusedControl != null,
-                focusIsTarget = hasFocusedControl && FocusedControl != TreeView && FocusedControl != ListView;
+                hasFocus = Focus != null,
+                canDrop = new[] { LvSelect, LvOrderBy, LvGroupBy }.Contains(Focus),
 
-            bool
-                canSelect = FocusedControl != LvSelected,
-                canSort = FocusedControl != LvOrderBy,
-                canGroup = FocusedControl != LvGroupBy,
-                canCut = focusIsTarget,
-                canCopy = hasFocusedControl,
-                canPaste = focusIsTarget,
-                canDelete = focusIsTarget,
-                canMoveUp = focusIsTarget,
-                canMoveDown = focusIsTarget;
+                canSelect = Focus != LvSelect,
+                canSort = Focus != LvOrderBy,
+                canGroup = Focus != LvGroupBy,
+                canCut = canDrop,
+                canCopy = hasFocus,
+                canPaste = canDrop,
+                canDelete = canDrop,
+                canMoveUp = canDrop,
+                canMoveDown = canDrop;
 
-            PopupSelect.Visible = canSelect;
-            PopupSort.Visible = PopupSortAscending.Visible = PopupSortDescending.Visible = canSort;
-            PopupGroup.Visible = canGroup;
-            PopupCut.Visible = canCut;
-            PopupCopy.Visible = canCopy;
-            PopupPaste.Visible = canPaste;
-            PopupDelete.Visible = canDelete;
-            PopupMoveUp.Visible = canMoveUp;
-            PopupMoveDown.Visible = canMoveDown;
+            AdjustMenu((p, q) => p.Visible = q);
+            PopupPaste.Visible = canDrop;
 
             var indices = FocusedListView != null
                 ? FocusedListView.SelectedIndices.Cast<int>()
                 : new int[] { };
             var hasSelection = indices.Any();
+
             int
                 total = FocusedListView != null ? FocusedListView.Items.Count : 0,
                 count = indices.Count();
 
-            canSelect &= hasSelection;
-            canSort &= hasSelection;
-            canGroup &= hasSelection;
-            canCut &= hasSelection;
-            canCopy &= hasSelection;
-            canPaste &= Clipboard.GetDataObject().GetDataPresent(typeof(ListViewItem));
-            canDelete &= hasSelection;
-            canMoveUp = hasSelection && indices.Max() >= count;
-            canMoveDown &= hasSelection && indices.Min() < total - count;
+            canMoveUp &= indices.Max() >= count;
+            canMoveDown &= indices.Min() < total - count;
 
-            PopupSelect.Enabled = canSelect;
-            PopupSort.Enabled = PopupSortAscending.Enabled = PopupSortDescending.Enabled = canSort;
-            PopupGroup.Enabled = canGroup;
-            PopupCut.Enabled = canCut;
-            PopupCopy.Enabled = canCopy;
-            PopupPaste.Enabled = canPaste;
-            PopupDelete.Enabled = canDelete;
-            PopupMoveUp.Enabled = canMoveUp;
-            PopupMoveDown.Enabled = canMoveDown;
+            AdjustMenu((p, q) => p.Enabled = q && hasSelection);
+            PopupPaste.Enabled = canDrop && Clipboard.GetDataObject().HasTagSortData();
+
+            void AdjustMenu(Action<ToolStripMenuItem, bool> action)
+            {
+                action(PopupSelect, canSelect);
+                action(PopupSort, canSort);
+                action(PopupSortAscending, canSort);
+                action(PopupSortDescending, canSort);
+                action(PopupGroup, canGroup);
+                action(PopupCut, canCut);
+                action(PopupCopy, canCopy);
+                action(PopupDelete, canDelete);
+                action(PopupMoveUp, canMoveUp);
+                action(PopupMoveDown, canMoveDown);
+            }
         }
 
         private void UpdateUI()
@@ -434,12 +445,16 @@
         private enum Act
         {
             None,
+            MoveUp,
+            MoveDown,
+            Select,
+            SortAscending,
+            SortDescending,
+            Group,
             Cut,
             Copy,
             Paste,
             Delete,
-            MoveUp,
-            MoveDown,
         }
 
         #endregion

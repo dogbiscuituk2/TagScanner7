@@ -11,39 +11,24 @@
     /// </summary>
     public static class TagSortData
     {
-        public static IEnumerable<ListViewItem> GetItems(this IDataObject data) =>
-            data.GetData(typeof(TreeNode)) is TreeNode node ? node.GetItems() :
-            data.GetData(typeof(ListViewItem)) is ListViewItem item ? new[] { item } :
-            data.GetData(typeof(ListViewItems)) is ListViewItems items ? items.Cast<ListViewItem>() :
-            Array.Empty<ListViewItem>();
-
-
         /// <summary>
         /// Get the Tag-based data from an IDataObject containing one of the following formats:
         /// TreeNode, LisrtViewItem, or ListView.SelectedListViewItemCollection.
         /// </summary>
         /// <param name="data">The source IDataObject.</param>
         /// <returns>All Tags attached to the IDataObject.</returns>
-        public static IEnumerable<TagSort> GetData(this IDataObject data) =>
-            data.GetData(typeof(TreeNode)) is TreeNode node ? node.GetData() :
-            data.GetData(typeof(ListViewItem)) is ListViewItem item ? item.GetData() :
-            data.GetData(typeof(ListViewItems)) is ListViewItems items ? items.GetData() :
+        public static IEnumerable<TagSort> GetTagSortData(this IDataObject data) =>
+            data.GetData(typeof(TreeNode)) is TreeNode node ? node.GetTagSortData() :
+            data.GetData(typeof(ListViewItem)) is ListViewItem item ? item.GetTagSortData() :
+            data.GetData(typeof(ListViewItems)) is ListViewItems items ? items.GetTagSortData() :
             Array.Empty<TagSort>();
-
-        #region Private Methods
-
-        private static IEnumerable<TagSort> GetData(this ListViewItem item) =>
-            new[] { new TagSort(item.Tag, item.StateImageIndex) };
-
-        private static IEnumerable<TagSort> GetData(this ListViewItems items) =>
-            items.Cast<ListViewItem>().Select(p => new TagSort(p.Tag, p.StateImageIndex));
 
         /// <summary>
         /// Get the Tag-based data from a TreeNode which may be a root, a category, or a leaf.
         /// </summary>
         /// <param name="node">The "ancestor" TreeNode.</param>
         /// <returns>All Tags attached to the ancestor and/or its leaves.</returns>
-        private static IEnumerable<TagSort> GetData(this TreeNode node)
+        public static IEnumerable<TagSort> GetTagSortData(this TreeNode node)
         {
             var data = new List<TagSort>();
             Visit(node);
@@ -63,15 +48,27 @@
             }
         }
 
-        private static IEnumerable<ListViewItem> GetItems(this ListViewItems items) =>
+        public static IEnumerable<ListViewItem> GetTagSortItems(this IDataObject data) =>
+            data.GetData(typeof(TreeNode)) is TreeNode node ? node.GetTagSortItems() :
+            data.GetData(typeof(ListViewItem)) is ListViewItem item ? new[] { item } :
+            data.GetData(typeof(ListViewItems)) is ListViewItems items ? items.Cast<ListViewItem>() :
+            Array.Empty<ListViewItem>();
+
+        public static IEnumerable<ListViewItem> GetTagSortItems(this ListViewItems items) =>
             items.Cast<ListViewItem>();
 
-        private static IEnumerable<ListViewItem> GetItems(this TreeNode node) =>
-            node.GetData().ToItems();
+        public static IEnumerable<ListViewItem> GetTagSortItems(this TreeNode node) =>
+            node.GetTagSortData().ToTagSortItems();
 
-        private static IEnumerable<ListViewItem> ToItems(this IEnumerable<TagSort> data) =>
+        public static bool HasTagSortData(this IDataObject data) => data.GetTagSortData().Any();
+
+        public static IEnumerable<TagSort> GetTagSortData(this ListViewItem item) =>
+            new[] { new TagSort(item.Tag, item.StateImageIndex) };
+
+        public static IEnumerable<TagSort> GetTagSortData(this ListViewItems items) =>
+            items.Cast<ListViewItem>().Select(p => new TagSort(p.Tag, p.StateImageIndex));
+
+        public static IEnumerable<ListViewItem> ToTagSortItems(this IEnumerable<TagSort> data) =>
             data.Select(p => new TagListItem(p.Tag));
-
-        #endregion
     }
 }

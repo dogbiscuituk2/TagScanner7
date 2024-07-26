@@ -55,7 +55,7 @@
             }
             e.Effect = listView == _source ? DragDropEffects.Move : DragDropEffects.Copy;
             if (drop)
-                listView.Items.AddRange(e.Data.GetItems().ToArray());
+                listView.Items.AddRange(e.Data.GetTagSortItems().ToArray());
         }
 
         private Control _source;

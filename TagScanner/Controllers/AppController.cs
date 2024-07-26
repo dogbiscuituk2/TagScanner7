@@ -151,12 +151,12 @@
 
         private static void SharpClipboard_ClipboardChanged(object sender, SharpClipboard.ClipboardChangedEventArgs e)
         {
-            var canPaste = CanPaste();
+            var canPasteFiles = CanPasteFiles();
             foreach (var controller in Controllers)
-                controller.EnablePaste(canPaste);
+                controller.EnablePasteFiles(canPasteFiles);
             return;
 
-            bool CanPaste()
+            bool CanPasteFiles()
             {
                 // An array of file paths can be pasted.
                 if (Clipboard.ContainsFileDropList())

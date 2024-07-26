@@ -150,7 +150,7 @@
 
         #region Public Methods
 
-        public void EnablePaste(bool enable) =>
+        public void EnablePasteFiles(bool enable) =>
             View.EditPaste.Enabled = View.tbPaste.Enabled = View.TablePopupPaste.Enabled = enable;
 
         public void TracksAdd(Selection selection)
