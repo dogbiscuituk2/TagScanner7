@@ -4,7 +4,7 @@
     using System.Collections.Generic;
     using System.ComponentModel;
     using System.Linq;
-    using System.Reflection;
+    using System.Threading;
     using System.Windows.Forms;
     using Forms;
     using Models;
@@ -40,14 +40,21 @@
             tbListType = Dialog.tbListType;
             tbListNames = Dialog.tbListNames;
 
-            PopupTargetMenu = Dialog.PopupTargetMenu;
-            PopupTargetCut = Dialog.PopupTargetCut;
-            PopupTargetCopy = Dialog.PopupTargetCopy;
-            PopupTargetPaste = Dialog.PopupTargetPaste;
-            PopupTargetDelete = Dialog.PopupTargetDelete;
-            PopupTargetMoveUp = Dialog.PopupTargetMoveUp;
-            PopupTargetMoveDown = Dialog.PopupTargetMoveDown;
+            PopupMenu = Dialog.PopupMenu;
+            PopupMoveUp = Dialog.PopupMoveUp;
+            PopupMoveDown = Dialog.PopupMoveDown;
+            PopupSelect = Dialog.PopupSelect;
+            PopupSort = Dialog.PopupSort;
+            PopupSortAscending = Dialog.PopupSortAscending;
+            PopupSortDescending = Dialog.PopupSortDescending;
+            PopupGroup = Dialog.PopupGroup;
+            PopupCut = Dialog.PopupCut;
+            PopupCopy = Dialog.PopupCopy;
+            PopupPaste = Dialog.PopupPaste;
+            PopupDelete = Dialog.PopupDelete;
 
+            TreeView = Dialog.TreeView;
+            ListView = Dialog.ListView;
             LvSelected = Dialog.lvSelected;
             LvOrderBy = Dialog.lvOrderBy;
             LvGroupBy = Dialog.lvGroupBy;
@@ -72,17 +79,23 @@
             tbListType.Click += ListByDataType_Click;
             tbListNames.Click += ListNamesOnly_Click;
 
-            LvSelected.GotFocus += ListView_GotFocus;
-            LvOrderBy.GotFocus += ListView_GotFocus;
-            LvGroupBy.GotFocus += ListView_GotFocus;
+            TreeView.GotFocus += Control_GotFocus;
+            ListView.GotFocus += Control_GotFocus;
+            LvSelected.GotFocus += Control_GotFocus;
+            LvOrderBy.GotFocus += Control_GotFocus;
+            LvGroupBy.GotFocus += Control_GotFocus;
 
-            PopupTargetMenu.Opening += PopupTargetMenu_Opening;
-            PopupTargetCut.Click += PopupTargetCut_Click;
-            PopupTargetCopy.Click += PopupTargetCopy_Click;
-            PopupTargetPaste.Click += PopupTargetPaste_Click;
-            PopupTargetDelete.Click += PopupTargetDelete_Click;
-            PopupTargetMoveUp.Click += PopupTargetMoveUp_Click;
-            PopupTargetMoveDown.Click += PopupTargetMoveDown_Click;
+            PopupMenu.Opening += PopupTargetMenu_Opening;
+            PopupMoveUp.Click += PopupMoveUp_Click;
+            PopupMoveDown.Click += PopupMoveDown_Click;
+            PopupSelect.Click += PopupSelect_Click;
+            PopupSortAscending.Click += PopupSortAscending_Click;
+            PopupSortDescending.Click += PopupSortDescending_Click;
+            PopupGroup.Click += PopupGroup_Click;
+            PopupCut.Click += PopupCut_Click;
+            PopupCopy.Click += PopupCopy_Click;
+            PopupPaste.Click += PopupPaste_Click;
+            PopupDelete.Click += PopupDelete_Click;
 
             UseTreeView(TagGrouping.Category);
         }
@@ -155,10 +168,11 @@
 
         #region Private Fields
 
-        private ListView ActiveTarget;
+        private Control FocusedControl;
+
         private bool MultiColumn;
 
-        private readonly ContextMenuStrip PopupTargetMenu;
+        private readonly ContextMenuStrip PopupMenu;
 
         private readonly ToolStripMenuItem
             ListAlphabetically,
@@ -168,12 +182,17 @@
             TreeAlphabetically,
             TreeByCategory,
             TreeByDataType,
-            PopupTargetCut,
-            PopupTargetCopy,
-            PopupTargetPaste,
-            PopupTargetDelete,
-            PopupTargetMoveUp,
-            PopupTargetMoveDown;
+            PopupMoveUp,
+            PopupMoveDown,
+            PopupSelect,
+            PopupSort,
+            PopupSortAscending,
+            PopupSortDescending,
+            PopupGroup,
+            PopupCut,
+            PopupCopy,
+            PopupPaste,
+            PopupDelete;
 
         private readonly ToolStripButton
             tbListAlpha,
@@ -184,7 +203,8 @@
             tbTreeCat,
             tbTreeType;
 
-        private readonly ListView LvSelected, LvOrderBy, LvGroupBy;
+        private readonly TreeView TreeView;
+        private readonly ListView ListView, LvSelected, LvOrderBy, LvGroupBy;
 
         private static QueryDialog _dialog;
         private readonly QueryListViewController _queryListViewController;
@@ -201,22 +221,28 @@
 
         private QueryDialog Dialog => _dialog ?? CreateDialog();
 
+        private ListView FocusedListView => FocusedControl as ListView;
+
         #endregion
 
         #region Event Handlers
 
+        private void Control_GotFocus(object sender, EventArgs e) => FocusedControl = sender as Control;
         private void ListAlphabetically_Click(object sender, EventArgs e) => UseListView(TagGrouping.None);
         private void ListByCategory_Click(object sender, EventArgs e) => UseListView(TagGrouping.Category);
         private void ListByDataType_Click(object sender, EventArgs e) => UseListView(TagGrouping.DataType);
         private void ListNamesOnly_Click(object sender, EventArgs e) => UseListView(TagGrouping.None, true);
-        private void ListView_GotFocus(object sender, EventArgs e) => ActiveTarget = sender as ListView;
-        private void PopupTargetMenu_Opening(object sender, CancelEventArgs e) => UpdatePopupTargetMenu();
-        private void PopupTargetCut_Click(object sender, EventArgs e) => ActiveTargetExecute(Act.Cut);
-        private void PopupTargetCopy_Click(object sender, EventArgs e) => ActiveTargetExecute(Act.Copy);
-        private void PopupTargetDelete_Click(object sender, EventArgs e) => ActiveTargetExecute(Act.Delete);
-        private void PopupTargetMoveDown_Click(object sender, EventArgs e) => ActiveTargetExecute(Act.MoveDown);
-        private void PopupTargetMoveUp_Click(object sender, EventArgs e) => ActiveTargetExecute(Act.MoveUp);
-        private void PopupTargetPaste_Click(object sender, EventArgs e) => ActiveTargetExecute(Act.Paste);
+        private void PopupTargetMenu_Opening(object sender, CancelEventArgs e) => UpdateMenu();
+        private void PopupCopy_Click(object sender, EventArgs e) => ActiveTargetExecute(Act.Copy);
+        private void PopupCut_Click(object sender, EventArgs e) => ActiveTargetExecute(Act.Cut);
+        private void PopupDelete_Click(object sender, EventArgs e) => ActiveTargetExecute(Act.Delete);
+        private void PopupGroup_Click(object sender, EventArgs e) { }
+        private void PopupMoveDown_Click(object sender, EventArgs e) => ActiveTargetExecute(Act.MoveDown);
+        private void PopupMoveUp_Click(object sender, EventArgs e) => ActiveTargetExecute(Act.MoveUp);
+        private void PopupPaste_Click(object sender, EventArgs e) => ActiveTargetExecute(Act.Paste);
+        private void PopupSelect_Click(object sender, EventArgs e) { }
+        private void PopupSortAscending_Click(object sender, EventArgs e) { }
+        private void PopupSortDescending_Click(object sender, EventArgs e) { }
         private void TreeAlphabetically_Click(object sender, EventArgs e) => UseTreeView(TagGrouping.None);
         private void TreeByCategory_Click(object sender, EventArgs e) => UseTreeView(TagGrouping.Category);
         private void TreeByDataType_Click(object sender, EventArgs e) => UseTreeView(TagGrouping.DataType);
@@ -241,13 +267,13 @@
 
         private void ActiveTargetExecute(Act act)
         {
-            ActiveTarget.BeginUpdate();
-            var items = ActiveTarget.Items;
+            FocusedListView.BeginUpdate();
+            var items = FocusedListView.Items;
             var count = items.Count;
-            var selection = ActiveTarget.SelectedIndices.Cast<int>().ToList();
+            var selection = FocusedListView.SelectedIndices.Cast<int>().ToList();
             DoAct();
-            ActiveTarget.EndUpdate();
-            UpdatePopupTargetMenu();
+            FocusedListView.EndUpdate();
+            UpdateMenu();
 
             void DoAct()
             {
@@ -275,7 +301,7 @@
                 }
             }
 
-            void DoCopy() => Clipboard.SetDataObject(ActiveTarget.SelectedItems);
+            void DoCopy() => Clipboard.SetDataObject(FocusedListView.SelectedItems);
 
             void DoDelete()
             {
@@ -317,16 +343,60 @@
         private void SetSorts(IEnumerable<SortDescription> sorts) => LvOrderBy.Items.AddRange(sorts.Select(p => new TagListItem(p)).ToArray());
         private void SetTags(IEnumerable<Tag> selectedTags) => ActiveController.SetSelectedTags(selectedTags);
 
-        private void UpdatePopupTargetMenu()
+        private void UpdateMenu()
         {
-            if (ActiveTarget == null) return;
-            var total = ActiveTarget.Items.Count;
-            var indices = ActiveTarget.SelectedIndices.Cast<int>();
-            var count = indices.Count();
-            bool hasSelection = indices.Any();
-            PopupTargetCut.Enabled = PopupTargetCopy.Enabled = PopupTargetDelete.Enabled = hasSelection;
-            PopupTargetMoveUp.Enabled = hasSelection && indices.Max() >= count;
-            PopupTargetMoveDown.Enabled = hasSelection && indices.Min() < total - count;
+            bool
+                hasFocusedControl = FocusedControl != null,
+                focusIsTarget = hasFocusedControl && FocusedControl != TreeView && FocusedControl != ListView;
+
+            bool
+                canSelect = FocusedControl != LvSelected,
+                canSort = FocusedControl != LvOrderBy,
+                canGroup = FocusedControl != LvGroupBy,
+                canCut = focusIsTarget,
+                canCopy = hasFocusedControl,
+                canPaste = focusIsTarget,
+                canDelete = focusIsTarget,
+                canMoveUp = focusIsTarget,
+                canMoveDown = focusIsTarget;
+
+            PopupSelect.Visible = canSelect;
+            PopupSort.Visible = PopupSortAscending.Visible = PopupSortDescending.Visible = canSort;
+            PopupGroup.Visible = canGroup;
+            PopupCut.Visible = canCut;
+            PopupCopy.Visible = canCopy;
+            PopupPaste.Visible = canPaste;
+            PopupDelete.Visible = canDelete;
+            PopupMoveUp.Visible = canMoveUp;
+            PopupMoveDown.Visible = canMoveDown;
+
+            var indices = FocusedListView != null
+                ? FocusedListView.SelectedIndices.Cast<int>()
+                : new int[] { };
+            var hasSelection = indices.Any();
+            int
+                total = FocusedListView != null ? FocusedListView.Items.Count : 0,
+                count = indices.Count();
+
+            canSelect &= hasSelection;
+            canSort &= hasSelection;
+            canGroup &= hasSelection;
+            canCut &= hasSelection;
+            canCopy &= hasSelection;
+            canPaste &= Clipboard.GetDataObject().GetDataPresent(typeof(ListViewItem));
+            canDelete &= hasSelection;
+            canMoveUp = hasSelection && indices.Max() >= count;
+            canMoveDown &= hasSelection && indices.Min() < total - count;
+
+            PopupSelect.Enabled = canSelect;
+            PopupSort.Enabled = PopupSortAscending.Enabled = PopupSortDescending.Enabled = canSort;
+            PopupGroup.Enabled = canGroup;
+            PopupCut.Enabled = canCut;
+            PopupCopy.Enabled = canCopy;
+            PopupPaste.Enabled = canPaste;
+            PopupDelete.Enabled = canDelete;
+            PopupMoveUp.Enabled = canMoveUp;
+            PopupMoveDown.Enabled = canMoveDown;
         }
 
         private void UpdateUI()
@@ -339,7 +409,7 @@
             ListByCategory.Checked = tbListCat.Checked = !tree && TagGrouping == TagGrouping.Category;
             ListByDataType.Checked = tbListType.Checked = !tree && TagGrouping == TagGrouping.DataType;
             ListNamesOnly.Checked = tbListNames.Checked = !tree && TagGrouping == TagGrouping.None && MultiColumn;
-            UpdatePopupTargetMenu();
+            UpdateMenu();
         }
 
         private void UseListView(TagGrouping tagGrouping, bool multiColumn = false) => UseView(useTree: false, tagGrouping, multiColumn);

@@ -35,28 +35,25 @@
             this.chCategory = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.chDataType = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.chWritable = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.PopupSourceMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.PopupSourceSelect = new System.Windows.Forms.ToolStripMenuItem();
-            this.PopupSourceSort = new System.Windows.Forms.ToolStripMenuItem();
-            this.PopupTagSortAscending = new System.Windows.Forms.ToolStripMenuItem();
-            this.PopupTagSortDescending = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripSeparator();
-            this.PopupTagSortNone = new System.Windows.Forms.ToolStripMenuItem();
-            this.PopupSourceGroup = new System.Windows.Forms.ToolStripMenuItem();
             this.TreeView = new System.Windows.Forms.TreeView();
             this.TreeViewStateImageList = new System.Windows.Forms.ImageList(this.components);
             this.toolStripContainer1 = new System.Windows.Forms.ToolStripContainer();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.TableLayoutPanel = new System.Windows.Forms.TableLayoutPanel();
             this.lvSelected = new System.Windows.Forms.ListView();
-            this.PopupTargetMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.PopupTargetCut = new System.Windows.Forms.ToolStripMenuItem();
-            this.PopupTargetCopy = new System.Windows.Forms.ToolStripMenuItem();
-            this.PopupTargetPaste = new System.Windows.Forms.ToolStripMenuItem();
-            this.PopupTargetDelete = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripMenuItem3 = new System.Windows.Forms.ToolStripSeparator();
-            this.PopupTargetMoveUp = new System.Windows.Forms.ToolStripMenuItem();
-            this.PopupTargetMoveDown = new System.Windows.Forms.ToolStripMenuItem();
+            this.PopupMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.PopupSelect = new System.Windows.Forms.ToolStripMenuItem();
+            this.PopupSort = new System.Windows.Forms.ToolStripMenuItem();
+            this.PopupSortAscending = new System.Windows.Forms.ToolStripMenuItem();
+            this.PopupSortDescending = new System.Windows.Forms.ToolStripMenuItem();
+            this.PopupGroup = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItem10 = new System.Windows.Forms.ToolStripSeparator();
+            this.PopupCut = new System.Windows.Forms.ToolStripMenuItem();
+            this.PopupCopy = new System.Windows.Forms.ToolStripMenuItem();
+            this.PopupPaste = new System.Windows.Forms.ToolStripMenuItem();
+            this.PopupDelete = new System.Windows.Forms.ToolStripMenuItem();
+            this.PopupMoveUp = new System.Windows.Forms.ToolStripMenuItem();
+            this.PopupMoveDown = new System.Windows.Forms.ToolStripMenuItem();
             this.lvOrderBy = new System.Windows.Forms.ListView();
             this.lvGroupBy = new System.Windows.Forms.ListView();
             this.lblSelect = new System.Windows.Forms.Label();
@@ -86,7 +83,6 @@
             this.ListByDataType = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem2 = new System.Windows.Forms.ToolStripSeparator();
             this.ListNamesOnly = new System.Windows.Forms.ToolStripMenuItem();
-            this.PopupSourceMenu.SuspendLayout();
             this.toolStripContainer1.ContentPanel.SuspendLayout();
             this.toolStripContainer1.LeftToolStripPanel.SuspendLayout();
             this.toolStripContainer1.TopToolStripPanel.SuspendLayout();
@@ -96,7 +92,7 @@
             this.splitContainer1.Panel2.SuspendLayout();
             this.splitContainer1.SuspendLayout();
             this.TableLayoutPanel.SuspendLayout();
-            this.PopupTargetMenu.SuspendLayout();
+            this.PopupMenu.SuspendLayout();
             this.panel2.SuspendLayout();
             this.Toolbar.SuspendLayout();
             this.MainMenu.SuspendLayout();
@@ -111,7 +107,7 @@
             this.chCategory,
             this.chDataType,
             this.chWritable});
-            this.ListView.ContextMenuStrip = this.PopupSourceMenu;
+            this.ListView.ContextMenuStrip = this.PopupMenu;
             this.ListView.FullRowSelect = true;
             this.ListView.HideSelection = false;
             this.ListView.Location = new System.Drawing.Point(4, 4);
@@ -143,65 +139,9 @@
             this.chWritable.Text = "Writable?";
             this.chWritable.Width = 80;
             // 
-            // PopupSourceMenu
-            // 
-            this.PopupSourceMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.PopupSourceSelect,
-            this.PopupSourceSort,
-            this.PopupSourceGroup});
-            this.PopupSourceMenu.Name = "PopupTagMenu";
-            this.PopupSourceMenu.Size = new System.Drawing.Size(108, 70);
-            // 
-            // PopupSourceSelect
-            // 
-            this.PopupSourceSelect.Name = "PopupSourceSelect";
-            this.PopupSourceSelect.Size = new System.Drawing.Size(107, 22);
-            this.PopupSourceSelect.Text = "&Select";
-            // 
-            // PopupSourceSort
-            // 
-            this.PopupSourceSort.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.PopupTagSortAscending,
-            this.PopupTagSortDescending,
-            this.toolStripMenuItem1,
-            this.PopupTagSortNone});
-            this.PopupSourceSort.Name = "PopupSourceSort";
-            this.PopupSourceSort.Size = new System.Drawing.Size(107, 22);
-            this.PopupSourceSort.Text = "S&ort";
-            // 
-            // PopupTagSortAscending
-            // 
-            this.PopupTagSortAscending.Name = "PopupTagSortAscending";
-            this.PopupTagSortAscending.Size = new System.Drawing.Size(136, 22);
-            this.PopupTagSortAscending.Text = "&Ascending";
-            // 
-            // PopupTagSortDescending
-            // 
-            this.PopupTagSortDescending.Name = "PopupTagSortDescending";
-            this.PopupTagSortDescending.Size = new System.Drawing.Size(136, 22);
-            this.PopupTagSortDescending.Text = "&Descending";
-            // 
-            // toolStripMenuItem1
-            // 
-            this.toolStripMenuItem1.Name = "toolStripMenuItem1";
-            this.toolStripMenuItem1.Size = new System.Drawing.Size(133, 6);
-            // 
-            // PopupTagSortNone
-            // 
-            this.PopupTagSortNone.Name = "PopupTagSortNone";
-            this.PopupTagSortNone.Size = new System.Drawing.Size(136, 22);
-            this.PopupTagSortNone.Text = "&None";
-            // 
-            // PopupSourceGroup
-            // 
-            this.PopupSourceGroup.Name = "PopupSourceGroup";
-            this.PopupSourceGroup.Size = new System.Drawing.Size(107, 22);
-            this.PopupSourceGroup.Text = "&Group";
-            this.PopupSourceGroup.ToolTipText = "Include this Tag in the Custom Group?";
-            // 
             // TreeView
             // 
-            this.TreeView.ContextMenuStrip = this.PopupSourceMenu;
+            this.TreeView.ContextMenuStrip = this.PopupMenu;
             this.TreeView.HideSelection = false;
             this.TreeView.Location = new System.Drawing.Point(163, 4);
             this.TreeView.Name = "TreeView";
@@ -287,7 +227,7 @@
             // 
             this.lvSelected.AllowDrop = true;
             this.lvSelected.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.lvSelected.ContextMenuStrip = this.PopupTargetMenu;
+            this.lvSelected.ContextMenuStrip = this.PopupMenu;
             this.lvSelected.Dock = System.Windows.Forms.DockStyle.Fill;
             this.lvSelected.HideSelection = false;
             this.lvSelected.Location = new System.Drawing.Point(0, 20);
@@ -299,88 +239,130 @@
             this.lvSelected.UseCompatibleStateImageBehavior = false;
             this.lvSelected.View = System.Windows.Forms.View.List;
             // 
-            // PopupTargetMenu
+            // PopupMenu
             // 
-            this.PopupTargetMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.PopupTargetCut,
-            this.PopupTargetCopy,
-            this.PopupTargetPaste,
-            this.PopupTargetDelete,
-            this.toolStripMenuItem3,
-            this.PopupTargetMoveUp,
-            this.PopupTargetMoveDown});
-            this.PopupTargetMenu.Name = "PopupTargetMenu";
-            this.PopupTargetMenu.Size = new System.Drawing.Size(160, 142);
+            this.PopupMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.PopupMoveUp,
+            this.PopupMoveDown,
+            this.PopupSelect,
+            this.PopupSort,
+            this.PopupGroup,
+            this.toolStripMenuItem10,
+            this.PopupCut,
+            this.PopupCopy,
+            this.PopupPaste,
+            this.PopupDelete});
+            this.PopupMenu.Name = "PopupTargetMenu";
+            this.PopupMenu.Size = new System.Drawing.Size(160, 208);
             // 
-            // PopupTargetCut
+            // PopupSelect
             // 
-            this.PopupTargetCut.Image = global::TagScanner.Properties.Resources.CutHS;
-            this.PopupTargetCut.ImageTransparentColor = System.Drawing.Color.White;
-            this.PopupTargetCut.Name = "PopupTargetCut";
-            this.PopupTargetCut.ShortcutKeyDisplayString = "^X";
-            this.PopupTargetCut.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.X)));
-            this.PopupTargetCut.Size = new System.Drawing.Size(159, 22);
-            this.PopupTargetCut.Text = "Cu&t";
+            this.PopupSelect.Name = "PopupSelect";
+            this.PopupSelect.ShortcutKeyDisplayString = "";
+            this.PopupSelect.Size = new System.Drawing.Size(159, 22);
+            this.PopupSelect.Text = "&Select";
             // 
-            // PopupTargetCopy
+            // PopupSort
             // 
-            this.PopupTargetCopy.Image = global::TagScanner.Properties.Resources.CopyHS;
-            this.PopupTargetCopy.ImageTransparentColor = System.Drawing.Color.White;
-            this.PopupTargetCopy.Name = "PopupTargetCopy";
-            this.PopupTargetCopy.ShortcutKeyDisplayString = "^C";
-            this.PopupTargetCopy.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.C)));
-            this.PopupTargetCopy.Size = new System.Drawing.Size(159, 22);
-            this.PopupTargetCopy.Text = "&Copy";
+            this.PopupSort.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.PopupSortAscending,
+            this.PopupSortDescending});
+            this.PopupSort.Name = "PopupSort";
+            this.PopupSort.ShortcutKeyDisplayString = "";
+            this.PopupSort.Size = new System.Drawing.Size(159, 22);
+            this.PopupSort.Text = "S&ort";
             // 
-            // PopupTargetPaste
+            // PopupSortAscending
             // 
-            this.PopupTargetPaste.Image = global::TagScanner.Properties.Resources.PasteHS;
-            this.PopupTargetPaste.ImageTransparentColor = System.Drawing.Color.White;
-            this.PopupTargetPaste.Name = "PopupTargetPaste";
-            this.PopupTargetPaste.ShortcutKeyDisplayString = "^V";
-            this.PopupTargetPaste.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.V)));
-            this.PopupTargetPaste.Size = new System.Drawing.Size(159, 22);
-            this.PopupTargetPaste.Text = "&Paste";
+            this.PopupSortAscending.Name = "PopupSortAscending";
+            this.PopupSortAscending.ShortcutKeyDisplayString = "";
+            this.PopupSortAscending.Size = new System.Drawing.Size(180, 22);
+            this.PopupSortAscending.Text = "&Ascending";
             // 
-            // PopupTargetDelete
+            // PopupSortDescending
             // 
-            this.PopupTargetDelete.Image = global::TagScanner.Properties.Resources.Delete;
-            this.PopupTargetDelete.ImageTransparentColor = System.Drawing.Color.White;
-            this.PopupTargetDelete.Name = "PopupTargetDelete";
-            this.PopupTargetDelete.ShortcutKeys = System.Windows.Forms.Keys.Delete;
-            this.PopupTargetDelete.Size = new System.Drawing.Size(159, 22);
-            this.PopupTargetDelete.Text = "&Delete";
+            this.PopupSortDescending.Name = "PopupSortDescending";
+            this.PopupSortDescending.ShortcutKeyDisplayString = "";
+            this.PopupSortDescending.Size = new System.Drawing.Size(180, 22);
+            this.PopupSortDescending.Text = "&Descending";
             // 
-            // toolStripMenuItem3
+            // PopupGroup
             // 
-            this.toolStripMenuItem3.Name = "toolStripMenuItem3";
-            this.toolStripMenuItem3.Size = new System.Drawing.Size(156, 6);
+            this.PopupGroup.Name = "PopupGroup";
+            this.PopupGroup.ShortcutKeyDisplayString = "";
+            this.PopupGroup.Size = new System.Drawing.Size(159, 22);
+            this.PopupGroup.Text = "&Group";
+            this.PopupGroup.ToolTipText = "Include this Tag in the Custom Group?";
             // 
-            // PopupTargetMoveUp
+            // toolStripMenuItem10
             // 
-            this.PopupTargetMoveUp.Image = global::TagScanner.Properties.Resources.arrow_Up_16xLG;
-            this.PopupTargetMoveUp.ImageTransparentColor = System.Drawing.Color.White;
-            this.PopupTargetMoveUp.Name = "PopupTargetMoveUp";
-            this.PopupTargetMoveUp.ShortcutKeyDisplayString = "^↑";
-            this.PopupTargetMoveUp.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Up)));
-            this.PopupTargetMoveUp.Size = new System.Drawing.Size(159, 22);
-            this.PopupTargetMoveUp.Text = "Move Up";
+            this.toolStripMenuItem10.Name = "toolStripMenuItem10";
+            this.toolStripMenuItem10.Size = new System.Drawing.Size(156, 6);
             // 
-            // PopupTargetMoveDown
+            // PopupCut
             // 
-            this.PopupTargetMoveDown.Image = global::TagScanner.Properties.Resources.arrow_Down_16xLG;
-            this.PopupTargetMoveDown.ImageTransparentColor = System.Drawing.Color.White;
-            this.PopupTargetMoveDown.Name = "PopupTargetMoveDown";
-            this.PopupTargetMoveDown.ShortcutKeyDisplayString = "^↓";
-            this.PopupTargetMoveDown.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Down)));
-            this.PopupTargetMoveDown.Size = new System.Drawing.Size(159, 22);
-            this.PopupTargetMoveDown.Text = "Move Down";
+            this.PopupCut.Image = global::TagScanner.Properties.Resources.CutHS;
+            this.PopupCut.ImageTransparentColor = System.Drawing.Color.White;
+            this.PopupCut.Name = "PopupCut";
+            this.PopupCut.ShortcutKeyDisplayString = "^X";
+            this.PopupCut.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.X)));
+            this.PopupCut.Size = new System.Drawing.Size(159, 22);
+            this.PopupCut.Text = "Cu&t";
+            // 
+            // PopupCopy
+            // 
+            this.PopupCopy.Image = global::TagScanner.Properties.Resources.CopyHS;
+            this.PopupCopy.ImageTransparentColor = System.Drawing.Color.White;
+            this.PopupCopy.Name = "PopupCopy";
+            this.PopupCopy.ShortcutKeyDisplayString = "^C";
+            this.PopupCopy.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.C)));
+            this.PopupCopy.Size = new System.Drawing.Size(159, 22);
+            this.PopupCopy.Text = "&Copy";
+            // 
+            // PopupPaste
+            // 
+            this.PopupPaste.Image = global::TagScanner.Properties.Resources.PasteHS;
+            this.PopupPaste.ImageTransparentColor = System.Drawing.Color.White;
+            this.PopupPaste.Name = "PopupPaste";
+            this.PopupPaste.ShortcutKeyDisplayString = "^V";
+            this.PopupPaste.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.V)));
+            this.PopupPaste.Size = new System.Drawing.Size(159, 22);
+            this.PopupPaste.Text = "&Paste";
+            // 
+            // PopupDelete
+            // 
+            this.PopupDelete.Image = global::TagScanner.Properties.Resources.Delete;
+            this.PopupDelete.ImageTransparentColor = System.Drawing.Color.White;
+            this.PopupDelete.Name = "PopupDelete";
+            this.PopupDelete.ShortcutKeys = System.Windows.Forms.Keys.Delete;
+            this.PopupDelete.Size = new System.Drawing.Size(159, 22);
+            this.PopupDelete.Text = "&Delete";
+            // 
+            // PopupMoveUp
+            // 
+            this.PopupMoveUp.Image = global::TagScanner.Properties.Resources.arrow_Up_16xLG;
+            this.PopupMoveUp.ImageTransparentColor = System.Drawing.Color.White;
+            this.PopupMoveUp.Name = "PopupMoveUp";
+            this.PopupMoveUp.ShortcutKeyDisplayString = "^↑";
+            this.PopupMoveUp.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Up)));
+            this.PopupMoveUp.Size = new System.Drawing.Size(159, 22);
+            this.PopupMoveUp.Text = "Move Up";
+            // 
+            // PopupMoveDown
+            // 
+            this.PopupMoveDown.Image = global::TagScanner.Properties.Resources.arrow_Down_16xLG;
+            this.PopupMoveDown.ImageTransparentColor = System.Drawing.Color.White;
+            this.PopupMoveDown.Name = "PopupMoveDown";
+            this.PopupMoveDown.ShortcutKeyDisplayString = "^↓";
+            this.PopupMoveDown.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Down)));
+            this.PopupMoveDown.Size = new System.Drawing.Size(159, 22);
+            this.PopupMoveDown.Text = "Move Down";
             // 
             // lvOrderBy
             // 
             this.lvOrderBy.AllowDrop = true;
             this.lvOrderBy.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.lvOrderBy.ContextMenuStrip = this.PopupTargetMenu;
+            this.lvOrderBy.ContextMenuStrip = this.PopupMenu;
             this.lvOrderBy.Dock = System.Windows.Forms.DockStyle.Fill;
             this.lvOrderBy.HideSelection = false;
             this.lvOrderBy.Location = new System.Drawing.Point(230, 20);
@@ -396,7 +378,7 @@
             // 
             this.lvGroupBy.AllowDrop = true;
             this.lvGroupBy.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.lvGroupBy.ContextMenuStrip = this.PopupTargetMenu;
+            this.lvGroupBy.ContextMenuStrip = this.PopupMenu;
             this.lvGroupBy.Dock = System.Windows.Forms.DockStyle.Fill;
             this.lvGroupBy.HideSelection = false;
             this.lvGroupBy.Location = new System.Drawing.Point(460, 20);
@@ -684,7 +666,6 @@
             this.Name = "QueryDialog";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Visible Tags";
-            this.PopupSourceMenu.ResumeLayout(false);
             this.toolStripContainer1.ContentPanel.ResumeLayout(false);
             this.toolStripContainer1.LeftToolStripPanel.ResumeLayout(false);
             this.toolStripContainer1.LeftToolStripPanel.PerformLayout();
@@ -697,7 +678,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
             this.splitContainer1.ResumeLayout(false);
             this.TableLayoutPanel.ResumeLayout(false);
-            this.PopupTargetMenu.ResumeLayout(false);
+            this.PopupMenu.ResumeLayout(false);
             this.panel2.ResumeLayout(false);
             this.Toolbar.ResumeLayout(false);
             this.Toolbar.PerformLayout();
@@ -742,14 +723,6 @@
         public System.Windows.Forms.Button btnCancel;
         public System.Windows.Forms.Button btnOK;
         public System.Windows.Forms.Panel panel2;
-        public System.Windows.Forms.ContextMenuStrip PopupSourceMenu;
-        public System.Windows.Forms.ToolStripMenuItem PopupSourceSort;
-        public System.Windows.Forms.ToolStripMenuItem PopupTagSortAscending;
-        public System.Windows.Forms.ToolStripMenuItem PopupTagSortDescending;
-        public System.Windows.Forms.ToolStripSeparator toolStripMenuItem1;
-        public System.Windows.Forms.ToolStripMenuItem PopupTagSortNone;
-        public System.Windows.Forms.ToolStripMenuItem PopupSourceGroup;
-        public System.Windows.Forms.ToolStripMenuItem PopupSourceSelect;
         public System.Windows.Forms.TableLayoutPanel TableLayoutPanel;
         public System.Windows.Forms.ListView lvGroupBy;
         public System.Windows.Forms.ListView lvOrderBy;
@@ -757,13 +730,18 @@
         public System.Windows.Forms.Label lblSelect;
         public System.Windows.Forms.Label lblOrderBy;
         public System.Windows.Forms.Label lblGroupBy;
-        public System.Windows.Forms.ContextMenuStrip PopupTargetMenu;
-        public System.Windows.Forms.ToolStripMenuItem PopupTargetCut;
-        public System.Windows.Forms.ToolStripMenuItem PopupTargetCopy;
-        public System.Windows.Forms.ToolStripMenuItem PopupTargetPaste;
-        public System.Windows.Forms.ToolStripMenuItem PopupTargetDelete;
-        public System.Windows.Forms.ToolStripSeparator toolStripMenuItem3;
-        public System.Windows.Forms.ToolStripMenuItem PopupTargetMoveUp;
-        public System.Windows.Forms.ToolStripMenuItem PopupTargetMoveDown;
+        public System.Windows.Forms.ContextMenuStrip PopupMenu;
+        public System.Windows.Forms.ToolStripMenuItem PopupCut;
+        public System.Windows.Forms.ToolStripMenuItem PopupCopy;
+        public System.Windows.Forms.ToolStripMenuItem PopupPaste;
+        public System.Windows.Forms.ToolStripMenuItem PopupDelete;
+        public System.Windows.Forms.ToolStripMenuItem PopupMoveUp;
+        public System.Windows.Forms.ToolStripMenuItem PopupMoveDown;
+        public System.Windows.Forms.ToolStripMenuItem PopupGroup;
+        public System.Windows.Forms.ToolStripMenuItem PopupSort;
+        public System.Windows.Forms.ToolStripMenuItem PopupSortAscending;
+        public System.Windows.Forms.ToolStripMenuItem PopupSortDescending;
+        public System.Windows.Forms.ToolStripMenuItem PopupSelect;
+        public System.Windows.Forms.ToolStripSeparator toolStripMenuItem10;
     }
 }
