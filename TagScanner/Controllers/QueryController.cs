@@ -77,8 +77,12 @@
             LvGroupBy.GotFocus += ListView_GotFocus;
 
             PopupTargetMenu.Opening += PopupTargetMenu_Opening;
-            PopupTargetMoveDown.Click += PopupTargetMoveDown_Click;
+            PopupTargetCut.Click += PopupTargetCut_Click;
+            PopupTargetCopy.Click += PopupTargetCopy_Click;
+            PopupTargetPaste.Click += PopupTargetPaste_Click;
+            PopupTargetDelete.Click += PopupTargetDelete_Click;
             PopupTargetMoveUp.Click += PopupTargetMoveUp_Click;
+            PopupTargetMoveDown.Click += PopupTargetMoveDown_Click;
 
             UseTreeView(TagGrouping.Category);
         }
@@ -206,9 +210,13 @@
         private void ListByDataType_Click(object sender, EventArgs e) => UseListView(TagGrouping.DataType);
         private void ListNamesOnly_Click(object sender, EventArgs e) => UseListView(TagGrouping.None, true);
         private void ListView_GotFocus(object sender, EventArgs e) => ActiveTarget = sender as ListView;
-        private void PopupTargetMenu_Opening(object sender, CancelEventArgs e) => PopupTargetMenuOpening();
+        private void PopupTargetMenu_Opening(object sender, CancelEventArgs e) => UpdatePopupTargetMenu();
+        private void PopupTargetCut_Click(object sender, EventArgs e) => ActiveTargetExecute(Act.Cut);
+        private void PopupTargetCopy_Click(object sender, EventArgs e) => ActiveTargetExecute(Act.Copy);
+        private void PopupTargetDelete_Click(object sender, EventArgs e) => ActiveTargetExecute(Act.Delete);
         private void PopupTargetMoveDown_Click(object sender, EventArgs e) => ActiveTargetExecute(Act.MoveDown);
         private void PopupTargetMoveUp_Click(object sender, EventArgs e) => ActiveTargetExecute(Act.MoveUp);
+        private void PopupTargetPaste_Click(object sender, EventArgs e) => ActiveTargetExecute(Act.Paste);
         private void TreeAlphabetically_Click(object sender, EventArgs e) => UseTreeView(TagGrouping.None);
         private void TreeByCategory_Click(object sender, EventArgs e) => UseTreeView(TagGrouping.Category);
         private void TreeByDataType_Click(object sender, EventArgs e) => UseTreeView(TagGrouping.DataType);
@@ -239,7 +247,7 @@
             var selection = ActiveTarget.SelectedIndices.Cast<int>().ToList();
             DoAct();
             ActiveTarget.EndUpdate();
-            PopupTargetMenuOpening();
+            UpdatePopupTargetMenu();
 
             void DoAct()
             {
@@ -305,7 +313,11 @@
 
         private IEnumerable<Tag> GetTags() => ActiveController.GetSelectedTags();
 
-        private void PopupTargetMenuOpening()
+        private void SetGroups(IEnumerable<Tag> tags) => LvGroupBy.Items.AddRange(tags.Select(p => new TagListItem(p)).ToArray());
+        private void SetSorts(IEnumerable<SortDescription> sorts) => LvOrderBy.Items.AddRange(sorts.Select(p => new TagListItem(p)).ToArray());
+        private void SetTags(IEnumerable<Tag> selectedTags) => ActiveController.SetSelectedTags(selectedTags);
+
+        private void UpdatePopupTargetMenu()
         {
             if (ActiveTarget == null) return;
             var total = ActiveTarget.Items.Count;
@@ -317,10 +329,6 @@
             PopupTargetMoveDown.Enabled = hasSelection && indices.Min() < total - count;
         }
 
-        private void SetGroups(IEnumerable<Tag> tags) => LvGroupBy.Items.AddRange(tags.Select(p => new TagListItem(p)).ToArray());
-        private void SetSorts(IEnumerable<SortDescription> sorts) => LvOrderBy.Items.AddRange(sorts.Select(p => new TagListItem(p)).ToArray());
-        private void SetTags(IEnumerable<Tag> selectedTags) => ActiveController.SetSelectedTags(selectedTags);
-
         private void UpdateUI()
         {
             bool tree = _queryTreeViewController.Active;
@@ -331,7 +339,7 @@
             ListByCategory.Checked = tbListCat.Checked = !tree && TagGrouping == TagGrouping.Category;
             ListByDataType.Checked = tbListType.Checked = !tree && TagGrouping == TagGrouping.DataType;
             ListNamesOnly.Checked = tbListNames.Checked = !tree && TagGrouping == TagGrouping.None && MultiColumn;
-            PopupTargetMenuOpening();
+            UpdatePopupTargetMenu();
         }
 
         private void UseListView(TagGrouping tagGrouping, bool multiColumn = false) => UseView(useTree: false, tagGrouping, multiColumn);

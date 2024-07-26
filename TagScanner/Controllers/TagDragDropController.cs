@@ -54,13 +54,8 @@
                     selection.Add(index);
             }
             e.Effect = listView == _source ? DragDropEffects.Move : DragDropEffects.Copy;
-            if (!drop)
-                return;
-
-            var data = e.Data.GetData();
-
-            listView.Items.AddRange(data.Select(p => new TagListItem(p.Tag, p.Descending)).ToArray());
-
+            if (drop)
+                listView.Items.AddRange(e.Data.GetItems().ToArray());
         }
 
         private Control _source;
