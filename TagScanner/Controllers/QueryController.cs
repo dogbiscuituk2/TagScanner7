@@ -4,6 +4,7 @@
     using System.Collections.Generic;
     using System.ComponentModel;
     using System.Linq;
+    using System.Reflection;
     using System.Windows.Forms;
     using Forms;
     using Models;
@@ -76,6 +77,8 @@
             LvGroupBy.GotFocus += ListView_GotFocus;
 
             PopupTargetMenu.Opening += PopupTargetMenu_Opening;
+            PopupTargetMoveDown.Click += PopupTargetMoveDown_Click;
+            PopupTargetMoveUp.Click += PopupTargetMoveUp_Click;
 
             UseTreeView(TagGrouping.Category);
         }
@@ -203,7 +206,9 @@
         private void ListByDataType_Click(object sender, EventArgs e) => UseListView(TagGrouping.DataType);
         private void ListNamesOnly_Click(object sender, EventArgs e) => UseListView(TagGrouping.None, true);
         private void ListView_GotFocus(object sender, EventArgs e) => ActiveTarget = sender as ListView;
-        private void PopupTargetMenu_Opening(object sender, CancelEventArgs e) => PopupOpening();
+        private void PopupTargetMenu_Opening(object sender, CancelEventArgs e) => PopupTargetMenuOpening();
+        private void PopupTargetMoveDown_Click(object sender, EventArgs e) => ActiveTargetExecute(Act.MoveDown);
+        private void PopupTargetMoveUp_Click(object sender, EventArgs e) => ActiveTargetExecute(Act.MoveUp);
         private void TreeAlphabetically_Click(object sender, EventArgs e) => UseTreeView(TagGrouping.None);
         private void TreeByCategory_Click(object sender, EventArgs e) => UseTreeView(TagGrouping.Category);
         private void TreeByDataType_Click(object sender, EventArgs e) => UseTreeView(TagGrouping.DataType);
@@ -226,6 +231,73 @@
             return Dialog;
         }
 
+        private void ActiveTargetExecute(Act act)
+        {
+            ActiveTarget.BeginUpdate();
+            var items = ActiveTarget.Items;
+            var count = items.Count;
+            var selection = ActiveTarget.SelectedIndices.Cast<int>().ToList();
+            DoAct();
+            ActiveTarget.EndUpdate();
+            PopupTargetMenuOpening();
+
+            void DoAct()
+            {
+                switch (act)
+                {
+                    case Act.Cut:
+                        DoCopy();
+                        DoDelete();
+                        return;
+                    case Act.Copy:
+                        DoCopy();
+                        return;
+                    case Act.Paste:
+                        DoPaste();
+                        return;
+                    case Act.Delete:
+                        DoDelete();
+                        return;
+                    case Act.MoveUp:
+                        DoMove(down: false);
+                        return;
+                    case Act.MoveDown:
+                        DoMove(down: true);
+                        return;
+                }
+            }
+
+            void DoCopy() => Clipboard.SetDataObject(ActiveTarget.SelectedItems);
+
+            void DoDelete()
+            {
+                for (int index = count - 1; index >= 0; index--)
+                    if (selection.Contains(index))
+                        items.RemoveAt(index);
+            }
+
+            void DoMove(bool down)
+            {
+                int index;
+                if (down) for (index = count - 1; index > 0; index--) { if (selection.Contains(index - 1)) Swap(); }
+                else for (index = 1; index < count; index++) { if (selection.Contains(index)) Swap(); }
+
+                void Swap()
+                {
+                    var item = items[index - 1];
+                    items.RemoveAt(index - 1);
+                    items.Insert(index, item);
+                }
+            }
+
+            void DoPaste()
+            {
+                var data = Clipboard.GetDataObject()?.GetItems();
+                if (data != null)
+                    items.AddRange(data.ToArray());
+            }
+        }
+
         private IEnumerable<Tag> GetGroups() => new List<Tag>();
 
         private IEnumerable<SortDescription> GetSorts() =>
@@ -233,7 +305,7 @@
 
         private IEnumerable<Tag> GetTags() => ActiveController.GetSelectedTags();
 
-        private void PopupOpening()
+        private void PopupTargetMenuOpening()
         {
             if (ActiveTarget == null) return;
             var total = ActiveTarget.Items.Count;
@@ -259,6 +331,7 @@
             ListByCategory.Checked = tbListCat.Checked = !tree && TagGrouping == TagGrouping.Category;
             ListByDataType.Checked = tbListType.Checked = !tree && TagGrouping == TagGrouping.DataType;
             ListNamesOnly.Checked = tbListNames.Checked = !tree && TagGrouping == TagGrouping.None && MultiColumn;
+            PopupTargetMenuOpening();
         }
 
         private void UseListView(TagGrouping tagGrouping, bool multiColumn = false) => UseView(useTree: false, tagGrouping, multiColumn);
@@ -274,6 +347,21 @@
             _queryTreeViewController.Active = useTree;
             SetTags(selectedTags);
             UpdateUI();
+        }
+
+        #endregion
+
+        #region Private Enums
+
+        private enum Act
+        {
+            None,
+            Cut,
+            Copy,
+            Paste,
+            Delete,
+            MoveUp,
+            MoveDown,
         }
 
         #endregion

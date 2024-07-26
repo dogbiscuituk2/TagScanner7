@@ -11,10 +11,31 @@
     /// </summary>
     public static class TagSortData
     {
-        public static IEnumerable<TagSort> GetData(this ListViewItem item) =>
+        public static IEnumerable<ListViewItem> GetItems(this IDataObject data) =>
+            data.GetData(typeof(TreeNode)) is TreeNode node ? node.GetItems() :
+            data.GetData(typeof(ListViewItem)) is ListViewItem item ? new[] { item } :
+            data.GetData(typeof(ListViewItems)) is ListViewItems items ? items.Cast<ListViewItem>() :
+            Array.Empty<ListViewItem>();
+
+
+        /// <summary>
+        /// Get the Tag-based data from an IDataObject containing one of the following formats:
+        /// TreeNode, LisrtViewItem, or ListView.SelectedListViewItemCollection.
+        /// </summary>
+        /// <param name="data">The source IDataObject.</param>
+        /// <returns>All Tags attached to the IDataObject.</returns>
+        public static IEnumerable<TagSort> GetData(this IDataObject data) =>
+            data.GetData(typeof(TreeNode)) is TreeNode node ? node.GetData() :
+            data.GetData(typeof(ListViewItem)) is ListViewItem item ? item.GetData() :
+            data.GetData(typeof(ListViewItems)) is ListViewItems items ? items.GetData() :
+            Array.Empty<TagSort>();
+
+        #region Private Methods
+
+        private static IEnumerable<TagSort> GetData(this ListViewItem item) =>
             new[] { new TagSort(item.Tag, item.StateImageIndex) };
 
-        public static IEnumerable<TagSort> GetData(this ListViewItems items) =>
+        private static IEnumerable<TagSort> GetData(this ListViewItems items) =>
             items.Cast<ListViewItem>().Select(p => new TagSort(p.Tag, p.StateImageIndex));
 
         /// <summary>
@@ -22,7 +43,7 @@
         /// </summary>
         /// <param name="node">The "ancestor" TreeNode.</param>
         /// <returns>All Tags attached to the ancestor and/or its leaves.</returns>
-        public static IEnumerable<TagSort> GetData(this TreeNode node)
+        private static IEnumerable<TagSort> GetData(this TreeNode node)
         {
             var data = new List<TagSort>();
             Visit(node);
@@ -42,16 +63,15 @@
             }
         }
 
-        /// <summary>
-        /// Get the Tag-based data from an IDataObject containing one of the following formats:
-        /// TreeNode, LisrtViewItem, or ListView.SelectedListViewItemCollection.
-        /// </summary>
-        /// <param name="data">The source IDataObject.</param>
-        /// <returns>All Tags attached to the IDataObject.</returns>
-        public static IEnumerable<TagSort> GetData(this IDataObject data) =>
-            data.GetData(typeof(TreeNode)) is TreeNode node ? node.GetData() :
-            data.GetData(typeof(ListViewItem)) is ListViewItem item ? item.GetData() :
-            data.GetData(typeof(ListViewItems)) is ListViewItems items ? items.GetData() :
-            Array.Empty<TagSort>();
+        private static IEnumerable<ListViewItem> GetItems(this ListViewItems items) =>
+            items.Cast<ListViewItem>();
+
+        private static IEnumerable<ListViewItem> GetItems(this TreeNode node) =>
+            node.GetData().ToItems();
+
+        private static IEnumerable<ListViewItem> ToItems(this IEnumerable<TagSort> data) =>
+            data.Select(p => new TagListItem(p.Tag));
+
+        #endregion
     }
 }
