@@ -1,11 +1,7 @@
 ﻿namespace TagScanner.Commands
 {
-    using System;
-    using System.Drawing;
-    using System.Windows.Forms;
     using Controllers;
     using Forms;
-    using Utils;
 
     public class CommandProcessor : UndoRedoController<Command>
     {
@@ -14,16 +10,8 @@
         public CommandProcessor(Controller parent) : base(parent)
         {
             UpdateAction = UpdateUI;
-            AddHandlers(MainForm.EditUndo, MainForm.tbUndo, EditUndo_Click, EditUndo_DropDownOpening);
-            AddHandlers(MainForm.EditRedo, MainForm.tbRedo, EditRedo_Click, EditRedo_DropDownOpening);
-
-            void AddHandlers(ToolStripMenuItem item, ToolStripSplitButton button, EventHandler click, EventHandler dropDownOpening)
-            {
-                item.Click += click;
-                button.ButtonClick += click;
-                item.DropDownOpening += dropDownOpening;
-                button.DropDownOpening += dropDownOpening;
-            }
+            InitUI(undo: true, MainForm.EditUndo, MainForm.tbUndo);
+            InitUI(undo: false, MainForm.EditRedo, MainForm.tbRedo);
         }
 
         #endregion
@@ -66,26 +54,9 @@
 
         #endregion
 
-        #region Event Handlers
-
-        private void EditUndo_DropDownOpening(object sender, EventArgs e) => PopulateMenu(undo: true);
-        private void EditRedo_DropDownOpening(object sender, EventArgs e) => PopulateMenu(undo: false);
-
-        private static void Menu_MouseEnter(object sender, EventArgs e) => HighlightMenu((ToolStripItem)sender);
-        private static void Menu_Paint(object sender, PaintEventArgs e) => HighlightMenu((ToolStripItem)sender);
-
-        #endregion
-
         #region Private Fields
 
         private bool Busy;
-
-        #endregion
-
-        #region Private Properties
-
-        private string UndoAction => UndoStack.Peek().ToString();
-        private string RedoAction => RedoStack.Peek().ToString();
 
         #endregion
 
@@ -112,35 +83,6 @@
                 UpdateUI();
             }
             return result;
-        }
-
-        private static void HighlightMenu(ToolStripItem activeItem)
-        {
-            if (!activeItem.Selected)
-                return;
-            var items = activeItem.GetCurrentParent().Items;
-            var index = items.IndexOf(activeItem);
-            foreach (ToolStripItem item in items)
-                item.BackColor = Color.FromKnownColor(items.IndexOf(item) <= index
-                    ? KnownColor.GradientActiveCaption
-                    : KnownColor.Control);
-        }
-
-        private void PopulateMenu(bool undo)
-        {
-            var commands = (undo ? UndoStack : RedoStack).ToArray();
-            var menuItems = (undo ? MainForm.UndoPopupMenu : MainForm.RedoPopupMenu).Items; ;
-            var handler = undo ? (EventHandler)UndoMultiple : RedoMultiple;
-            const int MaxItems = 20;
-            menuItems.Clear();
-            for (int n = 0; n < Math.Min(commands.Length, MaxItems); n++)
-            {
-                var command = commands[n];
-                var item = new ToolStripMenuItem(command.ToString().Escape(), null, handler) { Tag = command };
-                item.MouseEnter += Menu_MouseEnter;
-                item.Paint += Menu_Paint;
-                menuItems.Add(item);
-            }
         }
 
         #endregion

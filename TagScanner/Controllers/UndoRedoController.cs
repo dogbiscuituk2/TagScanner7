@@ -2,13 +2,15 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.Drawing;
     using System.Windows.Forms;
+    using Utils;
 
     public abstract class UndoRedoController<T> : Controller where T : class
     {
         #region Constructor
 
-        public UndoRedoController(Controller parent) : base(parent)
+        protected UndoRedoController(Controller parent) : base(parent)
         {
             UndoStack = new Stack<T>();
             RedoStack = new Stack<T>();
@@ -29,7 +31,7 @@
             LastSave = 0;
             UndoStack.Clear();
             RedoStack.Clear();
-            Update();
+            Updater.Run();
         }
 
         #endregion
@@ -37,15 +39,20 @@
         #region Protected Fields
 
         protected int LastSave;
+
         protected readonly Stack<T> UndoStack, RedoStack;
 
         #endregion
 
         #region Protected Properties
 
+        protected bool Paused => Updater.Paused;
+
         protected bool CanRedo => RedoStack.Count > 0;
         protected bool CanUndo => UndoStack.Count > 0;
-        protected bool Paused => Updater.Paused;
+
+        protected string UndoAction => UndoStack.Peek().ToString();
+        protected string RedoAction => RedoStack.Peek().ToString();
 
         protected Action UpdateAction
         {
@@ -55,25 +62,22 @@
 
         #endregion
 
-        #region Event Handlers
-
-        protected void EditUndo_Click(object sender, EventArgs e) => Undo();
-        protected void EditRedo_Click(object sender, EventArgs e) => Redo();
-
-        protected void UndoMultiple(object sender, EventArgs e) => DoMultiple(sender, undo: true);
-        protected void RedoMultiple(object sender, EventArgs e) => DoMultiple(sender, undo: false);
-
-        #endregion
-
         #region Protected Methods
 
-        protected int Undo() => CanUndo ? Undo(UndoStack.Pop()) : 0;
-        protected int Redo() => CanRedo ? Redo(RedoStack.Pop()) : 0;
+        protected void InitUI(bool undo, params ToolStripDropDownItem[] items)
+        {
+            foreach (var item in items)
+            {
+                if (item is ToolStripSplitButton button)
+                    button.ButtonClick += (sender, e) => DoSingle(undo);
+                else
+                    item.Click += (sender, e) => DoSingle(undo);
+                item.DropDownOpening += (sender, e) => PopulateMenu(undo);
+            }
+        }
 
         protected abstract int Undo(T t);
         protected abstract int Redo(T t, bool spoof = false);
-
-        protected void Update() => Updater.Run();
 
         #endregion
 
@@ -93,6 +97,46 @@
             else
                 do Redo(); while (UndoStack.Peek() != peek);
         }
+
+        private void DoSingle(bool undo)
+        {
+            if (undo)
+                Undo();
+            else
+                Redo();
+        }
+
+        private static void HighlightMenu(ToolStripItem activeItem)
+        {
+            if (!activeItem.Selected)
+                return;
+            var items = activeItem.GetCurrentParent().Items;
+            var index = items.IndexOf(activeItem);
+            foreach (ToolStripItem item in items)
+                item.BackColor = Color.FromKnownColor(items.IndexOf(item) <= index
+                    ? KnownColor.GradientActiveCaption
+                    : KnownColor.Control);
+        }
+
+        private void PopulateMenu(bool undo)
+        {
+            var commands = (undo ? UndoStack : RedoStack).ToArray();
+            var menuItems = (undo ? MainForm.UndoPopupMenu : MainForm.RedoPopupMenu).Items;
+            var handler = (EventHandler)((sender, e) => DoMultiple(sender, undo));
+            const int MaxItems = 20;
+            menuItems.Clear();
+            for (int n = 0; n < Math.Min(commands.Length, MaxItems); n++)
+            {
+                var command = commands[n];
+                var item = new ToolStripMenuItem(command.ToString().Escape(), null, handler) { Tag = command };
+                item.MouseEnter += (sender, e) => HighlightMenu((ToolStripItem)sender);
+                item.Paint += (sender, e) => HighlightMenu((ToolStripItem)sender);
+                menuItems.Add(item);
+            }
+        }
+
+        private int Undo() => CanUndo ? Undo(UndoStack.Pop()) : 0;
+        private int Redo() => CanRedo ? Redo(RedoStack.Pop()) : 0;
 
         #endregion
     }
