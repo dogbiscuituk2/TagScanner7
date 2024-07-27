@@ -44,10 +44,18 @@
             this.PopupSortDescending = new System.Windows.Forms.ToolStripMenuItem();
             this.PopupGroup = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem10 = new System.Windows.Forms.ToolStripSeparator();
+            this.PopupUndo = new System.Windows.Forms.ToolStripMenuItem();
+            this.PopupRedo = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripSeparator();
             this.PopupCut = new System.Windows.Forms.ToolStripMenuItem();
             this.PopupCopy = new System.Windows.Forms.ToolStripMenuItem();
             this.PopupPaste = new System.Windows.Forms.ToolStripMenuItem();
             this.PopupDelete = new System.Windows.Forms.ToolStripMenuItem();
+            this.PopupClear = new System.Windows.Forms.ToolStripMenuItem();
+            this.PopupSelectSeparator = new System.Windows.Forms.ToolStripSeparator();
+            this.PopupSelectAll = new System.Windows.Forms.ToolStripMenuItem();
+            this.PopupInvertSelection = new System.Windows.Forms.ToolStripMenuItem();
+            this.EditMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.TreeView = new System.Windows.Forms.TreeView();
             this.TreeViewStateImageList = new System.Windows.Forms.ImageList(this.components);
             this.toolStripContainer1 = new System.Windows.Forms.ToolStripContainer();
@@ -73,6 +81,10 @@
             this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this.tbListNames = new System.Windows.Forms.ToolStripButton();
             this.MainMenu = new TagScanner.Controls.FirstClickMenuStrip();
+            this.FileMenu = new System.Windows.Forms.ToolStripMenuItem();
+            this.FileSaveAndClose = new System.Windows.Forms.ToolStripMenuItem();
+            this.FileCloseWithoutSaving = new System.Windows.Forms.ToolStripMenuItem();
+            this.ViewMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.TreeMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.TreeAlphabetically = new System.Windows.Forms.ToolStripMenuItem();
             this.TreeByCategory = new System.Windows.Forms.ToolStripMenuItem();
@@ -83,13 +95,6 @@
             this.ListByDataType = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem2 = new System.Windows.Forms.ToolStripSeparator();
             this.ListNamesOnly = new System.Windows.Forms.ToolStripMenuItem();
-            this.PopupSelectAll = new System.Windows.Forms.ToolStripMenuItem();
-            this.PopupInvertSelection = new System.Windows.Forms.ToolStripMenuItem();
-            this.PopupClear = new System.Windows.Forms.ToolStripMenuItem();
-            this.PopupSelectSeparator = new System.Windows.Forms.ToolStripSeparator();
-            this.PopupUndo = new System.Windows.Forms.ToolStripMenuItem();
-            this.PopupRedo = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripSeparator();
             this.PopupMenu.SuspendLayout();
             this.toolStripContainer1.ContentPanel.SuspendLayout();
             this.toolStripContainer1.LeftToolStripPanel.SuspendLayout();
@@ -167,7 +172,8 @@
             this.PopupSelectAll,
             this.PopupInvertSelection});
             this.PopupMenu.Name = "PopupTargetMenu";
-            this.PopupMenu.Size = new System.Drawing.Size(181, 352);
+            this.PopupMenu.OwnerItem = this.EditMenu;
+            this.PopupMenu.Size = new System.Drawing.Size(160, 330);
             // 
             // PopupMoveUp
             // 
@@ -176,7 +182,7 @@
             this.PopupMoveUp.Name = "PopupMoveUp";
             this.PopupMoveUp.ShortcutKeyDisplayString = "^↑";
             this.PopupMoveUp.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Up)));
-            this.PopupMoveUp.Size = new System.Drawing.Size(180, 22);
+            this.PopupMoveUp.Size = new System.Drawing.Size(159, 22);
             this.PopupMoveUp.Text = "Move Up";
             // 
             // PopupMoveDown
@@ -186,14 +192,14 @@
             this.PopupMoveDown.Name = "PopupMoveDown";
             this.PopupMoveDown.ShortcutKeyDisplayString = "^↓";
             this.PopupMoveDown.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Down)));
-            this.PopupMoveDown.Size = new System.Drawing.Size(180, 22);
+            this.PopupMoveDown.Size = new System.Drawing.Size(159, 22);
             this.PopupMoveDown.Text = "Move Down";
             // 
             // PopupSelect
             // 
             this.PopupSelect.Name = "PopupSelect";
             this.PopupSelect.ShortcutKeyDisplayString = "";
-            this.PopupSelect.Size = new System.Drawing.Size(180, 22);
+            this.PopupSelect.Size = new System.Drawing.Size(159, 22);
             this.PopupSelect.Text = "&Select";
             // 
             // PopupSort
@@ -203,7 +209,7 @@
             this.PopupSortDescending});
             this.PopupSort.Name = "PopupSort";
             this.PopupSort.ShortcutKeyDisplayString = "";
-            this.PopupSort.Size = new System.Drawing.Size(180, 22);
+            this.PopupSort.Size = new System.Drawing.Size(159, 22);
             this.PopupSort.Text = "S&ort";
             // 
             // PopupSortAscending
@@ -224,14 +230,35 @@
             // 
             this.PopupGroup.Name = "PopupGroup";
             this.PopupGroup.ShortcutKeyDisplayString = "";
-            this.PopupGroup.Size = new System.Drawing.Size(180, 22);
+            this.PopupGroup.Size = new System.Drawing.Size(159, 22);
             this.PopupGroup.Text = "&Group";
             this.PopupGroup.ToolTipText = "Include this Tag in the Custom Group?";
             // 
             // toolStripMenuItem10
             // 
             this.toolStripMenuItem10.Name = "toolStripMenuItem10";
-            this.toolStripMenuItem10.Size = new System.Drawing.Size(177, 6);
+            this.toolStripMenuItem10.Size = new System.Drawing.Size(156, 6);
+            // 
+            // PopupUndo
+            // 
+            this.PopupUndo.Name = "PopupUndo";
+            this.PopupUndo.ShortcutKeyDisplayString = "^Z";
+            this.PopupUndo.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Z)));
+            this.PopupUndo.Size = new System.Drawing.Size(159, 22);
+            this.PopupUndo.Text = "Undo";
+            // 
+            // PopupRedo
+            // 
+            this.PopupRedo.Name = "PopupRedo";
+            this.PopupRedo.ShortcutKeyDisplayString = "^Y";
+            this.PopupRedo.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Y)));
+            this.PopupRedo.Size = new System.Drawing.Size(159, 22);
+            this.PopupRedo.Text = "Redo";
+            // 
+            // toolStripMenuItem1
+            // 
+            this.toolStripMenuItem1.Name = "toolStripMenuItem1";
+            this.toolStripMenuItem1.Size = new System.Drawing.Size(156, 6);
             // 
             // PopupCut
             // 
@@ -240,7 +267,7 @@
             this.PopupCut.Name = "PopupCut";
             this.PopupCut.ShortcutKeyDisplayString = "^X";
             this.PopupCut.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.X)));
-            this.PopupCut.Size = new System.Drawing.Size(180, 22);
+            this.PopupCut.Size = new System.Drawing.Size(159, 22);
             this.PopupCut.Text = "Cu&t";
             // 
             // PopupCopy
@@ -250,7 +277,7 @@
             this.PopupCopy.Name = "PopupCopy";
             this.PopupCopy.ShortcutKeyDisplayString = "^C";
             this.PopupCopy.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.C)));
-            this.PopupCopy.Size = new System.Drawing.Size(180, 22);
+            this.PopupCopy.Size = new System.Drawing.Size(159, 22);
             this.PopupCopy.Text = "&Copy";
             // 
             // PopupPaste
@@ -260,7 +287,7 @@
             this.PopupPaste.Name = "PopupPaste";
             this.PopupPaste.ShortcutKeyDisplayString = "^V";
             this.PopupPaste.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.V)));
-            this.PopupPaste.Size = new System.Drawing.Size(180, 22);
+            this.PopupPaste.Size = new System.Drawing.Size(159, 22);
             this.PopupPaste.Text = "&Paste";
             // 
             // PopupDelete
@@ -269,8 +296,40 @@
             this.PopupDelete.ImageTransparentColor = System.Drawing.Color.White;
             this.PopupDelete.Name = "PopupDelete";
             this.PopupDelete.ShortcutKeys = System.Windows.Forms.Keys.Delete;
-            this.PopupDelete.Size = new System.Drawing.Size(180, 22);
+            this.PopupDelete.Size = new System.Drawing.Size(159, 22);
             this.PopupDelete.Text = "&Delete";
+            // 
+            // PopupClear
+            // 
+            this.PopupClear.Name = "PopupClear";
+            this.PopupClear.Size = new System.Drawing.Size(159, 22);
+            this.PopupClear.Text = "Cl&ear";
+            // 
+            // PopupSelectSeparator
+            // 
+            this.PopupSelectSeparator.Name = "PopupSelectSeparator";
+            this.PopupSelectSeparator.Size = new System.Drawing.Size(156, 6);
+            // 
+            // PopupSelectAll
+            // 
+            this.PopupSelectAll.Name = "PopupSelectAll";
+            this.PopupSelectAll.ShortcutKeyDisplayString = "^A";
+            this.PopupSelectAll.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.A)));
+            this.PopupSelectAll.Size = new System.Drawing.Size(159, 22);
+            this.PopupSelectAll.Text = "Select &All";
+            // 
+            // PopupInvertSelection
+            // 
+            this.PopupInvertSelection.Name = "PopupInvertSelection";
+            this.PopupInvertSelection.Size = new System.Drawing.Size(159, 22);
+            this.PopupInvertSelection.Text = "&Invert Selection";
+            // 
+            // EditMenu
+            // 
+            this.EditMenu.DropDown = this.PopupMenu;
+            this.EditMenu.Name = "EditMenu";
+            this.EditMenu.Size = new System.Drawing.Size(39, 20);
+            this.EditMenu.Text = "&Edit";
             // 
             // TreeView
             // 
@@ -572,13 +631,46 @@
             // 
             this.MainMenu.Dock = System.Windows.Forms.DockStyle.None;
             this.MainMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.TreeMenu,
-            this.ListMenu});
+            this.FileMenu,
+            this.EditMenu,
+            this.ViewMenu});
             this.MainMenu.Location = new System.Drawing.Point(0, 0);
             this.MainMenu.Name = "MainMenu";
             this.MainMenu.Size = new System.Drawing.Size(784, 24);
             this.MainMenu.TabIndex = 7;
             this.MainMenu.Text = "menuStrip1";
+            // 
+            // FileMenu
+            // 
+            this.FileMenu.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.FileSaveAndClose,
+            this.FileCloseWithoutSaving});
+            this.FileMenu.Name = "FileMenu";
+            this.FileMenu.Size = new System.Drawing.Size(37, 20);
+            this.FileMenu.Text = "&File";
+            // 
+            // FileSaveAndClose
+            // 
+            this.FileSaveAndClose.Name = "FileSaveAndClose";
+            this.FileSaveAndClose.ShortcutKeyDisplayString = "Enter";
+            this.FileSaveAndClose.Size = new System.Drawing.Size(208, 22);
+            this.FileSaveAndClose.Text = "&Save && Close";
+            // 
+            // FileCloseWithoutSaving
+            // 
+            this.FileCloseWithoutSaving.Name = "FileCloseWithoutSaving";
+            this.FileCloseWithoutSaving.ShortcutKeyDisplayString = "Esc";
+            this.FileCloseWithoutSaving.Size = new System.Drawing.Size(208, 22);
+            this.FileCloseWithoutSaving.Text = "&Close without saving";
+            // 
+            // ViewMenu
+            // 
+            this.ViewMenu.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.TreeMenu,
+            this.ListMenu});
+            this.ViewMenu.Name = "ViewMenu";
+            this.ViewMenu.Size = new System.Drawing.Size(44, 20);
+            this.ViewMenu.Text = "&View";
             // 
             // TreeMenu
             // 
@@ -587,7 +679,7 @@
             this.TreeByCategory,
             this.TreeByDataType});
             this.TreeMenu.Name = "TreeMenu";
-            this.TreeMenu.Size = new System.Drawing.Size(40, 20);
+            this.TreeMenu.Size = new System.Drawing.Size(95, 22);
             this.TreeMenu.Text = "&Tree";
             // 
             // TreeAlphabetically
@@ -623,7 +715,7 @@
             this.toolStripMenuItem2,
             this.ListNamesOnly});
             this.ListMenu.Name = "ListMenu";
-            this.ListMenu.Size = new System.Drawing.Size(37, 20);
+            this.ListMenu.Size = new System.Drawing.Size(95, 22);
             this.ListMenu.Text = "&List";
             // 
             // ListAlphabetically
@@ -662,52 +754,6 @@
             this.ListNamesOnly.Name = "ListNamesOnly";
             this.ListNamesOnly.Size = new System.Drawing.Size(149, 22);
             this.ListNamesOnly.Text = "&Names only";
-            // 
-            // PopupSelectAll
-            // 
-            this.PopupSelectAll.Name = "PopupSelectAll";
-            this.PopupSelectAll.ShortcutKeyDisplayString = "^A";
-            this.PopupSelectAll.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.A)));
-            this.PopupSelectAll.Size = new System.Drawing.Size(180, 22);
-            this.PopupSelectAll.Text = "Select &All";
-            // 
-            // PopupInvertSelection
-            // 
-            this.PopupInvertSelection.Name = "PopupInvertSelection";
-            this.PopupInvertSelection.Size = new System.Drawing.Size(180, 22);
-            this.PopupInvertSelection.Text = "&Invert Selection";
-            // 
-            // PopupClear
-            // 
-            this.PopupClear.Name = "PopupClear";
-            this.PopupClear.Size = new System.Drawing.Size(180, 22);
-            this.PopupClear.Text = "Cl&ear";
-            // 
-            // PopupSelectSeparator
-            // 
-            this.PopupSelectSeparator.Name = "PopupSelectSeparator";
-            this.PopupSelectSeparator.Size = new System.Drawing.Size(177, 6);
-            // 
-            // PopupUndo
-            // 
-            this.PopupUndo.Name = "PopupUndo";
-            this.PopupUndo.ShortcutKeyDisplayString = "^Z";
-            this.PopupUndo.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Z)));
-            this.PopupUndo.Size = new System.Drawing.Size(180, 22);
-            this.PopupUndo.Text = "Undo";
-            // 
-            // PopupRedo
-            // 
-            this.PopupRedo.Name = "PopupRedo";
-            this.PopupRedo.ShortcutKeyDisplayString = "^Y";
-            this.PopupRedo.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Y)));
-            this.PopupRedo.Size = new System.Drawing.Size(180, 22);
-            this.PopupRedo.Text = "Redo";
-            // 
-            // toolStripMenuItem1
-            // 
-            this.toolStripMenuItem1.Name = "toolStripMenuItem1";
-            this.toolStripMenuItem1.Size = new System.Drawing.Size(177, 6);
             // 
             // QueryDialog
             // 
@@ -762,16 +808,6 @@
         public System.Windows.Forms.ToolStripButton tbTreeAlpha;
         public System.Windows.Forms.ToolStripButton tbTreeCat;
         public Controls.FirstClickMenuStrip MainMenu;
-        public System.Windows.Forms.ToolStripMenuItem TreeMenu;
-        public System.Windows.Forms.ToolStripMenuItem TreeAlphabetically;
-        public System.Windows.Forms.ToolStripMenuItem TreeByCategory;
-        public System.Windows.Forms.ToolStripMenuItem TreeByDataType;
-        public System.Windows.Forms.ToolStripMenuItem ListMenu;
-        public System.Windows.Forms.ToolStripMenuItem ListAlphabetically;
-        public System.Windows.Forms.ToolStripMenuItem ListByCategory;
-        public System.Windows.Forms.ToolStripMenuItem ListByDataType;
-        public System.Windows.Forms.ToolStripSeparator toolStripMenuItem2;
-        public System.Windows.Forms.ToolStripMenuItem ListNamesOnly;
         public System.Windows.Forms.ToolStripButton tbTreeType;
         public System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
         public System.Windows.Forms.ToolStripButton tbListAlpha;
@@ -810,5 +846,20 @@
         public System.Windows.Forms.ToolStripMenuItem PopupUndo;
         public System.Windows.Forms.ToolStripMenuItem PopupRedo;
         private System.Windows.Forms.ToolStripSeparator toolStripMenuItem1;
+        public System.Windows.Forms.ToolStripMenuItem EditMenu;
+        public System.Windows.Forms.ToolStripMenuItem FileMenu;
+        public System.Windows.Forms.ToolStripMenuItem ViewMenu;
+        public System.Windows.Forms.ToolStripMenuItem TreeMenu;
+        public System.Windows.Forms.ToolStripMenuItem TreeAlphabetically;
+        public System.Windows.Forms.ToolStripMenuItem TreeByCategory;
+        public System.Windows.Forms.ToolStripMenuItem TreeByDataType;
+        public System.Windows.Forms.ToolStripMenuItem ListMenu;
+        public System.Windows.Forms.ToolStripMenuItem ListAlphabetically;
+        public System.Windows.Forms.ToolStripMenuItem ListByCategory;
+        public System.Windows.Forms.ToolStripMenuItem ListByDataType;
+        public System.Windows.Forms.ToolStripSeparator toolStripMenuItem2;
+        public System.Windows.Forms.ToolStripMenuItem ListNamesOnly;
+        private System.Windows.Forms.ToolStripMenuItem FileSaveAndClose;
+        private System.Windows.Forms.ToolStripMenuItem FileCloseWithoutSaving;
     }
 }
