@@ -95,6 +95,7 @@
             this.ListByDataType = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem2 = new System.Windows.Forms.ToolStripSeparator();
             this.ListNamesOnly = new System.Windows.Forms.ToolStripMenuItem();
+            this.HelpMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.PopupMenu.SuspendLayout();
             this.toolStripContainer1.ContentPanel.SuspendLayout();
             this.toolStripContainer1.LeftToolStripPanel.SuspendLayout();
@@ -633,7 +634,8 @@
             this.MainMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.FileMenu,
             this.EditMenu,
-            this.ViewMenu});
+            this.ViewMenu,
+            this.HelpMenu});
             this.MainMenu.Location = new System.Drawing.Point(0, 0);
             this.MainMenu.Name = "MainMenu";
             this.MainMenu.Size = new System.Drawing.Size(784, 24);
@@ -755,6 +757,12 @@
             this.ListNamesOnly.Size = new System.Drawing.Size(149, 22);
             this.ListNamesOnly.Text = "&Names only";
             // 
+            // HelpMenu
+            // 
+            this.HelpMenu.Name = "HelpMenu";
+            this.HelpMenu.Size = new System.Drawing.Size(44, 20);
+            this.HelpMenu.Text = "&Help";
+            // 
             // QueryDialog
             // 
             this.AcceptButton = this.btnOK;
@@ -845,7 +853,7 @@
         public System.Windows.Forms.ToolStripSeparator PopupSelectSeparator;
         public System.Windows.Forms.ToolStripMenuItem PopupUndo;
         public System.Windows.Forms.ToolStripMenuItem PopupRedo;
-        private System.Windows.Forms.ToolStripSeparator toolStripMenuItem1;
+        public System.Windows.Forms.ToolStripSeparator toolStripMenuItem1;
         public System.Windows.Forms.ToolStripMenuItem EditMenu;
         public System.Windows.Forms.ToolStripMenuItem FileMenu;
         public System.Windows.Forms.ToolStripMenuItem ViewMenu;
@@ -859,7 +867,8 @@
         public System.Windows.Forms.ToolStripMenuItem ListByDataType;
         public System.Windows.Forms.ToolStripSeparator toolStripMenuItem2;
         public System.Windows.Forms.ToolStripMenuItem ListNamesOnly;
-        private System.Windows.Forms.ToolStripMenuItem FileSaveAndClose;
-        private System.Windows.Forms.ToolStripMenuItem FileCloseWithoutSaving;
+        public System.Windows.Forms.ToolStripMenuItem FileCloseWithoutSaving;
+        public System.Windows.Forms.ToolStripMenuItem HelpMenu;
+        public System.Windows.Forms.ToolStripMenuItem FileSaveAndClose;
     }
 }
