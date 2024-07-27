@@ -33,13 +33,6 @@
 
         #endregion
 
-        #region Public Methods
-
-        public abstract IEnumerable<Tag> GetSelectedTags();
-        public abstract void SetSelectedTags(IEnumerable<Tag> visibleTags);
-
-        #endregion
-
         #region Protected Properties
 
         protected IEnumerable<Tag> AvailableTags => QueryController.AvailableTags;

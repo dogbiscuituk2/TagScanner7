@@ -5,7 +5,6 @@
     using System.Linq;
     using System.Windows.Forms;
     using Models;
-    using Terms;
 
     public class QueryTreeViewController : QueryViewController
     {
@@ -17,33 +16,11 @@
 
         #region Public Methods
 
-        public override IEnumerable<Tag> GetSelectedTags()
-        {
-            var result = new List<Tag>();
-            Visit(p =>
-            {
-                if (p.Tag is Tag tag && p.StateImageIndex == (int)TreeNodeState.Checked)
-                    result.Add(tag);
-            });
-            return result;
-        }
-
         public void InitView()
         {
-            InitNodes();
+            InitGroups();
             RootNode.Expand();
-            TriStateTreeController = new TriStateTreeController(TreeView);
-            TriStateTreeController.NodeStateChanged += TriStateTreeController_NodeStateChanged;
         }
-
-        public override void SetSelectedTags(IEnumerable<Tag> visibleTags) => Visit(p =>
-        {
-            if (p.Tag is Tag tag)
-                TriStateTreeController.SetNodeState(p, 
-                    visibleTags.Contains(tag)
-                    ? TreeNodeState.Checked
-                    : TreeNodeState.Unchecked);
-        });
 
         #endregion
 
@@ -51,14 +28,14 @@
 
         protected override void InitGroups()
         {
-            InitNodes();
+            TreeView.Nodes.Clear();
+            AddNode(TreeView.Nodes, "All Tags");
+            foreach (var parentName in GetParentNames().Distinct().OrderBy(p => p))
+                AddNode(RootNode.Nodes, parentName);
+            foreach (var tag in SortTags())
+                AddNode(FindParent(tag).Nodes, tag);
+            RootNode.Expand();
         }
-
-        #endregion
-
-        #region Private Fields
-
-        private TriStateTreeController TriStateTreeController;
 
         #endregion
 
@@ -67,15 +44,6 @@
         private TreeNodeCollection Nodes => RootNode.Nodes;
         private TreeNode RootNode => TreeView.Nodes[0];
         private TreeView TreeView => (TreeView)Control;
-
-        #endregion
-
-        #region Event Handlers
-
-        private void TriStateTreeController_NodeStateChanged(object sender, EventArgs e)
-        {
-            ((QueryController)Parent).UpdateSelection();
-        }
 
         #endregion
 
@@ -121,29 +89,6 @@
                     return AvailableTags.Select(p => p.Type().Name);
                 default:
                     return Array.Empty<string>();
-            }
-        }
-
-        private void InitNodes()
-        {
-            TreeView.Nodes.Clear();
-            AddNode(TreeView.Nodes, "All Tags");
-            foreach (var parentName in GetParentNames().Distinct().OrderBy(p => p))
-                AddNode(RootNode.Nodes, parentName);
-            foreach (var tag in SortTags())
-                AddNode(FindParent(tag).Nodes, tag);
-            RootNode.Expand();
-        }
-
-        private void Visit(Action<TreeNode> action)
-        {
-            DoVisit(RootNode);
-
-            void DoVisit(TreeNode parent)
-            {
-                action(parent);
-                foreach (TreeNode child in parent.Nodes)
-                    DoVisit(child);
             }
         }
 

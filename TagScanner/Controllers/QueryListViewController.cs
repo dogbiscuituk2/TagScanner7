@@ -1,22 +1,17 @@
 ﻿namespace TagScanner.Controllers
 {
-    using System;
     using System.Collections;
     using System.Collections.Generic;
     using System.Drawing;
     using System.Linq;
     using System.Windows.Forms;
     using Models;
-    using Terms;
 
     public class QueryListViewController : QueryViewController, IComparer
     {
         #region Constructor
 
-        public QueryListViewController(QueryController parent, ListView listView) : base(parent, listView)
-        {
-            listView.ItemChecked += (sender, e) => parent.UpdateSelection();
-        }
+        public QueryListViewController(QueryController parent, ListView listView) : base(parent, listView) { }
 
         #endregion
 
@@ -39,24 +34,6 @@
             InitItems();
             ListView.ColumnClick += (sender, e) => SortByColumn(e.Column);
             ListView.ListViewItemSorter = this;
-        }
-
-        public override IEnumerable<Tag> GetSelectedTags()
-        {
-            var result = new List<Tag>();
-            result.AddRange(ListView.Items.Cast<ListViewItem>().Where(t => t.Checked).Select(t => (Tag)t.Tag));
-            return result;
-        }
-
-        public override void SetSelectedTags(IEnumerable<Tag> visibleTags)
-        {
-            var items = Items.Cast<ListViewItem>();
-            foreach (var tag in AvailableTags)
-            {
-                var item = items.FirstOrDefault(p => (Tag)p.Tag == tag);
-                if (item != null)
-                    item.Checked = visibleTags.Contains(tag);
-            }
         }
 
         public void ShowView(View view)

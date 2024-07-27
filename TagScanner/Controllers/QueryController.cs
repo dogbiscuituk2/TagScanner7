@@ -8,7 +8,7 @@
     using Forms;
     using Models;
 
-    public class QueryController : Controller
+    public class QueryController : UndoRedoController<Query>
     {
         #region Constructors
 
@@ -29,15 +29,6 @@
             ListByCategory = Dialog.ListByCategory;
             ListByDataType = Dialog.ListByDataType;
             ListNamesOnly = Dialog.ListNamesOnly;
-
-            tbTreeAlpha = Dialog.tbTreeAlpha;
-            tbTreeCat = Dialog.tbTreeCat;
-            tbTreeType = Dialog.tbTreeType;
-
-            tbListAlpha = Dialog.tbListAlpha;
-            tbListCat = Dialog.tbListCat;
-            tbListType = Dialog.tbListType;
-            tbListNames = Dialog.tbListNames;
 
             PopupMenu = Dialog.PopupMenu;
             PopupMoveUp = Dialog.PopupMoveUp;
@@ -66,9 +57,6 @@
             TreeAlphabetically.Click += TreeAlphabetically_Click;
             TreeByCategory.Click += TreeByCategory_Click;
             TreeByDataType.Click += TreeByDataType_Click;
-            tbTreeAlpha.Click += TreeAlphabetically_Click;
-            tbTreeCat.Click += TreeByCategory_Click;
-            tbTreeType.Click += TreeByDataType_Click;
 
             _queryListViewController.InitView();
 
@@ -76,12 +64,11 @@
             ListByCategory.Click += ListByCategory_Click;
             ListByDataType.Click += ListByDataType_Click;
             ListNamesOnly.Click += ListNamesOnly_Click;
-            tbListAlpha.Click += ListAlphabetically_Click;
-            tbListCat.Click += ListByCategory_Click;
-            tbListType.Click += ListByDataType_Click;
-            tbListNames.Click += ListNamesOnly_Click;
 
             InitControls(TreeView, ListView, LvSelect, LvOrderBy, LvGroupBy);
+
+            Dialog.FileSaveAndClose.Click += (sender, e) => Dialog.DialogResult = DialogResult.OK;
+            Dialog.FileCloseWithoutSaving.Click += (sender, e) => Dialog.DialogResult = DialogResult.Cancel;
 
             PopupMenu.Opening += PopupTargetMenu_Opening;
             PopupMoveUp.Click += PopupMoveUp_Click;
@@ -132,31 +119,31 @@
         public bool Execute(string caption, Query query)
         {
             Dialog.Text = caption;
-            SetTags(query.Tags);
+            SetSelectedTags(query.Tags);
             SetSorts(query.Sorts);
             SetGroups(query.Groups);
             var ok = Dialog.ShowDialog(Owner) == DialogResult.OK;
             if (ok)
-                query.Init(ActiveController.GetSelectedTags(), GetSorts(), GetGroups());
+                query.Init(GetSelectedTags(), GetSorts(), GetGroups());
             return ok;
         }
 
         public bool Execute(string caption, List<Tag> selectedTags)
         {
             Dialog.Text = caption;
-            SetTags(selectedTags);
+            SetSelectedTags(selectedTags);
             var ok = Dialog.ShowDialog(Owner) == DialogResult.OK;
             if (ok)
             {
                 selectedTags.Clear();
-                selectedTags.AddRange(ActiveController.GetSelectedTags());
+                selectedTags.AddRange(GetSelectedTags());
             }
             return ok;
         }
 
         public void UpdateSelection()
         {
-            UpdateTags(LvSelect, GetTags());
+            UpdateTags(LvSelect, GetSelectedTags());
             UpdateSorts(LvOrderBy, GetSorts());
             UpdateTags(LvGroupBy, GetGroups());
 
@@ -175,6 +162,20 @@
                 view.Clear();
                 view.Items.AddRange(tags.Select(p => new TagListItem(p)).ToArray());
             }
+        }
+
+        #endregion
+
+        # region Protected Methods
+
+        protected override int Redo(Query query, bool spoof = false)
+        {
+            return 0;
+        }
+
+        protected override int Undo(Query query)
+        {
+            return 0;
         }
 
         #endregion
@@ -212,15 +213,6 @@
             PopupClear,
             PopupSelectAll,
             PopupInvertSelection;
-
-        private readonly ToolStripButton
-            tbListAlpha,
-            tbListCat,
-            tbListType,
-            tbListNames,
-            tbTreeAlpha,
-            tbTreeCat,
-            tbTreeType;
 
         #endregion
 
@@ -341,9 +333,9 @@
             return Dialog;
         }
 
+        private IEnumerable<Tag> GetSelectedTags() => LvSelect.Items.Cast<ListViewItem>().Select(p => (Tag)p.Tag);
         private IEnumerable<Tag> GetGroups() => LvGroupBy.Items.Cast<ListViewItem>().Select(p => (Tag)p.Tag);
         private IEnumerable<SortDescription> GetSorts() => LvOrderBy.Items.Cast<TagListItem>().Select(p => new SortDescription(p.Name, p.Direction));
-        private IEnumerable<Tag> GetTags() => ActiveController.GetSelectedTags();
 
         private IEnumerable<TagSort> GetTagSortData() => FocusedListView != null
             ? FocusedListView.SelectedItems.GetTagSortData()
@@ -385,7 +377,7 @@
 
         private void SetGroups(IEnumerable<Tag> tags) => LvGroupBy.Items.AddRange(tags.Select(p => new TagListItem(p)).ToArray());
         private void SetSorts(IEnumerable<SortDescription> sorts) => LvOrderBy.Items.AddRange(sorts.Select(p => new TagListItem(p)).ToArray());
-        private void SetTags(IEnumerable<Tag> selectedTags) => ActiveController.SetSelectedTags(selectedTags);
+        private void SetSelectedTags(IEnumerable<Tag> tags) => LvSelect.Items.AddRange(tags.Select(p => new TagListItem(p)).ToArray());
 
         private void UpdateMenu()
         {
@@ -454,13 +446,13 @@
         private void UpdateUI()
         {
             bool tree = _queryTreeViewController.Active;
-            TreeAlphabetically.Checked = tbTreeAlpha.Checked = tree && TagGrouping == TagGrouping.None; ;
-            TreeByCategory.Checked = tbTreeCat.Checked = tree && TagGrouping == TagGrouping.Category;
-            TreeByDataType.Checked = tbTreeType.Checked = tree && TagGrouping == TagGrouping.DataType;
-            ListAlphabetically.Checked = tbListAlpha.Checked = !tree && TagGrouping == TagGrouping.None && !MultiColumn;
-            ListByCategory.Checked = tbListCat.Checked = !tree && TagGrouping == TagGrouping.Category;
-            ListByDataType.Checked = tbListType.Checked = !tree && TagGrouping == TagGrouping.DataType;
-            ListNamesOnly.Checked = tbListNames.Checked = !tree && TagGrouping == TagGrouping.None && MultiColumn;
+            TreeAlphabetically.Checked = tree && TagGrouping == TagGrouping.None; ;
+            TreeByCategory.Checked = tree && TagGrouping == TagGrouping.Category;
+            TreeByDataType.Checked = tree && TagGrouping == TagGrouping.DataType;
+            ListAlphabetically.Checked = !tree && TagGrouping == TagGrouping.None && !MultiColumn;
+            ListByCategory.Checked = !tree && TagGrouping == TagGrouping.Category;
+            ListByDataType.Checked = !tree && TagGrouping == TagGrouping.DataType;
+            ListNamesOnly.Checked = !tree && TagGrouping == TagGrouping.None && MultiColumn;
             UpdateMenu();
         }
 
@@ -469,13 +461,11 @@
 
         private void UseView(bool useTree, TagGrouping tagGrouping, bool multiColumn = false)
         {
-            var selectedTags = GetTags();
             TagGrouping = tagGrouping;
             MultiColumn = multiColumn;
             _queryListViewController.ViewMode = multiColumn ? View.List : View.Details;
             _queryListViewController.Active = !useTree;
             _queryTreeViewController.Active = useTree;
-            SetTags(selectedTags);
             UpdateUI();
         }
 
