@@ -116,23 +116,19 @@
 
         #region Public Methods
 
-        public bool Execute(string caption, Query query)
+        public bool Execute(string caption, string detail, Query query)
         {
-            Dialog.Text = caption;
-            SetSelectedTags(query.Tags);
             SetSorts(query.Sorts);
             SetGroups(query.Groups);
-            var ok = Dialog.ShowDialog(Owner) == DialogResult.OK;
+            var ok = Execute(caption, detail, query.Tags, true);
             if (ok)
                 query.Init(GetSelectedTags(), GetSorts(), GetGroups());
             return ok;
         }
 
-        public bool Execute(string caption, List<Tag> selectedTags)
+        public bool Execute(string caption, string detail, List<Tag> selectedTags)
         {
-            Dialog.Text = caption;
-            SetSelectedTags(selectedTags);
-            var ok = Dialog.ShowDialog(Owner) == DialogResult.OK;
+            var ok = Execute(caption, detail, selectedTags, false);
             if (ok)
             {
                 selectedTags.Clear();
@@ -226,6 +222,26 @@
         private QueryDialog Dialog => _dialog ?? CreateDialog();
 
         private ListView FocusedListView => Focus as ListView;
+
+        private bool _sortAndGroup;
+        private bool SortAndGroup
+        {
+            get => _sortAndGroup;
+            set
+            {
+                _sortAndGroup = value;
+                Dialog.lblOrderBy.Visible = LvOrderBy.Visible = value;
+                Dialog.lblGroupBy.Visible = LvGroupBy.Visible = value;
+                var styles = Dialog.TableLayoutPanel.ColumnStyles;
+                if (SortAndGroup)
+                    styles[0].Width = styles[1].Width = styles[2].Width = 100 / 3F;
+                else
+                {
+                    styles[0].Width = 100;
+                    styles[1].Width = styles[2].Width = 0;
+                }
+            }
+        }
 
         #endregion
 
@@ -333,6 +349,15 @@
             return Dialog;
         }
 
+        private bool Execute(string caption, string detail, List<Tag> tags, bool sortAndGroup)
+        {
+            Dialog.Text = caption;
+            Dialog.lblSelect.Text = detail;
+            SortAndGroup = sortAndGroup;
+            SetSelectedTags(tags);
+            return Dialog.ShowDialog(Owner) == DialogResult.OK;
+        }
+
         private IEnumerable<Tag> GetSelectedTags() => LvSelect.Items.Cast<ListViewItem>().Select(p => (Tag)p.Tag);
         private IEnumerable<Tag> GetGroups() => LvGroupBy.Items.Cast<ListViewItem>().Select(p => (Tag)p.Tag);
         private IEnumerable<SortDescription> GetSorts() => LvOrderBy.Items.Cast<TagListItem>().Select(p => new SortDescription(p.Name, p.Direction));
@@ -393,8 +418,8 @@
                 canMoveUp = canEdit,
                 canMoveDown = canEdit,
                 canSelect = Focus != LvSelect,
-                canSort = Focus != LvOrderBy,
-                canGroup = Focus != LvGroupBy,
+                canSort = SortAndGroup && Focus != LvOrderBy,
+                canGroup = SortAndGroup && Focus != LvGroupBy,
                 canCut = canEdit,
                 canCopy = hasFocus,
                 canPaste = canEdit,
@@ -412,8 +437,8 @@
             canMoveUp &= count > 0 && indices.Max() >= count;
             canMoveDown &= count > 0 && indices.Min() < total - count;
             canSelect &= hasSelection;
-            canSort &= hasSelection && Focus != LvOrderBy;
-            canGroup &= hasSelection && Focus != LvGroupBy;
+            canSort &= hasSelection;
+            canGroup &= hasSelection;
             canCut &= hasSelection;
             canCopy &= hasSelection;
             canPaste &= Clipboard.GetDataObject().HasTagSortData();

@@ -101,6 +101,7 @@
             // ListView
             // 
             this.ListView.AllowColumnReorder = true;
+            this.ListView.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.ListView.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.chTagName,
             this.chCategory,
@@ -110,7 +111,6 @@
             this.ListView.FullRowSelect = true;
             this.ListView.HideSelection = false;
             this.ListView.Location = new System.Drawing.Point(4, 4);
-            this.ListView.Margin = new System.Windows.Forms.Padding(4);
             this.ListView.Name = "ListView";
             this.ListView.ShowItemToolTips = true;
             this.ListView.Size = new System.Drawing.Size(152, 120);
@@ -318,6 +318,7 @@
             // 
             // TreeView
             // 
+            this.TreeView.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.TreeView.ContextMenuStrip = this.PopupMenu;
             this.TreeView.HideSelection = false;
             this.TreeView.Location = new System.Drawing.Point(163, 4);
@@ -390,15 +391,14 @@
             // lvSelect
             // 
             this.lvSelect.AllowDrop = true;
-            this.lvSelect.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.lvSelect.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.lvSelect.ContextMenuStrip = this.PopupMenu;
             this.lvSelect.Dock = System.Windows.Forms.DockStyle.Fill;
             this.lvSelect.HideSelection = false;
-            this.lvSelect.Location = new System.Drawing.Point(0, 20);
-            this.lvSelect.Margin = new System.Windows.Forms.Padding(0);
+            this.lvSelect.Location = new System.Drawing.Point(3, 23);
             this.lvSelect.Name = "lvSelect";
             this.lvSelect.ShowItemToolTips = true;
-            this.lvSelect.Size = new System.Drawing.Size(261, 177);
+            this.lvSelect.Size = new System.Drawing.Size(255, 171);
             this.lvSelect.TabIndex = 1;
             this.lvSelect.UseCompatibleStateImageBehavior = false;
             this.lvSelect.View = System.Windows.Forms.View.List;
@@ -406,15 +406,14 @@
             // lvOrderBy
             // 
             this.lvOrderBy.AllowDrop = true;
-            this.lvOrderBy.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.lvOrderBy.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.lvOrderBy.ContextMenuStrip = this.PopupMenu;
             this.lvOrderBy.Dock = System.Windows.Forms.DockStyle.Fill;
             this.lvOrderBy.HideSelection = false;
-            this.lvOrderBy.Location = new System.Drawing.Point(261, 20);
-            this.lvOrderBy.Margin = new System.Windows.Forms.Padding(0);
+            this.lvOrderBy.Location = new System.Drawing.Point(264, 23);
             this.lvOrderBy.Name = "lvOrderBy";
             this.lvOrderBy.ShowItemToolTips = true;
-            this.lvOrderBy.Size = new System.Drawing.Size(261, 177);
+            this.lvOrderBy.Size = new System.Drawing.Size(255, 171);
             this.lvOrderBy.TabIndex = 25;
             this.lvOrderBy.UseCompatibleStateImageBehavior = false;
             this.lvOrderBy.View = System.Windows.Forms.View.List;
@@ -422,15 +421,14 @@
             // lvGroupBy
             // 
             this.lvGroupBy.AllowDrop = true;
-            this.lvGroupBy.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.lvGroupBy.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.lvGroupBy.ContextMenuStrip = this.PopupMenu;
             this.lvGroupBy.Dock = System.Windows.Forms.DockStyle.Fill;
             this.lvGroupBy.HideSelection = false;
-            this.lvGroupBy.Location = new System.Drawing.Point(522, 20);
-            this.lvGroupBy.Margin = new System.Windows.Forms.Padding(0);
+            this.lvGroupBy.Location = new System.Drawing.Point(525, 23);
             this.lvGroupBy.Name = "lvGroupBy";
             this.lvGroupBy.ShowItemToolTips = true;
-            this.lvGroupBy.Size = new System.Drawing.Size(262, 177);
+            this.lvGroupBy.Size = new System.Drawing.Size(256, 171);
             this.lvGroupBy.TabIndex = 26;
             this.lvGroupBy.UseCompatibleStateImageBehavior = false;
             this.lvGroupBy.View = System.Windows.Forms.View.List;
@@ -656,7 +654,6 @@
             this.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Margin = new System.Windows.Forms.Padding(4);
-            this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.MinimumSize = new System.Drawing.Size(800, 600);
             this.Name = "QueryDialog";
