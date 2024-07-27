@@ -48,25 +48,16 @@
             }
         }
 
-        public static IEnumerable<ListViewItem> GetTagSortItems(this IDataObject data) =>
-            data.GetData(typeof(TreeNode)) is TreeNode node ? node.GetTagSortItems() :
-            data.GetData(typeof(ListViewItem)) is ListViewItem item ? new[] { item } :
-            data.GetData(typeof(ListViewItems)) is ListViewItems items ? items.Cast<ListViewItem>() :
-            Array.Empty<ListViewItem>();
-
-        public static IEnumerable<ListViewItem> GetTagSortItems(this ListViewItems items) =>
-            items.Cast<ListViewItem>();
-
-        public static IEnumerable<ListViewItem> GetTagSortItems(this TreeNode node) =>
-            node.GetTagSortData().ToTagSortItems();
-
-        public static bool HasTagSortData(this IDataObject data) => data.GetTagSortData().Any();
-
         public static IEnumerable<TagSort> GetTagSortData(this ListViewItem item) =>
             new[] { new TagSort(item.Tag, item.StateImageIndex) };
 
         public static IEnumerable<TagSort> GetTagSortData(this ListViewItems items) =>
             items.Cast<ListViewItem>().Select(p => new TagSort(p.Tag, p.StateImageIndex));
+
+        public static IEnumerable<ListViewItem> GetTagSortItems(this IDataObject data) =>
+            data.GetTagSortData().ToTagSortItems();
+
+        public static bool HasTagSortData(this IDataObject data) => data.GetTagSortData().Any();
 
         public static IEnumerable<ListViewItem> ToTagSortItems(this IEnumerable<TagSort> data) =>
             data.Select(p => new TagListItem(p.Tag));

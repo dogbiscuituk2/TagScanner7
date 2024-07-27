@@ -389,8 +389,8 @@
                 total = FocusedListView != null ? FocusedListView.Items.Count : 0,
                 count = indices.Count();
 
-            canMoveUp &= indices.Max() >= count;
-            canMoveDown &= indices.Min() < total - count;
+            canMoveUp &= count > 0 && indices.Max() >= count;
+            canMoveDown &= count > 0 && indices.Min() < total - count;
 
             AdjustMenu((p, q) => p.Enabled = q && hasSelection);
             PopupPaste.Enabled = canDrop && Clipboard.GetDataObject().HasTagSortData();
