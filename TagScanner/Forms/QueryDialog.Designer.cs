@@ -68,11 +68,11 @@
             this.panel2 = new System.Windows.Forms.Panel();
             this.btnCancel = new System.Windows.Forms.Button();
             this.btnOK = new System.Windows.Forms.Button();
-            this.EditMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.MainMenu = new TagScanner.Controls.FirstClickMenuStrip();
             this.FileMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.FileSaveAndClose = new System.Windows.Forms.ToolStripMenuItem();
             this.FileCloseWithoutSaving = new System.Windows.Forms.ToolStripMenuItem();
+            this.EditMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.ViewMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.TreeMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.TreeAlphabetically = new System.Windows.Forms.ToolStripMenuItem();
@@ -228,6 +228,8 @@
             // 
             // PopupUndo
             // 
+            this.PopupUndo.Image = global::TagScanner.Properties.Resources.Edit_UndoHS;
+            this.PopupUndo.ImageTransparentColor = System.Drawing.Color.White;
             this.PopupUndo.Name = "PopupUndo";
             this.PopupUndo.ShortcutKeyDisplayString = "^Z";
             this.PopupUndo.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Z)));
@@ -236,6 +238,9 @@
             // 
             // PopupRedo
             // 
+            this.PopupRedo.Image = global::TagScanner.Properties.Resources.Edit_RedoHS;
+            this.PopupRedo.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
+            this.PopupRedo.ImageTransparentColor = System.Drawing.Color.White;
             this.PopupRedo.Name = "PopupRedo";
             this.PopupRedo.ShortcutKeyDisplayString = "^Y";
             this.PopupRedo.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Y)));
@@ -379,7 +384,7 @@
             this.TableLayoutPanel.RowCount = 2;
             this.TableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
             this.TableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.TableLayoutPanel.Size = new System.Drawing.Size(714, 233);
+            this.TableLayoutPanel.Size = new System.Drawing.Size(784, 197);
             this.TableLayoutPanel.TabIndex = 25;
             // 
             // lvSelect
@@ -393,7 +398,7 @@
             this.lvSelect.Margin = new System.Windows.Forms.Padding(0);
             this.lvSelect.Name = "lvSelect";
             this.lvSelect.ShowItemToolTips = true;
-            this.lvSelect.Size = new System.Drawing.Size(238, 213);
+            this.lvSelect.Size = new System.Drawing.Size(261, 177);
             this.lvSelect.TabIndex = 1;
             this.lvSelect.UseCompatibleStateImageBehavior = false;
             this.lvSelect.View = System.Windows.Forms.View.List;
@@ -405,11 +410,11 @@
             this.lvOrderBy.ContextMenuStrip = this.PopupMenu;
             this.lvOrderBy.Dock = System.Windows.Forms.DockStyle.Fill;
             this.lvOrderBy.HideSelection = false;
-            this.lvOrderBy.Location = new System.Drawing.Point(238, 20);
+            this.lvOrderBy.Location = new System.Drawing.Point(261, 20);
             this.lvOrderBy.Margin = new System.Windows.Forms.Padding(0);
             this.lvOrderBy.Name = "lvOrderBy";
             this.lvOrderBy.ShowItemToolTips = true;
-            this.lvOrderBy.Size = new System.Drawing.Size(238, 213);
+            this.lvOrderBy.Size = new System.Drawing.Size(261, 177);
             this.lvOrderBy.TabIndex = 25;
             this.lvOrderBy.UseCompatibleStateImageBehavior = false;
             this.lvOrderBy.View = System.Windows.Forms.View.List;
@@ -421,11 +426,11 @@
             this.lvGroupBy.ContextMenuStrip = this.PopupMenu;
             this.lvGroupBy.Dock = System.Windows.Forms.DockStyle.Fill;
             this.lvGroupBy.HideSelection = false;
-            this.lvGroupBy.Location = new System.Drawing.Point(476, 20);
+            this.lvGroupBy.Location = new System.Drawing.Point(522, 20);
             this.lvGroupBy.Margin = new System.Windows.Forms.Padding(0);
             this.lvGroupBy.Name = "lvGroupBy";
             this.lvGroupBy.ShowItemToolTips = true;
-            this.lvGroupBy.Size = new System.Drawing.Size(238, 213);
+            this.lvGroupBy.Size = new System.Drawing.Size(262, 177);
             this.lvGroupBy.TabIndex = 26;
             this.lvGroupBy.UseCompatibleStateImageBehavior = false;
             this.lvGroupBy.View = System.Windows.Forms.View.List;
@@ -435,7 +440,7 @@
             this.lblSelect.Dock = System.Windows.Forms.DockStyle.Fill;
             this.lblSelect.Location = new System.Drawing.Point(3, 0);
             this.lblSelect.Name = "lblSelect";
-            this.lblSelect.Size = new System.Drawing.Size(232, 20);
+            this.lblSelect.Size = new System.Drawing.Size(255, 20);
             this.lblSelect.TabIndex = 27;
             this.lblSelect.Text = "Select";
             this.lblSelect.TextAlign = System.Drawing.ContentAlignment.TopCenter;
@@ -443,9 +448,9 @@
             // lblOrderBy
             // 
             this.lblOrderBy.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.lblOrderBy.Location = new System.Drawing.Point(241, 0);
+            this.lblOrderBy.Location = new System.Drawing.Point(264, 0);
             this.lblOrderBy.Name = "lblOrderBy";
-            this.lblOrderBy.Size = new System.Drawing.Size(232, 20);
+            this.lblOrderBy.Size = new System.Drawing.Size(255, 20);
             this.lblOrderBy.TabIndex = 28;
             this.lblOrderBy.Text = "Sort";
             this.lblOrderBy.TextAlign = System.Drawing.ContentAlignment.TopCenter;
@@ -453,9 +458,9 @@
             // lblGroupBy
             // 
             this.lblGroupBy.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.lblGroupBy.Location = new System.Drawing.Point(479, 0);
+            this.lblGroupBy.Location = new System.Drawing.Point(525, 0);
             this.lblGroupBy.Name = "lblGroupBy";
-            this.lblGroupBy.Size = new System.Drawing.Size(232, 20);
+            this.lblGroupBy.Size = new System.Drawing.Size(256, 20);
             this.lblGroupBy.TabIndex = 29;
             this.lblGroupBy.Text = "Group";
             this.lblGroupBy.TextAlign = System.Drawing.ContentAlignment.TopCenter;
@@ -464,17 +469,17 @@
             // 
             this.panel2.Controls.Add(this.btnCancel);
             this.panel2.Controls.Add(this.btnOK);
-            this.panel2.Dock = System.Windows.Forms.DockStyle.Right;
-            this.panel2.Location = new System.Drawing.Point(714, 0);
+            this.panel2.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.panel2.Location = new System.Drawing.Point(0, 197);
             this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(70, 233);
+            this.panel2.Size = new System.Drawing.Size(784, 36);
             this.panel2.TabIndex = 23;
             // 
             // btnCancel
             // 
             this.btnCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.btnCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.btnCancel.Location = new System.Drawing.Point(10, 202);
+            this.btnCancel.Location = new System.Drawing.Point(724, 5);
             this.btnCancel.Margin = new System.Windows.Forms.Padding(4);
             this.btnCancel.Name = "btnCancel";
             this.btnCancel.Size = new System.Drawing.Size(56, 27);
@@ -486,20 +491,13 @@
             // 
             this.btnOK.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.btnOK.DialogResult = System.Windows.Forms.DialogResult.OK;
-            this.btnOK.Location = new System.Drawing.Point(10, 167);
+            this.btnOK.Location = new System.Drawing.Point(660, 5);
             this.btnOK.Margin = new System.Windows.Forms.Padding(4);
             this.btnOK.Name = "btnOK";
             this.btnOK.Size = new System.Drawing.Size(56, 27);
             this.btnOK.TabIndex = 19;
             this.btnOK.Text = "OK";
             this.btnOK.UseVisualStyleBackColor = true;
-            // 
-            // EditMenu
-            // 
-            this.EditMenu.DropDown = this.PopupMenu;
-            this.EditMenu.Name = "EditMenu";
-            this.EditMenu.Size = new System.Drawing.Size(39, 20);
-            this.EditMenu.Text = "&Edit";
             // 
             // MainMenu
             // 
@@ -526,6 +524,8 @@
             // 
             // FileSaveAndClose
             // 
+            this.FileSaveAndClose.Image = global::TagScanner.Properties.Resources.saveHS;
+            this.FileSaveAndClose.ImageTransparentColor = System.Drawing.Color.White;
             this.FileSaveAndClose.Name = "FileSaveAndClose";
             this.FileSaveAndClose.ShortcutKeyDisplayString = "Enter";
             this.FileSaveAndClose.Size = new System.Drawing.Size(208, 22);
@@ -533,10 +533,19 @@
             // 
             // FileCloseWithoutSaving
             // 
+            this.FileCloseWithoutSaving.Image = global::TagScanner.Properties.Resources.frClose;
+            this.FileCloseWithoutSaving.ImageTransparentColor = System.Drawing.Color.White;
             this.FileCloseWithoutSaving.Name = "FileCloseWithoutSaving";
             this.FileCloseWithoutSaving.ShortcutKeyDisplayString = "Esc";
             this.FileCloseWithoutSaving.Size = new System.Drawing.Size(208, 22);
             this.FileCloseWithoutSaving.Text = "&Close without saving";
+            // 
+            // EditMenu
+            // 
+            this.EditMenu.DropDown = this.PopupMenu;
+            this.EditMenu.Name = "EditMenu";
+            this.EditMenu.Size = new System.Drawing.Size(39, 20);
+            this.EditMenu.Text = "&Edit";
             // 
             // ViewMenu
             // 
