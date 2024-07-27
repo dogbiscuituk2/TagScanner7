@@ -13,7 +13,7 @@
 
         public CommandProcessor(Controller parent) : base(parent)
         {
-            Updater = new UpdateController(UpdateUI);
+            UpdateAction = UpdateUI;
             AddHandlers(MainForm.EditUndo, MainForm.tbUndo, EditUndo_Click, EditUndo_DropDownOpening);
             AddHandlers(MainForm.EditRedo, MainForm.tbRedo, EditRedo_Click, EditRedo_DropDownOpening);
 
@@ -28,21 +28,7 @@
 
         #endregion
 
-        #region Public Properties
-
-        public bool IsModified => LastSave != UndoStack.Count;
-
-        #endregion
-
         #region Public Methods
-
-        public void Clear()
-        {
-            LastSave = 0;
-            UndoStack.Clear();
-            RedoStack.Clear();
-            UpdateUI();
-        }
 
         /// <summary>
         /// Run a command, pushing its memento on to the Undo stack.
@@ -65,7 +51,7 @@
 
         public void UpdateLocalUI()
         {
-            if (Updater.Paused)
+            if (Paused)
                 return;
             MainForm.EditUndo.Enabled = MainForm.tbUndo.Enabled = CanUndo;
             MainForm.EditRedo.Enabled = MainForm.tbRedo.Enabled = CanRedo;
@@ -82,24 +68,16 @@
 
         #region Event Handlers
 
-        private void EditUndo_Click(object sender, EventArgs e) => Undo();
-        private void EditRedo_Click(object sender, EventArgs e) => Redo();
-
         private void EditUndo_DropDownOpening(object sender, EventArgs e) => PopulateMenu(undo: true);
         private void EditRedo_DropDownOpening(object sender, EventArgs e) => PopulateMenu(undo: false);
 
         private static void Menu_MouseEnter(object sender, EventArgs e) => HighlightMenu((ToolStripItem)sender);
         private static void Menu_Paint(object sender, PaintEventArgs e) => HighlightMenu((ToolStripItem)sender);
 
-        private void UndoMultiple(object sender, EventArgs e) => DoMultiple(sender, undo: true);
-        private void RedoMultiple(object sender, EventArgs e) => DoMultiple(sender, undo: false);
-
         #endregion
 
         #region Private Fields
 
-        private readonly UpdateController Updater;
-        private int LastSave;
         private bool Busy;
 
         #endregion
@@ -134,17 +112,6 @@
                 UpdateUI();
             }
             return result;
-        }
-
-        private void DoMultiple(object item, bool undo)
-        {
-            Updater.Pause();
-            var peek = ((ToolStripItem)item).Tag;
-            if (undo)
-                do Undo(); while (RedoStack.Peek() != peek);
-            else
-                do Redo(); while (UndoStack.Peek() != peek);
-            Updater.Resume();
         }
 
         private static void HighlightMenu(ToolStripItem activeItem)

@@ -53,7 +53,7 @@
         public void Run()
         {
             _pending = _pauseCount > 0;
-            if (!_pending)
+            if (!_pending && _action != null)
                 _action();
         }
 
