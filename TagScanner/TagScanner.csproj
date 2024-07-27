@@ -177,6 +177,7 @@
     <Compile Include="Controllers\TreeNodeState.cs" />
     <Compile Include="Controllers\TriStateChecksController.cs" />
     <Compile Include="Controllers\TriStateTreeController.cs" />
+    <Compile Include="Controllers\UndoRedoController.cs" />
     <Compile Include="Controllers\UpdateController.cs" />
     <Compile Include="Controls\FileFilterControl.cs">
       <SubType>UserControl</SubType>

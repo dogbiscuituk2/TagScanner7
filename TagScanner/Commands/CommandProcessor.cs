@@ -1,22 +1,19 @@
 ﻿namespace TagScanner.Commands
 {
     using System;
-    using System.Collections.Generic;
     using System.Drawing;
     using System.Windows.Forms;
     using Controllers;
     using Forms;
     using Utils;
 
-    public class CommandProcessor : Controller
+    public class CommandProcessor : UndoRedoController<Command>
     {
         #region Constructor
 
         public CommandProcessor(Controller parent) : base(parent)
         {
             Updater = new UpdateController(UpdateUI);
-            UndoStack = new Stack<Command>();
-            RedoStack = new Stack<Command>();
             AddHandlers(MainForm.EditUndo, MainForm.tbUndo, EditUndo_Click, EditUndo_DropDownOpening);
             AddHandlers(MainForm.EditRedo, MainForm.tbRedo, EditRedo_Click, EditRedo_DropDownOpening);
 
@@ -102,16 +99,12 @@
         #region Private Fields
 
         private readonly UpdateController Updater;
-        private readonly Stack<Command> UndoStack, RedoStack;
         private int LastSave;
         private bool Busy;
 
         #endregion
 
         #region Private Properties
-
-        private bool CanRedo => RedoStack.Count > 0;
-        private bool CanUndo => UndoStack.Count > 0;
 
         private string UndoAction => UndoStack.Peek().ToString();
         private string RedoAction => RedoStack.Peek().ToString();
@@ -120,10 +113,9 @@
 
         #region Private Methods
 
-        private int Undo() => CanUndo ? Undo(UndoStack.Pop()) : 0;
-        private int Redo() => CanRedo ? Redo(RedoStack.Pop()) : 0;
-        private int Undo(Command command) => DoCommand(command, undo: true, spoof: false);
-        private int Redo(Command command, bool spoof = false) => DoCommand(command, undo: false, spoof);
+        protected override int Undo(Command command) => DoCommand(command, undo: true, spoof: false);
+        protected override int Redo(Command command, bool spoof = false) => DoCommand(command, undo: false, spoof);
+
         private void UpdateUI() => AppController.UpdateUI(MainFormController);
 
         private int DoCommand(Command command, bool undo, bool spoof = false)

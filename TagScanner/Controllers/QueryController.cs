@@ -51,6 +51,9 @@
             PopupCopy = Dialog.PopupCopy;
             PopupPaste = Dialog.PopupPaste;
             PopupDelete = Dialog.PopupDelete;
+            PopupClear = Dialog.PopupClear;
+            PopupSelectAll = Dialog.PopupSelectAll;
+            PopupInvertSelection = Dialog.PopupInvertSelection;
 
             TreeView = Dialog.TreeView;
             ListView = Dialog.ListView;
@@ -78,11 +81,7 @@
             tbListType.Click += ListByDataType_Click;
             tbListNames.Click += ListNamesOnly_Click;
 
-            TreeView.GotFocus += Control_GotFocus;
-            ListView.GotFocus += Control_GotFocus;
-            LvSelect.GotFocus += Control_GotFocus;
-            LvOrderBy.GotFocus += Control_GotFocus;
-            LvGroupBy.GotFocus += Control_GotFocus;
+            InitControls(TreeView, ListView, LvSelect, LvOrderBy, LvGroupBy);
 
             PopupMenu.Opening += PopupTargetMenu_Opening;
             PopupMoveUp.Click += PopupMoveUp_Click;
@@ -95,8 +94,23 @@
             PopupCopy.Click += PopupCopy_Click;
             PopupPaste.Click += PopupPaste_Click;
             PopupDelete.Click += PopupDelete_Click;
+            PopupClear.Click += PopupClear_Click;
+            PopupSelectAll.Click += PopupSelectAll_Click;
+            PopupInvertSelection.Click += PopupInvertSelection_Click;
 
             UseTreeView(TagGrouping.Category);
+
+            void InitControls(params Control[] controls)
+            {
+                foreach (var control in controls)
+                {
+                    control.GotFocus += Control_StateChanged;
+                    if (control is TreeView treeView)
+                        treeView.AfterSelect += Control_StateChanged;
+                    else if (control is ListView listView)
+                        listView.SelectedIndexChanged += Control_StateChanged;
+                }
+            }
         }
 
         #endregion
@@ -194,7 +208,10 @@
             PopupCut,
             PopupCopy,
             PopupPaste,
-            PopupDelete;
+            PopupDelete,
+            PopupClear,
+            PopupSelectAll,
+            PopupInvertSelection;
 
         private readonly ToolStripButton
             tbListAlpha,
@@ -222,7 +239,7 @@
 
         #region Event Handlers
 
-        private void Control_GotFocus(object sender, EventArgs e) => Focus = sender as Control;
+        private void Control_StateChanged(object sender, EventArgs e) { Focus = sender as Control; UpdateMenu(); }
         private void ListAlphabetically_Click(object sender, EventArgs e) => UseListView(TagGrouping.None);
         private void ListByCategory_Click(object sender, EventArgs e) => UseListView(TagGrouping.Category);
         private void ListByDataType_Click(object sender, EventArgs e) => UseListView(TagGrouping.DataType);
@@ -231,14 +248,17 @@
         private void TreeByCategory_Click(object sender, EventArgs e) => UseTreeView(TagGrouping.Category);
         private void TreeByDataType_Click(object sender, EventArgs e) => UseTreeView(TagGrouping.DataType);
 
+        private void PopupClear_Click(object sender, EventArgs e) => ActiveTargetExecute(Act.Clear);
         private void PopupCopy_Click(object sender, EventArgs e) => ActiveTargetExecute(Act.Copy);
         private void PopupCut_Click(object sender, EventArgs e) => ActiveTargetExecute(Act.Cut);
         private void PopupDelete_Click(object sender, EventArgs e) => ActiveTargetExecute(Act.Delete);
         private void PopupGroup_Click(object sender, EventArgs e) => ActiveTargetExecute(Act.Group);
+        private void PopupInvertSelection_Click(object sender, EventArgs e) => ActiveTargetExecute(Act.InvertSelection);
         private void PopupMoveDown_Click(object sender, EventArgs e) => ActiveTargetExecute(Act.MoveDown);
         private void PopupMoveUp_Click(object sender, EventArgs e) => ActiveTargetExecute(Act.MoveUp);
         private void PopupPaste_Click(object sender, EventArgs e) => ActiveTargetExecute(Act.Paste);
         private void PopupSelect_Click(object sender, EventArgs e) => ActiveTargetExecute(Act.Select);
+        private void PopupSelectAll_Click(object sender, EventArgs e) => ActiveTargetExecute(Act.SelectAll);
         private void PopupSortAscending_Click(object sender, EventArgs e) => ActiveTargetExecute(Act.SortAscending);
         private void PopupSortDescending_Click(object sender, EventArgs e) => ActiveTargetExecute(Act.SortDescending);
         private void PopupTargetMenu_Opening(object sender, CancelEventArgs e) => UpdateMenu();
@@ -267,6 +287,8 @@
                     case Act.Copy: DoCopy(); return;
                     case Act.Paste: DoPaste(); return;
                     case Act.Delete: DoDelete(); return;
+                    case Act.SelectAll: DoSelectAll(); return;
+                    case Act.InvertSelection: DoInvertSelection(); return;
                 }
             }
 
@@ -278,6 +300,8 @@
                     if (selection.Contains(index))
                         items.RemoveAt(index);
             }
+
+            void DoInvertSelection() { foreach (ListViewItem item in items) item.Selected ^= true; }
 
             void DoMove(bool down)
             {
@@ -299,6 +323,8 @@
                 if (data != null)
                     items.AddRange(data.ToArray());
             }
+
+            void DoSelectAll() { foreach (ListViewItem item in items) item.Selected = true; }
         }
 
         private QueryDialog CreateDialog()
@@ -363,40 +389,53 @@
 
         private void UpdateMenu()
         {
+            var indices = FocusedListView?.SelectedIndices.Cast<int>() ?? Array.Empty<int>();
+            var total = FocusedListView?.Items?.Count ?? 0;
+
             bool
                 hasFocus = Focus != null,
-                canDrop = new[] { LvSelect, LvOrderBy, LvGroupBy }.Contains(Focus),
+                canEdit = new[] { LvSelect, LvOrderBy, LvGroupBy }.Contains(Focus),
+                hasAny = total > 0,
+                hasSelection = canEdit && indices.Any(),
 
+                canMoveUp = canEdit,
+                canMoveDown = canEdit,
                 canSelect = Focus != LvSelect,
                 canSort = Focus != LvOrderBy,
                 canGroup = Focus != LvGroupBy,
-                canCut = canDrop,
+                canCut = canEdit,
                 canCopy = hasFocus,
-                canPaste = canDrop,
-                canDelete = canDrop,
-                canMoveUp = canDrop,
-                canMoveDown = canDrop;
+                canPaste = canEdit,
+                canDelete = canEdit,
+                canClear = canEdit,
+                canSelectAll = canEdit,
+                canInvertSelection = canEdit;
 
             AdjustMenu((p, q) => p.Visible = q);
-            PopupPaste.Visible = canDrop;
 
-            var indices = FocusedListView != null
-                ? FocusedListView.SelectedIndices.Cast<int>()
-                : new int[] { };
-            var hasSelection = indices.Any();
+            Dialog.PopupSelectSeparator.Visible = canSelectAll;
 
-            int
-                total = FocusedListView != null ? FocusedListView.Items.Count : 0,
-                count = indices.Count();
+            var count = canEdit ? indices.Count() : 0;
 
             canMoveUp &= count > 0 && indices.Max() >= count;
             canMoveDown &= count > 0 && indices.Min() < total - count;
+            canSelect &= hasSelection;
+            canSort &= hasSelection && Focus != LvOrderBy;
+            canGroup &= hasSelection && Focus != LvGroupBy;
+            canCut &= hasSelection;
+            canCopy &= hasSelection;
+            canPaste &= Clipboard.GetDataObject().HasTagSortData();
+            canDelete &= hasSelection;
+            canClear &= hasSelection;
+            canSelectAll &= hasAny;
+            canInvertSelection &= hasAny;
 
-            AdjustMenu((p, q) => p.Enabled = q && hasSelection);
-            PopupPaste.Enabled = canDrop && Clipboard.GetDataObject().HasTagSortData();
+            AdjustMenu((p, q) => p.Enabled = q);
 
             void AdjustMenu(Action<ToolStripMenuItem, bool> action)
             {
+                action(PopupMoveUp, canMoveUp);
+                action(PopupMoveDown, canMoveDown);
                 action(PopupSelect, canSelect);
                 action(PopupSort, canSort);
                 action(PopupSortAscending, canSort);
@@ -404,9 +443,11 @@
                 action(PopupGroup, canGroup);
                 action(PopupCut, canCut);
                 action(PopupCopy, canCopy);
+                action(PopupPaste, canPaste);
                 action(PopupDelete, canDelete);
-                action(PopupMoveUp, canMoveUp);
-                action(PopupMoveDown, canMoveDown);
+                action(PopupClear, canClear);
+                action(PopupSelectAll, canSelectAll);
+                action(PopupInvertSelection, canInvertSelection);
             }
         }
 
@@ -455,6 +496,9 @@
             Copy,
             Paste,
             Delete,
+            Clear,
+            SelectAll,
+            InvertSelection,
         }
 
         #endregion
