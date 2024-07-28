@@ -201,6 +201,26 @@ namespace TagScanner.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap Custom_Icon_Design_Flat_Cute_Arrows_Arrow_Down_16 {
+            get {
+                object obj = ResourceManager.GetObject("Custom_Icon_Design_Flat_Cute_Arrows_Arrow_Down_16", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Custom_Icon_Design_Flat_Cute_Arrows_Arrow_Up_16 {
+            get {
+                object obj = ResourceManager.GetObject("Custom_Icon_Design_Flat_Cute_Arrows_Arrow_Up_16", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap CutHS {
             get {
                 object obj = ResourceManager.GetObject("CutHS", resourceCulture);

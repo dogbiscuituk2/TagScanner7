@@ -25,8 +25,8 @@
 
         public ListSortDirection Direction
         {
-            get => (ListSortDirection)StateImageIndex;
-            set => StateImageIndex = (int)value;
+            get => (ListSortDirection)ImageIndex;
+            set => ImageIndex = (int)value;
         }
 
         #endregion

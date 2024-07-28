@@ -683,4 +683,10 @@ Continue to synchronize and save?</value>
   <data name="DefaultSchemaHelp" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\DefaultSchemaHelp.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
+  <data name="Custom_Icon_Design_Flat_Cute_Arrows_Arrow_Down_16" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Custom-Icon-Design-Flat-Cute-Arrows-Arrow-Down.16.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Custom_Icon_Design_Flat_Cute_Arrows_Arrow_Up_16" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Custom-Icon-Design-Flat-Cute-Arrows-Arrow-Up.16.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
 </root>

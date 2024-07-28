@@ -445,6 +445,8 @@
     <Content Include="Resources\ColorHS.png" />
     <Content Include="Resources\Color_fontHS.png" />
     <Content Include="Resources\CopyHS.png" />
+    <Content Include="Resources\Custom-Icon-Design-Flat-Cute-Arrows-Arrow-Down.16.png" />
+    <Content Include="Resources\Custom-Icon-Design-Flat-Cute-Arrows-Arrow-Up.16.png" />
     <Content Include="Resources\CutHS.png" />
     <Content Include="Resources\DataContainer_MoveFirstHS.png" />
     <Content Include="Resources\DataContainer_MoveLastHS.png" />

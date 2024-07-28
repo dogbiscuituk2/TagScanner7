@@ -61,10 +61,14 @@
             this.TableLayoutPanel = new System.Windows.Forms.TableLayoutPanel();
             this.lvSelect = new System.Windows.Forms.ListView();
             this.lvOrderBy = new System.Windows.Forms.ListView();
+            this.SortByImageList = new System.Windows.Forms.ImageList(this.components);
             this.lvGroupBy = new System.Windows.Forms.ListView();
             this.lblSelect = new System.Windows.Forms.Label();
             this.lblOrderBy = new System.Windows.Forms.Label();
             this.lblGroupBy = new System.Windows.Forms.Label();
+            this.panel2 = new System.Windows.Forms.Panel();
+            this.btnCancel = new System.Windows.Forms.Button();
+            this.btnOK = new System.Windows.Forms.Button();
             this.Toolbar = new System.Windows.Forms.ToolStrip();
             this.tbTree = new System.Windows.Forms.ToolStripSplitButton();
             this.PopupTreeMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
@@ -101,9 +105,6 @@
             this.ViewMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.ListMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.HelpMenu = new System.Windows.Forms.ToolStripMenuItem();
-            this.btnOK = new System.Windows.Forms.Button();
-            this.btnCancel = new System.Windows.Forms.Button();
-            this.panel2 = new System.Windows.Forms.Panel();
             this.PopupMenu.SuspendLayout();
             this.toolStripContainer1.ContentPanel.SuspendLayout();
             this.toolStripContainer1.LeftToolStripPanel.SuspendLayout();
@@ -114,11 +115,11 @@
             this.splitContainer1.Panel2.SuspendLayout();
             this.splitContainer1.SuspendLayout();
             this.TableLayoutPanel.SuspendLayout();
+            this.panel2.SuspendLayout();
             this.Toolbar.SuspendLayout();
             this.PopupTreeMenu.SuspendLayout();
             this.PopupListMenu.SuspendLayout();
             this.MainMenu.SuspendLayout();
-            this.panel2.SuspendLayout();
             this.SuspendLayout();
             // 
             // ListView
@@ -182,7 +183,6 @@
             this.PopupSelectAll,
             this.PopupInvertSelection});
             this.PopupMenu.Name = "PopupTargetMenu";
-            this.PopupMenu.OwnerItem = this.EditMenu;
             this.PopupMenu.Size = new System.Drawing.Size(160, 330);
             // 
             // PopupMoveUp
@@ -228,17 +228,19 @@
             // 
             // PopupSortAscending
             // 
+            this.PopupSortAscending.Image = global::TagScanner.Properties.Resources.Custom_Icon_Design_Flat_Cute_Arrows_Arrow_Up_16;
             this.PopupSortAscending.Name = "PopupSortAscending";
             this.PopupSortAscending.ShortcutKeyDisplayString = "";
-            this.PopupSortAscending.Size = new System.Drawing.Size(136, 22);
+            this.PopupSortAscending.Size = new System.Drawing.Size(180, 22);
             this.PopupSortAscending.Text = "&Ascending";
             this.PopupSortAscending.ToolTipText = "Sort in Ascending order of the selected item(s)";
             // 
             // PopupSortDescending
             // 
+            this.PopupSortDescending.Image = global::TagScanner.Properties.Resources.Custom_Icon_Design_Flat_Cute_Arrows_Arrow_Down_16;
             this.PopupSortDescending.Name = "PopupSortDescending";
             this.PopupSortDescending.ShortcutKeyDisplayString = "";
-            this.PopupSortDescending.Size = new System.Drawing.Size(136, 22);
+            this.PopupSortDescending.Size = new System.Drawing.Size(180, 22);
             this.PopupSortDescending.Text = "&Descending";
             this.PopupSortDescending.ToolTipText = "Sort in Ascending order of the selected item(s)";
             // 
@@ -391,6 +393,7 @@
             // 
             this.splitContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.splitContainer1.Location = new System.Drawing.Point(0, 0);
+            this.splitContainer1.Margin = new System.Windows.Forms.Padding(0);
             this.splitContainer1.Name = "splitContainer1";
             this.splitContainer1.Orientation = System.Windows.Forms.Orientation.Horizontal;
             // 
@@ -423,6 +426,7 @@
             this.TableLayoutPanel.Controls.Add(this.lblGroupBy, 2, 0);
             this.TableLayoutPanel.Dock = System.Windows.Forms.DockStyle.Fill;
             this.TableLayoutPanel.Location = new System.Drawing.Point(0, 0);
+            this.TableLayoutPanel.Margin = new System.Windows.Forms.Padding(0);
             this.TableLayoutPanel.Name = "TableLayoutPanel";
             this.TableLayoutPanel.RowCount = 2;
             this.TableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
@@ -456,9 +460,17 @@
             this.lvOrderBy.Name = "lvOrderBy";
             this.lvOrderBy.ShowItemToolTips = true;
             this.lvOrderBy.Size = new System.Drawing.Size(244, 171);
+            this.lvOrderBy.SmallImageList = this.SortByImageList;
             this.lvOrderBy.TabIndex = 25;
             this.lvOrderBy.UseCompatibleStateImageBehavior = false;
             this.lvOrderBy.View = System.Windows.Forms.View.List;
+            // 
+            // SortByImageList
+            // 
+            this.SortByImageList.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("SortByImageList.ImageStream")));
+            this.SortByImageList.TransparentColor = System.Drawing.Color.Transparent;
+            this.SortByImageList.Images.SetKeyName(0, "Custom-Icon-Design-Flat-Cute-Arrows-Arrow-Up.16.png");
+            this.SortByImageList.Images.SetKeyName(1, "Custom-Icon-Design-Flat-Cute-Arrows-Arrow-Down.16.png");
             // 
             // lvGroupBy
             // 
@@ -488,22 +500,60 @@
             // lblOrderBy
             // 
             this.lblOrderBy.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.lblOrderBy.Location = new System.Drawing.Point(253, 0);
+            this.lblOrderBy.Location = new System.Drawing.Point(250, 0);
+            this.lblOrderBy.Margin = new System.Windows.Forms.Padding(0);
             this.lblOrderBy.Name = "lblOrderBy";
-            this.lblOrderBy.Size = new System.Drawing.Size(244, 20);
+            this.lblOrderBy.Size = new System.Drawing.Size(250, 20);
             this.lblOrderBy.TabIndex = 28;
             this.lblOrderBy.Text = "Sort By";
             this.lblOrderBy.TextAlign = System.Drawing.ContentAlignment.TopCenter;
             // 
             // lblGroupBy
             // 
+            this.lblGroupBy.BackColor = System.Drawing.SystemColors.Control;
             this.lblGroupBy.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.lblGroupBy.Location = new System.Drawing.Point(503, 0);
+            this.lblGroupBy.ForeColor = System.Drawing.SystemColors.ControlText;
+            this.lblGroupBy.Location = new System.Drawing.Point(500, 0);
+            this.lblGroupBy.Margin = new System.Windows.Forms.Padding(0);
             this.lblGroupBy.Name = "lblGroupBy";
-            this.lblGroupBy.Size = new System.Drawing.Size(245, 20);
+            this.lblGroupBy.Size = new System.Drawing.Size(251, 20);
             this.lblGroupBy.TabIndex = 29;
             this.lblGroupBy.Text = "Group By";
             this.lblGroupBy.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+            // 
+            // panel2
+            // 
+            this.panel2.Controls.Add(this.btnCancel);
+            this.panel2.Controls.Add(this.btnOK);
+            this.panel2.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.panel2.Location = new System.Drawing.Point(0, 197);
+            this.panel2.Name = "panel2";
+            this.panel2.Size = new System.Drawing.Size(751, 36);
+            this.panel2.TabIndex = 23;
+            // 
+            // btnCancel
+            // 
+            this.btnCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
+            this.btnCancel.Location = new System.Drawing.Point(691, 5);
+            this.btnCancel.Margin = new System.Windows.Forms.Padding(4);
+            this.btnCancel.Name = "btnCancel";
+            this.btnCancel.Size = new System.Drawing.Size(56, 27);
+            this.btnCancel.TabIndex = 20;
+            this.btnCancel.Text = "Cancel";
+            this.btnCancel.UseVisualStyleBackColor = true;
+            // 
+            // btnOK
+            // 
+            this.btnOK.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnOK.DialogResult = System.Windows.Forms.DialogResult.OK;
+            this.btnOK.Location = new System.Drawing.Point(627, 5);
+            this.btnOK.Margin = new System.Windows.Forms.Padding(4);
+            this.btnOK.Name = "btnOK";
+            this.btnOK.Size = new System.Drawing.Size(56, 27);
+            this.btnOK.TabIndex = 19;
+            this.btnOK.Text = "OK";
+            this.btnOK.UseVisualStyleBackColor = true;
             // 
             // Toolbar
             // 
@@ -825,40 +875,6 @@
             this.HelpMenu.Size = new System.Drawing.Size(44, 20);
             this.HelpMenu.Text = "&Help";
             // 
-            // btnOK
-            // 
-            this.btnOK.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnOK.DialogResult = System.Windows.Forms.DialogResult.OK;
-            this.btnOK.Location = new System.Drawing.Point(627, 5);
-            this.btnOK.Margin = new System.Windows.Forms.Padding(4);
-            this.btnOK.Name = "btnOK";
-            this.btnOK.Size = new System.Drawing.Size(56, 27);
-            this.btnOK.TabIndex = 19;
-            this.btnOK.Text = "OK";
-            this.btnOK.UseVisualStyleBackColor = true;
-            // 
-            // btnCancel
-            // 
-            this.btnCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.btnCancel.Location = new System.Drawing.Point(691, 5);
-            this.btnCancel.Margin = new System.Windows.Forms.Padding(4);
-            this.btnCancel.Name = "btnCancel";
-            this.btnCancel.Size = new System.Drawing.Size(56, 27);
-            this.btnCancel.TabIndex = 20;
-            this.btnCancel.Text = "Cancel";
-            this.btnCancel.UseVisualStyleBackColor = true;
-            // 
-            // panel2
-            // 
-            this.panel2.Controls.Add(this.btnCancel);
-            this.panel2.Controls.Add(this.btnOK);
-            this.panel2.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.panel2.Location = new System.Drawing.Point(0, 197);
-            this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(751, 36);
-            this.panel2.TabIndex = 23;
-            // 
             // QueryDialog
             // 
             this.AcceptButton = this.btnOK;
@@ -888,13 +904,13 @@
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
             this.splitContainer1.ResumeLayout(false);
             this.TableLayoutPanel.ResumeLayout(false);
+            this.panel2.ResumeLayout(false);
             this.Toolbar.ResumeLayout(false);
             this.Toolbar.PerformLayout();
             this.PopupTreeMenu.ResumeLayout(false);
             this.PopupListMenu.ResumeLayout(false);
             this.MainMenu.ResumeLayout(false);
             this.MainMenu.PerformLayout();
-            this.panel2.ResumeLayout(false);
             this.ResumeLayout(false);
 
 		}
@@ -975,5 +991,6 @@
         public System.Windows.Forms.Panel panel2;
         public System.Windows.Forms.Button btnCancel;
         public System.Windows.Forms.Button btnOK;
+        private System.Windows.Forms.ImageList SortByImageList;
     }
 }

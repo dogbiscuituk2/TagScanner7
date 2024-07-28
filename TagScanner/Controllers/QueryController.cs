@@ -21,44 +21,6 @@
             _queryListViewController = new QueryListViewController(this, Dialog.ListView);
             _queryTreeViewController = new QueryTreeViewController(this, Dialog.TreeView);
 
-            TreeAlphabetically = Dialog.TreeAlphabetically;
-            TreeByCategory = Dialog.TreeByCategory;
-            TreeByDataType = Dialog.TreeByDataType;
-
-            ListAlphabetically = Dialog.ListAlphabetically;
-            ListByCategory = Dialog.ListByCategory;
-            ListByDataType = Dialog.ListByDataType;
-            ListNamesOnly = Dialog.ListNamesOnly;
-
-            PopupMenu = Dialog.PopupMenu;
-            PopupMoveUp = Dialog.PopupMoveUp;
-            PopupMoveDown = Dialog.PopupMoveDown;
-            PopupSelect = Dialog.PopupSelect;
-            PopupSort = Dialog.PopupSort;
-            PopupSortAscending = Dialog.PopupSortAscending;
-            PopupSortDescending = Dialog.PopupSortDescending;
-            PopupGroup = Dialog.PopupGroup;
-            PopupCut = Dialog.PopupCut;
-            PopupCopy = Dialog.PopupCopy;
-            PopupPaste = Dialog.PopupPaste;
-            PopupDelete = Dialog.PopupDelete;
-            PopupClear = Dialog.PopupClear;
-            PopupSelectAll = Dialog.PopupSelectAll;
-            PopupInvertSelection = Dialog.PopupInvertSelection;
-
-            TbOK = Dialog.tbOK;
-            TbCancel = Dialog.tbCancel;
-            TbMoveUp = Dialog.tbMoveUp;
-            TbMoveDown = Dialog.tbMoveDown;
-            TbCut = Dialog.tbCut;
-            TbCopy = Dialog.tbCopy;
-            TbPaste = Dialog.tbPaste;
-            TbDelete = Dialog.tbDelete;
-            TbUndo = Dialog.tbUndo;
-            TbRedo = Dialog.tbRedo;
-            TbTree = Dialog.tbTree;
-            TbList = Dialog.tbList;
-
             _queryTreeViewController.InitView();
 
             TreeAlphabetically.Click += TreeAlphabetically_Click;
@@ -186,62 +148,61 @@
         #region Private Fields
 
         private string _detail;
+        private QueryDialog _dialog;
         private Control Focus;
         private bool MultiColumn;
-        private QueryDialog _dialog;
 
-        private readonly ContextMenuStrip PopupMenu;
-        private readonly QueryListViewController _queryListViewController;
         private readonly QueryTreeViewController _queryTreeViewController;
-
-        private readonly ToolStripMenuItem
-            ListAlphabetically,
-            ListByCategory,
-            ListByDataType,
-            ListNamesOnly,
-            TreeAlphabetically,
-            TreeByCategory,
-            TreeByDataType,
-            PopupMoveUp,
-            PopupMoveDown,
-            PopupSelect,
-            PopupSort,
-            PopupSortAscending,
-            PopupSortDescending,
-            PopupGroup,
-            PopupCut,
-            PopupCopy,
-            PopupPaste,
-            PopupDelete,
-            PopupClear,
-            PopupSelectAll,
-            PopupInvertSelection;
-
-        private readonly ToolStripButton
-            TbOK,
-            TbCancel,
-            TbMoveUp,
-            TbMoveDown,
-            TbCut,
-            TbCopy,
-            TbPaste,
-            TbDelete;
-
-        private readonly ToolStripSplitButton
-            TbUndo,
-            TbRedo,
-            TbTree,
-            TbList;
+        private readonly QueryListViewController _queryListViewController;
 
         #endregion
 
         #region Private Properties
 
         private TreeView TreeView => Dialog.TreeView;
+
         private ListView ListView => Dialog.ListView;
         private ListView LvSelect => Dialog.lvSelect;
         private ListView LvOrderBy => Dialog.lvOrderBy;
         private ListView LvGroupBy => Dialog.lvGroupBy;
+
+        private ContextMenuStrip PopupMenu => Dialog.PopupMenu;
+
+        private ToolStripButton TbOK => Dialog.tbOK;
+        private ToolStripButton TbCancel => Dialog.tbCancel;
+        private ToolStripButton TbMoveUp => Dialog.tbMoveUp;
+        private ToolStripButton TbMoveDown => Dialog.tbMoveDown;
+        private ToolStripButton TbCut => Dialog.tbCut;
+        private ToolStripButton TbCopy => Dialog.tbCopy;
+        private ToolStripButton TbPaste => Dialog.tbPaste;
+        private ToolStripButton TbDelete => Dialog.tbDelete;
+
+        private ToolStripSplitButton TbUndo => Dialog.tbUndo;
+        private ToolStripSplitButton TbRedo => Dialog.tbRedo;
+        private ToolStripSplitButton TbTree => Dialog.tbTree;
+        private ToolStripSplitButton TbList => Dialog.tbList;
+
+        private ToolStripMenuItem TreeAlphabetically => Dialog.TreeAlphabetically;
+        private ToolStripMenuItem TreeByCategory => Dialog.TreeByCategory;
+        private ToolStripMenuItem TreeByDataType => Dialog.TreeByDataType;
+        private ToolStripMenuItem ListAlphabetically => Dialog.ListAlphabetically;
+        private ToolStripMenuItem ListByCategory => Dialog.ListByCategory;
+        private ToolStripMenuItem ListByDataType => Dialog.ListByDataType;
+        private ToolStripMenuItem ListNamesOnly => Dialog.ListNamesOnly;
+        private ToolStripMenuItem PopupMoveUp => Dialog.PopupMoveUp;
+        private ToolStripMenuItem PopupMoveDown => Dialog.PopupMoveDown;
+        private ToolStripMenuItem PopupSelect => Dialog.PopupSelect;
+        private ToolStripMenuItem PopupSort => Dialog.PopupSort;
+        private ToolStripMenuItem PopupSortAscending => Dialog.PopupSortAscending;
+        private ToolStripMenuItem PopupSortDescending => Dialog.PopupSortDescending;
+        private ToolStripMenuItem PopupGroup => Dialog.PopupGroup;
+        private ToolStripMenuItem PopupCut => Dialog.PopupCut;
+        private ToolStripMenuItem PopupCopy => Dialog.PopupCopy;
+        private ToolStripMenuItem PopupPaste => Dialog.PopupPaste;
+        private ToolStripMenuItem PopupDelete => Dialog.PopupDelete;
+        private ToolStripMenuItem PopupClear => Dialog.PopupClear;
+        private ToolStripMenuItem PopupSelectAll => Dialog.PopupSelectAll;
+        private ToolStripMenuItem PopupInvertSelection => Dialog.PopupInvertSelection;
 
         private QueryViewController ActiveController =>
             _queryListViewController.Active
@@ -259,8 +220,8 @@
             set
             {
                 _sortAndGroup = value;
-                Dialog.lblOrderBy.Visible = LvOrderBy.Visible = value;
-                Dialog.lblGroupBy.Visible = LvGroupBy.Visible = value;
+                LvOrderBy.Visible = value;
+                LvGroupBy.Visible = value;
                 var styles = Dialog.TableLayoutPanel.ColumnStyles;
                 if (SortAndGroup)
                     styles[0].Width = styles[1].Width = styles[2].Width = 100 / 3F;
@@ -381,19 +342,25 @@
             Dialog.Text = caption;
             _detail = detail;
             Dialog.lblSelect.Text = $"Selected {detail}";
-            InitControls($"Browse {detail} in Tree View", Dialog.TreeMenu, TbTree);
-            InitControls($"Browse {detail} in Tree View - Alphabetically", TreeAlphabetically);
-            InitControls($"Browse {detail} in Tree View - by Category", TreeByCategory);
-            InitControls($"Browse {detail} in Tree View - by Data Type", TreeByDataType);
-            InitControls($"Browse {detail} in List View", Dialog.ListMenu, TbList);
-            InitControls($"Browse {detail} in List View - Alphabetically", ListAlphabetically);
-            InitControls($"Browse {detail} in List View - by Category", ListByCategory);
-            InitControls($"Browse {detail} in List View - by Data Type", ListByDataType);
-            InitControls($"Browse {detail} in List View - Names only", ListNamesOnly);
-            InitControls($"Confirm changes to Selected {detail}", Dialog.FileSaveAndClose, TbOK);
-            InitControls($"Discard changes to Selected {detail}", Dialog.FileCloseWithoutSaving, TbCancel);
-            InitControls("Undo the most recent change", Dialog.PopupUndo, TbUndo);
-            InitControls("Redo the most recently 'undone' change", Dialog.PopupRedo, TbRedo);
+            string
+                browse = $"Browse {detail} in",
+                tree = $"{browse} Tree View",
+                list = $"{browse} List View",
+                changes = $"changes to Selected {detail}",
+                change = "most recent change";
+            InitControls(tree, Dialog.TreeMenu, TbTree);
+            InitControls($"{tree} - Alphabetically", TreeAlphabetically);
+            InitControls($"{tree} - by Category", TreeByCategory);
+            InitControls($"{tree} - by Data Type", TreeByDataType);
+            InitControls($"{list}", Dialog.ListMenu, TbList);
+            InitControls($"{list} - Alphabetically", ListAlphabetically);
+            InitControls($"{list} - by Category", ListByCategory);
+            InitControls($"{list} - by Data Type", ListByDataType);
+            InitControls($"{list} - Names only", ListNamesOnly);
+            InitControls($"Confirm {changes}", Dialog.FileSaveAndClose, TbOK);
+            InitControls($"Discard {changes}", Dialog.FileCloseWithoutSaving, TbCancel);
+            InitControls($"Undo {change}", Dialog.PopupUndo, TbUndo);
+            InitControls($"Redo {change}", Dialog.PopupRedo, TbRedo);
             InitActiveControls();
             SetSelectedTags(tags);
             SortAndGroup = sortAndGroup;
@@ -402,14 +369,17 @@
 
         private void InitActiveControls()
         {
-            var box = $"'{GetFocusedLabel()?.Text}' box";
-            InitControls($"Cut chosen {_detail} from {box} to Clipboard", PopupCut, TbCut);
-            InitControls($"Copy chosen {_detail} from {box} to Clipboard", PopupCopy, TbCopy);
+            var box =
+                Focus == TreeView ? "Tree View" :
+                Focus == ListView ? "List View" :
+                $"'{GetFocusedLabel()?.Text}' box";
+            InitControls($"Cut highlighted {_detail} from {box} to Clipboard", PopupCut, TbCut);
+            InitControls($"Copy highlighted {_detail} from {box} to Clipboard", PopupCopy, TbCopy);
             InitControls($"Paste {_detail} from Clipboard into {box}", PopupPaste, TbPaste);
-            InitControls($"Delete chosen {_detail} from {box}", PopupDelete, TbDelete);
+            InitControls($"Delete highlighted {_detail} from {box}", PopupDelete, TbDelete);
             InitControls($"Delete all {_detail} from {box}", PopupClear);
-            InitControls($"Move chosen {_detail} up (in {box})", PopupMoveUp, TbMoveUp);
-            InitControls($"Move chosen {_detail} down (in {box})", PopupMoveDown, TbMoveDown);
+            InitControls($"Move highlighted {_detail} up (in {box})", PopupMoveUp, TbMoveUp);
+            InitControls($"Move highlighted {_detail} down (in {box})", PopupMoveDown, TbMoveDown);
             InitControls($"Highlight all {_detail} in {box}", PopupSelectAll);
             InitControls($"Invert highlighting of all {_detail} in {box}", PopupInvertSelection);
 
