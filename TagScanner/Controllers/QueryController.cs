@@ -193,10 +193,11 @@
 
         private Control Focus;
         private bool MultiColumn;
+        private QueryDialog _dialog;
+
         private readonly ContextMenuStrip PopupMenu;
         private readonly TreeView TreeView;
         private readonly ListView ListView, LvSelect, LvOrderBy, LvGroupBy;
-        private /*static*/ QueryDialog _dialog;
         private readonly QueryListViewController _queryListViewController;
         private readonly QueryTreeViewController _queryTreeViewController;
 
@@ -382,8 +383,8 @@
         {
             Dialog.Text = caption;
             Dialog.lblSelect.Text = detail;
-            SortAndGroup = sortAndGroup;
             SetSelectedTags(tags);
+            SortAndGroup = sortAndGroup;
             return Dialog.ShowDialog(Owner) == DialogResult.OK;
         }
 
