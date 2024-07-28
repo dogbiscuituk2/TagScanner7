@@ -54,7 +54,6 @@
             TbCopy = Dialog.tbCopy;
             TbPaste = Dialog.tbPaste;
             TbDelete = Dialog.tbDelete;
-            TbClear = Dialog.tbClear;
             TbUndo = Dialog.tbUndo;
             TbRedo = Dialog.tbRedo;
             TbTree = Dialog.tbTree;
@@ -197,7 +196,7 @@
         private readonly ContextMenuStrip PopupMenu;
         private readonly TreeView TreeView;
         private readonly ListView ListView, LvSelect, LvOrderBy, LvGroupBy;
-        private static QueryDialog _dialog;
+        private /*static*/ QueryDialog _dialog;
         private readonly QueryListViewController _queryListViewController;
         private readonly QueryTreeViewController _queryTreeViewController;
 
@@ -232,8 +231,7 @@
             TbCut,
             TbCopy,
             TbPaste,
-            TbDelete,
-            TbClear;
+            TbDelete;
 
         private readonly ToolStripSplitButton
             TbUndo,
@@ -485,15 +483,13 @@
                 Apply(canMoveUp, PopupMoveUp, TbMoveUp);
                 Apply(canMoveDown, PopupMoveDown, TbMoveDown);
                 Apply(canSelect, PopupSelect);
-                Apply(canSort, PopupSort);
-                Apply(canSort, PopupSortAscending);
-                Apply(canSort, PopupSortDescending);
+                Apply(canSort, PopupSort, PopupSortAscending, PopupSortDescending);
                 Apply(canGroup, PopupGroup);
                 Apply(canCut, PopupCut, TbCut);
                 Apply(canCopy, PopupCopy, TbCopy);
                 Apply(canPaste, PopupPaste, TbPaste);
                 Apply(canDelete, PopupDelete, TbDelete);
-                Apply(canClear, PopupClear, TbClear);
+                Apply(canClear, PopupClear);
                 Apply(canSelectAll, PopupSelectAll);
                 Apply(canInvertSelection, PopupInvertSelection);
 

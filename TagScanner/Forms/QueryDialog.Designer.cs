@@ -83,7 +83,6 @@
             this.tbCopy = new System.Windows.Forms.ToolStripButton();
             this.tbPaste = new System.Windows.Forms.ToolStripButton();
             this.tbDelete = new System.Windows.Forms.ToolStripButton();
-            this.tbClear = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
             this.tbTree = new System.Windows.Forms.ToolStripSplitButton();
             this.tbList = new System.Windows.Forms.ToolStripSplitButton();
@@ -93,16 +92,18 @@
             this.FileCloseWithoutSaving = new System.Windows.Forms.ToolStripMenuItem();
             this.ViewMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.TreeMenu = new System.Windows.Forms.ToolStripMenuItem();
+            this.ListMenu = new System.Windows.Forms.ToolStripMenuItem();
+            this.HelpMenu = new System.Windows.Forms.ToolStripMenuItem();
+            this.PopupTreeMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.PopupListMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.TreeAlphabetically = new System.Windows.Forms.ToolStripMenuItem();
             this.TreeByCategory = new System.Windows.Forms.ToolStripMenuItem();
             this.TreeByDataType = new System.Windows.Forms.ToolStripMenuItem();
-            this.ListMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.ListAlphabetically = new System.Windows.Forms.ToolStripMenuItem();
             this.ListByCategory = new System.Windows.Forms.ToolStripMenuItem();
             this.ListByDataType = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem2 = new System.Windows.Forms.ToolStripSeparator();
             this.ListNamesOnly = new System.Windows.Forms.ToolStripMenuItem();
-            this.HelpMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.PopupMenu.SuspendLayout();
             this.toolStripContainer1.ContentPanel.SuspendLayout();
             this.toolStripContainer1.LeftToolStripPanel.SuspendLayout();
@@ -116,6 +117,8 @@
             this.panel2.SuspendLayout();
             this.Toolbar.SuspendLayout();
             this.MainMenu.SuspendLayout();
+            this.PopupTreeMenu.SuspendLayout();
+            this.PopupListMenu.SuspendLayout();
             this.SuspendLayout();
             // 
             // ListView
@@ -530,27 +533,27 @@
             // Toolbar
             // 
             this.Toolbar.Dock = System.Windows.Forms.DockStyle.None;
+            this.Toolbar.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
             this.Toolbar.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.tbTree,
+            this.tbList,
+            this.toolStripSeparator4,
             this.tbOK,
             this.tbCancel,
-            this.toolStripSeparator1,
-            this.tbMoveUp,
-            this.tbMoveDown,
             this.toolStripSeparator2,
             this.tbUndo,
             this.tbRedo,
-            this.toolStripSeparator3,
+            this.toolStripSeparator1,
             this.tbCut,
             this.tbCopy,
             this.tbPaste,
             this.tbDelete,
-            this.tbClear,
-            this.toolStripSeparator4,
-            this.tbTree,
-            this.tbList});
+            this.toolStripSeparator3,
+            this.tbMoveUp,
+            this.tbMoveDown});
             this.Toolbar.Location = new System.Drawing.Point(0, 3);
             this.Toolbar.Name = "Toolbar";
-            this.Toolbar.Size = new System.Drawing.Size(33, 334);
+            this.Toolbar.Size = new System.Drawing.Size(33, 321);
             this.Toolbar.TabIndex = 0;
             // 
             // tbOK
@@ -658,15 +661,6 @@
             this.tbDelete.Size = new System.Drawing.Size(31, 20);
             this.tbDelete.Text = "toolStripButton8";
             // 
-            // tbClear
-            // 
-            this.tbClear.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.tbClear.Image = ((System.Drawing.Image)(resources.GetObject("tbClear.Image")));
-            this.tbClear.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.tbClear.Name = "tbClear";
-            this.tbClear.Size = new System.Drawing.Size(31, 20);
-            this.tbClear.Text = "toolStripButton9";
-            // 
             // toolStripSeparator4
             // 
             this.toolStripSeparator4.Name = "toolStripSeparator4";
@@ -675,6 +669,7 @@
             // tbTree
             // 
             this.tbTree.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.tbTree.DropDown = this.PopupTreeMenu;
             this.tbTree.Image = global::TagScanner.Properties.Resources.fff_app_tree_16;
             this.tbTree.ImageTransparentColor = System.Drawing.Color.White;
             this.tbTree.Name = "tbTree";
@@ -684,6 +679,7 @@
             // tbList
             // 
             this.tbList.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.tbList.DropDown = this.PopupListMenu;
             this.tbList.Image = global::TagScanner.Properties.Resources.fff_app_list_16;
             this.tbList.ImageTransparentColor = System.Drawing.Color.White;
             this.tbList.Name = "tbList";
@@ -742,22 +738,54 @@
             // 
             // TreeMenu
             // 
-            this.TreeMenu.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.TreeAlphabetically,
-            this.TreeByCategory,
-            this.TreeByDataType});
+            this.TreeMenu.DropDown = this.PopupTreeMenu;
             this.TreeMenu.Image = global::TagScanner.Properties.Resources.fff_app_tree_16;
             this.TreeMenu.ImageTransparentColor = System.Drawing.Color.White;
             this.TreeMenu.Name = "TreeMenu";
             this.TreeMenu.Size = new System.Drawing.Size(180, 22);
             this.TreeMenu.Text = "&Tree";
             // 
+            // ListMenu
+            // 
+            this.ListMenu.DropDown = this.PopupListMenu;
+            this.ListMenu.Image = global::TagScanner.Properties.Resources.fff_app_list_16;
+            this.ListMenu.ImageTransparentColor = System.Drawing.Color.White;
+            this.ListMenu.Name = "ListMenu";
+            this.ListMenu.Size = new System.Drawing.Size(180, 22);
+            this.ListMenu.Text = "&List";
+            // 
+            // HelpMenu
+            // 
+            this.HelpMenu.Name = "HelpMenu";
+            this.HelpMenu.Size = new System.Drawing.Size(44, 20);
+            this.HelpMenu.Text = "&Help";
+            // 
+            // PopupTreeMenu
+            // 
+            this.PopupTreeMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.TreeAlphabetically,
+            this.TreeByCategory,
+            this.TreeByDataType});
+            this.PopupTreeMenu.Name = "PopupTreeMenu";
+            this.PopupTreeMenu.Size = new System.Drawing.Size(150, 70);
+            // 
+            // PopupListMenu
+            // 
+            this.PopupListMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.ListAlphabetically,
+            this.ListByCategory,
+            this.ListByDataType,
+            this.toolStripMenuItem2,
+            this.ListNamesOnly});
+            this.PopupListMenu.Name = "PopupTreeMenu";
+            this.PopupListMenu.Size = new System.Drawing.Size(150, 98);
+            // 
             // TreeAlphabetically
             // 
             this.TreeAlphabetically.Image = global::TagScanner.Properties.Resources.fff_app_tree_16;
             this.TreeAlphabetically.ImageTransparentColor = System.Drawing.Color.Transparent;
             this.TreeAlphabetically.Name = "TreeAlphabetically";
-            this.TreeAlphabetically.Size = new System.Drawing.Size(180, 22);
+            this.TreeAlphabetically.Size = new System.Drawing.Size(149, 22);
             this.TreeAlphabetically.Text = "&Alphabetically";
             // 
             // TreeByCategory
@@ -765,7 +793,7 @@
             this.TreeByCategory.Image = global::TagScanner.Properties.Resources.fff_app_tree_C2_16;
             this.TreeByCategory.ImageTransparentColor = System.Drawing.Color.Transparent;
             this.TreeByCategory.Name = "TreeByCategory";
-            this.TreeByCategory.Size = new System.Drawing.Size(180, 22);
+            this.TreeByCategory.Size = new System.Drawing.Size(149, 22);
             this.TreeByCategory.Text = "by &Category";
             // 
             // TreeByDataType
@@ -773,22 +801,8 @@
             this.TreeByDataType.Image = ((System.Drawing.Image)(resources.GetObject("TreeByDataType.Image")));
             this.TreeByDataType.ImageTransparentColor = System.Drawing.Color.Transparent;
             this.TreeByDataType.Name = "TreeByDataType";
-            this.TreeByDataType.Size = new System.Drawing.Size(180, 22);
+            this.TreeByDataType.Size = new System.Drawing.Size(149, 22);
             this.TreeByDataType.Text = "by &Data Type";
-            // 
-            // ListMenu
-            // 
-            this.ListMenu.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.ListAlphabetically,
-            this.ListByCategory,
-            this.ListByDataType,
-            this.toolStripMenuItem2,
-            this.ListNamesOnly});
-            this.ListMenu.Image = global::TagScanner.Properties.Resources.fff_app_list_16;
-            this.ListMenu.ImageTransparentColor = System.Drawing.Color.White;
-            this.ListMenu.Name = "ListMenu";
-            this.ListMenu.Size = new System.Drawing.Size(180, 22);
-            this.ListMenu.Text = "&List";
             // 
             // ListAlphabetically
             // 
@@ -827,12 +841,6 @@
             this.ListNamesOnly.Size = new System.Drawing.Size(149, 22);
             this.ListNamesOnly.Text = "&Names only";
             // 
-            // HelpMenu
-            // 
-            this.HelpMenu.Name = "HelpMenu";
-            this.HelpMenu.Size = new System.Drawing.Size(44, 20);
-            this.HelpMenu.Text = "&Help";
-            // 
             // QueryDialog
             // 
             this.AcceptButton = this.btnOK;
@@ -867,6 +875,8 @@
             this.Toolbar.PerformLayout();
             this.MainMenu.ResumeLayout(false);
             this.MainMenu.PerformLayout();
+            this.PopupTreeMenu.ResumeLayout(false);
+            this.PopupListMenu.ResumeLayout(false);
             this.ResumeLayout(false);
 
 		}
@@ -916,15 +926,7 @@
         public System.Windows.Forms.ToolStripMenuItem FileMenu;
         public System.Windows.Forms.ToolStripMenuItem ViewMenu;
         public System.Windows.Forms.ToolStripMenuItem TreeMenu;
-        public System.Windows.Forms.ToolStripMenuItem TreeAlphabetically;
-        public System.Windows.Forms.ToolStripMenuItem TreeByCategory;
-        public System.Windows.Forms.ToolStripMenuItem TreeByDataType;
         public System.Windows.Forms.ToolStripMenuItem ListMenu;
-        public System.Windows.Forms.ToolStripMenuItem ListAlphabetically;
-        public System.Windows.Forms.ToolStripMenuItem ListByCategory;
-        public System.Windows.Forms.ToolStripMenuItem ListByDataType;
-        public System.Windows.Forms.ToolStripSeparator toolStripMenuItem2;
-        public System.Windows.Forms.ToolStripMenuItem ListNamesOnly;
         public System.Windows.Forms.ToolStripMenuItem FileCloseWithoutSaving;
         public System.Windows.Forms.ToolStripMenuItem HelpMenu;
         public System.Windows.Forms.ToolStripMenuItem FileSaveAndClose;
@@ -942,9 +944,18 @@
         public System.Windows.Forms.ToolStripButton tbCopy;
         public System.Windows.Forms.ToolStripButton tbPaste;
         public System.Windows.Forms.ToolStripButton tbDelete;
-        public System.Windows.Forms.ToolStripButton tbClear;
         public System.Windows.Forms.ToolStripSeparator toolStripSeparator4;
         public System.Windows.Forms.ToolStripSplitButton tbTree;
         public System.Windows.Forms.ToolStripSplitButton tbList;
+        private System.Windows.Forms.ContextMenuStrip PopupTreeMenu;
+        private System.Windows.Forms.ContextMenuStrip PopupListMenu;
+        public System.Windows.Forms.ToolStripMenuItem TreeAlphabetically;
+        public System.Windows.Forms.ToolStripMenuItem TreeByCategory;
+        public System.Windows.Forms.ToolStripMenuItem TreeByDataType;
+        public System.Windows.Forms.ToolStripMenuItem ListAlphabetically;
+        public System.Windows.Forms.ToolStripMenuItem ListByCategory;
+        public System.Windows.Forms.ToolStripMenuItem ListByDataType;
+        public System.Windows.Forms.ToolStripSeparator toolStripMenuItem2;
+        public System.Windows.Forms.ToolStripMenuItem ListNamesOnly;
     }
 }

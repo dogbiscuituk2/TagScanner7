@@ -84,10 +84,10 @@
             this.PlayerPopupSelectColumns = new System.Windows.Forms.ToolStripMenuItem();
             this.MediaPlayer = new AxWMPLib.AxWindowsMediaPlayer();
             this.RecentLibraryPopupMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.FileReopen = new System.Windows.Forms.ToolStripMenuItem();
-            this.AddRecentLibrary = new System.Windows.Forms.ToolStripMenuItem();
             this.tbReopen = new System.Windows.Forms.ToolStripMenuItem();
             this.tbAddRecentLibrary = new System.Windows.Forms.ToolStripMenuItem();
+            this.FileReopen = new System.Windows.Forms.ToolStripMenuItem();
+            this.AddRecentLibrary = new System.Windows.Forms.ToolStripMenuItem();
             this.RecentFolderPopupMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.tbAddRecentFolder = new System.Windows.Forms.ToolStripMenuItem();
             this.AddRecentFolder = new System.Windows.Forms.ToolStripMenuItem();
@@ -771,22 +771,8 @@
             // RecentLibraryPopupMenu
             // 
             this.RecentLibraryPopupMenu.Name = "RecentLibraryPopupMenu";
-            this.RecentLibraryPopupMenu.OwnerItem = this.tbAddRecentLibrary;
+            this.RecentLibraryPopupMenu.OwnerItem = this.AddRecentLibrary;
             this.RecentLibraryPopupMenu.Size = new System.Drawing.Size(61, 4);
-            // 
-            // FileReopen
-            // 
-            this.FileReopen.DropDown = this.RecentLibraryPopupMenu;
-            this.FileReopen.Name = "FileReopen";
-            this.FileReopen.Size = new System.Drawing.Size(161, 22);
-            this.FileReopen.Text = "&Reopen";
-            // 
-            // AddRecentLibrary
-            // 
-            this.AddRecentLibrary.DropDown = this.RecentLibraryPopupMenu;
-            this.AddRecentLibrary.Name = "AddRecentLibrary";
-            this.AddRecentLibrary.Size = new System.Drawing.Size(149, 22);
-            this.AddRecentLibrary.Text = "R&ecent Library";
             // 
             // tbReopen
             // 
@@ -801,6 +787,20 @@
             this.tbAddRecentLibrary.Name = "tbAddRecentLibrary";
             this.tbAddRecentLibrary.Size = new System.Drawing.Size(149, 22);
             this.tbAddRecentLibrary.Text = "R&ecent Library";
+            // 
+            // FileReopen
+            // 
+            this.FileReopen.DropDown = this.RecentLibraryPopupMenu;
+            this.FileReopen.Name = "FileReopen";
+            this.FileReopen.Size = new System.Drawing.Size(161, 22);
+            this.FileReopen.Text = "&Reopen";
+            // 
+            // AddRecentLibrary
+            // 
+            this.AddRecentLibrary.DropDown = this.RecentLibraryPopupMenu;
+            this.AddRecentLibrary.Name = "AddRecentLibrary";
+            this.AddRecentLibrary.Size = new System.Drawing.Size(149, 22);
+            this.AddRecentLibrary.Text = "R&ecent Library";
             // 
             // RecentFolderPopupMenu
             // 
@@ -902,6 +902,7 @@
             // ToolStrip
             // 
             this.ToolStrip.Dock = System.Windows.Forms.DockStyle.None;
+            this.ToolStrip.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
             this.ToolStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.tbNew,
             this.tbOpen,
@@ -924,7 +925,7 @@
             this.ToolStrip.LayoutStyle = System.Windows.Forms.ToolStripLayoutStyle.VerticalStackWithOverflow;
             this.ToolStrip.Location = new System.Drawing.Point(0, 3);
             this.ToolStrip.Name = "ToolStrip";
-            this.ToolStrip.Size = new System.Drawing.Size(33, 340);
+            this.ToolStrip.Size = new System.Drawing.Size(33, 331);
             this.ToolStrip.TabIndex = 11;
             this.ToolStrip.Text = "toolStrip1";
             // 
@@ -1191,7 +1192,6 @@
             // MainMenu
             // 
             this.MainMenu.Dock = System.Windows.Forms.DockStyle.None;
-            this.MainMenu.GripStyle = System.Windows.Forms.ToolStripGripStyle.Visible;
             this.MainMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.FileMenu,
             this.EditMenu,
@@ -1440,47 +1440,47 @@
             // ViewArtistAlbum
             // 
             this.ViewArtistAlbum.Name = "ViewArtistAlbum";
-            this.ViewArtistAlbum.Size = new System.Drawing.Size(180, 22);
+            this.ViewArtistAlbum.Size = new System.Drawing.Size(143, 22);
             this.ViewArtistAlbum.Text = "&Artist/Album";
             // 
             // ViewArtist
             // 
             this.ViewArtist.Name = "ViewArtist";
-            this.ViewArtist.Size = new System.Drawing.Size(180, 22);
+            this.ViewArtist.Size = new System.Drawing.Size(143, 22);
             this.ViewArtist.Text = "A&rtist";
             // 
             // ViewAlbum
             // 
             this.ViewAlbum.Name = "ViewAlbum";
-            this.ViewAlbum.Size = new System.Drawing.Size(180, 22);
+            this.ViewAlbum.Size = new System.Drawing.Size(143, 22);
             this.ViewAlbum.Text = "A&lbum";
             // 
             // toolStripMenuItem4
             // 
             this.toolStripMenuItem4.Name = "toolStripMenuItem4";
-            this.toolStripMenuItem4.Size = new System.Drawing.Size(177, 6);
+            this.toolStripMenuItem4.Size = new System.Drawing.Size(140, 6);
             // 
             // ViewYear
             // 
             this.ViewYear.Name = "ViewYear";
-            this.ViewYear.Size = new System.Drawing.Size(180, 22);
+            this.ViewYear.Size = new System.Drawing.Size(143, 22);
             this.ViewYear.Text = "&Year";
             // 
             // ViewGenre
             // 
             this.ViewGenre.Name = "ViewGenre";
-            this.ViewGenre.Size = new System.Drawing.Size(180, 22);
+            this.ViewGenre.Size = new System.Drawing.Size(143, 22);
             this.ViewGenre.Text = "&Genre";
             // 
             // toolStripMenuItem7
             // 
             this.toolStripMenuItem7.Name = "toolStripMenuItem7";
-            this.toolStripMenuItem7.Size = new System.Drawing.Size(177, 6);
+            this.toolStripMenuItem7.Size = new System.Drawing.Size(140, 6);
             // 
             // ViewTitle
             // 
             this.ViewTitle.Name = "ViewTitle";
-            this.ViewTitle.Size = new System.Drawing.Size(180, 22);
+            this.ViewTitle.Size = new System.Drawing.Size(143, 22);
             this.ViewTitle.Text = "&Title";
             // 
             // ViewCustom
@@ -1488,7 +1488,7 @@
             this.ViewCustom.Image = global::TagScanner.Properties.Resources.fff_app_columns_16;
             this.ViewCustom.ImageTransparentColor = System.Drawing.Color.White;
             this.ViewCustom.Name = "ViewCustom";
-            this.ViewCustom.Size = new System.Drawing.Size(180, 22);
+            this.ViewCustom.Size = new System.Drawing.Size(143, 22);
             this.ViewCustom.Text = "&Custom...";
             // 
             // AddMenu
