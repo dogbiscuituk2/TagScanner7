@@ -141,12 +141,13 @@
                 MainForm.TablePopupMoreActions.Click += GridPopupMoreOptions_Click;
 
                 MainForm.ViewMenu.DropDownOpening += GroupByMenu_DropDownOpening;
-                MainForm.GroupByArtistAlbum.Click += GroupByArtistAlbum_Click;
-                MainForm.GroupByArtist.Click += GroupByArtist_Click;
-                MainForm.GroupByAlbum.Click += GroupByAlbum_Click;
-                MainForm.GroupByYear.Click += GroupByYear_Click;
-                MainForm.GroupByGenre.Click += GroupByGenre_Click;
-                MainForm.GroupByTitle.Click += GroupByTitle_Click;
+                MainForm.ViewArtistAlbum.Click += ViewArtistAlbum_Click;
+                MainForm.ViewArtist.Click += ViewArtist_Click;
+                MainForm.ViewAlbum.Click += ViewAlbum_Click;
+                MainForm.ViewYear.Click += ViewYear_Click;
+                MainForm.ViewGenre.Click += ViewGenre_Click;
+                MainForm.ViewTitle.Click += ViewTitle_Click;
+                MainForm.ViewCustom.Click += PopupSelectColumns_Click;
 
                 View.Child = new GridElement();
                 CreateColumns();
@@ -164,27 +165,27 @@
         private void GridPopupMoreOptions_Click(object sender, EventArgs e) => PopupShellContextMenu();
         private void Grid_CellEditEnding(object sender, DataGridCellEditEndingEventArgs e) => CellEdit(e);
         private void Grid_SelectionChanged(object sender, SelectionChangedEventArgs e) => OnSelectionChanged();
-        private void GroupByArtistAlbum_Click(object sender, EventArgs e) => Query = Query.ByArtistAlbum;
-        private void GroupByArtist_Click(object sender, EventArgs e) => Query = Query.ByArtist;
-        private void GroupByAlbum_Click(object sender, EventArgs e) => Query = Query.ByAlbum;
-        private void GroupByYear_Click(object sender, EventArgs e) => Query = Query.ByYear;
-        private void GroupByGenre_Click(object sender, EventArgs e) => Query = Query.ByGenre;
-        private void GroupByTitle_Click(object sender, EventArgs e) => Query = Query.ByTitle;
         private void Model_TracksChanged(object sender, EventArgs e) => RefreshDataSource();
         private void PopupSelectColumns_Click(object sender, EventArgs e) => EditTagVisibility("Media");
+        private void ViewArtistAlbum_Click(object sender, EventArgs e) => Query = Query.ByArtistAlbum;
+        private void ViewArtist_Click(object sender, EventArgs e) => Query = Query.ByArtist;
+        private void ViewAlbum_Click(object sender, EventArgs e) => Query = Query.ByAlbum;
+        private void ViewYear_Click(object sender, EventArgs e) => Query = Query.ByYear;
+        private void ViewGenre_Click(object sender, EventArgs e) => Query = Query.ByGenre;
+        private void ViewTitle_Click(object sender, EventArgs e) => Query = Query.ByTitle;
 
         private void GridPopupMenu_Opening(object sender, CancelEventArgs e) =>
             MainForm.TablePopupMoreActions.Enabled = Selection.SelectedFoldersCount == 1;
 
         private void GroupByMenu_DropDownOpening(object sender, EventArgs e)
         {
-            MainForm.GroupByCustom.Checked = !(
-                (MainForm.GroupByArtistAlbum.Checked = QueryMatches(Query.ByArtistAlbum)) |
-                (MainForm.GroupByArtist.Checked = QueryMatches(Query.ByArtist)) |
-                (MainForm.GroupByAlbum.Checked = QueryMatches(Query.ByAlbum)) |
-                (MainForm.GroupByYear.Checked = QueryMatches(Query.ByYear)) |
-                (MainForm.GroupByGenre.Checked = QueryMatches(Query.ByGenre)) |
-                (MainForm.GroupByTitle.Checked = QueryMatches(Query.ByTitle)));
+            MainForm.ViewCustom.Checked = !(
+                (MainForm.ViewArtistAlbum.Checked = QueryMatches(Query.ByArtistAlbum)) |
+                (MainForm.ViewArtist.Checked = QueryMatches(Query.ByArtist)) |
+                (MainForm.ViewAlbum.Checked = QueryMatches(Query.ByAlbum)) |
+                (MainForm.ViewYear.Checked = QueryMatches(Query.ByYear)) |
+                (MainForm.ViewGenre.Checked = QueryMatches(Query.ByGenre)) |
+                (MainForm.ViewTitle.Checked = QueryMatches(Query.ByTitle)));
         }
 
         private void Selection_TracksEdit(object sender, SelectionEditEventArgs e) =>
