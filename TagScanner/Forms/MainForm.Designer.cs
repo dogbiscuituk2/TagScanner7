@@ -84,13 +84,13 @@
             this.PlayerPopupSelectColumns = new System.Windows.Forms.ToolStripMenuItem();
             this.MediaPlayer = new AxWMPLib.AxWindowsMediaPlayer();
             this.RecentLibraryPopupMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.FileReopen = new System.Windows.Forms.ToolStripMenuItem();
             this.AddRecentLibrary = new System.Windows.Forms.ToolStripMenuItem();
             this.tbReopen = new System.Windows.Forms.ToolStripMenuItem();
             this.tbAddRecentLibrary = new System.Windows.Forms.ToolStripMenuItem();
-            this.FileReopen = new System.Windows.Forms.ToolStripMenuItem();
             this.RecentFolderPopupMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.AddRecentFolder = new System.Windows.Forms.ToolStripMenuItem();
             this.tbAddRecentFolder = new System.Windows.Forms.ToolStripMenuItem();
+            this.AddRecentFolder = new System.Windows.Forms.ToolStripMenuItem();
             this.UndoPopupMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.tbUndo = new System.Windows.Forms.ToolStripSplitButton();
             this.RedoPopupMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
@@ -771,8 +771,15 @@
             // RecentLibraryPopupMenu
             // 
             this.RecentLibraryPopupMenu.Name = "RecentLibraryPopupMenu";
-            this.RecentLibraryPopupMenu.OwnerItem = this.FileReopen;
+            this.RecentLibraryPopupMenu.OwnerItem = this.tbAddRecentLibrary;
             this.RecentLibraryPopupMenu.Size = new System.Drawing.Size(61, 4);
+            // 
+            // FileReopen
+            // 
+            this.FileReopen.DropDown = this.RecentLibraryPopupMenu;
+            this.FileReopen.Name = "FileReopen";
+            this.FileReopen.Size = new System.Drawing.Size(161, 22);
+            this.FileReopen.Text = "&Reopen";
             // 
             // AddRecentLibrary
             // 
@@ -795,25 +802,11 @@
             this.tbAddRecentLibrary.Size = new System.Drawing.Size(149, 22);
             this.tbAddRecentLibrary.Text = "R&ecent Library";
             // 
-            // FileReopen
-            // 
-            this.FileReopen.DropDown = this.RecentLibraryPopupMenu;
-            this.FileReopen.Name = "FileReopen";
-            this.FileReopen.Size = new System.Drawing.Size(161, 22);
-            this.FileReopen.Text = "&Reopen";
-            // 
             // RecentFolderPopupMenu
             // 
             this.RecentFolderPopupMenu.Name = "RecentFolderPopupMenu";
-            this.RecentFolderPopupMenu.OwnerItem = this.tbAddRecentFolder;
+            this.RecentFolderPopupMenu.OwnerItem = this.AddRecentFolder;
             this.RecentFolderPopupMenu.Size = new System.Drawing.Size(61, 4);
-            // 
-            // AddRecentFolder
-            // 
-            this.AddRecentFolder.DropDown = this.RecentFolderPopupMenu;
-            this.AddRecentFolder.Name = "AddRecentFolder";
-            this.AddRecentFolder.Size = new System.Drawing.Size(149, 22);
-            this.AddRecentFolder.Text = "&Recent Folder";
             // 
             // tbAddRecentFolder
             // 
@@ -821,6 +814,13 @@
             this.tbAddRecentFolder.Name = "tbAddRecentFolder";
             this.tbAddRecentFolder.Size = new System.Drawing.Size(149, 22);
             this.tbAddRecentFolder.Text = "&Recent Folder";
+            // 
+            // AddRecentFolder
+            // 
+            this.AddRecentFolder.DropDown = this.RecentFolderPopupMenu;
+            this.AddRecentFolder.Name = "AddRecentFolder";
+            this.AddRecentFolder.Size = new System.Drawing.Size(149, 22);
+            this.AddRecentFolder.Text = "&Recent Folder";
             // 
             // UndoPopupMenu
             // 
@@ -1485,6 +1485,8 @@
             // 
             // ViewCustom
             // 
+            this.ViewCustom.Image = global::TagScanner.Properties.Resources.fff_app_columns_16;
+            this.ViewCustom.ImageTransparentColor = System.Drawing.Color.White;
             this.ViewCustom.Name = "ViewCustom";
             this.ViewCustom.Size = new System.Drawing.Size(180, 22);
             this.ViewCustom.Text = "&Custom...";
