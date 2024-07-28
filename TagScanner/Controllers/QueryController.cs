@@ -46,6 +46,20 @@
             PopupSelectAll = Dialog.PopupSelectAll;
             PopupInvertSelection = Dialog.PopupInvertSelection;
 
+            TbOK = Dialog.tbOK;
+            TbCancel = Dialog.tbCancel;
+            TbMoveUp = Dialog.tbMoveUp;
+            TbMoveDown = Dialog.tbMoveDown;
+            TbCut = Dialog.tbCut;
+            TbCopy = Dialog.tbCopy;
+            TbPaste = Dialog.tbPaste;
+            TbDelete = Dialog.tbDelete;
+            TbClear = Dialog.tbClear;
+            TbUndo = Dialog.tbUndo;
+            TbRedo = Dialog.tbRedo;
+            TbTree = Dialog.tbTree;
+            TbList = Dialog.tbList;
+
             TreeView = Dialog.TreeView;
             ListView = Dialog.ListView;
             LvSelect = Dialog.lvSelect;
@@ -209,6 +223,23 @@
             PopupClear,
             PopupSelectAll,
             PopupInvertSelection;
+
+        private readonly ToolStripButton
+            TbOK,
+            TbCancel,
+            TbMoveUp,
+            TbMoveDown,
+            TbCut,
+            TbCopy,
+            TbPaste,
+            TbDelete,
+            TbClear;
+
+        private readonly ToolStripSplitButton
+            TbUndo,
+            TbRedo,
+            TbTree,
+            TbList;
 
         #endregion
 
@@ -428,7 +459,7 @@
                 canSelectAll = canEdit,
                 canInvertSelection = canEdit;
 
-            AdjustMenu((p, q) => p.Visible = q);
+            ApplyAll((value, item) => item.Visible = value);
 
             Dialog.PopupSelectSeparator.Visible = canSelectAll;
 
@@ -447,24 +478,30 @@
             canSelectAll &= hasAny;
             canInvertSelection &= hasAny;
 
-            AdjustMenu((p, q) => p.Enabled = q);
+            ApplyAll((value, item) => item.Enabled = value);
 
-            void AdjustMenu(Action<ToolStripMenuItem, bool> action)
+            void ApplyAll(Action<bool, ToolStripItem> action)
             {
-                action(PopupMoveUp, canMoveUp);
-                action(PopupMoveDown, canMoveDown);
-                action(PopupSelect, canSelect);
-                action(PopupSort, canSort);
-                action(PopupSortAscending, canSort);
-                action(PopupSortDescending, canSort);
-                action(PopupGroup, canGroup);
-                action(PopupCut, canCut);
-                action(PopupCopy, canCopy);
-                action(PopupPaste, canPaste);
-                action(PopupDelete, canDelete);
-                action(PopupClear, canClear);
-                action(PopupSelectAll, canSelectAll);
-                action(PopupInvertSelection, canInvertSelection);
+                Apply(canMoveUp, PopupMoveUp, TbMoveUp);
+                Apply(canMoveDown, PopupMoveDown, TbMoveDown);
+                Apply(canSelect, PopupSelect);
+                Apply(canSort, PopupSort);
+                Apply(canSort, PopupSortAscending);
+                Apply(canSort, PopupSortDescending);
+                Apply(canGroup, PopupGroup);
+                Apply(canCut, PopupCut, TbCut);
+                Apply(canCopy, PopupCopy, TbCopy);
+                Apply(canPaste, PopupPaste, TbPaste);
+                Apply(canDelete, PopupDelete, TbDelete);
+                Apply(canClear, PopupClear, TbClear);
+                Apply(canSelectAll, PopupSelectAll);
+                Apply(canInvertSelection, PopupInvertSelection);
+
+                void Apply(bool value, params ToolStripItem[] items)
+                {
+                    foreach (var item in items)
+                        action(value, item);
+                }
             }
         }
 
