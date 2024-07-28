@@ -55,6 +55,7 @@
             this.PopupSelectSeparator = new System.Windows.Forms.ToolStripSeparator();
             this.PopupSelectAll = new System.Windows.Forms.ToolStripMenuItem();
             this.PopupInvertSelection = new System.Windows.Forms.ToolStripMenuItem();
+            this.EditMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.TreeView = new System.Windows.Forms.TreeView();
             this.toolStripContainer1 = new System.Windows.Forms.ToolStripContainer();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
@@ -72,7 +73,6 @@
             this.FileMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.FileSaveAndClose = new System.Windows.Forms.ToolStripMenuItem();
             this.FileCloseWithoutSaving = new System.Windows.Forms.ToolStripMenuItem();
-            this.EditMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.ViewMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.TreeMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.TreeAlphabetically = new System.Windows.Forms.ToolStripMenuItem();
@@ -159,7 +159,6 @@
             this.PopupSelectAll,
             this.PopupInvertSelection});
             this.PopupMenu.Name = "PopupTargetMenu";
-            this.PopupMenu.OwnerItem = this.EditMenu;
             this.PopupMenu.Size = new System.Drawing.Size(160, 330);
             // 
             // PopupMoveUp
@@ -316,6 +315,13 @@
             this.PopupInvertSelection.Size = new System.Drawing.Size(159, 22);
             this.PopupInvertSelection.Text = "&Invert Selection";
             // 
+            // EditMenu
+            // 
+            this.EditMenu.DropDown = this.PopupMenu;
+            this.EditMenu.Name = "EditMenu";
+            this.EditMenu.Size = new System.Drawing.Size(39, 20);
+            this.EditMenu.Text = "&Edit";
+            // 
             // TreeView
             // 
             this.TreeView.BorderStyle = System.Windows.Forms.BorderStyle.None;
@@ -450,7 +456,7 @@
             this.lblOrderBy.Name = "lblOrderBy";
             this.lblOrderBy.Size = new System.Drawing.Size(255, 20);
             this.lblOrderBy.TabIndex = 28;
-            this.lblOrderBy.Text = "Sort";
+            this.lblOrderBy.Text = "Sort By";
             this.lblOrderBy.TextAlign = System.Drawing.ContentAlignment.TopCenter;
             // 
             // lblGroupBy
@@ -460,7 +466,7 @@
             this.lblGroupBy.Name = "lblGroupBy";
             this.lblGroupBy.Size = new System.Drawing.Size(256, 20);
             this.lblGroupBy.TabIndex = 29;
-            this.lblGroupBy.Text = "Group";
+            this.lblGroupBy.Text = "Group By";
             this.lblGroupBy.TextAlign = System.Drawing.ContentAlignment.TopCenter;
             // 
             // panel2
@@ -537,13 +543,6 @@
             this.FileCloseWithoutSaving.ShortcutKeyDisplayString = "Esc";
             this.FileCloseWithoutSaving.Size = new System.Drawing.Size(208, 22);
             this.FileCloseWithoutSaving.Text = "&Close without saving";
-            // 
-            // EditMenu
-            // 
-            this.EditMenu.DropDown = this.PopupMenu;
-            this.EditMenu.Name = "EditMenu";
-            this.EditMenu.Size = new System.Drawing.Size(39, 20);
-            this.EditMenu.Text = "&Edit";
             // 
             // ViewMenu
             // 
