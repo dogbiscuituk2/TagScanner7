@@ -185,6 +185,7 @@
 
         #region Private Fields
 
+        private string _detail;
         private Control Focus;
         private bool MultiColumn;
         private QueryDialog _dialog;
@@ -378,6 +379,7 @@
         private bool Execute(string caption, string detail, List<Tag> tags, bool sortAndGroup)
         {
             Dialog.Text = caption;
+            _detail = detail;
             Dialog.lblSelect.Text = $"Selected {detail}";
             InitControls($"Browse {detail} in Tree View", Dialog.TreeMenu, TbTree);
             InitControls($"Browse {detail} in Tree View - Alphabetically", TreeAlphabetically);
@@ -387,9 +389,9 @@
             InitControls($"Browse {detail} in List View - Alphabetically", ListAlphabetically);
             InitControls($"Browse {detail} in List View - by Category", ListByCategory);
             InitControls($"Browse {detail} in List View - by Data Type", ListByDataType);
-            InitControls($"Browse {detail} in List View - by Names only", ListNamesOnly);
-            InitControls($"Confirm changes to the Selected {detail}", Dialog.FileSaveAndClose, TbOK);
-            InitControls($"Cancel changes to the Selected {detail}", Dialog.FileCloseWithoutSaving, TbCancel);
+            InitControls($"Browse {detail} in List View - Names only", ListNamesOnly);
+            InitControls($"Confirm changes to Selected {detail}", Dialog.FileSaveAndClose, TbOK);
+            InitControls($"Discard changes to Selected {detail}", Dialog.FileCloseWithoutSaving, TbCancel);
             InitControls("Undo the most recent change", Dialog.PopupUndo, TbUndo);
             InitControls("Redo the most recently 'undone' change", Dialog.PopupRedo, TbRedo);
             InitActiveControls();
@@ -400,7 +402,16 @@
 
         private void InitActiveControls()
         {
-            var which = GetFocusedLabel()?.Text;
+            var box = $"'{GetFocusedLabel()?.Text}' box";
+            InitControls($"Cut chosen {_detail} from {box} to Clipboard", PopupCut, TbCut);
+            InitControls($"Copy chosen {_detail} from {box} to Clipboard", PopupCopy, TbCopy);
+            InitControls($"Paste {_detail} from Clipboard into {box}", PopupPaste, TbPaste);
+            InitControls($"Delete chosen {_detail} from {box}", PopupDelete, TbDelete);
+            InitControls($"Delete all {_detail} from {box}", PopupClear);
+            InitControls($"Move chosen {_detail} up (in {box})", PopupMoveUp, TbMoveUp);
+            InitControls($"Move chosen {_detail} down (in {box})", PopupMoveDown, TbMoveDown);
+            InitControls($"Highlight all {_detail} in {box}", PopupSelectAll);
+            InitControls($"Invert highlighting of all {_detail} in {box}", PopupInvertSelection);
 
             Label GetFocusedLabel() =>
                 Focus == LvSelect ? Dialog.lblSelect :
@@ -465,6 +476,8 @@
 
         private void UpdateMenu()
         {
+            InitActiveControls();
+
             var indices = FocusedListView?.SelectedIndices.Cast<int>() ?? Array.Empty<int>();
             var total = FocusedListView?.Items?.Count ?? 0;
 
