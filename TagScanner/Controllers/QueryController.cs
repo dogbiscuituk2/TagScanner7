@@ -59,12 +59,6 @@
             TbTree = Dialog.tbTree;
             TbList = Dialog.tbList;
 
-            TreeView = Dialog.TreeView;
-            ListView = Dialog.ListView;
-            LvSelect = Dialog.lvSelect;
-            LvOrderBy = Dialog.lvOrderBy;
-            LvGroupBy = Dialog.lvGroupBy;
-
             _queryTreeViewController.InitView();
 
             TreeAlphabetically.Click += TreeAlphabetically_Click;
@@ -196,8 +190,6 @@
         private QueryDialog _dialog;
 
         private readonly ContextMenuStrip PopupMenu;
-        private readonly TreeView TreeView;
-        private readonly ListView ListView, LvSelect, LvOrderBy, LvGroupBy;
         private readonly QueryListViewController _queryListViewController;
         private readonly QueryTreeViewController _queryTreeViewController;
 
@@ -243,6 +235,12 @@
         #endregion
 
         #region Private Properties
+
+        private TreeView TreeView => Dialog.TreeView;
+        private ListView ListView => Dialog.ListView;
+        private ListView LvSelect => Dialog.lvSelect;
+        private ListView LvOrderBy => Dialog.lvOrderBy;
+        private ListView LvGroupBy => Dialog.lvGroupBy;
 
         private QueryViewController ActiveController =>
             _queryListViewController.Active
@@ -368,24 +366,55 @@
         private QueryDialog CreateDialog()
         {
             _dialog = new QueryDialog();
-            MainTagDragDropController.Add
-                (
-                _dialog.ListView,
-                _dialog.TreeView,
-                _dialog.lvSelect,
-                _dialog.lvOrderBy,
-                _dialog.lvGroupBy
-                );
+            MainTagDragDropController.Add(
+                ListView,
+                TreeView,
+                LvSelect,
+                LvOrderBy,
+                LvGroupBy);
             return Dialog;
         }
 
         private bool Execute(string caption, string detail, List<Tag> tags, bool sortAndGroup)
         {
             Dialog.Text = caption;
-            Dialog.lblSelect.Text = detail;
+            Dialog.lblSelect.Text = $"Selected {detail}";
+            InitControls($"Browse {detail} in Tree View", Dialog.TreeMenu, TbTree);
+            InitControls($"Browse {detail} in Tree View - Alphabetically", TreeAlphabetically);
+            InitControls($"Browse {detail} in Tree View - by Category", TreeByCategory);
+            InitControls($"Browse {detail} in Tree View - by Data Type", TreeByDataType);
+            InitControls($"Browse {detail} in List View", Dialog.ListMenu, TbList);
+            InitControls($"Browse {detail} in List View - Alphabetically", ListAlphabetically);
+            InitControls($"Browse {detail} in List View - by Category", ListByCategory);
+            InitControls($"Browse {detail} in List View - by Data Type", ListByDataType);
+            InitControls($"Browse {detail} in List View - by Names only", ListNamesOnly);
+            InitControls($"Confirm changes to the Selected {detail}", Dialog.FileSaveAndClose, TbOK);
+            InitControls($"Cancel changes to the Selected {detail}", Dialog.FileCloseWithoutSaving, TbCancel);
+            InitControls("Undo the most recent change", Dialog.PopupUndo, TbUndo);
+            InitControls("Redo the most recently 'undone' change", Dialog.PopupRedo, TbRedo);
+            InitActiveControls();
             SetSelectedTags(tags);
             SortAndGroup = sortAndGroup;
             return Dialog.ShowDialog(Owner) == DialogResult.OK;
+        }
+
+        private void InitActiveControls()
+        {
+            var which = GetFocusedLabel()?.Text;
+
+            Label GetFocusedLabel() =>
+                Focus == LvSelect ? Dialog.lblSelect :
+                Focus == LvOrderBy ? Dialog.lblOrderBy :
+                Focus == LvGroupBy ? Dialog.lblGroupBy :
+                null;
+        }
+
+        private void InitControls(string toolTip, params ToolStripItem[] controls)
+        {
+            foreach (var control in controls)
+            {
+                control.ToolTipText = toolTip;
+            }
         }
 
         private IEnumerable<Tag> GetSelectedTags() => LvSelect.Items.Cast<ListViewItem>().Select(p => (Tag)p.Tag);

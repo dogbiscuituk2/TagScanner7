@@ -69,7 +69,7 @@
         protected virtual void EditTagVisibility(string detail)
         {
             var query = Query;
-            if (new QueryController(this).Execute($"Select the Columns to display in the {detail} Table", "Selected Columns", query))
+            if (new QueryController(this).Execute($"Select the Columns to display in the {detail} Table", "Columns", query))
                 Query = query;
         }
 
