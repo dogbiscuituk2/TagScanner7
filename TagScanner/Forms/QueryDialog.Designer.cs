@@ -69,22 +69,6 @@
             this.panel2 = new System.Windows.Forms.Panel();
             this.btnCancel = new System.Windows.Forms.Button();
             this.btnOK = new System.Windows.Forms.Button();
-            this.MainMenu = new TagScanner.Controls.FirstClickMenuStrip();
-            this.FileMenu = new System.Windows.Forms.ToolStripMenuItem();
-            this.FileSaveAndClose = new System.Windows.Forms.ToolStripMenuItem();
-            this.FileCloseWithoutSaving = new System.Windows.Forms.ToolStripMenuItem();
-            this.ViewMenu = new System.Windows.Forms.ToolStripMenuItem();
-            this.TreeMenu = new System.Windows.Forms.ToolStripMenuItem();
-            this.TreeAlphabetically = new System.Windows.Forms.ToolStripMenuItem();
-            this.TreeByCategory = new System.Windows.Forms.ToolStripMenuItem();
-            this.TreeByDataType = new System.Windows.Forms.ToolStripMenuItem();
-            this.ListMenu = new System.Windows.Forms.ToolStripMenuItem();
-            this.ListAlphabetically = new System.Windows.Forms.ToolStripMenuItem();
-            this.ListByCategory = new System.Windows.Forms.ToolStripMenuItem();
-            this.ListByDataType = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripMenuItem2 = new System.Windows.Forms.ToolStripSeparator();
-            this.ListNamesOnly = new System.Windows.Forms.ToolStripMenuItem();
-            this.HelpMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.Toolbar = new System.Windows.Forms.ToolStrip();
             this.tbOK = new System.Windows.Forms.ToolStripButton();
             this.tbCancel = new System.Windows.Forms.ToolStripButton();
@@ -103,6 +87,22 @@
             this.toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
             this.tbTree = new System.Windows.Forms.ToolStripSplitButton();
             this.tbList = new System.Windows.Forms.ToolStripSplitButton();
+            this.MainMenu = new TagScanner.Controls.FirstClickMenuStrip();
+            this.FileMenu = new System.Windows.Forms.ToolStripMenuItem();
+            this.FileSaveAndClose = new System.Windows.Forms.ToolStripMenuItem();
+            this.FileCloseWithoutSaving = new System.Windows.Forms.ToolStripMenuItem();
+            this.ViewMenu = new System.Windows.Forms.ToolStripMenuItem();
+            this.TreeMenu = new System.Windows.Forms.ToolStripMenuItem();
+            this.TreeAlphabetically = new System.Windows.Forms.ToolStripMenuItem();
+            this.TreeByCategory = new System.Windows.Forms.ToolStripMenuItem();
+            this.TreeByDataType = new System.Windows.Forms.ToolStripMenuItem();
+            this.ListMenu = new System.Windows.Forms.ToolStripMenuItem();
+            this.ListAlphabetically = new System.Windows.Forms.ToolStripMenuItem();
+            this.ListByCategory = new System.Windows.Forms.ToolStripMenuItem();
+            this.ListByDataType = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItem2 = new System.Windows.Forms.ToolStripSeparator();
+            this.ListNamesOnly = new System.Windows.Forms.ToolStripMenuItem();
+            this.HelpMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.PopupMenu.SuspendLayout();
             this.toolStripContainer1.ContentPanel.SuspendLayout();
             this.toolStripContainer1.LeftToolStripPanel.SuspendLayout();
@@ -114,8 +114,8 @@
             this.splitContainer1.SuspendLayout();
             this.TableLayoutPanel.SuspendLayout();
             this.panel2.SuspendLayout();
-            this.MainMenu.SuspendLayout();
             this.Toolbar.SuspendLayout();
+            this.MainMenu.SuspendLayout();
             this.SuspendLayout();
             // 
             // ListView
@@ -527,6 +527,169 @@
             this.btnOK.Text = "OK";
             this.btnOK.UseVisualStyleBackColor = true;
             // 
+            // Toolbar
+            // 
+            this.Toolbar.Dock = System.Windows.Forms.DockStyle.None;
+            this.Toolbar.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.tbOK,
+            this.tbCancel,
+            this.toolStripSeparator1,
+            this.tbMoveUp,
+            this.tbMoveDown,
+            this.toolStripSeparator2,
+            this.tbUndo,
+            this.tbRedo,
+            this.toolStripSeparator3,
+            this.tbCut,
+            this.tbCopy,
+            this.tbPaste,
+            this.tbDelete,
+            this.tbClear,
+            this.toolStripSeparator4,
+            this.tbTree,
+            this.tbList});
+            this.Toolbar.Location = new System.Drawing.Point(0, 3);
+            this.Toolbar.Name = "Toolbar";
+            this.Toolbar.Size = new System.Drawing.Size(33, 334);
+            this.Toolbar.TabIndex = 0;
+            // 
+            // tbOK
+            // 
+            this.tbOK.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.tbOK.Image = global::TagScanner.Properties.Resources.saveHS;
+            this.tbOK.ImageTransparentColor = System.Drawing.Color.White;
+            this.tbOK.Name = "tbOK";
+            this.tbOK.Size = new System.Drawing.Size(31, 20);
+            this.tbOK.Text = "toolStripButton1";
+            // 
+            // tbCancel
+            // 
+            this.tbCancel.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.tbCancel.Image = global::TagScanner.Properties.Resources.frClose;
+            this.tbCancel.ImageTransparentColor = System.Drawing.Color.White;
+            this.tbCancel.Name = "tbCancel";
+            this.tbCancel.Size = new System.Drawing.Size(31, 20);
+            this.tbCancel.Text = "toolStripButton2";
+            // 
+            // toolStripSeparator1
+            // 
+            this.toolStripSeparator1.Name = "toolStripSeparator1";
+            this.toolStripSeparator1.Size = new System.Drawing.Size(31, 6);
+            // 
+            // tbMoveUp
+            // 
+            this.tbMoveUp.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.tbMoveUp.Image = global::TagScanner.Properties.Resources.arrow_Up_16xLG;
+            this.tbMoveUp.ImageTransparentColor = System.Drawing.Color.White;
+            this.tbMoveUp.Name = "tbMoveUp";
+            this.tbMoveUp.Size = new System.Drawing.Size(31, 20);
+            this.tbMoveUp.Text = "toolStripButton3";
+            // 
+            // tbMoveDown
+            // 
+            this.tbMoveDown.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.tbMoveDown.Image = global::TagScanner.Properties.Resources.arrow_Down_16xLG;
+            this.tbMoveDown.ImageTransparentColor = System.Drawing.Color.White;
+            this.tbMoveDown.Name = "tbMoveDown";
+            this.tbMoveDown.Size = new System.Drawing.Size(31, 20);
+            this.tbMoveDown.Text = "toolStripButton4";
+            // 
+            // toolStripSeparator2
+            // 
+            this.toolStripSeparator2.Name = "toolStripSeparator2";
+            this.toolStripSeparator2.Size = new System.Drawing.Size(31, 6);
+            // 
+            // tbUndo
+            // 
+            this.tbUndo.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.tbUndo.Image = global::TagScanner.Properties.Resources.Edit_UndoHS;
+            this.tbUndo.ImageTransparentColor = System.Drawing.Color.White;
+            this.tbUndo.Name = "tbUndo";
+            this.tbUndo.Size = new System.Drawing.Size(31, 20);
+            this.tbUndo.Text = "toolStripSplitButton1";
+            // 
+            // tbRedo
+            // 
+            this.tbRedo.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.tbRedo.Image = global::TagScanner.Properties.Resources.Edit_RedoHS;
+            this.tbRedo.ImageTransparentColor = System.Drawing.Color.White;
+            this.tbRedo.Name = "tbRedo";
+            this.tbRedo.Size = new System.Drawing.Size(31, 20);
+            this.tbRedo.Text = "toolStripSplitButton2";
+            // 
+            // toolStripSeparator3
+            // 
+            this.toolStripSeparator3.Name = "toolStripSeparator3";
+            this.toolStripSeparator3.Size = new System.Drawing.Size(31, 6);
+            // 
+            // tbCut
+            // 
+            this.tbCut.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.tbCut.Image = global::TagScanner.Properties.Resources.CutHS;
+            this.tbCut.ImageTransparentColor = System.Drawing.Color.White;
+            this.tbCut.Name = "tbCut";
+            this.tbCut.Size = new System.Drawing.Size(31, 20);
+            this.tbCut.Text = "toolStripButton5";
+            // 
+            // tbCopy
+            // 
+            this.tbCopy.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.tbCopy.Image = global::TagScanner.Properties.Resources.CopyHS;
+            this.tbCopy.ImageTransparentColor = System.Drawing.Color.White;
+            this.tbCopy.Name = "tbCopy";
+            this.tbCopy.Size = new System.Drawing.Size(31, 20);
+            this.tbCopy.Text = "toolStripButton6";
+            // 
+            // tbPaste
+            // 
+            this.tbPaste.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.tbPaste.Image = global::TagScanner.Properties.Resources.PasteHS;
+            this.tbPaste.ImageTransparentColor = System.Drawing.Color.White;
+            this.tbPaste.Name = "tbPaste";
+            this.tbPaste.Size = new System.Drawing.Size(31, 20);
+            this.tbPaste.Text = "toolStripButton7";
+            // 
+            // tbDelete
+            // 
+            this.tbDelete.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.tbDelete.Image = global::TagScanner.Properties.Resources.Delete;
+            this.tbDelete.ImageTransparentColor = System.Drawing.Color.White;
+            this.tbDelete.Name = "tbDelete";
+            this.tbDelete.Size = new System.Drawing.Size(31, 20);
+            this.tbDelete.Text = "toolStripButton8";
+            // 
+            // tbClear
+            // 
+            this.tbClear.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.tbClear.Image = ((System.Drawing.Image)(resources.GetObject("tbClear.Image")));
+            this.tbClear.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.tbClear.Name = "tbClear";
+            this.tbClear.Size = new System.Drawing.Size(31, 20);
+            this.tbClear.Text = "toolStripButton9";
+            // 
+            // toolStripSeparator4
+            // 
+            this.toolStripSeparator4.Name = "toolStripSeparator4";
+            this.toolStripSeparator4.Size = new System.Drawing.Size(31, 6);
+            // 
+            // tbTree
+            // 
+            this.tbTree.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.tbTree.Image = global::TagScanner.Properties.Resources.fff_app_tree_16;
+            this.tbTree.ImageTransparentColor = System.Drawing.Color.White;
+            this.tbTree.Name = "tbTree";
+            this.tbTree.Size = new System.Drawing.Size(31, 20);
+            this.tbTree.Text = "toolStripSplitButton3";
+            // 
+            // tbList
+            // 
+            this.tbList.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.tbList.Image = global::TagScanner.Properties.Resources.fff_app_list_16;
+            this.tbList.ImageTransparentColor = System.Drawing.Color.White;
+            this.tbList.Name = "tbList";
+            this.tbList.Size = new System.Drawing.Size(31, 20);
+            this.tbList.Text = "toolStripSplitButton4";
+            // 
             // MainMenu
             // 
             this.MainMenu.Dock = System.Windows.Forms.DockStyle.None;
@@ -583,6 +746,8 @@
             this.TreeAlphabetically,
             this.TreeByCategory,
             this.TreeByDataType});
+            this.TreeMenu.Image = global::TagScanner.Properties.Resources.fff_app_tree_16;
+            this.TreeMenu.ImageTransparentColor = System.Drawing.Color.White;
             this.TreeMenu.Name = "TreeMenu";
             this.TreeMenu.Size = new System.Drawing.Size(180, 22);
             this.TreeMenu.Text = "&Tree";
@@ -592,7 +757,7 @@
             this.TreeAlphabetically.Image = global::TagScanner.Properties.Resources.fff_app_tree_16;
             this.TreeAlphabetically.ImageTransparentColor = System.Drawing.Color.Transparent;
             this.TreeAlphabetically.Name = "TreeAlphabetically";
-            this.TreeAlphabetically.Size = new System.Drawing.Size(149, 22);
+            this.TreeAlphabetically.Size = new System.Drawing.Size(180, 22);
             this.TreeAlphabetically.Text = "&Alphabetically";
             // 
             // TreeByCategory
@@ -600,7 +765,7 @@
             this.TreeByCategory.Image = global::TagScanner.Properties.Resources.fff_app_tree_C2_16;
             this.TreeByCategory.ImageTransparentColor = System.Drawing.Color.Transparent;
             this.TreeByCategory.Name = "TreeByCategory";
-            this.TreeByCategory.Size = new System.Drawing.Size(149, 22);
+            this.TreeByCategory.Size = new System.Drawing.Size(180, 22);
             this.TreeByCategory.Text = "by &Category";
             // 
             // TreeByDataType
@@ -608,7 +773,7 @@
             this.TreeByDataType.Image = ((System.Drawing.Image)(resources.GetObject("TreeByDataType.Image")));
             this.TreeByDataType.ImageTransparentColor = System.Drawing.Color.Transparent;
             this.TreeByDataType.Name = "TreeByDataType";
-            this.TreeByDataType.Size = new System.Drawing.Size(149, 22);
+            this.TreeByDataType.Size = new System.Drawing.Size(180, 22);
             this.TreeByDataType.Text = "by &Data Type";
             // 
             // ListMenu
@@ -619,6 +784,8 @@
             this.ListByDataType,
             this.toolStripMenuItem2,
             this.ListNamesOnly});
+            this.ListMenu.Image = global::TagScanner.Properties.Resources.fff_app_list_16;
+            this.ListMenu.ImageTransparentColor = System.Drawing.Color.White;
             this.ListMenu.Name = "ListMenu";
             this.ListMenu.Size = new System.Drawing.Size(180, 22);
             this.ListMenu.Text = "&List";
@@ -666,169 +833,6 @@
             this.HelpMenu.Size = new System.Drawing.Size(44, 20);
             this.HelpMenu.Text = "&Help";
             // 
-            // Toolbar
-            // 
-            this.Toolbar.Dock = System.Windows.Forms.DockStyle.None;
-            this.Toolbar.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.tbOK,
-            this.tbCancel,
-            this.toolStripSeparator1,
-            this.tbMoveUp,
-            this.tbMoveDown,
-            this.toolStripSeparator2,
-            this.tbUndo,
-            this.tbRedo,
-            this.toolStripSeparator3,
-            this.tbCut,
-            this.tbCopy,
-            this.tbPaste,
-            this.tbDelete,
-            this.tbClear,
-            this.toolStripSeparator4,
-            this.tbTree,
-            this.tbList});
-            this.Toolbar.Location = new System.Drawing.Point(0, 3);
-            this.Toolbar.Name = "Toolbar";
-            this.Toolbar.Size = new System.Drawing.Size(33, 353);
-            this.Toolbar.TabIndex = 0;
-            // 
-            // tbOK
-            // 
-            this.tbOK.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.tbOK.Image = ((System.Drawing.Image)(resources.GetObject("tbOK.Image")));
-            this.tbOK.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.tbOK.Name = "tbOK";
-            this.tbOK.Size = new System.Drawing.Size(31, 20);
-            this.tbOK.Text = "toolStripButton1";
-            // 
-            // tbCancel
-            // 
-            this.tbCancel.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.tbCancel.Image = ((System.Drawing.Image)(resources.GetObject("tbCancel.Image")));
-            this.tbCancel.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.tbCancel.Name = "tbCancel";
-            this.tbCancel.Size = new System.Drawing.Size(31, 20);
-            this.tbCancel.Text = "toolStripButton2";
-            // 
-            // toolStripSeparator1
-            // 
-            this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(31, 6);
-            // 
-            // tbMoveUp
-            // 
-            this.tbMoveUp.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.tbMoveUp.Image = ((System.Drawing.Image)(resources.GetObject("tbMoveUp.Image")));
-            this.tbMoveUp.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.tbMoveUp.Name = "tbMoveUp";
-            this.tbMoveUp.Size = new System.Drawing.Size(31, 20);
-            this.tbMoveUp.Text = "toolStripButton3";
-            // 
-            // tbMoveDown
-            // 
-            this.tbMoveDown.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.tbMoveDown.Image = ((System.Drawing.Image)(resources.GetObject("tbMoveDown.Image")));
-            this.tbMoveDown.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.tbMoveDown.Name = "tbMoveDown";
-            this.tbMoveDown.Size = new System.Drawing.Size(31, 20);
-            this.tbMoveDown.Text = "toolStripButton4";
-            // 
-            // toolStripSeparator2
-            // 
-            this.toolStripSeparator2.Name = "toolStripSeparator2";
-            this.toolStripSeparator2.Size = new System.Drawing.Size(31, 6);
-            // 
-            // tbUndo
-            // 
-            this.tbUndo.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.tbUndo.Image = ((System.Drawing.Image)(resources.GetObject("tbUndo.Image")));
-            this.tbUndo.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.tbUndo.Name = "tbUndo";
-            this.tbUndo.Size = new System.Drawing.Size(31, 20);
-            this.tbUndo.Text = "toolStripSplitButton1";
-            // 
-            // tbRedo
-            // 
-            this.tbRedo.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.tbRedo.Image = ((System.Drawing.Image)(resources.GetObject("tbRedo.Image")));
-            this.tbRedo.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.tbRedo.Name = "tbRedo";
-            this.tbRedo.Size = new System.Drawing.Size(31, 20);
-            this.tbRedo.Text = "toolStripSplitButton2";
-            // 
-            // toolStripSeparator3
-            // 
-            this.toolStripSeparator3.Name = "toolStripSeparator3";
-            this.toolStripSeparator3.Size = new System.Drawing.Size(31, 6);
-            // 
-            // tbCut
-            // 
-            this.tbCut.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.tbCut.Image = ((System.Drawing.Image)(resources.GetObject("tbCut.Image")));
-            this.tbCut.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.tbCut.Name = "tbCut";
-            this.tbCut.Size = new System.Drawing.Size(31, 20);
-            this.tbCut.Text = "toolStripButton5";
-            // 
-            // tbCopy
-            // 
-            this.tbCopy.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.tbCopy.Image = ((System.Drawing.Image)(resources.GetObject("tbCopy.Image")));
-            this.tbCopy.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.tbCopy.Name = "tbCopy";
-            this.tbCopy.Size = new System.Drawing.Size(31, 20);
-            this.tbCopy.Text = "toolStripButton6";
-            // 
-            // tbPaste
-            // 
-            this.tbPaste.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.tbPaste.Image = ((System.Drawing.Image)(resources.GetObject("tbPaste.Image")));
-            this.tbPaste.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.tbPaste.Name = "tbPaste";
-            this.tbPaste.Size = new System.Drawing.Size(31, 20);
-            this.tbPaste.Text = "toolStripButton7";
-            // 
-            // tbDelete
-            // 
-            this.tbDelete.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.tbDelete.Image = ((System.Drawing.Image)(resources.GetObject("tbDelete.Image")));
-            this.tbDelete.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.tbDelete.Name = "tbDelete";
-            this.tbDelete.Size = new System.Drawing.Size(31, 20);
-            this.tbDelete.Text = "toolStripButton8";
-            // 
-            // tbClear
-            // 
-            this.tbClear.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.tbClear.Image = ((System.Drawing.Image)(resources.GetObject("tbClear.Image")));
-            this.tbClear.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.tbClear.Name = "tbClear";
-            this.tbClear.Size = new System.Drawing.Size(31, 20);
-            this.tbClear.Text = "toolStripButton9";
-            // 
-            // toolStripSeparator4
-            // 
-            this.toolStripSeparator4.Name = "toolStripSeparator4";
-            this.toolStripSeparator4.Size = new System.Drawing.Size(31, 6);
-            // 
-            // tbTree
-            // 
-            this.tbTree.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.tbTree.Image = ((System.Drawing.Image)(resources.GetObject("tbTree.Image")));
-            this.tbTree.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.tbTree.Name = "tbTree";
-            this.tbTree.Size = new System.Drawing.Size(31, 20);
-            this.tbTree.Text = "toolStripSplitButton3";
-            // 
-            // tbList
-            // 
-            this.tbList.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.tbList.Image = ((System.Drawing.Image)(resources.GetObject("tbList.Image")));
-            this.tbList.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.tbList.Name = "tbList";
-            this.tbList.Size = new System.Drawing.Size(31, 20);
-            this.tbList.Text = "toolStripSplitButton4";
-            // 
             // QueryDialog
             // 
             this.AcceptButton = this.btnOK;
@@ -859,10 +863,10 @@
             this.splitContainer1.ResumeLayout(false);
             this.TableLayoutPanel.ResumeLayout(false);
             this.panel2.ResumeLayout(false);
-            this.MainMenu.ResumeLayout(false);
-            this.MainMenu.PerformLayout();
             this.Toolbar.ResumeLayout(false);
             this.Toolbar.PerformLayout();
+            this.MainMenu.ResumeLayout(false);
+            this.MainMenu.PerformLayout();
             this.ResumeLayout(false);
 
 		}
