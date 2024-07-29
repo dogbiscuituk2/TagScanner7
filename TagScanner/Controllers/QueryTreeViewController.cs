@@ -4,7 +4,6 @@
     using System.Collections.Generic;
     using System.Drawing;
     using System.Linq;
-    using System.Windows;
     using System.Windows.Forms;
     using Models;
 
@@ -20,11 +19,19 @@
 
         private void TreeView_DrawNode(object sender, DrawTreeNodeEventArgs e)
         {
+            var r = e.Bounds;
+            if (r.IsEmpty)
+                return;
             var node = e.Node;
             if (node.Tag == null || ((Tag)node.Tag).CanWrite() || (e.State & TreeNodeStates.Selected) != 0)
                 e.DrawDefault = true;
             else
-                e.Graphics.DrawString(node.Text, TreeView.Font, new SolidBrush(ReadOnlyColour), e.Bounds);
+            {
+                var g = e.Graphics;
+                r.Offset(1, 0);
+                r.Inflate(+2, 0); g.FillRectangle(new SolidBrush(TreeView.BackColor), r);
+                r.Inflate(-2, 0); g.DrawString(node.Text, TreeView.Font, new SolidBrush(ReadOnlyColour), r);
+            }
         }
 
         #endregion

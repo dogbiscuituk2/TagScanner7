@@ -2,7 +2,6 @@
 {
     using System.Collections;
     using System.Collections.Generic;
-    using System.Drawing;
     using System.Linq;
     using System.Windows.Forms;
     using Models;
@@ -95,6 +94,7 @@
                 subItems.Add(tag.Category());
                 subItems.Add(tag.TypeName());
                 subItems.Add(tag.CanWrite() ? "Yes" : "No");
+                subItems.Add(tag.CanSort() ? "Yes" : "No");
                 if (!tag.CanWrite())
                     item.ForeColor = ReadOnlyColour;
             }
