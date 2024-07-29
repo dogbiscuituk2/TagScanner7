@@ -45,6 +45,17 @@
 
         #region Protected Methods
 
+        protected void GetColours(bool selected, bool canWrite, out Color fore, out Color back)
+        {
+            fore = Color.FromKnownColor(
+                selected && Control.Focused ? KnownColor.HighlightText :
+                selected || canWrite ? KnownColor.WindowText :
+                KnownColor.GrayText);
+
+            back = Color.FromKnownColor(
+                selected ? Control.Focused ? KnownColor.Highlight : KnownColor.InactiveCaption : KnownColor.Window);
+        }
+
         protected string GetGroupHeader(Tag tag)
         {
             switch (TagGrouping)

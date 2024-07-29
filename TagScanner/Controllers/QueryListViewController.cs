@@ -2,6 +2,7 @@
 {
     using System.Collections;
     using System.Collections.Generic;
+    using System.Drawing;
     using System.Linq;
     using System.Windows.Forms;
     using Models;
@@ -80,24 +81,27 @@
 
         #region Event Handlers
 
-        private void ListView_DrawColumnHeader(object sender, DrawListViewColumnHeaderEventArgs e)
-        {
+        private void ListView_DrawColumnHeader(object sender, DrawListViewColumnHeaderEventArgs e) =>
             e.DrawDefault = true;
-        }
 
-        private void ListView_DrawItem(object sender, DrawListViewItemEventArgs e)
-        {
-            e.DrawDefault = true;
-        }
+        private void ListView_DrawItem(object sender, DrawListViewItemEventArgs e) =>
+            DrawItem(e.Graphics, e.Bounds, e.Item.Text, e.Item.Tag, e.State);
 
-        private void ListView_DrawSubItem(object sender, DrawListViewSubItemEventArgs e)
-        {
-            e.DrawDefault = true;
-        }
+        private void ListView_DrawSubItem(object sender, DrawListViewSubItemEventArgs e) =>
+            DrawItem(e.Graphics, e.Bounds, e.SubItem.Text, e.Item.Tag, e.ItemState);
 
         #endregion
 
         #region Private Methods
+
+        private void DrawItem(Graphics graphics, Rectangle bounds, string text, object tag, ListViewItemStates state)
+        {
+            if (bounds.IsEmpty)
+                return;
+            GetColours((state & ListViewItemStates.Selected) != 0, ((Tag)tag).CanWrite(), out Color fore, out Color back);
+            graphics.FillRectangle(new SolidBrush(back), bounds);
+            graphics.DrawString(text, ListView.Font, new SolidBrush(fore), bounds);
+        }
 
         private IEnumerable<string> GetGroupHeaders() =>
             Items.Cast<ListViewItem>().Select(item => (Tag)item.Tag).Select(GetGroupHeader).Distinct().OrderBy(p => p);

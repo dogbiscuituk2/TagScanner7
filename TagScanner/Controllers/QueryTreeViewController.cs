@@ -55,7 +55,7 @@
         #region Event Handlers
 
         private void TreeView_DrawNode(object sender, DrawTreeNodeEventArgs e) =>
-            DrawNode(e.Graphics, e.Bounds, e.Node, e.State);
+            DrawNode(e.Graphics, e.Bounds, e.Node.Text, e.Node.Tag, (e.State & TreeNodeStates.Selected) != 0);
 
         #endregion
 
@@ -76,24 +76,17 @@
             return node;
         }
 
-        private void DrawNode(Graphics graphics, Rectangle bounds, TreeNode node, TreeNodeStates state)
+        private void DrawNode(Graphics graphics, Rectangle bounds, string text, object tag, bool selected)
         {
             if (bounds.IsEmpty)
                 return;
-            var tag = node.Tag;
-            bool
-                focused = TreeView.Focused,
-                selected = (state & TreeNodeStates.Selected) != 0,
-                leafNode = tag is Tag,
-                canWrite = leafNode && ((Tag)tag).CanWrite();
-            KnownColor
-                fore = selected && focused ? KnownColor.HighlightText : selected || !leafNode || canWrite ? KnownColor.WindowText : KnownColor.GrayText,
-                back = selected ? focused ? KnownColor.Highlight : KnownColor.InactiveCaption : KnownColor.Window;
+            var leaf = tag is Tag;
+            GetColours(selected, !leaf || ((Tag)tag).CanWrite(), out Color fore, out Color back);
             bounds.Offset(1, 0);
             var surround = bounds;
             surround.Inflate(2, 0);
-            graphics.FillRectangle(new SolidBrush(Color.FromKnownColor(back)), surround);
-            graphics.DrawString(node.Text, TreeView.Font, new SolidBrush(Color.FromKnownColor(fore)), bounds);
+            graphics.FillRectangle(new SolidBrush(back), surround);
+            graphics.DrawString(text, TreeView.Font, new SolidBrush(fore), bounds);
         }
 
         private TreeNode FindNode(string text) => Nodes.Cast<TreeNode>().FirstOrDefault(p => p.Text == text) ?? Nodes.Add(text);
