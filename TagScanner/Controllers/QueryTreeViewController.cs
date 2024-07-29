@@ -19,19 +19,58 @@
 
         private void TreeView_DrawNode(object sender, DrawTreeNodeEventArgs e)
         {
-            var r = e.Bounds;
-            if (r.IsEmpty)
+            var bounds = e.Bounds;
+            if (bounds.IsEmpty)
                 return;
             var node = e.Node;
-            if (node.Tag == null || ((Tag)node.Tag).CanWrite() || (e.State & TreeNodeStates.Selected) != 0)
-                e.DrawDefault = true;
+            var tag = node.Tag;
+            var state = e.State;
+            bool
+                treeFocused = TreeView.Focused,
+                nodeSelected = (state & TreeNodeStates.Selected) != 0,
+                leafNode = tag is Tag,
+                canWrite = leafNode && ((Tag)tag).CanWrite();
+            KnownColor fore, back;
+
+            if (treeFocused)
+            {
+                if (nodeSelected)
+                    (fore, back) = (KnownColor.HighlightText, KnownColor.Highlight);
+                else if (!leafNode || canWrite)
+                    (fore, back) = (KnownColor.WindowText, KnownColor.Window);
+                else
+                    (fore, back) = (KnownColor.GrayText, KnownColor.Window);
+            }
             else
+            {
+                if (nodeSelected)
+                    (fore, back) = (KnownColor.WindowText, KnownColor.InactiveCaption);
+                else if (!leafNode || canWrite)
+                    (fore, back) = (KnownColor.WindowText, KnownColor.Window);
+                else
+                    (fore, back) = (KnownColor.GrayText, KnownColor.Window);
+            }
+
+            /*{
+                e.DrawDefault = true;
+                return;
+            }*/
+            bounds.Offset(1, 0);
+            var surround = bounds;
+            surround.Inflate(2, 0);
+            var g = e.Graphics;
+            g.FillRectangle(new SolidBrush(Color.FromKnownColor(back)), surround);
+            g.DrawString(node.Text, TreeView.Font, new SolidBrush(Color.FromKnownColor(fore)), bounds);
+
+            //if (node.Tag == null || ((Tag)node.Tag).CanWrite() || (e.State & (TreeNodeStates.Selected | TreeNodeStates.Focused)) != 0)
+            //            e.DrawDefault = true;
+            /*else
             {
                 var g = e.Graphics;
                 r.Offset(1, 0);
                 r.Inflate(+2, 0); g.FillRectangle(new SolidBrush(TreeView.BackColor), r);
                 r.Inflate(-2, 0); g.DrawString(node.Text, TreeView.Font, new SolidBrush(ReadOnlyColour), r);
-            }
+            }*/
         }
 
         #endregion

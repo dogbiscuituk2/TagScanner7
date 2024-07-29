@@ -223,6 +223,7 @@
     <Compile Include="Models\FileChecks.cs" />
     <Compile Include="Models\FileFlags.cs" />
     <Compile Include="Models\FindReplaceResult.cs" />
+    <Compile Include="Models\KnownColourPair.cs" />
     <Compile Include="Models\Query.cs" />
     <Compile Include="Models\Schema.cs" />
     <Compile Include="Models\SchemaLine.cs" />
