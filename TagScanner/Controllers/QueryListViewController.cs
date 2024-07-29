@@ -13,7 +13,9 @@
 
         public QueryListViewController(QueryController parent, ListView listView) : base(parent, listView)
         {
-            ListView.OwnerDraw = true;
+            ListView.ColumnWidthChanged += (sender, e) => ListView.Invalidate();
+
+            ListView.OwnerDraw = false; // Here be dragons.
             ListView.DrawColumnHeader += ListView_DrawColumnHeader;
             ListView.DrawItem += ListView_DrawItem;
             ListView.DrawSubItem += ListView_DrawSubItem;

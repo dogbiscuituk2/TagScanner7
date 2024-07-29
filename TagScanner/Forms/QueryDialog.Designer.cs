@@ -30,7 +30,7 @@
 		{
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(QueryDialog));
-            this.ListView = new System.Windows.Forms.ListView();
+            this.ListView = new TagScanner.Controls.DoubleBufferedListView();
             this.chTagName = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.chCategory = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.chDataType = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
@@ -990,7 +990,7 @@
 
 		#endregion
 
-		public System.Windows.Forms.ListView ListView;
+		public TagScanner.Controls.DoubleBufferedListView ListView;
         public System.Windows.Forms.ColumnHeader chTagName;
         public System.Windows.Forms.ColumnHeader chDataType;
         public System.Windows.Forms.ColumnHeader chCategory;
