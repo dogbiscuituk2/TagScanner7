@@ -17,62 +17,6 @@
             TreeView.DrawNode += TreeView_DrawNode;
         }
 
-        private void TreeView_DrawNode(object sender, DrawTreeNodeEventArgs e)
-        {
-            var bounds = e.Bounds;
-            if (bounds.IsEmpty)
-                return;
-            var node = e.Node;
-            var tag = node.Tag;
-            var state = e.State;
-            bool
-                treeFocused = TreeView.Focused,
-                nodeSelected = (state & TreeNodeStates.Selected) != 0,
-                leafNode = tag is Tag,
-                canWrite = leafNode && ((Tag)tag).CanWrite();
-            KnownColor fore, back;
-
-            if (treeFocused)
-            {
-                if (nodeSelected)
-                    (fore, back) = (KnownColor.HighlightText, KnownColor.Highlight);
-                else if (!leafNode || canWrite)
-                    (fore, back) = (KnownColor.WindowText, KnownColor.Window);
-                else
-                    (fore, back) = (KnownColor.GrayText, KnownColor.Window);
-            }
-            else
-            {
-                if (nodeSelected)
-                    (fore, back) = (KnownColor.WindowText, KnownColor.InactiveCaption);
-                else if (!leafNode || canWrite)
-                    (fore, back) = (KnownColor.WindowText, KnownColor.Window);
-                else
-                    (fore, back) = (KnownColor.GrayText, KnownColor.Window);
-            }
-
-            /*{
-                e.DrawDefault = true;
-                return;
-            }*/
-            bounds.Offset(1, 0);
-            var surround = bounds;
-            surround.Inflate(2, 0);
-            var g = e.Graphics;
-            g.FillRectangle(new SolidBrush(Color.FromKnownColor(back)), surround);
-            g.DrawString(node.Text, TreeView.Font, new SolidBrush(Color.FromKnownColor(fore)), bounds);
-
-            //if (node.Tag == null || ((Tag)node.Tag).CanWrite() || (e.State & (TreeNodeStates.Selected | TreeNodeStates.Focused)) != 0)
-            //            e.DrawDefault = true;
-            /*else
-            {
-                var g = e.Graphics;
-                r.Offset(1, 0);
-                r.Inflate(+2, 0); g.FillRectangle(new SolidBrush(TreeView.BackColor), r);
-                r.Inflate(-2, 0); g.DrawString(node.Text, TreeView.Font, new SolidBrush(ReadOnlyColour), r);
-            }*/
-        }
-
         #endregion
 
         #region Public Methods
@@ -108,6 +52,13 @@
 
         #endregion
 
+        #region Event Handlers
+
+        private void TreeView_DrawNode(object sender, DrawTreeNodeEventArgs e) =>
+            DrawNode(e.Graphics, e.Bounds, e.Node, e.State);
+
+        #endregion
+
         #region Private Methods
 
         private TreeNode AddNode(TreeNodeCollection nodes, Tag tag)
@@ -123,6 +74,26 @@
             var node = nodes.Add(key, text ?? key);
             node.StateImageIndex = 0;
             return node;
+        }
+
+        private void DrawNode(Graphics graphics, Rectangle bounds, TreeNode node, TreeNodeStates state)
+        {
+            if (bounds.IsEmpty)
+                return;
+            var tag = node.Tag;
+            bool
+                focused = TreeView.Focused,
+                selected = (state & TreeNodeStates.Selected) != 0,
+                leafNode = tag is Tag,
+                canWrite = leafNode && ((Tag)tag).CanWrite();
+            KnownColor
+                fore = selected && focused ? KnownColor.HighlightText : selected || !leafNode || canWrite ? KnownColor.WindowText : KnownColor.GrayText,
+                back = selected ? focused ? KnownColor.Highlight : KnownColor.InactiveCaption : KnownColor.Window;
+            bounds.Offset(1, 0);
+            var surround = bounds;
+            surround.Inflate(2, 0);
+            graphics.FillRectangle(new SolidBrush(Color.FromKnownColor(back)), surround);
+            graphics.DrawString(node.Text, TreeView.Font, new SolidBrush(Color.FromKnownColor(fore)), bounds);
         }
 
         private TreeNode FindNode(string text) => Nodes.Cast<TreeNode>().FirstOrDefault(p => p.Text == text) ?? Nodes.Add(text);

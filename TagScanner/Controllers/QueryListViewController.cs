@@ -10,7 +10,13 @@
     {
         #region Constructor
 
-        public QueryListViewController(QueryController parent, ListView listView) : base(parent, listView) { }
+        public QueryListViewController(QueryController parent, ListView listView) : base(parent, listView)
+        {
+            ListView.OwnerDraw = true;
+            ListView.DrawColumnHeader += ListView_DrawColumnHeader;
+            ListView.DrawItem += ListView_DrawItem;
+            ListView.DrawSubItem += ListView_DrawSubItem;
+        }
 
         #endregion
 
@@ -69,6 +75,25 @@
         private ListViewGroupCollection Groups => ListView.Groups;
         private ListView.ListViewItemCollection Items => ListView.Items;
         private ListView ListView => (ListView)Control;
+
+        #endregion
+
+        #region Event Handlers
+
+        private void ListView_DrawColumnHeader(object sender, DrawListViewColumnHeaderEventArgs e)
+        {
+            e.DrawDefault = true;
+        }
+
+        private void ListView_DrawItem(object sender, DrawListViewItemEventArgs e)
+        {
+            e.DrawDefault = true;
+        }
+
+        private void ListView_DrawSubItem(object sender, DrawListViewSubItemEventArgs e)
+        {
+            e.DrawDefault = true;
+        }
 
         #endregion
 
