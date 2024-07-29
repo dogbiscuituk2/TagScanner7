@@ -27,6 +27,7 @@
             TreeAlphabetically.Click += TreeAlphabetically_Click;
             TreeByCategory.Click += TreeByCategory_Click;
             TreeByDataType.Click += TreeByDataType_Click;
+            TbTree.ButtonClick += TreeByCategory_Click;
 
             _queryListViewController.InitView();
 
@@ -34,6 +35,7 @@
             ListByCategory.Click += ListByCategory_Click;
             ListByDataType.Click += ListByDataType_Click;
             ListNamesOnly.Click += ListNamesOnly_Click;
+            TbList.ButtonClick += ListNamesOnly_Click;
 
             InitControls(TreeView, ListView, LvSelect, LvOrderBy, LvGroupBy);
 
@@ -480,6 +482,8 @@
                 canInvertSelection = canEdit;
 
             ApplyAll((value, item) => item.Visible = value);
+
+            Dialog.PopupTopSeparator.Visible = Dialog.PopupBottomSeparator.Visible = canEdit;
 
             var count = canEdit ? indices.Count() : 0;
 
