@@ -3,6 +3,7 @@
     using System;
     using System.Collections.Generic;
     using System.ComponentModel;
+    using System.Drawing;
     using System.Linq;
     using System.Windows.Forms;
     using Forms;
@@ -74,12 +75,7 @@
         #region Public Properties
 
         public IEnumerable<Tag> AvailableTags { get; private set; }
-
-        #endregion
-
-        #region Public Fields
-
-        public TagGrouping TagGrouping;
+        public TagGrouping TagGrouping { get; private set; }
 
         #endregion
 
@@ -149,8 +145,9 @@
 
         private string _detail;
         private QueryDialog _dialog;
-        private Control Focus;
-        private bool MultiColumn;
+        private Control _focus;
+        private bool _multiColumn;
+        private bool _sortAndGroup;
 
         private readonly QueryTreeViewController _queryTreeViewController;
         private readonly QueryListViewController _queryListViewController;
@@ -159,14 +156,53 @@
 
         #region Private Properties
 
+        private QueryDialog Dialog => _dialog ?? CreateDialog();
         private TreeView TreeView => Dialog.TreeView;
-
         private ListView ListView => Dialog.ListView;
         private ListView LvSelect => Dialog.lvSelect;
         private ListView LvOrderBy => Dialog.lvOrderBy;
         private ListView LvGroupBy => Dialog.lvGroupBy;
 
+        private Control Focus
+        {
+            get => _focus;
+            set
+            {
+                FocusView(false);
+                _focus = value;
+                FocusView(true);
+
+                void FocusView(bool focus)
+                {
+                    var label = FocusedLabel;
+                    if (label != null)
+                        label.BackColor = Color.FromKnownColor(focus ? KnownColor.ActiveCaption : KnownColor.Control);
+                }
+            }
+        }
+
         private ContextMenuStrip PopupMenu => Dialog.PopupMenu;
+
+        private ToolStripMenuItem TreeAlphabetically => Dialog.TreeAlphabetically;
+        private ToolStripMenuItem TreeByCategory => Dialog.TreeByCategory;
+        private ToolStripMenuItem TreeByDataType => Dialog.TreeByDataType;
+        private ToolStripMenuItem ListAlphabetically => Dialog.ListAlphabetically;
+        private ToolStripMenuItem ListByCategory => Dialog.ListByCategory;
+        private ToolStripMenuItem ListByDataType => Dialog.ListByDataType;
+        private ToolStripMenuItem ListNamesOnly => Dialog.ListNamesOnly;
+        private ToolStripMenuItem PopupMoveUp => Dialog.PopupMoveUp;
+        private ToolStripMenuItem PopupMoveDown => Dialog.PopupMoveDown;
+        private ToolStripMenuItem PopupSelect => Dialog.PopupSelect;
+        private ToolStripMenuItem PopupSortAscending => Dialog.PopupSortAscending;
+        private ToolStripMenuItem PopupSortDescending => Dialog.PopupSortDescending;
+        private ToolStripMenuItem PopupGroup => Dialog.PopupGroup;
+        private ToolStripMenuItem PopupCut => Dialog.PopupCut;
+        private ToolStripMenuItem PopupCopy => Dialog.PopupCopy;
+        private ToolStripMenuItem PopupPaste => Dialog.PopupPaste;
+        private ToolStripMenuItem PopupDelete => Dialog.PopupDelete;
+        private ToolStripMenuItem PopupClear => Dialog.PopupClear;
+        private ToolStripMenuItem PopupSelectAll => Dialog.PopupSelectAll;
+        private ToolStripMenuItem PopupInvertSelection => Dialog.PopupInvertSelection;
 
         private ToolStripButton TbOK => Dialog.tbOK;
         private ToolStripButton TbCancel => Dialog.tbCancel;
@@ -182,38 +218,14 @@
         private ToolStripSplitButton TbTree => Dialog.tbTree;
         private ToolStripSplitButton TbList => Dialog.tbList;
 
-        private ToolStripMenuItem TreeAlphabetically => Dialog.TreeAlphabetically;
-        private ToolStripMenuItem TreeByCategory => Dialog.TreeByCategory;
-        private ToolStripMenuItem TreeByDataType => Dialog.TreeByDataType;
-        private ToolStripMenuItem ListAlphabetically => Dialog.ListAlphabetically;
-        private ToolStripMenuItem ListByCategory => Dialog.ListByCategory;
-        private ToolStripMenuItem ListByDataType => Dialog.ListByDataType;
-        private ToolStripMenuItem ListNamesOnly => Dialog.ListNamesOnly;
-        private ToolStripMenuItem PopupMoveUp => Dialog.PopupMoveUp;
-        private ToolStripMenuItem PopupMoveDown => Dialog.PopupMoveDown;
-        private ToolStripMenuItem PopupSelect => Dialog.PopupSelect;
-        private ToolStripMenuItem PopupSort => Dialog.PopupSort;
-        private ToolStripMenuItem PopupSortAscending => Dialog.PopupSortAscending;
-        private ToolStripMenuItem PopupSortDescending => Dialog.PopupSortDescending;
-        private ToolStripMenuItem PopupGroup => Dialog.PopupGroup;
-        private ToolStripMenuItem PopupCut => Dialog.PopupCut;
-        private ToolStripMenuItem PopupCopy => Dialog.PopupCopy;
-        private ToolStripMenuItem PopupPaste => Dialog.PopupPaste;
-        private ToolStripMenuItem PopupDelete => Dialog.PopupDelete;
-        private ToolStripMenuItem PopupClear => Dialog.PopupClear;
-        private ToolStripMenuItem PopupSelectAll => Dialog.PopupSelectAll;
-        private ToolStripMenuItem PopupInvertSelection => Dialog.PopupInvertSelection;
-
-        private QueryViewController ActiveController =>
-            _queryListViewController.Active
-            ? _queryListViewController
-            : (QueryViewController)_queryTreeViewController;
-
-        private QueryDialog Dialog => _dialog ?? CreateDialog();
+        private Label FocusedLabel =>
+            Focus == LvSelect ? Dialog.lblSelect :
+            Focus == LvOrderBy ? Dialog.lblOrderBy :
+            Focus == LvGroupBy ? Dialog.lblGroupBy :
+            null;
 
         private ListView FocusedListView => Focus as ListView;
 
-        private bool _sortAndGroup;
         private bool SortAndGroup
         {
             get => _sortAndGroup;
@@ -238,10 +250,12 @@
         #region Event Handlers
 
         private void Control_StateChanged(object sender, EventArgs e) { Focus = sender as Control; UpdateMenu(); }
+
         private void ListAlphabetically_Click(object sender, EventArgs e) => UseListView(TagGrouping.None);
         private void ListByCategory_Click(object sender, EventArgs e) => UseListView(TagGrouping.Category);
         private void ListByDataType_Click(object sender, EventArgs e) => UseListView(TagGrouping.DataType);
         private void ListNamesOnly_Click(object sender, EventArgs e) => UseListView(TagGrouping.None, true);
+
         private void TreeAlphabetically_Click(object sender, EventArgs e) => UseTreeView(TagGrouping.None);
         private void TreeByCategory_Click(object sender, EventArgs e) => UseTreeView(TagGrouping.Category);
         private void TreeByDataType_Click(object sender, EventArgs e) => UseTreeView(TagGrouping.DataType);
@@ -372,7 +386,7 @@
             var box =
                 Focus == TreeView ? "Tree View" :
                 Focus == ListView ? "List View" :
-                $"'{GetFocusedLabel()?.Text}' box";
+                $"'{FocusedLabel?.Text}' box";
             InitControls($"Cut highlighted {_detail} from {box} to Clipboard", PopupCut, TbCut);
             InitControls($"Copy highlighted {_detail} from {box} to Clipboard", PopupCopy, TbCopy);
             InitControls($"Paste {_detail} from Clipboard into {box}", PopupPaste, TbPaste);
@@ -382,12 +396,6 @@
             InitControls($"Move highlighted {_detail} down (in {box})", PopupMoveDown, TbMoveDown);
             InitControls($"Highlight all {_detail} in {box}", PopupSelectAll);
             InitControls($"Invert highlighting of all {_detail} in {box}", PopupInvertSelection);
-
-            Label GetFocusedLabel() =>
-                Focus == LvSelect ? Dialog.lblSelect :
-                Focus == LvOrderBy ? Dialog.lblOrderBy :
-                Focus == LvGroupBy ? Dialog.lblGroupBy :
-                null;
         }
 
         private void InitControls(string toolTip, params ToolStripItem[] controls)
@@ -450,17 +458,18 @@
 
             var indices = FocusedListView?.SelectedIndices.Cast<int>() ?? Array.Empty<int>();
             var total = FocusedListView?.Items?.Count ?? 0;
+            var targets = new[] { LvSelect, LvOrderBy, LvGroupBy };
 
             bool
                 hasFocus = Focus != null,
-                canEdit = new[] { LvSelect, LvOrderBy, LvGroupBy }.Contains(Focus),
+                canEdit = targets.Contains(Focus),
                 hasAny = total > 0,
                 hasSelection = canEdit && indices.Any(),
 
                 canMoveUp = canEdit,
                 canMoveDown = canEdit,
                 canSelect = Focus != LvSelect,
-                canSort = SortAndGroup && Focus != LvOrderBy,
+                canSort = SortAndGroup,
                 canGroup = SortAndGroup && Focus != LvGroupBy,
                 canCut = canEdit,
                 canCopy = hasFocus,
@@ -471,8 +480,6 @@
                 canInvertSelection = canEdit;
 
             ApplyAll((value, item) => item.Visible = value);
-
-            Dialog.PopupSelectSeparator.Visible = canSelectAll;
 
             var count = canEdit ? indices.Count() : 0;
 
@@ -496,7 +503,7 @@
                 Apply(canMoveUp, PopupMoveUp, TbMoveUp);
                 Apply(canMoveDown, PopupMoveDown, TbMoveDown);
                 Apply(canSelect, PopupSelect);
-                Apply(canSort, PopupSort, PopupSortAscending, PopupSortDescending);
+                Apply(canSort, PopupSortAscending, PopupSortDescending);
                 Apply(canGroup, PopupGroup);
                 Apply(canCut, PopupCut, TbCut);
                 Apply(canCopy, PopupCopy, TbCopy);
@@ -520,10 +527,10 @@
             TreeAlphabetically.Checked = tree && TagGrouping == TagGrouping.None; ;
             TreeByCategory.Checked = tree && TagGrouping == TagGrouping.Category;
             TreeByDataType.Checked = tree && TagGrouping == TagGrouping.DataType;
-            ListAlphabetically.Checked = !tree && TagGrouping == TagGrouping.None && !MultiColumn;
+            ListAlphabetically.Checked = !tree && TagGrouping == TagGrouping.None && !_multiColumn;
             ListByCategory.Checked = !tree && TagGrouping == TagGrouping.Category;
             ListByDataType.Checked = !tree && TagGrouping == TagGrouping.DataType;
-            ListNamesOnly.Checked = !tree && TagGrouping == TagGrouping.None && MultiColumn;
+            ListNamesOnly.Checked = !tree && TagGrouping == TagGrouping.None && _multiColumn;
             UpdateMenu();
         }
 
@@ -533,7 +540,7 @@
         private void UseView(bool useTree, TagGrouping tagGrouping, bool multiColumn = false)
         {
             TagGrouping = tagGrouping;
-            MultiColumn = multiColumn;
+            _multiColumn = multiColumn;
             _queryListViewController.ViewMode = multiColumn ? View.List : View.Details;
             _queryListViewController.Active = !useTree;
             _queryTreeViewController.Active = useTree;
@@ -553,6 +560,8 @@
             SortAscending,
             SortDescending,
             Group,
+            Undo,
+            Redo,
             Cut,
             Copy,
             Paste,
