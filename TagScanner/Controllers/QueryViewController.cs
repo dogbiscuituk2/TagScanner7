@@ -1,6 +1,7 @@
 ﻿namespace TagScanner.Controllers
 {
     using System.Collections.Generic;
+    using System.Drawing;
     using System.Linq;
     using System.Windows.Forms;
     using Models;
@@ -37,6 +38,7 @@
 
         protected IEnumerable<Tag> AvailableTags => QueryController.AvailableTags;
         protected Control Control { get; private set; }
+        protected Color ReadOnlyColour => Color.FromKnownColor(KnownColor.GrayText);
         protected TagGrouping TagGrouping => QueryController.TagGrouping;
 
         #endregion

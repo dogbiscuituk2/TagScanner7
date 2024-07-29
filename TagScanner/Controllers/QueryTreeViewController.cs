@@ -2,7 +2,9 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.Drawing;
     using System.Linq;
+    using System.Windows;
     using System.Windows.Forms;
     using Models;
 
@@ -10,7 +12,20 @@
     {
         #region Constructor
 
-        public QueryTreeViewController(QueryController parent, TreeView treeView) : base(parent, treeView) { }
+        public QueryTreeViewController(QueryController parent, TreeView treeView) : base(parent, treeView)
+        {
+            TreeView.DrawMode = TreeViewDrawMode.OwnerDrawText;
+            TreeView.DrawNode += TreeView_DrawNode;
+        }
+
+        private void TreeView_DrawNode(object sender, DrawTreeNodeEventArgs e)
+        {
+            var node = e.Node;
+            if (node.Tag == null || ((Tag)node.Tag).CanWrite() || (e.State & TreeNodeStates.Selected) != 0)
+                e.DrawDefault = true;
+            else
+                e.Graphics.DrawString(node.Text, TreeView.Font, new SolidBrush(ReadOnlyColour), e.Bounds);
+        }
 
         #endregion
 

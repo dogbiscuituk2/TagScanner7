@@ -96,7 +96,7 @@
                 subItems.Add(tag.TypeName());
                 subItems.Add(tag.CanWrite() ? "Yes" : "No");
                 if (!tag.CanWrite())
-                    item.ForeColor = Color.FromKnownColor(KnownColor.GrayText);
+                    item.ForeColor = ReadOnlyColour;
             }
         }
 

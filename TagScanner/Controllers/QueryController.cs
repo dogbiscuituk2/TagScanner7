@@ -35,6 +35,9 @@
             ListByCategory.Click += ListByCategory_Click;
             ListByDataType.Click += ListByDataType_Click;
             ListNamesOnly.Click += ListNamesOnly_Click;
+            ListSmallIcons.Click += ListSmallIcons_Click;
+            ListLargeIcons.Click += ListLargeIcons_Click;
+            ListTiles.Click += ListTiles_Click;
             TbList.ButtonClick += ListNamesOnly_Click;
 
             InitControls(TreeView, ListView, LvSelect, LvOrderBy, LvGroupBy);
@@ -43,6 +46,7 @@
             Dialog.FileCloseWithoutSaving.Click += (sender, e) => Dialog.DialogResult = DialogResult.Cancel;
 
             PopupMenu.Opening += PopupTargetMenu_Opening;
+
             PopupMoveUp.Click += PopupMoveUp_Click;
             PopupMoveDown.Click += PopupMoveDown_Click;
             PopupSelect.Click += PopupSelect_Click;
@@ -148,6 +152,7 @@
         private string _detail;
         private QueryDialog _dialog;
         private Control _focus;
+        private bool _initializing;
         private bool _multiColumn;
         private bool _sortAndGroup;
 
@@ -192,6 +197,9 @@
         private ToolStripMenuItem ListByCategory => Dialog.ListByCategory;
         private ToolStripMenuItem ListByDataType => Dialog.ListByDataType;
         private ToolStripMenuItem ListNamesOnly => Dialog.ListNamesOnly;
+        private ToolStripMenuItem ListSmallIcons => Dialog.ListSmallIcons;
+        private ToolStripMenuItem ListLargeIcons => Dialog.ListLargeIcons;
+        private ToolStripMenuItem ListTiles => Dialog.ListTiles;
         private ToolStripMenuItem PopupMoveUp => Dialog.PopupMoveUp;
         private ToolStripMenuItem PopupMoveDown => Dialog.PopupMoveDown;
         private ToolStripMenuItem PopupSelect => Dialog.PopupSelect;
@@ -256,7 +264,10 @@
         private void ListAlphabetically_Click(object sender, EventArgs e) => UseListView(TagGrouping.None);
         private void ListByCategory_Click(object sender, EventArgs e) => UseListView(TagGrouping.Category);
         private void ListByDataType_Click(object sender, EventArgs e) => UseListView(TagGrouping.DataType);
-        private void ListNamesOnly_Click(object sender, EventArgs e) => UseListView(TagGrouping.None, true);
+        private void ListNamesOnly_Click(object sender, EventArgs e) => UseListView(TagGrouping.None, View.List);
+        private void ListSmallIcons_Click(object sender, EventArgs e) => UseListView(TagGrouping.None, View.SmallIcon);
+        private void ListLargeIcons_Click(object sender, EventArgs e) => UseListView(TagGrouping.None, View.LargeIcon);
+        private void ListTiles_Click(object sender, EventArgs e) => UseListView(TagGrouping.None, View.Tile);
 
         private void TreeAlphabetically_Click(object sender, EventArgs e) => UseTreeView(TagGrouping.None);
         private void TreeByCategory_Click(object sender, EventArgs e) => UseTreeView(TagGrouping.Category);
@@ -350,6 +361,7 @@
                 LvSelect,
                 LvOrderBy,
                 LvGroupBy);
+            _initializing = true;
             return Dialog;
         }
 
@@ -373,6 +385,9 @@
             InitControls($"{list} - by Category", ListByCategory);
             InitControls($"{list} - by Data Type", ListByDataType);
             InitControls($"{list} - Names only", ListNamesOnly);
+            InitControls($"{list} - small icons", ListSmallIcons);
+            InitControls($"{list} - large icons", ListLargeIcons);
+            InitControls($"{list} - tiles", ListTiles);
             InitControls($"Confirm {changes}", Dialog.FileSaveAndClose, TbOK);
             InitControls($"Discard {changes}", Dialog.FileCloseWithoutSaving, TbCancel);
             InitControls($"Undo {change}", Dialog.PopupUndo, TbUndo);
@@ -483,8 +498,6 @@
 
             ApplyAll((value, item) => item.Visible = value);
 
-            Dialog.PopupTopSeparator.Visible = Dialog.PopupBottomSeparator.Visible = canEdit;
-
             var count = canEdit ? indices.Count() : 0;
 
             canMoveUp &= count > 0 && indices.Max() >= count;
@@ -504,6 +517,8 @@
 
             void ApplyAll(Action<bool, ToolStripItem> action)
             {
+                Apply(!canEdit, Dialog.PopupTree, Dialog.PopupList, Dialog.PopupSeparator1);
+                Apply(canEdit, Dialog.PopupSeparator2, Dialog.PopupSeparator5);
                 Apply(canMoveUp, PopupMoveUp, TbMoveUp);
                 Apply(canMoveDown, PopupMoveDown, TbMoveDown);
                 Apply(canSelect, PopupSelect);
@@ -516,11 +531,22 @@
                 Apply(canClear, PopupClear);
                 Apply(canSelectAll, PopupSelectAll);
                 Apply(canInvertSelection, PopupInvertSelection);
+                _initializing = false;
 
                 void Apply(bool value, params ToolStripItem[] items)
                 {
                     foreach (var item in items)
                         action(value, item);
+                    if (_initializing
+                        && items.Length == 2
+                        && items[0] is ToolStripMenuItem menuItem
+                        && items[1] is ToolStripButton button)
+                    {
+                        button.Image = menuItem.Image;
+                        button.ImageTransparentColor = menuItem.ImageTransparentColor;
+                        button.Text = menuItem.Text;
+                        button.Click += (sender, e) => menuItem.PerformClick();
+                    }
                 }
             }
         }
@@ -538,14 +564,14 @@
             UpdateMenu();
         }
 
-        private void UseListView(TagGrouping tagGrouping, bool multiColumn = false) => UseView(useTree: false, tagGrouping, multiColumn);
+        private void UseListView(TagGrouping tagGrouping, View view = View.Details) => UseView(useTree: false, tagGrouping, view);
         private void UseTreeView(TagGrouping tagGrouping) => UseView(useTree: true, tagGrouping);
 
-        private void UseView(bool useTree, TagGrouping tagGrouping, bool multiColumn = false)
+        private void UseView(bool useTree, TagGrouping tagGrouping, View view = View.Details)
         {
             TagGrouping = tagGrouping;
-            _multiColumn = multiColumn;
-            _queryListViewController.ViewMode = multiColumn ? View.List : View.Details;
+            //_multiColumn = multiColumn;
+            _queryListViewController.ViewMode = view;
             _queryListViewController.Active = !useTree;
             _queryTreeViewController.Active = useTree;
             UpdateUI();
