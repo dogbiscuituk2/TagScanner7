@@ -308,9 +308,9 @@
             {
                 switch (act)
                 {
-                    case Act.MoveUp: DoMove(down: false); return;
-                    case Act.MoveDown: DoMove(down: true); return;
-                    case Act.Cut: DoCopy(); DoDelete(); return;
+                    case Act.MoveUp: DoMoveUp(); return;
+                    case Act.MoveDown: DoMoveDown(); return;
+                    case Act.Cut: DoCut(); return;
                     case Act.Copy: DoCopy(); return;
                     case Act.Paste: DoPaste(); return;
                     case Act.Delete: DoDelete(); return;
@@ -321,6 +321,8 @@
 
             void DoCopy() => Clipboard.SetDataObject(FocusedListView.SelectedItems);
 
+            void DoCut() { DoCopy(); DoDelete(); }
+
             void DoDelete()
             {
                 for (int index = count - 1; index >= 0; index--)
@@ -330,18 +332,14 @@
 
             void DoInvertSelection() { foreach (ListViewItem item in items) item.Selected ^= true; }
 
-            void DoMove(bool down)
+            void DoMoveDown()
             {
-                int index;
-                if (down) for (index = count - 1; index > 0; index--) { if (selection.Contains(index - 1)) Swap(); }
-                else for (index = 1; index < count; index++) { if (selection.Contains(index)) Swap(); }
+                for (var index = count - 1; index > 0; index--) { if (selection.Contains(index - 1)) SwapItems(index); }
+            }
 
-                void Swap()
-                {
-                    var item = items[index - 1];
-                    items.RemoveAt(index - 1);
-                    items.Insert(index, item);
-                }
+            void DoMoveUp()
+            {
+                for (var index = 1; index < count; index++) { if (selection.Contains(index)) SwapItems(index); }
             }
 
             void DoPaste()
@@ -352,6 +350,13 @@
             }
 
             void DoSelectAll() { foreach (ListViewItem item in items) item.Selected = true; }
+
+            void SwapItems(int index)
+            {
+                var item = items[index - 1];
+                items.RemoveAt(index - 1);
+                items.Insert(index, item);
+            }
         }
 
         private QueryDialog CreateDialog()
