@@ -292,12 +292,14 @@
 
         #region Private Methods
 
+        private List<int> GetFocusedListViewSelection() => FocusedListView?.SelectedIndices.Cast<int>().ToList();
+
         private void ActiveTargetExecute(Act act)
         {
             FocusedListView.BeginUpdate();
             var items = FocusedListView.Items;
             var count = items.Count;
-            var selection = FocusedListView.SelectedIndices.Cast<int>().ToList();
+            var selection = GetFocusedListViewSelection();
             DoAct();
             FocusedListView.EndUpdate();
             UpdateMenu();
@@ -474,7 +476,7 @@
         {
             InitActiveControls();
 
-            var indices = FocusedListView?.SelectedIndices.Cast<int>() ?? Array.Empty<int>();
+            var indices = GetFocusedListViewSelection() ?? new List<int>();
             var total = FocusedListView?.Items?.Count ?? 0;
             var targets = new[] { LvSelect, LvOrderBy, LvGroupBy };
 
@@ -482,7 +484,7 @@
                 hasFocus = Focus != null,
                 canEdit = targets.Contains(Focus),
                 hasAny = total > 0,
-                hasSelection = canEdit && indices.Any(),
+                hasSelection = indices.Any(),
 
                 canMoveUp = canEdit,
                 canMoveDown = canEdit,
