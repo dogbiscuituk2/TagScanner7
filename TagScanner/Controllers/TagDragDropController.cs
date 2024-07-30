@@ -55,7 +55,11 @@
             }
             e.Effect = listView == _source ? DragDropEffects.Move : DragDropEffects.Copy;
             if (drop)
+            {
+                var data = e.Data;
+                var formats = e.Data.GetFormats();
                 listView.Items.AddRange(e.Data.GetTagSortItems().ToArray());
+            }
         }
 
         private Control _source;

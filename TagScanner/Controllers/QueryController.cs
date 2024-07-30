@@ -19,17 +19,17 @@
         {
             AvailableTags = Tags.Keys.Where(tagFilter);
 
-            _queryListViewController = new QueryListViewController(this, Dialog.ListView);
-            _queryTreeViewController = new QueryTreeViewController(this, Dialog.TreeView);
+            _TreeViewController = new QueryTreeViewController(this, Dialog.TreeView);
+            _ListViewController = new QueryListViewController(this, Dialog.ListView);
 
-            _queryTreeViewController.InitView();
+            _TreeViewController.InitView();
 
             TreeAlphabetically.Click += TreeAlphabetically_Click;
             TreeByCategory.Click += TreeByCategory_Click;
             TreeByDataType.Click += TreeByDataType_Click;
             TbTree.ButtonClick += TreeByCategory_Click;
 
-            _queryListViewController.InitView();
+            _ListViewController.InitView();
 
             ListAlphabetically.Click += ListAlphabetically_Click;
             ListByCategory.Click += ListByCategory_Click;
@@ -93,7 +93,7 @@
             SetGroups(query.Groups);
             var ok = Execute(caption, detail, query.Tags, true);
             if (ok)
-                query.Init(GetSelectedTags(), GetSorts(), GetGroups());
+                query.Init(GetSelectedTags(), GetSorts(), GetGroupByTags());
             return ok;
         }
 
@@ -112,7 +112,7 @@
         {
             UpdateTags(LvSelect, GetSelectedTags());
             UpdateSorts(LvOrderBy, GetSorts());
-            UpdateTags(LvGroupBy, GetGroups());
+            UpdateTags(LvGroupBy, GetGroupByTags());
 
             void UpdateSorts(ListView view, IEnumerable<SortDescription> sorts)
             {
@@ -156,8 +156,8 @@
         private bool _multiColumn;
         private bool _sortAndGroup;
 
-        private readonly QueryTreeViewController _queryTreeViewController;
-        private readonly QueryListViewController _queryListViewController;
+        private readonly QueryTreeViewController _TreeViewController;
+        private readonly QueryListViewController _ListViewController;
 
         #endregion
 
@@ -423,8 +423,9 @@
             }
         }
 
+        private IEnumerable<Tag> GetGroupByTags() => LvGroupBy.Items.Cast<ListViewItem>().Select(p => (Tag)p.Tag);
+        private IEnumerable<Tag> GetOrderByTags() => LvOrderBy.Items.Cast<ListViewItem>().Select(p => (Tag)p.Tag);
         private IEnumerable<Tag> GetSelectedTags() => LvSelect.Items.Cast<ListViewItem>().Select(p => (Tag)p.Tag);
-        private IEnumerable<Tag> GetGroups() => LvGroupBy.Items.Cast<ListViewItem>().Select(p => (Tag)p.Tag);
         private IEnumerable<SortDescription> GetSorts() => LvOrderBy.Items.Cast<TagListItem>().Select(p => new SortDescription(p.Name, p.Direction));
 
         private IEnumerable<TagSort> GetTagSortData() => FocusedListView != null
@@ -553,7 +554,7 @@
 
         private void UpdateUI()
         {
-            bool tree = _queryTreeViewController.Active;
+            bool tree = _TreeViewController.Active;
             TreeAlphabetically.Checked = tree && TagGrouping == TagGrouping.None; ;
             TreeByCategory.Checked = tree && TagGrouping == TagGrouping.Category;
             TreeByDataType.Checked = tree && TagGrouping == TagGrouping.DataType;
@@ -571,9 +572,9 @@
         {
             TagGrouping = tagGrouping;
             //_multiColumn = multiColumn;
-            _queryListViewController.ViewMode = view;
-            _queryListViewController.Active = !useTree;
-            _queryTreeViewController.Active = useTree;
+            _ListViewController.ViewMode = view;
+            _ListViewController.Active = !useTree;
+            _TreeViewController.Active = useTree;
             UpdateUI();
         }
 

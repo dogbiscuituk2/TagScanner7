@@ -15,10 +15,10 @@
         {
             ListView.ColumnWidthChanged += (sender, e) => ListView.Invalidate();
 
-            ListView.OwnerDraw = false; // Here be dragons.
+            ListView.OwnerDraw = false; /* Here Be Dragons!
             ListView.DrawColumnHeader += ListView_DrawColumnHeader;
             ListView.DrawItem += ListView_DrawItem;
-            ListView.DrawSubItem += ListView_DrawSubItem;
+            ListView.DrawSubItem += ListView_DrawSubItem; */
         }
 
         #endregion
@@ -83,14 +83,14 @@
 
         #region Event Handlers
 
+        /*
         private void ListView_DrawColumnHeader(object sender, DrawListViewColumnHeaderEventArgs e) =>
             e.DrawDefault = true;
-
         private void ListView_DrawItem(object sender, DrawListViewItemEventArgs e) =>
             DrawItem(e.Graphics, e.Bounds, e.Item.Text, e.Item.Tag, e.State);
-
         private void ListView_DrawSubItem(object sender, DrawListViewSubItemEventArgs e) =>
             DrawItem(e.Graphics, e.Bounds, e.SubItem.Text, e.Item.Tag, e.ItemState);
+        */
 
         #endregion
 
@@ -112,8 +112,6 @@
 
         private void InitItems()
         {
-            var foo = ListView.View;
-
             Items.Clear();
             foreach (var tag in AvailableTags)
             {

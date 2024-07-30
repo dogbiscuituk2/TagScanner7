@@ -20,6 +20,7 @@
         public static IEnumerable<TagSort> GetTagSortData(this IDataObject data) =>
             data.GetData(typeof(TreeNode)) is TreeNode node ? node.GetTagSortData() :
             data.GetData(typeof(ListViewItem)) is ListViewItem item ? item.GetTagSortData() :
+            data.GetData(typeof(TagListItem)) is TagListItem titem ? titem.GetTagSortData() :
             data.GetData(typeof(ListViewItems)) is ListViewItems items ? items.GetTagSortData() :
             Array.Empty<TagSort>();
 
