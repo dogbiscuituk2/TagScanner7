@@ -32,12 +32,6 @@
 
         #endregion
 
-        #region Private Properties
-
-        private QueryController QueryController => (QueryController)Parent;
-
-        #endregion
-
         #region Private Methods
 
         private ListSortDirection GetDirection(ListViewItem item) => item.StateImageIndex == 1 ? ListSortDirection.Descending : ListSortDirection.Ascending;
@@ -63,7 +57,7 @@
             {
                 var data = e.Data;
                 var formats = e.Data.GetFormats();
-                listView.Items.AddRange(e.Data.GetTagSortItems().ToArray());
+                MainQueryController.Merge(e.Data.ItemsFromDataObject());
             }
         }
 
@@ -72,7 +66,7 @@
         private void ItemDrag(Control control, ItemDragEventArgs e)
         {
             _source = control;
-            var data = ((QueryController)Parent).GetTagSortData();
+            var data = MainQueryController.GetTagxData();
             control.DoDragDrop(data, DragDropEffects.All);
         }
 

@@ -105,7 +105,9 @@
             return ok;
         }
 
-        public IEnumerable<Tagx> GetTagSortData() => TagxData.FromControl(Focus);
+        public IEnumerable<Tagx> GetTagxData() => TagxData.GetTagxData(Focus);
+
+        public void Merge(List<TagxItem> items) => FocusedListView.Items.AddRange(items.ToArray());
 
         public void UpdateSelection()
         {
@@ -321,7 +323,7 @@
 
             void DoClear() => items.Clear();
 
-            void DoCopy() => Clipboard.SetDataObject(GetTagSortData().ToList());
+            void DoCopy() => Focus.ToClipboard();
 
             void DoCut() { DoCopy(); DoDelete(); }
 
@@ -347,11 +349,7 @@
             void DoPaste()
             {
                 if (TagxData.InClipboard())
-                    items.AddRange(Tagx)
-
-                var data = Clipboard.GetDataObject()?.GetData(typeof(List<Tagx>));
-                if (data != null)
-                    items.AddRange(data.ToArray());
+                    Merge(TagxData.ItemsFromClipboard());
             }
 
             void DoSelectAll() { foreach (ListViewItem item in items) item.Selected = true; }
@@ -509,7 +507,7 @@
             canGroup &= hasSelection;
             canCut &= hasSelection;
             canCopy &= hasSelection;
-            canPaste &= Clipboard.GetDataObject().HasTagSortData();
+            canPaste &= TagxData.InClipboard();
             canDelete &= hasSelection;
             canClear &= hasSelection;
             canSelectAll &= hasAny;

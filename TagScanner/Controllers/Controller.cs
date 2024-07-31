@@ -27,11 +27,12 @@
         protected MainForm MainForm => MainFormController.View;
         protected MainFormController MainFormController => (MainFormController)Root;
         protected Model MainModel => MainFormController.Model;
+        protected QueryController MainQueryController => MainFormController.MainQueryController;
         protected WpfTableController MainTableController => MainFormController.TableController;
+        protected TagDragDropController MainTagDragDropController => MainFormController.TagDragDropController;
         protected virtual IWin32Window Owner => Parent?.Owner;
         protected Controller Parent { get; }
         protected Controller Root => Parent == null ? this : Parent.Root;
-        protected TagDragDropController MainTagDragDropController => MainFormController.TagDragDropController;
 
         #endregion
     }

@@ -9,11 +9,11 @@
     /// </summary>
     public static class TagxData
     {
-        public static bool InClipboard() => Clipboard.GetDataObject()?.HasTagxData() ?? false;
+        #region Public Methods
 
-        public static List<Tagx> FromClipboard() => (List<Tagx>)Clipboard.GetDataObject()?.GetData(typeof(List<Tagx>));
+        public static List<Tagx> FromClipboard() => ClipboardData.GetTagxData();
 
-        public static List<Tagx> FromControl(Control control)
+        public static List<Tagx> GetTagxData(this Control control)
         {
             var list = new List<Tagx>();
             if (control is ListView listView)
@@ -36,10 +36,26 @@
             }
         }
 
+        public static List<Tagx> GetTagxData(this IDataObject data) => (List<Tagx>)data.GetData(typeof(List<Tagx>));
+
         public static bool HasTagxData(this IDataObject data) => data.GetDataPresent(typeof(List<Tagx>));
 
-        public static TagxItem[] l
+        public static bool InClipboard() => ClipboardData?.HasTagxData() ?? false;
 
-        public static List<TagxItem> ToTagxItems(this List<Tagx> tags) => tags.Select(p => new TagxItem(p)).ToList();
+        public static List<TagxItem> ItemsFromClipboard() => FromClipboard().ToTagxItems();
+
+        public static List<TagxItem> ItemsFromDataObject(this IDataObject data) => data.GetTagxData().ToTagxItems();
+
+        public static void ToClipboard(this Control control) => Clipboard.SetDataObject(control.GetTagxData());
+
+        #endregion
+
+        #region Private Methods
+
+        private static IDataObject ClipboardData => Clipboard.GetDataObject();
+
+        private static List<TagxItem> ToTagxItems(this List<Tagx> tags) => tags.Select(p => new TagxItem(p)).ToList();
+
+        #endregion
     }
 }
