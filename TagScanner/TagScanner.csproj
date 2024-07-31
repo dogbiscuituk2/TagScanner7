@@ -219,7 +219,7 @@
     <Compile Include="Forms\TestForm.Designer.cs">
       <DependentUpon>TestForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="Menus\ShellContextMenu.cs" />
+    <Compile Include="Controls\ShellContextMenu.cs" />
     <Compile Include="Models\FileChecks.cs" />
     <Compile Include="Models\FileFlags.cs" />
     <Compile Include="Models\FindReplaceResult.cs" />
@@ -242,7 +242,6 @@
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
     <Compile Include="Streaming\StreamFormat.cs" />
-    <Compile Include="Menus\CastEventArgs.cs" />
     <Compile Include="Terms\Associativity.cs" />
     <Compile Include="Terms\Break.cs" />
     <Compile Include="Terms\Catch.cs" />
@@ -290,12 +289,6 @@
     <Compile Include="Controllers\QueryListViewController.cs" />
     <Compile Include="Controllers\QueryTreeViewController.cs" />
     <Compile Include="Controllers\QueryViewController.cs" />
-    <Compile Include="Menus\ConstantEventArgs.cs" />
-    <Compile Include="Menus\FieldEventArgs.cs" />
-    <Compile Include="Menus\FunctionEventArgs.cs" />
-    <Compile Include="Menus\MenuMaker.cs" />
-    <Compile Include="Menus\MenuRouter.cs" />
-    <Compile Include="Menus\OperationEventArgs.cs" />
     <Compile Include="Models\TagGrouping.cs" />
     <Compile Include="Controllers\Wpf\WpfGridController.cs" />
     <Compile Include="Controllers\MainFormController.cs" />
@@ -306,7 +299,6 @@
     <Compile Include="Terms\Constant.cs" />
     <Compile Include="Terms\Functors.cs" />
     <Compile Include="Terms\Operators.cs" />
-    <Compile Include="Menus\MenuFilter.cs" />
     <Compile Include="Terms\Function.cs" />
     <Compile Include="Terms\Operation.cs" />
     <Compile Include="Terms\Op.cs" />

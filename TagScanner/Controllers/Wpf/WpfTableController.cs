@@ -9,8 +9,8 @@
     using System.Windows.Data;
     using System.Windows.Forms.Integration;
     using Commands;
+    using Controls;
     using Forms;
-    using Menus;
     using Models;
     using Terms;
 
@@ -30,12 +30,6 @@
         #region Public Properties
 
         public override DataGrid DataGrid => ((GridElement)View.Child).DataGrid;
-
-        public ListCollectionView ListCollectionView
-        {
-            get => (ListCollectionView)DataGrid.ItemsSource;
-            set => DataGrid.ItemsSource = value;
-        }
 
         public Selection Selection
         {

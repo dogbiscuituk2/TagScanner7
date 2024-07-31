@@ -1,4 +1,4 @@
-namespace TagScanner.Menus
+namespace TagScanner.Controls
 {
     using System;
     using System.Drawing;
