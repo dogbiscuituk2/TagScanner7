@@ -105,7 +105,7 @@
             return ok;
         }
 
-        public IEnumerable<TagSort> GetTagSortData() => Focus.GetTagSortData();
+        public IEnumerable<Tagx> GetTagSortData() => TagxData.FromControl(Focus);
 
         public void UpdateSelection()
         {
@@ -118,7 +118,7 @@
                 if (view == null)
                     return;
                 view.Clear();
-                view.Items.AddRange(sorts.Select(p => new TagListItem(p)).ToArray());
+                view.Items.AddRange(sorts.Select(p => new TagxItem(p)).ToArray());
             }
 
             void UpdateTags(ListView view, IEnumerable<Tag> tags)
@@ -126,7 +126,7 @@
                 if (view == null)
                     return;
                 view.Clear();
-                view.Items.AddRange(tags.Select(p => new TagListItem(p)).ToArray());
+                view.Items.AddRange(tags.Select(p => new TagxItem(p)).ToArray());
             }
         }
 
@@ -346,7 +346,10 @@
 
             void DoPaste()
             {
-                var data = Clipboard.GetDataObject()?.GetData(typeof(List<TagSort>));
+                if (TagxData.InClipboard())
+                    items.AddRange(Tagx)
+
+                var data = Clipboard.GetDataObject()?.GetData(typeof(List<Tagx>));
                 if (data != null)
                     items.AddRange(data.ToArray());
             }
@@ -429,7 +432,7 @@
         private IEnumerable<Tag> GetGroupByTags() => LvGroupBy.Items.Cast<ListViewItem>().Select(p => (Tag)p.Tag);
         private IEnumerable<Tag> GetOrderByTags() => LvOrderBy.Items.Cast<ListViewItem>().Select(p => (Tag)p.Tag);
         private IEnumerable<Tag> GetSelectedTags() => LvSelect.Items.Cast<ListViewItem>().Select(p => (Tag)p.Tag);
-        private IEnumerable<SortDescription> GetSorts() => LvOrderBy.Items.Cast<TagListItem>().Select(p => new SortDescription(p.Name, p.Direction));
+        private IEnumerable<SortDescription> GetSorts() => LvOrderBy.Items.Cast<TagxItem>().Select(p => new SortDescription(p.Name, p.Direction));
 
         private void PassiveTargetExecute(Act act)
         {
@@ -464,9 +467,9 @@
             }
         }
 
-        private void SetGroups(IEnumerable<Tag> tags) => LvGroupBy.Items.AddRange(tags.Select(p => new TagListItem(p)).ToArray());
-        private void SetSorts(IEnumerable<SortDescription> sorts) => LvOrderBy.Items.AddRange(sorts.Select(p => new TagListItem(p)).ToArray());
-        private void SetSelectedTags(IEnumerable<Tag> tags) => LvSelect.Items.AddRange(tags.Select(p => new TagListItem(p)).ToArray());
+        private void SetGroups(IEnumerable<Tag> tags) => LvGroupBy.Items.AddRange(tags.Select(p => new TagxItem(p)).ToArray());
+        private void SetSorts(IEnumerable<SortDescription> sorts) => LvOrderBy.Items.AddRange(sorts.Select(p => new TagxItem(p)).ToArray());
+        private void SetSelectedTags(IEnumerable<Tag> tags) => LvSelect.Items.AddRange(tags.Select(p => new TagxItem(p)).ToArray());
 
         private void UpdateMenu()
         {

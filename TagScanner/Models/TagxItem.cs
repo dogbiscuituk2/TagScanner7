@@ -3,21 +3,15 @@
     using System.ComponentModel;
     using System.Windows.Forms;
 
-    public class TagListItem : ListViewItem
+    public class TagxItem : ListViewItem
     {
         #region Constructors
 
-        public TagListItem(Tag tag)
-            : this(tag, descending: false) { }
-
-        public TagListItem(Tag tag, bool descending)
-            : this(tag, descending ? ListSortDirection.Descending : ListSortDirection.Ascending) { }
-
-        public TagListItem(Tag tag, ListSortDirection direction)
-            : base() => Init(tag, direction);
-
-        public TagListItem(SortDescription sort)
-            : base() => Init(Tags.TagNameToTag(sort.PropertyName), sort.Direction);
+        public TagxItem(Tagx tagSort) : this(tagSort.Tag, tagSort.Descending) { }
+        public TagxItem(Tag tag) : this(tag, descending: false) { }
+        public TagxItem(Tag tag, bool descending) : this(tag, descending ? ListSortDirection.Descending : ListSortDirection.Ascending) { }
+        public TagxItem(Tag tag, ListSortDirection direction) : base() => Init(tag, direction);
+        public TagxItem(SortDescription sort) : base() => Init(Tags.TagNameToTag(sort.PropertyName), sort.Direction);
 
         #endregion
 
