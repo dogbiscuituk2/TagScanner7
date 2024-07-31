@@ -263,11 +263,11 @@
         {
             var tokens = new List<Token>(Lexer.GetTokens(Text));
             range.ClearStyle(Lexer.AllTextStyles);
-            foreach (var token in tokens)
+            tokens.ForEach(p =>
                 new Range(TextBox,
-                    TextBox.PositionToPlace(token.Start),
-                    TextBox.PositionToPlace(token.End))
-                    .SetStyle(Lexer.TextStyle(token.Kind));
+                    TextBox.PositionToPlace(p.Start),
+                    TextBox.PositionToPlace(p.End))
+                    .SetStyle(Lexer.TextStyle(p.Kind)));
             UpdateUI();
         }
 

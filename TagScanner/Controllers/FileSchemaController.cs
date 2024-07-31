@@ -1,5 +1,6 @@
 ﻿namespace TagScanner.Controllers
 {
+    using System;
     using System.Linq;
     using System.Windows.Forms;
     using Models;
@@ -110,13 +111,13 @@
         {
             Updater.Pause();
             Nodes.Clear();
-            foreach (var line in schema.Lines)
+            Array.ForEach(schema.Lines, p =>
             {
                 var nodes = Nodes;
-                for (var level = line.Level; level > 0; level--)
+                for (var level = p.Level; level > 0; level--)
                     nodes = nodes.OfType<TreeNode>().Last().Nodes;
-                AddNode(nodes, line.Description, line.Filespec, line.Check);
-            }
+                AddNode(nodes, p.Description, p.Filespec, p.Check);
+            });
             Updater.Resume();
         }
 

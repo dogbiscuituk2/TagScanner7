@@ -77,16 +77,15 @@
         {
         }
 
-        private void Process(IEnumerable<Control> controls, bool add)
+        private void Process(Control[] controls, bool add) => Array.ForEach(controls, p =>
         {
-            foreach (var control in controls)
-                if (control is ListView listView)
-                    Process(listView, add);
-                else if (control is TreeView treeView)
-                    Process(treeView, add);
-                else
-                    throw new NotImplementedException();
-        }
+            if (p is ListView listView)
+                Process(listView, add);
+            else if (p is TreeView treeView)
+                Process(treeView, add);
+            else
+                throw new NotImplementedException();
+        });
 
         private void Process(ListView listView, bool add)
         {

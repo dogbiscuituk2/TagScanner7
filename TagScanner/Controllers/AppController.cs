@@ -152,8 +152,7 @@
         private static void SharpClipboard_ClipboardChanged(object sender, SharpClipboard.ClipboardChangedEventArgs e)
         {
             var canPasteFiles = CanPasteFiles();
-            foreach (var controller in Controllers)
-                controller.EnablePasteFiles(canPasteFiles);
+            Controllers.ForEach(p => p.EnablePasteFiles(canPasteFiles));
             return;
 
             bool CanPasteFiles()

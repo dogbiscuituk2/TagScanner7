@@ -64,17 +64,14 @@
 
         #region Protected Methods
 
-        protected void InitUI(bool undo, params ToolStripDropDownItem[] items)
+        protected void InitUI(bool undo, params ToolStripDropDownItem[] items) => Array.ForEach(items, p =>
         {
-            foreach (var item in items)
-            {
-                if (item is ToolStripSplitButton button)
-                    button.ButtonClick += (sender, e) => DoSingle(undo);
-                else
-                    item.Click += (sender, e) => DoSingle(undo);
-                item.DropDownOpening += (sender, e) => PopulateMenu(undo);
-            }
-        }
+            if (p is ToolStripSplitButton q)
+                q.ButtonClick += (sender, e) => DoSingle(undo);
+            else
+                p.Click += (sender, e) => DoSingle(undo);
+            p.DropDownOpening += (sender, e) => PopulateMenu(undo);
+        });
 
         protected abstract int Undo(T t);
         protected abstract int Redo(T t, bool spoof = false);

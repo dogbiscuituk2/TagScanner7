@@ -1,5 +1,6 @@
 ﻿namespace TagScanner.Controllers
 {
+    using System;
     using System.Linq;
     using System.Windows.Forms;
 
@@ -47,12 +48,12 @@
 
         private void Init()
         {
-            foreach (var control in _controls)
+            Array.ForEach(_controls, p =>
             {
-                SetIconAlignment(control, ErrorIconAlignment.MiddleRight);
-                SetIconPadding(control, 4);
-                control.Validated += (sender, e) => SetError((Control)sender, GetErrors(control));
-            }
+                SetIconAlignment(p, ErrorIconAlignment.MiddleRight);
+                SetIconPadding(p, 4);
+                p.Validated += (sender, e) => SetError((Control)sender, GetErrors(p));
+            });
             _form.FormClosing += Form_FormClosing;
         }
 

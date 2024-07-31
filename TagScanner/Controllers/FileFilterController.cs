@@ -33,20 +33,16 @@
                     var rightColumn = new Control[] { _view.lblUtc, CbCreatedUtc, CbModifiedUtc, CbAccessedUtc };
                     var delta = UseTimes ? 52 : -52;
                     var customFormat = UseTimes ? _dateTimeFormat : _dateFormat;
-                    AdjustControls(dateTimePickers, p => { ((DateTimePicker)p).CustomFormat = customFormat; p.Width += delta; });
-                    AdjustControls(middleColumn, p => { p.Left += delta; });
+                    Adjust(dateTimePickers, p => { ((DateTimePicker)p).CustomFormat = customFormat; p.Width += delta; });
+                    Adjust(middleColumn, p => { p.Left += delta; });
                     delta *= 2;
-                    AdjustControls(rightColumn, p => { p.Left += delta; });
+                    Adjust(rightColumn, p => { p.Left += delta; });
                     _view.MainPanel.Width += delta;
                     OnUseTimesChanged();
                     UpdateUI();
                 }
 
-                void AdjustControls(Control[] controls, Action<Control> action)
-                {
-                    foreach (var control in controls)
-                        action(control);
-                }
+                void Adjust(Control[] controls, Action<Control> action) => Array.ForEach(controls, action);
             }
         }
 
@@ -174,14 +170,8 @@
                 DtpAccessedMin, DtpAccessedMax,
                 SeFileSizeMin, SeFileSizeMax);
 
-            void InitDates(DateTime dateTime, params DateTimePicker[] controls)
-            {
-                foreach (var control in controls)
-                {
-                    control.Value = dateTime;
-                    control.Checked = false;
-                }
-            }
+            void InitDates(DateTime dateTime, params DateTimePicker[] controls) =>
+                Array.ForEach(controls, p => { p.Value = dateTime; p.Checked = false; });
         }
 
         #endregion

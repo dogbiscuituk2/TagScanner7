@@ -74,11 +74,11 @@
                 _currentPlaylist.Clear();
                 Player.currentPlaylist = Player.newPlaylist(string.Empty, string.Empty);
             }
-            foreach (var track in tracks)
+            Array.ForEach(tracks, p =>
             {
-                _currentPlaylist.Add(track);
-                Player.currentPlaylist.appendItem(Player.newMedia(track.FilePath));
-            }
+                _currentPlaylist.Add(p);
+                Player.currentPlaylist.appendItem(Player.newMedia(p.FilePath));
+            });
             Player.Ctlcontrols.play();
             MainForm.TabControl.SelectedTab = MainForm.tabPlayer;
         }

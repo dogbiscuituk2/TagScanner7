@@ -63,17 +63,14 @@
 
             UseTreeView(TagGrouping.Category);
 
-            void InitControls(params Control[] controls)
+            void InitControls(params Control[] controls) => Array.ForEach(controls, p =>
             {
-                foreach (var control in controls)
-                {
-                    control.GotFocus += Control_StateChanged;
-                    if (control is TreeView treeView)
-                        treeView.AfterSelect += Control_StateChanged;
-                    else if (control is ListView listView)
-                        listView.SelectedIndexChanged += Control_StateChanged;
-                }
-            }
+                p.GotFocus += Control_StateChanged;
+                if (p is TreeView treeView)
+                    treeView.AfterSelect += Control_StateChanged;
+                else if (p is ListView listView)
+                    listView.SelectedIndexChanged += Control_StateChanged;
+            });
         }
 
         #endregion
@@ -292,14 +289,14 @@
 
         #region Private Methods
 
-        private List<int> GetFocusedListViewSelection() => FocusedListView?.SelectedIndices.Cast<int>().ToList();
+        private List<int> GetFocusedListViewSelectedIndices() => FocusedListView?.SelectedIndices.Cast<int>().ToList();
 
         private void ActiveTargetExecute(Act act)
         {
             FocusedListView.BeginUpdate();
             var items = FocusedListView.Items;
             var count = items.Count;
-            var selection = GetFocusedListViewSelection();
+            var selectedIndices = GetFocusedListViewSelectedIndices();
             DoAct();
             FocusedListView.EndUpdate();
             UpdateMenu();
@@ -314,19 +311,22 @@
                     case Act.Copy: DoCopy(); return;
                     case Act.Paste: DoPaste(); return;
                     case Act.Delete: DoDelete(); return;
+                    case Act.Clear: DoClear(); return;
                     case Act.SelectAll: DoSelectAll(); return;
                     case Act.InvertSelection: DoInvertSelection(); return;
                 }
             }
 
-            void DoCopy() => Clipboard.SetDataObject(FocusedListView.SelectedItems);
+            void DoClear() => items.Clear();
+
+            void DoCopy() => Clipboard.SetDataObject(GetTagSortData().ToList());
 
             void DoCut() { DoCopy(); DoDelete(); }
 
             void DoDelete()
             {
                 for (int index = count - 1; index >= 0; index--)
-                    if (selection.Contains(index))
+                    if (selectedIndices.Contains(index))
                         items.RemoveAt(index);
             }
 
@@ -334,12 +334,12 @@
 
             void DoMoveDown()
             {
-                for (var index = count - 1; index > 0; index--) { if (selection.Contains(index - 1)) SwapItems(index); }
+                for (var index = count - 1; index > 0; index--) { if (selectedIndices.Contains(index - 1)) SwapItems(index); }
             }
 
             void DoMoveUp()
             {
-                for (var index = 1; index < count; index++) { if (selection.Contains(index)) SwapItems(index); }
+                for (var index = 1; index < count; index++) { if (selectedIndices.Contains(index)) SwapItems(index); }
             }
 
             void DoPaste()
@@ -422,23 +422,17 @@
             InitControls($"Invert highlighting of all {_detail} in {box}", PopupInvertSelection);
         }
 
-        private void InitControls(string toolTip, params ToolStripItem[] controls)
-        {
-            foreach (var control in controls)
-            {
-                control.ToolTipText = toolTip;
-            }
-        }
+        private void InitControls(string toolTip, params ToolStripItem[] controls) => Array.ForEach(controls, p => p.ToolTipText = toolTip);
 
         private IEnumerable<Tag> GetGroupByTags() => LvGroupBy.Items.Cast<ListViewItem>().Select(p => (Tag)p.Tag);
         private IEnumerable<Tag> GetOrderByTags() => LvOrderBy.Items.Cast<ListViewItem>().Select(p => (Tag)p.Tag);
         private IEnumerable<Tag> GetSelectedTags() => LvSelect.Items.Cast<ListViewItem>().Select(p => (Tag)p.Tag);
         private IEnumerable<SortDescription> GetSorts() => LvOrderBy.Items.Cast<TagListItem>().Select(p => new SortDescription(p.Name, p.Direction));
 
-        private IEnumerable<TagSort> GetTagSortData() => FocusedListView != null
-            ? FocusedListView.SelectedItems.GetTagSortData()
-            : TreeView?.SelectedNode?.GetTagSortData()
-            ?? Array.Empty<TagSort>();
+        private IEnumerable<TagSort> GetTagSortData() =>
+            FocusedListView?.SelectedItems.GetTagSortData() ??
+            TreeView?.SelectedNode?.GetTagSortData() ??
+            Array.Empty<TagSort>();
 
         private void PassiveTargetExecute(Act act)
         {
@@ -481,7 +475,7 @@
         {
             InitActiveControls();
 
-            var indices = GetFocusedListViewSelection() ?? new List<int>();
+            var indices = GetFocusedListViewSelectedIndices() ?? new List<int>();
             var total = FocusedListView?.Items?.Count ?? 0;
             var targets = new[] { LvSelect, LvOrderBy, LvGroupBy };
 
@@ -543,8 +537,7 @@
 
                 void Apply(bool value, params ToolStripItem[] items)
                 {
-                    foreach (var item in items)
-                        action(value, item);
+                    Array.ForEach(items, p => action(value, p));
                     if (_initializing
                         && items.Length == 2
                         && items[0] is ToolStripMenuItem menuItem

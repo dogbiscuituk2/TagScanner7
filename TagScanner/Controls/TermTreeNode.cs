@@ -61,7 +61,7 @@
 
         #region Private Methods
 
-        private void AddTerms(List<Term> terms) { foreach (var term in terms) { Nodes.Add(new TermTreeNode(term)); } }
+        private void AddTerms(List<Term> terms) => terms.ForEach(p => Nodes.Add(new TermTreeNode(p)));
 
         #endregion
     }

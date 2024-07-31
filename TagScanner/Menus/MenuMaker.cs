@@ -58,18 +58,17 @@
         private static void AddFunctions(this ToolStripItemCollection items, EventHandler click)
         {
             items = items.Append("&Function");
-            foreach (var fn in Functors.Keys)
-                items.Append($"{fn}", fn, click).ToolTipText = fn.GetPrototype();
+            Array.ForEach(Functors.Keys, fn => items.Append($"{fn}", fn, click).ToolTipText = fn.GetPrototype());
         }
 
         private static void AddOperations(this ToolStripItemCollection items, EventHandler click)
         {
             items = items.Append("&Operation");
-            foreach (var op in Operators.Keys)
+            Array.ForEach(Operators.Keys, op =>
             {
                 var text = op.ToString();
                 var opInfo = op.OpInfo();
-            }
+            });
         }
 
         private static void AddTags(this ToolStripItemCollection items, EventHandler click)

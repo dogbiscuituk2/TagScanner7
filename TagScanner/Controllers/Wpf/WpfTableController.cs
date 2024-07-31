@@ -44,8 +44,7 @@
             {
                 _updater.Pause();
                 DataGrid.SelectedItems.Clear();
-                foreach (var track in value.Tracks)
-                    DataGrid.SelectedItems.Add(track);
+                value.Tracks.ForEach(p => DataGrid.SelectedItems.Add(p));
                 _updater.Resume();
             }
         }
@@ -79,14 +78,12 @@
             {
                 selection = allItems.Cast<object>().Except(selection).ToList();
                 selectedItems.Clear();
-                foreach (var item in selection)
-                    selectedItems.Add(item);
+                selection.ForEach(p => selectedItems.Add(p));
             }
             else
             {
                 DataGrid.SelectAll();
-                foreach (var item in selection)
-                    selectedItems.Remove(item);
+                selection.ForEach(p => selectedItems.Remove(p));
             }
             _updater.Resume();
         }

@@ -11,14 +11,12 @@
     {
         #region Constructor
 
-        public AutoCompleter(Controller parent, params ToolStripComboBox[] controls) : base(parent)
-        {
-            foreach (var control in controls)
+        public AutoCompleter(Controller parent, params ToolStripComboBox[] controls) : base(parent) =>
+            Array.ForEach(controls, p =>
             {
-                control.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
-                control.AutoCompleteSource = AutoCompleteSource.CustomSource;
-            }
-        }
+                p.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
+                p.AutoCompleteSource = AutoCompleteSource.CustomSource;
+            });
 
         #endregion
 
@@ -56,7 +54,7 @@
             var key = MakeKey(tags);
             if (!FieldLists.ContainsKey(key))
             {
-                foreach (var tag in tags)
+                Array.ForEach(tags, tag =>
                 {
                     var subKey = MakeKey(tag);
                     if (!FieldLists.ContainsKey(subKey))
@@ -86,17 +84,17 @@
                             ).ToArray());
                         FieldLists.Add(subKey, list);
                     }
-                }
+                });
                 if (!FieldLists.ContainsKey(key))
                 {
                     var result = new AutoCompleteStringCollection();
-                    foreach (var tag in tags)
+                    Array.ForEach(tags, tag =>
                     {
                         var list = FieldLists[MakeKey(tag)];
                         var items = new string[list.Count];
                         list.CopyTo(items, 0);
                         result.AddRange(items);
-                    }
+                    });
                     FieldLists.Add(key, result);
                 }
             }

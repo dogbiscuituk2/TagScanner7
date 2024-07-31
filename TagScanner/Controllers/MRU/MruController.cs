@@ -36,8 +36,7 @@
                 var key = OpenSubKey(true);
                 if (key == null)
                     return;
-                foreach (var name in key.GetValueNames())
-                    key.DeleteValue(name, true);
+                Array.ForEach(key.GetValueNames(), p => key.DeleteValue(p, true));
                 key.Close();
             }
             catch (Exception exception) { LogException(exception); }

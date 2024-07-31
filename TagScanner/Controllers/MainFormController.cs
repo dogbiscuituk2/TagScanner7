@@ -305,8 +305,7 @@
                 MessageBoxButtons.YesNo,
                 MessageBoxIcon.Question) == DialogResult.Yes;
             if (decision)
-                foreach (var track in tracks)
-                    ProcessTrack(track);
+                tracks.ForEach(p => ProcessTrack(p));
             return decision;
         }
 
