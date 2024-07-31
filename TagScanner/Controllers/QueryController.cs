@@ -105,6 +105,8 @@
             return ok;
         }
 
+        public IEnumerable<TagSort> GetTagSortData() => Focus.GetTagSortData();
+
         public void UpdateSelection()
         {
             UpdateTags(LvSelect, GetSelectedTags());
@@ -344,7 +346,7 @@
 
             void DoPaste()
             {
-                var data = Clipboard.GetDataObject()?.GetTagSortItems();
+                var data = Clipboard.GetDataObject()?.GetData(typeof(List<TagSort>));
                 if (data != null)
                     items.AddRange(data.ToArray());
             }
@@ -428,11 +430,6 @@
         private IEnumerable<Tag> GetOrderByTags() => LvOrderBy.Items.Cast<ListViewItem>().Select(p => (Tag)p.Tag);
         private IEnumerable<Tag> GetSelectedTags() => LvSelect.Items.Cast<ListViewItem>().Select(p => (Tag)p.Tag);
         private IEnumerable<SortDescription> GetSorts() => LvOrderBy.Items.Cast<TagListItem>().Select(p => new SortDescription(p.Name, p.Direction));
-
-        private IEnumerable<TagSort> GetTagSortData() =>
-            FocusedListView?.SelectedItems.GetTagSortData() ??
-            TreeView?.SelectedNode?.GetTagSortData() ??
-            Array.Empty<TagSort>();
 
         private void PassiveTargetExecute(Act act)
         {

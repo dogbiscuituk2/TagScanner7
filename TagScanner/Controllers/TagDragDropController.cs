@@ -1,7 +1,6 @@
 ﻿namespace TagScanner.Controllers
 {
     using System;
-    using System.Collections.Generic;
     using System.ComponentModel;
     using System.Drawing;
     using System.Linq;
@@ -30,6 +29,12 @@
         private void View_ItemDrag(object sender, ItemDragEventArgs e) => ItemDrag((Control)sender, e);
         private void View_MouseDown(object sender, MouseEventArgs e) => MouseDown((ListView)sender, e);
         private void View_QueryContinueDrag(object sender, QueryContinueDragEventArgs e) => QueryContinueDrag((Control)sender, e);
+
+        #endregion
+
+        #region Private Properties
+
+        private QueryController QueryController => (QueryController)Parent;
 
         #endregion
 
@@ -67,10 +72,8 @@
         private void ItemDrag(Control control, ItemDragEventArgs e)
         {
             _source = control;
-            if (control is ListView listView && listView.SelectedItems.Count > 1)
-                listView.DoDragDrop(listView.SelectedItems, DragDropEffects.All);
-            else
-                control.DoDragDrop(e.Item, DragDropEffects.All);
+            var data = ((QueryController)Parent).GetTagSortData();
+            control.DoDragDrop(data, DragDropEffects.All);
         }
 
         private void MouseDown(Control control, MouseEventArgs e)
