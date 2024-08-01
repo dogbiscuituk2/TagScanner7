@@ -1,5 +1,6 @@
 ﻿namespace TagScanner.Models
 {
+    using System.Collections.Generic;
     using System.ComponentModel;
 
     /// <summary>
@@ -25,4 +26,6 @@
 
         #endregion
     }
+
+    public class TagxList : List<Tagx> { }
 }

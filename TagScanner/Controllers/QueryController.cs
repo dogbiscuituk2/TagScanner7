@@ -105,9 +105,9 @@
             return ok;
         }
 
-        public IEnumerable<Tagx> GetTagxData() => TagxData.GetTagxData(Focus);
+        public TagxList GetTagxData() => Focus.GetTagxData();
 
-        public void Merge(List<TagxItem> items) => FocusedListView.Items.AddRange(items.ToArray());
+        public void Merge(TagxItemList items) => FocusedItems.AddRange(items.ToArray());
 
         public void UpdateSelection()
         {
@@ -236,6 +236,9 @@
             null;
 
         private ListView FocusedListView => Focus as ListView;
+        private ListView.ListViewItemCollection FocusedItems => FocusedListView?.Items;
+        private ListView.SelectedListViewItemCollection FocusedSelection => FocusedListView?.SelectedItems;
+        private List<int> FocusedIndices => FocusedListView?.SelectedIndices.Cast<int>().ToList();
 
         private bool SortAndGroup
         {
@@ -293,14 +296,12 @@
 
         #region Private Methods
 
-        private List<int> GetFocusedListViewSelectedIndices() => FocusedListView?.SelectedIndices.Cast<int>().ToList();
-
         private void ActiveTargetExecute(Act act)
         {
             FocusedListView.BeginUpdate();
-            var items = FocusedListView.Items;
+            var items = FocusedItems;
             var count = items.Count;
-            var selectedIndices = GetFocusedListViewSelectedIndices();
+            var selectedIndices = FocusedIndices;
             DoAct();
             FocusedListView.EndUpdate();
             UpdateMenu();
@@ -323,7 +324,7 @@
 
             void DoClear() => items.Clear();
 
-            void DoCopy() => Focus.ToClipboard();
+            void DoCopy() => Focus.CopyToClipboard();
 
             void DoCut() { DoCopy(); DoDelete(); }
 
@@ -348,7 +349,7 @@
 
             void DoPaste()
             {
-                if (TagxData.InClipboard())
+                if (TagxData.IsOnClipboard())
                     Merge(TagxData.ItemsFromClipboard());
             }
 
@@ -473,8 +474,8 @@
         {
             InitActiveControls();
 
-            var indices = GetFocusedListViewSelectedIndices() ?? new List<int>();
-            var total = FocusedListView?.Items?.Count ?? 0;
+            var indices = FocusedIndices ?? new List<int>();
+            var total = FocusedItems?.Count ?? 0;
             var targets = new[] { LvSelect, LvOrderBy, LvGroupBy };
 
             bool
@@ -507,7 +508,7 @@
             canGroup &= hasSelection;
             canCut &= hasSelection;
             canCopy &= hasSelection;
-            canPaste &= TagxData.InClipboard();
+            canPaste &= TagxData.IsOnClipboard();
             canDelete &= hasSelection;
             canClear &= hasSelection;
             canSelectAll &= hasAny;

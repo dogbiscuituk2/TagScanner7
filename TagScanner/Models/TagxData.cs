@@ -1,6 +1,6 @@
 ﻿namespace TagScanner.Models
 {
-    using System.Collections.Generic;
+    using System;
     using System.Linq;
     using System.Windows.Forms;
 
@@ -11,11 +11,11 @@
     {
         #region Public Methods
 
-        public static List<Tagx> FromClipboard() => ClipboardData.GetTagxData();
+        public static void CopyToClipboard(this Control control) => Clipboard.SetDataObject(control.GetTagxData());
 
-        public static List<Tagx> GetTagxData(this Control control)
+        public static TagxList GetTagxData(this Control control)
         {
-            var list = new List<Tagx>();
+            var list = new TagxList();
             if (control is ListView listView)
                 list.AddRange(listView.SelectedItems.Cast<ListViewItem>().Select(p => new Tagx(p.Tag, p.StateImageIndex)));
             else if (control is TreeView treeView)
@@ -36,17 +36,17 @@
             }
         }
 
-        public static List<Tagx> GetTagxData(this IDataObject data) => (List<Tagx>)data.GetData(typeof(List<Tagx>));
+        public static bool IsOnClipboard() => ClipboardData?.HasTagxData() ?? false;
+        
+        public static TagxItemList ItemsFromClipboard() => FromClipboard().ToTagxItems();
 
-        public static bool HasTagxData(this IDataObject data) => data.GetDataPresent(typeof(List<Tagx>));
+        public static TagxItemList ItemsFromDataObject(this IDataObject data) => data.GetTagxData().ToTagxItems();
 
-        public static bool InClipboard() => ClipboardData?.HasTagxData() ?? false;
+        #endregion
 
-        public static List<TagxItem> ItemsFromClipboard() => FromClipboard().ToTagxItems();
+        #region Private Properties
 
-        public static List<TagxItem> ItemsFromDataObject(this IDataObject data) => data.GetTagxData().ToTagxItems();
-
-        public static void ToClipboard(this Control control) => Clipboard.SetDataObject(control.GetTagxData());
+        private static readonly Type TagxListType = typeof(TagxList);
 
         #endregion
 
@@ -54,7 +54,13 @@
 
         private static IDataObject ClipboardData => Clipboard.GetDataObject();
 
-        private static List<TagxItem> ToTagxItems(this List<Tagx> tags) => tags.Select(p => new TagxItem(p)).ToList();
+        private static TagxList FromClipboard() => ClipboardData.GetTagxData();
+
+        private static TagxList GetTagxData(this IDataObject data) => (TagxList)data.GetData(TagxListType);
+
+        private static bool HasTagxData(this IDataObject data) => data.GetDataPresent(TagxListType);
+
+        private static TagxItemList ToTagxItems(this TagxList tags) => (TagxItemList)tags.Select(tag => new TagxItem(tag)).ToList();
 
         #endregion
     }
