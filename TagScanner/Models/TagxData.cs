@@ -1,6 +1,7 @@
 ﻿namespace TagScanner.Models
 {
     using System;
+    using System.Collections.Generic;
     using System.Linq;
     using System.Windows.Forms;
 
@@ -13,9 +14,9 @@
 
         public static void CopyToClipboard(this Control control) => Clipboard.SetDataObject(control?.GetTagx());
 
-        public static TagxList GetTagx(this Control control)
+        public static List<Tagx> GetTagx(this Control control)
         {
-            var list = new TagxList();
+            var list = new List<Tagx>();
             if (control is ListView listView)
                 list.AddRange(listView.SelectedItems.Cast<ListViewItem>().Select(p => new Tagx(p.Tag, p.StateImageIndex)));
             else if (control is TreeView treeView)
@@ -46,7 +47,7 @@
 
         #region Private Properties
 
-        private static readonly Type TagxListType = typeof(TagxList);
+        //private static readonly Type TagxListType = typeof(TagxList);
 
         #endregion
 
@@ -54,13 +55,20 @@
 
         private static IDataObject ClipboardData => Clipboard.GetDataObject();
 
-        private static TagxList FromClipboard() => ClipboardData?.GetTagx();
+        private static List<Tagx> FromClipboard() => ClipboardData?.GetTagx();
 
-        private static TagxList GetTagx(this IDataObject data) => (TagxList)data?.GetData(TagxListType);
+        //private static TagxList GetTagx(this IDataObject data) => (TagxList)data?.GetData(TagxListType);
 
-        private static bool HasTagx(this IDataObject data) => data?.GetDataPresent(TagxListType) ?? false;
+        private static List<Tagx> GetTagx(this IDataObject data)
+        {
+            var list = data?.GetData(typeof(List<Tagx>));
+            var formats = data.GetFormats();
+            return(List<Tagx>)list;
+        }
 
-        private static TagxItemList ToItems(this TagxList tags) => (TagxItemList)tags?.Select(tag => new TagxItem(tag)).ToList();
+        private static bool HasTagx(this IDataObject data) => data?.GetDataPresent(typeof(List<Tagx>)) ?? false;
+
+        private static TagxItemList ToItems(this List<Tagx> tags) => (TagxItemList)tags?.Select(tag => new TagxItem(tag)).ToList();
 
         #endregion
     }

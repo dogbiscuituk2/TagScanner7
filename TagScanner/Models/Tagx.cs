@@ -26,6 +26,4 @@
 
         #endregion
     }
-
-    public class TagxList : List<Tagx> { }
 }

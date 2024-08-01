@@ -105,9 +105,9 @@
             return ok;
         }
 
-        public TagxList GetTagxData() => Focus.GetTagx();
+        public List<Tagx> GetTagxData() => Focus.GetTagx();
 
-        public void Merge(TagxItemList items) => FocusedItems.AddRange(items.ToArray());
+        public void Merge(TagxItemList items) => FocusedItems.AddRange(items?.ToArray());
 
         public void UpdateSelection()
         {
@@ -235,6 +235,7 @@
             Focus == LvGroupBy ? Dialog.lblGroupBy :
             null;
 
+        private TreeNode SelectedNode => TreeView.SelectedNode;
         private ListView FocusedListView => Focus as ListView;
         private ListView.ListViewItemCollection FocusedItems => FocusedListView?.Items;
         private ListView.SelectedListViewItemCollection FocusedSelection => FocusedListView?.SelectedItems;
@@ -298,12 +299,12 @@
 
         private void ActiveTargetExecute(Act act)
         {
-            FocusedListView.BeginUpdate();
+            FocusedListView?.BeginUpdate();
             var items = FocusedItems;
-            var count = items.Count;
+            var count = items?.Count ?? 0;
             var selectedIndices = FocusedIndices;
             DoAct();
-            FocusedListView.EndUpdate();
+            FocusedListView?.EndUpdate();
             UpdateMenu();
 
             void DoAct()
@@ -482,7 +483,7 @@
                 hasFocus = Focus != null,
                 canEdit = targets.Contains(Focus),
                 hasAny = total > 0,
-                hasSelection = indices.Any(),
+                hasSelection = indices.Any() || Focus == TreeView && SelectedNode != null,
 
                 canMoveUp = canEdit,
                 canMoveDown = canEdit,
