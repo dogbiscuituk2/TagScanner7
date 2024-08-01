@@ -105,7 +105,7 @@
             return ok;
         }
 
-        public TagxList GetTagxData() => Focus.GetTagxData();
+        public TagxList GetTagxData() => Focus.GetTagx();
 
         public void Merge(TagxItemList items) => FocusedItems.AddRange(items.ToArray());
 

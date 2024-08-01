@@ -5,15 +5,15 @@
     using System.Windows.Forms;
 
     /// <summary>
-    /// Reading the data from an IDataObject for the purposes of a Tag-based Drag/Drop or Clipboard operation.
+    /// Reading Tagx data for the purposes of a Tag-based Drag/Drop or Clipboard operation.
     /// </summary>
     public static class TagxData
     {
         #region Public Methods
 
-        public static void CopyToClipboard(this Control control) => Clipboard.SetDataObject(control.GetTagxData());
+        public static void CopyToClipboard(this Control control) => Clipboard.SetDataObject(control?.GetTagx());
 
-        public static TagxList GetTagxData(this Control control)
+        public static TagxList GetTagx(this Control control)
         {
             var list = new TagxList();
             if (control is ListView listView)
@@ -36,11 +36,11 @@
             }
         }
 
-        public static bool IsOnClipboard() => ClipboardData?.HasTagxData() ?? false;
+        public static bool IsOnClipboard() => ClipboardData?.HasTagx() ?? false;
         
-        public static TagxItemList ItemsFromClipboard() => FromClipboard().ToTagxItems();
+        public static TagxItemList ItemsFromClipboard() => FromClipboard()?.ToItems();
 
-        public static TagxItemList ItemsFromDataObject(this IDataObject data) => data.GetTagxData().ToTagxItems();
+        public static TagxItemList ItemsFromDataObject(this IDataObject data) => data?.GetTagx()?.ToItems();
 
         #endregion
 
@@ -54,13 +54,13 @@
 
         private static IDataObject ClipboardData => Clipboard.GetDataObject();
 
-        private static TagxList FromClipboard() => ClipboardData.GetTagxData();
+        private static TagxList FromClipboard() => ClipboardData?.GetTagx();
 
-        private static TagxList GetTagxData(this IDataObject data) => (TagxList)data.GetData(TagxListType);
+        private static TagxList GetTagx(this IDataObject data) => (TagxList)data?.GetData(TagxListType);
 
-        private static bool HasTagxData(this IDataObject data) => data.GetDataPresent(TagxListType);
+        private static bool HasTagx(this IDataObject data) => data?.GetDataPresent(TagxListType) ?? false;
 
-        private static TagxItemList ToTagxItems(this TagxList tags) => (TagxItemList)tags.Select(tag => new TagxItem(tag)).ToList();
+        private static TagxItemList ToItems(this TagxList tags) => (TagxItemList)tags?.Select(tag => new TagxItem(tag)).ToList();
 
         #endregion
     }
