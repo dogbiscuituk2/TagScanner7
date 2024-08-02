@@ -1,5 +1,6 @@
 ﻿namespace TagScanner.Models
 {
+    using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Windows.Forms;
@@ -44,15 +45,21 @@
 
         #endregion
 
+        #region Private Properties
+
+        private static Type TagxListType => typeof(List<Tagx>);
+
+        #endregion
+
         #region Private Methods
 
         private static IDataObject ClipboardData => Clipboard.GetDataObject();
 
         private static List<Tagx> FromClipboard() => ClipboardData?.GetTagx();
 
-        private static List<Tagx> GetTagx(this IDataObject data) => (List<Tagx>)data?.GetData(typeof(List<Tagx>));
+        private static List<Tagx> GetTagx(this IDataObject data) => (List<Tagx>)data?.GetData(TagxListType);
 
-        private static bool HasTagx(this IDataObject data) => data?.GetDataPresent(typeof(List<Tagx>)) ?? false;
+        private static bool HasTagx(this IDataObject data) => data?.GetDataPresent(TagxListType) ?? false;
 
         private static List<TagxItem> ToItems(this List<Tagx> tags) => tags?.Select(tag => new TagxItem(tag)).ToList();
 
