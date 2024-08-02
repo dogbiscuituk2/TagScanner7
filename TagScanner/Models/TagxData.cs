@@ -11,13 +11,7 @@
     {
         #region Public Methods
 
-        public static void CopyToClipboard(this Control control)
-        {
-            //ClipboardWrite(new Tagx(Tag.Album, false));
-            //var bar = ClipboardRead();
-
-            Clipboard.SetDataObject(control?.GetTagx());
-        }
+        public static void CopyToClipboard(this Control control) => Clipboard.SetDataObject(control?.GetTagx());
 
         public static List<Tagx> GetTagx(this Control control)
         {
@@ -50,17 +44,7 @@
 
         #endregion
 
-        #region Private Properties
-
-        //private static readonly Type TagxListType = typeof(TagxList);
-
-        #endregion
-
         #region Private Methods
-
-        private static void ClipboardWrite(object data) => Clipboard.SetData("Foo", data);
-
-        private static object ClipboardRead() => Clipboard.GetData("Foo");
 
         private static IDataObject ClipboardData => Clipboard.GetDataObject();
 
