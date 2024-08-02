@@ -11,13 +11,19 @@
     {
         #region Public Methods
 
-        public static void CopyToClipboard(this Control control) => Clipboard.SetDataObject(control?.GetTagx());
+        public static void CopyToClipboard(this Control control)
+        {
+            //ClipboardWrite(new Tagx(Tag.Album, false));
+            //var bar = ClipboardRead();
+
+            Clipboard.SetDataObject(control?.GetTagx());
+        }
 
         public static List<Tagx> GetTagx(this Control control)
         {
             var list = new List<Tagx>();
             if (control is ListView listView)
-                list.AddRange(listView.SelectedItems.Cast<ListViewItem>().Select(p => new Tagx(p.Tag, p.StateImageIndex)));
+                list.AddRange(listView.SelectedItems.Cast<ListViewItem>().Select(p => new Tagx((Tag)p.Tag, p.StateImageIndex)));
             else if (control is TreeView treeView)
                 Visit(treeView.SelectedNode);
             return list;
@@ -38,9 +44,9 @@
 
         public static bool IsOnClipboard() => ClipboardData?.HasTagx() ?? false;
         
-        public static TagxItemList ItemsFromClipboard() => FromClipboard()?.ToItems();
+        public static List<TagxItem> ItemsFromClipboard() => FromClipboard()?.ToItems();
 
-        public static TagxItemList ItemsFromDataObject(this IDataObject data) => data?.GetTagx()?.ToItems();
+        public static List<TagxItem> ItemsFromDataObject(this IDataObject data) => data?.GetTagx()?.ToItems();
 
         #endregion
 
@@ -52,22 +58,19 @@
 
         #region Private Methods
 
+        private static void ClipboardWrite(object data) => Clipboard.SetData("Foo", data);
+
+        private static object ClipboardRead() => Clipboard.GetData("Foo");
+
         private static IDataObject ClipboardData => Clipboard.GetDataObject();
 
         private static List<Tagx> FromClipboard() => ClipboardData?.GetTagx();
 
-        //private static TagxList GetTagx(this IDataObject data) => (TagxList)data?.GetData(TagxListType);
-
-        private static List<Tagx> GetTagx(this IDataObject data)
-        {
-            var list = data?.GetData(typeof(List<Tagx>));
-            var formats = data.GetFormats();
-            return(List<Tagx>)list;
-        }
+        private static List<Tagx> GetTagx(this IDataObject data) => (List<Tagx>)data?.GetData(typeof(List<Tagx>));
 
         private static bool HasTagx(this IDataObject data) => data?.GetDataPresent(typeof(List<Tagx>)) ?? false;
 
-        private static TagxItemList ToItems(this List<Tagx> tags) => (TagxItemList)tags?.Select(tag => new TagxItem(tag)).ToList();
+        private static List<TagxItem> ToItems(this List<Tagx> tags) => tags?.Select(tag => new TagxItem(tag)).ToList();
 
         #endregion
     }

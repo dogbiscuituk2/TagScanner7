@@ -43,7 +43,6 @@
             PropertyGridController = new PropertyGridController(this);
             StatusController = new StatusController(this);
             FindReplaceController = new FindReplaceController(this);
-            TagDragDropController = new TagDragDropController(this);
             AutoCompleter = new AutoCompleter(this, View.FindReplaceControl.cbFind, View.FindReplaceControl.cbReplace, View.FilterControl.cbFilter);
             FilterController.UpdateAutoComplete();
             ModifiedChanged();
@@ -67,7 +66,6 @@
         public readonly PropertyGridController PropertyGridController;
         public readonly StatusController StatusController;
         public readonly WpfTableController TableController;
-        public readonly TagDragDropController TagDragDropController;
 
         #endregion
 

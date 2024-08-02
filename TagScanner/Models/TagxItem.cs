@@ -1,6 +1,5 @@
 ﻿namespace TagScanner.Models
 {
-    using System.Collections.Generic;
     using System.ComponentModel;
     using System.Windows.Forms;
 
@@ -39,6 +38,4 @@
 
         #endregion
     }
-
-    public class TagxItemList : List<TagxItem> { }
 }

@@ -173,7 +173,9 @@
     <Compile Include="Controllers\PropertyGridController.cs" />
     <Compile Include="Controllers\ScriptFormController.cs" />
     <Compile Include="Controllers\SplashController.cs" />
-    <Compile Include="Controllers\TagDragDropController.cs" />
+    <Compile Include="Controllers\QueryController.DragDrop.cs">
+      <DependentUpon>QueryController.cs</DependentUpon>
+    </Compile>
     <Compile Include="Controllers\TreeNodeState.cs" />
     <Compile Include="Controllers\TriStateChecksController.cs" />
     <Compile Include="Controllers\TriStateTreeController.cs" />

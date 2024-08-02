@@ -7,14 +7,8 @@
     using System.Windows.Forms;
     using Models;
 
-    public class TagDragDropController : Controller
+    public partial class QueryController
     {
-        #region Constructor
-
-        public TagDragDropController(Controller parent, params Control[] controls) : base(parent) => Add(controls);
-
-        #endregion
-
         #region Public Methods
 
         public void Add(params Control[] controls) => Process(controls, add: true);
@@ -57,7 +51,7 @@
             {
                 var data = e.Data;
                 var formats = e.Data.GetFormats();
-                MainQueryController.Merge(e.Data.ItemsFromDataObject());
+                Merge(e.Data.ItemsFromDataObject());
             }
         }
 
@@ -66,7 +60,7 @@
         private void ItemDrag(Control control, ItemDragEventArgs e)
         {
             _source = control;
-            var data = MainQueryController.GetTagxData();
+            var data = GetTagxData();
             control.DoDragDrop(data, DragDropEffects.All);
         }
 

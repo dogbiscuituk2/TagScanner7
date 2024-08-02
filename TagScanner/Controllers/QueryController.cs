@@ -9,7 +9,7 @@
     using Forms;
     using Models;
 
-    public class QueryController : UndoRedoController<Query>
+    public partial class QueryController : UndoRedoController<Query>
     {
         #region Constructors
 
@@ -107,7 +107,7 @@
 
         public List<Tagx> GetTagxData() => Focus.GetTagx();
 
-        public void Merge(TagxItemList items) => FocusedItems.AddRange(items?.ToArray());
+        public void Merge(List<TagxItem> items) => FocusedItems.AddRange(items?.ToArray());
 
         public void UpdateSelection()
         {
@@ -367,7 +367,7 @@
         private QueryDialog CreateDialog()
         {
             _dialog = new QueryDialog();
-            MainTagDragDropController.Add(
+            Add(
                 ListView,
                 TreeView,
                 LvSelect,
