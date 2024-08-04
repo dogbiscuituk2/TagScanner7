@@ -10,8 +10,7 @@
     {
         #region Private Fields
 
-        public void Add(params Control[] controls) => Process(controls, add: true);
-        public void Remove(params Control[] controls) => Process(controls, add: false);
+        private Control _source;
 
         #endregion
 
@@ -20,7 +19,7 @@
         private void View_DragDrop(object sender, DragEventArgs e) => DragDrop((ListView)sender, e);
         private void View_DragOver(object sender, DragEventArgs e) => DragOver((ListView)sender, e);
         private void View_ItemDrag(object sender, ItemDragEventArgs e) => ItemDrag((Control)sender, e);
-        private void View_MouseDown(object sender, MouseEventArgs e) => MouseDown((ListView)sender, e);
+        private void View_MouseDown(object sender, MouseEventArgs e) => MouseDown((Control)sender, e);
         private void View_QueryContinueDrag(object sender, QueryContinueDragEventArgs e) => QueryContinueDrag((Control)sender, e);
 
         #endregion
@@ -29,9 +28,9 @@
 
         private void AddDragControls(params Control[] controls) => Array.ForEach(controls, control =>
         {
+            control.MouseDown += View_MouseDown;
             if (control is ListView listView)
             {
-                listView.MouseDown += View_MouseDown;
                 listView.ItemDrag += View_ItemDrag;
                 listView.QueryContinueDrag += View_QueryContinueDrag;
                 if (listView.AllowDrop)
@@ -77,50 +76,22 @@
 
         private void MouseDown(Control control, MouseEventArgs e)
         {
-        }
-
-        private void Process(Control[] controls, bool add) => Array.ForEach(controls, p =>
-        {
-            if (p is ListView listView)
-                Process(listView, add);
-            else if (p is TreeView treeView)
-                Process(treeView, add);
-            else
-                throw new NotImplementedException();
-        });
-
-        private void Process(ListView listView, bool add)
-        {
-            if (add)
+            if (control is TreeView treeView)
             {
-                listView.MouseDown += View_MouseDown;
-                listView.ItemDrag += View_ItemDrag;
-                listView.QueryContinueDrag += View_QueryContinueDrag;
-                if (listView.AllowDrop)
+                var node = treeView.GetNodeAt(e.X, e.Y);
+                if (node != null && treeView.SelectedNode != node)
+                    treeView.SelectedNode = node;
+            }
+            else if (control is ListView listView)
+            {
+                var item = listView.GetItemAt(e.X, e.Y);
+                var selectedItems = listView.SelectedItems;
+                if (item != null && !selectedItems.Contains(item))
                 {
-                    listView.DragDrop += View_DragDrop;
-                    listView.DragOver += View_DragOver;
+                    selectedItems.Clear();
+                    item.Selected = true;
                 }
             }
-            else
-            {
-                listView.MouseDown -= View_MouseDown;
-                listView.ItemDrag -= View_ItemDrag;
-                listView.QueryContinueDrag -= View_QueryContinueDrag;
-                if (listView.AllowDrop)
-                {
-                    listView.DragDrop -= View_DragDrop;
-                    listView.DragOver -= View_DragOver;
-                }
-            }
-        }
-
-        private void Process(TreeView treeView, bool add)
-        {
-            if (add)
-                treeView.ItemDrag += View_ItemDrag;
-            else
-                treeView.ItemDrag -= View_ItemDrag;
         }
 
         private void QueryContinueDrag(Control control, QueryContinueDragEventArgs e)

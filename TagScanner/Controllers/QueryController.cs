@@ -105,7 +105,12 @@
             return ok;
         }
 
-        public void Merge(List<TagxItem> items) => FocusedItems.AddRange(items?.ToArray());
+        public void Merge(List<TagxItem> items)
+        {
+            var target = FocusedIndices.FirstOrDefault();
+
+            FocusedItems.AddRange(items?.ToArray());
+        }
 
         public void UpdateSelection()
         {
