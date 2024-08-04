@@ -276,26 +276,40 @@
         private void TreeByCategory_Click(object sender, EventArgs e) => UseTreeView(TagGrouping.Category);
         private void TreeByDataType_Click(object sender, EventArgs e) => UseTreeView(TagGrouping.DataType);
 
-        private void PopupClear_Click(object sender, EventArgs e) => ActiveTargetExecute(Act.Clear);
-        private void PopupCopy_Click(object sender, EventArgs e) => ActiveTargetExecute(Act.Copy);
-        private void PopupCut_Click(object sender, EventArgs e) => ActiveTargetExecute(Act.Cut);
-        private void PopupDelete_Click(object sender, EventArgs e) => ActiveTargetExecute(Act.Delete);
-        private void PopupGroup_Click(object sender, EventArgs e) => ActiveTargetExecute(Act.Group);
-        private void PopupInvertSelection_Click(object sender, EventArgs e) => ActiveTargetExecute(Act.InvertSelection);
-        private void PopupMoveDown_Click(object sender, EventArgs e) => ActiveTargetExecute(Act.MoveDown);
-        private void PopupMoveUp_Click(object sender, EventArgs e) => ActiveTargetExecute(Act.MoveUp);
-        private void PopupPaste_Click(object sender, EventArgs e) => ActiveTargetExecute(Act.Paste);
-        private void PopupSelect_Click(object sender, EventArgs e) => ActiveTargetExecute(Act.Select);
-        private void PopupSelectAll_Click(object sender, EventArgs e) => ActiveTargetExecute(Act.SelectAll);
-        private void PopupSortAscending_Click(object sender, EventArgs e) => ActiveTargetExecute(Act.SortAscending);
-        private void PopupSortDescending_Click(object sender, EventArgs e) => ActiveTargetExecute(Act.SortDescending);
+        private void PopupClear_Click(object sender, EventArgs e) => DoActiveAct(Act.Clear);
+        private void PopupCopy_Click(object sender, EventArgs e) => DoActiveAct(Act.Copy);
+        private void PopupCut_Click(object sender, EventArgs e) => DoActiveAct(Act.Cut);
+        private void PopupDelete_Click(object sender, EventArgs e) => DoActiveAct(Act.Delete);
+        private void PopupInvertSelection_Click(object sender, EventArgs e) => DoActiveAct(Act.InvertSelection);
+        private void PopupMoveDown_Click(object sender, EventArgs e) => DoActiveAct(Act.MoveDown);
+        private void PopupMoveUp_Click(object sender, EventArgs e) => DoActiveAct(Act.MoveUp);
+        private void PopupPaste_Click(object sender, EventArgs e) => DoActiveAct(Act.Paste);
+        private void PopupSelectAll_Click(object sender, EventArgs e) => DoActiveAct(Act.SelectAll);
         private void PopupTargetMenu_Opening(object sender, CancelEventArgs e) => UpdateMenu();
+
+        private void PopupGroup_Click(object sender, EventArgs e) => DoPassiveAct(Act.Group);
+        private void PopupSelect_Click(object sender, EventArgs e) => DoPassiveAct(Act.Select);
+        private void PopupSortAscending_Click(object sender, EventArgs e) => DoPassiveAct(Act.SortAscending);
+        private void PopupSortDescending_Click(object sender, EventArgs e) => DoPassiveAct(Act.SortDescending);
 
         #endregion
 
         #region Private Methods
 
-        private void ActiveTargetExecute(Act act)
+        private QueryDialog CreateDialog()
+        {
+            _dialog = new QueryDialog();
+            AddDragControls(
+                ListView,
+                TreeView,
+                LvSelect,
+                LvOrderBy,
+                LvGroupBy);
+            _initializing = true;
+            return Dialog;
+        }
+
+        private void DoActiveAct(Act act)
         {
             FocusedListView?.BeginUpdate();
             var items = FocusedItems;
@@ -362,17 +376,50 @@
             }
         }
 
-        private QueryDialog CreateDialog()
+        private void DoPassiveAct(Act act)
         {
-            _dialog = new QueryDialog();
-            AddDragControls(
-                ListView,
-                TreeView,
-                LvSelect,
-                LvOrderBy,
-                LvGroupBy);
-            _initializing = true;
-            return Dialog;
+            var focus = Focus;
+            var tags = Focus.GetSelectedTagx();
+            DoAct();
+            Focus = focus;
+            UpdateMenu();
+
+            void DoAct()
+            {
+                switch (act)
+                {
+                    case Act.Select: DoSelect(); return;
+                    case Act.SortAscending: DoSortAscending(); return;
+                    case Act.SortDescending: DoSortDescending(); return;
+                    case Act.Group: DoGroup(); return;
+                }
+            }
+
+            void DoSelect()
+            {
+                Focus = LvSelect;
+                Merge(tags);
+            }
+
+            void DoSortAscending()
+            {
+                Focus = LvOrderBy;
+                tags.ForEach(p => p.Descending = false);
+                Merge(tags);
+            }
+
+            void DoSortDescending()
+            {
+                Focus = LvOrderBy;
+                tags.ForEach(p => p.Descending = true);
+                Merge(tags);
+            }
+
+            void DoGroup()
+            {
+                Focus = LvGroupBy;
+                Merge(tags);
+            }
         }
 
         private bool Execute(string caption, string detail, List<Tag> tags, bool sortAndGroup)
@@ -431,39 +478,6 @@
         private IEnumerable<Tag> GetOrderByTags() => LvOrderBy.Items.Cast<ListViewItem>().Select(p => (Tag)p.Tag);
         private IEnumerable<Tag> GetSelectedTags() => LvSelect.Items.Cast<ListViewItem>().Select(p => (Tag)p.Tag);
         private IEnumerable<SortDescription> GetSorts() => LvOrderBy.Items.Cast<TagxItem>().Select(p => new SortDescription(p.Name, p.Direction));
-
-        private void PassiveTargetExecute(Act act)
-        {
-            DoAct();
-            UpdateMenu();
-
-            void DoAct()
-            {
-                switch (act)
-                {
-                    case Act.Select: DoSelect(); return;
-                    case Act.SortAscending: DoSortAscending(); return;
-                    case Act.SortDescending: DoSortDescending(); return;
-                    case Act.Group: DoGroup(); return;
-                }
-            }
-
-            void DoSelect()
-            {
-            }
-
-            void DoSortAscending()
-            {
-            }
-
-            void DoSortDescending()
-            {
-            }
-
-            void DoGroup()
-            {
-            }
-        }
 
         private void SetGroups(IEnumerable<Tag> tags) => LvGroupBy.Items.AddRange(tags.Select(p => new TagxItem(p)).ToArray());
         private void SetSorts(IEnumerable<SortDescription> sorts) => LvOrderBy.Items.AddRange(sorts.Select(p => new TagxItem(p)).ToArray());
