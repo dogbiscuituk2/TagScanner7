@@ -12,7 +12,6 @@
         #region Public Methods
 
         public void Add(params Control[] controls) => Process(controls, add: true);
-        public void Remove(params Control[] controls) => Process(controls, add: false);
 
         #endregion
 
@@ -66,6 +65,11 @@
 
         private void MouseDown(Control control, MouseEventArgs e)
         {
+            if (control == TreeView)
+            {
+
+            }
+
         }
 
         private void Process(Control[] controls, bool add) => Array.ForEach(controls, p =>

@@ -176,6 +176,9 @@
     <Compile Include="Controllers\QueryController.DragDrop.cs">
       <DependentUpon>QueryController.cs</DependentUpon>
     </Compile>
+    <Compile Include="Controllers\QueryController.UndoRedo.cs">
+      <DependentUpon>QueryController.cs</DependentUpon>
+    </Compile>
     <Compile Include="Controllers\TreeNodeState.cs" />
     <Compile Include="Controllers\TriStateChecksController.cs" />
     <Compile Include="Controllers\TriStateTreeController.cs" />

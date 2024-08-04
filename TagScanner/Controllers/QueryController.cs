@@ -134,28 +134,15 @@
 
         #endregion
 
-        # region Protected Methods
-
-        protected override int Redo(Query query, bool spoof = false)
-        {
-            return 0;
-        }
-
-        protected override int Undo(Query query)
-        {
-            return 0;
-        }
-
-        #endregion
-
         #region Private Fields
 
         private string _detail;
         private QueryDialog _dialog;
         private Control _focus;
-        private bool _initializing;
-        private bool _multiColumn;
-        private bool _sortAndGroup;
+        private bool
+            _initializing,
+            _multiColumn,
+            _sortAndGroup;
 
         private readonly QueryTreeViewController _TreeViewController;
         private readonly QueryListViewController _ListViewController;
@@ -571,7 +558,7 @@
         private void UseView(bool useTree, TagGrouping tagGrouping, View view = View.Details)
         {
             TagGrouping = tagGrouping;
-            //_multiColumn = multiColumn;
+            _multiColumn = view == View.List;
             _ListViewController.ViewMode = view;
             _ListViewController.Active = !useTree;
             _TreeViewController.Active = useTree;
