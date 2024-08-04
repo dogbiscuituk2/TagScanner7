@@ -107,7 +107,8 @@
 
         public void Merge(List<TagxItem> items)
         {
-            var target = FocusedIndices.FirstOrDefault();
+            var focusedIndices = FocusedSelectedIndices;
+            var targetIndex = focusedIndices.Any() ? focusedIndices.First() : FocusedItems.Count;
 
             FocusedItems.AddRange(items?.ToArray());
         }
@@ -229,7 +230,7 @@
         private ListView FocusedListView => Focus as ListView;
         private ListView.ListViewItemCollection FocusedItems => FocusedListView?.Items;
         private ListView.SelectedListViewItemCollection FocusedSelection => FocusedListView?.SelectedItems;
-        private List<int> FocusedIndices => FocusedListView?.SelectedIndices.Cast<int>().ToList();
+        private List<int> FocusedSelectedIndices => FocusedListView?.SelectedIndices.Cast<int>().ToList();
 
         private bool SortAndGroup
         {
@@ -292,7 +293,7 @@
             FocusedListView?.BeginUpdate();
             var items = FocusedItems;
             var count = items?.Count ?? 0;
-            var selectedIndices = FocusedIndices;
+            var selectedIndices = FocusedSelectedIndices;
             DoAct();
             FocusedListView?.EndUpdate();
             UpdateMenu();
@@ -465,7 +466,7 @@
         {
             InitActiveControls();
 
-            var indices = FocusedIndices ?? new List<int>();
+            var indices = FocusedSelectedIndices ?? new List<int>();
             var total = FocusedItems?.Count ?? 0;
             var targets = new[] { LvSelect, LvOrderBy, LvGroupBy };
 
