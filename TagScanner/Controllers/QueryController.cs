@@ -105,12 +105,29 @@
             return ok;
         }
 
-        public void Merge(List<TagxItem> items)
+        public void Merge(List<Tagx> tags)
         {
-            var focusedIndices = FocusedSelectedIndices;
-            var targetIndex = focusedIndices.Any() ? focusedIndices.First() : FocusedItems.Count;
+            var count = FocusedItems.Count;
+            var selected = FocusedSelectedIndices;
+            var pivot = selected.Any() ? selected.First() : count;
+            List<Tagx>
+                old = FocusedListView.GetAllTagx(),
+                above = old.Take(pivot).ToList(),
+                below = old.Skip(pivot).ToList();
+            Adjust(above);
+            Adjust(below);
+            FocusedListView.BeginUpdate();
+            FocusedItems.Clear();
+            FocusedItems.AddRange(above.Concat(tags).Concat(below).ToItems());
+            FocusedListView.EndUpdate();
+            return;
 
-            FocusedItems.AddRange(items?.ToArray());
+            void Adjust(List<Tagx> list) => tags.ForEach(tag =>
+            {
+                Func<Tagx, bool> match = p => p.Tag == tag.Tag;
+                if (list.Any(match))
+                    list.Remove(list.First(match));
+            });
         }
 
         public void UpdateSelection()
@@ -342,7 +359,7 @@
             void DoPaste()
             {
                 if (TagxData.IsOnClipboard())
-                    Merge(TagxData.ItemsFromClipboard());
+                    Merge(TagxData.FromClipboard());
             }
 
             void DoSelectAll() { foreach (ListViewItem item in items) item.Selected = true; }

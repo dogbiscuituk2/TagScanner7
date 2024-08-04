@@ -61,7 +61,7 @@
             {
                 var data = e.Data;
                 var formats = e.Data.GetFormats();
-                Merge(e.Data.ItemsFromDataObject());
+                Merge(e.Data.ToTagxList());
             }
         }
 
@@ -71,7 +71,7 @@
         private void ItemDrag(Control control, ItemDragEventArgs e)
         {
             _source = control;
-            control.DoDragDrop(Focus.GetTagx(), DragDropEffects.All);
+            control.DoDragDrop(Focus.GetSelectedTagx(), DragDropEffects.All);
         }
 
         private void MouseDown(Control control, int x, int y)

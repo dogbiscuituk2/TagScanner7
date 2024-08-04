@@ -12,9 +12,16 @@
     {
         #region Public Methods
 
-        public static void CopyToClipboard(this Control control) => Clipboard.SetDataObject(control?.GetTagx());
+        public static void CopyToClipboard(this Control control) => Clipboard.SetDataObject(control?.GetSelectedTagx());
 
-        public static List<Tagx> GetTagx(this Control control)
+        public static List<Tagx> FromClipboard() => ClipboardData?.GetTagx() ?? new List<Tagx>();
+
+        public static List<Tagx> GetAllTagx(this ListView listView)
+        {
+            return listView.Items.Cast<ListViewItem>().Select(p => new Tagx((Tag)p.Tag, p.StateImageIndex)).ToList();
+        }
+
+        public static List<Tagx> GetSelectedTagx(this Control control)
         {
             var list = new List<Tagx>();
             if (control is ListView listView)
@@ -38,10 +45,14 @@
         }
 
         public static bool IsOnClipboard() => ClipboardData?.HasTagx() ?? false;
-        
-        public static List<TagxItem> ItemsFromClipboard() => FromClipboard()?.ToItems();
 
-        public static List<TagxItem> ItemsFromDataObject(this IDataObject data) => data?.GetTagx()?.ToItems();
+        public static TagxItem[] ToItems(this IEnumerable<Tagx> tags) => tags?.Select(tag => new TagxItem(tag)).ToArray();
+
+        public static List<Tagx> ToTagxList(this IDataObject data) => data?.GetTagx() ?? new List<Tagx>();
+
+        //public static List<TagxItem> ItemsFromClipboard() => FromClipboard()?.ToItems();
+
+        //public static List<TagxItem> ItemsFromDataObject(this IDataObject data) => data?.GetTagx()?.ToItems();
 
         #endregion
 
@@ -55,13 +66,9 @@
 
         private static IDataObject ClipboardData => Clipboard.GetDataObject();
 
-        private static List<Tagx> FromClipboard() => ClipboardData?.GetTagx();
-
         private static List<Tagx> GetTagx(this IDataObject data) => (List<Tagx>)data?.GetData(TagxListType);
 
         private static bool HasTagx(this IDataObject data) => data?.GetDataPresent(TagxListType) ?? false;
-
-        private static List<TagxItem> ToItems(this List<Tagx> tags) => tags?.Select(tag => new TagxItem(tag)).ToList();
 
         #endregion
     }
