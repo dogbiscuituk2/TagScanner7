@@ -10,7 +10,8 @@
     {
         #region Private Fields
 
-        private Control _source;
+        public void Add(params Control[] controls) => Process(controls, add: true);
+        public void Remove(params Control[] controls) => Process(controls, add: false);
 
         #endregion
 
@@ -76,6 +77,50 @@
 
         private void MouseDown(Control control, MouseEventArgs e)
         {
+        }
+
+        private void Process(Control[] controls, bool add) => Array.ForEach(controls, p =>
+        {
+            if (p is ListView listView)
+                Process(listView, add);
+            else if (p is TreeView treeView)
+                Process(treeView, add);
+            else
+                throw new NotImplementedException();
+        });
+
+        private void Process(ListView listView, bool add)
+        {
+            if (add)
+            {
+                listView.MouseDown += View_MouseDown;
+                listView.ItemDrag += View_ItemDrag;
+                listView.QueryContinueDrag += View_QueryContinueDrag;
+                if (listView.AllowDrop)
+                {
+                    listView.DragDrop += View_DragDrop;
+                    listView.DragOver += View_DragOver;
+                }
+            }
+            else
+            {
+                listView.MouseDown -= View_MouseDown;
+                listView.ItemDrag -= View_ItemDrag;
+                listView.QueryContinueDrag -= View_QueryContinueDrag;
+                if (listView.AllowDrop)
+                {
+                    listView.DragDrop -= View_DragDrop;
+                    listView.DragOver -= View_DragOver;
+                }
+            }
+        }
+
+        private void Process(TreeView treeView, bool add)
+        {
+            if (add)
+                treeView.ItemDrag += View_ItemDrag;
+            else
+                treeView.ItemDrag -= View_ItemDrag;
         }
 
         private void QueryContinueDrag(Control control, QueryContinueDragEventArgs e)
