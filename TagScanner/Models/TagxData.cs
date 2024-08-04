@@ -1,5 +1,6 @@
 ﻿namespace TagScanner.Models
 {
+    using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Windows.Forms;
@@ -11,13 +12,7 @@
     {
         #region Public Methods
 
-        public static void CopyToClipboard(this Control control)
-        {
-            //ClipboardWrite(new Tagx(Tag.Album, false));
-            //var bar = ClipboardRead();
-
-            Clipboard.SetDataObject(control?.GetTagx());
-        }
+        public static void CopyToClipboard(this Control control) => Clipboard.SetDataObject(control?.GetTagx());
 
         public static List<Tagx> GetTagx(this Control control)
         {
@@ -52,23 +47,19 @@
 
         #region Private Properties
 
-        //private static readonly Type TagxListType = typeof(TagxList);
+        private static Type TagxListType => typeof(List<Tagx>);
 
         #endregion
 
         #region Private Methods
 
-        private static void ClipboardWrite(object data) => Clipboard.SetData("Foo", data);
-
-        private static object ClipboardRead() => Clipboard.GetData("Foo");
-
         private static IDataObject ClipboardData => Clipboard.GetDataObject();
 
         private static List<Tagx> FromClipboard() => ClipboardData?.GetTagx();
 
-        private static List<Tagx> GetTagx(this IDataObject data) => (List<Tagx>)data?.GetData(typeof(List<Tagx>));
+        private static List<Tagx> GetTagx(this IDataObject data) => (List<Tagx>)data?.GetData(TagxListType);
 
-        private static bool HasTagx(this IDataObject data) => data?.GetDataPresent(typeof(List<Tagx>)) ?? false;
+        private static bool HasTagx(this IDataObject data) => data?.GetDataPresent(TagxListType) ?? false;
 
         private static List<TagxItem> ToItems(this List<Tagx> tags) => tags?.Select(tag => new TagxItem(tag)).ToList();
 

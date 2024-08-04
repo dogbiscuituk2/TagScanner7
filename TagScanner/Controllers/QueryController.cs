@@ -105,8 +105,6 @@
             return ok;
         }
 
-        public List<Tagx> GetTagxData() => Focus.GetTagx();
-
         public void Merge(List<TagxItem> items) => FocusedItems.AddRange(items?.ToArray());
 
         public void UpdateSelection()
@@ -354,7 +352,7 @@
         private QueryDialog CreateDialog()
         {
             _dialog = new QueryDialog();
-            Add(
+            AddDragControls(
                 ListView,
                 TreeView,
                 LvSelect,

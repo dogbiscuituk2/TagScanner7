@@ -1,7 +1,6 @@
 ﻿namespace TagScanner.Controllers
 {
     using System;
-    using System.ComponentModel;
     using System.Drawing;
     using System.Linq;
     using System.Windows.Forms;
@@ -9,9 +8,9 @@
 
     public partial class QueryController
     {
-        #region Public Methods
+        #region Private Fields
 
-        public void Add(params Control[] controls) => Process(controls, add: true);
+        private Control _source;
 
         #endregion
 
@@ -27,10 +26,22 @@
 
         #region Private Methods
 
-        private ListSortDirection GetDirection(ListViewItem item) => item.StateImageIndex == 1 ? ListSortDirection.Descending : ListSortDirection.Ascending;
-
-        private void DragDrop(ListView listView, DragEventArgs e) => DoDragDrop(listView, e, drop: true);
-        private void DragOver(ListView listView, DragEventArgs e) => DoDragDrop(listView, e, drop: false);
+        private void AddDragControls(params Control[] controls) => Array.ForEach(controls, control =>
+        {
+            if (control is ListView listView)
+            {
+                listView.MouseDown += View_MouseDown;
+                listView.ItemDrag += View_ItemDrag;
+                listView.QueryContinueDrag += View_QueryContinueDrag;
+                if (listView.AllowDrop)
+                {
+                    listView.DragDrop += View_DragDrop;
+                    listView.DragOver += View_DragOver;
+                }
+            }
+            else if (control is TreeView treeView)
+                treeView.ItemDrag += View_ItemDrag;
+        });
 
         private void DoDragDrop(ListView listView, DragEventArgs e, bool drop)
         {
@@ -54,66 +65,17 @@
             }
         }
 
-        private Control _source;
+        private void DragDrop(ListView listView, DragEventArgs e) => DoDragDrop(listView, e, drop: true);
+        private void DragOver(ListView listView, DragEventArgs e) => DoDragDrop(listView, e, drop: false);
 
         private void ItemDrag(Control control, ItemDragEventArgs e)
         {
             _source = control;
-            var data = GetTagxData();
-            control.DoDragDrop(data, DragDropEffects.All);
+            control.DoDragDrop(Focus.GetTagx(), DragDropEffects.All);
         }
 
         private void MouseDown(Control control, MouseEventArgs e)
         {
-            if (control == TreeView)
-            {
-
-            }
-
-        }
-
-        private void Process(Control[] controls, bool add) => Array.ForEach(controls, p =>
-        {
-            if (p is ListView listView)
-                Process(listView, add);
-            else if (p is TreeView treeView)
-                Process(treeView, add);
-            else
-                throw new NotImplementedException();
-        });
-
-        private void Process(ListView listView, bool add)
-        {
-            if (add)
-            {
-                listView.MouseDown += View_MouseDown;
-                listView.ItemDrag += View_ItemDrag;
-                listView.QueryContinueDrag += View_QueryContinueDrag;
-                if (listView.AllowDrop)
-                {
-                    listView.DragDrop += View_DragDrop;
-                    listView.DragOver += View_DragOver;
-                }
-            }
-            else
-            {
-                listView.MouseDown -= View_MouseDown;
-                listView.ItemDrag -= View_ItemDrag;
-                listView.QueryContinueDrag -= View_QueryContinueDrag;
-                if (listView.AllowDrop)
-                {
-                    listView.DragDrop -= View_DragDrop;
-                    listView.DragOver -= View_DragOver;
-                }
-            }
-        }
-
-        private void Process(TreeView treeView, bool add)
-        {
-            if (add)
-                treeView.ItemDrag += View_ItemDrag;
-            else
-                treeView.ItemDrag -= View_ItemDrag;
         }
 
         private void QueryContinueDrag(Control control, QueryContinueDragEventArgs e)
