@@ -105,29 +105,19 @@
             return ok;
         }
 
-        public void Merge(List<Tagx> tags)
+        public void Merge(List<Tagx> newTags)
         {
+            var oldTags = FocusedListView.GetAllTagx();
             var count = FocusedItems.Count;
             var selected = FocusedSelectedIndices;
             var pivot = selected.Any() ? selected.First() : count;
-            List<Tagx>
-                old = FocusedListView.GetAllTagx(),
-                above = old.Take(pivot).ToList(),
-                below = old.Skip(pivot).ToList();
-            Adjust(above);
-            Adjust(below);
             FocusedListView.BeginUpdate();
             FocusedItems.Clear();
-            FocusedItems.AddRange(above.Concat(tags).Concat(below).ToItems());
+            FocusedItems.AddRange(Cull(oldTags.Take(pivot)).Concat(newTags).Concat(Cull(oldTags.Skip(pivot))).ToItems());
             FocusedListView.EndUpdate();
             return;
 
-            void Adjust(List<Tagx> list) => tags.ForEach(tag =>
-            {
-                Func<Tagx, bool> match = p => p.Tag == tag.Tag;
-                if (list.Any(match))
-                    list.Remove(list.First(match));
-            });
+            IEnumerable<Tagx> Cull(IEnumerable<Tagx> tags) => tags.Where(p => !newTags.Any(q => q.Tag == p.Tag));
         }
 
         public void UpdateSelection()
