@@ -8,7 +8,7 @@
     /// otherwise used as a Column visibility control in a suitable Table or View.
     /// </summary>
     [Serializable]
-    public struct Tagx
+    public class Tagx
     {
         #region Constructors
 

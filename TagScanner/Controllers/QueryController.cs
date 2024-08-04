@@ -5,6 +5,7 @@
     using System.ComponentModel;
     using System.Drawing;
     using System.Linq;
+    using System.Reflection;
     using System.Windows.Forms;
     using Forms;
     using Models;
@@ -311,6 +312,7 @@
 
         private void DoActiveAct(Act act)
         {
+            TakeSnapshot();
             FocusedListView?.BeginUpdate();
             var items = FocusedItems;
             var count = items?.Count ?? 0;
@@ -323,8 +325,8 @@
             {
                 switch (act)
                 {
-                    case Act.MoveUp: DoMoveUp(); return;
-                    case Act.MoveDown: DoMoveDown(); return;
+                    case Act.MoveUp: DoMove(up: true); return;
+                    case Act.MoveDown: DoMove(up: false); return;
                     case Act.Cut: DoCut(); return;
                     case Act.Copy: DoCopy(); return;
                     case Act.Paste: DoPaste(); return;
@@ -350,14 +352,25 @@
 
             void DoInvertSelection() { foreach (ListViewItem item in items) item.Selected ^= true; }
 
-            void DoMoveDown()
+            void DoMove(bool up)
             {
-                for (var index = count - 1; index > 0; index--) { if (selectedIndices.Contains(index - 1)) SwapItems(index); }
-            }
+                int index, focus = -1;
+                if (up) for (index = 1; index < count; index++) Swap();
+                else for (index = count - 1; index > 0; index--) Swap();
+                if (focus >= 0)
+                    FocusedListView.EnsureVisible(focus);
 
-            void DoMoveUp()
-            {
-                for (var index = 1; index < count; index++) { if (selectedIndices.Contains(index)) SwapItems(index); }
+                void Swap()
+                {
+                    if (selectedIndices.Contains(up ? index : index - 1))
+                    {
+                        var item = items[index - 1];
+                        items.RemoveAt(index - 1);
+                        items.Insert(index, item);
+                        if (focus < 0)
+                            focus = up ? index - 1 : index;
+                    }
+                }
             }
 
             void DoPaste()
@@ -367,58 +380,34 @@
             }
 
             void DoSelectAll() { foreach (ListViewItem item in items) item.Selected = true; }
-
-            void SwapItems(int index)
-            {
-                var item = items[index - 1];
-                items.RemoveAt(index - 1);
-                items.Insert(index, item);
-            }
         }
 
         private void DoPassiveAct(Act act)
         {
-            var focus = Focus;
+            TakeSnapshot();
+            var oldFocus = Focus;
             var tags = Focus.GetSelectedTagx();
-            DoAct();
-            Focus = focus;
+            Focus = GetNewFocus();
+            Merge(tags);
+            Focus = oldFocus;
             UpdateMenu();
 
-            void DoAct()
+            Control GetNewFocus()
             {
                 switch (act)
                 {
-                    case Act.Select: DoSelect(); return;
-                    case Act.SortAscending: DoSortAscending(); return;
-                    case Act.SortDescending: DoSortDescending(); return;
-                    case Act.Group: DoGroup(); return;
+                    case Act.Select: return LvSelect;
+                    case Act.SortAscending: return SetDescending(false);
+                    case Act.SortDescending: return SetDescending(true);
+                    case Act.Group: return LvGroupBy;
+                    default: return null;
                 }
-            }
 
-            void DoSelect()
-            {
-                Focus = LvSelect;
-                Merge(tags);
-            }
-
-            void DoSortAscending()
-            {
-                Focus = LvOrderBy;
-                tags.ForEach(p => p.Descending = false);
-                Merge(tags);
-            }
-
-            void DoSortDescending()
-            {
-                Focus = LvOrderBy;
-                tags.ForEach(p => p.Descending = true);
-                Merge(tags);
-            }
-
-            void DoGroup()
-            {
-                Focus = LvGroupBy;
-                Merge(tags);
+                Control SetDescending(bool value)
+                {
+                    tags.ForEach(p => p.Descending = value);
+                    return LvOrderBy;
+                }
             }
         }
 
@@ -474,14 +463,28 @@
 
         private void InitControls(string toolTip, params ToolStripItem[] controls) => Array.ForEach(controls, p => p.ToolTipText = toolTip);
 
+        private Query GetQuery() => new Query(GetSelectedTags(), GetSorts(), GetGroupByTags());
+
+        private void SetQuery(Query query)
+        {
+            SetSorts(query.Sorts);
+            SetGroups(query.Groups);
+            SetSelectedTags(query.Tags);
+        }
+
         private IEnumerable<Tag> GetGroupByTags() => LvGroupBy.Items.Cast<ListViewItem>().Select(p => (Tag)p.Tag);
-        private IEnumerable<Tag> GetOrderByTags() => LvOrderBy.Items.Cast<ListViewItem>().Select(p => (Tag)p.Tag);
         private IEnumerable<Tag> GetSelectedTags() => LvSelect.Items.Cast<ListViewItem>().Select(p => (Tag)p.Tag);
         private IEnumerable<SortDescription> GetSorts() => LvOrderBy.Items.Cast<TagxItem>().Select(p => new SortDescription(p.Name, p.Direction));
 
         private void SetGroups(IEnumerable<Tag> tags) => LvGroupBy.Items.AddRange(tags.Select(p => new TagxItem(p)).ToArray());
         private void SetSorts(IEnumerable<SortDescription> sorts) => LvOrderBy.Items.AddRange(sorts.Select(p => new TagxItem(p)).ToArray());
         private void SetSelectedTags(IEnumerable<Tag> tags) => LvSelect.Items.AddRange(tags.Select(p => new TagxItem(p)).ToArray());
+
+        private void TakeSnapshot()
+        {
+            var query = GetQuery();
+            Redo(query, spoof: true);
+        }
 
         private void UpdateMenu()
         {

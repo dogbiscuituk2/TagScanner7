@@ -75,7 +75,6 @@
             this.PopupSeparator5 = new System.Windows.Forms.ToolStripSeparator();
             this.PopupSelectAll = new System.Windows.Forms.ToolStripMenuItem();
             this.PopupInvertSelection = new System.Windows.Forms.ToolStripMenuItem();
-            this.treeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.EditMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.TreeView = new System.Windows.Forms.TreeView();
             this.toolStripContainer1 = new System.Windows.Forms.ToolStripContainer();
@@ -201,8 +200,7 @@
             this.PopupClear,
             this.PopupSeparator5,
             this.PopupSelectAll,
-            this.PopupInvertSelection,
-            this.treeToolStripMenuItem});
+            this.PopupInvertSelection});
             this.PopupMenu.Name = "PopupTargetMenu";
             this.PopupMenu.OwnerItem = this.EditMenu;
             this.PopupMenu.Size = new System.Drawing.Size(161, 430);
@@ -522,12 +520,6 @@
             this.PopupInvertSelection.Size = new System.Drawing.Size(160, 22);
             this.PopupInvertSelection.Text = "&Invert Selection";
             this.PopupInvertSelection.ToolTipText = "Toggle the selected state of all item(s) in this box";
-            // 
-            // treeToolStripMenuItem
-            // 
-            this.treeToolStripMenuItem.Name = "treeToolStripMenuItem";
-            this.treeToolStripMenuItem.Size = new System.Drawing.Size(160, 22);
-            this.treeToolStripMenuItem.Text = "Tree";
             // 
             // EditMenu
             // 
@@ -1071,7 +1063,6 @@
         public System.Windows.Forms.ToolStripMenuItem ListTiles;
         public System.Windows.Forms.ToolStripMenuItem PopupTree;
         public System.Windows.Forms.ToolStripMenuItem PopupList;
-        private System.Windows.Forms.ToolStripMenuItem treeToolStripMenuItem;
         public System.Windows.Forms.ToolStripSeparator PopupSeparator1;
         public System.Windows.Forms.ColumnHeader chSortable;
     }
