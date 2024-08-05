@@ -113,6 +113,11 @@
             var pivot = selected.Any() ? selected.First() : count;
             FocusedListView.BeginUpdate();
             FocusedItems.Clear();
+
+            var list1 = Cull(oldTags.Take(pivot)).ToList();
+            var list2 = newTags.ToList();
+            var list3 = Cull(oldTags.Skip(pivot)).ToList();
+
             FocusedItems.AddRange(Cull(oldTags.Take(pivot)).Concat(newTags).Concat(Cull(oldTags.Skip(pivot))).ToItems());
             FocusedListView.EndUpdate();
             return;
@@ -384,8 +389,8 @@
         private void DoPassiveAct(Act act)
         {
             TakeSnapshot();
-            var oldFocus = Focus;
             var tags = Focus.GetSelectedTagx();
+            var oldFocus = Focus;
             Focus = GetNewFocus();
             Merge(tags);
             Focus = oldFocus;
@@ -396,17 +401,13 @@
                 switch (act)
                 {
                     case Act.Select: return LvSelect;
-                    case Act.SortAscending: return SetDescending(false);
-                    case Act.SortDescending: return SetDescending(true);
+                    case Act.SortAscending: SetDescending(false); return LvOrderBy;
+                    case Act.SortDescending: SetDescending(true); return LvOrderBy;
                     case Act.Group: return LvGroupBy;
                     default: return null;
                 }
 
-                Control SetDescending(bool value)
-                {
-                    tags.ForEach(p => p.Descending = value);
-                    return LvOrderBy;
-                }
+                void SetDescending(bool value) => tags.ForEach(p => p.Descending = value);
             }
         }
 

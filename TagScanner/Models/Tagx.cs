@@ -13,7 +13,7 @@
         #region Constructors
 
         public Tagx(Tag tag) : this(tag, 0) { }
-        public Tagx(Tag tag, int stateIndex) : this(tag, stateIndex == 1) { }
+        public Tagx(Tag tag, int state) : this(tag, state == 1) { }
         public Tagx(Tag tag, bool descending) { Tag = tag; Descending = descending; }
 
         #endregion
@@ -22,6 +22,12 @@
 
         public bool Descending { get; set; }
         public Tag Tag { get; set; }
+
+        #endregion
+
+        #region Public Methods
+
+        public override string ToString() => $"Tag: {Tag}, Descending: {Descending}";
 
         #endregion
     }

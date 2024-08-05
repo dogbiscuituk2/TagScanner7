@@ -7,7 +7,7 @@
     {
         #region Constructors
 
-        public TagxItem(Tagx tagSort) : this(tagSort.Tag, tagSort.Descending) { }
+        public TagxItem(Tagx tag) : this(tag.Tag, tag.Descending) { }
         public TagxItem(Tag tag) : this(tag, descending: false) { }
         public TagxItem(Tag tag, bool descending) : this(tag, descending ? ListSortDirection.Descending : ListSortDirection.Ascending) { }
         public TagxItem(Tag tag, ListSortDirection direction) : base() => Init(tag, direction);
