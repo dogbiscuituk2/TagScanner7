@@ -62,12 +62,12 @@
 
         #region Private Methods
 
-        protected override int Undo(Command command) => DoCommand(command, undo: true, spoof: false);
-        protected override int Redo(Command command, bool spoof = false) => DoCommand(command, undo: false, spoof);
+        protected override int Undo(Command command) => Do(command, undo: true, spoof: false);
+        protected override int Redo(Command command, bool spoof = false) => Do(command, undo: false, spoof);
 
         private void UpdateUI() => AppController.UpdateUI(MainFormController);
 
-        private int DoCommand(Command command, bool undo, bool spoof = false)
+        private int Do(Command command, bool undo, bool spoof = false)
         {
             var result = command.TracksCount;
             if (!spoof)
