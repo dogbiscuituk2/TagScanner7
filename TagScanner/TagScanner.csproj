@@ -151,6 +151,7 @@
     <Compile Include="Commands\EditCommand.cs" />
     <Compile Include="Commands\CommandProcessor.cs" />
     <Compile Include="Commands\AddRemoveCommand.cs" />
+    <Compile Include="Commands\IDo.cs" />
     <Compile Include="Commands\ReplaceCommand.cs" />
     <Compile Include="Controllers\AutoCompleter.cs" />
     <Compile Include="Controllers\MediaDragDropController.cs" />
@@ -228,6 +229,7 @@
     <Compile Include="Models\FileChecks.cs" />
     <Compile Include="Models\FileFlags.cs" />
     <Compile Include="Models\FindReplaceResult.cs" />
+    <Compile Include="Models\IModel.cs" />
     <Compile Include="Models\Query.cs" />
     <Compile Include="Models\Schema.cs" />
     <Compile Include="Models\SchemaLine.cs" />

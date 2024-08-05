@@ -5,7 +5,7 @@
     using System.Text;
     using Models;
 
-    public abstract class Command
+    public abstract class Command : IDo
     {
         #region Constructors
 
