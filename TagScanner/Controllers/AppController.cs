@@ -6,10 +6,10 @@
     using System.Windows.Forms;
     using System.Xml;
     using WK.Libraries.SharpClipboardNS;
+    using Core;
     using Forms;
     using Models;
     using Mru;
-    using Utils;
 
     public static class AppController
     {

@@ -7,8 +7,6 @@
     using System.Windows.Forms;
     using NReco.VideoConverter;
     using Core;
-    using Models;
-    using Utils;
 
     public class PictureController
     {

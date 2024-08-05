@@ -5,8 +5,8 @@
     using System.Drawing;
     using System.Linq;
     using System.Linq.Expressions;
+    using Core;
     using Models;
-    using Utils;
 
     public abstract class Term
     {

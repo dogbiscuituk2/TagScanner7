@@ -5,8 +5,8 @@
     using System.Linq;
     using System.Linq.Expressions;
     using System.Runtime.CompilerServices;
+    using Core;
     using Terms;
-    using Utils;
 
     public partial class ParserSpy
     {

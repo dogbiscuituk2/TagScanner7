@@ -3,8 +3,8 @@
     using System.Linq;
     using System.Text;
     using System.Windows.Forms;
+    using Core;
     using Forms;
-    using Utils;
 
     public class FilespecController : Controller, IGetErrors
     {

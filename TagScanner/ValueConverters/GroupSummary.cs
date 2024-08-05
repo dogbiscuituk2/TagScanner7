@@ -6,8 +6,8 @@
     using System.Globalization;
     using System.Linq;
     using System.Windows.Data;
+    using Core;
     using Models;
-    using Utils;
 
     public class GroupSummary : IValueConverter
     {

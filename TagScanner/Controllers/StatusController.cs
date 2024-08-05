@@ -5,7 +5,6 @@
     using System.Windows.Forms;
     using Core;
     using Forms;
-    using Utils;
 
     public class StatusController : Controller
     {

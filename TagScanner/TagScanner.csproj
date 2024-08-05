@@ -151,6 +151,9 @@
     <Compile Include="Commands\EditCommand.cs" />
     <Compile Include="Commands\CommandProcessor.cs" />
     <Compile Include="Commands\AddRemoveCommand.cs" />
+    <Compile Include="Core\CharCaseUtils.cs" />
+    <Compile Include="Core\ExceptionUtils.cs" />
+    <Compile Include="Core\FileUtils.cs" />
     <Compile Include="Core\ICommand.cs" />
     <Compile Include="Commands\ReplaceCommand.cs" />
     <Compile Include="Controllers\AutoCompleter.cs" />
@@ -207,6 +210,8 @@
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Controls\TermTreeNode.cs" />
+    <Compile Include="Core\StringUtils.cs" />
+    <Compile Include="Core\TypeUtils.cs" />
     <Compile Include="Forms\FileChecksDialog.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -290,8 +295,6 @@
     <Compile Include="Terms\Types.cs" />
     <Compile Include="Terms\Variable.cs" />
     <Compile Include="Core\CharCase.cs" />
-    <Compile Include="Utils\Ink.cs" />
-    <Compile Include="Utils\Inks.cs" />
     <Compile Include="Controllers\Controller.cs" />
     <Compile Include="Controllers\QueryListViewController.cs" />
     <Compile Include="Controllers\QueryTreeViewController.cs" />
@@ -370,7 +373,6 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Models\Track.cs" />
-    <Compile Include="Utils\Utility.cs" />
     <Compile Include="Models\Model.cs" />
     <Compile Include="Models\Selection.cs" />
     <Compile Include="Forms\QueryDialog.cs">

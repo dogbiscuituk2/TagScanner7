@@ -6,7 +6,6 @@
     using System.IO;
     using System.Linq;
     using Core;
-    using Utils;
 
     [DefaultProperty("Title")]
     public class Selection : ITrack
@@ -751,7 +750,7 @@
         [Description("A string containing the full path to the media file or folder in the filesystem.")]
         [DisplayName("File Path")]
         [ReadOnly(true)]
-        public string FilePath => _filePath ?? (_filePath = Utility.GetCommonPath(Tracks?.Select(p => p.FilePath)));
+        public string FilePath => _filePath ?? (_filePath = Tracks?.Select(p => p.FilePath).GetCommonPath());
 
         #endregion
         #region FileSize

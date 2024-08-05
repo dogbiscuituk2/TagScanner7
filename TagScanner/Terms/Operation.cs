@@ -4,7 +4,7 @@
     using System.Collections.Generic;
     using System.Linq;
     using System.Linq.Expressions;
-    using Utils;
+    using Core;
 
     public class Operation : Compound
     {
@@ -31,7 +31,7 @@
         public override Expression Expression => GetExpression();
         public override bool IsInfinitary => Op.IsInfinitary();
         public override Rank Rank => Op.GetRank();
-        public override Type ResultType => Op.ResultType() ?? Utility.GetCompatibleType(Operands.Select(p => p.ResultType).ToArray());
+        public override Type ResultType => Op.ResultType() ?? Operands.Select(p => p.ResultType).ToArray().GetCompatibleType();
 
         #endregion
 

@@ -16,7 +16,6 @@
     using Properties;
     using Streaming;
     using Terms;
-    using Utils;
     using Wpf;
 
     public class MainFormController : Controller

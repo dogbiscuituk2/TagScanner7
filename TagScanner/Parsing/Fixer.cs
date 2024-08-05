@@ -4,7 +4,6 @@
     using System.Linq;
     using Core;
     using Terms;
-    using Utils;
 
     public static class Fixer
     {
@@ -89,7 +88,7 @@
                     return;
                 }
                 var first = op == Op.Else ? 1 : 0;
-                var commonType = Utility.GetCompatibleType(operands.Skip(first).Select(p => p.ResultType).ToArray());
+                var commonType = operands.Skip(first).Select(p => p.ResultType).ToList().GetCompatibleType();
                 if (commonType == typeof(Logical))
                     commonType = typeof(bool);
                 var adjustCase = !caseSensitive && op.CanChain();

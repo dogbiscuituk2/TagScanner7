@@ -4,7 +4,7 @@
     using System.Collections.Generic;
     using System.Linq;
     using System.Linq.Expressions;
-    using Utils;
+    using Core;
 
     public class Function : Compound
     {
@@ -57,7 +57,7 @@
                 switch (Fn)
                 {
                     case Fn.IfThenElse:
-                        return Utility.GetCommonType(Operands[1].ResultType, Operands[2].ResultType);
+                        return TypeUtils.GetCommonType(Operands[1].ResultType, Operands[2].ResultType);
                     default:
                         return FnInfo.ReturnType;
                 }

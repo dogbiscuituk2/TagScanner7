@@ -3,7 +3,7 @@
     using System;
     using System.Linq;
     using System.Windows.Forms;
-    using Utils;
+    using Core;
     using Win32 = Microsoft.Win32;
 
     public class MruController : Controller

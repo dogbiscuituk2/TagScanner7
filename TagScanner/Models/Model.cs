@@ -4,14 +4,13 @@
     using System.Collections.Generic;
     using System.Linq;
     using Core;
-    using Utils;
 
     public class Model : IModel
     {
         #region Fields & Properties
 
         private string _commonPath;
-        public string CommonPath => _commonPath ?? (_commonPath = Utility.GetCommonPath(Tracks?.Select(p => p.FilePath)));
+        public string CommonPath => _commonPath ?? (_commonPath = Tracks?.Select(p => p.FilePath).GetCommonPath());
 
         public Func<Track, bool> FileChecksFilter { get; set; }
 

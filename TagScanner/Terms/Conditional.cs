@@ -4,7 +4,7 @@
     using System.Collections.Generic;
     using System.Linq;
     using System.Linq.Expressions;
-    using Utils;
+    using TagScanner.Core;
 
     public class Conditional : Operation
     {
@@ -17,7 +17,7 @@
         #region Public Properties
 
         public override Expression Expression => Expression.Condition(FirstSubExpression, SecondSubExpression, ThirdSubExpression);
-        public override Type ResultType => Utility.GetCompatibleType(Operands.Skip(1).Select(p => p.ResultType).ToArray());
+        public override Type ResultType => Operands.Skip(1).Select(p => p.ResultType).ToArray().GetCompatibleType();
 
         #endregion
 

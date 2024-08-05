@@ -9,11 +9,11 @@
     using System.Windows.Data;
     using System.Windows.Forms;
     using Commands;
+    using Core;
     using Forms;
     using Models;
     using Properties;
     using Terms;
-    using Utils;
 
     public class FindReplaceController : Controller
     {

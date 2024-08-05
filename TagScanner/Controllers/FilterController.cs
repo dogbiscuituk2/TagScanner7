@@ -4,9 +4,9 @@
     using System.Drawing;
     using System.Windows.Forms;
     using Controls;
+    using Core;
     using Forms;
     using Parsing;
-    using Utils;
 
     public class FilterController : Controller
     {
