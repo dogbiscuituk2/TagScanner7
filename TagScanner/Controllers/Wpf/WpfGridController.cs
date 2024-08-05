@@ -6,6 +6,7 @@
     using System.Windows;
     using System.Windows.Controls;
     using System.Windows.Data;
+    using Core;
     using Models;
     using Terms;
     using ValueConverters;

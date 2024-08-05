@@ -1,4 +1,4 @@
-﻿namespace TagScanner.Utils
+﻿namespace TagScanner.Core
 {
     using System;
 

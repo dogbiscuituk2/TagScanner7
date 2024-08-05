@@ -3,6 +3,7 @@
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using System;
     using System.Linq;
+    using Core;
     using Models;
     using Terms;
 

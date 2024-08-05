@@ -2,7 +2,7 @@
 {
     using System;
     using System.Linq;
-    using Models;
+    using Core;
     using Terms;
     using Utils;
 

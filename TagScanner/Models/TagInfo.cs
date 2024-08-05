@@ -1,6 +1,7 @@
 ﻿namespace TagScanner.Models
 {
     using System;
+    using Core;
 
     /// <summary>
     /// This application uses the TagLib# library to access (both read and write) metadata in media files, including video, audio, and photo formats.

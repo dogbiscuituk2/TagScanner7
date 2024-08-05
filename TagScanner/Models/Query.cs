@@ -4,8 +4,9 @@
     using System.Collections.Generic;
     using System.ComponentModel;
     using System.Linq;
+    using Core;
 
-    public class Query
+    public class Query : ICommand
     {
         #region Constructors
 
@@ -34,6 +35,8 @@
         #endregion
 
         #region Public Methods
+
+        public int Do(IModel model) => 0;
 
         public override bool Equals(object obj) => obj is Query query &&
             Tags.SequenceEqual(query.Tags) &&

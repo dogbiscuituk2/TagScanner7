@@ -1,6 +1,7 @@
 ﻿namespace TagScanner.Commands
 {
     using System.Collections.Generic;
+    using Core;
     using Models;
 
     public abstract class AddRemoveCommand : Command

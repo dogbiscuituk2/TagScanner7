@@ -27,15 +27,7 @@
         /// If false, the relevant properties have already been changed on the target, 
         /// so just log the memento to the Undo stack.</param>
         /// <returns>True if the command was run, and actually caused a property change.</returns>
-        public override int Run(Command command, bool spoof = false)
-        {
-            if (Busy || command == null)
-                return 0;
-            if (LastSave > UndoStack.Count)
-                LastSave = -1;
-            RedoStack.Clear();
-            return Redo(command, spoof);
-        }
+        public override int Run(Command command, bool spoof = false) => Do(command, spoof);
 
         public void UpdateLocalUI()
         {
@@ -56,12 +48,9 @@
 
         #region Private Methods
 
-        protected override int Undo(Command command) => Do(command, undo: true, spoof: false);
-        protected override int Redo(Command command, bool spoof = false) => Do(command, undo: false, spoof);
-
         private void UpdateUI() => AppController.UpdateUI(MainFormController);
 
-        private int Do(Command command, bool undo, bool spoof = false)
+        protected override int Do(Command command, bool undo, bool spoof = false)
         {
             var result = command.TracksCount;
             if (!spoof)
@@ -71,11 +60,7 @@
                 Busy = false;
             }
             if (result > 0)
-            {
-                var stack = undo ? RedoStack : UndoStack;
-                stack.Push(command);
-                UpdateUI();
-            }
+                base.Do(command, undo, spoof);
             return result;
         }
 

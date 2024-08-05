@@ -6,6 +6,7 @@
     using System.Linq;
     using System.Windows.Forms;
     using NReco.VideoConverter;
+    using Core;
     using Models;
     using Utils;
 

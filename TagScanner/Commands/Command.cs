@@ -3,9 +3,10 @@
     using System.Collections.Generic;
     using System.Linq;
     using System.Text;
+    using Core;
     using Models;
 
-    public abstract class Command : IDo
+    public abstract class Command : ICommand
     {
         #region Constructors
 

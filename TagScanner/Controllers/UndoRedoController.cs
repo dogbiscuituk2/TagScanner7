@@ -5,15 +5,16 @@
     using System.Drawing;
     using System.Windows.Forms;
     using Utils;
+    using Core;
 
-    public abstract class UndoRedoController<T> : Controller where T : class
+    public abstract class UndoRedoController<TCommand> : Controller where TCommand : class, ICommand
     {
         #region Constructor
 
         protected UndoRedoController(Controller parent) : base(parent)
         {
-            UndoStack = new Stack<T>();
-            RedoStack = new Stack<T>();
+            UndoStack = new Stack<TCommand>();
+            RedoStack = new Stack<TCommand>();
         }
 
         #endregion
@@ -40,7 +41,7 @@
 
         protected int LastSave;
 
-        protected readonly Stack<T> UndoStack, RedoStack;
+        protected readonly Stack<TCommand> UndoStack, RedoStack;
 
         #endregion
 
@@ -65,6 +66,24 @@
 
         #region Protected Methods
 
+        protected int Do(TCommand command, bool spoof)
+        {
+            if (Busy || command == null)
+                return 0;
+            if (LastSave > UndoStack.Count)
+                LastSave = -1;
+            RedoStack.Clear();
+            return Redo(command, spoof);
+        }
+
+        protected virtual int Do(TCommand command, bool undo, bool spoof = false)
+        {
+            var stack = undo ? RedoStack : UndoStack;
+            stack.Push(command);
+            UpdateAction();
+            return 0;
+        }
+
         protected void InitUI(bool undo, params ToolStripDropDownItem[] items) => Array.ForEach(items, p =>
         {
             if (p is ToolStripSplitButton q)
@@ -74,8 +93,8 @@
             p.DropDownOpening += (sender, e) => PopulateMenu(undo);
         });
 
-        protected abstract int Undo(T t);
-        protected abstract int Redo(T t, bool spoof = false);
+        protected virtual int Undo(TCommand command) => Do(command, undo: true, spoof: false);
+        protected virtual int Redo(TCommand command, bool spoof = false) => Do(command, undo: false, spoof);
 
         #endregion
 
@@ -89,7 +108,7 @@
 
         private void DoMultiple(object item, bool undo)
         {
-            var peek = (T)((ToolStripItem)item).Tag;
+            var peek = (TCommand)((ToolStripItem)item).Tag;
             if (undo)
                 do Undo(); while (RedoStack.Peek() != peek);
             else

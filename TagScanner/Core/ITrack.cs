@@ -1,6 +1,4 @@
-﻿using TagScanner.Models;
-
-namespace TagScanner.Models
+﻿namespace TagScanner.Core
 {
     using System;
     using TagLib;

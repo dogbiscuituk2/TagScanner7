@@ -1,4 +1,4 @@
-﻿namespace TagScanner.Models
+﻿namespace TagScanner.Core
 {
     using System;
 
@@ -9,9 +9,9 @@
         public int Index { get; set; }
         public string Path { get; set; }
         public bool Skip { get; set; }
-        public Track Track { get; set; }
+        public ITrack Track { get; set; }
 
-        public ProgressEventArgs(int index, int count, string path, Track track)
+        public ProgressEventArgs(int index, int count, string path, ITrack track)
         {
             Continue = true;
             Count = count;

@@ -9,6 +9,7 @@
     using System.Text;
     using System.Windows.Forms;
     using Commands;
+    using Core;
     using Forms;
     using Models;
     using Mru;

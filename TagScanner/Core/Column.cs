@@ -1,4 +1,4 @@
-﻿namespace TagScanner.Models
+﻿namespace TagScanner.Core
 {
     public class Column
     {

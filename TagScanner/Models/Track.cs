@@ -8,6 +8,7 @@
     using System.Text.Json.Serialization;
     using System.Xml;
     using System.Xml.Serialization;
+    using Core;
     using Utils;
 
     [Serializable]
