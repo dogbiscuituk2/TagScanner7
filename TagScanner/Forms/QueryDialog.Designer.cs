@@ -42,7 +42,7 @@
             this.TreeAlphabetically = new System.Windows.Forms.ToolStripMenuItem();
             this.TreeByCategory = new System.Windows.Forms.ToolStripMenuItem();
             this.TreeByDataType = new System.Windows.Forms.ToolStripMenuItem();
-            this.TreeMenu = new System.Windows.Forms.ToolStripMenuItem();
+            this.tbTree = new System.Windows.Forms.ToolStripSplitButton();
             this.PopupList = new System.Windows.Forms.ToolStripMenuItem();
             this.PopupListMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.ListAlphabetically = new System.Windows.Forms.ToolStripMenuItem();
@@ -54,7 +54,7 @@
             this.ListSmallIcons = new System.Windows.Forms.ToolStripMenuItem();
             this.ListLargeIcons = new System.Windows.Forms.ToolStripMenuItem();
             this.ListTiles = new System.Windows.Forms.ToolStripMenuItem();
-            this.ListMenu = new System.Windows.Forms.ToolStripMenuItem();
+            this.tbList = new System.Windows.Forms.ToolStripSplitButton();
             this.PopupSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.PopupMoveUp = new System.Windows.Forms.ToolStripMenuItem();
             this.PopupMoveDown = new System.Windows.Forms.ToolStripMenuItem();
@@ -76,6 +76,8 @@
             this.PopupSelectAll = new System.Windows.Forms.ToolStripMenuItem();
             this.PopupInvertSelection = new System.Windows.Forms.ToolStripMenuItem();
             this.EditMenu = new System.Windows.Forms.ToolStripMenuItem();
+            this.TreeMenu = new System.Windows.Forms.ToolStripMenuItem();
+            this.ListMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.TreeView = new System.Windows.Forms.TreeView();
             this.toolStripContainer1 = new System.Windows.Forms.ToolStripContainer();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
@@ -91,8 +93,6 @@
             this.btnCancel = new System.Windows.Forms.Button();
             this.btnOK = new System.Windows.Forms.Button();
             this.Toolbar = new System.Windows.Forms.ToolStrip();
-            this.tbTree = new System.Windows.Forms.ToolStripSplitButton();
-            this.tbList = new System.Windows.Forms.ToolStripSplitButton();
             this.toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
             this.tbOK = new System.Windows.Forms.ToolStripButton();
             this.tbCancel = new System.Windows.Forms.ToolStripButton();
@@ -140,7 +140,6 @@
             this.chDataType,
             this.chWritable,
             this.chSortable});
-            this.ListView.ContextMenuStrip = this.PopupMenu;
             this.ListView.FullRowSelect = true;
             this.ListView.HideSelection = false;
             this.ListView.Location = new System.Drawing.Point(161, 4);
@@ -203,7 +202,7 @@
             this.PopupInvertSelection});
             this.PopupMenu.Name = "PopupTargetMenu";
             this.PopupMenu.OwnerItem = this.EditMenu;
-            this.PopupMenu.Size = new System.Drawing.Size(161, 430);
+            this.PopupMenu.Size = new System.Drawing.Size(161, 408);
             // 
             // PopupTree
             // 
@@ -219,7 +218,7 @@
             this.TreeByCategory,
             this.TreeByDataType});
             this.PopupTreeMenu.Name = "PopupTreeMenu";
-            this.PopupTreeMenu.OwnerItem = this.tbTree;
+            this.PopupTreeMenu.OwnerItem = this.TreeMenu;
             this.PopupTreeMenu.Size = new System.Drawing.Size(150, 70);
             // 
             // TreeAlphabetically
@@ -246,14 +245,15 @@
             this.TreeByDataType.Size = new System.Drawing.Size(149, 22);
             this.TreeByDataType.Text = "by &Data Type";
             // 
-            // TreeMenu
+            // tbTree
             // 
-            this.TreeMenu.DropDown = this.PopupTreeMenu;
-            this.TreeMenu.Image = global::TagScanner.Properties.Resources.fff_app_tree_16;
-            this.TreeMenu.ImageTransparentColor = System.Drawing.Color.White;
-            this.TreeMenu.Name = "TreeMenu";
-            this.TreeMenu.Size = new System.Drawing.Size(95, 22);
-            this.TreeMenu.Text = "&Tree";
+            this.tbTree.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.tbTree.DropDown = this.PopupTreeMenu;
+            this.tbTree.Image = global::TagScanner.Properties.Resources.fff_app_tree_16;
+            this.tbTree.ImageTransparentColor = System.Drawing.Color.White;
+            this.tbTree.Name = "tbTree";
+            this.tbTree.Size = new System.Drawing.Size(31, 20);
+            this.tbTree.Text = "toolStripSplitButton3";
             // 
             // PopupList
             // 
@@ -275,7 +275,7 @@
             this.ListLargeIcons,
             this.ListTiles});
             this.PopupListMenu.Name = "PopupTreeMenu";
-            this.PopupListMenu.OwnerItem = this.tbList;
+            this.PopupListMenu.OwnerItem = this.ListMenu;
             this.PopupListMenu.Size = new System.Drawing.Size(150, 170);
             // 
             // ListAlphabetically
@@ -342,14 +342,15 @@
             this.ListTiles.Text = "Tiles";
             this.ListTiles.Visible = false;
             // 
-            // ListMenu
+            // tbList
             // 
-            this.ListMenu.DropDown = this.PopupListMenu;
-            this.ListMenu.Image = global::TagScanner.Properties.Resources.fff_app_list_16;
-            this.ListMenu.ImageTransparentColor = System.Drawing.Color.White;
-            this.ListMenu.Name = "ListMenu";
-            this.ListMenu.Size = new System.Drawing.Size(95, 22);
-            this.ListMenu.Text = "&List";
+            this.tbList.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.tbList.DropDown = this.PopupListMenu;
+            this.tbList.Image = global::TagScanner.Properties.Resources.fff_app_list_16;
+            this.tbList.ImageTransparentColor = System.Drawing.Color.White;
+            this.tbList.Name = "tbList";
+            this.tbList.Size = new System.Drawing.Size(31, 20);
+            this.tbList.Text = "toolStripSplitButton4";
             // 
             // PopupSeparator1
             // 
@@ -528,10 +529,27 @@
             this.EditMenu.Size = new System.Drawing.Size(39, 20);
             this.EditMenu.Text = "&Edit";
             // 
+            // TreeMenu
+            // 
+            this.TreeMenu.DropDown = this.PopupTreeMenu;
+            this.TreeMenu.Image = global::TagScanner.Properties.Resources.fff_app_tree_16;
+            this.TreeMenu.ImageTransparentColor = System.Drawing.Color.White;
+            this.TreeMenu.Name = "TreeMenu";
+            this.TreeMenu.Size = new System.Drawing.Size(95, 22);
+            this.TreeMenu.Text = "&Tree";
+            // 
+            // ListMenu
+            // 
+            this.ListMenu.DropDown = this.PopupListMenu;
+            this.ListMenu.Image = global::TagScanner.Properties.Resources.fff_app_list_16;
+            this.ListMenu.ImageTransparentColor = System.Drawing.Color.White;
+            this.ListMenu.Name = "ListMenu";
+            this.ListMenu.Size = new System.Drawing.Size(95, 22);
+            this.ListMenu.Text = "&List";
+            // 
             // TreeView
             // 
             this.TreeView.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.TreeView.ContextMenuStrip = this.PopupMenu;
             this.TreeView.FullRowSelect = true;
             this.TreeView.HideSelection = false;
             this.TreeView.Location = new System.Drawing.Point(3, 3);
@@ -611,7 +629,6 @@
             // 
             this.lvSelect.AllowDrop = true;
             this.lvSelect.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.lvSelect.ContextMenuStrip = this.PopupMenu;
             this.lvSelect.Dock = System.Windows.Forms.DockStyle.Fill;
             this.lvSelect.HideSelection = false;
             this.lvSelect.Location = new System.Drawing.Point(3, 23);
@@ -626,7 +643,6 @@
             // 
             this.lvOrderBy.AllowDrop = true;
             this.lvOrderBy.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.lvOrderBy.ContextMenuStrip = this.PopupMenu;
             this.lvOrderBy.Dock = System.Windows.Forms.DockStyle.Fill;
             this.lvOrderBy.HideSelection = false;
             this.lvOrderBy.Location = new System.Drawing.Point(253, 23);
@@ -649,7 +665,6 @@
             // 
             this.lvGroupBy.AllowDrop = true;
             this.lvGroupBy.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.lvGroupBy.ContextMenuStrip = this.PopupMenu;
             this.lvGroupBy.Dock = System.Windows.Forms.DockStyle.Fill;
             this.lvGroupBy.HideSelection = false;
             this.lvGroupBy.Location = new System.Drawing.Point(503, 23);
@@ -753,26 +768,6 @@
             this.Toolbar.Name = "Toolbar";
             this.Toolbar.Size = new System.Drawing.Size(33, 302);
             this.Toolbar.TabIndex = 0;
-            // 
-            // tbTree
-            // 
-            this.tbTree.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.tbTree.DropDown = this.PopupTreeMenu;
-            this.tbTree.Image = global::TagScanner.Properties.Resources.fff_app_tree_16;
-            this.tbTree.ImageTransparentColor = System.Drawing.Color.White;
-            this.tbTree.Name = "tbTree";
-            this.tbTree.Size = new System.Drawing.Size(31, 20);
-            this.tbTree.Text = "toolStripSplitButton3";
-            // 
-            // tbList
-            // 
-            this.tbList.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.tbList.DropDown = this.PopupListMenu;
-            this.tbList.Image = global::TagScanner.Properties.Resources.fff_app_list_16;
-            this.tbList.ImageTransparentColor = System.Drawing.Color.White;
-            this.tbList.Name = "tbList";
-            this.tbList.Size = new System.Drawing.Size(31, 20);
-            this.tbList.Text = "toolStripSplitButton4";
             // 
             // toolStripSeparator4
             // 
@@ -947,6 +942,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.btnCancel;
             this.ClientSize = new System.Drawing.Size(784, 561);
+            this.ContextMenuStrip = this.PopupMenu;
             this.Controls.Add(this.toolStripContainer1);
             this.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
