@@ -4,8 +4,8 @@
     using System.Collections.Generic;
     using System.Linq;
     using Models;
-    using Terms;
     using Parsing;
+    using Terms;
 
     [TestClass]
     public class TokenizerTests

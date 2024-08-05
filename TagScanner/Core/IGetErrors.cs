@@ -1,4 +1,4 @@
-﻿namespace TagScanner.Controllers
+﻿namespace TagScanner.Core
 {
     using System.Windows.Forms;
 

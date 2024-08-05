@@ -166,8 +166,8 @@
     <Compile Include="Controllers\AppController.cs" />
     <Compile Include="Controllers\FindReplaceController.cs" />
     <Compile Include="Controllers\FilespecController.cs" />
-    <Compile Include="Controllers\IAutocorrect.cs" />
-    <Compile Include="Controllers\IGetErrors.cs" />
+    <Compile Include="Core\IAutocorrect.cs" />
+    <Compile Include="Core\IGetErrors.cs" />
     <Compile Include="Controllers\InputDialogController.cs" />
     <Compile Include="Controllers\Mru\MruController.cs" />
     <Compile Include="Controllers\Mru\MruFilterController.cs" />
@@ -183,7 +183,7 @@
     <Compile Include="Controllers\QueryController.UndoRedo.cs">
       <DependentUpon>QueryController.cs</DependentUpon>
     </Compile>
-    <Compile Include="Controllers\TreeNodeState.cs" />
+    <Compile Include="Core\TreeNodeState.cs" />
     <Compile Include="Controllers\TriStateChecksController.cs" />
     <Compile Include="Controllers\TriStateTreeController.cs" />
     <Compile Include="Controllers\UndoRedoController.cs" />
@@ -223,12 +223,6 @@
     </Compile>
     <Compile Include="Forms\FilespecDialog.Designer.cs">
       <DependentUpon>FilespecDialog.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Forms\TestForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Forms\TestForm.Designer.cs">
-      <DependentUpon>TestForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Controls\ShellContextMenu.cs" />
     <Compile Include="Models\FileChecks.cs" />
@@ -403,9 +397,6 @@
     <EmbeddedResource Include="Forms\MainForm.resx">
       <DependentUpon>MainForm.cs</DependentUpon>
       <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Forms\TestForm.resx">
-      <DependentUpon>TestForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

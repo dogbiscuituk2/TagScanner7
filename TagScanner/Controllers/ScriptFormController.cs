@@ -7,8 +7,8 @@
     using FastColoredTextBoxNS;
     using Forms;
     using Mru;
-    using Terms;
     using Parsing;
+    using Terms;
 
     public class ScriptFormController : Controller
     {

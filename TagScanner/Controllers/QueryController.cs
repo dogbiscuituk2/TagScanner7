@@ -6,7 +6,6 @@
     using System.Drawing;
     using System.Linq;
     using System.Windows.Forms;
-    using Core;
     using Forms;
     using Models;
 

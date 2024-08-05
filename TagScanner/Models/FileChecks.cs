@@ -5,8 +5,8 @@
     using System.Linq;
     using System.Text;
     using Core;
-    using Terms;
     using Parsing;
+    using Terms;
 
     public class FileChecks
     {

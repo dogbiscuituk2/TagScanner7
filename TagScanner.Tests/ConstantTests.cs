@@ -2,8 +2,8 @@
 {
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using System;
-    using Terms;
     using Parsing;
+    using Terms;
 
     [TestClass]
     public class ConstantTests : BaseTests

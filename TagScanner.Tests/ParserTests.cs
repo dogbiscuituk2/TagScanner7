@@ -3,8 +3,8 @@
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using System;
     using Models;
-    using Terms;
     using Parsing;
+    using Terms;
 
     [TestClass]
     public class ParserTests : BaseTests

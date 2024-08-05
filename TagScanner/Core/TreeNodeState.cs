@@ -1,4 +1,4 @@
-﻿namespace TagScanner.Controllers
+﻿namespace TagScanner.Core
 {
     public enum TreeNodeState
     {

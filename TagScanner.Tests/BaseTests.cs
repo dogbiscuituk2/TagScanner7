@@ -4,8 +4,8 @@
     using System;
     using System.Linq;
     using System.Text.RegularExpressions;
-    using Terms;
     using Parsing;
+    using Terms;
 
     public class BaseTests
     {
