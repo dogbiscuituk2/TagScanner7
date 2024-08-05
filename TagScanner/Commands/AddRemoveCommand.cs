@@ -15,7 +15,7 @@
 
         #region Public Methods
 
-        public override int Run(Model model) => model.AddRemoveTracks(Tracks, add: Add);
+        public override int Run(IModel model) => ((Model)model).AddRemoveTracks(Tracks, add: Add);
         public override string ToString() => $"{(Add ? "Add" : "Remove")} {Summary}";
 
         #endregion

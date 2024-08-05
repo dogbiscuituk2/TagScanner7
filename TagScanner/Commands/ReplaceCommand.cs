@@ -23,7 +23,7 @@
 
         #region Public Methods
 
-        public override int Run(Model model)
+        public override int Run(IModel model)
         {
             var tags = Tags.ToList();
             ChangesCount = 0;

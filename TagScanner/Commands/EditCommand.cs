@@ -24,7 +24,7 @@
 
         #region Public Methods
 
-        public override int Run(Model model)
+        public override int Run(IModel model)
         {
             var result = 0;
             for (var index = 0; index < Tracks.Count; index++)

@@ -23,14 +23,14 @@
 
         #region Public Methods
 
-        public virtual int Do(Model model)
+        public virtual int Do(IModel model)
         {
             var result = Run(model);
             Invert();
             return result;
         }
 
-        public abstract int Run(Model model);
+        public abstract int Run(IModel model);
 
         #endregion
 
