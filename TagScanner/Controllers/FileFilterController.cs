@@ -5,6 +5,7 @@
     using System.Text;
     using System.Windows.Forms;
     using Controls;
+    using Core;
     using Models;
     using Terms;
 

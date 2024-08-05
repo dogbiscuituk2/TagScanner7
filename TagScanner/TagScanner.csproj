@@ -232,7 +232,7 @@
     </Compile>
     <Compile Include="Controls\ShellContextMenu.cs" />
     <Compile Include="Models\FileChecks.cs" />
-    <Compile Include="Models\FileFlags.cs" />
+    <Compile Include="Core\FileFlags.cs" />
     <Compile Include="Models\FindReplaceResult.cs" />
     <Compile Include="Core\IModel.cs" />
     <Compile Include="Models\Query.cs" />
