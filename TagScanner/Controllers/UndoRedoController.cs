@@ -46,6 +46,7 @@
 
         #region Protected Properties
 
+        protected bool Busy;
         protected bool Paused => Updater.Paused;
 
         protected bool CanRedo => RedoStack.Count > 0;

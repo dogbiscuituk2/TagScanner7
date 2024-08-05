@@ -54,12 +54,6 @@
 
         #endregion
 
-        #region Private Fields
-
-        private bool Busy;
-
-        #endregion
-
         #region Private Methods
 
         protected override int Undo(Command command) => Do(command, undo: true, spoof: false);
