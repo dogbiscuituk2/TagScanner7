@@ -69,12 +69,7 @@
             return node;
         }
 
-        private TreeNode AddNode(TreeNodeCollection nodes, string key, string text = null)
-        {
-            var node = nodes.Add(key, text ?? key);
-            node.StateImageIndex = 0;
-            return node;
-        }
+        private TreeNode AddNode(TreeNodeCollection nodes, string key, string text = null) => nodes.Add(key, text ?? key);
 
         private void DrawNode(Graphics graphics, Rectangle bounds, string text, object tag, bool selected)
         {

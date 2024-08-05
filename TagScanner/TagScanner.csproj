@@ -234,9 +234,9 @@
     <Compile Include="Models\SchemaLine.cs" />
     <Compile Include="Models\SelectionEventArgs.cs" />
     <Compile Include="Models\SelectionEditEventArgs.cs" />
-    <Compile Include="Models\TagxData.cs" />
-    <Compile Include="Models\TagxItem.cs" />
-    <Compile Include="Models\Tagx.cs" />
+    <Compile Include="Models\StagData.cs" />
+    <Compile Include="Models\StagItem.cs" />
+    <Compile Include="Models\Stag.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>

@@ -105,24 +105,19 @@
             return ok;
         }
 
-        public void Merge(List<Tagx> newTags)
+        public void Merge(List<Stag> newStags)
         {
-            var oldTags = FocusedListView.GetAllTagx();
+            var oldStags = FocusedListView.GetAllStags();
             var count = FocusedItems.Count;
             var selected = FocusedSelectedIndices;
             var pivot = selected.Any() ? selected.First() : count;
             FocusedListView.BeginUpdate();
             FocusedItems.Clear();
-
-            var list1 = Cull(oldTags.Take(pivot)).ToList();
-            var list2 = newTags.ToList();
-            var list3 = Cull(oldTags.Skip(pivot)).ToList();
-
-            FocusedItems.AddRange(Cull(oldTags.Take(pivot)).Concat(newTags).Concat(Cull(oldTags.Skip(pivot))).ToItems());
+            FocusedItems.AddRange(Cull(oldStags.Take(pivot)).Concat(newStags).Concat(Cull(oldStags.Skip(pivot))).ToItems());
             FocusedListView.EndUpdate();
             return;
 
-            IEnumerable<Tagx> Cull(IEnumerable<Tagx> tags) => tags.Where(p => !newTags.Any(q => q.Tag == p.Tag));
+            IEnumerable<Stag> Cull(IEnumerable<Stag> stags) =>stags.Where(p => !newStags.Any(q => q.Tag == p.Tag));
         }
 
         public void UpdateSelection()
@@ -136,7 +131,7 @@
                 if (view == null)
                     return;
                 view.Clear();
-                view.Items.AddRange(sorts.Select(p => new TagxItem(p)).ToArray());
+                view.Items.AddRange(sorts.Select(p => new StagItem(p)).ToArray());
             }
 
             void UpdateTags(ListView view, IEnumerable<Tag> tags)
@@ -144,7 +139,7 @@
                 if (view == null)
                     return;
                 view.Clear();
-                view.Items.AddRange(tags.Select(p => new TagxItem(p)).ToArray());
+                view.Items.AddRange(tags.Select(p => new StagItem(p)).ToArray());
             }
         }
 
@@ -379,8 +374,8 @@
 
             void DoPaste()
             {
-                if (TagxData.IsOnClipboard())
-                    Merge(TagxData.FromClipboard());
+                if (StagData.IsOnClipboard())
+                    Merge(StagData.FromClipboard());
             }
 
             void DoSelectAll() { foreach (ListViewItem item in items) item.Selected = true; }
@@ -389,7 +384,7 @@
         private void DoPassiveAct(Act act)
         {
             TakeSnapshot();
-            var tags = Focus.GetSelectedTagx();
+            var tags = Focus.GetSelectedStags();
             var oldFocus = Focus;
             Focus = GetNewFocus();
             Merge(tags);
@@ -474,11 +469,11 @@
 
         private IEnumerable<Tag> GetGroupByTags() => LvGroupBy.Items.Cast<ListViewItem>().Select(p => (Tag)p.Tag);
         private IEnumerable<Tag> GetSelectedTags() => LvSelect.Items.Cast<ListViewItem>().Select(p => (Tag)p.Tag);
-        private IEnumerable<SortDescription> GetSorts() => LvOrderBy.Items.Cast<TagxItem>().Select(p => new SortDescription(p.Name, p.Direction));
+        private IEnumerable<SortDescription> GetSorts() => LvOrderBy.Items.Cast<StagItem>().Select(p => new SortDescription(p.Name, p.Direction));
 
-        private void SetGroups(IEnumerable<Tag> tags) => LvGroupBy.Items.AddRange(tags.Select(p => new TagxItem(p)).ToArray());
-        private void SetSorts(IEnumerable<SortDescription> sorts) => LvOrderBy.Items.AddRange(sorts.Select(p => new TagxItem(p)).ToArray());
-        private void SetSelectedTags(IEnumerable<Tag> tags) => LvSelect.Items.AddRange(tags.Select(p => new TagxItem(p)).ToArray());
+        private void SetGroups(IEnumerable<Tag> tags) => LvGroupBy.Items.AddRange(tags.Select(p => new StagItem(p)).ToArray());
+        private void SetSorts(IEnumerable<SortDescription> sorts) => LvOrderBy.Items.AddRange(sorts.Select(p => new StagItem(p)).ToArray());
+        private void SetSelectedTags(IEnumerable<Tag> tags) => LvSelect.Items.AddRange(tags.Select(p => new StagItem(p)).ToArray());
 
         private void TakeSnapshot()
         {
@@ -524,7 +519,7 @@
             canGroup &= hasSelection;
             canCut &= hasSelection;
             canCopy &= hasSelection;
-            canPaste &= TagxData.IsOnClipboard();
+            canPaste &= StagData.IsOnClipboard();
             canDelete &= hasSelection;
             canClear &= hasSelection;
             canSelectAll &= hasAny;
