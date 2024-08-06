@@ -490,6 +490,7 @@
 
         private void UpdateMenu()
         {
+            UpdateLocalUI();
             InitActiveControls();
 
             var indices = FocusedSelectedIndices ?? new List<int>();
