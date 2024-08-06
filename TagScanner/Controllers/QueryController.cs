@@ -53,6 +53,10 @@
             PopupSortAscending.Click += PopupSortAscending_Click;
             PopupSortDescending.Click += PopupSortDescending_Click;
             PopupGroup.Click += PopupGroup_Click;
+
+            InitUI(undo: true, PopupUndo, TbUndo);
+            InitUI(undo: false, PopupRedo, TbRedo);
+
             PopupCut.Click += PopupCut_Click;
             PopupCopy.Click += PopupCopy_Click;
             PopupPaste.Click += PopupPaste_Click;
@@ -205,6 +209,8 @@
         private ToolStripMenuItem PopupSortAscending => Dialog.PopupSortAscending;
         private ToolStripMenuItem PopupSortDescending => Dialog.PopupSortDescending;
         private ToolStripMenuItem PopupGroup => Dialog.PopupGroup;
+        private ToolStripMenuItem PopupUndo => Dialog.PopupUndo;
+        private ToolStripMenuItem PopupRedo => Dialog.PopupRedo;
         private ToolStripMenuItem PopupCut => Dialog.PopupCut;
         private ToolStripMenuItem PopupCopy => Dialog.PopupCopy;
         private ToolStripMenuItem PopupPaste => Dialog.PopupPaste;
@@ -431,8 +437,8 @@
             InitControls($"{list} - tiles", ListTiles);
             InitControls($"Confirm {changes}", Dialog.FileSaveAndClose, TbOK);
             InitControls($"Discard {changes}", Dialog.FileCloseWithoutSaving, TbCancel);
-            InitControls($"Undo {change}", Dialog.PopupUndo, TbUndo);
-            InitControls($"Redo {change}", Dialog.PopupRedo, TbRedo);
+            InitControls($"Undo {change}", PopupUndo, TbUndo);
+            InitControls($"Redo {change}", PopupRedo, TbRedo);
             InitActiveControls();
             SetSelectedTags(tags);
             SortAndGroup = sortAndGroup;
