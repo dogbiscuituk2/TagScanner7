@@ -7,11 +7,8 @@
     {
         #region Constructor
 
-        public CommandProcessor(Controller parent, Action action) : base(parent)
-        {
-            InitUI(MainForm.EditUndo, MainForm.EditRedo, MainForm.tbUndo, MainForm.tbRedo);
-            UpdateAction = action;
-        }
+        public CommandProcessor(Controller parent, Action action) : base(parent) =>
+            Init(action, MainForm.EditUndo, MainForm.EditRedo, MainForm.tbUndo, MainForm.tbRedo);
 
         #endregion
 
@@ -30,7 +27,7 @@
 
         #endregion
 
-        #region Private Methods
+        #region Protected Methods
 
         protected override int Do(Command command, bool undo, bool spoof = false)
         {

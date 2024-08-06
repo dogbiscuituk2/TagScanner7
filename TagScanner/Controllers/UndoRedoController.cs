@@ -16,16 +16,6 @@
             RedoStack = new Stack<TCommand>();
         }
 
-        protected void InitUI(
-            ToolStripMenuItem undoMenuItem, ToolStripMenuItem redoMenuItem,
-            ToolStripSplitButton undoButton, ToolStripSplitButton redoButton)
-        {
-            UndoMenuItem = undoMenuItem;
-            RedoMenuItem = redoMenuItem;
-            UndoButton = undoButton;
-            RedoButton = redoButton;
-        }
-
         #endregion
 
         #region Public Properties
@@ -74,43 +64,25 @@
         protected ToolStripMenuItem UndoMenuItem
         {
             get => _undoMenuItem;
-            set
-            {
-                _undoMenuItem = value;
-                UndoMenuItem.DropDownOpening += (sender, e) => PopulateMenu(undo: true);
-                UndoMenuItem.Click += (sender, e) => DoSingle(undo: true);
-            }
+            set => InitMenuItem(_undoMenuItem = value, undo: true);
         }
 
         protected ToolStripMenuItem RedoMenuItem
         {
             get => _redoMenuItem;
-            set
-            {
-                _redoMenuItem = value;
-                RedoMenuItem.DropDownOpening += (sender, e) => PopulateMenu(undo: false);
-                RedoMenuItem.Click += (sender, e) => DoSingle(undo: false);
-            }
+            set => InitMenuItem(_redoMenuItem = value, undo: false);
         }
 
         protected ToolStripSplitButton UndoButton
         {
             get => _undoButton;
-            set
-            {
-                _undoButton = value;
-                InitSplitButton(UndoButton, undo: true);
-            }
+            set => InitSplitButton(_undoButton = value, undo: true);
         }
 
         protected ToolStripSplitButton RedoButton
         {
             get => _redoButton;
-            set
-            {
-                _redoButton = value;
-                InitSplitButton(RedoButton, undo: false);
-            }
+            set => InitSplitButton(_redoButton = value, undo: false);
         }
 
         protected bool Busy;
@@ -148,6 +120,17 @@
             stack.Push(command);
             UpdateAction();
             return 0;
+        }
+
+        protected void Init(Action updateAction,
+            ToolStripMenuItem undoMenuItem, ToolStripMenuItem redoMenuItem,
+            ToolStripSplitButton undoButton, ToolStripSplitButton redoButton)
+        {
+            UpdateAction = updateAction;
+            UndoMenuItem = undoMenuItem;
+            RedoMenuItem = redoMenuItem;
+            UndoButton = undoButton;
+            RedoButton = redoButton;
         }
 
         protected virtual int Redo(TCommand command, bool spoof = false) => Do(command, undo: false, spoof);

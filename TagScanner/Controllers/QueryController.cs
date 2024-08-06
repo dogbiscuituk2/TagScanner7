@@ -17,8 +17,7 @@
 
         public QueryController(Controller parent, Func<Tag, bool> tagFilter) : base(parent)
         {
-            InitUI(PopupUndo, PopupRedo, TbUndo, TbRedo);
-            UpdateAction = UpdateUI;
+            Init(UpdateUI, PopupUndo, PopupRedo, TbUndo, TbRedo);
 
             AvailableTags = Tags.Keys.Where(tagFilter);
 
