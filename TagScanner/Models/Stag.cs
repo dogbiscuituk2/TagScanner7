@@ -30,10 +30,9 @@
 
         #region Public Methods
 
-        public override string ToString() => $"Tag: {Tag}, Descending: {Descending}";
+        public SortDescription ToSortDescription() => new SortDescription($"{Tag}", (ListSortDirection)(Descending ? 1 : 0));
 
-        public SortDescription ToSortDescription() =>
-            new SortDescription($"{Tag}", Descending ? ListSortDirection.Descending : ListSortDirection.Ascending);
+        public override string ToString() => $"Tag: {Tag}, Descending: {Descending}";
 
         #endregion
     }

@@ -17,6 +17,9 @@
 
         public QueryController(Controller parent, Func<Tag, bool> tagFilter) : base(parent)
         {
+            InitUI(PopupUndo, PopupRedo, TbUndo, TbRedo);
+            UpdateAction = UpdateUI;
+
             AvailableTags = Tags.Keys.Where(tagFilter);
 
             _TreeViewController = new QueryTreeViewController(this, Dialog.TreeView);
@@ -54,9 +57,6 @@
             PopupSortDescending.Click += PopupSortDescending_Click;
             PopupGroup.Click += PopupGroup_Click;
 
-            InitUI(undo: true, PopupUndo, TbUndo);
-            InitUI(undo: false, PopupRedo, TbRedo);
-
             PopupCut.Click += PopupCut_Click;
             PopupCopy.Click += PopupCopy_Click;
             PopupPaste.Click += PopupPaste_Click;
@@ -75,6 +75,8 @@
                 else if (p is ListView listView)
                     listView.SelectedIndexChanged += Control_StateChanged;
             });
+
+            Clear();
         }
 
         #endregion

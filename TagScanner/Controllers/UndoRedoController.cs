@@ -16,6 +16,16 @@
             RedoStack = new Stack<TCommand>();
         }
 
+        protected void InitUI(
+            ToolStripMenuItem undoMenuItem, ToolStripMenuItem redoMenuItem,
+            ToolStripSplitButton undoButton, ToolStripSplitButton redoButton)
+        {
+            UndoMenuItem = undoMenuItem;
+            RedoMenuItem = redoMenuItem;
+            UndoButton = undoButton;
+            RedoButton = redoButton;
+        }
+
         #endregion
 
         #region Public Properties
@@ -34,6 +44,21 @@
             Updater.Run();
         }
 
+        public void UpdateLocalUI()
+        {
+            if (Paused)
+                return;
+            UndoMenuItem.Enabled = UndoButton.Enabled = CanUndo;
+            RedoMenuItem.Enabled = RedoButton.Enabled = CanRedo;
+            string
+                undo = CanUndo ? UndoAction : "Undo",
+                redo = CanRedo ? RedoAction : "Redo";
+            UndoMenuItem.Text = $"&{undo}";
+            RedoMenuItem.Text = $"&{redo}";
+            UndoButton.ToolTipText = $"{undo}";
+            RedoButton.ToolTipText = $"{redo}";
+        }
+
         #endregion
 
         #region Protected Fields
@@ -45,6 +70,48 @@
         #endregion
 
         #region Protected Properties
+
+        protected ToolStripMenuItem UndoMenuItem
+        {
+            get => _undoMenuItem;
+            set
+            {
+                _undoMenuItem = value;
+                UndoMenuItem.DropDownOpening += (sender, e) => PopulateMenu(undo: true);
+                UndoMenuItem.Click += (sender, e) => DoSingle(undo: true);
+            }
+        }
+
+        protected ToolStripMenuItem RedoMenuItem
+        {
+            get => _redoMenuItem;
+            set
+            {
+                _redoMenuItem = value;
+                RedoMenuItem.DropDownOpening += (sender, e) => PopulateMenu(undo: false);
+                RedoMenuItem.Click += (sender, e) => DoSingle(undo: false);
+            }
+        }
+
+        protected ToolStripSplitButton UndoButton
+        {
+            get => _undoButton;
+            set
+            {
+                _undoButton = value;
+                InitSplitButton(UndoButton, undo: true);
+            }
+        }
+
+        protected ToolStripSplitButton RedoButton
+        {
+            get => _redoButton;
+            set
+            {
+                _redoButton = value;
+                InitSplitButton(RedoButton, undo: false);
+            }
+        }
 
         protected bool Busy;
         protected bool Paused => Updater.Paused;
@@ -83,21 +150,15 @@
             return 0;
         }
 
-        protected void InitUI(bool undo, params ToolStripDropDownItem[] items) => Array.ForEach(items, p =>
-        {
-            if (p is ToolStripSplitButton q)
-                q.ButtonClick += (sender, e) => DoSingle(undo);
-            else
-                p.Click += (sender, e) => DoSingle(undo);
-            p.DropDownOpening += (sender, e) => PopulateMenu(undo);
-        });
-
-        protected virtual int Undo(TCommand command) => Do(command, undo: true, spoof: false);
         protected virtual int Redo(TCommand command, bool spoof = false) => Do(command, undo: false, spoof);
+        protected virtual int Undo(TCommand command) => Do(command, undo: true, spoof: false);
 
         #endregion
 
         #region Private Fields
+
+        private ToolStripMenuItem _undoMenuItem, _redoMenuItem;
+        private ToolStripSplitButton _undoButton, _redoButton;
 
         private readonly UpdateController Updater = new UpdateController(null);
 
@@ -134,6 +195,21 @@
                     : KnownColor.Control);
         }
 
+        private void InitDropDownItem(ToolStripDropDownItem item, bool undo) =>
+            item.DropDownOpening += (sender, e) => PopulateMenu(undo);
+
+        private void InitMenuItem(ToolStripMenuItem item, bool undo)
+        {
+            item.Click += (sender, e) => DoSingle(undo);
+            InitDropDownItem(item, undo);
+        }
+
+        private void InitSplitButton(ToolStripSplitButton button, bool undo)
+        {
+            button.ButtonClick += (sender, e) => DoSingle(undo);
+            InitDropDownItem(button, undo);
+        }
+
         private void PopulateMenu(bool undo)
         {
             var commands = (undo ? UndoStack : RedoStack).ToArray();
@@ -151,8 +227,8 @@
             }
         }
 
-        private int Undo() => CanUndo ? Undo(UndoStack.Pop()) : 0;
         private int Redo() => CanRedo ? Redo(RedoStack.Pop()) : 0;
+        private int Undo() => CanUndo ? Undo(UndoStack.Pop()) : 0;
 
         #endregion
     }

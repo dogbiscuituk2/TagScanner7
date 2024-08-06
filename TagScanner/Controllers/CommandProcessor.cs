@@ -1,17 +1,16 @@
-﻿namespace TagScanner.Commands
+﻿namespace TagScanner.Controllers
 {
-    using Controllers;
-    using Forms;
+    using System;
+    using Commands;
 
     public class CommandProcessor : UndoRedoController<Command>
     {
         #region Constructor
 
-        public CommandProcessor(Controller parent) : base(parent)
+        public CommandProcessor(Controller parent, Action action) : base(parent)
         {
-            UpdateAction = UpdateUI;
-            InitUI(undo: true, MainForm.EditUndo, MainForm.tbUndo);
-            InitUI(undo: false, MainForm.EditRedo, MainForm.tbRedo);
+            InitUI(MainForm.EditUndo, MainForm.EditRedo, MainForm.tbUndo, MainForm.tbRedo);
+            UpdateAction = action;
         }
 
         #endregion
@@ -29,26 +28,9 @@
         /// <returns>True if the command was run, and actually caused a property change.</returns>
         public override int Run(Command command, bool spoof = false) => Do(command, spoof);
 
-        public void UpdateLocalUI()
-        {
-            if (Paused)
-                return;
-            MainForm.EditUndo.Enabled = MainForm.tbUndo.Enabled = CanUndo;
-            MainForm.EditRedo.Enabled = MainForm.tbRedo.Enabled = CanRedo;
-            string
-                undo = CanUndo ? UndoAction : "Undo",
-                redo = CanRedo ? RedoAction : "Redo";
-            MainForm.EditUndo.Text = $"&{undo}";
-            MainForm.EditRedo.Text = $"&{redo}";
-            MainForm.tbUndo.ToolTipText = $"{undo}";
-            MainForm.tbRedo.ToolTipText = $"{redo}";
-        }
-
         #endregion
 
         #region Private Methods
-
-        private void UpdateUI() => AppController.UpdateUI(MainFormController);
 
         protected override int Do(Command command, bool undo, bool spoof = false)
         {

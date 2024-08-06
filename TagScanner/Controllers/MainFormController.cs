@@ -29,7 +29,9 @@
             Model.TracksAdd += Model_TracksAdd;
             Model.TracksChanged += Model_TracksChanged;
             Model.TracksEdit += Model_TracksEdit;
-            CommandProcessor = new CommandProcessor(this);
+
+            CommandProcessor = new CommandProcessor(this, UpdateUI);
+
             FilterController = new FilterController(this);
             TableController = new WpfTableController(this, View.GridElementHost);
             TableController.SelectionChanged += LibraryGridController_SelectionChanged;
