@@ -53,7 +53,7 @@
             }
         }
 
-        protected IEnumerable<SortDescription> Sorts
+        protected IEnumerable<Stag> Sorts
         {
             get => _sorts;
             set
@@ -135,7 +135,7 @@
         {
             Columns = query.Tags;
             Groups = query.Groups;
-            Sorts = query.Sorts.Union(Groups.Select(p => new SortDescription($"{p}", ListSortDirection.Ascending)));
+            Sorts = query.Sorts.Union(Groups.Select(p => new Stag(p, false)));
         }
 
         #endregion
@@ -146,7 +146,7 @@
             _columns = new List<Tag>(),
             _groups = new List<Tag>();
 
-        private IEnumerable<SortDescription> _sorts = new List<SortDescription>();
+        private IEnumerable<Stag> _sorts = new List<Stag>();
 
         private static Style _rightAlignStyle;
 
@@ -196,7 +196,7 @@
             if (sorts == null) return;
             sorts.Clear();
             foreach (var sort in Sorts)
-                sorts.Add(sort);
+                sorts.Add(sort.ToSortDescription());
         }
 
         #endregion

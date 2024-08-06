@@ -1,6 +1,7 @@
 ﻿namespace TagScanner.Models
 {
     using System;
+    using System.ComponentModel;
 
     /// <summary>
     /// A "Sorted Tag" structure holding a Tag value, and optionally a ListSortDirection,
@@ -15,6 +16,7 @@
 
         public Stag(Tag tag) : this(tag, 0) { }
         public Stag(Tag tag, int state) : this(tag, state == 1) { }
+        public Stag(Tag tag, ListSortDirection direction) : this(tag, (int)direction) { }
         public Stag(Tag tag, bool descending) { Tag = tag; Descending = descending; }
 
         #endregion
@@ -29,6 +31,9 @@
         #region Public Methods
 
         public override string ToString() => $"Tag: {Tag}, Descending: {Descending}";
+
+        public SortDescription ToSortDescription() =>
+            new SortDescription($"{Tag}", Descending ? ListSortDirection.Descending : ListSortDirection.Ascending);
 
         #endregion
     }

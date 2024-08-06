@@ -130,7 +130,7 @@
             UpdateSorts(LvOrderBy, GetSorts());
             UpdateTags(LvGroupBy, GetGroupByTags());
 
-            void UpdateSorts(ListView view, IEnumerable<SortDescription> sorts)
+            void UpdateSorts(ListView view, IEnumerable<Stag> sorts)
             {
                 if (view == null)
                     return;
@@ -475,10 +475,10 @@
 
         private IEnumerable<Tag> GetGroupByTags() => LvGroupBy.Items.Cast<ListViewItem>().Select(p => (Tag)p.Tag);
         private IEnumerable<Tag> GetSelectedTags() => LvSelect.Items.Cast<ListViewItem>().Select(p => (Tag)p.Tag);
-        private IEnumerable<SortDescription> GetSorts() => LvOrderBy.Items.Cast<StagItem>().Select(p => new SortDescription(p.Name, p.Direction));
+        private IEnumerable<Stag> GetSorts() => LvOrderBy.Items.Cast<StagItem>().Select(p => new Stag((Tag)p.Tag, p.Direction));
 
         private void SetGroups(IEnumerable<Tag> tags) => LvGroupBy.Items.AddRange(tags.Select(p => new StagItem(p)).ToArray());
-        private void SetSorts(IEnumerable<SortDescription> sorts) => LvOrderBy.Items.AddRange(sorts.Select(p => new StagItem(p)).ToArray());
+        private void SetSorts(IEnumerable<Stag> stags) => LvOrderBy.Items.AddRange(stags.Select(p => new StagItem(p)).ToArray());
         private void SetSelectedTags(IEnumerable<Tag> tags) => LvSelect.Items.AddRange(tags.Select(p => new StagItem(p)).ToArray());
 
         private void TakeSnapshot()

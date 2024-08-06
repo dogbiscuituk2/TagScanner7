@@ -10,11 +10,11 @@
     {
         #region Constructors
 
-        public Query(IEnumerable<Tag> tags, IEnumerable<SortDescription> sorts, IEnumerable<Tag> groups) =>
+        public Query(IEnumerable<Tag> tags, IEnumerable<Stag> sorts, IEnumerable<Tag> groups) =>
             Init(tags, sorts, groups);
 
         public Query(Tag[] tags, Tag[] sorts, Tag[] groups) : this(tags,
-            sorts.Select(p => new SortDescription($"{p}", ListSortDirection.Ascending)),
+            sorts.Select(p => new Stag(p, false)),
             groups) { }
 
         #endregion
@@ -23,7 +23,7 @@
 
         public List<Tag> Tags = new List<Tag>();
         public List<Tag> Groups = new List<Tag>();
-        public List<SortDescription> Sorts = new List<SortDescription>();
+        public List<Stag> Sorts = new List<Stag>();
 
         #endregion
 
@@ -48,7 +48,7 @@
             Sorts.GetHashCode() ^
             Groups.GetHashCode();
 
-        public void Init(IEnumerable<Tag> tags, IEnumerable<SortDescription> sorts, IEnumerable<Tag> groups)
+        public void Init(IEnumerable<Tag> tags, IEnumerable<Stag> sorts, IEnumerable<Tag> groups)
         {
             Tags = tags.ToList();
             Sorts = sorts.ToList();
