@@ -59,6 +59,7 @@
             e.Effect = listView == _source ? DragDropEffects.Move : DragDropEffects.Copy;
             if (drop)
             {
+                Run(GetQuery(Act.DragDrop), spoof: true);
                 var data = e.Data;
                 var formats = e.Data.GetFormats();
                 Merge(e.Data.ToStagList());

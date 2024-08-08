@@ -18,29 +18,7 @@
 
         #region Public Properties
 
-        public int TracksCount => Tracks.Count;
-
-        #endregion
-
-        #region Public Methods
-
-        public virtual int Do(IModel model)
-        {
-            var result = Run(model);
-            Invert();
-            return result;
-        }
-
-        public abstract int Run(IModel model);
-
-        #endregion
-
-        #region Protected Properties
-
-        protected Selection Selection { get; }
-        protected List<Track> Tracks => Selection.Tracks;
-
-        protected string Summary
+        public string Summary
         {
             get
             {
@@ -68,7 +46,30 @@
                 }
                 return s.ToString();
             }
+            set { }
         }
+
+        public int TracksCount => Tracks.Count;
+
+        #endregion
+
+        #region Public Methods
+
+        public virtual int Do(IModel model)
+        {
+            var result = Run(model);
+            Invert();
+            return result;
+        }
+
+        public abstract int Run(IModel model);
+
+        #endregion
+
+        #region Protected Properties
+
+        protected Selection Selection { get; }
+        protected List<Track> Tracks => Selection.Tracks;
 
         #endregion
 

@@ -2,7 +2,6 @@
 {
     using System;
     using System.Collections.Generic;
-    using System.ComponentModel;
     using System.Linq;
     using Core;
 
@@ -22,8 +21,10 @@
         #region Public Properties
 
         public List<Tag> Tags = new List<Tag>();
-        public List<Tag> Groups = new List<Tag>();
         public List<Stag> Sorts = new List<Stag>();
+        public List<Tag> Groups = new List<Tag>();
+
+        public string Summary { get; set; }
 
         #endregion
 
@@ -54,6 +55,8 @@
             Sorts = sorts.ToList();
             Groups = groups.ToList();
         }
+
+        public override string ToString() => Summary;
 
         #endregion
 

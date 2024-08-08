@@ -318,29 +318,31 @@
 
         private void DoActiveAct(Act act)
         {
-            TakeSnapshot();
+            var query = GetQuery(act);
             FocusedListView?.BeginUpdate();
             var items = FocusedItems;
             var count = items?.Count ?? 0;
             var selectedIndices = FocusedSelectedIndices;
-            DoAct();
+            if (DoAct())
+                Run(query, spoof: true);
             FocusedListView?.EndUpdate();
             UpdateMenu();
 
-            void DoAct()
+            bool DoAct()
             {
                 switch (act)
                 {
-                    case Act.MoveUp: DoMove(up: true); return;
-                    case Act.MoveDown: DoMove(up: false); return;
-                    case Act.Cut: DoCut(); return;
-                    case Act.Copy: DoCopy(); return;
-                    case Act.Paste: DoPaste(); return;
-                    case Act.Delete: DoDelete(); return;
-                    case Act.Clear: DoClear(); return;
-                    case Act.SelectAll: DoSelectAll(); return;
-                    case Act.InvertSelection: DoInvertSelection(); return;
+                    case Act.MoveUp: DoMove(up: true); return true;
+                    case Act.MoveDown: DoMove(up: false); return true;
+                    case Act.Cut: DoCut(); return true;
+                    case Act.Copy: DoCopy(); return false;
+                    case Act.Paste: DoPaste(); return true;
+                    case Act.Delete: DoDelete(); return true;
+                    case Act.Clear: DoClear(); return true;
+                    case Act.SelectAll: DoSelectAll(); return false;
+                    case Act.InvertSelection: DoInvertSelection(); return false;
                 }
+                return false;
             }
 
             void DoClear() => items.Clear();
@@ -390,7 +392,7 @@
 
         private void DoPassiveAct(Act act)
         {
-            TakeSnapshot();
+            Run(GetQuery(act), spoof: true);
             var tags = Focus.GetSelectedStags();
             var oldFocus = Focus;
             Focus = GetNewFocus();
@@ -465,7 +467,7 @@
 
         private void InitControls(string toolTip, params ToolStripItem[] controls) => Array.ForEach(controls, p => p.ToolTipText = toolTip);
 
-        private Query GetQuery() => new Query(GetSelectedTags(), GetSorts(), GetGroupByTags());
+        private Query GetQuery(Act act) => new Query(GetSelectedTags(), GetSorts(), GetGroupByTags()) { Summary = $"{act}" };
 
         private void SetQuery(Query query)
         {
@@ -481,12 +483,6 @@
         private void SetGroups(IEnumerable<Tag> tags) => LvGroupBy.Items.AddRange(tags.Select(p => new StagItem(p)).ToArray());
         private void SetSorts(IEnumerable<Stag> stags) => LvOrderBy.Items.AddRange(stags.Select(p => new StagItem(p)).ToArray());
         private void SetSelectedTags(IEnumerable<Tag> tags) => LvSelect.Items.AddRange(tags.Select(p => new StagItem(p)).ToArray());
-
-        private void TakeSnapshot()
-        {
-            var query = GetQuery();
-            Redo(query, spoof: true);
-        }
 
         private void UpdateMenu()
         {
@@ -603,6 +599,7 @@
         private enum Act
         {
             None,
+            DragDrop,
             MoveUp,
             MoveDown,
             Select,
