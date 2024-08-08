@@ -1,7 +1,6 @@
 ﻿namespace TagScanner.Controllers
 {
     using System.Windows.Forms;
-    using Commands;
     using Forms;
     using Models;
     using Wpf;
@@ -11,12 +10,6 @@
         #region Constructor 
 
         protected Controller(Controller parent) => Parent = parent;
-
-        #endregion
-
-        #region Public Methods
-
-        public virtual int Run(Command command, bool spoof = false) => MainCommandProcessor.Run(command, spoof);
 
         #endregion
 

@@ -426,7 +426,7 @@
                     values[trackIndex, tagIndex] = value;
                 }
             }
-            Run(new ReplaceCommand(tracks, tags, values));
+            MainCommandProcessor.Run(new ReplaceCommand(tracks, tags, values));
             return true;
         }
 

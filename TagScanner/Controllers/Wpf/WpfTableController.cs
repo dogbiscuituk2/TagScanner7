@@ -195,7 +195,7 @@
             var track = e.Row.DataContext as Track;
             var tag = ((TagInfo)e.Column.Header).Tag;
             var text = ((TextBox)e.EditingElement).Text;
-            Run(new EditCommand(track, tag, new List<object> { text }));
+            MainCommandProcessor.Run(new EditCommand(track, tag, new List<object> { text }));
         }
 
 
