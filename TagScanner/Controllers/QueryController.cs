@@ -6,10 +6,11 @@
     using System.Drawing;
     using System.Linq;
     using System.Windows.Forms;
+    using Core;
     using Forms;
     using Models;
 
-    public partial class QueryController : UndoRedoController<Query>
+    public partial class QueryController : UndoRedoController<Query>, ISetQuery
     {
         #region Constructors
 
@@ -17,7 +18,7 @@
 
         public QueryController(Controller parent, Func<Tag, bool> tagFilter) : base(parent)
         {
-            Init(UpdateUI, PopupUndo, PopupRedo, TbUndo, TbRedo);
+            Init(this, UpdateUI, PopupUndo, PopupRedo, TbUndo, TbRedo);
 
             AvailableTags = Tags.Keys.Where(tagFilter);
 
@@ -110,6 +111,13 @@
             return ok;
         }
 
+        public void SetQuery(Query query)
+        {
+            SetSorts(query.Sorts);
+            SetGroups(query.Groups);
+            SetSelectedTags(query.Tags);
+        }
+
         public void UpdateSelection()
         {
             UpdateTags(LvSelect, GetSelectedTags());
@@ -132,6 +140,13 @@
                 view.Items.AddRange(tags.Select(p => new StagItem(p)).ToArray());
             }
         }
+
+        #endregion
+
+        #region Protected Properties
+
+        protected override string UndoAction => $"Undo {base.UndoAction}";
+        protected override string RedoAction => $"Redo {base.UndoAction}";
 
         #endregion
 
@@ -478,20 +493,30 @@
             IEnumerable<Stag> Cull(IEnumerable<Stag> stags) => stags.Where(p => !stags.Any(q => q.Tag == p.Tag));
         }
 
-        private void SetQuery(Query query)
+        private IEnumerable<Tag> GetGroupByTags() => LvGroupBy.Items.Cast<ListViewItem>().Select(p => (Tag)p.Tag);
+        private IEnumerable<Stag> GetSorts() => LvOrderBy.Items.Cast<StagItem>().Select(p => new Stag((Tag)p.Tag, p.Direction));
+        private IEnumerable<Tag> GetSelectedTags() => LvSelect.Items.Cast<ListViewItem>().Select(p => (Tag)p.Tag);
+
+        private void SetGroups(IEnumerable<Tag> tags) => SetItems(LvGroupBy, tags);
+        private void SetSelectedTags(IEnumerable<Tag> tags) => SetItems(LvSelect, tags);
+
+        private void SetItems(ListView view, IEnumerable<Tag> tags)
         {
-            SetSorts(query.Sorts);
-            SetGroups(query.Groups);
-            SetSelectedTags(query.Tags);
+            var items = view.Items;
+            view.BeginUpdate();
+            items.Clear();
+            items.AddRange(tags.Select(p => new StagItem(p)).ToArray());
+            view.EndUpdate();
         }
 
-        private IEnumerable<Tag> GetGroupByTags() => LvGroupBy.Items.Cast<ListViewItem>().Select(p => (Tag)p.Tag);
-        private IEnumerable<Tag> GetSelectedTags() => LvSelect.Items.Cast<ListViewItem>().Select(p => (Tag)p.Tag);
-        private IEnumerable<Stag> GetSorts() => LvOrderBy.Items.Cast<StagItem>().Select(p => new Stag((Tag)p.Tag, p.Direction));
-
-        private void SetGroups(IEnumerable<Tag> tags) => LvGroupBy.Items.AddRange(tags.Select(p => new StagItem(p)).ToArray());
-        private void SetSorts(IEnumerable<Stag> stags) => LvOrderBy.Items.AddRange(stags.Select(p => new StagItem(p)).ToArray());
-        private void SetSelectedTags(IEnumerable<Tag> tags) => LvSelect.Items.AddRange(tags.Select(p => new StagItem(p)).ToArray());
+        private void SetSorts(IEnumerable<Stag> stags)
+        {
+            var items = LvOrderBy.Items;
+            LvOrderBy.BeginUpdate();
+            items.Clear();
+            items.AddRange(stags.Select(p => new StagItem(p)).ToArray());
+            LvOrderBy.EndUpdate();
+        }
 
         private void TakeSnapshot(Act act) => Run(GetQuery(act), spoof: true);
 

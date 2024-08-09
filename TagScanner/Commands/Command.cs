@@ -55,14 +55,13 @@
 
         #region Public Methods
 
-        public virtual int Do(IModel model)
+        public virtual void Apply(IModel model)
         {
-            var result = Run(model);
+            Run(model);
             Invert();
-            return result;
         }
 
-        public abstract int Run(IModel model);
+        public abstract void Run(IModel model);
 
         #endregion
 

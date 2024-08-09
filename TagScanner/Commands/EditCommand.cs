@@ -25,19 +25,14 @@
 
         #region Public Methods
 
-        public override int Run(IModel model)
+        public override void Run(IModel model)
         {
-            var result = 0;
             for (var index = 0; index < Tracks.Count; index++)
             {
                 var value = Values[index];
                 if (Tracks[index].ChangeValue(Tag, ref value))
-                {
-                    result++;
                     Values[index] = value;
-                }
             }
-            return result;
         }
 
         public override string ToString() =>

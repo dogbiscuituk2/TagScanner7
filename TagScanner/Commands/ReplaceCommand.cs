@@ -24,7 +24,7 @@
 
         #region Public Methods
 
-        public override int Run(IModel model)
+        public override void Run(IModel model)
         {
             var tags = Tags.ToList();
             ChangesCount = 0;
@@ -39,7 +39,6 @@
                         Values[trackIndex, tagIndex] = value;
                     }
                 }
-            return ChangesCount;
         }
 
         public override string ToString() => $"Replace {ChangesCount} values in {Summary}";

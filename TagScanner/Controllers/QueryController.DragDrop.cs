@@ -20,7 +20,6 @@
         private void View_DragOver(object sender, DragEventArgs e) => DragOver((ListView)sender, e);
         private void View_ItemDrag(object sender, ItemDragEventArgs e) => ItemDrag((Control)sender, e);
         private void View_MouseDown(object sender, MouseEventArgs e) => MouseDown((Control)sender, e.X, e.Y);
-        private void View_QueryContinueDrag(object sender, QueryContinueDragEventArgs e) => QueryContinueDrag((Control)sender, e);
 
         #endregion
 
@@ -32,7 +31,6 @@
             if (control is ListView listView)
             {
                 listView.ItemDrag += View_ItemDrag;
-                listView.QueryContinueDrag += View_QueryContinueDrag;
                 if (listView.AllowDrop)
                 {
                     listView.DragDrop += View_DragDrop;
@@ -97,10 +95,6 @@
                 }
                 return;
             }
-        }
-
-        private void QueryContinueDrag(Control control, QueryContinueDragEventArgs e)
-        {
         }
 
         #endregion

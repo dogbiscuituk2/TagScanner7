@@ -31,23 +31,19 @@
 
         #region Public Methods
 
-        public int AddFiles(string[] filePaths, IProgress<ProgressEventArgs> progress) =>
+        public void AddFiles(string[] filePaths, IProgress<ProgressEventArgs> progress) =>
             ReadTracks(p => p.AddTracks(filePaths), progress);
 
-        public int AddFolder(string folderPath, string filespec, IProgress<ProgressEventArgs> progress)
-        {
-            var folder = string.Concat(folderPath, '|', filespec);
-            return ReadTracks(p => p.AddFolder(folderPath, filespec.Split(';')), progress);
-        }
+        public void AddFolder(string folderPath, string filespec, IProgress<ProgressEventArgs> progress) =>
+            ReadTracks(p => p.AddFolder(folderPath, filespec.Split(';')), progress);
 
-        public int AddRemoveTracks(List<Track> tracks, bool add)
+        public void AddRemoveTracks(List<Track> tracks, bool add)
         {
             if (add)
                 Tracks.AddRange(tracks);
             else
                 Tracks.RemoveAll(p => tracks.Contains(p));
             OnTracksChanged();
-            return tracks.Count;
         }
 
         public void Clear()

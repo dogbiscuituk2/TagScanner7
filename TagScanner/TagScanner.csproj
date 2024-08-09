@@ -180,6 +180,7 @@
     <Compile Include="Controllers\QueryController.DragDrop.cs">
       <DependentUpon>QueryController.cs</DependentUpon>
     </Compile>
+    <Compile Include="Core\ISetQuery.cs" />
     <Compile Include="Core\TreeNodeState.cs" />
     <Compile Include="Controllers\TriStateChecksController.cs" />
     <Compile Include="Controllers\TriStateTreeController.cs" />

@@ -12,17 +12,24 @@
         public Query(IEnumerable<Tag> tags, IEnumerable<Stag> sorts, IEnumerable<Tag> groups) =>
             Init(tags, sorts, groups);
 
-        public Query(Tag[] tags, Tag[] sorts, Tag[] groups) : this(tags,
+        public Query(Tag[] tags, Tag[] sorts, Tag[] groups) : this(
+            tags,
             sorts.Select(p => new Stag(p, false)),
             groups) { }
 
         #endregion
 
-        #region Public Properties
+        #region Public Fields
 
-        public List<Tag> Tags = new List<Tag>();
+        public List<Tag>
+            Tags = new List<Tag>(),
+            Groups = new List<Tag>();
+
         public List<Stag> Sorts = new List<Stag>();
-        public List<Tag> Groups = new List<Tag>();
+
+        #endregion
+
+        #region Public Properties
 
         public string Summary { get; set; }
 
@@ -37,7 +44,7 @@
 
         #region Public Methods
 
-        public int Do(IModel model) => 0;
+        public void Apply(IModel model) => ((ISetQuery)model).SetQuery(this);
 
         public override bool Equals(object obj) => obj is Query query &&
             Tags.SequenceEqual(query.Tags) &&

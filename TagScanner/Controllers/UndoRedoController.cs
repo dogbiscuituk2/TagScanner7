@@ -10,11 +10,7 @@
     {
         #region Constructor
 
-        protected UndoRedoController(Controller parent) : base(parent)
-        {
-            UndoStack = new Stack<TCommand>();
-            RedoStack = new Stack<TCommand>();
-        }
+        protected UndoRedoController(Controller parent) : base(parent) { }
 
         #endregion
 
@@ -55,11 +51,18 @@
 
         protected int LastSave;
 
-        protected readonly Stack<TCommand> UndoStack, RedoStack;
+        protected IModel Model;
+
+        protected readonly Stack<TCommand>
+            UndoStack = new Stack<TCommand>(),
+            RedoStack = new Stack<TCommand>();
 
         #endregion
 
         #region Protected Properties
+
+        protected bool Busy;
+        protected bool Paused => Updater.Paused;
 
         protected ToolStripMenuItem UndoMenuItem
         {
@@ -85,14 +88,11 @@
             set => InitSplitButton(_redoButton = value, undo: false);
         }
 
-        protected bool Busy;
-        protected bool Paused => Updater.Paused;
-
-        protected bool CanRedo => RedoStack.Count > 0;
         protected bool CanUndo => UndoStack.Count > 0;
+        protected bool CanRedo => RedoStack.Count > 0;
 
-        protected string UndoAction => UndoStack.Peek().ToString();
-        protected string RedoAction => RedoStack.Peek().ToString();
+        protected virtual string UndoAction => UndoStack.Peek().ToString();
+        protected virtual string RedoAction => RedoStack.Peek().ToString();
 
         protected Action UpdateAction
         {
@@ -104,6 +104,34 @@
 
         #region Protected Methods
 
+        protected virtual void Do(TCommand command, bool undo, bool spoof)
+        {
+            if (!spoof)
+            {
+                Busy = true;
+                command.Apply(Model);
+                Busy = false;
+            }
+            var stack = undo ? RedoStack : UndoStack;
+            stack.Push(command);
+            UpdateAction();
+        }
+
+        protected void Init(IModel model, Action updateAction,
+            ToolStripMenuItem undoMenuItem, ToolStripMenuItem redoMenuItem,
+            ToolStripSplitButton undoButton, ToolStripSplitButton redoButton)
+        {
+            Model = model;
+            UpdateAction = updateAction;
+            UndoMenuItem = undoMenuItem;
+            RedoMenuItem = redoMenuItem;
+            UndoButton = undoButton;
+            RedoButton = redoButton;
+        }
+
+        protected virtual void Redo(TCommand command, bool spoof = false) => Do(command, undo: false, spoof);
+        protected virtual void Undo(TCommand command) => Do(command, undo: true, spoof: false);
+
         /// <summary>
         /// Run a command, pushing its memento on to the Undo stack.
         /// </summary>
@@ -113,37 +141,15 @@
         /// If false, the relevant properties have already been changed on the target, 
         /// so just log the memento to the Undo stack.</param>
         /// <returns>True if the command was run, and actually caused a property change.</returns>
-        public int Run(TCommand command, bool spoof = false)
+        public void Run(TCommand command, bool spoof = false)
         {
             if (Busy || command == null)
-                return 0;
+                return;
             if (LastSave > UndoStack.Count)
                 LastSave = -1;
             RedoStack.Clear();
-            return Redo(command, spoof);
+            Redo(command, spoof);
         }
-
-        protected virtual int Do(TCommand command, bool undo, bool spoof = false)
-        {
-            var stack = undo ? RedoStack : UndoStack;
-            stack.Push(command);
-            UpdateAction();
-            return 0;
-        }
-
-        protected void Init(Action updateAction,
-            ToolStripMenuItem undoMenuItem, ToolStripMenuItem redoMenuItem,
-            ToolStripSplitButton undoButton, ToolStripSplitButton redoButton)
-        {
-            UpdateAction = updateAction;
-            UndoMenuItem = undoMenuItem;
-            RedoMenuItem = redoMenuItem;
-            UndoButton = undoButton;
-            RedoButton = redoButton;
-        }
-
-        protected virtual int Redo(TCommand command, bool spoof = false) => Do(command, undo: false, spoof);
-        protected virtual int Undo(TCommand command) => Do(command, undo: true, spoof: false);
 
         #endregion
 
@@ -219,8 +225,8 @@
             }
         }
 
-        private int Redo() => CanRedo ? Redo(RedoStack.Pop()) : 0;
-        private int Undo() => CanUndo ? Undo(UndoStack.Pop()) : 0;
+        private void Undo() { if (CanUndo) Undo(UndoStack.Pop()); }
+        private void Redo() { if (CanRedo) Redo(RedoStack.Pop()); }
 
         #endregion
     }
