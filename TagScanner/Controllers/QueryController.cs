@@ -110,21 +110,6 @@
             return ok;
         }
 
-        public void Merge(List<Stag> newStags)
-        {
-            var oldStags = FocusedListView.GetAllStags();
-            var count = FocusedItems.Count;
-            var selected = FocusedSelectedIndices;
-            var pivot = selected.Any() ? selected.First() : count;
-            FocusedListView.BeginUpdate();
-            FocusedItems.Clear();
-            FocusedItems.AddRange(Cull(oldStags.Take(pivot)).Concat(newStags).Concat(Cull(oldStags.Skip(pivot))).ToItems());
-            FocusedListView.EndUpdate();
-            return;
-
-            IEnumerable<Stag> Cull(IEnumerable<Stag> stags) =>stags.Where(p => !newStags.Any(q => q.Tag == p.Tag));
-        }
-
         public void UpdateSelection()
         {
             UpdateTags(LvSelect, GetSelectedTags());
@@ -318,34 +303,37 @@
 
         private void DoActiveAct(Act act)
         {
-            var query = GetQuery(act);
             FocusedListView?.BeginUpdate();
             var items = FocusedItems;
             var count = items?.Count ?? 0;
             var selectedIndices = FocusedSelectedIndices;
-            if (DoAct())
-                Run(query, spoof: true);
+            DoAct();
             FocusedListView?.EndUpdate();
             UpdateMenu();
 
-            bool DoAct()
+            void DoAct()
             {
                 switch (act)
                 {
-                    case Act.MoveUp: DoMove(up: true); return true;
-                    case Act.MoveDown: DoMove(up: false); return true;
-                    case Act.Cut: DoCut(); return true;
-                    case Act.Copy: DoCopy(); return false;
-                    case Act.Paste: DoPaste(); return true;
-                    case Act.Delete: DoDelete(); return true;
-                    case Act.Clear: DoClear(); return true;
-                    case Act.SelectAll: DoSelectAll(); return false;
-                    case Act.InvertSelection: DoInvertSelection(); return false;
+                    case Act.MoveUp: DoMove(up: true); return;
+                    case Act.MoveDown: DoMove(up: false); return;
+                    case Act.Cut: DoCut(); return;
+                    case Act.Copy: DoCopy(); return;
+                    case Act.Paste: DoPaste(); return;
+                    case Act.Delete: DoDelete(); return;
+                    case Act.Clear: DoClear(); return;
+                    case Act.SelectAll: DoSelectAll(); return;
+                    case Act.InvertSelection: DoInvertSelection(); return;
                 }
-                return false;
             }
 
-            void DoClear() => items.Clear();
+            void DoClear()
+            {
+                if (items.Count == 0)
+                    return;
+                TakeSnapshot(act);
+                items.Clear();
+            }
 
             void DoCopy() => Focus.CopyToClipboard();
 
@@ -353,6 +341,7 @@
 
             void DoDelete()
             {
+                TakeSnapshot(act);
                 for (int index = count - 1; index >= 0; index--)
                     if (selectedIndices.Contains(index))
                         items.RemoveAt(index);
@@ -362,6 +351,7 @@
 
             void DoMove(bool up)
             {
+                TakeSnapshot(act);
                 int index, focus = -1;
                 if (up) for (index = 1; index < count; index++) Swap();
                 else for (index = count - 1; index > 0; index--) Swap();
@@ -384,7 +374,7 @@
             void DoPaste()
             {
                 if (StagData.IsOnClipboard())
-                    Merge(StagData.FromClipboard());
+                    Merge(Act.Paste, StagData.FromClipboard());
             }
 
             void DoSelectAll() { foreach (ListViewItem item in items) item.Selected = true; }
@@ -392,11 +382,10 @@
 
         private void DoPassiveAct(Act act)
         {
-            Run(GetQuery(act), spoof: true);
             var tags = Focus.GetSelectedStags();
             var oldFocus = Focus;
             Focus = GetNewFocus();
-            Merge(tags);
+            Merge(act, tags);
             Focus = oldFocus;
             UpdateMenu();
 
@@ -469,6 +458,26 @@
 
         private Query GetQuery(Act act) => new Query(GetSelectedTags(), GetSorts(), GetGroupByTags()) { Summary = $"{act}" };
 
+        private void Merge(Act act, IEnumerable<Stag> newStags)
+        {
+            var oldStags = FocusedListView.GetAllStags();
+            var count = FocusedItems.Count;
+            var selected = FocusedSelectedIndices;
+            var pivot = selected.Any() ? selected.First() : count;
+            newStags = Cull(oldStags.Take(pivot)).Concat(newStags).Concat(Cull(oldStags.Skip(pivot)));
+            if (!newStags.SequenceEqual(oldStags))
+            {
+                TakeSnapshot(act);
+                FocusedListView.BeginUpdate();
+                FocusedItems.Clear();
+                FocusedItems.AddRange(newStags.ToItems());
+                FocusedListView.EndUpdate();
+            }
+            return;
+
+            IEnumerable<Stag> Cull(IEnumerable<Stag> stags) => stags.Where(p => !stags.Any(q => q.Tag == p.Tag));
+        }
+
         private void SetQuery(Query query)
         {
             SetSorts(query.Sorts);
@@ -483,6 +492,8 @@
         private void SetGroups(IEnumerable<Tag> tags) => LvGroupBy.Items.AddRange(tags.Select(p => new StagItem(p)).ToArray());
         private void SetSorts(IEnumerable<Stag> stags) => LvOrderBy.Items.AddRange(stags.Select(p => new StagItem(p)).ToArray());
         private void SetSelectedTags(IEnumerable<Tag> tags) => LvSelect.Items.AddRange(tags.Select(p => new StagItem(p)).ToArray());
+
+        private void TakeSnapshot(Act act) => Run(GetQuery(act), spoof: true);
 
         private void UpdateMenu()
         {

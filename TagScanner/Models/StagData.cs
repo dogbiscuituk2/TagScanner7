@@ -46,13 +46,13 @@
 
         public static StagItem[] ToItems(this IEnumerable<Stag> stags) => stags?.Select(stag => new StagItem(stag)).ToArray();
 
-        public static List<Stag> ToStagList(this IDataObject data) => data?.GetStags() ?? new List<Stag>();
+        public static List<Stag> ToStags(this IDataObject data) => data?.GetStags() ?? new List<Stag>();
 
         #endregion
 
         #region Private Properties
 
-        private static Type StagListType => typeof(List<Stag>);
+        private static Type StagsType => typeof(List<Stag>);
 
         #endregion
 
@@ -60,9 +60,9 @@
 
         private static IDataObject ClipboardData => Clipboard.GetDataObject();
 
-        private static List<Stag> GetStags(this IDataObject data) => (List<Stag>)data?.GetData(StagListType);
+        private static List<Stag> GetStags(this IDataObject data) => (List<Stag>)data?.GetData(StagsType);
 
-        private static bool HasStags(this IDataObject data) => data?.GetDataPresent(StagListType) ?? false;
+        private static bool HasStags(this IDataObject data) => data?.GetDataPresent(StagsType) ?? false;
 
         #endregion
     }
