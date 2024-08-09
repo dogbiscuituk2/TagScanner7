@@ -3,6 +3,7 @@
     using System;
     using System.Collections.Generic;
     using System.Linq;
+    using System.Text;
     using Core;
 
     public class Query : ICommand
@@ -30,6 +31,22 @@
         #endregion
 
         #region Public Properties
+
+        public string SQL
+        {
+            get
+            {
+                var result = new StringBuilder();
+                if (Tags.Any()) result.AppendLine($"Select {JoinTags(Tags)}");
+                if (Sorts.Any()) result.AppendLine($"OrderBy {JoinStags(Sorts)}");
+                if (Groups.Any()) result.AppendLine($"GroupBy {JoinTags(Groups)}");
+                return result.ToString();
+
+                string JoinTags(IEnumerable<Tag> tags) => tags.Select(p => $"{p}").Aggregate((p, q) => $"{p},{q}");
+                string JoinStags(IEnumerable<Stag> stags) => stags.Select(p => Say(p)).Aggregate((p, q) => $"{p},{q}");
+                string Say(Stag stag) => stag.Descending ? $"{stag.Tag} (D)" : $"{stag.Tag}";
+            }
+        }
 
         public string Summary { get; set; }
 
