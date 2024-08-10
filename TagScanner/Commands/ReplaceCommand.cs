@@ -41,7 +41,7 @@
                 }
         }
 
-        public override string ToString() => $"Replace {ChangesCount} values in {Summary}";
+        public override string ToString() => $"Replace {ChangesCount} values in {Caption}";
 
         #endregion
 

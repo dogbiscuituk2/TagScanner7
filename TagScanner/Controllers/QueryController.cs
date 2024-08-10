@@ -471,7 +471,7 @@
 
         private void InitControls(string toolTip, params ToolStripItem[] controls) => Array.ForEach(controls, p => p.ToolTipText = toolTip);
 
-        private Query GetQuery(Act act) => new Query(GetSelectedTags(), GetSorts(), GetGroupByTags()) { Summary = $"{act}" };
+        private Query GetQuery(Act act) => new Query(GetSelectedTags(), GetSorts(), GetGroupByTags()) { Caption = $"{act}" };
 
         private void Merge(Act act, IEnumerable<Stag> newStags)
         {

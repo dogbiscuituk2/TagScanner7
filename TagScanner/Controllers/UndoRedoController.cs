@@ -3,6 +3,7 @@
     using System;
     using System.Collections.Generic;
     using System.Drawing;
+    using System.Linq;
     using System.Windows.Forms;
     using Core;
 
@@ -115,6 +116,7 @@
             var stack = undo ? RedoStack : UndoStack;
             stack.Push(command);
             UpdateAction();
+            DumpStacks();
         }
 
         protected void Init(IModel model, Action updateAction,
@@ -179,6 +181,28 @@
                 Undo();
             else
                 Redo();
+        }
+
+        private void DumpStacks()
+        {
+//#if UNDO_REDO
+            DumpStack(undo: true);
+            DumpStack(undo: false);
+            Say("\n");
+            return;
+
+            void DumpStack(bool undo)
+            {
+                Say(undo ? "UNDO\n" : "REDO\n");
+                var stack = undo ? UndoStack : RedoStack;
+                if (stack.Any())
+                    stack.ToList().ForEach(p => Say($"{p.Text}"));
+                else
+                    Say(" <empty>\n");
+            }
+
+            void Say(string s) => System.Diagnostics.Debug.Write(s);
+//#endif
         }
 
         private static void HighlightMenu(ToolStripItem activeItem)

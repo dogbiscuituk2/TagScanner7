@@ -32,14 +32,14 @@
 
         #region Public Properties
 
-        public string SQL
+        public string Text
         {
             get
             {
-                var result = new StringBuilder();
-                if (Tags.Any()) result.AppendLine($"Select {JoinTags(Tags)}");
-                if (Sorts.Any()) result.AppendLine($"OrderBy {JoinStags(Sorts)}");
-                if (Groups.Any()) result.AppendLine($"GroupBy {JoinTags(Groups)}");
+                var result = new StringBuilder($" {Caption}\n");
+                if (Tags.Any()) result.Append($"  Select  {JoinTags(Tags)}\n");
+                if (Sorts.Any()) result.Append($"  OrderBy {JoinStags(Sorts)}\n");
+                if (Groups.Any()) result.Append($"  GroupBy {JoinTags(Groups)}\n");
                 return result.ToString();
 
                 string JoinTags(IEnumerable<Tag> tags) => tags.Select(p => $"{p}").Aggregate((p, q) => $"{p},{q}");
@@ -48,7 +48,7 @@
             }
         }
 
-        public string Summary { get; set; }
+        public string Caption { get; set; }
 
         #endregion
 
@@ -80,7 +80,7 @@
             Groups = groups.ToList();
         }
 
-        public override string ToString() => Summary;
+        public override string ToString() => Caption;
 
         #endregion
 

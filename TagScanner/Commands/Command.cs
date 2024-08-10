@@ -18,7 +18,7 @@
 
         #region Public Properties
 
-        public string Summary
+        public string Caption
         {
             get
             {
@@ -48,6 +48,8 @@
             }
             set { }
         }
+
+        public string Text => string.Empty; // All debug info is in Caption.
 
         public int TracksCount => Tracks.Count;
 
