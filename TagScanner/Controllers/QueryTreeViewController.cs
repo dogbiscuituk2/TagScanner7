@@ -73,7 +73,7 @@
 
         private void DrawNode(Graphics graphics, Rectangle bounds, string text, object tag, bool selected)
         {
-            if (bounds.IsEmpty)
+            if (bounds.Height < 2)
                 return;
             var leaf = tag is Tag;
             GetColours(selected, !leaf || ((Tag)tag).CanWrite(), out Color fore, out Color back);
