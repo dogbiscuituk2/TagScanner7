@@ -37,13 +37,8 @@
                 return;
             UndoMenuItem.Enabled = UndoButton.Enabled = CanUndo;
             RedoMenuItem.Enabled = RedoButton.Enabled = CanRedo;
-            string
-                undo = CanUndo ? UndoAction : "Undo",
-                redo = CanRedo ? RedoAction : "Redo";
-            UndoMenuItem.Text = $"&{undo}";
-            RedoMenuItem.Text = $"&{redo}";
-            UndoButton.ToolTipText = $"{undo}";
-            RedoButton.ToolTipText = $"{redo}";
+            UndoMenuItem.Text = UndoButton.ToolTipText = UndoAction;
+            RedoMenuItem.Text = RedoButton.ToolTipText = RedoAction;
         }
 
         #endregion
@@ -92,8 +87,8 @@
         protected bool CanUndo => UndoStack.Count > 0;
         protected bool CanRedo => RedoStack.Count > 0;
 
-        protected virtual string UndoAction => UndoStack.Peek().ToString();
-        protected virtual string RedoAction => RedoStack.Peek().ToString();
+        protected virtual string UndoAction => "Undo";
+        protected virtual string RedoAction => "Redo";
 
         protected Action UpdateAction
         {
@@ -105,7 +100,11 @@
 
         #region Protected Methods
 
-        protected abstract void Do(TCommand command, bool undo, bool spoof);
+        protected void Redo() { if (CanRedo) Redo(RedoStack.Pop()); }
+        protected void Undo() { if (CanUndo) Undo(UndoStack.Pop()); }
+
+        protected abstract void Redo(TCommand command, bool spoof = false);
+        protected abstract void Undo(TCommand command);
 
         protected void DumpStacks()
         {
@@ -140,9 +139,6 @@
             UndoButton = undoButton;
             RedoButton = redoButton;
         }
-
-        protected virtual void Redo(TCommand command, bool spoof = false) => Do(command, undo: false, spoof);
-        protected virtual void Undo(TCommand command) => Do(command, undo: true, spoof: false);
 
         #endregion
 
@@ -218,9 +214,6 @@
                 menuItems.Add(item);
             }
         }
-
-        private void Undo() { if (CanUndo) Undo(UndoStack.Pop()); }
-        private void Redo() { if (CanRedo) Redo(RedoStack.Pop()); }
 
         #endregion
     }

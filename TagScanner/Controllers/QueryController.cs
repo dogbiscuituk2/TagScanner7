@@ -145,27 +145,6 @@
 
         #endregion
 
-        #region Protected Properties
-
-        protected override string UndoAction => $"Undo {base.UndoAction}";
-        protected override string RedoAction => $"Redo {base.UndoAction}";
-
-        #endregion
-
-        #region Protected Methods
-
-        protected override void Do(Query command, bool undo, bool spoof)
-        {
-            Stack<Query>
-                source = undo ? UndoStack : RedoStack,
-                target = undo ? RedoStack : UndoStack;
-            target.Push(GetQuery());
-            SetQuery(source.Pop());
-            DumpStacks();
-        }
-
-        #endregion
-
         #region Private Fields
 
         private string _detail;

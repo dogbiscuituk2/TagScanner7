@@ -6,7 +6,7 @@
     using System.Windows.Forms;
     using Models;
 
-    public partial class QueryController
+    partial class QueryController
     {
         #region Private Fields
 
