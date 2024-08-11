@@ -117,6 +117,7 @@
             SetSorts(query.Sorts);
             SetGroups(query.Groups);
             SetSelectedTags(query.Tags);
+            UpdateMenu();
         }
 
         public void UpdateSelection()
@@ -156,10 +157,8 @@
         protected override void Do(Query command, bool undo, bool spoof)
         {
             Stack<Query>
-                source = UndoStack,
-                target = RedoStack;
-            if (!undo)
-                (target, source) = (source, target);
+                source = undo ? UndoStack : RedoStack,
+                target = undo ? RedoStack : UndoStack;
             target.Push(GetQuery());
             SetQuery(source.Pop());
             DumpStacks();
@@ -512,6 +511,7 @@
                 FocusedItems.Clear();
                 FocusedItems.AddRange(after.ToItems());
                 FocusedListView.EndUpdate();
+                UpdateMenu();
             }
             return;
 
