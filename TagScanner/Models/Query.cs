@@ -32,6 +32,8 @@
 
         #region Public Properties
 
+        public string Caption { get; set; }
+
         public string Text
         {
             get
@@ -47,8 +49,6 @@
                 string Say(Stag stag) => stag.Descending ? $"{stag.Tag} (D)" : $"{stag.Tag}";
             }
         }
-
-        public string Caption { get; set; }
 
         #endregion
 

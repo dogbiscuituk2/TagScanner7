@@ -105,18 +105,28 @@
 
         #region Protected Methods
 
-        protected virtual void Do(TCommand command, bool undo, bool spoof)
+        protected abstract void Do(TCommand command, bool undo, bool spoof);
+
+        protected void DumpStacks()
         {
-            if (!spoof)
+#if UNDOREDO
+            DumpStack(undo: true);
+            DumpStack(undo: false);
+            Say("\n");
+            return;
+
+            void DumpStack(bool undo)
             {
-                Busy = true;
-                command.Apply(Model);
-                Busy = false;
+                Say(undo ? "UNDO\n" : "REDO\n");
+                var stack = undo ? UndoStack : RedoStack;
+                if (stack.Any())
+                    stack.ToList().ForEach(p => Say($"{p.Text}"));
+                else
+                    Say(" <empty>\n");
             }
-            var stack = undo ? RedoStack : UndoStack;
-            stack.Push(command);
-            UpdateAction();
-            DumpStacks();
+
+            void Say(string s) => System.Diagnostics.Debug.Write(s);
+#endif
         }
 
         protected void Init(IModel model, Action updateAction,
@@ -133,25 +143,6 @@
 
         protected virtual void Redo(TCommand command, bool spoof = false) => Do(command, undo: false, spoof);
         protected virtual void Undo(TCommand command) => Do(command, undo: true, spoof: false);
-
-        /// <summary>
-        /// Run a command, pushing its memento on to the Undo stack.
-        /// </summary>
-        /// <param name="command">The command to run.</param>
-        /// <param name="spoof">A flag indicating whether the command should actually be run. 
-        /// If true, the command should be run as normal. 
-        /// If false, the relevant properties have already been changed on the target, 
-        /// so just log the memento to the Undo stack.</param>
-        /// <returns>True if the command was run, and actually caused a property change.</returns>
-        public void Run(TCommand command, bool spoof = false)
-        {
-            if (Busy || command == null)
-                return;
-            if (LastSave > UndoStack.Count)
-                LastSave = -1;
-            RedoStack.Clear();
-            Redo(command, spoof);
-        }
 
         #endregion
 
@@ -183,28 +174,6 @@
                 Redo();
         }
 
-        private void DumpStacks()
-        {
-//#if UNDO_REDO
-            DumpStack(undo: true);
-            DumpStack(undo: false);
-            Say("\n");
-            return;
-
-            void DumpStack(bool undo)
-            {
-                Say(undo ? "UNDO\n" : "REDO\n");
-                var stack = undo ? UndoStack : RedoStack;
-                if (stack.Any())
-                    stack.ToList().ForEach(p => Say($"{p.Text}"));
-                else
-                    Say(" <empty>\n");
-            }
-
-            void Say(string s) => System.Diagnostics.Debug.Write(s);
-//#endif
-        }
-
         private static void HighlightMenu(ToolStripItem activeItem)
         {
             if (!activeItem.Selected)
@@ -228,6 +197,7 @@
 
         private void InitSplitButton(ToolStripSplitButton button, bool undo)
         {
+            button.DropDown = new ContextMenuStrip();
             button.ButtonClick += (sender, e) => DoSingle(undo);
             InitDropDownItem(button, undo);
         }
@@ -235,7 +205,7 @@
         private void PopulateMenu(bool undo)
         {
             var commands = (undo ? UndoStack : RedoStack).ToArray();
-            var menuItems = (undo ? MainForm.UndoPopupMenu : MainForm.RedoPopupMenu).Items;
+            var menuItems = (undo ? _undoButton : _redoButton).DropDown.Items;
             var handler = (EventHandler)((sender, e) => DoMultiple(sender, undo));
             const int MaxItems = 20;
             menuItems.Clear();

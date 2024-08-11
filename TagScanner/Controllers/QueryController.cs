@@ -113,6 +113,7 @@
 
         public void SetQuery(Query query)
         {
+            _lastAct = query.Caption;
             SetSorts(query.Sorts);
             SetGroups(query.Groups);
             SetSelectedTags(query.Tags);
@@ -150,11 +151,28 @@
 
         #endregion
 
+        #region Protected Methods
+
+        protected override void Do(Query command, bool undo, bool spoof)
+        {
+            Stack<Query>
+                source = UndoStack,
+                target = RedoStack;
+            if (!undo)
+                (target, source) = (source, target);
+            target.Push(GetQuery());
+            SetQuery(source.Pop());
+            DumpStacks();
+        }
+
+        #endregion
+
         #region Private Fields
 
         private string _detail;
         private QueryDialog _dialog;
         private Control _focus;
+        private string _lastAct;
         private bool
             _initializing,
             _multiColumn,
@@ -395,6 +413,13 @@
             void DoSelectAll() { foreach (ListViewItem item in items) item.Selected = true; }
         }
 
+        private void TakeSnapshot(Act act)
+        {
+            _lastAct = $"{act}";
+            UndoStack.Push(GetQuery());
+            RedoStack.Clear();
+        }
+
         private void DoPassiveAct(Act act)
         {
             var tags = Focus.GetSelectedStags();
@@ -471,7 +496,7 @@
 
         private void InitControls(string toolTip, params ToolStripItem[] controls) => Array.ForEach(controls, p => p.ToolTipText = toolTip);
 
-        private Query GetQuery(Act act) => new Query(GetSelectedTags(), GetSorts(), GetGroupByTags()) { Caption = $"{act}" };
+        private Query GetQuery() => new Query(GetSelectedTags(), GetSorts(), GetGroupByTags()) { Caption = _lastAct };
 
         private void Merge(Act act, IEnumerable<Stag> added)
         {
@@ -482,7 +507,7 @@
             var after = Cull(before.Take(pivot)).Concat(added).Concat(Cull(before.Skip(pivot)));
             if (!after.SequenceEqual(before))
             {
-                //TakeSnapshot(act);
+                TakeSnapshot(act);
                 FocusedListView.BeginUpdate();
                 FocusedItems.Clear();
                 FocusedItems.AddRange(after.ToItems());
@@ -517,8 +542,6 @@
             items.AddRange(stags.Select(p => new StagItem(p)).ToArray());
             LvOrderBy.EndUpdate();
         }
-
-        private void TakeSnapshot(Act act) => Run(GetQuery(act), spoof: true);
 
         private void UpdateMenu()
         {
