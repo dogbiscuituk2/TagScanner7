@@ -61,7 +61,11 @@
 
         #region Public Methods
 
-        public void Apply(IModel model) => ((ISetQuery)model).SetQuery(this);
+        public void Apply(IModel model)
+        {
+            return;
+            //((ISetQuery)model).SetQuery(this);
+        }
 
         public override bool Equals(object obj) => obj is Query query &&
             Tags.SequenceEqual(query.Tags) &&

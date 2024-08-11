@@ -473,24 +473,24 @@
 
         private Query GetQuery(Act act) => new Query(GetSelectedTags(), GetSorts(), GetGroupByTags()) { Caption = $"{act}" };
 
-        private void Merge(Act act, IEnumerable<Stag> newStags)
+        private void Merge(Act act, IEnumerable<Stag> added)
         {
-            var oldStags = FocusedListView.GetAllStags();
+            var before = FocusedListView.GetAllStags();
             var count = FocusedItems.Count;
             var selected = FocusedSelectedIndices;
             var pivot = selected.Any() ? selected.First() : count;
-            newStags = Cull(oldStags.Take(pivot)).Concat(newStags).Concat(Cull(oldStags.Skip(pivot)));
-            if (!newStags.SequenceEqual(oldStags))
+            var after = Cull(before.Take(pivot)).Concat(added).Concat(Cull(before.Skip(pivot)));
+            if (!after.SequenceEqual(before))
             {
-                TakeSnapshot(act);
+                //TakeSnapshot(act);
                 FocusedListView.BeginUpdate();
                 FocusedItems.Clear();
-                FocusedItems.AddRange(newStags.ToItems());
+                FocusedItems.AddRange(after.ToItems());
                 FocusedListView.EndUpdate();
             }
             return;
 
-            IEnumerable<Stag> Cull(IEnumerable<Stag> stags) => stags.Where(p => !stags.Any(q => q.Tag == p.Tag));
+            IEnumerable<Stag> Cull(IEnumerable<Stag> stags) => stags.Where(p => !added.Any(q => q.Tag == p.Tag));
         }
 
         private IEnumerable<Tag> GetGroupByTags() => LvGroupBy.Items.Cast<ListViewItem>().Select(p => (Tag)p.Tag);
