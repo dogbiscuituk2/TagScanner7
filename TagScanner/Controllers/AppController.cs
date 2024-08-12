@@ -122,12 +122,7 @@
         public static void UpdateFilterItems(ComboBox.ObjectCollection items, string item) => MruFilterController.UpdateItems(items, item);
         public static void UpdateFindItems(ComboBox.ObjectCollection items, string item) => MruFindController.UpdateItems(items, item);
         public static void UpdateReplaceItems(ComboBox.ObjectCollection items, string item) => MruReplaceController.UpdateItems(items, item);
-
-        public static void UpdateUI(MainFormController mainFormController)
-        {
-            mainFormController.UpdateLocalUI();
-            mainFormController.CommandProcessor.UpdateLocalUI();
-        }
+        public static void UpdateUI(MainFormController mainFormController) => mainFormController.UpdateLocalUI();
 
         #endregion
 

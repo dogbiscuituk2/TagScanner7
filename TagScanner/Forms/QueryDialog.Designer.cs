@@ -42,7 +42,7 @@
             this.TreeAlphabetically = new System.Windows.Forms.ToolStripMenuItem();
             this.TreeByCategory = new System.Windows.Forms.ToolStripMenuItem();
             this.TreeByDataType = new System.Windows.Forms.ToolStripMenuItem();
-            this.tbTree = new System.Windows.Forms.ToolStripSplitButton();
+            this.TreeMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.PopupList = new System.Windows.Forms.ToolStripMenuItem();
             this.PopupListMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.ListAlphabetically = new System.Windows.Forms.ToolStripMenuItem();
@@ -54,7 +54,7 @@
             this.ListSmallIcons = new System.Windows.Forms.ToolStripMenuItem();
             this.ListLargeIcons = new System.Windows.Forms.ToolStripMenuItem();
             this.ListTiles = new System.Windows.Forms.ToolStripMenuItem();
-            this.tbList = new System.Windows.Forms.ToolStripSplitButton();
+            this.ListMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.PopupSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.PopupMoveUp = new System.Windows.Forms.ToolStripMenuItem();
             this.PopupMoveDown = new System.Windows.Forms.ToolStripMenuItem();
@@ -62,7 +62,7 @@
             this.PopupSelect = new System.Windows.Forms.ToolStripMenuItem();
             this.PopupSortAscending = new System.Windows.Forms.ToolStripMenuItem();
             this.PopupSortDescending = new System.Windows.Forms.ToolStripMenuItem();
-            this.PopupGroup = new System.Windows.Forms.ToolStripMenuItem();
+            this.PopupGroupBy = new System.Windows.Forms.ToolStripMenuItem();
             this.PopupSeparator3 = new System.Windows.Forms.ToolStripSeparator();
             this.PopupUndo = new System.Windows.Forms.ToolStripMenuItem();
             this.PopupRedo = new System.Windows.Forms.ToolStripMenuItem();
@@ -76,8 +76,8 @@
             this.PopupSelectAll = new System.Windows.Forms.ToolStripMenuItem();
             this.PopupInvertSelection = new System.Windows.Forms.ToolStripMenuItem();
             this.EditMenu = new System.Windows.Forms.ToolStripMenuItem();
-            this.TreeMenu = new System.Windows.Forms.ToolStripMenuItem();
-            this.ListMenu = new System.Windows.Forms.ToolStripMenuItem();
+            this.tbTree = new System.Windows.Forms.ToolStripSplitButton();
+            this.tbList = new System.Windows.Forms.ToolStripSplitButton();
             this.TreeView = new System.Windows.Forms.TreeView();
             this.toolStripContainer1 = new System.Windows.Forms.ToolStripContainer();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
@@ -187,7 +187,7 @@
             this.PopupSelect,
             this.PopupSortAscending,
             this.PopupSortDescending,
-            this.PopupGroup,
+            this.PopupGroupBy,
             this.PopupSeparator3,
             this.PopupUndo,
             this.PopupRedo,
@@ -201,14 +201,13 @@
             this.PopupSelectAll,
             this.PopupInvertSelection});
             this.PopupMenu.Name = "PopupTargetMenu";
-            this.PopupMenu.OwnerItem = this.EditMenu;
-            this.PopupMenu.Size = new System.Drawing.Size(161, 408);
+            this.PopupMenu.Size = new System.Drawing.Size(181, 430);
             // 
             // PopupTree
             // 
             this.PopupTree.DropDown = this.PopupTreeMenu;
             this.PopupTree.Name = "PopupTree";
-            this.PopupTree.Size = new System.Drawing.Size(160, 22);
+            this.PopupTree.Size = new System.Drawing.Size(180, 22);
             this.PopupTree.Text = "Tree View";
             // 
             // PopupTreeMenu
@@ -218,7 +217,7 @@
             this.TreeByCategory,
             this.TreeByDataType});
             this.PopupTreeMenu.Name = "PopupTreeMenu";
-            this.PopupTreeMenu.OwnerItem = this.TreeMenu;
+            this.PopupTreeMenu.OwnerItem = this.tbTree;
             this.PopupTreeMenu.Size = new System.Drawing.Size(150, 70);
             // 
             // TreeAlphabetically
@@ -245,21 +244,20 @@
             this.TreeByDataType.Size = new System.Drawing.Size(149, 22);
             this.TreeByDataType.Text = "by &Data Type";
             // 
-            // tbTree
+            // TreeMenu
             // 
-            this.tbTree.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.tbTree.DropDown = this.PopupTreeMenu;
-            this.tbTree.Image = global::TagScanner.Properties.Resources.fff_app_tree_16;
-            this.tbTree.ImageTransparentColor = System.Drawing.Color.White;
-            this.tbTree.Name = "tbTree";
-            this.tbTree.Size = new System.Drawing.Size(31, 20);
-            this.tbTree.Text = "toolStripSplitButton3";
+            this.TreeMenu.DropDown = this.PopupTreeMenu;
+            this.TreeMenu.Image = global::TagScanner.Properties.Resources.fff_app_tree_16;
+            this.TreeMenu.ImageTransparentColor = System.Drawing.Color.White;
+            this.TreeMenu.Name = "TreeMenu";
+            this.TreeMenu.Size = new System.Drawing.Size(95, 22);
+            this.TreeMenu.Text = "&Tree";
             // 
             // PopupList
             // 
             this.PopupList.DropDown = this.PopupListMenu;
             this.PopupList.Name = "PopupList";
-            this.PopupList.Size = new System.Drawing.Size(160, 22);
+            this.PopupList.Size = new System.Drawing.Size(180, 22);
             this.PopupList.Text = "List View";
             // 
             // PopupListMenu
@@ -275,7 +273,7 @@
             this.ListLargeIcons,
             this.ListTiles});
             this.PopupListMenu.Name = "PopupTreeMenu";
-            this.PopupListMenu.OwnerItem = this.ListMenu;
+            this.PopupListMenu.OwnerItem = this.tbList;
             this.PopupListMenu.Size = new System.Drawing.Size(150, 170);
             // 
             // ListAlphabetically
@@ -342,20 +340,19 @@
             this.ListTiles.Text = "Tiles";
             this.ListTiles.Visible = false;
             // 
-            // tbList
+            // ListMenu
             // 
-            this.tbList.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.tbList.DropDown = this.PopupListMenu;
-            this.tbList.Image = global::TagScanner.Properties.Resources.fff_app_list_16;
-            this.tbList.ImageTransparentColor = System.Drawing.Color.White;
-            this.tbList.Name = "tbList";
-            this.tbList.Size = new System.Drawing.Size(31, 20);
-            this.tbList.Text = "toolStripSplitButton4";
+            this.ListMenu.DropDown = this.PopupListMenu;
+            this.ListMenu.Image = global::TagScanner.Properties.Resources.fff_app_list_16;
+            this.ListMenu.ImageTransparentColor = System.Drawing.Color.White;
+            this.ListMenu.Name = "ListMenu";
+            this.ListMenu.Size = new System.Drawing.Size(95, 22);
+            this.ListMenu.Text = "&List";
             // 
             // PopupSeparator1
             // 
             this.PopupSeparator1.Name = "PopupSeparator1";
-            this.PopupSeparator1.Size = new System.Drawing.Size(157, 6);
+            this.PopupSeparator1.Size = new System.Drawing.Size(177, 6);
             // 
             // PopupMoveUp
             // 
@@ -364,7 +361,7 @@
             this.PopupMoveUp.Name = "PopupMoveUp";
             this.PopupMoveUp.ShortcutKeyDisplayString = "^↑";
             this.PopupMoveUp.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Up)));
-            this.PopupMoveUp.Size = new System.Drawing.Size(160, 22);
+            this.PopupMoveUp.Size = new System.Drawing.Size(180, 22);
             this.PopupMoveUp.Text = "Move Up";
             this.PopupMoveUp.ToolTipText = "Move the selected item(s) up in list order in this box";
             // 
@@ -375,20 +372,20 @@
             this.PopupMoveDown.Name = "PopupMoveDown";
             this.PopupMoveDown.ShortcutKeyDisplayString = "^↓";
             this.PopupMoveDown.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Down)));
-            this.PopupMoveDown.Size = new System.Drawing.Size(160, 22);
+            this.PopupMoveDown.Size = new System.Drawing.Size(180, 22);
             this.PopupMoveDown.Text = "Move Down";
             this.PopupMoveDown.ToolTipText = "Move the selected item(s) down in list order in this box";
             // 
             // PopupSeparator2
             // 
             this.PopupSeparator2.Name = "PopupSeparator2";
-            this.PopupSeparator2.Size = new System.Drawing.Size(157, 6);
+            this.PopupSeparator2.Size = new System.Drawing.Size(177, 6);
             // 
             // PopupSelect
             // 
             this.PopupSelect.Name = "PopupSelect";
             this.PopupSelect.ShortcutKeyDisplayString = "";
-            this.PopupSelect.Size = new System.Drawing.Size(160, 22);
+            this.PopupSelect.Size = new System.Drawing.Size(180, 22);
             this.PopupSelect.Text = "&Select";
             this.PopupSelect.ToolTipText = "Copy the selected item(s) into the \'Selected\' box";
             // 
@@ -397,7 +394,7 @@
             this.PopupSortAscending.Image = global::TagScanner.Properties.Resources.Custom_Icon_Design_Flat_Cute_Arrows_Arrow_Up_16;
             this.PopupSortAscending.Name = "PopupSortAscending";
             this.PopupSortAscending.ShortcutKeyDisplayString = "";
-            this.PopupSortAscending.Size = new System.Drawing.Size(160, 22);
+            this.PopupSortAscending.Size = new System.Drawing.Size(180, 22);
             this.PopupSortAscending.Text = "Sort &Ascending";
             this.PopupSortAscending.ToolTipText = "Sort in Ascending order of the selected item(s)";
             // 
@@ -406,22 +403,22 @@
             this.PopupSortDescending.Image = global::TagScanner.Properties.Resources.Custom_Icon_Design_Flat_Cute_Arrows_Arrow_Down_16;
             this.PopupSortDescending.Name = "PopupSortDescending";
             this.PopupSortDescending.ShortcutKeyDisplayString = "";
-            this.PopupSortDescending.Size = new System.Drawing.Size(160, 22);
+            this.PopupSortDescending.Size = new System.Drawing.Size(180, 22);
             this.PopupSortDescending.Text = "Sort &Descending";
             this.PopupSortDescending.ToolTipText = "Sort in Ascending order of the selected item(s)";
             // 
-            // PopupGroup
+            // PopupGroupBy
             // 
-            this.PopupGroup.Name = "PopupGroup";
-            this.PopupGroup.ShortcutKeyDisplayString = "";
-            this.PopupGroup.Size = new System.Drawing.Size(160, 22);
-            this.PopupGroup.Text = "&Group";
-            this.PopupGroup.ToolTipText = "Copy the selected item(s) into the \'Group By\' box";
+            this.PopupGroupBy.Name = "PopupGroupBy";
+            this.PopupGroupBy.ShortcutKeyDisplayString = "";
+            this.PopupGroupBy.Size = new System.Drawing.Size(180, 22);
+            this.PopupGroupBy.Text = "&Group By";
+            this.PopupGroupBy.ToolTipText = "Copy the selected item(s) into the \'Group By\' box";
             // 
             // PopupSeparator3
             // 
             this.PopupSeparator3.Name = "PopupSeparator3";
-            this.PopupSeparator3.Size = new System.Drawing.Size(157, 6);
+            this.PopupSeparator3.Size = new System.Drawing.Size(177, 6);
             // 
             // PopupUndo
             // 
@@ -430,7 +427,7 @@
             this.PopupUndo.Name = "PopupUndo";
             this.PopupUndo.ShortcutKeyDisplayString = "^Z";
             this.PopupUndo.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Z)));
-            this.PopupUndo.Size = new System.Drawing.Size(160, 22);
+            this.PopupUndo.Size = new System.Drawing.Size(180, 22);
             this.PopupUndo.Text = "&Undo";
             this.PopupUndo.ToolTipText = "Undo the most recent change";
             // 
@@ -442,14 +439,14 @@
             this.PopupRedo.Name = "PopupRedo";
             this.PopupRedo.ShortcutKeyDisplayString = "^Y";
             this.PopupRedo.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Y)));
-            this.PopupRedo.Size = new System.Drawing.Size(160, 22);
+            this.PopupRedo.Size = new System.Drawing.Size(180, 22);
             this.PopupRedo.Text = "&Redo";
             this.PopupRedo.ToolTipText = "Redo the most recently \'undone\' change";
             // 
             // PopupSeparator4
             // 
             this.PopupSeparator4.Name = "PopupSeparator4";
-            this.PopupSeparator4.Size = new System.Drawing.Size(157, 6);
+            this.PopupSeparator4.Size = new System.Drawing.Size(177, 6);
             // 
             // PopupCut
             // 
@@ -458,7 +455,7 @@
             this.PopupCut.Name = "PopupCut";
             this.PopupCut.ShortcutKeyDisplayString = "^X";
             this.PopupCut.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.X)));
-            this.PopupCut.Size = new System.Drawing.Size(160, 22);
+            this.PopupCut.Size = new System.Drawing.Size(180, 22);
             this.PopupCut.Text = "Cu&t";
             this.PopupCut.ToolTipText = "Cut the selected item(s) to the Clipboard";
             // 
@@ -469,7 +466,7 @@
             this.PopupCopy.Name = "PopupCopy";
             this.PopupCopy.ShortcutKeyDisplayString = "^C";
             this.PopupCopy.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.C)));
-            this.PopupCopy.Size = new System.Drawing.Size(160, 22);
+            this.PopupCopy.Size = new System.Drawing.Size(180, 22);
             this.PopupCopy.Text = "&Copy";
             this.PopupCopy.ToolTipText = "Copy the selected item(s) to the Clipboard";
             // 
@@ -480,7 +477,7 @@
             this.PopupPaste.Name = "PopupPaste";
             this.PopupPaste.ShortcutKeyDisplayString = "^V";
             this.PopupPaste.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.V)));
-            this.PopupPaste.Size = new System.Drawing.Size(160, 22);
+            this.PopupPaste.Size = new System.Drawing.Size(180, 22);
             this.PopupPaste.Text = "&Paste";
             this.PopupPaste.ToolTipText = "Paste item(s) from the Clipboard";
             // 
@@ -490,35 +487,35 @@
             this.PopupDelete.ImageTransparentColor = System.Drawing.Color.White;
             this.PopupDelete.Name = "PopupDelete";
             this.PopupDelete.ShortcutKeys = System.Windows.Forms.Keys.Delete;
-            this.PopupDelete.Size = new System.Drawing.Size(160, 22);
+            this.PopupDelete.Size = new System.Drawing.Size(180, 22);
             this.PopupDelete.Text = "Delete";
             this.PopupDelete.ToolTipText = "Delete the selected item(s) from this box";
             // 
             // PopupClear
             // 
             this.PopupClear.Name = "PopupClear";
-            this.PopupClear.Size = new System.Drawing.Size(160, 22);
+            this.PopupClear.Size = new System.Drawing.Size(180, 22);
             this.PopupClear.Text = "Cl&ear";
             this.PopupClear.ToolTipText = "Delete all item(s) from this box";
             // 
             // PopupSeparator5
             // 
             this.PopupSeparator5.Name = "PopupSeparator5";
-            this.PopupSeparator5.Size = new System.Drawing.Size(157, 6);
+            this.PopupSeparator5.Size = new System.Drawing.Size(177, 6);
             // 
             // PopupSelectAll
             // 
             this.PopupSelectAll.Name = "PopupSelectAll";
             this.PopupSelectAll.ShortcutKeyDisplayString = "^A";
             this.PopupSelectAll.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.A)));
-            this.PopupSelectAll.Size = new System.Drawing.Size(160, 22);
+            this.PopupSelectAll.Size = new System.Drawing.Size(180, 22);
             this.PopupSelectAll.Text = "Select &All";
             this.PopupSelectAll.ToolTipText = "Select all the item(s) in this box";
             // 
             // PopupInvertSelection
             // 
             this.PopupInvertSelection.Name = "PopupInvertSelection";
-            this.PopupInvertSelection.Size = new System.Drawing.Size(160, 22);
+            this.PopupInvertSelection.Size = new System.Drawing.Size(180, 22);
             this.PopupInvertSelection.Text = "&Invert Selection";
             this.PopupInvertSelection.ToolTipText = "Toggle the selected state of all item(s) in this box";
             // 
@@ -529,23 +526,25 @@
             this.EditMenu.Size = new System.Drawing.Size(39, 20);
             this.EditMenu.Text = "&Edit";
             // 
-            // TreeMenu
+            // tbTree
             // 
-            this.TreeMenu.DropDown = this.PopupTreeMenu;
-            this.TreeMenu.Image = global::TagScanner.Properties.Resources.fff_app_tree_16;
-            this.TreeMenu.ImageTransparentColor = System.Drawing.Color.White;
-            this.TreeMenu.Name = "TreeMenu";
-            this.TreeMenu.Size = new System.Drawing.Size(95, 22);
-            this.TreeMenu.Text = "&Tree";
+            this.tbTree.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.tbTree.DropDown = this.PopupTreeMenu;
+            this.tbTree.Image = global::TagScanner.Properties.Resources.fff_app_tree_16;
+            this.tbTree.ImageTransparentColor = System.Drawing.Color.White;
+            this.tbTree.Name = "tbTree";
+            this.tbTree.Size = new System.Drawing.Size(31, 20);
+            this.tbTree.Text = "toolStripSplitButton3";
             // 
-            // ListMenu
+            // tbList
             // 
-            this.ListMenu.DropDown = this.PopupListMenu;
-            this.ListMenu.Image = global::TagScanner.Properties.Resources.fff_app_list_16;
-            this.ListMenu.ImageTransparentColor = System.Drawing.Color.White;
-            this.ListMenu.Name = "ListMenu";
-            this.ListMenu.Size = new System.Drawing.Size(95, 22);
-            this.ListMenu.Text = "&List";
+            this.tbList.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.tbList.DropDown = this.PopupListMenu;
+            this.tbList.Image = global::TagScanner.Properties.Resources.fff_app_list_16;
+            this.tbList.ImageTransparentColor = System.Drawing.Color.White;
+            this.tbList.Name = "tbList";
+            this.tbList.Size = new System.Drawing.Size(31, 20);
+            this.tbList.Text = "toolStripSplitButton4";
             // 
             // TreeView
             // 
@@ -1001,7 +1000,7 @@
         public System.Windows.Forms.ToolStripMenuItem PopupDelete;
         public System.Windows.Forms.ToolStripMenuItem PopupMoveUp;
         public System.Windows.Forms.ToolStripMenuItem PopupMoveDown;
-        public System.Windows.Forms.ToolStripMenuItem PopupGroup;
+        public System.Windows.Forms.ToolStripMenuItem PopupGroupBy;
         public System.Windows.Forms.ToolStripMenuItem PopupSelect;
         public System.Windows.Forms.ToolStripSeparator PopupSeparator3;
         public System.Windows.Forms.ToolStripMenuItem PopupSelectAll;

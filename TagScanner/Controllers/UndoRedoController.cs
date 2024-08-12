@@ -7,7 +7,7 @@
     using System.Windows.Forms;
     using Core;
 
-    public abstract class UndoRedoController<TCommand> : Controller where TCommand : class, ICommand
+    public class UndoRedoController<TCommand> : Controller where TCommand : class, ICommand
     {
         #region Constructor
 
@@ -29,6 +29,12 @@
             UndoStack.Clear();
             RedoStack.Clear();
             Updater.Run();
+        }
+
+        public virtual void Run(TCommand command, bool spoof = false)
+        {
+            RedoStack.Clear();
+            Redo(command, spoof);
         }
 
         public void UpdateLocalUI()
@@ -87,8 +93,8 @@
         protected bool CanUndo => UndoStack.Count > 0;
         protected bool CanRedo => RedoStack.Count > 0;
 
-        protected virtual string UndoAction => "Undo";
-        protected virtual string RedoAction => "Redo";
+        protected string RedoAction => GetAction(undo: false);
+        protected string UndoAction => GetAction(undo: true);
 
         protected Action UpdateAction
         {
@@ -99,34 +105,6 @@
         #endregion
 
         #region Protected Methods
-
-        protected void Redo() { if (CanRedo) Redo(RedoStack.Pop()); }
-        protected void Undo() { if (CanUndo) Undo(UndoStack.Pop()); }
-
-        protected abstract void Redo(TCommand command, bool spoof = false);
-        protected abstract void Undo(TCommand command);
-
-        protected void DumpStacks()
-        {
-#if UNDOREDO
-            DumpStack(undo: true);
-            DumpStack(undo: false);
-            Say("\n");
-            return;
-
-            void DumpStack(bool undo)
-            {
-                Say(undo ? "UNDO\n" : "REDO\n");
-                var stack = undo ? UndoStack : RedoStack;
-                if (stack.Any())
-                    stack.ToList().ForEach(p => Say($"{p.Text}"));
-                else
-                    Say(" <empty>\n");
-            }
-
-            void Say(string s) => System.Diagnostics.Debug.Write(s);
-#endif
-        }
 
         protected void Init(IModel model, Action updateAction,
             ToolStripMenuItem undoMenuItem, ToolStripMenuItem redoMenuItem,
@@ -153,6 +131,20 @@
 
         #region Private Methods
 
+        private void Do(TCommand command, bool undo, bool spoof)
+        {
+            if (!spoof)
+            {
+                Busy = true;
+                command.Apply(Model);
+                Busy = false;
+            }
+            var stack = undo ? RedoStack : UndoStack;
+            stack.Push(command);
+            UpdateAction();
+            DumpStacks();
+        }
+
         private void DoMultiple(object item, bool undo)
         {
             var peek = (TCommand)((ToolStripItem)item).Tag;
@@ -169,6 +161,36 @@
             else
                 Redo();
         }
+
+        private void DumpStacks()
+        {
+#if UNDOREDO
+            DumpStack(undo: true);
+            DumpStack(undo: false);
+            Say("\n");
+            return;
+
+            void DumpStack(bool undo)
+            {
+                Say(undo ? "UNDO\n" : "REDO\n");
+                var stack = GetStack(undo);
+                if (stack.Any())
+                    stack.ToList().ForEach(p => Say($"{p.Text}"));
+                else
+                    Say(" <empty>\n");
+            }
+
+            void Say(string s) => System.Diagnostics.Debug.Write(s);
+#endif
+        }
+
+        private string GetAction(bool undo)
+        {
+            var command = Peek(undo);
+            return command != null ? $"{command}" : undo ? "Undo" : "Redo";
+        }
+
+        private Stack<TCommand> GetStack(bool undo) => undo ? UndoStack : RedoStack;
 
         private static void HighlightMenu(ToolStripItem activeItem)
         {
@@ -198,6 +220,8 @@
             InitDropDownItem(button, undo);
         }
 
+        private TCommand Peek(bool undo) => GetStack(undo).Peek();
+
         private void PopulateMenu(bool undo)
         {
             var commands = (undo ? UndoStack : RedoStack).ToArray();
@@ -214,6 +238,12 @@
                 menuItems.Add(item);
             }
         }
+
+        private void Redo() { if (CanRedo) Redo(RedoStack.Pop()); }
+        private void Redo(TCommand command, bool spoof = false) => Do(command, undo: false, spoof);
+
+        private void Undo() { if (CanUndo) Undo(UndoStack.Pop()); }
+        private void Undo(TCommand command) => Do(command, undo: true, spoof: false);
 
         #endregion
     }

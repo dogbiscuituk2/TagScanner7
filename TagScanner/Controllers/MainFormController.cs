@@ -216,6 +216,8 @@
                 anyTracks;
             // Property Grid
             PropertyGridController.SetSelection(TableController.Selection);
+            // Undo/Redo
+            CommandProcessor.UpdateLocalUI();
         }
 
         #endregion

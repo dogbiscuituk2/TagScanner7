@@ -82,13 +82,14 @@
 
         public static bool IsComment(this string text) => text.StartsWith("/*") || text.StartsWith("//");
 
+        public static string Join(this IEnumerable<string> strings, string separator) =>
+            strings == null || !strings.Any()
+            ? string.Empty
+            : strings.Aggregate((p, q) => $"{p}{separator}{q}");
+
         public static string Range(this string s, CharacterRange range) => s.Substring(range.First, range.Length);
 
-        public static string StringsToText(this IEnumerable<string> strings) => strings == null || !strings.Any()
-            ? string.Empty
-            : strings.Aggregate((p, q) => $"{p}{Environment.NewLine}{q}");
-
-        //public static Tag TagFromString(this string tag) => (Tag)Enum.Parse(typeof(Tag), tag);
+        public static string StringsToText(this IEnumerable<string> strings) => strings.Join(Environment.NewLine);
 
         public static string[] TextToStrings(this string text) => text == null
             ? Array.Empty<string>()

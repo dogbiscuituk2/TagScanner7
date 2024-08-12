@@ -205,7 +205,7 @@
         private ToolStripMenuItem PopupSelect => Dialog.PopupSelect;
         private ToolStripMenuItem PopupSortAscending => Dialog.PopupSortAscending;
         private ToolStripMenuItem PopupSortDescending => Dialog.PopupSortDescending;
-        private ToolStripMenuItem PopupGroup => Dialog.PopupGroup;
+        private ToolStripMenuItem PopupGroup => Dialog.PopupGroupBy;
         private ToolStripMenuItem PopupUndo => Dialog.PopupUndo;
         private ToolStripMenuItem PopupRedo => Dialog.PopupRedo;
         private ToolStripMenuItem PopupCut => Dialog.PopupCut;
@@ -290,7 +290,7 @@
         private void PopupSelectAll_Click(object sender, EventArgs e) => DoActiveAct(Act.SelectAll);
         private void PopupTargetMenu_Opening(object sender, CancelEventArgs e) => UpdateMenu();
 
-        private void PopupGroup_Click(object sender, EventArgs e) => DoPassiveAct(Act.Group);
+        private void PopupGroup_Click(object sender, EventArgs e) => DoPassiveAct(Act.GroupBy);
         private void PopupSelect_Click(object sender, EventArgs e) => DoPassiveAct(Act.Select);
         private void PopupSortAscending_Click(object sender, EventArgs e) => DoPassiveAct(Act.SortAscending);
         private void PopupSortDescending_Click(object sender, EventArgs e) => DoPassiveAct(Act.SortDescending);
@@ -394,8 +394,7 @@
         private void TakeSnapshot(Act act)
         {
             _lastAct = $"{act}";
-            UndoStack.Push(GetQuery());
-            RedoStack.Clear();
+            Run(GetQuery(), spoof: true);
         }
 
         private void DoPassiveAct(Act act)
@@ -414,7 +413,7 @@
                     case Act.Select: return LvSelect;
                     case Act.SortAscending: SetDescending(false); return LvOrderBy;
                     case Act.SortDescending: SetDescending(true); return LvOrderBy;
-                    case Act.Group: return LvGroupBy;
+                    case Act.GroupBy: return LvGroupBy;
                     default: return null;
                 }
 
@@ -643,7 +642,7 @@
             Select,
             SortAscending,
             SortDescending,
-            Group,
+            GroupBy,
             Undo,
             Redo,
             Cut,

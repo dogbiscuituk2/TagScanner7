@@ -44,9 +44,9 @@
                 if (Groups.Any()) result.Append($"  GroupBy {JoinTags(Groups)}\n");
                 return result.ToString();
 
-                string JoinTags(IEnumerable<Tag> tags) => tags.Select(p => $"{p}").Aggregate((p, q) => $"{p},{q}");
-                string JoinStags(IEnumerable<Stag> stags) => stags.Select(p => Say(p)).Aggregate((p, q) => $"{p},{q}");
-                string Say(Stag stag) => stag.Descending ? $"{stag.Tag} (D)" : $"{stag.Tag}";
+                string JoinStags(IEnumerable<Stag> stags) => stags.Select(p => Say(p)).Join(",");
+                string JoinTags(IEnumerable<Tag> tags) => tags.Select(p => $"{p}").Join(",");
+                string Say(Stag stag) => $"{stag.Tag}{(stag.Descending ? '↓' : '↑')}";
             }
         }
 
@@ -61,11 +61,7 @@
 
         #region Public Methods
 
-        public void Apply(IModel model)
-        {
-            return;
-            //((ISetQuery)model).SetQuery(this);
-        }
+        public void Apply(IModel model) => ((ISetQuery)model).SetQuery(this);
 
         public override bool Equals(object obj) => obj is Query query &&
             Tags.SequenceEqual(query.Tags) &&
