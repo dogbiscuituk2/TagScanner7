@@ -216,7 +216,7 @@
 
         private void PopulateMenu(bool undo)
         {
-            var commands = (undo ? UndoStack : RedoStack).ToArray();
+            var commands = GetStack(undo).ToArray();
             var menuItems = (undo ? _undoButton : _redoButton).DropDown.Items;
             var handler = (EventHandler)((sender, e) => DoMultiple(sender, undo));
             const int MaxItems = 20;
