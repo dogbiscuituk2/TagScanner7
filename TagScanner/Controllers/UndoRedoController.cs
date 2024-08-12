@@ -220,7 +220,11 @@
             InitDropDownItem(button, undo);
         }
 
-        private TCommand Peek(bool undo) => GetStack(undo).Peek();
+        private TCommand Peek(bool undo)
+        {
+            var stack = GetStack(undo);
+            return stack.Any() ? stack.Peek() : null;
+        }
 
         private void PopulateMenu(bool undo)
         {
