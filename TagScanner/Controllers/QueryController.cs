@@ -636,39 +636,6 @@
 
         #endregion
 
-
-        private void TakeSnapshot(Act act)
-        {
-            _lastAct = $"{act}";
-            UndoStack.Push(GetQuery());
-            RedoStack.Clear();
-            DumpStacks();
-        }
-
-
-        protected override void Redo()
-        {
-            if (CanRedo)
-            {
-                UndoStack.Push(GetQuery());
-                SetQuery(RedoStack.Pop());
-                DumpStacks();
-            }
-        }
-
-
-        protected override void Undo()
-        {
-            if (CanUndo)
-            {
-                RedoStack.Push(GetQuery());
-                SetQuery(UndoStack.Pop());
-                DumpStacks();
-            }
-        }
-
-
-
         #region Private Enums
 
         private enum Act
