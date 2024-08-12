@@ -12,6 +12,24 @@
 
         #endregion
 
+        #region Protected Methods
+
+        protected override void Do(Command command, bool undo, bool spoof)
+        {
+            if (!spoof)
+            {
+                Busy = true;
+                command.Apply(Model);
+                Busy = false;
+            }
+            var stack = undo ? RedoStack : UndoStack;
+            stack.Push(command);
+            UpdateAction();
+            base.Do(command, undo, spoof);
+        }
+
+        #endregion
+
         #region Public Methods
 
         /// <summary>
@@ -34,8 +52,11 @@
 
         #endregion
 
-        #region Private Methods
+        protected override void Redo() { if (CanRedo) Redo(RedoStack.Pop()); }
+        protected override void Redo(Command command, bool spoof = false) => Do(command, undo: false, spoof);
 
-        #endregion
+        protected override void Undo() { if (CanUndo) Undo(UndoStack.Pop()); }
+        protected override void Undo(Command command) => Do(command, undo: true, spoof: false);
+
     }
 }

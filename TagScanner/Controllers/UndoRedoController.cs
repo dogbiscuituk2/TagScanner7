@@ -7,7 +7,7 @@
     using System.Windows.Forms;
     using Core;
 
-    public class UndoRedoController<TCommand> : Controller where TCommand : class, ICommand
+    public abstract class UndoRedoController<TCommand> : Controller where TCommand : class, ICommand
     {
         #region Constructor
 
@@ -106,6 +106,8 @@
 
         #region Protected Methods
 
+        protected Stack<TCommand> GetStack(bool undo) => undo ? UndoStack : RedoStack;
+
         protected void Init(IModel model, Action updateAction,
             ToolStripMenuItem undoMenuItem, ToolStripMenuItem redoMenuItem,
             ToolStripSplitButton undoButton, ToolStripSplitButton redoButton)
@@ -131,19 +133,7 @@
 
         #region Private Methods
 
-        private void Do(TCommand command, bool undo, bool spoof)
-        {
-            if (!spoof)
-            {
-                Busy = true;
-                command.Apply(Model);
-                Busy = false;
-            }
-            var stack = undo ? RedoStack : UndoStack;
-            stack.Push(command);
-            UpdateAction();
-            DumpStacks();
-        }
+        protected virtual void Do(TCommand command, bool undo, bool spoof) => DumpStacks();
 
         private void DoMultiple(object item, bool undo)
         {
@@ -162,7 +152,7 @@
                 Redo();
         }
 
-        private void DumpStacks()
+        protected void DumpStacks()
         {
 #if UNDOREDO
             DumpStack(undo: true);
@@ -189,8 +179,6 @@
             var command = Peek(undo);
             return command != null ? $"{command}" : undo ? "Undo" : "Redo";
         }
-
-        private Stack<TCommand> GetStack(bool undo) => undo ? UndoStack : RedoStack;
 
         private static void HighlightMenu(ToolStripItem activeItem)
         {
@@ -243,12 +231,12 @@
             }
         }
 
-        private void Redo() { if (CanRedo) Redo(RedoStack.Pop()); }
-        private void Redo(TCommand command, bool spoof = false) => Do(command, undo: false, spoof);
-
-        private void Undo() { if (CanUndo) Undo(UndoStack.Pop()); }
-        private void Undo(TCommand command) => Do(command, undo: true, spoof: false);
-
         #endregion
+
+        protected abstract void Redo();
+        protected abstract void Redo(TCommand command, bool spoof = false);
+
+        protected abstract void Undo();
+        protected abstract void Undo(TCommand command);
     }
 }

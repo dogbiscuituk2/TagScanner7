@@ -145,6 +145,17 @@
 
         #endregion
 
+        #region Protected Methods
+
+        protected override void Do(Query query, bool undo, bool spoof)
+        {
+            var stack = GetStack(undo);
+
+            base.Do(query, undo, spoof);
+        }
+
+        #endregion
+
         #region Private Fields
 
         private string _detail;
@@ -391,12 +402,6 @@
             void DoSelectAll() { foreach (ListViewItem item in items) item.Selected = true; }
         }
 
-        private void TakeSnapshot(Act act)
-        {
-            _lastAct = $"{act}";
-            Run(GetQuery(), spoof: true);
-        }
-
         private void DoPassiveAct(Act act)
         {
             var tags = Focus.GetSelectedStags();
@@ -630,6 +635,42 @@
         }
 
         #endregion
+
+
+        private void TakeSnapshot(Act act)
+        {
+            _lastAct = $"{act}";
+            UndoStack.Push(GetQuery());
+            DumpStacks();
+        }
+
+
+        protected override void Redo()
+        {
+            if (CanRedo)
+            {
+                UndoStack.Push(GetQuery());
+                SetQuery(RedoStack.Pop());
+                DumpStacks();
+            }
+        }
+
+        protected override void Redo(Query query, bool spoof = false) => Do(query, undo: false, spoof);
+
+        protected override void Undo()
+        {
+            if (CanUndo)
+            {
+                RedoStack.Push(GetQuery());
+                SetQuery(UndoStack.Pop());
+                DumpStacks();
+            }
+        }
+
+
+        protected override void Undo(Query query) => Do(query, undo: true, spoof: false);
+
+
 
         #region Private Enums
 
