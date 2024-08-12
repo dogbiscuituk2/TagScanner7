@@ -641,6 +641,7 @@
         {
             _lastAct = $"{act}";
             UndoStack.Push(GetQuery());
+            RedoStack.Clear();
             DumpStacks();
         }
 
@@ -655,7 +656,6 @@
             }
         }
 
-        protected override void Redo(Query query, bool spoof = false) => Do(query, undo: false, spoof);
 
         protected override void Undo()
         {
@@ -666,9 +666,6 @@
                 DumpStacks();
             }
         }
-
-
-        protected override void Undo(Query query) => Do(query, undo: true, spoof: false);
 
 
 

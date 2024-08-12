@@ -31,12 +31,6 @@
             Updater.Run();
         }
 
-        public virtual void Run(TCommand command, bool spoof = false)
-        {
-            RedoStack.Clear();
-            Redo(command, spoof);
-        }
-
         public void UpdateLocalUI()
         {
             if (Paused)
@@ -234,9 +228,9 @@
         #endregion
 
         protected abstract void Redo();
-        protected abstract void Redo(TCommand command, bool spoof = false);
+        //protected abstract void Redo(TCommand command, bool spoof = false);
 
         protected abstract void Undo();
-        protected abstract void Undo(TCommand command);
+        //protected abstract void Undo(TCommand command);
     }
 }
