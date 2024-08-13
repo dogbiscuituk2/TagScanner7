@@ -137,6 +137,8 @@
             RedoButton = redoButton;
         }
 
+        protected void Foo(TCommand command, bool undo) => GetStack(!undo).Push(command);
+
         #endregion
 
         #region Private Fields

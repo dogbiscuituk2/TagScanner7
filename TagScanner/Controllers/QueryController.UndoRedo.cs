@@ -8,7 +8,7 @@
 
         protected override void Do(Query query, bool undo, bool spoof)
         {
-            GetStack(!undo).Push(GetQuery());
+            Foo(undo);
             SetQuery(query);
         }
 
@@ -19,10 +19,12 @@
         private void TakeSnapshot(Act act)
         {
             _lastAct = $"{act}";
-            UndoStack.Push(GetQuery());
+            Foo(undo: false);
             RedoStack.Clear();
             DumpStacks();
         }
+
+        private void Foo(bool undo) => Foo(GetQuery(), undo);
 
         #endregion
     }

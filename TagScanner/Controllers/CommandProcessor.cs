@@ -45,7 +45,7 @@
                 command.Apply(Model);
                 Busy = false;
             }
-            GetStack(!undo).Push(command);
+            Foo(command, undo);
             UpdateAction();
         }
 
