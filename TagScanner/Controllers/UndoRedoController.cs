@@ -33,7 +33,7 @@
 
         public void UpdateLocalUI()
         {
-            if (Paused)
+            if (Updater.Paused)
                 return;
             UndoMenuItem.Enabled = UndoButton.Enabled = CanUndo;
             RedoMenuItem.Enabled = RedoButton.Enabled = CanRedo;
@@ -58,7 +58,6 @@
         #region Protected Properties
 
         protected bool Busy;
-        protected bool Paused => Updater.Paused;
 
         protected ToolStripMenuItem UndoMenuItem
         {
