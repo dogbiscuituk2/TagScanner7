@@ -1,6 +1,7 @@
 ﻿namespace TagScanner.Controllers
 {
     using System;
+    using System.Linq;
     using Commands;
 
     public class CommandProcessor : UndoRedoController<Command>
@@ -11,6 +12,8 @@
             Init(MainModel, action, MainForm.EditUndo, MainForm.EditRedo, MainForm.tbUndo, MainForm.tbRedo);
 
         #endregion
+
+        #region Public Methods
 
         /// <summary>
         /// Run a command, pushing its memento on to the Undo stack.
@@ -28,10 +31,22 @@
             if (LastSave > UndoStack.Count)
                 LastSave = -1;
             RedoStack.Clear();
-            Redo(command, spoof);
+            Do(command, undo: false, spoof);
         }
 
+        #endregion
+
         #region Protected Methods
+
+        protected override void Do(bool undo)
+        {
+            var stack = GetStack(undo);
+            if (stack.Any())
+            {
+                var command = stack.Pop();
+                Do(command, undo, spoof: false);
+            }
+        }
 
         protected override void Do(Command command, bool undo, bool spoof)
         {
@@ -41,8 +56,7 @@
                 command.Apply(Model);
                 Busy = false;
             }
-            var stack = undo ? RedoStack : UndoStack;
-            stack.Push(command);
+            GetStack(!undo).Push(command);
             UpdateAction();
             base.Do(command, undo, spoof);
         }
@@ -52,12 +66,5 @@
         #region Public Methods
 
         #endregion
-
-        protected override void Redo() { if (CanRedo) Redo(RedoStack.Pop()); }
-        private void Redo(Command command, bool spoof = false) => Do(command, undo: false, spoof);
-
-        protected override void Undo() { if (CanUndo) Undo(UndoStack.Pop()); }
-        private void Undo(Command command) => Do(command, undo: true, spoof: false);
-
     }
 }

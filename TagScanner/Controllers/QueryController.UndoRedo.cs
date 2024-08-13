@@ -1,25 +1,18 @@
 ﻿namespace TagScanner.Controllers
 {
+    using System.Linq;
+
     partial class QueryController
     {
         #region Protected Methods
 
-        protected override void Redo()
+        protected override void Do(bool undo)
         {
-            if (CanRedo)
+            var stack = GetStack(undo);
+            if (stack.Any())
             {
-                UndoStack.Push(GetQuery());
-                SetQuery(RedoStack.Pop());
-                DumpStacks();
-            }
-        }
-
-        protected override void Undo()
-        {
-            if (CanUndo)
-            {
-                RedoStack.Push(GetQuery());
-                SetQuery(UndoStack.Pop());
+                GetStack(!undo).Push(GetQuery());
+                SetQuery(stack.Pop());
                 DumpStacks();
             }
         }

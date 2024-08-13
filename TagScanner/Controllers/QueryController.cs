@@ -145,17 +145,6 @@
 
         #endregion
 
-        #region Protected Methods
-
-        protected override void Do(Query query, bool undo, bool spoof)
-        {
-            var stack = GetStack(undo);
-
-            base.Do(query, undo, spoof);
-        }
-
-        #endregion
-
         #region Private Fields
 
         private string _detail;

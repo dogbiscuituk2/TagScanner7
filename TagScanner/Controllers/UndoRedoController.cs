@@ -84,8 +84,8 @@
             set => InitSplitButton(_redoButton = value, undo: false);
         }
 
-        protected bool CanUndo => UndoStack.Count > 0;
-        protected bool CanRedo => RedoStack.Count > 0;
+        protected bool CanUndo => UndoStack.Any();
+        protected bool CanRedo => RedoStack.Any();
 
         protected string RedoAction => GetAction(undo: false);
         protected string UndoAction => GetAction(undo: true);
@@ -99,6 +99,30 @@
         #endregion
 
         #region Protected Methods
+
+        protected virtual void Do(TCommand command, bool undo, bool spoof) => DumpStacks();
+
+        protected void DumpStacks()
+        {
+#if UNDOREDO
+            DumpStack(undo: true);
+            DumpStack(undo: false);
+            Say("\n");
+            return;
+
+            void DumpStack(bool undo)
+            {
+                Say(undo ? "UNDO\n" : "REDO\n");
+                var stack = GetStack(undo);
+                if (stack.Any())
+                    stack.ToList().ForEach(p => Say($"{p.Text}"));
+                else
+                    Say(" <empty>\n");
+            }
+
+            void Say(string s) => System.Diagnostics.Debug.Write(s);
+#endif
+        }
 
         protected Stack<TCommand> GetStack(bool undo) => undo ? UndoStack : RedoStack;
 
@@ -127,45 +151,12 @@
 
         #region Private Methods
 
-        protected virtual void Do(TCommand command, bool undo, bool spoof) => DumpStacks();
+        protected abstract void Do(bool undo);
 
-        private void DoMultiple(object item, bool undo)
+        private void DoMultiple(ToolStripItem item, bool undo)
         {
-            var peek = (TCommand)((ToolStripItem)item).Tag;
-            if (undo)
-                do Undo(); while (RedoStack.Peek() != peek);
-            else
-                do Redo(); while (UndoStack.Peek() != peek);
-        }
-
-        private void DoSingle(bool undo)
-        {
-            if (undo)
-                Undo();
-            else
-                Redo();
-        }
-
-        protected void DumpStacks()
-        {
-#if UNDOREDO
-            DumpStack(undo: true);
-            DumpStack(undo: false);
-            Say("\n");
-            return;
-
-            void DumpStack(bool undo)
-            {
-                Say(undo ? "UNDO\n" : "REDO\n");
-                var stack = GetStack(undo);
-                if (stack.Any())
-                    stack.ToList().ForEach(p => Say($"{p.Text}"));
-                else
-                    Say(" <empty>\n");
-            }
-
-            void Say(string s) => System.Diagnostics.Debug.Write(s);
-#endif
+            for (var index = 0; index <= item.Owner.Items.IndexOf(item); index++)
+                Do(undo);
         }
 
         private string GetAction(bool undo)
@@ -191,14 +182,14 @@
 
         private void InitMenuItem(ToolStripMenuItem item, bool undo)
         {
-            item.Click += (sender, e) => DoSingle(undo);
+            item.Click += (sender, e) => Do(undo);
             InitDropDownItem(item, undo);
         }
 
         private void InitSplitButton(ToolStripSplitButton button, bool undo)
         {
             button.DropDown = new ContextMenuStrip();
-            button.ButtonClick += (sender, e) => DoSingle(undo);
+            button.ButtonClick += (sender, e) => Do(undo);
             InitDropDownItem(button, undo);
         }
 
@@ -212,7 +203,7 @@
         {
             var commands = GetStack(undo).ToArray();
             var menuItems = (undo ? _undoButton : _redoButton).DropDown.Items;
-            var handler = (EventHandler)((sender, e) => DoMultiple(sender, undo));
+            var handler = (EventHandler)((sender, e) => DoMultiple((ToolStripItem)sender, undo));
             const int MaxItems = 20;
             menuItems.Clear();
             for (int n = 0; n < Math.Min(commands.Length, MaxItems); n++)
@@ -226,11 +217,5 @@
         }
 
         #endregion
-
-        protected abstract void Redo();
-        //protected abstract void Redo(TCommand command, bool spoof = false);
-
-        protected abstract void Undo();
-        //protected abstract void Undo(TCommand command);
     }
 }
