@@ -23,7 +23,7 @@
         /// If false, the relevant properties have already been changed on the target, 
         /// so just log the memento to the Undo stack.</param>
         /// <returns>True if the command was run, and actually caused a property change.</returns>
-        public virtual void Run(Command command, bool spoof = false)
+        public void Run(Command command, bool spoof = false)
         {
             if (Busy || command == null)
                 return;
