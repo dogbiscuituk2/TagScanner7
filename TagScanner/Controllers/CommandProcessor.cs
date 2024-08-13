@@ -1,7 +1,6 @@
 ﻿namespace TagScanner.Controllers
 {
     using System;
-    using System.Linq;
     using Commands;
 
     public class CommandProcessor : UndoRedoController<Command>
@@ -38,16 +37,6 @@
 
         #region Protected Methods
 
-        protected override void Do(bool undo)
-        {
-            var stack = GetStack(undo);
-            if (stack.Any())
-            {
-                var command = stack.Pop();
-                Do(command, undo, spoof: false);
-            }
-        }
-
         protected override void Do(Command command, bool undo, bool spoof)
         {
             if (!spoof)
@@ -58,12 +47,7 @@
             }
             GetStack(!undo).Push(command);
             UpdateAction();
-            base.Do(command, undo, spoof);
         }
-
-        #endregion
-
-        #region Public Methods
 
         #endregion
     }

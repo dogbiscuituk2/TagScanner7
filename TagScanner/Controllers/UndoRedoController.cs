@@ -100,7 +100,7 @@
 
         #region Protected Methods
 
-        protected virtual void Do(TCommand command, bool undo, bool spoof) => DumpStacks();
+        protected abstract void Do(TCommand command, bool undo, bool spoof);
 
         protected void DumpStacks()
         {
@@ -151,7 +151,16 @@
 
         #region Private Methods
 
-        protected abstract void Do(bool undo);
+        private void Do(bool undo)
+        {
+            var stack = GetStack(undo);
+            if (stack.Any())
+            {
+                var command = stack.Pop();
+                Do(command, undo, spoof: false);
+                DumpStacks();
+            }
+        }
 
         private void DoMultiple(ToolStripItem item, bool undo)
         {
