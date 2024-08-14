@@ -4,6 +4,7 @@
     using System.Drawing;
     using System.Linq;
     using System.Windows.Forms;
+    using Core;
     using Models;
 
     partial class QueryController
@@ -56,11 +57,7 @@
             }
             e.Effect = listView == _source ? DragDropEffects.Move : DragDropEffects.Copy;
             if (drop)
-            {
-                var data = e.Data;
-                var formats = e.Data.GetFormats();
                 Merge(Verb.DragDrop, e.Data.ToStags());
-            }
         }
 
         private void DragDrop(ListView listView, DragEventArgs e) => DoDragDrop(listView, e, drop: true);

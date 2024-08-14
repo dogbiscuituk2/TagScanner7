@@ -1,5 +1,6 @@
 ﻿namespace TagScanner.Controllers
 {
+    using Core;
     using Models;
 
     partial class QueryController
@@ -16,9 +17,9 @@
 
         #region Private Methods
 
-        private void Run(Verb act)
+        private void Run(Verb verb)
         {
-            _lastAct = $"{act}";
+            _lastAct = verb;
             Push(undo: false);
             RedoStack.Clear();
             DumpStacks();

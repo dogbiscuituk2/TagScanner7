@@ -213,6 +213,7 @@
     <Compile Include="Controls\TermTreeNode.cs" />
     <Compile Include="Core\StringUtils.cs" />
     <Compile Include="Core\TypeUtils.cs" />
+    <Compile Include="Core\Verb.cs" />
     <Compile Include="Forms\FileChecksDialog.cs">
       <SubType>Form</SubType>
     </Compile>

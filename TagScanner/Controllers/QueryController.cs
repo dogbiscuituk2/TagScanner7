@@ -113,7 +113,7 @@
 
         public void SetQuery(Query query)
         {
-            _lastAct = query.Caption;
+            _lastAct = query.Verb;
             SetSorts(query.Sorts);
             SetGroups(query.Groups);
             SetSelectedTags(query.Tags);
@@ -150,7 +150,7 @@
         private string _detail;
         private QueryDialog _dialog;
         private Control _focus;
-        private string _lastAct;
+        private Verb _lastAct;
         private bool
             _initializing,
             _multiColumn,
@@ -312,7 +312,7 @@
             return Dialog;
         }
 
-        private void DoActiveAct(Verb act)
+        private void DoActiveAct(Verb verb)
         {
             FocusedListView?.BeginUpdate();
             var items = FocusedItems;
@@ -324,7 +324,7 @@
 
             void DoAct()
             {
-                switch (act)
+                switch (verb)
                 {
                     case Verb.MoveUp: DoMove(up: true); return;
                     case Verb.MoveDown: DoMove(up: false); return;
@@ -342,7 +342,7 @@
             {
                 if (items.Count == 0)
                     return;
-                Run(act);
+                Run(verb);
                 items.Clear();
             }
 
@@ -352,7 +352,7 @@
 
             void DoDelete()
             {
-                Run(act);
+                Run(verb);
                 for (int index = count - 1; index >= 0; index--)
                     if (selectedIndices.Contains(index))
                         items.RemoveAt(index);
@@ -362,7 +362,7 @@
 
             void DoMove(bool up)
             {
-                Run(act);
+                Run(verb);
                 int index, focus = -1;
                 if (up) for (index = 1; index < count; index++) Swap();
                 else for (index = count - 1; index > 0; index--) Swap();
@@ -467,7 +467,7 @@
 
         private void InitControls(string toolTip, params ToolStripItem[] controls) => Array.ForEach(controls, p => p.ToolTipText = toolTip);
 
-        private Query GetQuery() => new Query(GetSelectedTags(), GetSorts(), GetGroupByTags()) { Caption = _lastAct };
+        private Query GetQuery() => new Query(GetSelectedTags(), GetSorts(), GetGroupByTags()) { Verb = _lastAct };
 
         private void Merge(Verb act, IEnumerable<Stag> added)
         {
@@ -621,29 +621,6 @@
             _ListViewController.Active = !useTree;
             _TreeViewController.Active = useTree;
             UpdateUI();
-        }
-
-        #endregion
-
-        #region Private Enums
-
-        private enum Verb
-        {
-            None,
-            DragDrop,
-            MoveUp,
-            MoveDown,
-            Select,
-            SortAscending,
-            SortDescending,
-            GroupBy,
-            Cut,
-            Copy,
-            Paste,
-            Delete,
-            Clear,
-            SelectAll,
-            InvertSelection,
         }
 
         #endregion

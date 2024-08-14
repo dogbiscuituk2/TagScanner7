@@ -32,7 +32,7 @@
 
         #region Public Properties
 
-        public string Caption { get; set; }
+        public string Caption => $"{(Undo ? "Undo" : "Redo")} {Verb}";
 
         public string Text
         {
@@ -49,6 +49,9 @@
                 string Say(Stag stag) => $"{stag.Tag}{(stag.Descending ? '↓' : '↑')}";
             }
         }
+
+        public bool Undo { get; set; }
+        public Verb Verb { get; set; }
 
         #endregion
 

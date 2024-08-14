@@ -3,7 +3,7 @@
     public interface ICommand
     {
         void Apply(IModel model);
-        string Caption { get; set; }
+        string Caption { get; }
         string Text { get; }
     }
 }
