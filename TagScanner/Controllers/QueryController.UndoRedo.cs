@@ -8,7 +8,7 @@
 
         protected override void Do(Query query, bool undo, bool spoof)
         {
-            Foo(undo);
+            Push(undo);
             SetQuery(query);
         }
 
@@ -16,15 +16,15 @@
 
         #region Private Methods
 
-        private void TakeSnapshot(Act act)
+        private void Run(Act act)
         {
             _lastAct = $"{act}";
-            Foo(undo: false);
+            Push(undo: false);
             RedoStack.Clear();
             DumpStacks();
         }
 
-        private void Foo(bool undo) => Foo(GetQuery(), undo);
+        private void Push(bool undo) => Push(GetQuery(), undo);
 
         #endregion
     }

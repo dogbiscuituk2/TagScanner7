@@ -137,7 +137,7 @@
             RedoButton = redoButton;
         }
 
-        protected void Foo(TCommand command, bool undo) => GetStack(!undo).Push(command);
+        protected void Push(TCommand command, bool undo) => GetStack(!undo).Push(command);
 
         #endregion
 

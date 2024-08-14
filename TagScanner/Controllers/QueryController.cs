@@ -342,7 +342,7 @@
             {
                 if (items.Count == 0)
                     return;
-                TakeSnapshot(act);
+                Run(act);
                 items.Clear();
             }
 
@@ -352,7 +352,7 @@
 
             void DoDelete()
             {
-                TakeSnapshot(act);
+                Run(act);
                 for (int index = count - 1; index >= 0; index--)
                     if (selectedIndices.Contains(index))
                         items.RemoveAt(index);
@@ -362,7 +362,7 @@
 
             void DoMove(bool up)
             {
-                TakeSnapshot(act);
+                Run(act);
                 int index, focus = -1;
                 if (up) for (index = 1; index < count; index++) Swap();
                 else for (index = count - 1; index > 0; index--) Swap();
@@ -478,7 +478,7 @@
             var after = Cull(before.Take(pivot)).Concat(added).Concat(Cull(before.Skip(pivot)));
             if (!after.SequenceEqual(before))
             {
-                TakeSnapshot(act);
+                Run(act);
                 FocusedListView.BeginUpdate();
                 FocusedItems.Clear();
                 FocusedItems.AddRange(after.ToItems());

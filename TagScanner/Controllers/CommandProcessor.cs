@@ -45,7 +45,7 @@
                 command.Apply(Model);
                 Busy = false;
             }
-            Foo(command, undo);
+            Push(command, undo);
             UpdateAction();
         }
 
