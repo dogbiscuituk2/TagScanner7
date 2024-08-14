@@ -59,7 +59,7 @@
             {
                 var data = e.Data;
                 var formats = e.Data.GetFormats();
-                Merge(Act.DragDrop, e.Data.ToStags());
+                Merge(Verb.DragDrop, e.Data.ToStags());
             }
         }
 

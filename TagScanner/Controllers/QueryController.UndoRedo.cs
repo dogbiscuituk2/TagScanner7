@@ -16,7 +16,7 @@
 
         #region Private Methods
 
-        private void Run(Act act)
+        private void Run(Verb act)
         {
             _lastAct = $"{act}";
             Push(undo: false);

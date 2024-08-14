@@ -279,21 +279,21 @@
         private void TreeByCategory_Click(object sender, EventArgs e) => UseTreeView(TagGrouping.Category);
         private void TreeByDataType_Click(object sender, EventArgs e) => UseTreeView(TagGrouping.DataType);
 
-        private void PopupClear_Click(object sender, EventArgs e) => DoActiveAct(Act.Clear);
-        private void PopupCopy_Click(object sender, EventArgs e) => DoActiveAct(Act.Copy);
-        private void PopupCut_Click(object sender, EventArgs e) => DoActiveAct(Act.Cut);
-        private void PopupDelete_Click(object sender, EventArgs e) => DoActiveAct(Act.Delete);
-        private void PopupInvertSelection_Click(object sender, EventArgs e) => DoActiveAct(Act.InvertSelection);
-        private void PopupMoveDown_Click(object sender, EventArgs e) => DoActiveAct(Act.MoveDown);
-        private void PopupMoveUp_Click(object sender, EventArgs e) => DoActiveAct(Act.MoveUp);
-        private void PopupPaste_Click(object sender, EventArgs e) => DoActiveAct(Act.Paste);
-        private void PopupSelectAll_Click(object sender, EventArgs e) => DoActiveAct(Act.SelectAll);
+        private void PopupClear_Click(object sender, EventArgs e) => DoActiveAct(Verb.Clear);
+        private void PopupCopy_Click(object sender, EventArgs e) => DoActiveAct(Verb.Copy);
+        private void PopupCut_Click(object sender, EventArgs e) => DoActiveAct(Verb.Cut);
+        private void PopupDelete_Click(object sender, EventArgs e) => DoActiveAct(Verb.Delete);
+        private void PopupInvertSelection_Click(object sender, EventArgs e) => DoActiveAct(Verb.InvertSelection);
+        private void PopupMoveDown_Click(object sender, EventArgs e) => DoActiveAct(Verb.MoveDown);
+        private void PopupMoveUp_Click(object sender, EventArgs e) => DoActiveAct(Verb.MoveUp);
+        private void PopupPaste_Click(object sender, EventArgs e) => DoActiveAct(Verb.Paste);
+        private void PopupSelectAll_Click(object sender, EventArgs e) => DoActiveAct(Verb.SelectAll);
         private void PopupTargetMenu_Opening(object sender, CancelEventArgs e) => UpdateMenu();
 
-        private void PopupGroup_Click(object sender, EventArgs e) => DoPassiveAct(Act.GroupBy);
-        private void PopupSelect_Click(object sender, EventArgs e) => DoPassiveAct(Act.Select);
-        private void PopupSortAscending_Click(object sender, EventArgs e) => DoPassiveAct(Act.SortAscending);
-        private void PopupSortDescending_Click(object sender, EventArgs e) => DoPassiveAct(Act.SortDescending);
+        private void PopupGroup_Click(object sender, EventArgs e) => DoPassiveAct(Verb.GroupBy);
+        private void PopupSelect_Click(object sender, EventArgs e) => DoPassiveAct(Verb.Select);
+        private void PopupSortAscending_Click(object sender, EventArgs e) => DoPassiveAct(Verb.SortAscending);
+        private void PopupSortDescending_Click(object sender, EventArgs e) => DoPassiveAct(Verb.SortDescending);
 
         #endregion
 
@@ -312,7 +312,7 @@
             return Dialog;
         }
 
-        private void DoActiveAct(Act act)
+        private void DoActiveAct(Verb act)
         {
             FocusedListView?.BeginUpdate();
             var items = FocusedItems;
@@ -326,15 +326,15 @@
             {
                 switch (act)
                 {
-                    case Act.MoveUp: DoMove(up: true); return;
-                    case Act.MoveDown: DoMove(up: false); return;
-                    case Act.Cut: DoCut(); return;
-                    case Act.Copy: DoCopy(); return;
-                    case Act.Paste: DoPaste(); return;
-                    case Act.Delete: DoDelete(); return;
-                    case Act.Clear: DoClear(); return;
-                    case Act.SelectAll: DoSelectAll(); return;
-                    case Act.InvertSelection: DoInvertSelection(); return;
+                    case Verb.MoveUp: DoMove(up: true); return;
+                    case Verb.MoveDown: DoMove(up: false); return;
+                    case Verb.Cut: DoCut(); return;
+                    case Verb.Copy: DoCopy(); return;
+                    case Verb.Paste: DoPaste(); return;
+                    case Verb.Delete: DoDelete(); return;
+                    case Verb.Clear: DoClear(); return;
+                    case Verb.SelectAll: DoSelectAll(); return;
+                    case Verb.InvertSelection: DoInvertSelection(); return;
                 }
             }
 
@@ -385,13 +385,13 @@
             void DoPaste()
             {
                 if (StagData.IsOnClipboard())
-                    Merge(Act.Paste, StagData.FromClipboard());
+                    Merge(Verb.Paste, StagData.FromClipboard());
             }
 
             void DoSelectAll() { foreach (ListViewItem item in items) item.Selected = true; }
         }
 
-        private void DoPassiveAct(Act act)
+        private void DoPassiveAct(Verb act)
         {
             var tags = Focus.GetSelectedStags();
             var oldFocus = Focus;
@@ -404,10 +404,10 @@
             {
                 switch (act)
                 {
-                    case Act.Select: return LvSelect;
-                    case Act.SortAscending: SetDescending(false); return LvOrderBy;
-                    case Act.SortDescending: SetDescending(true); return LvOrderBy;
-                    case Act.GroupBy: return LvGroupBy;
+                    case Verb.Select: return LvSelect;
+                    case Verb.SortAscending: SetDescending(false); return LvOrderBy;
+                    case Verb.SortDescending: SetDescending(true); return LvOrderBy;
+                    case Verb.GroupBy: return LvGroupBy;
                     default: return null;
                 }
 
@@ -469,7 +469,7 @@
 
         private Query GetQuery() => new Query(GetSelectedTags(), GetSorts(), GetGroupByTags()) { Caption = _lastAct };
 
-        private void Merge(Act act, IEnumerable<Stag> added)
+        private void Merge(Verb act, IEnumerable<Stag> added)
         {
             var before = FocusedListView.GetAllStags();
             var count = FocusedItems.Count;
@@ -627,7 +627,7 @@
 
         #region Private Enums
 
-        private enum Act
+        private enum Verb
         {
             None,
             DragDrop,
@@ -637,8 +637,6 @@
             SortAscending,
             SortDescending,
             GroupBy,
-            Undo,
-            Redo,
             Cut,
             Copy,
             Paste,
