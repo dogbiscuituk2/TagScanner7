@@ -9,7 +9,7 @@
 
         protected override void Do(Query query, bool undo, bool spoof)
         {
-            Push(undo);
+            Push(!undo);
             SetQuery(query);
         }
 
@@ -20,7 +20,7 @@
         private void Run(Verb verb)
         {
             _verb = verb;
-            Push(undo: false);
+            Push(undo: true);
             RedoStack.Clear();
             DumpStacks();
         }

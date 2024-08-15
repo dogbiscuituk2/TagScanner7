@@ -467,7 +467,7 @@
 
         private void InitControls(string toolTip, params ToolStripItem[] controls) => Array.ForEach(controls, p => p.ToolTipText = toolTip);
 
-        private Query GetQuery(bool undo) => new Query(GetSelectedTags(), GetSorts(), GetGroupByTags()) { Undo = !undo, Verb = _verb };
+        private Query GetQuery(bool undo) => new Query(GetSelectedTags(), GetSorts(), GetGroupByTags()) { Undo = undo, Verb = _verb };
 
         private void Merge(Verb verb, IEnumerable<Stag> added)
         {
