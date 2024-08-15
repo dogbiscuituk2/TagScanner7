@@ -573,15 +573,15 @@
                 Apply(!canEdit, Dialog.PopupTree, Dialog.PopupList, Dialog.PopupSeparator1);
                 Apply(canEdit, Dialog.PopupSeparator2, Dialog.PopupSeparator5);
                 Apply(canMoveUp, PopupMoveUp, TbMoveUp);
-                Apply(canMoveDown, PopupMoveDown, TbMoveDown);
+                Apply(canMoveDown, PopupMoveDown, TbMoveDown, Dialog.PopupSeparator2);
                 Apply(canSelect, PopupSelect);
-                Apply(canSort, PopupSortAscending, PopupSortDescending);
+                Apply(canSort, PopupSortAscending, PopupSortDescending, Dialog.PopupSeparator3);
                 Apply(canGroup, PopupGroup);
                 Apply(canCut, PopupCut, TbCut);
                 Apply(canCopy, PopupCopy, TbCopy);
                 Apply(canPaste, PopupPaste, TbPaste);
                 Apply(canDelete, PopupDelete, TbDelete);
-                Apply(canClear, PopupClear);
+                Apply(canClear, PopupClear, Dialog.PopupSeparator5);
                 Apply(canSelectAll, PopupSelectAll);
                 Apply(canInvertSelection, PopupInvertSelection);
                 _initializing = false;
