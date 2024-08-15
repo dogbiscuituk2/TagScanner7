@@ -25,7 +25,7 @@
             DumpStacks();
         }
 
-        private void Push(bool undo) => Push(GetQuery(), undo);
+        private void Push(bool undo) => Push(GetQuery(undo), undo);
 
         #endregion
     }
