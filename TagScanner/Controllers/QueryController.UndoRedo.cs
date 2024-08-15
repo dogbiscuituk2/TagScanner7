@@ -9,8 +9,9 @@
 
         protected override void Do(Query query, bool undo, bool spoof)
         {
+            _verb = query.Verb;
             Push(!undo);
-            SetQuery(query);
+            query.Apply(this);
         }
 
         #endregion
