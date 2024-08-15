@@ -19,7 +19,7 @@
 
         private void Run(Verb verb)
         {
-            _lastAct = verb;
+            _verb = verb;
             Push(undo: false);
             RedoStack.Clear();
             DumpStacks();
