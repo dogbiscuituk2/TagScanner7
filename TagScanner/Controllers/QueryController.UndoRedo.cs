@@ -9,8 +9,7 @@
 
         protected override void Do(Query query, bool undo, bool spoof)
         {
-            _verb = query.Verb;
-            Push(!undo);
+            SaveState(query.Verb, undo);
             query.Apply(this);
         }
 
@@ -20,13 +19,22 @@
 
         private void Run(Verb verb)
         {
-            _verb = verb;
-            Push(undo: true);
+            SaveState(verb, undo: false);
             RedoStack.Clear();
             DumpStacks();
         }
 
-        private void Push(bool undo) => Push(GetQuery(undo), undo);
+        private void SaveState(Verb verb, bool undo)
+        {
+            _verb = verb;
+            var query = new Query(GetSelectedTags(), GetSorts(), GetGroupByTags())
+            {
+                Clause = FocusedClause,
+                Undo = !undo,
+                Verb = _verb,
+            };
+            Push(query, !undo);
+        }
 
         #endregion
     }

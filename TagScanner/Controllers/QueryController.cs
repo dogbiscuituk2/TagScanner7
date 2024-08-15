@@ -468,13 +468,6 @@
 
         private void InitControls(string toolTip, params ToolStripItem[] controls) => Array.ForEach(controls, p => p.ToolTipText = toolTip);
 
-        private Query GetQuery(bool undo) => new Query(GetSelectedTags(), GetSorts(), GetGroupByTags())
-        {
-            Clause = FocusedClause,
-            Undo = undo,
-            Verb = _verb,
-        };
-
         private void Merge(Verb verb, IEnumerable<Stag> added)
         {
             var before = FocusedListView.GetAllStags();
