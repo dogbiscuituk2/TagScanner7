@@ -230,12 +230,13 @@
         private ToolStripSplitButton TbTree => Dialog.tbTree;
         private ToolStripSplitButton TbList => Dialog.tbList;
 
+        private string FocusedClause => FocusedLabel?.Text ?? string.Empty;
         private Label FocusedLabel =>
             Focus == LvSelect ? Dialog.lblSelect :
             Focus == LvOrderBy ? Dialog.lblOrderBy :
             Focus == LvGroupBy ? Dialog.lblGroupBy :
             null;
-
+           
         private TreeNode SelectedNode => TreeView.SelectedNode;
         private ListView FocusedListView => Focus as ListView;
         private ListView.ListViewItemCollection FocusedItems => FocusedListView?.Items;
@@ -283,17 +284,17 @@
         private void PopupCopy_Click(object sender, EventArgs e) => DoActiveVerb(Verb.Copy);
         private void PopupCut_Click(object sender, EventArgs e) => DoActiveVerb(Verb.Cut);
         private void PopupDelete_Click(object sender, EventArgs e) => DoActiveVerb(Verb.Delete);
-        private void PopupInvertSelection_Click(object sender, EventArgs e) => DoActiveVerb(Verb.InvertSelection);
-        private void PopupMoveDown_Click(object sender, EventArgs e) => DoActiveVerb(Verb.MoveDown);
-        private void PopupMoveUp_Click(object sender, EventArgs e) => DoActiveVerb(Verb.MoveUp);
+        private void PopupInvertSelection_Click(object sender, EventArgs e) => DoActiveVerb(Verb.Invert_Selection);
+        private void PopupMoveDown_Click(object sender, EventArgs e) => DoActiveVerb(Verb.Move_Down);
+        private void PopupMoveUp_Click(object sender, EventArgs e) => DoActiveVerb(Verb.Move_Up);
         private void PopupPaste_Click(object sender, EventArgs e) => DoActiveVerb(Verb.Paste);
-        private void PopupSelectAll_Click(object sender, EventArgs e) => DoActiveVerb(Verb.SelectAll);
+        private void PopupSelectAll_Click(object sender, EventArgs e) => DoActiveVerb(Verb.Select_All);
         private void PopupTargetMenu_Opening(object sender, CancelEventArgs e) => UpdateMenu();
 
-        private void PopupGroup_Click(object sender, EventArgs e) => DoPassiveVerb(Verb.GroupBy);
-        private void PopupSelect_Click(object sender, EventArgs e) => DoPassiveVerb(Verb.Select);
-        private void PopupSortAscending_Click(object sender, EventArgs e) => DoPassiveVerb(Verb.SortAscending);
-        private void PopupSortDescending_Click(object sender, EventArgs e) => DoPassiveVerb(Verb.SortDescending);
+        private void PopupGroup_Click(object sender, EventArgs e) => DoPassiveVerb(Verb.Grouping);
+        private void PopupSelect_Click(object sender, EventArgs e) => DoPassiveVerb(Verb.Selection);
+        private void PopupSortAscending_Click(object sender, EventArgs e) => DoPassiveVerb(Verb.Sort_Ascending);
+        private void PopupSortDescending_Click(object sender, EventArgs e) => DoPassiveVerb(Verb.Sort_Descending);
 
         #endregion
 
@@ -378,15 +379,15 @@
             {
                 switch (verb)
                 {
-                    case Verb.MoveUp: DoMove(up: true); return;
-                    case Verb.MoveDown: DoMove(up: false); return;
+                    case Verb.Move_Up: DoMove(up: true); return;
+                    case Verb.Move_Down: DoMove(up: false); return;
                     case Verb.Cut: DoCut(); return;
                     case Verb.Copy: DoCopy(); return;
                     case Verb.Paste: DoPaste(); return;
                     case Verb.Delete: DoDelete(); return;
                     case Verb.Clear: DoClear(); return;
-                    case Verb.SelectAll: DoSelectAll(); return;
-                    case Verb.InvertSelection: DoInvertSelection(); return;
+                    case Verb.Select_All: DoSelectAll(); return;
+                    case Verb.Invert_Selection: DoInvertSelection(); return;
                 }
             }
         }
@@ -404,10 +405,10 @@
             {
                 switch (verb)
                 {
-                    case Verb.Select: return LvSelect;
-                    case Verb.SortAscending: SetDescending(false); return LvOrderBy;
-                    case Verb.SortDescending: SetDescending(true); return LvOrderBy;
-                    case Verb.GroupBy: return LvGroupBy;
+                    case Verb.Selection: return LvSelect;
+                    case Verb.Sort_Ascending: SetDescending(false); return LvOrderBy;
+                    case Verb.Sort_Descending: SetDescending(true); return LvOrderBy;
+                    case Verb.Grouping: return LvGroupBy;
                     default: return null;
                 }
 
@@ -453,7 +454,7 @@
             var box =
                 Focus == TreeView ? "Tree View" :
                 Focus == ListView ? "List View" :
-                $"'{FocusedLabel?.Text}' box";
+                $"'{FocusedClause}' box";
             InitControls($"Cut highlighted {_detail} from {box} to Clipboard", PopupCut, TbCut);
             InitControls($"Copy highlighted {_detail} from {box} to Clipboard", PopupCopy, TbCopy);
             InitControls($"Paste {_detail} from Clipboard into {box}", PopupPaste, TbPaste);
@@ -467,7 +468,12 @@
 
         private void InitControls(string toolTip, params ToolStripItem[] controls) => Array.ForEach(controls, p => p.ToolTipText = toolTip);
 
-        private Query GetQuery(bool undo) => new Query(GetSelectedTags(), GetSorts(), GetGroupByTags()) { Undo = undo, Verb = _verb };
+        private Query GetQuery(bool undo) => new Query(GetSelectedTags(), GetSorts(), GetGroupByTags())
+        {
+            Clause = FocusedClause,
+            Undo = undo,
+            Verb = _verb,
+        };
 
         private void Merge(Verb verb, IEnumerable<Stag> added)
         {

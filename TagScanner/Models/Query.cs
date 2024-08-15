@@ -33,6 +33,7 @@
         #region Public Properties
 
         public string Caption => $"{(Undo ? "Undo" : "Redo")} {Verb}";
+        public string Clause { get; set; }
 
         public string Text
         {
