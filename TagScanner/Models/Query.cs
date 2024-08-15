@@ -32,7 +32,8 @@
 
         #region Public Properties
 
-        public string Caption => $"{(Undo ? "Undo" : "Redo")} {Verb} {Clause}";
+        public string Caption => $"{(Undo ? "Undo" : "Redo")} {Verb}{((Verb & Verb.Passive) != 0 ? $" ({Clause})" : string.Empty)}";
+
         public string Clause { get; set; }
 
         public string Text
