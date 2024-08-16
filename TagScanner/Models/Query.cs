@@ -32,9 +32,22 @@
 
         #region Public Properties
 
-        public string Caption => $"{(Undo ? "Undo" : "Redo")} {Verb}{((Verb & Verb.Passive) != 0 ? $" ({Clause})" : string.Empty)}";
+        public string Caption => string.Format(
+            CaptionFormat,
+            Undo ? "Undo" : "Redo",
+            Say(Stags),
+            Clause
+            );
+            
+            //$"{(Undo ? "Undo" : "Redo")} {Verb} {Clause} {Say(Stags)}{((Verb & Verb.Passive) != 0 ? $"" : string.Empty)}";
+
+        private string Say(IEnumerable<Stag> stags) => stags == null || !stags.Any()
+            ? string.Empty
+            : $"{stags.First().Tag.DisplayName()}{(stags.Count() > 1 ? ", ..." : string.Empty)}";
 
         public string Clause { get; set; }
+
+        public List<Stag> Stags { get; set; }
 
         public string Text
         {
@@ -46,9 +59,8 @@
                 if (Groups.Any()) result.Append($"  GroupBy {JoinTags(Groups)}\n");
                 return result.ToString();
 
-                string JoinStags(IEnumerable<Stag> stags) => stags.Select(p => Say(p)).Join(",");
-                string JoinTags(IEnumerable<Tag> tags) => tags.Select(p => $"{p}").Join(",");
-                string Say(Stag stag) => $"{stag.Tag}{(stag.Descending ? '↓' : '↑')}";
+                string JoinStags(IEnumerable<Stag> stags) => stags.Select(p => p.Caption).Join(",");
+                string JoinTags(IEnumerable<Tag> tags) => tags.Select(p => p.DisplayName()).Join(",");
             }
         }
 
@@ -129,6 +141,31 @@
             ByYear = new Query(Data2, SortByNumber, GroupByYear),
             ByGenre = new Query(Data1, SortByNumber, GroupByGenre),
             ByTitle = new Query(Data4, SortByTitle, GroupByTitle);
+
+        #endregion
+
+        #region Private Methods
+
+        private string CaptionFormat
+        {
+            get
+            {
+                // {0} will be replaced by "Undo" or "Redo"
+                // {1} will be replaced by {Stags}
+                // {2} will be replaced by {Clause}
+                switch (Verb)
+                {
+                    case Verb.Drag_Drop:
+                        return "{0} drag/drop ({1}) into '{2}'";
+                    case Verb.Move_Up:
+                        return "{0} move↑ ({1}) in '{2}'";
+                    case Verb.Move_Down:
+                        return "{0} move↓ ({1}) in '{2}'";
+                    default:
+                        return "{0} {1} {2} into {3}";
+                }
+            }
+        }
 
         #endregion
     }

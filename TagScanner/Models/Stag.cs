@@ -23,6 +23,7 @@
 
         #region Public Properties
 
+        public string Caption => $"{Tag.DisplayName()}{(Descending ? '↓' : '↑')}";
         public bool Descending { get; set; }
         public Tag Tag { get; set; }
 

@@ -1,5 +1,7 @@
 ﻿namespace TagScanner.Controllers
 {
+    using System.Collections.Generic;
+    using System.Linq;
     using Core;
     using Models;
 
@@ -9,7 +11,7 @@
 
         protected override void Do(Query query, bool undo, bool spoof)
         {
-            SaveState(query.Verb, undo);
+            SaveState(undo, query.Verb, query.Stags, query.Clause);
             query.Apply(this);
         }
 
@@ -17,24 +19,26 @@
 
         #region Private Methods
 
-        private void Run(Verb verb)
+        private void Run(Verb verb, IEnumerable<Stag> stags)
         {
-            SaveState(verb, undo: false);
+            SaveState(undo: false, verb, stags, FocusedClause);
             RedoStack.Clear();
             DumpStacks();
         }
 
-        private void SaveState(Verb verb, bool undo)
-        {
-            _verb = verb;
-            var query = new Query(GetSelectedTags(), GetSorts(), GetGroupByTags())
-            {
-                Clause = FocusedClause,
-                Undo = !undo,
-                Verb = _verb,
-            };
-            Push(query, !undo);
-        }
+        private void SaveState(bool undo, Verb verb, IEnumerable<Stag> stags, string clause) =>
+            Push(
+                new Query(
+                    GetSelectedTags(),
+                    GetSorts(),
+                    GetGroupByTags())
+                {
+                    Undo = !undo,
+                    Verb = verb,
+                    Stags = stags.ToList(),
+                    Clause = clause,
+                },
+            !undo);
 
         #endregion
     }

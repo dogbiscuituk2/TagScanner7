@@ -113,7 +113,7 @@
 
         public void SetQuery(Query query)
         {
-            _verb = query.Verb;
+            _clause = query.Clause;
             SetSorts(query.Sorts);
             SetGroups(query.Groups);
             SetSelectedTags(query.Tags);
@@ -147,6 +147,7 @@
 
         #region Private Fields
 
+        private string _clause;
         private string _detail;
         private QueryDialog _dialog;
         private Control _focus;
@@ -154,7 +155,6 @@
             _initializing,
             _multiColumn,
             _sortAndGroup;
-        private Verb _verb;
 
         private readonly QueryTreeViewController _TreeViewController;
         private readonly QueryListViewController _ListViewController;
@@ -327,7 +327,7 @@
             {
                 if (items.Count == 0)
                     return;
-                Run(verb);
+                DoRun();
                 items.Clear();
             }
 
@@ -337,7 +337,7 @@
 
             void DoDelete()
             {
-                Run(verb);
+                DoRun();
                 for (int index = count - 1; index >= 0; index--)
                     if (selectedIndices.Contains(index))
                         items.RemoveAt(index);
@@ -347,7 +347,7 @@
 
             void DoMove(bool up)
             {
-                Run(verb);
+                DoRun();
                 int index, focus = -1;
                 if (up) for (index = 1; index < count; index++) Swap();
                 else for (index = count - 1; index > 0; index--) Swap();
@@ -372,6 +372,8 @@
                 if (StagData.IsOnClipboard())
                     Merge(Verb.Paste, StagData.FromClipboard());
             }
+
+            void DoRun() => Run(verb, Focus.GetSelectedStags());
 
             void DoSelectAll() { foreach (ListViewItem item in items) item.Selected = true; }
 
@@ -477,7 +479,7 @@
             var after = Cull(before.Take(pivot)).Concat(added).Concat(Cull(before.Skip(pivot)));
             if (!after.SequenceEqual(before))
             {
-                Run(verb);
+                Run(verb, added);
                 FocusedListView.BeginUpdate();
                 FocusedItems.Clear();
                 FocusedItems.AddRange(after.ToItems());
@@ -555,7 +557,7 @@
             canCopy &= hasSelection;
             canPaste &= StagData.IsOnClipboard();
             canDelete &= hasSelection;
-            canClear &= hasSelection;
+            canClear &= hasAny;
             canSelectAll &= hasAny;
             canInvertSelection &= hasAny;
 
