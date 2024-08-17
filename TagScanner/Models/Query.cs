@@ -65,7 +65,7 @@
         }
 
         public bool Undo { get; set; }
-        public Verb Verb { get; set; }
+        public QueryVerb Verb { get; set; }
 
         #endregion
 
@@ -155,12 +155,20 @@
                 // {2} will be replaced by {Clause}
                 switch (Verb)
                 {
-                    case Verb.Drag_Drop:
+                    case QueryVerb.Merge:
                         return "{0} drag/drop ({1}) into '{2}'";
-                    case Verb.Move_Up:
+                    case QueryVerb.MoveUp:
                         return "{0} move↑ ({1}) in '{2}'";
-                    case Verb.Move_Down:
+                    case QueryVerb.MoveDown:
                         return "{0} move↓ ({1}) in '{2}'";
+                    case QueryVerb.SelectTags:
+                        return "{0} select ({1})";
+                    case QueryVerb.SortAscending:
+                        return "{0} sort↑ by ({1})";
+                    case QueryVerb.SortDescending:
+                        return "{0} sort↓ by ({1})";
+                    case QueryVerb.Group:
+                        return "{0} group by ({1})";
                     default:
                         return "{0} {1} {2} into {3}";
                 }

@@ -280,21 +280,21 @@
         private void TreeByCategory_Click(object sender, EventArgs e) => UseTreeView(TagGrouping.Category);
         private void TreeByDataType_Click(object sender, EventArgs e) => UseTreeView(TagGrouping.DataType);
 
-        private void PopupClear_Click(object sender, EventArgs e) => DoActiveVerb(Verb.Clear);
-        private void PopupCopy_Click(object sender, EventArgs e) => DoActiveVerb(Verb.Copy);
-        private void PopupCut_Click(object sender, EventArgs e) => DoActiveVerb(Verb.Cut);
-        private void PopupDelete_Click(object sender, EventArgs e) => DoActiveVerb(Verb.Delete);
-        private void PopupInvertSelection_Click(object sender, EventArgs e) => DoActiveVerb(Verb.Invert_Selection);
-        private void PopupMoveDown_Click(object sender, EventArgs e) => DoActiveVerb(Verb.Move_Down);
-        private void PopupMoveUp_Click(object sender, EventArgs e) => DoActiveVerb(Verb.Move_Up);
-        private void PopupPaste_Click(object sender, EventArgs e) => DoActiveVerb(Verb.Paste);
-        private void PopupSelectAll_Click(object sender, EventArgs e) => DoActiveVerb(Verb.Select_All);
+        private void PopupClear_Click(object sender, EventArgs e) => DoActiveVerb(QueryVerb.Clear);
+        private void PopupCopy_Click(object sender, EventArgs e) => DoActiveVerb(QueryVerb.Copy);
+        private void PopupCut_Click(object sender, EventArgs e) => DoActiveVerb(QueryVerb.Cut);
+        private void PopupDelete_Click(object sender, EventArgs e) => DoActiveVerb(QueryVerb.Delete);
+        private void PopupInvertSelection_Click(object sender, EventArgs e) => DoActiveVerb(QueryVerb.InvertSelection);
+        private void PopupMoveDown_Click(object sender, EventArgs e) => DoActiveVerb(QueryVerb.MoveDown);
+        private void PopupMoveUp_Click(object sender, EventArgs e) => DoActiveVerb(QueryVerb.MoveUp);
+        private void PopupPaste_Click(object sender, EventArgs e) => DoActiveVerb(QueryVerb.Paste);
+        private void PopupSelectAll_Click(object sender, EventArgs e) => DoActiveVerb(QueryVerb.SelectAll);
         private void PopupTargetMenu_Opening(object sender, CancelEventArgs e) => UpdateMenu();
 
-        private void PopupGroup_Click(object sender, EventArgs e) => DoPassiveVerb(Verb.Grouping);
-        private void PopupSelect_Click(object sender, EventArgs e) => DoPassiveVerb(Verb.Selection);
-        private void PopupSortAscending_Click(object sender, EventArgs e) => DoPassiveVerb(Verb.Sort_Ascending);
-        private void PopupSortDescending_Click(object sender, EventArgs e) => DoPassiveVerb(Verb.Sort_Descending);
+        private void PopupGroup_Click(object sender, EventArgs e) => DoPassiveVerb(QueryVerb.Group);
+        private void PopupSelect_Click(object sender, EventArgs e) => DoPassiveVerb(QueryVerb.SelectTags);
+        private void PopupSortAscending_Click(object sender, EventArgs e) => DoPassiveVerb(QueryVerb.SortAscending);
+        private void PopupSortDescending_Click(object sender, EventArgs e) => DoPassiveVerb(QueryVerb.SortDescending);
 
         #endregion
 
@@ -313,7 +313,7 @@
             return Dialog;
         }
 
-        private void DoActiveVerb(Verb verb)
+        private void DoActiveVerb(QueryVerb verb)
         {
             FocusedListView?.BeginUpdate();
             var items = FocusedItems;
@@ -370,7 +370,7 @@
             void DoPaste()
             {
                 if (StagData.IsOnClipboard())
-                    Merge(Verb.Paste, StagData.FromClipboard());
+                    Merge(QueryVerb.Paste, StagData.FromClipboard());
             }
 
             void DoRun() => Run(verb, Focus.GetSelectedStags());
@@ -381,20 +381,20 @@
             {
                 switch (verb)
                 {
-                    case Verb.Move_Up: DoMove(up: true); return;
-                    case Verb.Move_Down: DoMove(up: false); return;
-                    case Verb.Cut: DoCut(); return;
-                    case Verb.Copy: DoCopy(); return;
-                    case Verb.Paste: DoPaste(); return;
-                    case Verb.Delete: DoDelete(); return;
-                    case Verb.Clear: DoClear(); return;
-                    case Verb.Select_All: DoSelectAll(); return;
-                    case Verb.Invert_Selection: DoInvertSelection(); return;
+                    case QueryVerb.MoveUp: DoMove(up: true); return;
+                    case QueryVerb.MoveDown: DoMove(up: false); return;
+                    case QueryVerb.Cut: DoCut(); return;
+                    case QueryVerb.Copy: DoCopy(); return;
+                    case QueryVerb.Paste: DoPaste(); return;
+                    case QueryVerb.Delete: DoDelete(); return;
+                    case QueryVerb.Clear: DoClear(); return;
+                    case QueryVerb.SelectAll: DoSelectAll(); return;
+                    case QueryVerb.InvertSelection: DoInvertSelection(); return;
                 }
             }
         }
 
-        private void DoPassiveVerb(Verb verb)
+        private void DoPassiveVerb(QueryVerb verb)
         {
             var tags = Focus.GetSelectedStags();
             var oldFocus = Focus;
@@ -407,10 +407,10 @@
             {
                 switch (verb)
                 {
-                    case Verb.Selection: return LvSelect;
-                    case Verb.Sort_Ascending: SetDescending(false); return LvOrderBy;
-                    case Verb.Sort_Descending: SetDescending(true); return LvOrderBy;
-                    case Verb.Grouping: return LvGroupBy;
+                    case QueryVerb.SelectTags: return LvSelect;
+                    case QueryVerb.SortAscending: SetDescending(false); return LvOrderBy;
+                    case QueryVerb.SortDescending: SetDescending(true); return LvOrderBy;
+                    case QueryVerb.Group: return LvGroupBy;
                     default: return null;
                 }
 
@@ -470,7 +470,7 @@
 
         private void InitControls(string toolTip, params ToolStripItem[] controls) => Array.ForEach(controls, p => p.ToolTipText = toolTip);
 
-        private void Merge(Verb verb, IEnumerable<Stag> added)
+        private void Merge(QueryVerb verb, IEnumerable<Stag> added)
         {
             var before = FocusedListView.GetAllStags();
             var count = FocusedItems.Count;
