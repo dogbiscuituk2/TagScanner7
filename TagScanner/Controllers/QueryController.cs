@@ -9,6 +9,7 @@
     using Core;
     using Forms;
     using Models;
+    using static System.Windows.Forms.VisualStyles.VisualStyleElement.Window;
 
     public partial class QueryController : UndoRedoController<Query>, ISetQuery
     {
@@ -541,6 +542,9 @@
 
             ApplyAll((value, item) => item.Visible = value);
 
+            Dialog.PopupSeparator1.Visible = !canEdit;
+            Dialog.PopupSeparator2.Visible = Dialog.PopupSeparator5.Visible = canEdit;
+
             var count = canEdit ? indices.Count() : 0;
 
             canMoveUp &= count > 0 && indices.Max() >= count;
@@ -560,18 +564,17 @@
 
             void ApplyAll(Action<bool, ToolStripItem> action)
             {
-                Apply(!canEdit, Dialog.PopupTree, Dialog.PopupList, Dialog.PopupSeparator1);
-                Apply(canEdit, Dialog.PopupSeparator2, Dialog.PopupSeparator5);
+                Apply(!canEdit, Dialog.PopupTree, Dialog.PopupList);
                 Apply(canMoveUp, PopupMoveUp, TbMoveUp);
-                Apply(canMoveDown, PopupMoveDown, TbMoveDown, Dialog.PopupSeparator2);
+                Apply(canMoveDown, PopupMoveDown, TbMoveDown);
                 Apply(canSelect, PopupSelect);
-                Apply(canSort, PopupSortAscending, PopupSortDescending, Dialog.PopupSeparator3);
+                Apply(canSort, PopupSortAscending, PopupSortDescending);
                 Apply(canGroup, PopupGroup);
                 Apply(canCut, PopupCut, TbCut);
                 Apply(canCopy, PopupCopy, TbCopy);
                 Apply(canPaste, PopupPaste, TbPaste);
                 Apply(canDelete, PopupDelete, TbDelete);
-                Apply(canClear, PopupClear, Dialog.PopupSeparator5);
+                Apply(canClear, PopupClear);
                 Apply(canSelectAll, PopupSelectAll);
                 Apply(canInvertSelection, PopupInvertSelection);
                 _initializing = false;
