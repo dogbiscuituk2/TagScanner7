@@ -113,7 +113,6 @@
 
         public void SetQuery(Query query)
         {
-            _clause = query.Clause;
             SetSorts(query.Sorts);
             SetGroups(query.Groups);
             SetSelectedTags(query.Tags);
@@ -181,7 +180,7 @@
 
                 void FocusView(bool focus)
                 {
-                    var label = FocusedLabel;
+                    var label = FocusLabel;
                     if (label != null)
                         label.BackColor = Color.FromKnownColor(focus ? KnownColor.ActiveCaption : KnownColor.Control);
                 }
@@ -230,18 +229,14 @@
         private ToolStripSplitButton TbTree => Dialog.tbTree;
         private ToolStripSplitButton TbList => Dialog.tbList;
 
-        private string FocusedClause => FocusedLabel?.Text ?? string.Empty;
-        private Label FocusedLabel =>
-            Focus == LvSelect ? Dialog.lblSelect :
-            Focus == LvOrderBy ? Dialog.lblOrderBy :
-            Focus == LvGroupBy ? Dialog.lblGroupBy :
-            null;
-           
+        private string FocusClause => FocusLabel?.Text ?? string.Empty;
+        private int FocusIndex => Focus == LvSelect ? 1 : Focus == LvOrderBy ? 2 : Focus == LvGroupBy ? 3 : 0;
+        private ListView.ListViewItemCollection FocusItems => FocusListView?.Items;
+        private Label FocusLabel => new[] { null, Dialog.lblSelect, Dialog.lblOrderBy, Dialog.lblGroupBy }[FocusIndex];
+        private ListView FocusListView => Focus as ListView;
+        private ListView.SelectedListViewItemCollection FocusSelection => FocusListView?.SelectedItems;
+        private List<int> FocusSelectedIndices => FocusListView?.SelectedIndices.Cast<int>().ToList();
         private TreeNode SelectedNode => TreeView.SelectedNode;
-        private ListView FocusedListView => Focus as ListView;
-        private ListView.ListViewItemCollection FocusedItems => FocusedListView?.Items;
-        private ListView.SelectedListViewItemCollection FocusedSelection => FocusedListView?.SelectedItems;
-        private List<int> FocusedSelectedIndices => FocusedListView?.SelectedIndices.Cast<int>().ToList();
 
         private bool SortAndGroup
         {
@@ -280,21 +275,21 @@
         private void TreeByCategory_Click(object sender, EventArgs e) => UseTreeView(TagGrouping.Category);
         private void TreeByDataType_Click(object sender, EventArgs e) => UseTreeView(TagGrouping.DataType);
 
-        private void PopupClear_Click(object sender, EventArgs e) => DoActiveVerb(QueryVerb.Clear);
-        private void PopupCopy_Click(object sender, EventArgs e) => DoActiveVerb(QueryVerb.Copy);
-        private void PopupCut_Click(object sender, EventArgs e) => DoActiveVerb(QueryVerb.Cut);
-        private void PopupDelete_Click(object sender, EventArgs e) => DoActiveVerb(QueryVerb.Delete);
-        private void PopupInvertSelection_Click(object sender, EventArgs e) => DoActiveVerb(QueryVerb.InvertSelection);
-        private void PopupMoveDown_Click(object sender, EventArgs e) => DoActiveVerb(QueryVerb.MoveDown);
-        private void PopupMoveUp_Click(object sender, EventArgs e) => DoActiveVerb(QueryVerb.MoveUp);
-        private void PopupPaste_Click(object sender, EventArgs e) => DoActiveVerb(QueryVerb.Paste);
-        private void PopupSelectAll_Click(object sender, EventArgs e) => DoActiveVerb(QueryVerb.SelectAll);
+        private void PopupClear_Click(object sender, EventArgs e) => DoActiveVerb(Verb.Clear);
+        private void PopupCopy_Click(object sender, EventArgs e) => DoActiveVerb(Verb.Copy);
+        private void PopupCut_Click(object sender, EventArgs e) => DoActiveVerb(Verb.Cut);
+        private void PopupDelete_Click(object sender, EventArgs e) => DoActiveVerb(Verb.Delete);
+        private void PopupInvertSelection_Click(object sender, EventArgs e) => DoActiveVerb(Verb.InvertSelection);
+        private void PopupMoveDown_Click(object sender, EventArgs e) => DoActiveVerb(Verb.MoveDown);
+        private void PopupMoveUp_Click(object sender, EventArgs e) => DoActiveVerb(Verb.MoveUp);
+        private void PopupPaste_Click(object sender, EventArgs e) => DoActiveVerb(Verb.Paste);
+        private void PopupSelectAll_Click(object sender, EventArgs e) => DoActiveVerb(Verb.SelectAll);
         private void PopupTargetMenu_Opening(object sender, CancelEventArgs e) => UpdateMenu();
 
-        private void PopupGroup_Click(object sender, EventArgs e) => DoPassiveVerb(QueryVerb.Group);
-        private void PopupSelect_Click(object sender, EventArgs e) => DoPassiveVerb(QueryVerb.SelectTags);
-        private void PopupSortAscending_Click(object sender, EventArgs e) => DoPassiveVerb(QueryVerb.SortAscending);
-        private void PopupSortDescending_Click(object sender, EventArgs e) => DoPassiveVerb(QueryVerb.SortDescending);
+        private void PopupGroup_Click(object sender, EventArgs e) => DoPassiveVerb(Verb.GroupBy);
+        private void PopupSelect_Click(object sender, EventArgs e) => DoPassiveVerb(Verb.SelectTags);
+        private void PopupSortAscending_Click(object sender, EventArgs e) => DoPassiveVerb(Verb.SortAscending);
+        private void PopupSortDescending_Click(object sender, EventArgs e) => DoPassiveVerb(Verb.SortDescending);
 
         #endregion
 
@@ -313,14 +308,14 @@
             return Dialog;
         }
 
-        private void DoActiveVerb(QueryVerb verb)
+        private void DoActiveVerb(Verb verb)
         {
-            FocusedListView?.BeginUpdate();
-            var items = FocusedItems;
+            FocusListView?.BeginUpdate();
+            var items = FocusItems;
             var count = items?.Count ?? 0;
-            var selectedIndices = FocusedSelectedIndices;
+            var selectedIndices = FocusSelectedIndices;
             DoVerb();
-            FocusedListView?.EndUpdate();
+            FocusListView?.EndUpdate();
             UpdateMenu();
 
             void DoClear()
@@ -352,7 +347,7 @@
                 if (up) for (index = 1; index < count; index++) Swap();
                 else for (index = count - 1; index > 0; index--) Swap();
                 if (focus >= 0)
-                    FocusedListView.EnsureVisible(focus);
+                    FocusListView.EnsureVisible(focus);
 
                 void Swap()
                 {
@@ -370,7 +365,7 @@
             void DoPaste()
             {
                 if (StagData.IsOnClipboard())
-                    Merge(QueryVerb.Paste, StagData.FromClipboard());
+                    Merge(Verb.Paste, StagData.FromClipboard());
             }
 
             void DoRun() => Run(verb, Focus.GetSelectedStags());
@@ -381,20 +376,20 @@
             {
                 switch (verb)
                 {
-                    case QueryVerb.MoveUp: DoMove(up: true); return;
-                    case QueryVerb.MoveDown: DoMove(up: false); return;
-                    case QueryVerb.Cut: DoCut(); return;
-                    case QueryVerb.Copy: DoCopy(); return;
-                    case QueryVerb.Paste: DoPaste(); return;
-                    case QueryVerb.Delete: DoDelete(); return;
-                    case QueryVerb.Clear: DoClear(); return;
-                    case QueryVerb.SelectAll: DoSelectAll(); return;
-                    case QueryVerb.InvertSelection: DoInvertSelection(); return;
+                    case Verb.MoveUp: DoMove(up: true); return;
+                    case Verb.MoveDown: DoMove(up: false); return;
+                    case Verb.Cut: DoCut(); return;
+                    case Verb.Copy: DoCopy(); return;
+                    case Verb.Paste: DoPaste(); return;
+                    case Verb.Delete: DoDelete(); return;
+                    case Verb.Clear: DoClear(); return;
+                    case Verb.SelectAll: DoSelectAll(); return;
+                    case Verb.InvertSelection: DoInvertSelection(); return;
                 }
             }
         }
 
-        private void DoPassiveVerb(QueryVerb verb)
+        private void DoPassiveVerb(Verb verb)
         {
             var tags = Focus.GetSelectedStags();
             var oldFocus = Focus;
@@ -407,10 +402,10 @@
             {
                 switch (verb)
                 {
-                    case QueryVerb.SelectTags: return LvSelect;
-                    case QueryVerb.SortAscending: SetDescending(false); return LvOrderBy;
-                    case QueryVerb.SortDescending: SetDescending(true); return LvOrderBy;
-                    case QueryVerb.Group: return LvGroupBy;
+                    case Verb.SelectTags: return LvSelect;
+                    case Verb.SortAscending: SetDescending(false); return LvOrderBy;
+                    case Verb.SortDescending: SetDescending(true); return LvOrderBy;
+                    case Verb.GroupBy: return LvGroupBy;
                     default: return null;
                 }
 
@@ -456,7 +451,7 @@
             var box =
                 Focus == TreeView ? "Tree View" :
                 Focus == ListView ? "List View" :
-                $"'{FocusedClause}' box";
+                $"'{FocusClause}' box";
             InitControls($"Cut highlighted {_detail} from {box} to Clipboard", PopupCut, TbCut);
             InitControls($"Copy highlighted {_detail} from {box} to Clipboard", PopupCopy, TbCopy);
             InitControls($"Paste {_detail} from Clipboard into {box}", PopupPaste, TbPaste);
@@ -470,20 +465,20 @@
 
         private void InitControls(string toolTip, params ToolStripItem[] controls) => Array.ForEach(controls, p => p.ToolTipText = toolTip);
 
-        private void Merge(QueryVerb verb, IEnumerable<Stag> added)
+        private void Merge(Verb verb, IEnumerable<Stag> added)
         {
-            var before = FocusedListView.GetAllStags();
-            var count = FocusedItems.Count;
-            var selected = FocusedSelectedIndices;
+            var before = FocusListView.GetAllStags();
+            var count = FocusItems.Count;
+            var selected = FocusSelectedIndices;
             var pivot = selected.Any() ? selected.First() : count;
             var after = Cull(before.Take(pivot)).Concat(added).Concat(Cull(before.Skip(pivot)));
             if (!after.SequenceEqual(before))
             {
                 Run(verb, added);
-                FocusedListView.BeginUpdate();
-                FocusedItems.Clear();
-                FocusedItems.AddRange(after.ToItems());
-                FocusedListView.EndUpdate();
+                FocusListView.BeginUpdate();
+                FocusItems.Clear();
+                FocusItems.AddRange(after.ToItems());
+                FocusListView.EndUpdate();
                 UpdateMenu();
             }
             return;
@@ -521,8 +516,8 @@
             UpdateLocalUI();
             InitActiveControls();
 
-            var indices = FocusedSelectedIndices ?? new List<int>();
-            var total = FocusedItems?.Count ?? 0;
+            var indices = FocusSelectedIndices ?? new List<int>();
+            var total = FocusItems?.Count ?? 0;
             var targets = new[] { LvSelect, LvOrderBy, LvGroupBy };
 
             bool

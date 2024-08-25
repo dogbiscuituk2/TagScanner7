@@ -19,14 +19,14 @@
 
         #region Private Methods
 
-        private void Run(QueryVerb verb, IEnumerable<Stag> stags)
+        private void Run(Verb verb, IEnumerable<Stag> stags)
         {
-            SaveState(undo: false, verb, stags, FocusedClause);
+            SaveState(undo: false, verb, stags, FocusClause);
             RedoStack.Clear();
             DumpStacks();
         }
 
-        private void SaveState(bool undo, QueryVerb verb, IEnumerable<Stag> stags, string clause) =>
+        private void SaveState(bool undo, Verb verb, IEnumerable<Stag> stags, string clause) =>
             Push(
                 new Query(
                     GetSelectedTags(),

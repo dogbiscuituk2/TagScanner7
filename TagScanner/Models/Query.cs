@@ -38,12 +38,6 @@
             Say(Stags),
             Clause
             );
-            
-            //$"{(Undo ? "Undo" : "Redo")} {Verb} {Clause} {Say(Stags)}{((Verb & Verb.Passive) != 0 ? $"" : string.Empty)}";
-
-        private string Say(IEnumerable<Stag> stags) => stags == null || !stags.Any()
-            ? string.Empty
-            : $"{stags.First().Tag.DisplayName()}{(stags.Count() > 1 ? ", ..." : string.Empty)}";
 
         public string Clause { get; set; }
 
@@ -65,7 +59,7 @@
         }
 
         public bool Undo { get; set; }
-        public QueryVerb Verb { get; set; }
+        public Verb Verb { get; set; }
 
         #endregion
 
@@ -155,25 +149,29 @@
                 // {2} will be replaced by {Clause}
                 switch (Verb)
                 {
-                    case QueryVerb.Merge:
-                        return "{0} drag/drop ({1}) into '{2}'";
-                    case QueryVerb.MoveUp:
+                    case Verb.Merge:
+                        return "{0} merge ({1}) into '{2}'";
+                    case Verb.MoveUp:
                         return "{0} move↑ ({1}) in '{2}'";
-                    case QueryVerb.MoveDown:
+                    case Verb.MoveDown:
                         return "{0} move↓ ({1}) in '{2}'";
-                    case QueryVerb.SelectTags:
+                    case Verb.SelectTags:
                         return "{0} select ({1})";
-                    case QueryVerb.SortAscending:
+                    case Verb.SortAscending:
                         return "{0} sort↑ by ({1})";
-                    case QueryVerb.SortDescending:
+                    case Verb.SortDescending:
                         return "{0} sort↓ by ({1})";
-                    case QueryVerb.Group:
+                    case Verb.GroupBy:
                         return "{0} group by ({1})";
                     default:
                         return "{0} {1} {2} into {3}";
                 }
             }
         }
+
+        private string Say(IEnumerable<Stag> stags) => stags == null || !stags.Any()
+            ? string.Empty
+            : $"{stags.First().Tag.DisplayName()}{(stags.Count() > 1 ? ", ..." : string.Empty)}";
 
         #endregion
     }
