@@ -20,6 +20,5 @@
         Clear,
         SelectAll,
         InvertSelection,
-
     }
 }
