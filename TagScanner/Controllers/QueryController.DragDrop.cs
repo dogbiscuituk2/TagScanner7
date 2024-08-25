@@ -57,7 +57,7 @@
             }
             e.Effect = listView == _source ? DragDropEffects.Move : DragDropEffects.Copy;
             if (drop)
-                Merge(QueryVerb.Merge, e.Data.ToStags());
+                Merge(Verb.Merge, e.Data.ToStags());
         }
 
         private void DragDrop(ListView listView, DragEventArgs e) => DoDragDrop(listView, e, drop: true);
