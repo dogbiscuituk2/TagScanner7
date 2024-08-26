@@ -2,6 +2,7 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.Drawing.Text;
     using System.Linq;
     using System.Text;
     using Core;
@@ -35,7 +36,7 @@
         public string Caption => string.Format(
             CaptionFormat,
             Undo ? "Undo" : "Redo",
-            Say(Stags),
+            SayTags(),
             Clause
             );
 
@@ -169,9 +170,15 @@
             }
         }
 
-        private string Say(IEnumerable<Stag> stags) => stags == null || !stags.Any()
-            ? string.Empty
-            : $"{stags.First().Tag.DisplayName()}{(stags.Count() > 1 ? ", ..." : string.Empty)}";
+        private string SayTags()
+        {
+            var count = Stags?.Count() ?? 0;
+            if (count < 1)
+                return string.Empty;
+            var max = 3;
+            var s = Stags.Take(max).Select(p => p.Tag.DisplayName()).Aggregate((p, q) => $"{p}, {q}");
+            return count <= max ? s : $"{s}, ...";
+        }
 
         #endregion
     }
