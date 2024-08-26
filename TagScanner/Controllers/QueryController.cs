@@ -9,7 +9,6 @@
     using Core;
     using Forms;
     using Models;
-    using static System.Windows.Forms.VisualStyles.VisualStyleElement.Window;
 
     public partial class QueryController : UndoRedoController<Query>, ISetQuery
     {
